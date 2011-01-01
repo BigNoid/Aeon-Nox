@@ -1,0 +1,127 @@
+<window id="25">
+  <defaultcontrol always="true">50</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <views>50,500,550,560,501,508,504,503,505,511</views>
+  <controls>
+    <include>CommonVideoBackground</include>
+    <control type="group">
+	    <description>Fanart</description>	
+      <include>Animation_OpenCloseZoom</include>
+      <control type="image">
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>1280</width>
+        <height>720</height>
+        <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
+        <include>backgroundfade</include>
+        <fadetime>FanartCrossfadeTime</fadetime>
+        <visible>!Skin.HasSetting(VideoLibraryMovieFanart) | Control.IsVisible(508)</visible>
+        <visible>Container.Content(Movies)</visible>
+      </control>
+      <control type="image">
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>1280</width>
+        <height>720</height>
+        <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
+        <include>backgroundfade</include>
+        <fadetime>FanartCrossfadeTime</fadetime>
+        <visible>!Skin.HasSetting(VideoLibraryTVFanart)</visible>
+        <visible>Container.Content(TVShows) | [Container.Content(Episodes) + stringcompare(Container.FolderPath,videodb://5/)]</visible>
+      </control>
+      <control type="image">
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>1280</width>
+        <height>720</height>
+        <info>Fanart.Image</info>
+        <texture background="true">$INFO[Fanart.Image]</texture>
+        <include>backgroundfade</include>
+        <fadetime>FanartCrossfadeTime</fadetime>
+        <visible>!Skin.HasSetting(VideoLibraryTVFanart)</visible>
+        <visible>Container.Content(Seasons) | [Container.Content(Episodes) + !stringcompare(Container.FolderPath,videodb://5/)]</visible>
+      </control>
+      <control type="image">
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>1280</width>
+        <height>720</height>
+        <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
+        <include>backgroundfade</include>
+        <fadetime>FanartCrossfadeTime</fadetime>
+        <visible>!Skin.HasSetting(VideoLibraryMusicVideoFanart)</visible>
+        <visible>Container.Content(MusicVideos) | Container.Content(Artists) | Container.Content(Albums)</visible>
+      </control>
+    </control>
+  
+   
+    <control type="group">
+      <include>Animation_OpenCloseZoom</include>
+      <include>CommonRootView</include>
+      <!-- view id = 50 -->
+      <include>Viewtype_Wall</include>
+      <!-- view id = 500 -->
+      <include>PosterWrapView</include>
+      <!-- view id = 501 Showcase-->
+      <!--<include>PosterWrapView2_Fanart</include>-->
+      <!-- view id = 508 -->
+      <include>MediaListView3</include>
+      <!-- view id = 503 Fanart-->
+      <include>MediaListView2</include>
+      <!-- view id = 504 Showcase DVD-->
+      <!--<include>WideIconView</include>-->
+      <!-- view id = 505 -->
+      <include>MusicVideoInfoListView</include>
+      <!-- view id = 511 -->
+      <include>AddonInfoListView1</include>
+      <!-- view id = 550 -->
+      <!--<include>LiveTVView1</include>-->
+      <!-- view id = 560 -->
+    </control>
+    <include>ScrollOffsetLabel</include>
+    <control type="group">
+      <description>Invisible buttons for trailer</description>
+    <control type="button" id="7000">
+      <texturefocus>-</texturefocus>
+      <texturenofocus>-</texturenofocus>
+      <onfocus>SetFocus(7001)</onfocus>
+      <visible>!IsEmpty(ListItem.Trailer)+[Skin.HasSetting(showcaseinfoon)|Control.IsVisible(503)]</visible>
+    </control>
+    <control type="button" id="7000">
+      <texturefocus>-</texturefocus>
+      <texturenofocus>-</texturenofocus>
+      <onfocus>SetFocus(2)</onfocus>
+      <visible>IsEmpty(ListItem.Trailer)+[Skin.HasSetting(showcaseinfoon)|Control.IsVisible(503)]</visible>
+    </control>
+    <control type="button" id="7000">
+      <texturefocus>-</texturefocus>
+      <texturenofocus>-</texturenofocus>
+      <onfocus>SetFocus(2)</onfocus>
+      <visible>!Skin.HasSetting(showcaseinfoon)</visible>
+    </control>
+    <control type="button" id="7001">
+      <posx>495</posx>
+      <posy>355</posy>
+      <texturefocus>-</texturefocus>
+      <texturenofocus>-</texturenofocus>
+      <align>center</align>
+      <aligny>center</aligny>
+      <scroll>true</scroll>
+      <width>290</width>
+      <height>32</height>
+      <ondown>SetFocus(50)</ondown>
+      <onup>SetFocus(2)</onup>
+      <onclick>PlayMedia($INFO[ListItem.Trailer],1,noresume))</onclick>
+      <font>Font_MultiplexPlot</font>
+      <label>-</label>
+      <visible allowhiddenfocus="true">!IsEmpty(ListItem.Trailer) + !Player.HasVideo  + Control.HasFocus(7001)</visible>
+      <colordiffuse>d0FFFFFF</colordiffuse>
+      <animation effect="fade" start="0" end="100" time="400">VisibleChange</animation>
+      <animation effect="fade" start="40" time="600" condition="Control.HasFocus(7001)" pulse="true">Conditional</animation>
+    </control>
+    </control>
+    <include>Media_Menu</include>
+    <include>Furniture_NowPlayingWidget</include>
+    <!--<include>Furniture_Clock</include>-->
+  </controls>
+</window>
