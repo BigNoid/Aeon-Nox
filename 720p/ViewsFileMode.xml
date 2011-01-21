@@ -52,7 +52,7 @@
           <width>53</width>
           <height>579</height>
           <texture>views/listpanel_detailwide.png</texture>
-          <visible>Window.IsActive(musicplaylist) | Window.IsActive(musicfiles) | [Window.IsActive(musiclibrary)+!Container.Content(albums)] | [Window.IsActive(videolibrary)+!Container.Content(movies)]</visible>
+          <visible>Window.IsActive(musicplaylist) | Window.IsActive(musicfiles) | [Window.IsActive(musiclibrary)+!Container.Content(albums)+!Skin.HasSetting(slimlist)] | [Window.IsActive(videolibrary)+!Container.Content(movies)+!Skin.HasSetting(slimlist)]</visible>
         </control>
         <control type="image">
           <posx>669</posx>
@@ -60,7 +60,7 @@
           <width>97</width>
           <height>567</height>
           <texture>views/listpanel_detailwide.png</texture>
-          <visible>Control.IsVisible(50) + [[[Window.IsActive(pictures) | Window.IsActive(videofiles) | Window.IsActive(programs) | Window.IsActive(scripts)  | [Window.IsActive(videolibrary) + !Skin.HasSetting(videotv)]] + !Skin.HasSetting(slimlist)] | [[Window.IsActive(videolibrary) + Skin.HasSetting(videotv)] + !Skin.HasSetting(slimlisttv)] | [Window.IsActive(musicplaylist) | Window.IsActive(musicfiles) | Container.Content(albums) | Container.Content(songs)] + !Skin.HasSetting(slimlistmusic)]</visible>
+          <visible>Control.IsVisible(50) + [[[Window.IsActive(pictures) | Window.IsActive(videofiles) | Window.IsActive(programs) | Window.IsActive(scripts)  | [Window.IsActive(videolibrary) + !Skin.HasSetting(videotv)]] ] | [[Window.IsActive(videolibrary) + Skin.HasSetting(videotv)] + !Skin.HasSetting(slimlist)] | [Window.IsActive(musicplaylist) | Window.IsActive(musicfiles) | Container.Content(albums) | Container.Content(songs)]]</visible>
         </control>
         <control type="image">
           <posx>722</posx>
@@ -68,7 +68,7 @@
           <width>44</width>
           <height>579</height>
           <texture>views/listpanel_detailwide.png</texture>
-          <visible>Control.IsVisible(50) + [[[Window.IsActive(pictures) | Window.IsActive(videofiles) | Window.IsActive(programs) | Window.IsActive(scripts)  | [Window.IsActive(videolibrary) + !Skin.HasSetting(videotv)]] + Skin.HasSetting(slimlist)] | [[Window.IsActive(videolibrary) + Skin.HasSetting(videotv)] + Skin.HasSetting(slimlisttv)] | [Window.IsActive(musicplaylist) | Window.IsActive(musicfiles) | Container.Content(albums) | Container.Content(songs)] + Skin.HasSetting(slimlistmusic)]</visible>
+          <visible>Control.IsVisible(50) + [[[Window.IsActive(pictures) | Window.IsActive(videofiles) | Window.IsActive(programs) | Window.IsActive(scripts)  |  [[Window.IsActive(videolibrary) + Skin.HasSetting(videotv)] + Skin.HasSetting(slimlist)]]</visible>
         </control>
         <control type="list" id="50">
           <posx>60</posx>
@@ -83,7 +83,7 @@
           <pagecontrol>60</pagecontrol>
           <scrolltime>200</scrolltime>
           <visible>![Window.IsVisible(VideoLibrary) + Container.Content(TVShows) + !Skin.HasSetting(TVShowsUsePosters)]</visible>
-          <itemlayout height="65">
+          <itemlayout height="65" condition="!Skin.HasSetting(slimlist)">
             <control type="image">
               <posx>12</posx>
               <posy>64</posy>
@@ -409,7 +409,7 @@
               <visible>Container.Content(albums)|Window.IsActive(pictures)</visible>
             </control>
           </itemlayout>
-          <focusedlayout height="65">
+          <focusedlayout height="65" condition="!Skin.HasSetting(slimlist)">
             <control type="image">
               <posx>12</posx>
               <posy>64</posy>
@@ -723,6 +723,125 @@
               <info>ListItem.Icon</info>
               <visible>Container.Content(albums)|Window.IsActive(pictures)</visible>
             </control>
+          </focusedlayout>
+          <itemlayout height="40" condition="Skin.HasSetting(slimlist)">
+            <control type="image">
+              <posx>12</posx>
+              <posy>39</posy>
+              <height>1</height>
+              <width>739</width>
+              <texture>views/listpanel_line.png</texture>
+            </control>
+            <control type="group">
+              <visible>!Container.Content(albums)</visible>
+            <control type="label">
+              <posx>55</posx>
+              <posy>0</posy>
+              <width>530</width>
+              <height>40</height>
+              <font>Font_Reg22</font>
+              <aligny>center</aligny>
+              <include>listcolornofocus</include>
+              <info>ListItem.Label</info>
+            </control>
+            <control type="label">
+              <posx>658</posx>
+              <posy>0</posy>
+              <width>97</width>
+              <height>40</height>
+              <font>Font_Reg22</font>
+              <aligny>center</aligny>
+              <align>center</align>
+              <include>listcolornofocus</include>
+              <info>ListItem.Label2</info>
+            </control>
+            </control>
+            <control type="group">
+              <visible>Container.Content(albums)</visible>
+              <control type="label">
+                <posx>55</posx>
+                <posy>0</posy>
+                <width>530</width>
+                <height>40</height>
+                <font>Font_Reg22</font>
+                <aligny>center</aligny>
+                <include>listcolornofocus</include>
+                <label>$INFO[ListItem.Album] - $INFO[ListItem.Artist]</label>
+              </control>
+              <control type="image">
+                <description>IMDB rating</description>
+                <posx>623</posx>
+                <posy>14</posy>
+                <width>65</width>
+                <height>13</height>
+                <info>ListItem.StarRating</info>
+                <colordiffuse>dcffffff</colordiffuse>
+              </control>
+            </control>
+           
+          </itemlayout>
+          <focusedlayout height="40" condition="Skin.HasSetting(slimlist)">
+            <control type="image">
+              <posx>12</posx>
+              <posy>39</posy>
+              <height>1</height>
+              <width>739</width>
+              <texture>views/listpanel_line.png</texture>
+            </control>
+            <control type="image">
+              <posx>7</posx>
+              <posy>-3</posy>
+              <width>743</width>
+              <height>46</height>
+              <texture>views/listpanel_selectbar.png</texture>
+            </control>
+            <control type="group">
+              <visible>!Container.Content(albums)</visible>
+              <control type="fadelabel">
+              <posx>55</posx>
+              <posy>0</posy>
+              <width>530</width>
+              <height>40</height>
+              <font>Font_Reg22</font>
+              <aligny>center</aligny>
+              <include>listcolorfocus</include>
+              <info>ListItem.Label</info>
+            </control>
+            <control type="label">
+              <posx>658</posx>
+              <posy>0</posy>
+              <width>97</width>
+              <height>40</height>
+              <font>Font_Reg22</font>
+              <aligny>center</aligny>
+              <align>center</align>
+              <include>listcolorfocus</include>
+              <info>ListItem.Label2</info>
+            </control>
+            </control>
+            <control type="group">
+              <visible>Container.Content(albums)</visible>
+              <control type="fadelabel">
+                <posx>55</posx>
+                <posy>0</posy>
+                <width>530</width>
+                <height>40</height>
+                <font>Font_Reg22</font>
+                <aligny>center</aligny>
+                <include>listcolorfocus</include>
+                <label>$INFO[ListItem.Album] - $INFO[ListItem.Artist]</label>
+              </control>
+              <control type="image">
+                <description>IMDB rating</description>
+                <posx>623</posx>
+                <posy>14</posy>
+                <width>65</width>
+                <height>13</height>
+                <info>ListItem.StarRating</info>
+                <colordiffuse>ff2e2e2e</colordiffuse>
+              </control>
+            </control>
+           
           </focusedlayout>
         </control>
         <control type="scrollbar" id="60">
