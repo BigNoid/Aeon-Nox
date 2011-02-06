@@ -2428,16 +2428,57 @@
           <width>1130</width>
           <height>590</height>
           <texture border="0,0,0,204">views/multiplex_tablet_bigthumb.png</texture>
-          <visible>![Control.IsVisible(503)+Container.Content(movies)]</visible>
+          <visible>![Control.IsVisible(503)+Container.Content(movies)]+![Skin.HasSetting(extrathumbs)+Container.Content(movies)]</visible>
         </control>
         <control type="image">
           <posx>75</posx>
           <width>1130</width>
           <height>590</height>
           <texture border="0,0,0,204">views/multiplex_tablet.png</texture>
-          <visible>[Control.IsVisible(503)+Container.Content(movies)]</visible>
+          <visible>[Control.IsVisible(503)+Container.Content(movies)]|[Skin.HasSetting(extrathumbs)+Container.Content(movies)]</visible>
         </control>
-        <control type="group">
+         <control type="group">
+           <description>Extrathumbs</description>
+           <posx>920</posx>
+           <posy>45</posy>
+           <visible>[[Control.IsVisible(501)|Control.IsVisible(504)]+Skin.HasSetting(extrathumbs)+Container.Content(movies)]</visible>
+           <control type="image">
+             <posx>0</posx>
+             <posy>0</posy>
+             <width>243</width>
+             <height>150</height>
+             <texture>common/black.png</texture>
+             <colordiffuse>94FFFFFF</colordiffuse>
+           </control>
+           <control type="largeimage">
+             <posx>1</posx>
+             <posy>1</posy>
+             <width>243</width>
+             <height>150</height>
+             <aspectratio>scale</aspectratio>
+             <fadetime>400</fadetime>
+             <texture fallback="DefaultVideo.png">$INFO[ListItem.Path,,extrathumbs/thumb1.jpg]</texture>
+           </control>
+           <control type="image">
+             <posx>0</posx>
+             <posy>155</posy>
+             <width>243</width>
+             <height>150</height>
+             <texture>common/black.png</texture>
+             <colordiffuse>94FFFFFF</colordiffuse>
+           </control>
+           <control type="largeimage">
+             <posx>1</posx>
+             <posy>156</posy>
+             <width>243</width>
+             <height>150</height>
+             <aspectratio>scale</aspectratio>
+             <fadetime>400</fadetime>
+             <texture fallback="DefaultVideo.png">$INFO[ListItem.Path,,extrathumbs/thumb2.jpg]</texture>
+           </control>
+         </control>
+
+         <control type="group">
           <!--fanart-->
           <posx>610</posx>
           <posy>50</posy>
@@ -2447,7 +2488,7 @@
             <width>524</width>
             <height>295</height>
             <texture>common/black.png</texture>
-            <visible>![Control.IsVisible(503)+Container.Content(movies)]</visible>
+            <visible>![Control.IsVisible(503)+Container.Content(movies)]+![Skin.HasSetting(extrathumbs)+Container.Content(movies)]</visible>
             <colordiffuse>94FFFFFF</colordiffuse>
           </control>
           <control type="largeimage">
@@ -2458,7 +2499,7 @@
             <aspectratio>scale</aspectratio>
             <fadetime>400</fadetime>
             <texture background="true">$INFO[ListItem.property(fanart_image)]</texture>
-            <visible>![Control.IsVisible(503)+Container.Content(movies)]</visible>
+            <visible>![Control.IsVisible(503)+Container.Content(movies)]+![Skin.HasSetting(extrathumbs)+Container.Content(movies)]</visible>
           </control>
         </control>
         <control type="group">
@@ -2475,7 +2516,7 @@
           </control>
         </control>
         <control type="group">
-          <visible>Container.Content(movies)+[Control.IsVisible(501)|Control.IsVisible(504)]</visible>
+          <visible>Container.Content(movies)+[Control.IsVisible(501)|Control.IsVisible(504)]+!Skin.HasSetting(extrathumbs)</visible>
           <posx>105</posx>
           <posy>42</posy>
           <control type="label">
@@ -2780,7 +2821,7 @@
           </control>
         </control>
         <control type="group">
-          <visible>Container.Content(movies)+Control.IsVisible(503)</visible>
+          <visible>[Control.IsVisible(503)+Container.Content(movies)]|[Skin.HasSetting(extrathumbs)+Container.Content(movies)]</visible>
           <posx>105</posx>
           <posy>42</posy>
           <control type="label">
@@ -3144,11 +3185,10 @@
         <!--trailer label-->
         <posx>725</posx>
         <posy>355</posy>
-        <posx>140</posx>
-        <posy>282</posy>
         <!-- posterlayout, plotlayout, extrathumbslayout => Trailer on the right -->
         <animation effect="slide" start="0,0" end="172,25" time="400" easing="inout" tween="cubic" condition="Control.IsVisible(503)">Conditional</animation>
         <animation effect="slide" start="0,0" end="0,-295" time="400" easing="inout" tween="cubic" condition="[Control.IsVisible(501)+Skin.HasSetting(noflow)]|[Control.IsVisible(504)+Skin.HasSetting(noflowdvd)]">Conditional</animation>
+        <animation effect="slide" start="0,0" end="-230,-5" time="400" easing="inout" tween="cubic" condition="[[Control.IsVisible(501)|Control.IsVisible(504)]+Skin.HasSetting(extrathumbs)+Container.Content(movies)]">Conditional</animation>
         <control type="image">
           <posx>0</posx>
           <posy>0</posy>
@@ -3156,6 +3196,7 @@
           <aligny>center</aligny>
           <width>290</width>
           <height>32</height>
+          <fadetime>200</fadetime>
           <texture>views/multiplex_trailer_label.png</texture>
           <visible>!IsEmpty(ListItem.Trailer)</visible>
           <animation effect="fade" start="100" end="0" time="400" delay="5000" condition="Player.HasVideo">Conditional</animation>
@@ -3171,6 +3212,7 @@
           <font>Font_Reg18</font>
           <label>312573</label>
           <visible>!IsEmpty(ListItem.Trailer) + !Player.HasVideo + !Control.HasFocus(7001)</visible>
+          <fadetime>200</fadetime>
           <colordiffuse>d0FFFFFF</colordiffuse>
           <animation effect="fade" start="0" end="100" time="400">VisibleChange</animation>
         </control>
