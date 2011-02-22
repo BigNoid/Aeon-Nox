@@ -250,7 +250,9 @@
             <texture background="true">$INFO[ListItem.path]/logo.png</texture>
             <visible>Container.Content(tvshows)</visible>
           </control>
-          <control type="image">
+          <control type="group">
+            <visible>!Skin.HasSetting(TVShowsUsePosters)</visible>
+            <control type="image">
             <posx>325</posx>
             <posy>327</posy>
             <width>600</width>
@@ -265,6 +267,26 @@
             <height>111</height>
             <aspectratio scalediffuse="false">stretch</aspectratio>
             <texture background="true" flipy="true" diffuse="thumbs/banner_mask_reflect.png">$INFO[ListItem.Thumb]</texture>
+          </control>
+          </control>
+          <control type="group">
+            <visible>Skin.HasSetting(TVShowsUsePosters)</visible>
+            <control type="image">
+              <posx>325</posx>
+              <posy>327</posy>
+              <width>600</width>
+              <height>111</height>
+              <aspectratio scalediffuse="false">stretch</aspectratio>
+              <texture background="true" diffuse="thumbs/banner_mask.png">$INFO[ListItem.path]/banner.jpg</texture>
+            </control>
+            <control type="image">
+              <posx>325</posx>
+              <posy>470</posy>
+              <width>600</width>
+              <height>111</height>
+              <aspectratio scalediffuse="false">stretch</aspectratio>
+              <texture background="true" flipy="true" diffuse="thumbs/banner_mask_reflect.png">$INFO[ListItem.path]/banner.jpg</texture>
+            </control>
           </control>
           <control type="label">
             <posx>680</posx>
@@ -426,12 +448,12 @@
           <onup>508</onup>
           <ondown>508</ondown>
           <orientation>vertical</orientation>
-          <viewtype label="Banners">BigWrap</viewtype>
+          <viewtype label="$LOCALIZE[31236]">BigWrap</viewtype>
           <pagecontrol>62</pagecontrol>
           <scrolltime>200</scrolltime>
           <focusposition>2</focusposition>
           <preloaditems>2</preloaditems>
-          <visible>[Container.Content(TVShows) + !Skin.HasSetting(TVShowsUsePosters)]</visible>
+          <visible>Container.Content(TVShows)</visible>
           <itemlayout width="550" height="100">
             <control type="image">
               <posx>6</posx>
@@ -442,6 +464,18 @@
               <texture background="true">DefaultVideo.png</texture>
               <animation effect="fade" start="70" end="70" time="0" condition="true">Conditional</animation>
               <info>ListItem.Thumb</info>
+              <visible>!Skin.HasSetting(TVShowsUsePosters)</visible>
+            </control>
+            <control type="image">
+              <posx>6</posx>
+              <posy>0</posy>
+              <width>540</width>
+              <height>100</height>
+              <aspectratio scalediffuse="false">scale</aspectratio>
+              <texture background="true">DefaultBanner.png</texture>
+              <info>ListItem.Path,,banner.jpg</info>
+              <animation effect="fade" start="70" end="70" time="0" condition="true">Conditional</animation>
+              <visible>Skin.HasSetting(TVShowsUsePosters)</visible>
             </control>
             <control type="image">
               <posx>486</posx>
@@ -659,6 +693,8 @@
         <focusedlayout width="400" height="300">
           <control type="group">
             <visible>Container.Content(episodes)+!Control.HasFocus(109)</visible>
+            <!--<animation effect="zoom" center="195,130" start="100" end="122" time="600" tween="back" easing="out">Focus</animation>-->
+            <animation effect="zoom" center="195,130" start="100" end="122" time="600" tween="back" easing="out" condition="Control.HasFocus(503)">Conditional</animation>
             <control type="image">
               <posx>38</posx>
               <posy>50</posy>
@@ -668,7 +704,6 @@
               <bordertexture border="-48">thumbs/multiplex_tvborder.png</bordertexture>
               <texture background="true" diffuse="thumbs/multiplex_tvmask.png">DefaultVideo.png</texture>
               <info>ListItem.Thumb</info>
-              <animation effect="zoom" center="195,130" start="100" end="122" time="600" tween="back" easing="out">Focus</animation>
             </control>
             <control type="image">
               <posx>38</posx>
@@ -679,7 +714,7 @@
               <texture flipy="true" background="true" diffuse="thumbs/multiplex_tvmaskreflect.png">DefaultVideo.png</texture>
               <info>ListItem.Thumb</info>
               <colordiffuse>aaFFFFFF</colordiffuse>
-              <animation effect="zoom" center="195,130" start="100" end="122" time="600" tween="back" easing="out">Focus</animation>
+              <!--<animation effect="zoom" center="195,130" start="100" end="122" time="600" tween="back" easing="out">Focus</animation>-->
             </control>
           </control>
           <control type="group">
@@ -1906,7 +1941,7 @@
           <posx>1150</posx>
           <posy>658</posy>
           <control type="image">
-            <include>AudioFlagsVars</include>           
+            <include>AudioFlagsVars</include>
             <texture>flags/audio/dtsma.png</texture>
             <visible>substring(ListItem.AudioCodec,dtsma)</visible>
           </control>
@@ -2378,6 +2413,446 @@
         <orientation>vertical</orientation>
         <animation effect="fade" start="0" end="70" time="400">Focus</animation>
         <enable>Skin.HasSetting(highlist)</enable>
+      </control>
+    </control>
+  </include>
+  <include name="Panel">
+    <control type="group">
+      <visible>Control.IsVisible(550)</visible>
+      <control type="image">
+        <width>1280</width>
+        <height>720</height>
+        <texture>common/black.png</texture>
+        <colordiffuse>CCffffff</colordiffuse>
+      </control>
+      <include>Animation_OpenCloseZoom</include>
+      <include>Furniture_SettingsBackPanel</include>
+      <control type="image">
+        <posx>332</posx>
+        <posy>58</posy>
+        <width>840</width>
+        <height>472</height>
+        <aspectratio>stretch</aspectratio>
+        <fadetime>600</fadetime>
+        <texture background="true">$INFO[ListItem.property(fanart_image)]</texture>
+        <animation effect="fade" start="100" end="10" time="50" delay="0" condition="Container.Content(episodes)">Conditional</animation>
+      </control>
+      <control type="group">
+        <visible>Container.Content(tvshows)</visible>
+        <control type="image">
+          <posx>70</posx>
+          <posy>50</posy>
+          <width>180</width>
+          <height>72</height>
+          <fadetime>300</fadetime>
+          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <texture background="true">$INFO[ListItem.path,,logo.png]</texture>
+        </control>
+        
+        <control type="textbox">
+          <description>Plot</description>
+          <posx>340</posx>
+          <posy>540</posy>
+          <width>800</width>
+          <height>115</height>
+          <font>Font_Info</font>
+          <label>$INFO[ListItem.Plot]</label>
+          <align>left</align>
+          <textcolor>white</textcolor>
+          <shadowcolor>black</shadowcolor>
+          <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+          <visible>Container.Content(tvshows)</visible>
+        </control>
+      </control>
+
+      <control type="group">
+        <visible>Container.Content(episodes)</visible>
+        <control type="image">
+          <posx>70</posx>
+          <posy>50</posy>
+          <width>180</width>
+          <height>72</height>
+          <fadetime>300</fadetime>
+          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <texture background="true">$INFO[ListItem.path]../logo.png</texture>
+        </control>
+        <control type="label">
+          <description>header label</description>
+          <posx>239</posx>
+          <posy>80</posy>
+          <width>994</width>
+          <font>Font_ShowcaseMainLabel2</font>
+          <label>[UPPERCASE]$INFO[ListItem.TvShowTitle] • $LOCALIZE[20373] $INFO[ListItem.Season][/UPPERCASE]</label>
+          <align>center</align>
+          <aligny>center</aligny>
+          <textcolor>white</textcolor>
+          <shadowcolor>black</shadowcolor>
+        </control>
+        <control type="label">
+          <description>header label</description>
+          <posx>239</posx>
+          <posy>120</posy>
+          <width>994</width>
+          <font>Font_Reg24</font>
+          <label>[UPPERCASE]$INFO[ListItem.Title][/UPPERCASE]</label>
+          <align>center</align>
+          <aligny>center</aligny>
+          <textcolor>grey2</textcolor>
+          <shadowcolor>black</shadowcolor>
+        </control>
+        <control type="image">
+          <posx>782</posx>
+          <posy>190</posy>
+          <width>338</width>
+          <height>190</height>
+          <fadetime>IconCrossfadeTime2</fadetime>
+          <aspectratio scalediffuse="false">scale</aspectratio>
+          <bordertexture border="-70">thumbs/multiplex_tvborder.png</bordertexture>
+          <texture background="true" diffuse="thumbs/multiplex_tvmask.png">$INFO[ListItem.Thumb]</texture>
+        </control>
+        <control type="textbox">
+          <description>Plot</description>
+          <posx>340</posx>
+          <posy>190</posy>
+          <width>400</width>
+          <height>190</height>
+          <font>Font_Info</font>
+          <label>$INFO[ListItem.Plot]</label>
+          <align>left</align>
+          <textcolor>white</textcolor>
+          <shadowcolor>black</shadowcolor>
+          <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+        </control>
+        <control type="label">
+          <posx>340</posx>
+          <posy>405</posy>
+          <width>205</width>
+          <height>25</height>
+          <font>Font_Info</font>
+          <textcolor>grey2</textcolor>
+          <aligny>center</aligny>
+          <label>$LOCALIZE[20416]:</label>
+        </control>
+        <control type="label">
+          <posx>445</posx>
+          <posy>405</posy>
+          <width>205</width>
+          <height>25</height>
+          <font>Font_Info</font>
+          <textcolor>white</textcolor>
+          <aligny>center</aligny>
+          <label>$INFO[ListItem.Premiered]</label>
+        </control>
+        <control type="label">
+          <posx>340</posx>
+          <posy>430</posy>
+          <width>205</width>
+          <height>25</height>
+          <font>Font_Info</font>
+          <textcolor>grey2</textcolor>
+          <aligny>center</aligny>
+          <label>$LOCALIZE[563]:</label>
+        </control>
+        <control type="label">
+          <posx>445</posx>
+          <posy>430</posy>
+          <width>205</width>
+          <height>25</height>
+          <font>Font_Info</font>
+          <textcolor>white</textcolor>
+          <aligny>center</aligny>
+          <label>$INFO[ListItem.Rating]</label>
+        </control>
+        <control type="label">
+          <posx>340</posx>
+          <posy>455</posy>
+          <width>205</width>
+          <height>25</height>
+          <font>Font_Info</font>
+          <textcolor>grey2</textcolor>
+          <aligny>center</aligny>
+          <label>$LOCALIZE[20339]:</label>
+        </control>
+        <control type="label">
+          <posx>445</posx>
+          <posy>455</posy>
+          <width>400</width>
+          <height>25</height>
+          <font>Font_Info</font>
+          <textcolor>white</textcolor>
+          <aligny>center</aligny>
+          <label>$INFO[ListItem.Director]</label>
+        </control>
+        <control type="label">
+          <posx>340</posx>
+          <posy>480</posy>
+          <width>205</width>
+          <height>25</height>
+          <font>Font_Info</font>
+          <textcolor>grey2</textcolor>
+          <aligny>center</aligny>
+          <label>$LOCALIZE[20417]:</label>
+        </control>
+        <control type="label">
+          <posx>445</posx>
+          <posy>480</posy>
+          <width>400</width>
+          <height>25</height>
+          <font>Font_Info</font>
+          <textcolor>white</textcolor>
+          <aligny>center</aligny>
+          <label>$INFO[ListItem.Writer]</label>
+        </control>
+        <control type="group">
+          <description>Flags</description>
+          <posy>-25</posy>
+          <control type="group">
+            <posx>340</posx>
+            <posy>600</posy>
+            <visible>Skin.HasSetting(sourceflags)</visible>
+            <animation effect="slide" start="70" end="70" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/source/sdtv.png</texture>
+              <visible>SubString(ListItem.filename,PDTV) | SubString(ListItem.filename,sdtv)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/source/hdtv.png</texture>
+              <visible>SubString(ListItem.Filename,hdtv)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/source/hddvd.png</texture>
+              <visible>SubString(ListItem.Filename,hddvd) | SubString(ListItem.Filename,hd-dvd)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/source/bluray.png</texture>
+              <visible>SubString(ListItem.Filename,bluray) | SubString(ListItem.Filename,blu-ray) | SubString(ListItem.Filename,bdrip)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/source/dvd.png</texture>
+              <visible>[SubString(ListItem.Filename,dvd) + !SubString(ListItem.Filename,hddvd) + !SubString(ListItem.Filename,hd-dvd) + !SubString(ListItem.Filename,bluray)] | [SubString(ListItem.Filename,.iso,Right) + !SubString(ListItem.Filename,bluray)] | SubString(ListItem.Filename,.ifo,Right)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/source/dvb.png</texture>
+              <visible>SubString(ListItem.Filename,dvb)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/source/web-dl.png</texture>
+              <visible>SubString(ListItem.Filename,web-dl)</visible>
+            </control>
+          </control>
+          <control type="image">
+            <posx>340</posx>
+            <posy>600</posy>
+            <include>AudioFlagsVars</include>
+            <texture>$INFO[ListItem.VideoCodec,flags/videocodec/,.png]</texture>
+            <animation effect="slide" start="70" end="70" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
+            <visible>!Skin.HasSetting(sourceflags)|[!SubString(ListItem.filename,PDTV)+!SubString(ListItem.filename,sdtv)+!SubString(ListItem.Filename,hdtv)+!SubString(ListItem.Filename,hddvd)+!SubString(ListItem.Filename,hd-dvd)+!SubString(ListItem.Filename,bluray)+!SubString(ListItem.Filename,blu-ray)+!SubString(ListItem.Filename,bdrip)+!SubString(ListItem.Filename,dvd)+!SubString(ListItem.Filename,dvb)+!SubString(ListItem.Filename,.iso,Right)+!SubString(ListItem.Filename,.ifo+!SubString(ListItem.Filename,web-dl)]</visible>
+          </control>
+          <control type="image">
+            <posx>480</posx>
+            <posy>600</posy>
+            <include>AudioFlagsVars</include>
+            <texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
+            <visible>!IsEmpty(ListItem.Studio)+!Skin.HasSetting(nostudioratingflags)+!Container.Content(tvshows)</visible>
+          </control>
+         
+          <control type="group">
+            <description>Rating Flags</description>
+            <posx>620</posx>
+            <posy>600</posy>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/MPAA_NR_Certificate_US.png</texture>
+              <visible>[SubString(ListItem.mpaa,US:NR) | SubString(ListItem.mpaa,USA:NR) | SubString(ListItem.mpaa,Rated NR | SubString(ListItem.mpaa,NR)| IsEmpty(ListItem.Mpaa)]+!IsEmpty(ListItem.Title)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/TV-G_Certificate_US.png</texture>
+              <visible>substring(ListItem.mpaa,TV-G)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/TV-PG_Certificate_US.png</texture>
+              <visible>substring(ListItem.mpaa,TV-PG)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/TV-14_Certificate_US.png</texture>
+              <visible>substring(ListItem.mpaa,TV-14)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/TV-MA_Certificate_US.png</texture>
+              <visible>substring(ListItem.mpaa,TV-MA)</visible>
+            </control>
+          </control>
+          <control type="image">
+            <posx>800</posx>
+            <posy>600</posy>
+            <include>AudioFlagsVars</include>
+            <texture>$INFO[ListItem.VideoAspect,flags/aspectratio/,.png]</texture>
+            <animation effect="slide" start="-800" end="-800" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
+          </control>
+          <control type="image">
+            <posx>940</posx>
+            <posy>600</posy>
+            <include>AudioFlagsVars</include>
+            <texture>$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
+            <animation effect="slide" start="-80" end="-80" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
+          </control>
+          <control type="group">
+            <description>Audio Flags</description>
+            <posx>1080</posx>
+            <posy>600</posy>
+            <animation effect="slide" start="-70" end="-70" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/audio/dts.png</texture>
+              <visible>substring(ListItem.AudioCodec,dca)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/audio/dts.png</texture>
+              <visible>substring(ListItem.AudioCodec,dts)+!substring(ListItem.AudioCodec,dtsma)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/audio/dtsma.png</texture>
+              <visible>substring(ListItem.AudioCodec,dtsma)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/audio/truehd.png</texture>
+              <visible>substring(ListItem.AudioCodec,truehd)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/audio/dolbydigital.png</texture>
+              <visible>substring(ListItem.AudioCodec,ac3)+!substring(ListItem.AudioChannels,2)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/audio/dolbypro.png</texture>
+              <visible>substring(ListItem.AudioCodec,ac3)+substring(ListItem.AudioChannels,2)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/audio/mp3.png</texture>
+              <visible>substring(ListItem.AudioCodec,mp3)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/audio/aac.png</texture>
+              <visible>substring(ListItem.AudioCodec,aac)</visible>
+            </control>
+          </control>
+        </control>
+      </control>
+      <control type="group">
+        <visible>Player.HasVideo</visible>
+        <control type="image">
+          <posx>332</posx>
+          <posy>58</posy>
+          <width>840</width>
+          <height>472</height>
+          <colordiffuse>FF000000</colordiffuse>
+          <texture>common/black.png</texture>
+        </control>
+        <control type="videowindow">
+          <posx>332</posx>
+          <posy>58</posy>
+          <width>840</width>
+          <height>472</height>
+        </control>
+      </control>
+      <control type="list" id="550">
+        <posx>42</posx>
+        <posy>120</posy>
+        <width>380</width>
+        <height>550</height>
+        <itemgap>0</itemgap>
+        <onleft>9000</onleft>
+        <onright>9000</onright>
+        <onup>550</onup>
+        <ondown>550</ondown>
+        <pagecontrol>60</pagecontrol>
+        <viewtype label="$LOCALIZE[31233]">list</viewtype>
+        <visible>Container.Content(tvshows)|Container.Content(episodes)</visible>
+        <scrolltime>300</scrolltime>
+        <itemlayout height="54" width="380">
+          <control type="label">
+            <posx>10</posx>
+            <posy>10</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>FFf5f5f5</textcolor>
+            <aligny>center</aligny>
+            <label>$INFO[ListItem.Label]</label>
+            <animation effect="fade" start="50" end="50" time="50" delay="0" condition="StringCompare(ListItem.Overlay,OverlayWatched.png)" >Conditional</animation>
+          </control>
+          <control type="label">
+            <posx>210</posx>
+            <posy>35</posy>
+            <width>870</width>
+            <height>25</height>
+            <font>Font_Reg14</font>
+            <textcolor>dcffffff</textcolor>
+            <align>right</align>
+            <aligny>center</aligny>
+            <label>$INFO[ListItem.Label2]</label>
+            <animation effect="fade" start="50" end="50" time="50" delay="0" condition="StringCompare(ListItem.Overlay,OverlayWatched.png)" >Conditional</animation>
+          </control>
+        </itemlayout>
+        <focusedlayout height="54" width="380">
+          <control type="image">
+            <posx>0</posx>
+            <posy>9</posy>
+            <width>216</width>
+            <height>55</height>
+            <texture border="5">settings/settings_leftmenufocus.png</texture>
+          </control>
+          <control type="label">
+            <posx>10</posx>
+            <posy>10</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>FF262728</textcolor>
+            <aligny>center</aligny>
+            <label>$INFO[ListItem.Label]</label>
+          </control>
+          <control type="label">
+            <posx>210</posx>
+            <posy>35</posy>
+            <width>870</width>
+            <height>25</height>
+            <font>Font_Reg14</font>
+            <textcolor>FF262728</textcolor>
+            <align>right</align>
+            <aligny>center</aligny>
+            <label>$INFO[ListItem.Label2]</label>
+            <visible>!Container.Content(episodes)</visible>
+          </control>
+          <control type="image">
+            <description>IMDB rating</description>
+            <posx>145</posx>
+            <posy>15</posy>
+            <width>65</width>
+            <height>65</height>
+            <texture>$INFO[ListItem.Rating,stars/,.png]</texture>
+            <colordiffuse>FF262728</colordiffuse>
+            <animation effect="fade" start="100" end="0" time="100" delay="0" condition="IsEmpty(ListItem.Title)" >Conditional</animation>
+            <visible>Container.Content(episodes)</visible>
+          </control>
+        </focusedlayout>
       </control>
     </control>
   </include>
