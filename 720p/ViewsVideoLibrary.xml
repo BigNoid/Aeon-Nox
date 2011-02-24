@@ -1634,7 +1634,7 @@
           <aspectratio scalediffuse="false">stretch</aspectratio>
           <texture background="true" fallback="DefaultVideoBigPoster.png" diffuse="thumbs/movieposter_mask.png">$INFO[ListItem.Icon]</texture>
           <fadetime>400</fadetime>
-          <visible>Skin.HasSetting(TVShowsUsePosters)|Container.Content(movies)</visible>
+          <visible>Skin.HasSetting(TVShowsUsePosters)|Container.Content(movies)|Container.Content(seasons)</visible>
         </control>
         <control type="largeimage">
           <description>POSTER icon</description>
@@ -1645,7 +1645,7 @@
           <aspectratio scalediffuse="false">stretch</aspectratio>
           <texture background="true" fallback="DefaultVideoBigPoster.png" diffuse="thumbs/movieposter_mask.png">$INFO[ListItem.Path,,poster.jpg]</texture>
           <fadetime>400</fadetime>
-          <visible>!Skin.HasSetting(TVShowsUsePosters)+!Container.Content(movies)</visible>
+          <visible>!Skin.HasSetting(TVShowsUsePosters)+!Container.Content(movies)+!Container.Content(seasons)</visible>
         </control>
         <control type="largeimage">
           <description>POSTER icon</description>
@@ -1666,7 +1666,7 @@
           <aspectratio scalediffuse="false">stretch</aspectratio>
           <texture background="true" flipy="true" fallback="DefaultVideoBigPoster.png" diffuse="thumbs/movieposter_mask_reflect.png">$INFO[ListItem.Icon]</texture>
           <fadetime>400</fadetime>
-          <visible>Skin.HasSetting(TVShowsUsePosters)|Container.Content(movies)</visible>
+          <visible>Skin.HasSetting(TVShowsUsePosters)|Container.Content(movies)|Container.Content(seasons)</visible>
         </control>
         <control type="largeimage">
           <description>POSTER icon</description>
@@ -1677,29 +1677,73 @@
           <aspectratio scalediffuse="false">stretch</aspectratio>
           <texture background="true" flipy="true" fallback="DefaultVideoBigPoster.png" diffuse="thumbs/movieposter_mask_reflect.png">$INFO[ListItem.Path,,poster.jpg]</texture>
           <fadetime>400</fadetime>
-          <visible>!Skin.HasSetting(TVShowsUsePosters)+!Container.Content(movies)</visible>
+          <visible>!Skin.HasSetting(TVShowsUsePosters)+!Container.Content(movies)+!Container.Content(seasons)</visible>
         </control>
-        <control type="largeimage">
-          <description>POSTER icon</description>
-          <posx>16</posx>
-          <posy>25</posy>
-          <width>233</width>
-          <height>176</height>
-          <texture background="true">thumbs/play-button.png</texture>
-          <fadetime>400</fadetime>
-          <visible>!IsEmpty(ListItem.Trailer)+!Control.HasFocus(7001)</visible>
-          <animation effect="fade" start="35" end="35" condition="!Control.HasFocus(7001)">Conditional</animation>
+        <control type="group">
+          <visible>Skin.HasSetting(bigtrailerbutton)</visible>
+          <control type="largeimage">
+            <description>POSTER icon</description>
+            <posx>16</posx>
+            <posy>25</posy>
+            <width>233</width>
+            <height>176</height>
+            <texture background="true">thumbs/play-button.png</texture>
+            <fadetime>400</fadetime>
+            <visible>!IsEmpty(ListItem.Trailer)+!Control.HasFocus(7001)</visible>
+            <animation effect="fade" start="35" end="35" condition="!Control.HasFocus(7001)">Conditional</animation>
+          </control>
+          <control type="largeimage">
+            <description>POSTER icon</description>
+            <posx>16</posx>
+            <posy>25</posy>
+            <width>233</width>
+            <height>176</height>
+            <texture background="true">thumbs/play-button.png</texture>
+            <fadetime>400</fadetime>
+            <visible>!IsEmpty(ListItem.Trailer)+Control.HasFocus(7001)</visible>
+            <animation effect="fade" start="50" end="20" time="1000" pulse="true" condition="Control.HasFocus(7001)">Conditional</animation>
+          </control>
         </control>
-        <control type="largeimage">
-          <description>POSTER icon</description>
-          <posx>16</posx>
-          <posy>25</posy>
-          <width>233</width>
-          <height>176</height>
-          <texture background="true">thumbs/play-button.png</texture>
-          <fadetime>400</fadetime>
-          <visible>!IsEmpty(ListItem.Trailer)+Control.HasFocus(7001)</visible>
-          <animation effect="fade" start="50" end="20" time="1000" pulse="true" condition="Control.HasFocus(7001)">Conditional</animation>
+        <control type="group">
+          <visible>!Skin.HasSetting(bigtrailerbutton)</visible>
+          <control type="image">
+            <posx>10</posx>
+            <posy>296</posy>
+            <width>245</width>
+            <height>32</height>
+            <fadetime>200</fadetime>
+            <texture background="true">views/multiplex_trailer_label.png</texture>
+            <visible>!IsEmpty(ListItem.Trailer)</visible>
+            <animation effect="fade" start="100" end="0" time="400" delay="5000" condition="Player.HasVideo">Conditional</animation>
+          </control>
+          <control type="label">
+            <posx>10</posx>
+            <posy>294</posy>
+            <align>center</align>
+            <aligny>center</aligny>
+            <scroll>true</scroll>
+            <width>245</width>
+            <height>32</height>
+            <font>Font_Reg18</font>
+            <label>312575</label>
+            <visible>!IsEmpty(ListItem.Trailer) + !Player.HasVideo + Control.HasFocus(7001)</visible>
+            <fadetime>200</fadetime>
+            <animation effect="fade" start="0" end="100" time="400">VisibleChange</animation>
+          </control>
+          <control type="label">
+            <posx>10</posx>
+            <posy>294</posy>
+            <align>center</align>
+            <aligny>center</aligny>
+            <scroll>true</scroll>
+            <width>245</width>
+            <height>32</height>
+            <font>Font_Reg18</font>
+            <label>31237</label>
+            <visible>!IsEmpty(ListItem.Trailer) + !Player.HasVideo + !Control.HasFocus(7001)</visible>
+            <fadetime>200</fadetime>
+            <animation effect="fade" start="0" end="100" time="400">VisibleChange</animation>
+          </control>
         </control>
       </control>
       <control type="group">
@@ -2159,6 +2203,7 @@
           </control>
         </control>
         <control type="group">
+          <posy>36</posy>
           <visible>!Skin.HasSetting(highlist)+!IsEmpty(ListItem.Title)+Container.Content(tvshows)</visible>
           <animation effect="fade" start="0" end="70" time="400">VisibleChange</animation>
           <control type="label">
@@ -2259,13 +2304,24 @@
             <label>$INFO[ListItem.Plot]</label>
             <textcolor>d0FFFFFF</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>IsEmpty(ListItem.PlotOutline)</visible>
+            <visible>IsEmpty(ListItem.PlotOutline)+!Container.Content(tvshows)</visible>
           </control>
           <control type="textbox">
             <posx>850</posx>
             <posy>510</posy>
             <width>425</width>
-            <height>117</height>
+            <height>153</height>
+            <font>Font_Info</font>
+            <label>$INFO[ListItem.Plot]</label>
+            <textcolor>d0FFFFFF</textcolor>
+            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+            <visible>Container.Content(tvshows)</visible>
+          </control>
+          <control type="textbox">
+            <posx>850</posx>
+            <posy>510</posy>
+            <width>425</width>
+            <height>153</height>
             <font>Font_Info</font>
             <label>$INFO[Container.ShowPlot]</label>
             <textcolor>d0FFFFFF</textcolor>
