@@ -1068,7 +1068,7 @@
       <height>1</height>
       <label>-</label>
       <font>-</font>
-      <onfocus>XBMC.RunScript(script.recentlyadded,limit=8&amp;albums=True&amp;unplayed=True&amp;totals=True)</onfocus>
+      <onfocus>XBMC.RunScript(script.recentlyadded,limit=8&amp;albums=False&amp;unplayed=True&amp;totals=True)</onfocus>
       <onfocus>SetFocus(8998)</onfocus>
       <texturenofocus>-</texturenofocus>
       <texturefocus>-</texturefocus>
@@ -1111,7 +1111,7 @@
       <height>1</height>
       <label>-</label>
       <font>-</font>
-      <onfocus>XBMC.RunScript(script.recentlyadded,limit=8&amp;albums=True&amp;unplayed=True&amp;totals=True)</onfocus>
+      <onfocus>XBMC.RunScript(script.recentlyadded,limit=8&amp;albums=False&amp;unplayed=True&amp;totals=True)</onfocus>
       <onfocus>SetFocus(8998)</onfocus>
       <texturenofocus>-</texturenofocus>
       <texturefocus>-</texturefocus>
@@ -1412,5 +1412,382 @@
   </include>
   <include name="MovieRecentAddedNoCinExp">
     <onclick>ActivateWindow(VideoLibrary,RecentlyAddedMovies,return)</onclick>
+  </include>
+
+  <include name="SmallMusicInfo">
+    <control type="image">
+      <description>gradient</description>
+      <posx>0</posx>
+      <posy>0</posy>
+      <width>500</width>
+      <height>165</height>
+      <colordiffuse>88FFFFFF</colordiffuse>
+      <texture>common/black.png</texture>
+    </control>
+    <control type="image">
+      <description>Cover image</description>
+      <posx>20</posx>
+      <posy>17</posy>
+      <width>130</width>
+      <height>130</height>
+      <aspectratio scaledifuuse="false">stretch</aspectratio>
+      <texture background="true" diffuse="thumbs/cdcover_mask.png">$INFO[MusicPlayer.Cover]</texture>
+      <bordertexture border="-8">thumbs/cd_shadow.png</bordertexture>
+    </control>
+    <control type="label">
+      <description>Artist label</description>
+      <posx>160</posx>
+      <posy>20</posy>
+      <height>30</height>
+      <width>325</width>
+      <label>[UPPERCASE]$INFO[MusicPlayer.Artist][/UPPERCASE]</label>
+      <align>left</align>
+      <aligny>center</aligny>
+      <font>Font_OSDSeek2</font>
+      <textcolor>grey2</textcolor>
+      <shadowcolor>black</shadowcolor>
+    </control>
+    <control type="fadelabel">
+      <description>Title label</description>
+      <posx>160</posx>
+      <posy>43</posy>
+      <height>30</height>
+      <width>325</width>
+      <label>[UPPERCASE]$INFO[MusicPlayer.Title][/UPPERCASE]</label>
+      <align>left</align>
+      <aligny>center</aligny>
+      <font>Font_Bold20</font>
+      <textcolor>white</textcolor>
+      <shadowcolor>black</shadowcolor>
+      <scrollout>false</scrollout>
+      <pauseatend>2000</pauseatend>
+    </control>
+    <control type="label">
+      <description>Album Label</description>
+      <posx>160</posx>
+      <posy>70</posy>
+      <height>30</height>
+      <width>325</width>
+      <label>$INFO[MusicPlayer.Album]$INFO[musicplayer.discnumber, - $LOCALIZE[427]:]</label>
+      <align>left</align>
+      <aligny>center</aligny>
+      <font>Font_Info</font>
+      <textcolor>white</textcolor>
+      <shadowcolor>black</shadowcolor>
+    </control>
+    <control type="label">
+      <description>Time Label</description>
+      <posx>160</posx>
+      <posy>95</posy>
+      <height>30</height>
+      <width>325</width>
+      <label>$INFO[MusicPlayer.Time]$INFO[MusicPlayer.Duration, / ]</label>
+      <align>left</align>
+      <aligny>center</aligny>
+      <font>Font_Info</font>
+      <textcolor>white</textcolor>
+      <shadowcolor>black</shadowcolor>
+    </control>
+    <control type="label">
+      <description>Next Label</description>
+      <posx>485</posx>
+      <posy>120</posy>
+      <height>30</height>
+      <width>325</width>
+      <label>[COLOR=white]$LOCALIZE[209] :[/COLOR] $INFO[MusicPlayer.offset(1).Title]</label>
+      <align>right</align>
+      <aligny>center</aligny>
+      <font>Font_Info</font>
+      <textcolor>grey2</textcolor>
+      <shadowcolor>black</shadowcolor>
+    </control>
+  </include>
+  <include name="HomeNowPlaying">
+    <control type="group">
+      <visible>Player.HasAudio+ !Skin.HasSetting(homepageMusicinfo)</visible>
+      <posx>3</posx>
+      <animation effect="slide" start="0,0" end="0,-180" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)|Skin.HasSetting(Lockhomemenulow)">Conditional</animation>
+      <animation effect="slide" start="0,0" end="-27,-270" time="400" tween="cubic" easing="inout" condition="[Skin.HasSetting(lowermainmenu)|Skin.HasSetting(Lockhomemenulow)]+[Control.HasFocus(8000)|Control.HasFocus(8001)]">Conditional</animation>
+      <animation effect="slide" start="0,0" end="0,-270" time="400" tween="cubic" easing="inout" condition="[Skin.HasSetting(lowermainmenu)|Skin.HasSetting(Lockhomemenulow)]+Control.HasFocus(8002)">Conditional</animation>
+      <animation effect="slide" start="0,0" end="0,-420" time="400" tween="cubic" easing="inout" condition="[!Skin.HasSetting(lowermainmenu)+!Skin.HasSetting(Lockhomemenulow)]+Control.HasFocus(8002)">Conditional</animation>
+      <animation effect="slide" start="0,0" end="-27,-420" time="400" tween="cubic" easing="inout" condition="[!Skin.HasSetting(lowermainmenu)+!Skin.HasSetting(Lockhomemenulow)]+[Control.HasFocus(8000)|Control.HasFocus(8001)|Control.HasFocus(8003)]">Conditional</animation>
+      <control type="image">
+        <description>media info background image</description>
+        <posx>-27</posx>
+        <posy>240</posy>
+        <width>1350</width>
+        <height>630</height>
+        <texture flipy="true">home/nowplaying_shadow.png</texture>
+        <visible>[Control.HasFocus(8000)|Control.HasFocus(8001)|Control.HasFocus(8002)]</visible>
+      </control>
+      <control type="image">
+        <posx>250</posx>
+        <posy>517</posy>
+        <width>309</width>
+        <aspectratio>stretch</aspectratio>
+        <texture>home/nowplaying/nowplayline.png</texture>
+        <animation effect="slide" start="1280" end="0" time="800" tween="cubic" easing="out" delay="1700">WindowOpen</animation>
+        <animation effect="slide" start="0" end="-900" time="800" tween="cubic" easing="out">WindowClose</animation>
+        <animation effect="slide" start="0" end="-70" time="800" tween="cubic" easing="out" condition="Skin.HasSetting(disablecdart)">Conditional</animation>
+      </control>
+      <control type="image">
+        <posx>250</posx>
+        <posy>627</posy>
+        <width>309</width>
+        <aspectratio>stretch</aspectratio>
+        <texture>home/nowplaying/nowplayline.png</texture>
+        <animation effect="slide" start="1280" end="0" time="800" tween="cubic" easing="out" delay="1700">WindowOpen</animation>
+        <animation effect="slide" start="0" end="-900" time="800" tween="cubic" easing="out">WindowClose</animation>
+        <animation effect="slide" start="0" end="-70" time="800" tween="cubic" easing="out" condition="Skin.HasSetting(disablecdart)">Conditional</animation>
+      </control>
+      <control type="image">
+        <description>Cd overlay</description>
+        <visible>!Skin.HasSetting(disablecdart)</visible>
+        <animation effect="slide" start="0" end="-900" time="800" tween="cubic" easing="out">WindowClose</animation>
+        <animation type="WindowOpen" reversible="false" condition="Window.Previous(Startup)">
+          <effect type="zoom" start="180" end="100" center="640,600" time="2500" tween="cubic" easing="out"/>
+          <effect type="fade" start="0" end="100" time="2000"/>
+        </animation>
+        <animation type="WindowOpen" reversible="false" condition="!Window.Previous(Startup)">
+          <effect type="zoom" start="150" end="100" center="640,600" time="900" tween="cubic" easing="out"/>
+          <effect type="fade" start="0" end="100" time="900"/>
+        </animation>
+        <animation type="WindowClose" condition="!Player.Playing">
+          <effect type="slide" start="0" end="-114" time="700" tween="cubic" easing="in" delay="0"/>
+          <effect type="fade" start="100" end="0" time="600"/>
+        </animation>
+        <animation effect="rotate" end="-360" center="auto" time="6000" loop="true" reversible="false" condition="!Player.Paused">Conditional</animation>
+        <width>240</width>
+        <height>240</height>
+        <posx>140</posx>
+        <fadetime>300</fadetime>
+        <posy>456</posy>
+        <aligny>top</aligny>
+        <include condition="!Skin.HasSetting(vinylart)">cdart</include>
+        <include condition="Skin.HasSetting(vinylart)">vinylart</include>
+        <aspectratio align="bottom">keep</aspectratio>
+      </control>
+      <!-- Cover and Overlay-->
+      <control type="group">
+        <animation type="WindowOpen" reversible="false" condition="Window.Previous(Startup)">
+          <effect type="zoom" start="180" end="100" center="640,600" time="2500" tween="cubic" easing="out"/>
+        </animation>
+        <animation type="WindowOpen" reversible="false" condition="!Window.Previous(Startup)">
+          <effect type="zoom" start="150" end="100" center="640,600" time="900" tween="cubic" easing="out"/>
+        </animation>
+        <animation effect="slide" start="0" end="-900" time="800" tween="cubic" easing="out">WindowClose</animation>
+        <control type="image">
+          <posx>40</posx>
+          <posy>455</posy>
+          <height>242</height>
+          <width>242</width>
+          <texture background="true" fallback="defaultmusic.png" diffuse="thumbs/cdcover_mask2.png">$INFO[MusicPlayer.Cover]</texture>
+          <bordertexture border="-19">thumbs/cd_shadow.png</bordertexture>
+          <aspectratio>stretch</aspectratio>
+        </control>
+        <control type="image">
+          <posx>40</posx>
+          <posy>455</posy>
+          <height>242</height>
+          <width>242</width>
+          <texture diffuse="thumbs/cdcover_mask2.png">thumbs/cd_glass_noedge.png</texture>
+          <aspectratio align="bottom">stretch</aspectratio>
+        </control>
+      </control>
+      <!-- Labels -->
+      <control type="group">
+       
+        <control type="group">
+          <posy>10</posy>
+          <posx>10</posx>
+          <animation effect="slide" start="1280" end="0" time="800" tween="cubic" easing="out" delay="1700">WindowOpen</animation>
+          <animation effect="slide" start="0" end="-900" time="800" tween="cubic" easing="out">WindowClose</animation>
+          <animation effect="slide" start="0" end="-70" time="800" tween="cubic" easing="out" condition="Skin.HasSetting(disablecdart)">Conditional</animation>
+          <control type="label">
+            <posx>360</posx>
+            <posy>478</posy>
+            <label>[UPPERCASE]$INFO[MusicPlayer.Artist][/UPPERCASE]</label>
+            <font>Font_Reg21</font>
+            <width>483</width>
+            <height>25</height>
+            <aligny>left</aligny>
+          </control>
+          <control type="label">
+            <posx>380</posx>
+            <posy>510</posy>
+            <width>483</width>
+            <height>25</height>
+            <aligny>left</aligny>
+            <textcolor>abFFFFFF</textcolor>
+            <label>[UPPERCASE]$INFO[MusicPlayer.Album][/UPPERCASE]</label>
+            <font>Font_Info</font>
+          </control>
+          <control type="label">
+            <posx>377</posx>
+            <width>483</width>
+            <height>25</height>
+            <aligny>left</aligny>
+            <posy>594</posy>
+            <textcolor>ab749a9a</textcolor>
+            <label>[UPPERCASE]$LOCALIZE[31040][/UPPERCASE]</label>
+            <font>Font_Info</font>
+            <visible>!Player.Paused</visible>
+          </control>
+          <control type="label">
+            <posx>377</posx>
+            <width>483</width>
+            <height>25</height>
+            <aligny>left</aligny>
+            <posy>594</posy>
+            <textcolor>ab749a9a</textcolor>
+            <label>31043</label>
+            <font>Font_Info</font>
+            <visible>Player.Paused</visible>
+          </control>
+          <control type="label">
+            <posx>365</posx>
+            <width>483</width>
+            <height>50</height>
+            <aligny>left</aligny>
+            <posy>615</posy>
+            <textcolor>abFFFFFF</textcolor>
+            <label>[UPPERCASE]$INFO[MusicPlayer.Title][/UPPERCASE]</label>
+            <font>Font_Reg22</font>
+            <wrapmultiline>true</wrapmultiline>
+          </control>
+        </control>
+      </control>
+
+      <!-- Playlist -->
+      <control type="group">
+        <animation effect="slide" start="0,-600" end="0,0" time="800" tween="sine" easing="out" delay="1700">WindowOpen</animation>
+        <animation effect="slide" start="0,0" end="0,-600" time="800" tween="cubic" easing="out">WindowClose</animation>
+        <animation effect="fade" time="400" >VisibleChange</animation>
+        <visible>Container(9000).HasFocus(1)|Container(9000).HasFocus(4)|Container(9000).HasFocus(5)|Container(9000).HasFocus(6)|Container(9000).HasFocus(12)|Container(9000).HasFocus(13)|Container(9000).HasFocus(14)|Control.HasFocus(8000)|Control.HasFocus(8001)|Control.HasFocus(8002)</visible>
+        <visible>!IsEmpty(MusicPlayer.offset(1).Title)+Skin.HasSetting(itemsplaylist)</visible>
+        <control type="label">
+          <posx>777</posx>
+          <width>483</width>
+          <height>25</height>
+          <aligny>left</aligny>
+          <posy>485</posy>
+          <textcolor>ab749a9a</textcolor>
+          <label>[UPPERCASE]$LOCALIZE[209] $LOCALIZE[182]:[/UPPERCASE]</label>
+          <font>Font_Info</font>
+        </control>
+        <control type="label">
+          <posx>777</posx>
+          <posy>510</posy>
+          <width>483</width>
+          <height>25</height>
+          <aligny>left</aligny>
+          <textcolor>abFFFFFF</textcolor>
+          <label>[UPPERCASE][COLOR ab749a9a]1: [/COLOR]$INFO[MusicPlayer.Offset(1).Artist] - $INFO[MusicPlayer.Offset(1).Title][/UPPERCASE]</label>
+          <font>Font_Info</font>
+        </control>
+        <control type="label">
+          <posx>777</posx>
+          <posy>525</posy>
+          <width>483</width>
+          <height>25</height>
+          <aligny>left</aligny>
+          <textcolor>abFFFFFF</textcolor>
+          <label>[UPPERCASE][COLOR ab749a9a]2: [/COLOR]$INFO[MusicPlayer.Offset(2).Artist] - $INFO[MusicPlayer.Offset(2).Title][/UPPERCASE]</label>
+          <font>Font_Info</font>
+          <visible>!IsEmpty(MusicPlayer.Offset(2).Title)</visible>
+        </control>
+        <control type="label">
+          <posx>777</posx>
+          <posy>540</posy>
+          <width>483</width>
+          <height>25</height>
+          <aligny>left</aligny>
+          <textcolor>abFFFFFF</textcolor>
+          <label>[UPPERCASE][COLOR ab749a9a]3: [/COLOR]$INFO[MusicPlayer.Offset(3).Artist] - $INFO[MusicPlayer.Offset(3).Title][/UPPERCASE]</label>
+          <font>Font_Info</font>
+          <visible>!IsEmpty(MusicPlayer.Offset(3).Title)</visible>
+        </control>
+        <control type="label">
+          <posx>777</posx>
+          <posy>555</posy>
+          <width>483</width>
+          <height>25</height>
+          <aligny>left</aligny>
+          <textcolor>abFFFFFF</textcolor>
+          <label>[UPPERCASE][COLOR ab749a9a]4: [/COLOR]$INFO[MusicPlayer.Offset(4).Artist] - $INFO[MusicPlayer.Offset(4).Title][/UPPERCASE]</label>
+          <font>Font_Info</font>
+          <visible>!IsEmpty(MusicPlayer.Offset(4).Title)</visible>
+        </control>
+        <control type="label">
+          <posx>777</posx>
+          <posy>570</posy>
+          <width>483</width>
+          <height>25</height>
+          <aligny>left</aligny>
+          <textcolor>abFFFFFF</textcolor>
+          <label>[UPPERCASE][COLOR ab749a9a]5: [/COLOR]$INFO[MusicPlayer.Offset(5).Artist] - $INFO[MusicPlayer.Offset(5).Title][/UPPERCASE]</label>
+          <font>Font_Info</font>
+          <visible>!IsEmpty(MusicPlayer.Offset(5).Title)</visible>
+        </control>
+        <control type="group">
+          <visible>!Skin.HasSetting(tenitemsplaylist)</visible>
+          <control type="label">
+            <posx>777</posx>
+            <posy>585</posy>
+            <width>483</width>
+            <height>25</height>
+            <aligny>left</aligny>
+            <textcolor>abFFFFFF</textcolor>
+            <label>[UPPERCASE][COLOR ab749a9a]6: [/COLOR]$INFO[MusicPlayer.Offset(6).Artist] - $INFO[MusicPlayer.Offset(6).Title][/UPPERCASE]</label>
+            <font>Font_Info</font>
+            <visible>!IsEmpty(MusicPlayer.Offset(6).Title)</visible>
+          </control>
+          <control type="label">
+            <posx>777</posx>
+            <posy>600</posy>
+            <width>483</width>
+            <height>25</height>
+            <aligny>left</aligny>
+            <textcolor>abFFFFFF</textcolor>
+            <label>[UPPERCASE][COLOR ab749a9a]7: [/COLOR]$INFO[MusicPlayer.Offset(7).Artist] - $INFO[MusicPlayer.Offset(7).Title][/UPPERCASE]</label>
+            <font>Font_Info</font>
+            <visible>!IsEmpty(MusicPlayer.Offset(7).Title)</visible>
+          </control>
+          <control type="label">
+            <posx>777</posx>
+            <posy>615</posy>
+            <width>483</width>
+            <height>25</height>
+            <aligny>left</aligny>
+            <textcolor>abFFFFFF</textcolor>
+            <label>[UPPERCASE][COLOR ab749a9a]8: [/COLOR]$INFO[MusicPlayer.Offset(8).Artist] - $INFO[MusicPlayer.Offset(8).Title][/UPPERCASE]</label>
+            <font>Font_Info</font>
+            <visible>!IsEmpty(MusicPlayer.Offset(8).Title)</visible>
+          </control>
+          <control type="label">
+            <posx>777</posx>
+            <posy>630</posy>
+            <width>483</width>
+            <height>25</height>
+            <aligny>left</aligny>
+            <textcolor>abFFFFFF</textcolor>
+            <label>[UPPERCASE][COLOR ab749a9a]9: [/COLOR]$INFO[MusicPlayer.Offset(9).Artist] - $INFO[MusicPlayer.Offset(9).Title][/UPPERCASE]</label>
+            <font>Font_Info</font>
+            <visible>!IsEmpty(MusicPlayer.Offset(9).Title)</visible>
+          </control>
+          <control type="label">
+            <posx>777</posx>
+            <posy>645</posy>
+            <width>483</width>
+            <height>25</height>
+            <aligny>left</aligny>
+            <textcolor>abFFFFFF</textcolor>
+            <label>[UPPERCASE][COLOR ab749a9a]10: [/COLOR]$INFO[MusicPlayer.Offset(10).Artist] - $INFO[MusicPlayer.Offset(10).Title][/UPPERCASE]</label>
+            <font>Font_Info</font>
+            <visible>!IsEmpty(MusicPlayer.Offset(10).Title)</visible>
+          </control>
+        </control>
+      </control>
+    </control>
   </include>
 </includes>
