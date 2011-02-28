@@ -167,7 +167,6 @@
       <texture background="true">views/showcase_gradient.png</texture>
       <include>Animation_CommonFade</include>
       <include>Animation_HideMultiplex</include>
-      <visible>![Control.IsVisible(503)+!Skin.HasSetting(showcaseinfoontv)+[Container.Content(tvshows)|Container.Content(episodes)]+Skin.HasSetting(landscapelogo)]</visible>
     </control>
   </include>
   <include name="MovieShowCaseThumbItem-7">
@@ -564,7 +563,7 @@
     <control type="group" id="7001">
       <posy>387</posy>
       <camera x="640" y="540" />
-      <visible>Control.IsVisible(509) + Container.OnNext + !Skin.HasSetting(noflowalbum)</visible>
+      <visible>Control.IsVisible(509) + Container.OnNext + !Skin.HasSetting(noflowalbum)+!Control.HasFocus(110)</visible>
       <animation effect="slide" end="-100,0" time="250" reversible="false">Hidden</animation>
       <control type="group">
         <posx>50</posx>
@@ -832,7 +831,7 @@
     <control type="group" id="7002">
       <posy>387</posy>
       <camera x="640" y="540" />
-      <visible>Control.IsVisible(509) + Container.OnPrevious + !Skin.HasSetting(noflowalbum)</visible>
+      <visible>Control.IsVisible(509) + Container.OnPrevious + !Skin.HasSetting(noflowalbum)+!Control.HasFocus(110)</visible>
       <animation effect="slide" end="100,0" time="250" reversible="false">Hidden</animation>
       <control type="group">
         <posx>960</posx>
@@ -1108,7 +1107,7 @@
       <camera x="640" y="540" />
       <animation effect="fade" time="500">WindowOpen</animation>
       <animation effect="fade" time="200">WindowClose</animation>
-      <visible>Control.IsVisible(509) + !Control.IsVisible(7001) + !Control.IsVisible(7002) + Control.IsVisible(970)</visible>
+      <visible>Control.IsVisible(509) + !Control.IsVisible(7001) + !Control.IsVisible(7002) + Control.IsVisible(970)+!Control.HasFocus(110)</visible>
       <control type="group">
         <posx>50</posx>
         <visible>[IntegerGreaterThan(Container(509).NumItems,10) + !system.getbool(filelists.showparentdiritems)] | [IntegerGreaterThan(Container(509).NumItems,9) + system.getbool(filelists.showparentdiritems)]</visible>
@@ -2553,6 +2552,7 @@
             <label>$INFO[ListItem.PlotOutline]</label>
             <textcolor>d0FFFFFF</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+            <visible>!Skin.HasSetting(preferplot)</visible>
           </control>
           <control type="textbox">
             <posx>0</posx>
@@ -2563,7 +2563,7 @@
             <label fallback="312577">$INFO[ListItem.Plot]</label>
             <textcolor>d0FFFFFF</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>IsEmpty(ListItem.PlotOutline)</visible>
+            <visible>IsEmpty(ListItem.PlotOutline)|Skin.HasSetting(preferplot)</visible>
           </control>
 
         </control>
@@ -2699,6 +2699,7 @@
             <label>$INFO[ListItem.PlotOutline]</label>
             <textcolor>d0FFFFFF</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+            <visible>!Skin.HasSetting(preferplot)</visible>
           </control>
           <control type="textbox">
             <posx>0</posx>
@@ -2709,7 +2710,7 @@
             <label fallback="312577">$INFO[ListItem.Plot]</label>
             <textcolor>d0FFFFFF</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>IsEmpty(ListItem.PlotOutline)</visible>
+            <visible>IsEmpty(ListItem.PlotOutline)|Skin.HasSetting(preferplot)</visible>
           </control>
         </control>
         <control type="group">
@@ -3051,6 +3052,7 @@
             <label>$INFO[ListItem.PlotOutline]</label>
             <textcolor>d0FFFFFF</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+            <visible>!Skin.HasSetting(preferplot)</visible>
           </control>
           <control type="textbox">
             <posx>0</posx>
@@ -3061,7 +3063,7 @@
             <label fallback="312577">$INFO[ListItem.Plot]</label>
             <textcolor>d0FFFFFF</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>IsEmpty(ListItem.PlotOutline)</visible>
+            <visible>IsEmpty(ListItem.PlotOutline)|Skin.HasSetting(preferplot)</visible>
           </control>
         </control>
       </control>
@@ -3310,8 +3312,9 @@
   </include>
   <include name="MusicMediaFlags">
     <control type="group">
+      <visible>!Control.HasFocus(110)</visible>
       <include>Animation_CommonFade</include>
-
+      <include>Animation_HideMusic</include>
       <!-- Rating -->
       <control type="image" id="5091">
         <include>MusicRatingFlagsVars</include>
