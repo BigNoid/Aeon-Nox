@@ -414,6 +414,9 @@
             <include condition="Skin.HasSetting(HomeMusicPlaylist1)">CustomSubMusic1</include>
             <include condition="Skin.HasSetting(HomeMusicPlaylist2)">CustomSubMusic2</include>
             <include condition="Skin.HasSetting(HomeMusicPlaylist3)">CustomSubMusic3</include>
+            <include condition="Skin.HasSetting(HomeMenuSubMusicFavourite1)">CustomSubMusic4</include>
+            <include condition="Skin.HasSetting(HomeMenuSubMusicFavourite2)">CustomSubMusic5</include>
+            <include condition="Skin.HasSetting(HomeMenuSubMusicFavourite3)">CustomSubMusic6</include>
             <item id="90111">
               <label>133</label>
               <onclick>ActivateWindow(MusicLibrary,Artists,return)</onclick>
@@ -560,6 +563,9 @@
             <include condition="Skin.HasSetting(HomeMoviePlaylist1)">CustomSubMovies1</include>
             <include condition="Skin.HasSetting(HomeMoviePlaylist2)">CustomSubMovies2</include>
             <include condition="Skin.HasSetting(HomeMoviePlaylist3)">CustomSubMovies3</include>
+            <include condition="Skin.HasSetting(HomeMenuSubMoviesFavourite1)">CustomSubMovies4</include>
+            <include condition="Skin.HasSetting(HomeMenuSubMoviesFavourite2)">CustomSubMovies5</include>
+            <include condition="Skin.HasSetting(HomeMenuSubMoviesFavourite3)">CustomSubMovies6</include>
             <item id="90168">
               <label>$LOCALIZE[31162]</label>
               <onclick>XBMC.ActivateWindow(MyVideoLibrary, plugin://plugin.video.apple.movie.trailers.lite/addon.py,return)</onclick>
@@ -610,6 +616,9 @@
             <include condition="Skin.HasSetting(HomeTVPlaylist1)">CustomSubTV1</include>
             <include condition="Skin.HasSetting(HomeTVPlaylist2)">CustomSubTV2</include>
             <include condition="Skin.HasSetting(HomeTVPlaylist3)">CustomSubTV3</include>
+            <include condition="Skin.HasSetting(HomeMenuSubTVFavourite1)">CustomSubTV4</include>
+            <include condition="Skin.HasSetting(HomeMenuSubTVFavourite2)">CustomSubTV5</include>
+            <include condition="Skin.HasSetting(HomeMenuSubTVFavourite3)">CustomSubTV6</include>
             <item id="90171">
               <label>369</label>
               <onclick>ActivateWindow(VideoLibrary,TVShowTitles,return)</onclick>
@@ -641,38 +650,38 @@
               <visible>Container(9000).HasFocus(11)</visible>
             </item>
             <!--System-->
-            <item id="90180">
+            <item id="90190">
               <description>Shutdown Timer</description>
               <label fallback="TIMER">31856</label>
               <onclick>AlarmClock($LOCALIZE[20144],Shutdown(),)</onclick>
               <visible>Container(9000).HasFocus(12)</visible>
             </item>
-            <item id="90181">
+            <item id="90191">
               <description>Restart Button</description>
               <label>13313</label>
               <onclick>Reset</onclick>
               <visible>Container(9000).HasFocus(12)</visible>
             </item>
-            <item id="90182">
+            <item id="90192">
               <description>Suspend</description>
               <label>13011</label>
               <onclick>Suspend</onclick>
               <visible>Container(9000).HasFocus(12)</visible>
             </item>
-            <item id="90182">
+            <item id="90192">
               <description>Hibernate</description>
               <label>13010</label>
               <onclick>Hibernate</onclick>
               <visible>Container(9000).HasFocus(12)</visible>
             </item>
-            <item id="90183">
+            <item id="90193">
               <description>Logout Button</description>
               <label>20126</label>
               <onclick>System.LogOff</onclick>
               <visible>System.HasLoginScreen</visible>
               <visible>Container(9000).HasFocus(12)</visible>
             </item>
-            <item id="90184">
+            <item id="90194">
               <description>Quit</description>
               <label>13009</label>
               <onclick>Quit</onclick>
@@ -737,7 +746,39 @@
         <height>66</height>
         <texture>osd/osd_back.png</texture>
         <include>Animation_CommonFade</include>
-        <visible>!Skin.HasSetting(classichome)|[Player.HasMedia + System.IdleTime(8)]</visible>
+        <visible>[!Skin.HasSetting(classichome)+!Skin.HasSetting(glasshome)]|[Player.HasMedia + System.IdleTime(8)]</visible>
+      </control>
+      <control type="group">
+        <visible>Skin.HasSetting(glasshome)+![Player.HasMedia + System.IdleTime(8)]</visible>
+        <control type="image">
+          <posx>0</posx>
+          <posy>302</posy>
+          <width>1280</width>
+          <height>150</height>
+          <texture>home/glass_bar_back.png</texture>
+          <include>Animation_CommonFade</include>
+        </control>
+        <control type="image">
+          <posx>30</posx>
+          <posy>342</posy>
+          <width>1350</width>
+          <height>64</height>
+          <texture>views/showcase_spot.png</texture>
+          <include>Animation_CommonFade</include>
+          <visible>!Skin.HasSetting(classichome)|[Player.HasMedia + System.IdleTime(8)]</visible>
+          <animation effect="fade" start="100" end="35" time="50" condition="true">Conditional</animation>
+        </control>
+        <control type="image">
+          <posx>0</posx>
+          <posy>342</posy>
+          <width>1280</width>
+          <height>64</height>
+          <texture>home/glass_bar.png</texture>
+          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <include>Animation_CommonFade</include>
+          <visible>!Skin.HasSetting(classichome)|[Player.HasMedia + System.IdleTime(8)]</visible>
+          <animation effect="fade" start="100" end="80" time="50" condition="true">Conditional</animation>
+        </control>
       </control>
       
       <!-- Home OSD -->
@@ -773,60 +814,9 @@
         <orientation>horizontal</orientation>
         <animation effect="fade" start="0" end="100" time="200">Visible</animation>
         <animation effect="fade" start="100" end="30" time="200" condition="Window.IsVisible(1113) | ControlGroup(9001).HasFocus | ControlGroup(10).HasFocus | Control.HasFocus(8000) | Control.HasFocus(8001)">conditional</animation>
-        <itemlayout height="150" width="340">
-          <control type="label">
-            <posx>0</posx>
-            <posy>0</posy>
-            <width>340</width>
-            <height>150</height>
-            <font>Font_MainMenu</font>
-            <textcolor>48FFFFFF</textcolor>
-            <align>center</align>
-            <aligny>center</aligny>
-            <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-            <animation effect="fade" start="100" end="30" time="200" condition="Window.IsVisible(1113) | ControlGroup(9001).HasFocus | ControlGroup(10).HasFocus">conditional</animation>
-            <visible>!Skin.HasSetting(classichome)</visible>
-          </control>
-          <control type="label">
-            <posx>0</posx>
-            <posy>0</posy>
-            <width>340</width>
-            <height>150</height>
-            <font>Font_MainClassic</font>
-            <textcolor>48FFFFFF</textcolor>
-            <align>center</align>
-            <aligny>center</aligny>
-            <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-            <animation effect="fade" start="100" end="30" time="200" condition="Window.IsVisible(1113) | ControlGroup(9001).HasFocus | ControlGroup(10).HasFocus">conditional</animation>
-            <visible>Skin.HasSetting(classichome)</visible>
-          </control>
-        </itemlayout>
-        <focusedlayout height="150" width="340">
-          <control type="label">
-            <posx>0</posx>
-            <posy>0</posy>
-            <width>340</width>
-            <height>150</height>
-            <font>Font_MainMenu</font>
-            <textcolor>white</textcolor>
-            <align>center</align>
-            <aligny>center</aligny>
-            <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-            <visible>!Skin.HasSetting(classichome)</visible>
-          </control>
-          <control type="label">
-            <posx>0</posx>
-            <posy>0</posy>
-            <width>340</width>
-            <height>150</height>
-            <font>Font_MainClassic</font>
-            <textcolor>white</textcolor>
-            <align>center</align>
-            <aligny>center</aligny>
-            <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-            <visible>Skin.HasSetting(classichome)</visible>
-          </control>
-        </focusedlayout>
+        <include condition="Skin.HasSetting(classichome)">aeonhome</include>
+        <include condition="Skin.HasSetting(glasshome)">newhome</include>
+        <include condition="!Skin.HasSetting(classichome)+!Skin.HasSetting(classichome)">noxhome</include>
         <content>
           <item id="4">
             <label>1</label>
