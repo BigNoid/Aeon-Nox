@@ -12,7 +12,7 @@
       <include>Furniture_SettingsBackPanel</include>
       <control type="image">
         <include>Furniture_SettingsInternalBackPanel</include>
-        <animation effect="fade" start="100" end="30" time="50" delay="0" condition="Container.Content(episodes)">Conditional</animation>
+        <animation effect="fade" start="100" end="30" time="50" delay="0" condition="Container.Content(episodes)|[Container.Content(movies)+Skin.HasSetting(paneldetail)]">Conditional</animation>
         <include>Animation_SettingsInternalPanel</include>
       </control>
       <control type="image">
@@ -23,10 +23,10 @@
         <aspectratio>stretch</aspectratio>
         <fadetime>600</fadetime>
         <texture background="true">$INFO[ListItem.property(fanart_image)]</texture>
-        <animation effect="fade" start="100" end="10" time="50" delay="0" condition="Container.Content(episodes)">Conditional</animation>
+        <animation effect="fade" start="100" end="10" time="50" delay="0" condition="Container.Content(episodes)|[Container.Content(movies)+Skin.HasSetting(paneldetail)]">Conditional</animation>
       </control>
       <control type="group">
-        <visible>Container.Content(tvshows)</visible>
+        <visible>Container.Content(tvshows)|[Container.Content(movies)+!Skin.HasSetting(paneldetail)]</visible>
         <control type="image">
           <posx>70</posx>
           <posy>50</posy>
@@ -35,6 +35,7 @@
           <fadetime>300</fadetime>
           <aspectratio scalediffuse="false">stretch</aspectratio>
           <texture background="true">$INFO[ListItem.path,,logo.png]</texture>
+          <visible>Container.Content(tvshows)</visible>
         </control>
         <control type="textbox">
           <description>Plot</description>
@@ -52,7 +53,7 @@
       </control>
 
       <control type="group">
-        <visible>Container.Content(episodes)</visible>
+        <visible>Container.Content(episodes)|[Container.Content(movies)+Skin.HasSetting(paneldetail)]</visible>
         <control type="image">
           <posx>70</posx>
           <posy>50</posy>
@@ -61,12 +62,13 @@
           <fadetime>300</fadetime>
           <aspectratio scalediffuse="false">stretch</aspectratio>
           <texture background="true">$INFO[ListItem.path,,../logo.png]</texture>
+          <visible>Container.Content(episodes)</visible>
         </control>
         <control type="label">
           <description>header label</description>
-          <posx>239</posx>
+          <posx>340</posx>
           <posy>80</posy>
-          <width>994</width>
+          <width>824</width>
           <font>Font_ShowcaseMainLabel2</font>
           <label>[UPPERCASE]$INFO[ListItem.Title][/UPPERCASE]</label>
           <align>center</align>
@@ -76,16 +78,74 @@
         </control>
         <control type="label">
           <description>header label</description>
-          <posx>239</posx>
-          <posy>120</posy>
-          <width>994</width>
+          <posx>340</posx>
+          <posy>115</posy>
+          <width>824</width>
           <font>Font_Reg24</font>
           <label>[UPPERCASE]$INFO[ListItem.TvShowTitle] • $LOCALIZE[20373] $INFO[ListItem.Season][/UPPERCASE]</label>
           <align>center</align>
           <aligny>center</aligny>
           <textcolor>grey2</textcolor>
           <shadowcolor>black</shadowcolor>
-          <visible>!IsEmpty(ListItem.Title)</visible>
+          <visible>!IsEmpty(ListItem.Title)+Container.Content(episodes)</visible>
+        </control>
+        <control type="label">
+          <description>header label</description>
+          <posx>340</posx>
+          <posy>115</posy>
+          <width>824</width>
+          <font>Font_Reg24</font>
+          <label>[UPPERCASE]$INFO[ListItem.Tagline][/UPPERCASE]</label>
+          <align>center</align>
+          <aligny>center</aligny>
+          <scroll>true</scroll>
+          <textcolor>grey2</textcolor>
+          <shadowcolor>black</shadowcolor>
+          <visible>Container.Content(movies)</visible>
+        </control>
+        <control type="label">
+          <description>header label</description>
+          <posx>340</posx>
+          <posy>550</posy>
+          <width>824</width>
+          <font>Font_Reg24</font>
+          <label>$LOCALIZE[31259]</label>
+          <align>center</align>
+          <aligny>center</aligny>
+          <scroll>true</scroll>
+          <textcolor>grey2</textcolor>
+          <shadowcolor>black</shadowcolor>
+          <visible>Container.Content(movies)+!IsEmpty(ListItem.Trailer)+ !Player.HasVideo + !Control.HasFocus(7001)</visible>
+        </control>
+        <control type="label">
+          <description>header label</description>
+          <posx>340</posx>
+          <posy>550</posy>
+          <width>824</width>
+          <font>Font_Reg24</font>
+          <label>$LOCALIZE[312575]</label>
+          <align>center</align>
+          <aligny>center</aligny>
+          <scroll>true</scroll>
+          <textcolor>grey2</textcolor>
+          <shadowcolor>black</shadowcolor>
+          <visible>Container.Content(movies)+!IsEmpty(ListItem.Trailer)+ !Player.HasVideo + Control.HasFocus(7001)</visible>
+        </control>
+        <control type="label">
+          <description>header label</description>
+          <posx>340</posx>
+          <posy>550</posy>
+          <width>824</width>
+          <font>Font_Reg24</font>
+          <label>$LOCALIZE[312574]</label>
+          <align>center</align>
+          <aligny>center</aligny>
+          <scroll>true</scroll>
+          <textcolor>grey2</textcolor>
+          <shadowcolor>black</shadowcolor>
+          <visible>Container.Content(movies)+!IsEmpty(ListItem.Trailer)+Player.HasVideo</visible>
+          <animation effect="fade" start="0" end="100" time="400">VisibleChange</animation>
+          <animation effect="fade" start="100" end="0" time="400" delay="5000" condition="Player.HasVideo">Conditional</animation>
         </control>
         <control type="image">
           <posx>782</posx>
@@ -96,6 +156,18 @@
           <aspectratio scalediffuse="false">scale</aspectratio>
           <bordertexture border="-70">thumbs/multiplex_tvborder.png</bordertexture>
           <texture background="true" diffuse="thumbs/multiplex_tvmask.png">$INFO[ListItem.Thumb]</texture>
+          <visible>Container.Content(episodes)</visible>
+        </control>
+        <control type="image">
+          <posx>912</posx>
+          <posy>150</posy>
+          <width>240</width>
+          <height>360</height>
+          <fadetime>IconCrossfadeTime2</fadetime>
+          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <bordertexture border="-78">thumbs/movieposter_frame.png</bordertexture>
+          <texture background="true" diffuse="thumbs/movieposter_mask.png">$INFO[ListItem.Thumb]</texture>
+          <visible>Container.Content(movies)</visible>
         </control>
         <control type="textbox">
           <description>Plot</description>
@@ -109,87 +181,320 @@
           <textcolor>white</textcolor>
           <shadowcolor>black</shadowcolor>
           <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+          <visible>Container.Content(episodes)</visible>
         </control>
-        <control type="label">
+        <control type="textbox">
+          <description>Plot</description>
           <posx>340</posx>
-          <posy>405</posy>
-          <width>205</width>
-          <height>25</height>
+          <posy>155</posy>
+          <width>550</width>
+          <height>190</height>
           <font>Font_Info</font>
-          <textcolor>grey2</textcolor>
-          <aligny>center</aligny>
-          <label>$LOCALIZE[20416]:</label>
-        </control>
-        <control type="label">
-          <posx>475</posx>
-          <posy>405</posy>
-          <width>205</width>
-          <height>25</height>
-          <font>Font_Info</font>
+          <label fallback="312577">$INFO[ListItem.Plot]</label>
+          <align>left</align>
           <textcolor>white</textcolor>
-          <aligny>center</aligny>
-          <label fallback="312577">$INFO[ListItem.Premiered]</label>
+          <shadowcolor>black</shadowcolor>
+          <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+          <visible>Container.Content(movies)</visible>
         </control>
-        <control type="label">
-          <posx>340</posx>
-          <posy>430</posy>
-          <width>205</width>
-          <height>25</height>
-          <font>Font_Info</font>
-          <textcolor>grey2</textcolor>
-          <aligny>center</aligny>
-          <label>$LOCALIZE[563]:</label>
+        <control type="group">
+          <visible>Container.Content(episodes)</visible>
+          <control type="label">
+            <posx>340</posx>
+            <posy>405</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>grey2</textcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[20416]:</label>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>405</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <aligny>center</aligny>
+            <label fallback="312577">$INFO[ListItem.Premiered]</label>
+          </control>
+          <control type="label">
+            <posx>340</posx>
+            <posy>430</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>grey2</textcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[563]:</label>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>430</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <aligny>center</aligny>
+            <label fallback="312577">$INFO[ListItem.Rating]</label>
+          </control>
+          <control type="label">
+            <posx>340</posx>
+            <posy>455</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>grey2</textcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[20339]:</label>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>455</posy>
+            <width>400</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <aligny>center</aligny>
+            <label fallback="312577">$INFO[ListItem.Director]</label>
+          </control>
+          <control type="label">
+            <posx>340</posx>
+            <posy>480</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>grey2</textcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[20417]:</label>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>480</posy>
+            <width>400</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <aligny>center</aligny>
+            <label fallback="312577">$INFO[ListItem.Writer]</label>
+          </control>
         </control>
-        <control type="label">
-          <posx>475</posx>
-          <posy>430</posy>
-          <width>205</width>
-          <height>25</height>
-          <font>Font_Info</font>
-          <textcolor>white</textcolor>
-          <aligny>center</aligny>
-          <label fallback="312577">$INFO[ListItem.Rating]</label>
+        <control type="group">
+          <visible>Container.Content(movies)+!ListItem.IsFolder</visible>
+          <posy>-5</posy>
+          <control type="label">
+            <posx>340</posx>
+            <posy>355</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>grey2</textcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[20339]:</label>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>355</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label fallback="312577">$INFO[ListItem.Director]</label>
+          </control>
+          <control type="label">
+            <posx>340</posx>
+            <posy>380</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>grey2</textcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[20417]:</label>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>380</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label fallback="312577">$INFO[ListItem.Writer]</label>
+          </control>
+          <control type="label">
+            <posx>340</posx>
+            <posy>405</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>grey2</textcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[345]:</label>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>405</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label fallback="312577">$INFO[ListItem.Year]</label>
+          </control>
+          <control type="label">
+            <posx>340</posx>
+            <posy>430</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>grey2</textcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[368]:</label>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>430</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label fallback="312577">$INFO[ListItem.RatingAndVotes] • $LOCALIZE[13409] #$INFO[ListItem.Top250]</label>
+            <visible>!IsEmpty(ListItem.Top250)</visible>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>430</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label fallback="312577">$INFO[ListItem.RatingAndVotes]</label>
+            <visible>IsEmpty(ListItem.Top250)</visible>
+          </control>
+          <control type="label">
+            <posx>340</posx>
+            <posy>455</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>grey2</textcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[2050]:</label>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>455</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label fallback="312577">$INFO[ListItem.Duration] $LOCALIZE[12391]</label>
+            <visible>!IsEmpty(ListItem.Duration)</visible>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>455</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[312577]</label>
+            <visible>IsEmpty(ListItem.Duration)</visible>
+          </control>
+          <control type="label">
+            <posx>340</posx>
+            <posy>480</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>grey2</textcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[21875]:</label>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>480</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label fallback="312577">$INFO[ListItem.Country]</label>
+          </control>
+          <control type="label">
+            <posx>340</posx>
+            <posy>505</posy>
+            <width>205</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>grey2</textcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[248]:</label>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>505</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label>[UPPERCASE]$INFO[ListItem.AudioLanguage] / $INFO[ListItem.SubtitleLanguage][/UPPERCASE]</label>
+            <visible>!IsEmpty(ListItem.AudioLanguage)+!IsEmpty(ListItem.SubtitleLanguage)</visible>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>505</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[312577] / [UPPERCASE]$INFO[ListItem.SubtitleLanguage][/UPPERCASE]</label>
+            <visible>IsEmpty(ListItem.AudioLanguage)+!IsEmpty(ListItem.SubtitleLanguage)</visible>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>505</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[312577] / $LOCALIZE[16018]</label>
+            <visible>IsEmpty(ListItem.AudioLanguage)+IsEmpty(ListItem.SubtitleLanguage)</visible>
+          </control>
+          <control type="label">
+            <posx>475</posx>
+            <posy>505</posy>
+            <width>415</width>
+            <height>25</height>
+            <font>Font_Info</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <label>[UPPERCASE]$INFO[ListItem.AudioLanguage][/UPPERCASE] / $LOCALIZE[16018]</label>
+            <visible>!IsEmpty(ListItem.AudioLanguage)+IsEmpty(ListItem.SubtitleLanguage)</visible>
+          </control>
         </control>
-        <control type="label">
-          <posx>340</posx>
-          <posy>455</posy>
-          <width>205</width>
-          <height>25</height>
-          <font>Font_Info</font>
-          <textcolor>grey2</textcolor>
-          <aligny>center</aligny>
-          <label>$LOCALIZE[20339]:</label>
-        </control>
-        <control type="label">
-          <posx>475</posx>
-          <posy>455</posy>
-          <width>400</width>
-          <height>25</height>
-          <font>Font_Info</font>
-          <textcolor>white</textcolor>
-          <aligny>center</aligny>
-          <label fallback="312577">$INFO[ListItem.Director]</label>
-        </control>
-        <control type="label">
-          <posx>340</posx>
-          <posy>480</posy>
-          <width>205</width>
-          <height>25</height>
-          <font>Font_Info</font>
-          <textcolor>grey2</textcolor>
-          <aligny>center</aligny>
-          <label>$LOCALIZE[20417]:</label>
-        </control>
-        <control type="label">
-          <posx>475</posx>
-          <posy>480</posy>
-          <width>400</width>
-          <height>25</height>
-          <font>Font_Info</font>
-          <textcolor>white</textcolor>
-          <aligny>center</aligny>
-          <label fallback="312577">$INFO[ListItem.Writer]</label>
-        </control>
+
         <control type="group">
           <description>Flags</description>
           <posy>-25</posy>
@@ -254,10 +559,37 @@
             <description>Rating Flags</description>
             <posx>620</posx>
             <posy>600</posy>
+            <visible>!Skin.HasSetting(nostudioratingflags)+!Container.Content(tvshows)+!SubString(Container.FolderPath,plugin.video)+!Container.Content(seasons)</visible>
+            <!--US-->
             <control type="image">
               <include>FloorRatingVars</include>
               <texture>flags/rating/MPAA_NR_Certificate_US.png</texture>
               <visible>[SubString(ListItem.mpaa,US:NR) | SubString(ListItem.mpaa,USA:NR) | SubString(ListItem.mpaa,Rated NR | SubString(ListItem.mpaa,NR)| IsEmpty(ListItem.Mpaa)]+!IsEmpty(ListItem.Title)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/MPAA_G_Certificate_US.png</texture>
+              <visible>SubString(ListItem.mpaa,US:G) | SubString(ListItem.mpaa,USA:G) | SubString(ListItem.mpaa,Rated G)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/MPAA_PG_Certificate_US.png</texture>
+              <visible>[Substring(ListItem.mpaa,Rated PG) | StringCompare(ListItem.Mpaa,PG)] + !substring(ListItem.mpaa,PG-13)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/MPAA_PG-13_Certificate_US.png</texture>
+              <visible>SubString(ListItem.mpaa,PG-13)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/MPAA_R_Certificate_US.png</texture>
+              <visible>SubString(ListItem.mpaa,US:R) | SubString(ListItem.mpaa,USA:R) | SubString(ListItem.mpaa,Rated R) | StringCompare(ListItem.Mpaa,R)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/MPAA_NC-17_Certificate_US.png</texture>
+              <visible>SubString(ListItem.mpaa,US:NC-17) | SubString(ListItem.mpaa,USA:NC-17) | SubString(ListItem.mpaa,Rated NC-17)</visible>
             </control>
             <control type="image">
               <include>FloorRatingVars</include>
@@ -279,6 +611,63 @@
               <texture>flags/rating/TV-MA_Certificate_US.png</texture>
               <visible>substring(ListItem.mpaa,TV-MA)</visible>
             </control>
+            <!--UK-->
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/BBFC_U_Certificate_UK.png</texture>
+              <visible>SubString(ListItem.mpaa,UK:U)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/BBFC_PG_Certificate_UK.png</texture>
+              <visible>SubString(ListItem.mpaa,UK:PG)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/BBFC_12_Certificate_UK.png</texture>
+              <visible>SubString(ListItem.mpaa,UK:12) + !SubString(ListItem.mpaa,UK:12A)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/BBFC_12A_Certificate_UK.png</texture>
+              <visible>SubString(ListItem.mpaa,UK:12A)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/BBFC_15_Certificate_UK.png</texture>
+              <visible>SubString(ListItem.mpaa,UK:15)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/BBFC_18_Certificate_UK.png</texture>
+              <visible>SubString(ListItem.mpaa,UK:18)</visible>
+            </control>
+            <!--Germany-->
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/FSK-0.png</texture>
+              <visible>SubString(ListItem.mpaa,Germany:0) | SubString(ListItem.mpaa,o.A)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/FSK-6.png</texture>
+              <visible>SubString(ListItem.mpaa,Germany:6) | SubString(ListItem.mpaa,ab 6)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/FSK-12.png</texture>
+              <visible>[SubString(ListItem.mpaa,Germany:12) | SubString(ListItem.mpaa,ab 12) | SubString(ListItem.mpaa,12)]+!SubString(ListItem.mpaa,UK:12)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/FSK-16.png</texture>
+              <visible>SubString(ListItem.mpaa,Germany:16) | SubString(ListItem.mpaa,ab 16) | SubString(ListItem.mpaa,16)</visible>
+            </control>
+            <control type="image">
+              <include>FloorRatingVars</include>
+              <texture>flags/rating/FSK-18.png</texture>
+              <visible>[SubString(ListItem.mpaa,Germany:18) | SubString(ListItem.mpaa,ab 18) | SubString(ListItem.mpaa,18)]+!SubString(ListItem.mpaa,UK:18)</visible>
+            </control>
           </control>
           <control type="image">
             <posx>800</posx>
@@ -299,21 +688,21 @@
             <posx>1080</posx>
             <posy>600</posy>
             <animation effect="slide" start="-70" end="-70" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
-    <control type="image">
-          <include>AudioFlagsVars</include>
-          <texture>flags/audio/$INFO[ListItem.AudioCodec].png</texture>
-          <visible>!substring(ListItem.AudioCodec,ac3)</visible>
-        </control>
-        <control type="image">
-          <include>AudioFlagsVars</include>
-          <texture>flags/audio/dolbydigital.png</texture>
-          <visible>substring(ListItem.AudioCodec,ac3)+!substring(ListItem.AudioChannels,2)</visible>
-        </control>
-        <control type="image">
-          <include>AudioFlagsVars</include>
-          <texture>flags/audio/dolbypro.png</texture>
-          <visible>substring(ListItem.AudioCodec,ac3)+substring(ListItem.AudioChannels,2)</visible>
-        </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/audio/$INFO[ListItem.AudioCodec].png</texture>
+              <visible>!substring(ListItem.AudioCodec,ac3)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/audio/dolbydigital.png</texture>
+              <visible>substring(ListItem.AudioCodec,ac3)+!substring(ListItem.AudioChannels,2)</visible>
+            </control>
+            <control type="image">
+              <include>AudioFlagsVars</include>
+              <texture>flags/audio/dolbypro.png</texture>
+              <visible>substring(ListItem.AudioCodec,ac3)+substring(ListItem.AudioChannels,2)</visible>
+            </control>
           </control>
         </control>
       </control>
@@ -341,12 +730,12 @@
         <height>546</height>
         <itemgap>0</itemgap>
         <onleft>9000</onleft>
-        <onright>9000</onright>
+        <onright>SetFocus(7000)</onright>
         <onup>550</onup>
         <ondown>550</ondown>
         <pagecontrol>60</pagecontrol>
         <viewtype label="$LOCALIZE[31233]">list</viewtype>
-        <visible>Container.Content(tvshows)|Container.Content(episodes)</visible>
+        <visible>Container.Content(tvshows)|Container.Content(episodes)|Container.Content(movies)</visible>
         <scrolltime>300</scrolltime>
         <itemlayout height="54" width="380">
           <control type="label">
@@ -401,7 +790,7 @@
             <align>right</align>
             <aligny>center</aligny>
             <label>$INFO[ListItem.Label2]</label>
-            <visible>!Container.Content(episodes)</visible>
+            <visible>Container.Content(tvshows)</visible>
           </control>
           <control type="image">
             <description>IMDB rating</description>
@@ -412,7 +801,7 @@
             <texture>$INFO[ListItem.Rating,stars/,.png]</texture>
             <colordiffuse>FF262728</colordiffuse>
             <animation effect="fade" start="100" end="0" time="100" delay="0" condition="IsEmpty(ListItem.Title)" >Conditional</animation>
-            <visible>Container.Content(episodes)</visible>
+            <visible>Container.Content(episodes)|Container.Content(movies)</visible>
           </control>
         </focusedlayout>
       </control>
@@ -422,7 +811,7 @@
         <width>842</width>
         <height>634</height>
         <texture background="true">settings/settings_intframe_top.png</texture>
-        <animation effect="fade" start="100" end="30" time="50" delay="0" condition="Container.Content(episodes)">Conditional</animation>
+        <animation effect="fade" start="100" end="30" time="50" delay="0" condition="Container.Content(episodes)|[Container.Content(movies)+Skin.HasSetting(paneldetail)]">Conditional</animation>
         <include>Animation_SettingsInternalPanel</include>
       </control>
     </control>
