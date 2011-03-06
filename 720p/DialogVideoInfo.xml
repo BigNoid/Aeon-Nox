@@ -1,11 +1,8 @@
 <window id="2003">
   <defaultcontrol>9000</defaultcontrol>
   <allowoverlay>no</allowoverlay>
-
   <include>Animation_CommonFade</include>
   <controls>
-
-
     <control type="group">
       <visible>!Window.IsVisible(FileBrowser)</visible>
       <control type="image">
@@ -48,7 +45,7 @@
         <height>720</height>
         <texture background="true">$INFO[listitem.Icon]</texture>
         <aspectratio>stretch</aspectratio>
-        <visible>!Container.Content(episodes)+Skin.HasSetting(TVShowsUsePosters)</visible>
+        <visible>Container.Content(movies)|[Container.Content(tvshows)+Skin.HasSetting(TVShowsUsePosters)]</visible>
       </control>
       <control type="largeimage">
         <description>Cover image</description>
@@ -56,9 +53,9 @@
         <posy>0</posy>
         <width>486</width>
         <height>720</height>
-        <texture background="true">$INFO[listitem.Icon]</texture>
+        <texture background="true">$INFO[ListItem.Path,,../poster.jpg]</texture>
         <aspectratio>stretch</aspectratio>
-        <visible>Container.Content(movies)+!Skin.HasSetting(TVShowsUsePosters)</visible>
+        <visible>Container.Content(episodes)</visible>
       </control>
       <control type="largeimage">
         <description>Cover image</description>
@@ -66,53 +63,19 @@
         <posy>0</posy>
         <width>486</width>
         <height>720</height>
-        <texture background="true">$INFO[Container.TvshowThumb]</texture>
+        <texture background="true">$INFO[Container.SeasonThumb]</texture>
         <aspectratio>stretch</aspectratio>
-        <visible>Container.Content(episodes)+Skin.HasSetting(TVShowsUsePosters)</visible>
+        <visible>Container.Content(episodes)</visible>
       </control>
-      <control type="group">
-        <posx>30</posx>
-        <animation effect="slide" start="430" end="0" time="700" tween="cubic" easing="out" delay="400">WindowOpen</animation>
+      <control type="largeimage">
+        <description>Cover image</description>
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>486</width>
+        <height>720</height>
+        <texture background="true">$INFO[ListItem.FileNameAndPath,,poster.jpg]</texture>
+        <aspectratio>stretch</aspectratio>
         <visible>Container.Content(tvshows)+!Skin.HasSetting(TVShowsUsePosters)</visible>
-        <control type="image">
-          <description>Cover image</description>
-          <width>420</width>
-          <height>78</height>
-          <posy>360</posy>
-          <texture>$INFO[listitem.thumb]</texture>
-          <aspectratio>stretch</aspectratio>
-        </control>
-        <control type="image">
-          <description>Cover image</description>
-          <posy>438</posy>
-          <width>420</width>
-          <height>78</height>
-          <texture flipy="true" diffuse="thumbs/Thumb_Mask6.png">$INFO[listitem.thumb]</texture>
-          <aspectratio>stretch</aspectratio>
-        </control>
-      </control>
-      <control type="group">
-        <posx>55</posx>
-        <animation effect="rotatey" time="0" start="-20" end="-20" center="20,0" condition="true">Conditional</animation>
-        <animation effect="slide" start="430" end="0" time="700" tween="cubic" easing="out" delay="400">WindowOpen</animation>
-        <visible>Container.Content(episodes)+!Skin.HasSetting(TVShowsUsePosters)</visible>
-        <control type="image">
-          <description>Cover image</description>
-          <width>370</width>
-          <height>210</height>
-          <posy>350</posy>
-          <texture background="true">$INFO[listitem.thumb]</texture>
-          <bordertexture border="-40">info/musicinfoshadow.png</bordertexture>
-          <aspectratio>stretch</aspectratio>
-        </control>
-        <control type="image">
-          <description>Cover image</description>
-          <posy>560</posy>
-          <width>370</width>
-          <height>210</height>
-          <texture background="true" flipy="true" diffuse="thumbs/Thumb_Mask6.png">$INFO[listitem.thumb]</texture>
-          <aspectratio>stretch</aspectratio>
-        </control>
       </control>
       <control type="image">
         <description>background image</description>
@@ -229,8 +192,8 @@
             <texture>flags/rating/FSK-18_info.png</texture>
             <visible>[SubString(ListItem.mpaa,Germany:18) | SubString(ListItem.mpaa,ab 18) | SubString(ListItem.mpaa,18)]+!SubString(ListItem.mpaa,UK:18)</visible>
           </control>
-          </control>
-         <control type="label">
+        </control>
+        <control type="label">
           <description>Movie title</description>
           <posx>0</posx>
           <posy>-10</posy>
