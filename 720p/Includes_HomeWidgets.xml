@@ -551,7 +551,6 @@
     <control type="group">
       <posy>0</posy>
       <visible>Skin.HasSetting(homepageHideRecentlyAdded)</visible>
-      <animation effect="slide" start="0,0" end="0,-225" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)|Skin.HasSetting(Lockhomemenulow)">Conditional</animation>
       <control type="image">
         <description>time background</description>
         <posx>0</posx>
@@ -662,7 +661,6 @@
       <posy>0</posy>
       <animation effect="slide" start="0,0" end="420,0" delay="0" time="300">WindowClose</animation>
       <animation effect="slide" start="420,0" end="0,0" delay="0" time="300">WindowOpen</animation>
-      <animation effect="slide" start="0,0" end="0,-225" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)|Skin.HasSetting(Lockhomemenulow)">Conditional</animation>
       <control type="image">
         <description>time background</description>
         <posx>-120</posx>
@@ -804,5 +802,340 @@
       </control>
     </control>
 
+  </include>
+  <include name="Furniture_HomeNowPlayingVideo">
+    <!-- Now Playing Video -->
+    <control type="image">
+      <description>media info background image</description>
+      <posx>-27</posx>
+      <posy>-200</posy>
+      <width>1350</width>
+      <height>630</height>
+      <texture flipy="true">home/nowplaying_shadow.png</texture>
+      <visible>Skin.HasSetting(ShowBackgroundVideo) + Player.Hasvideo</visible>
+      <visible>Skin.HasSetting(lowermainmenu)|Skin.HasSetting(Lockhomemenulow)</visible>
+    </control>
+    <control type="group">
+      <posx>0</posx>
+      <posy>-15</posy>
+      <visible>Skin.HasSetting(ShowBackgroundVideo) + Player.Hasvideo</visible>
+      <animation effect="slide" tween="cubic" easing="inout" time="1300" start="-800,0" end="0,0" delay="1000">Visible</animation>
+      <animation effect="slide" tween="cubic" easing="inout" time="1300" start="-800,0" end="0,0" delay="1000">WindowOpen</animation>
+      <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-427" condition="Skin.HasSetting(lowermainmenu)|Skin.HasSetting(Lockhomemenulow)">Conditional</animation>
+      <include>Animation_CommonFade</include>
+      <control type="image">
+        <description>gradient</description>
+        <posx>20</posx>
+        <posy>456</posy>
+        <width>420</width>
+        <height>245</height>
+        <texture>home/nowplaying/OverlayDialogBackground.png</texture>
+      </control>
+      <control type="image">
+        <posx>35</posx>
+        <posy>471</posy>
+        <width>390</width>
+        <height>215</height>
+        <texture>common/black.png</texture>
+      </control>
+      <control type="videowindow">
+        <posx>35</posx>
+        <posy>471</posy>
+        <width>390</width>
+        <height>215</height>
+      </control>
+      <!-- bottom panel - visible when paused/fast forwarding/rewinding -->
+      <control type="group">
+        <include>Animation_CommonFade</include>
+        <visible>Player.Paused | Player.Forwarding | Player.Rewinding</visible>
+        <control type="image">
+          <posx>35</posx>
+          <posy>646</posy>
+          <width>390</width>
+          <height>40</height>
+          <texture>home/nowplaying/osd_back2.png</texture>
+        </control>
+        <control type="progress">
+          <description>Progressbar</description>
+          <posx>95</posx>
+          <posy>661</posy>
+          <width>270</width>
+          <height>13</height>
+          <aligny>left</aligny>
+          <info>Player.Progress</info>
+          <texturebg>osd/osd_progress_back.png</texturebg>
+          <lefttexture>osd/osd_progress_left.png</lefttexture>
+          <midtexture>osd/osd_progress_mid.png</midtexture>
+          <righttexture>osd/osd_progress_right.png</righttexture>
+          <overlaytexture>-</overlaytexture>
+        </control>
+        <control type="label">
+          <posx>40</posx>
+          <posy>657</posy>
+          <width>390</width>
+          <height>25</height>
+          <align>left</align>
+          <description>Time Label</description>
+          <label>$INFO[VideoPlayer.Time]</label>
+          <textcolor>abFFFFFF</textcolor>
+          <font>Font_Reg15</font>
+        </control>
+        <control type="label">
+          <posx>420</posx>
+          <posy>657</posy>
+          <width>390</width>
+          <height>25</height>
+          <align>right</align>
+          <description>Time Duration</description>
+          <label>$INFO[VideoPlayer.Duration]</label>
+          <textcolor>abFFFFFF</textcolor>
+          <font>Font_Reg15</font>
+        </control>
+      </control>
+      <!-- Pause button -->
+      <control type="group">
+        <include>Animation_CommonFade</include>
+        <visible>Player.Paused</visible>
+        <control type="image">
+          <posx>175</posx>
+          <posy>630</posy>
+          <width>121</width>
+          <height>18</height>
+          <texture>home/nowplaying/osd_button_paused2.png</texture>
+        </control>
+        <control type="label">
+          <posx>195</posx>
+          <posy>630</posy>
+          <width>81</width>
+          <height>18</height>
+          <aligny>center</aligny>
+          <align>center</align>
+          <font>Font_Reg15</font>
+          <textcolor>FF363636</textcolor>
+          <label>31043</label>
+          <!-- PAUSED -->
+        </control>
+      </control>
+      <!-- seek forward button -->
+      <control type="group">
+        <posx>35</posx>
+        <posy>630</posy>
+        <control type="image">
+          <include>Animation_CommonFade</include>
+          <width>125</width>
+          <height>18</height>
+          <texture>home/nowplaying/osd_button_reverse2.png</texture>
+          <visible>Player.Forwarding2x</visible>
+        </control>
+        <control type="label">
+          <include>Animation_CommonFade</include>
+          <posx>5</posx>
+          <posy>0</posy>
+          <font>Font_Reg15</font>
+          <textcolor>FF363636</textcolor>
+          <label>$LOCALIZE[31266] 2X</label>
+          <visible>Player.Forwarding2x</visible>
+        </control>
+        <control type="image">
+          <include>Animation_CommonFade</include>
+          <width>145</width>
+          <height>18</height>
+          <texture>home/nowplaying/osd_button_reverse2.png</texture>
+          <visible>Player.Forwarding4x</visible>
+        </control>
+        <control type="label">
+          <include>Animation_CommonFade</include>
+          <posx>20</posx>
+          <posy>0</posy>
+          <font>Font_Reg15</font>
+          <textcolor>FF363636</textcolor>
+          <label>$LOCALIZE[31266] 4X</label>
+          <visible>Player.Forwarding4x</visible>
+        </control>
+        <control type="image">
+          <include>Animation_CommonFade</include>
+          <width>165</width>
+          <height>18</height>
+          <texture>home/nowplaying/osd_button_reverse2.png</texture>
+          <visible>Player.Forwarding8x</visible>
+        </control>
+        <control type="label">
+          <include>Animation_CommonFade</include>
+          <posx>35</posx>
+          <posy>0</posy>
+          <font>Font_Reg15</font>
+          <textcolor>FF363636</textcolor>
+          <label>$LOCALIZE[31266] 8X</label>
+          <visible>Player.Forwarding8x</visible>
+        </control>
+        <control type="image">
+          <include>Animation_CommonFade</include>
+          <width>185</width>
+          <height>18</height>
+          <texture>home/nowplaying/osd_button_reverse2.png</texture>
+          <visible>Player.Forwarding16x</visible>
+        </control>
+        <control type="label">
+          <include>Animation_CommonFade</include>
+          <posx>43</posx>
+          <posy>0</posy>
+          <font>Font_Reg15</font>
+          <textcolor>FF363636</textcolor>
+          <label>$LOCALIZE[31266] 16X</label>
+          <visible>Player.Forwarding16x</visible>
+        </control>
+        <control type="image">
+          <include>Animation_CommonFade</include>
+          <width>205</width>
+          <height>18</height>
+          <texture>home/nowplaying/osd_button_reverse2.png</texture>
+          <visible>Player.Forwarding32x</visible>
+        </control>
+        <control type="label">
+          <include>Animation_CommonFade</include>
+          <posx>58</posx>
+          <posy>0</posy>
+          <font>Font_Reg15</font>
+          <textcolor>FF363636</textcolor>
+          <label>$LOCALIZE[31266] 32X</label>
+          <visible>Player.Forwarding32x</visible>
+        </control>
+      </control>
+      <!-- seek backward button -->
+      <control type="group">
+        <posx>300</posx>
+        <posy>630</posy>
+        <control type="image">
+          <include>Animation_CommonFade</include>
+          <width>125</width>
+          <height>18</height>
+          <texture>home/nowplaying/osd_button_advance2.png</texture>
+          <visible>Player.Rewinding2x</visible>
+        </control>
+        <control type="label">
+          <include>Animation_CommonFade</include>
+          <posx>30</posx>
+          <posy>0</posy>
+          <font>Font_Reg15</font>
+          <textcolor>FFececec</textcolor>
+          <label>$LOCALIZE[31045] 2X</label>
+          <visible>Player.Rewinding2x</visible>
+        </control>
+        <control type="image">
+          <include>Animation_CommonFade</include>
+          <posx>-20</posx>
+          <width>145</width>
+          <height>18</height>
+          <texture>home/nowplaying/osd_button_advance2.png</texture>
+          <visible>Player.Rewinding4x</visible>
+        </control>
+        <control type="label">
+          <include>Animation_CommonFade</include>
+          <posx>15</posx>
+          <posy>0</posy>
+          <font>Font_Reg15</font>
+          <textcolor>FFececec</textcolor>
+          <label>$LOCALIZE[31045] 4X</label>
+          <visible>Player.Rewinding4x</visible>
+        </control>
+        <control type="image">
+          <include>Animation_CommonFade</include>
+          <posx>-40</posx>
+          <width>165</width>
+          <height>18</height>
+          <texture>home/nowplaying/osd_button_advance2.png</texture>
+          <visible>Player.Rewinding8x</visible>
+        </control>
+        <control type="label">
+          <include>Animation_CommonFade</include>
+          <posx>0</posx>
+          <posy>0</posy>
+          <font>Font_Reg15</font>
+          <textcolor>FFececec</textcolor>
+          <label>$LOCALIZE[31045] 8X</label>
+          <visible>Player.Rewinding8x</visible>
+        </control>
+        <control type="image">
+          <include>Animation_CommonFade</include>
+          <posx>-60</posx>
+          <width>185</width>
+          <height>18</height>
+          <texture>home/nowplaying/osd_button_advance2.png</texture>
+          <visible>Player.Rewinding16x</visible>
+        </control>
+        <control type="label">
+          <include>Animation_CommonFade</include>
+          <posx>-15</posx>
+          <posy>0</posy>
+          <font>Font_Reg15</font>
+          <textcolor>FFececec</textcolor>
+          <label>$LOCALIZE[31045] 16X</label>
+          <visible>Player.Rewinding16x</visible>
+        </control>
+        <control type="image">
+          <include>Animation_CommonFade</include>
+          <posx>-80</posx>
+          <width>205</width>
+          <height>18</height>
+          <texture>home/nowplaying/osd_button_advance2.png</texture>
+          <visible>Player.Rewinding32x</visible>
+        </control>
+        <control type="label">
+          <include>Animation_CommonFade</include>
+          <posx>-30</posx>
+          <posy>0</posy>
+          <font>Font_Reg15</font>
+          <textcolor>FFececec</textcolor>
+          <label>$LOCALIZE[31045] 32X</label>
+          <visible>Player.Rewinding32x</visible>
+        </control>
+      </control>
+      <control type="image">
+        <include>Animation_CommonFade</include>
+        <posx>440</posx>
+        <posy>640</posy>
+        <height>30</height>
+        <width>30</width>
+        <texture>home/nowplaying/nowplaying_arrow.png</texture>
+        <visible>Player.Playing</visible>
+      </control>
+      <control type="image">
+        <include>Animation_CommonFade</include>
+        <posx>440</posx>
+        <posy>640</posy>
+        <height>30</height>
+        <width>30</width>
+        <texture>home/nowplaying/nowplaying_pause.png</texture>
+        <visible>Player.Paused</visible>
+      </control>
+      <control type="label">
+        <posx>480</posx>
+        <posy>626</posy>
+        <textcolor>ab749a9a</textcolor>
+        <label>[UPPERCASE]$LOCALIZE[31040][/UPPERCASE]</label>
+        <font>Font_HomeNowPlayingAlbum</font>
+        <include>Animation_CommonFade</include>
+        <visible>!Player.Paused</visible>
+      </control>
+      <control type="label">
+        <posx>480</posx>
+        <posy>626</posy>
+        <textcolor>ab749a9a</textcolor>
+        <label>31043</label>
+        <font>Font_HomeNowPlayingAlbum</font>
+        <include>Animation_CommonFade</include>
+        <visible>Player.Paused</visible>
+      </control>
+      <control type="label">
+        <posx>480</posx>
+        <posy>642</posy>
+        <textcolor>abFFFFFF</textcolor>
+        <label>[UPPERCASE]$INFO[VideoPlayer.Title][/UPPERCASE]</label>
+        <include>Animation_CommonFade</include>
+        <width>400</width>
+        <wrapmultiline>true</wrapmultiline>
+        <font>Font_Reg22</font>
+      </control>
+    </control>
   </include>
 </includes>
