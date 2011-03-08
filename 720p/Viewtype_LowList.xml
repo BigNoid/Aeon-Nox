@@ -1,5 +1,10 @@
 <includes>
-
+  <include name="Fallback_tvshows">
+    <texture background="true" fallback="thumbs/boxes/default_tvshows.png">thumbs/boxes/$INFO[ListItem.VideoResolution].png</texture>
+  </include>
+  <include name="Fallback_movies">
+    <texture background="true" fallback="thumbs/boxes/default_case.png">thumbs/boxes/$INFO[ListItem.VideoResolution].png</texture>
+  </include>
   <include name="LowList">
     <control type="group">
       <visible>Control.IsVisible(511)</visible>
@@ -682,7 +687,7 @@
         <animation effect="slide" time="1000" start="-600,0" end="0,0" tween="cubic" easing="out">WindowOpen</animation>
         <animation effect="fade" time="400" start="0" end="100">Visible</animation>
         <animation effect="fade" time="400" start="100" end="0">Hidden</animation>
-        <visible>[Container.Content(movies)+!Skin.HasSetting(usecases)]|Container.Content(tvshows)|Container.Content(seasons)</visible>
+        <visible>[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)]+!Skin.HasSetting(usecases)</visible>
         <control type="largeimage">
           <description>Poster Icon Mask</description>
           <posx>0</posx>
@@ -779,7 +784,18 @@
         <animation effect="slide" time="1000" start="-600,0" end="0,0" tween="cubic" easing="out">WindowOpen</animation>
         <animation effect="fade" time="400" start="0" end="100">Visible</animation>
         <animation effect="fade" time="400" start="100" end="0">Hidden</animation>
-        <visible>Container.Content(movies)+Skin.HasSetting(usecases)</visible>
+        <visible>[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)]+Skin.HasSetting(usecases)</visible>
+        <control type="largeimage">
+          <description>POSTER icon</description>
+          <posx>-6</posx>
+          <posy>-137</posy>
+          <width>305</width>
+          <height>480</height>
+          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <texture background="true" fallback="thumbs/boxes/default_tvshows.png">thumbs/boxes/$INFO[ListItem.VideoResolution].png</texture>
+          <fadetime>400</fadetime>
+          <visible>Container.Content(tvshows) | Container.Content(seasons)</visible>
+        </control>
         <control type="largeimage">
           <description>POSTER icon</description>
           <posx>-6</posx>
@@ -789,6 +805,7 @@
           <aspectratio scalediffuse="false">stretch</aspectratio>
           <texture background="true" fallback="thumbs/boxes/default_case.png">thumbs/boxes/$INFO[ListItem.VideoResolution].png</texture>
           <fadetime>400</fadetime>
+          <visible>Container.Content(movies)</visible>
         </control>
         <control type="largeimage">
           <description>POSTER icon</description>
@@ -808,7 +825,7 @@
           <width>305</width>
           <height>480</height>
           <aspectratio scalediffuse="false">stretch</aspectratio>
-          <texture background="true" fallback="thumbs/boxes/default_case.png">thumbs/boxes/Overlay.png</texture>
+          <texture background="true">thumbs/boxes/Overlay.png</texture>
           <fadetime>400</fadetime>
         </control>
           <control type="largeimage">
@@ -836,7 +853,7 @@
        </control>
       <control type="group">
         <description>Season and TV show thumb</description>
-        <visible>Container.Content(episodes)+Control.HasFocus(7002)</visible>
+        <visible>Container.Content(episodes)+Control.HasFocus(7002)+!Skin.HasSetting(usecases)</visible>
         <posx>10</posx>
         <posy>381</posy>
         <animation effect="slide" time="1000" start="-600,0" end="0,0" tween="cubic" easing="out">WindowOpen</animation>
@@ -914,6 +931,66 @@
           <texture background="true" flipy="true" diffuse="thumbs/movieposter_mask_reflect.png">$INFO[Container.SeasonThumb]</texture>
           <fadetime>400</fadetime>
         </control>
+      </control>
+      <control type="group">
+        <description>Season and TV show thumb</description>
+        <visible>Container.Content(episodes)+Control.HasFocus(7002)+Skin.HasSetting(usecases)</visible>
+        <posx>10</posx>
+        <posy>381</posy>
+        <animation effect="slide" time="1000" start="-600,0" end="0,0" tween="cubic" easing="out">WindowOpen</animation>
+        <control type="largeimage">
+          <description>POSTER icon</description>
+          <posx>-6</posx>
+          <posy>-137</posy>
+          <width>305</width>
+          <height>480</height>
+          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <texture background="true" fallback="thumbs/boxes/default_tvshows.png">thumbs/boxes/$INFO[ListItem.VideoResolution].png</texture>
+          <fadetime>400</fadetime>
+        </control>
+        <control type="largeimage">
+          <description>POSTER icon</description>
+          <posx>0</posx>
+          <posy>-87</posy>
+          <width>280</width>
+          <height>397</height>
+          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <texture background="true" fallback="DefaultVideoBigPoster.png" diffuse="thumbs/boxes/case_mask.png">$INFO[Container.TvshowThumb]</texture>
+          <fadetime>400</fadetime>
+          <visible>Skin.HasSetting(TVShowsUsePosters)+IsEmpty(Container.SeasonThumb)</visible>
+        </control>
+        <control type="largeimage">
+          <description>POSTER icon</description>
+          <posx>0</posx>
+          <posy>-87</posy>
+          <width>280</width>
+          <height>397</height>
+          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <texture background="true" fallback="DefaultVideoBigPoster.png" diffuse="thumbs/boxes/case_mask.png">$INFO[ListItem.Path,,../poster.jpg]</texture>
+          <fadetime>400</fadetime>
+          <visible>!Skin.HasSetting(TVShowsUsePosters)+IsEmpty(Container.SeasonThumb)</visible>
+        </control>
+        <control type="largeimage">
+          <description>POSTER icon</description>
+          <posx>0</posx>
+          <posy>-87</posy>
+          <width>280</width>
+          <height>397</height>
+          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <texture background="true" diffuse="thumbs/boxes/case_mask.png">$INFO[Container.SeasonThumb]</texture>
+          <fadetime>400</fadetime>
+        </control>
+        <control type="largeimage">
+          <description>POSTER icon</description>
+          <posx>-6</posx>
+          <posy>-137</posy>
+          <width>305</width>
+          <height>480</height>
+          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <texture background="true" fallback="thumbs/boxes/case_mask.png">thumbs/boxes/Overlay.png</texture>
+          <fadetime>400</fadetime>
+        </control>
+   
       </control>
       <control type="group">
         <posx>10</posx>
