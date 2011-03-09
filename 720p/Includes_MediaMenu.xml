@@ -267,43 +267,20 @@
       <visible>Window.IsActive(MusicFiles)</visible>
     </control>
   </include>
-  <include name="Media_Menu">
-    <control type="group" id="9000">
-      <enable>!Skin.HasSetting(kioskmode)</enable>
-      <visible>!Skin.HasSetting(kioskmode)</visible>
-      <control type="image" id="74">
-        <posx>0</posx>
-        <posy>0</posy>
-        <width>1280</width>
-        <height>720</height>
-        <colordiffuse>AAFFFFFF</colordiffuse>
-        <texture>common/black.png</texture>
-        <visible>ControlGroup(9010).HasFocus|ControlGroup(9003).HasFocus</visible>
-        <animation effect="fade" start="0" end="70" time="3000">Visible</animation>
-        <animation effect="fade" start="100" end="0" time="300">Hidden</animation>
-      </control>
-      <control type="image">
-        <posx>440</posx>
-        <posy>88</posy>
-        <width>400</width>
-        <height>270</height>
-        <texture>views/listpanel_back_noreflect.png</texture>
-        <visible>ControlGroup(9010).HasFocus|ControlGroup(9003).HasFocus</visible>
-        <include>Animation_MediaMenuPopup</include>
-      </control>
-      <control type="label">
-        <posx>1200</posx>
-        <posy>14</posy>
-        <height>25</height>
-        <label>$INFO[System.Time]</label>
-        <font>Font_Reg24</font>
-        <textcolor>d0FFFFFF</textcolor>
-        <align>right</align>
-        <aligny>center</aligny>
-        <visible>ControlGroup(9010).HasFocus|ControlGroup(9003).HasFocus</visible>
-      </control>
-      <control type="group">
-        <visible>!Player.Playing</visible>
+  <include name="Media_Menu_No_Breadcrumbs">
+    <control type="label">
+      <posx>1200</posx>
+      <posy>14</posy>
+      <height>25</height>
+      <label>$INFO[System.Time]</label>
+      <font>Font_Reg24</font>
+      <textcolor>d0FFFFFF</textcolor>
+      <align>right</align>
+      <aligny>center</aligny>
+      <visible>[ControlGroup(9010).HasFocus|ControlGroup(9003).HasFocus]+!Skin.HasSetting(breadcrumb)</visible>
+    </control>
+    <control type="group">
+      <visible>!Player.Playing</visible>
       <control type="group">
         <visible>Window.IsActive(2)</visible>
         <visible allowhiddenfocus="true">ControlGroup(9003).HasFocus|ControlGroup(9010).HasFocus</visible>
@@ -447,7 +424,33 @@
           <visible>Container.Content(songs)</visible>
         </control>
       </control>
+    </control>
+  </include>
+  <include name="Media_Menu">
+    <control type="group" id="9000">
+      <enable>!Skin.HasSetting(kioskmode)</enable>
+      <visible>!Skin.HasSetting(kioskmode)</visible>
+      <control type="image" id="74">
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>1280</width>
+        <height>720</height>
+        <colordiffuse>AAFFFFFF</colordiffuse>
+        <texture>common/black.png</texture>
+        <visible>ControlGroup(9010).HasFocus|ControlGroup(9003).HasFocus</visible>
+        <animation effect="fade" start="0" end="70" time="3000">Visible</animation>
+        <animation effect="fade" start="100" end="0" time="300">Hidden</animation>
       </control>
+      <control type="image">
+        <posx>440</posx>
+        <posy>88</posy>
+        <width>400</width>
+        <height>270</height>
+        <texture>views/listpanel_back_noreflect.png</texture>
+        <visible>ControlGroup(9010).HasFocus|ControlGroup(9003).HasFocus</visible>
+        <include>Animation_MediaMenuPopup</include>
+      </control>
+      <include condition="!Skin.HasSetting(breadcrumb)">Media_Menu_No_Breadcrumbs</include>
       <control type="grouplist" id="9003">
         <posx>445</posx>
         <posy>101</posy>
