@@ -1,4 +1,32 @@
 <includes>
+  <include name="StudioGenerator">
+    <control type="group">
+      <include>HiddenObject</include>
+      <control type="image" id="9000090">
+        <texture></texture>
+        <visible>false</visible>
+      </control>
+      <control type="image" id="9000090">
+        <texture>$INFO[ListItem.Studio,flags/studios/,.png]</texture>
+      </control>
+      <control type="image" id="9000091">
+        <texture></texture>
+        <visible>false</visible>
+      </control>
+      <control type="image" id="9000091">
+        <texture>$INFO[ListItem.Studio,flags/studios/,_hd.png]</texture>
+        <visible>[SubString(ListItem.VideoResolution,720) | SubString(ListItem.VideoResolution,1080)]</visible>
+      </control>
+      <control type="label" id="900009">
+        <label>$INFO[Control.GetLabel(9000091)]</label>
+        <visible>!IsEmpty(Control.GetLabel(9000091)) + Control.IsVisible(9000091)</visible>
+      </control>
+      <control type="label" id="900009">
+        <label>$INFO[Control.GetLabel(9000090)]</label>
+        <visible>IsEmpty(Control.GetLabel(9000091)) | !Control.IsVisible(9000091)</visible>
+      </control>
+    </control>
+  </include>
   <include name="FloorRatingVars">
     <width>90</width>
     <height>60</height>
@@ -7,6 +35,7 @@
     <colordiffuse>floor</colordiffuse>
   </include>
   <include name="FloorFlags">
+    <include>StudioGenerator</include>
     <control type="group">
       <visible>[Control.IsVisible(51)|Control.IsVisible(500)|Control.IsVisible(501)|Control.IsVisible(503)|Control.IsVisible(504)|Control.IsVisible(508)|Control.IsVisible(510)]+!Window.IsActive(1)</visible>
       <include>Animation_HideMultiplex</include>
@@ -59,11 +88,11 @@
         <animation effect="slide" start="70" end="70" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
         <visible>!Skin.HasSetting(sourceflags)|[!SubString(ListItem.filename,PDTV)+!SubString(ListItem.filename,sdtv)+!SubString(ListItem.Filename,hdtv)+!SubString(ListItem.Filename,hddvd)+!SubString(ListItem.Filename,hd-dvd)+!SubString(ListItem.Filename,bluray)+!SubString(ListItem.Filename,blu-ray)+!SubString(ListItem.Filename,bdrip)+!SubString(ListItem.Filename,brrip)+!SubString(ListItem.Filename,dvd)+!SubString(ListItem.Filename,dvb)+!SubString(ListItem.Filename,.iso,Right)+!SubString(ListItem.Filename,.ifo+!SubString(ListItem.Filename,web-dl)]</visible>
       </control>
-      <control type="image">
+      <control type="image" id="76">
         <posx>110</posx>
         <posy>658</posy>
         <include>AudioFlagsVars</include>
-        <texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
+        <texture fallback="flags/studios/default-studio.png">$INFO[Control.GetLabel(900009)]</texture>
         <visible>!IsEmpty(ListItem.Studio)+!Skin.HasSetting(nostudioratingflags)+!Container.Content(tvshows)+!SubString(Container.FolderPath,plugin.video)+!Container.Content(seasons)</visible>
       </control>
       <control type="image">
@@ -812,34 +841,7 @@
     </control>
   </include>
 
-  <include name="StudioGenerator">
-    <control type="group">
-      <include>HiddenObject</include>
-      <control type="image" id="9000090">
-        <texture></texture>
-        <visible>false</visible>
-      </control>
-      <control type="image" id="9000090">
-        <texture>$INFO[ListItem.Studio,flags/studios/,.png]</texture>
-      </control>
-      <control type="image" id="9000091">
-        <texture></texture>
-        <visible>false</visible>
-      </control>
-      <control type="image" id="9000091">
-        <texture>$INFO[ListItem.Studio,flags/studios/,_hd.png]</texture>
-        <visible>[SubString(ListItem.VideoResolution,720) | SubString(ListItem.VideoResolution,1080)]</visible>
-      </control>
-      <control type="label" id="900009">
-        <label>$INFO[Control.GetLabel(9000091)]</label>
-        <visible>!IsEmpty(Control.GetLabel(9000091)) + Control.IsVisible(9000091)</visible>
-      </control>
-      <control type="label" id="900009">
-        <label>$INFO[Control.GetLabel(9000090)]</label>
-        <visible>IsEmpty(Control.GetLabel(9000091)) | !Control.IsVisible(9000091)</visible>
-      </control>
-    </control>
-  </include>
+ 
 
   <include name="SourceGenerator">
     <control type="group">
