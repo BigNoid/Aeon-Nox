@@ -1,19 +1,31 @@
 <includes>
   <include name="InfoListEpisodes">
-    <control type="image">
-      <posx>782</posx>
-      <posy>190</posy>
-      <width>338</width>
-      <height>190</height>
-      <texture>common/black.png</texture>
-    </control>
-    <control type="image">
-      <posx>782</posx>
-      <posy>190</posy>
-      <width>338</width>
-      <height>190</height>
-      <fadetime>IconCrossfadeTime2</fadetime>
-      <texture background="true">$INFO[ListItem.Thumb]</texture>
+    <control type="group">
+      <control type="image">
+        <posx>782</posx>
+        <posy>190</posy>
+        <width>338</width>
+        <height>190</height>
+        <texture>common/black.png</texture>
+      </control>
+      <control type="image">
+        <posx>782</posx>
+        <posy>190</posy>
+        <width>338</width>
+        <height>190</height>
+        <fadetime>IconCrossfadeTime2</fadetime>
+        <texture background="true">$INFO[ListItem.Thumb]</texture>
+        <visible>Container.Content(episodes)</visible>
+      </control>
+      <control type="image">
+        <posx>782</posx>
+        <posy>190</posy>
+        <width>338</width>
+        <height>190</height>
+        <fadetime>IconCrossfadeTime2</fadetime>
+        <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
+        <visible>Container.Content(tvshows)</visible>
+      </control>
     </control>
     <control type="group">
       <visible>Player.HasVideo</visible>
@@ -32,7 +44,7 @@
       </control>
     </control>
     <control type="group">
-      <visible>!Skin.HasSetting(infolistplotonly)</visible>
+      <visible>!Skin.HasSetting(infolistplotonly)+Container.Content(episodes)</visible>
       <control type="image">
         <posx>715</posx>
         <posy>393</posy>
@@ -218,13 +230,13 @@
       <posx>730</posx>
       <posy>393</posy>
       <width>440</width>
-      <height>207</height>
+      <height>210</height>
       <align>left</align>
       <font>Font_Reg15</font>
       <label fallback="312577">$INFO[ListItem.Plot]</label>
       <autoscroll delay="5000" time="1000" repeat="10000">Skin.HasSetting(AutoScroll)</autoscroll>
       <textcolor>FFececec</textcolor>
-      <visible>Skin.HasSetting(infolistplotonly)</visible>
+      <visible>Skin.HasSetting(infolistplotonly)|Container.Content(tvshows)</visible>
     </control>
     <control type="image">
       <posx>789</posx>
@@ -235,6 +247,16 @@
       <fadetime>400</fadetime>
       <texture background="true">$INFO[ListItem.path,,../logo.png]</texture>
       <visible>!Window.IsActive(videofiles)+Container.Content(episodes)</visible>
+    </control>
+    <control type="image">
+      <posx>789</posx>
+      <posy>30</posy>
+      <width>322</width>
+      <height>125</height>
+      <aspectratio>stretch</aspectratio>
+      <fadetime>400</fadetime>
+      <texture background="true">$INFO[ListItem.path,,logo.png]</texture>
+      <visible>!Window.IsActive(videofiles)+Container.Content(tvshows)</visible>
     </control>
   </include>
   <include name="InfoList">
@@ -292,19 +314,7 @@
           <label>[UPPERCASE]$INFO[ListItem.TVShowTitle] • $LOCALIZE[20373] $INFO[ListItem.Season][/UPPERCASE]</label>
           <visible>Container.Content(episodes)</visible>
         </control>
-        <control type="label" id="161">
-          <posx>710</posx>
-          <posy>607</posy>
-          <width>475</width>
-          <height>41</height>
-          <font>Font_Reg15</font>
-          <align>center</align>
-          <aligny>center</aligny>
-          <textcolor>ff969696</textcolor>
-          <label>[UPPERCASE]$INFO[ListItem.Artist] • $INFO[ListItem.Album][/UPPERCASE]</label>
-          <visible>Container.Content(songs)</visible>
-        </control>
-      </control>
+       </control>
       <control type="group">
         <include>Animation_ListSlideLeft</include>
         <control type="image">
@@ -331,10 +341,18 @@
           <width>53</width>
           <height>533</height>
           <texture>views/listpanel_detailwide.png</texture>
-          <visible>Skin.HasSetting(sliminfolist)</visible>
+          <visible>Skin.HasSetting(sliminfolist)+Container.Content(episodes)</visible>
+        </control>
+        <control type="image">
+          <posx>460</posx>
+          <posy>121</posy>
+          <width>103</width>
+          <height>533</height>
+          <texture>views/listpanel_detailwide.png</texture>
+          <visible>Skin.HasSetting(sliminfolist)+Container.Content(tvshows)</visible>
         </control>
         <control type="list" id="505">
-          <visible>Container.Content(episodes)</visible>
+          <visible>Container.Content(episodes)|Container.Content(tvshows)</visible>
           <posx>60</posx>
           <posy>142</posy>
           <width>771</width>
@@ -378,6 +396,19 @@
               <include>listcolornofocus</include>
               <font>Font_Bold16</font>
               <label>[UPPERCASE]$INFO[ListItem.Label2][/UPPERCASE]</label>
+              <visible>Container.Content(episodes)</visible>
+            </control>
+            <control type="label">
+              <posx>495</posx>
+              <posy>0</posy>
+              <width>120</width>
+              <height>44</height>
+              <align>right</align>
+              <aligny>center</aligny>
+              <include>listcolornofocus</include>
+              <font>Font_Reg14</font>
+              <label>[UPPERCASE]$INFO[ListItem.Label2][/UPPERCASE]</label>
+              <visible>Container.Content(tvshows)</visible>
             </control>
             <control type="image">
               <posx>513</posx>
@@ -425,6 +456,19 @@
               <include>listcolorfocus</include>
               <font>Font_Bold16</font>
               <label>[UPPERCASE]$INFO[ListItem.Label2][/UPPERCASE]</label>
+              <visible>Container.Content(episodes)</visible>
+            </control>
+            <control type="label">
+              <posx>495</posx>
+              <posy>0</posy>
+              <width>120</width>
+              <height>44</height>
+              <align>right</align>
+              <aligny>center</aligny>
+              <include>listcolorfocus</include>
+              <font>Font_Reg14</font>
+              <label>[UPPERCASE]$INFO[ListItem.Label2][/UPPERCASE]</label>
+              <visible>Container.Content(tvshows)</visible>
             </control>
             <control type="image">
               <posx>513</posx>
@@ -457,6 +501,29 @@
                 <label>[UPPERCASE]$INFO[ListItem.Episode][/UPPERCASE]</label>
               </control>
               <control type="label">
+                <posx>20</posx>
+                <posy>0</posy>
+                <width>430</width>
+                <height>60</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <include>listcolornofocus</include>
+                <font>Font_Bold28</font>
+                <label>[UPPERCASE]..[/UPPERCASE]</label>
+                <visible>IsEmpty(ListItem.Title)</visible>
+              </control>
+              <control type="label">
+                <posx>60</posx>
+                <posy>5</posy>
+                <width>430</width>
+                <height>30</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <include>listcolornofocus</include>
+                <font>Font_Bold20</font>
+                <label>[UPPERCASE]$INFO[ListItem.Title][/UPPERCASE]</label>
+              </control>
+              <control type="label">
                 <posx>60</posx>
                 <posy>25</posy>
                 <width>490</width>
@@ -468,37 +535,40 @@
                 <label>[LOWERCASE]$INFO[ListItem.Premiered] • $INFO[ListItem.Label2][/LOWERCASE]</label>
                 <visible>!IsEmpty(ListItem.Title)</visible>
               </control>
-              <control type="image">
-                <posx>503</posx>
-                <posy>15</posy>
-                <width>30</width>
+            </control>
+            <control type="group">
+              <visible>Container.Content(tvshows)</visible>
+              <control type="label">
+                <posx>60</posx>
+                <posy>5</posy>
+                <width>430</width>
                 <height>30</height>
-                <visible>!IsEmpty(ListItem.Overlay)</visible>
-                <info>ListItem.Overlay</info>
+                <align>left</align>
+                <aligny>center</aligny>
+                <include>listcolornofocus</include>
+                <font>Font_Bold20</font>
+                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
+              </control>
+              <control type="label">
+                <posx>60</posx>
+                <posy>25</posy>
+                <width>490</width>
+                <height>30</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <include>listcolornofocus</include>
+                <font>Font_Reg15</font>
+                <label>[UPPERCASE]$INFO[ListItem.Label2] ($LOCALIZE[16101]: $INFO[ListItem.Property(UnWatchedEpisodes)])[/UPPERCASE]</label>
+                <visible>!IsEmpty(ListItem.Title)</visible>
               </control>
             </control>
-            <control type="label">
-              <posx>20</posx>
-              <posy>0</posy>
-              <width>430</width>
-              <height>60</height>
-              <align>left</align>
-              <aligny>center</aligny>
-              <include>listcolornofocus</include>
-              <font>Font_Bold28</font>
-              <label>[UPPERCASE]..[/UPPERCASE]</label>
-              <visible>IsEmpty(ListItem.Title)</visible>
-            </control>
-            <control type="label">
-              <posx>60</posx>
-              <posy>5</posy>
-              <width>430</width>
+            <control type="image">
+              <posx>503</posx>
+              <posy>15</posy>
+              <width>30</width>
               <height>30</height>
-              <align>left</align>
-              <aligny>center</aligny>
-              <include>listcolornofocus</include>
-              <font>Font_Bold20</font>
-              <label>[UPPERCASE]$INFO[ListItem.Title][/UPPERCASE]</label>
+              <visible>!IsEmpty(ListItem.Overlay)</visible>
+              <info>ListItem.Overlay</info>
             </control>
 
           </itemlayout>
@@ -531,6 +601,55 @@
                 <font>Font_Bold28</font>
                 <label>[UPPERCASE]$INFO[ListItem.Episode][/UPPERCASE]</label>
               </control>
+               <control type="label">
+                 <posx>20</posx>
+                 <posy>0</posy>
+                 <width>550</width>
+                 <height>60</height>
+                 <align>left</align>
+                 <aligny>center</aligny>
+                 <include>listcolorfocus</include>
+                 <font>Font_Bold28</font>
+                 <label>[UPPERCASE]..[/UPPERCASE]</label>
+                 <visible>IsEmpty(ListItem.Title)</visible>
+               </control>
+               <control type="label">
+                 <posx>60</posx>
+                 <posy>5</posy>
+                 <width>430</width>
+                 <height>30</height>
+                 <align>left</align>
+                 <aligny>center</aligny>
+                 <include>listcolorfocus</include>
+                 <font>Font_Bold20</font>
+                 <label>[UPPERCASE]$INFO[ListItem.Title][/UPPERCASE]</label>
+               </control>
+               <control type="label">
+                 <posx>60</posx>
+                 <posy>25</posy>
+                 <width>490</width>
+                 <height>30</height>
+                 <align>left</align>
+                 <aligny>center</aligny>
+                 <include>listcolorfocus</include>
+                 <font>Font_Reg15</font>
+                 <label>[LOWERCASE]$INFO[ListItem.Premiered] • $INFO[ListItem.Label2][/LOWERCASE]</label>
+                 <visible>!IsEmpty(ListItem.Title)</visible>
+               </control>
+             </control>
+            <control type="group">
+              <visible>Container.Content(tvshows)</visible>
+              <control type="label">
+                <posx>60</posx>
+                <posy>5</posy>
+                <width>430</width>
+                <height>30</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <include>listcolorfocus</include>
+                <font>Font_Bold20</font>
+                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
+              </control>
               <control type="label">
                 <posx>60</posx>
                 <posy>25</posy>
@@ -540,40 +659,17 @@
                 <aligny>center</aligny>
                 <include>listcolorfocus</include>
                 <font>Font_Reg15</font>
-                <label>[LOWERCASE]$INFO[ListItem.Premiered] • $INFO[ListItem.Label2][/LOWERCASE]</label>
+                <label>[UPPERCASE]$INFO[ListItem.Label2] ($LOCALIZE[16101]: $INFO[ListItem.Property(UnWatchedEpisodes)])[/UPPERCASE]</label>
                 <visible>!IsEmpty(ListItem.Title)</visible>
               </control>
-              <control type="image">
-                <posx>503</posx>
-                <posy>15</posy>
-                <width>30</width>
-                <height>30</height>
-                <visible>!IsEmpty(ListItem.Overlay)</visible>
-                <info>ListItem.Overlay</info>
-              </control>
             </control>
-            <control type="label">
-              <posx>20</posx>
-              <posy>0</posy>
-              <width>550</width>
-              <height>60</height>
-              <align>left</align>
-              <aligny>center</aligny>
-              <include>listcolorfocus</include>
-              <font>Font_Bold28</font>
-              <label>[UPPERCASE]..[/UPPERCASE]</label>
-              <visible>IsEmpty(ListItem.Title)</visible>
-            </control>
-            <control type="label">
-              <posx>60</posx>
-              <posy>5</posy>
-              <width>430</width>
+            <control type="image">
+              <posx>503</posx>
+              <posy>15</posy>
+              <width>30</width>
               <height>30</height>
-              <align>left</align>
-              <aligny>center</aligny>
-              <include>listcolorfocus</include>
-              <font>Font_Bold20</font>
-              <label>[UPPERCASE]$INFO[ListItem.Title][/UPPERCASE]</label>
+              <visible>!IsEmpty(ListItem.Overlay)</visible>
+              <info>ListItem.Overlay</info>
             </control>
 
           </focusedlayout>
