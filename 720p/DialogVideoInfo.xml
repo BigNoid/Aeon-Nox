@@ -28,6 +28,15 @@
         <texture background="true">$INFO[listitem.property(fanart_image)]</texture>
         <visible>!IsEmpty(listitem.property(fanart_image))</visible>
       </control>
+      <control type="largeimage">
+        <posx>254</posx>
+        <posy>0</posy>
+        <width>1280</width>
+        <height>720</height>
+        <fadetime>500</fadetime>
+        <texture background="true">$INFO[ListItem.Path,,fanart.jpg]</texture>
+        <visible>Container.Content(episodes)</visible>
+      </control>
       <control type="image">
         <description>Cover image</description>
         <posx>0</posx>
@@ -406,17 +415,15 @@
           <label fallback="-">$INFO[ListItem.Year]</label>
           <textcolor>FF868686</textcolor>
         </control>
-        <control type="label">
-          <description>Rating</description>
+        <control type="image">
+          <description>IMDB rating</description>
           <posx>3</posx>
           <posy>58</posy>
-          <width>370</width>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_OSDTitle2</font>
-          <label fallback="312577">[UPPERCASE]$INFO[ListItem.mpaa][/UPPERCASE]</label>
-          <textcolor>FF868686</textcolor>
-          <height>56</height>
+          <width>151</width>
+          <height>60</height>
+          <aspectratio>keep</aspectratio>
+          <texture>stars/$INFO[ListItem.Rating].png</texture>
+          <colordiffuse>FF7c7c7c</colordiffuse>
         </control>
         <control type="label">
           <description>Genre</description>
@@ -547,28 +554,52 @@
           <texture>flags/studios/$INFO[ListItem.Studio].png</texture>
           <colordiffuse>FF7c7c7c</colordiffuse>
         </control>
-        <control type="image">
-          <description>IMDB rating</description>
-          <posx>411</posx>
-          <posy>589</posy>
-          <width>151</width>
-          <height>30</height>
-          <texture>stars/$INFO[ListItem.Rating].png</texture>
-          <colordiffuse>FF7c7c7c</colordiffuse>
-          <animation effect="slide" start="-58,0" end="-58,0" time="0" condition="Control.IsVisible(91) + Control.IsVisible(92) + !Control.IsVisible(93) + Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-323,0" end="-323,0" time="0" condition="!Control.IsVisible(91) + !Control.IsVisible(92) + !Control.IsVisible(93) + Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-302,0" end="-302,0" time="0" condition="Control.IsVisible(91) + !Control.IsVisible(92) + !Control.IsVisible(93) + !Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-150,0" end="-150,0" time="0" condition="Control.IsVisible(91) + Control.IsVisible(92) + !Control.IsVisible(93) + !Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-260,0" end="-260,0" time="0" condition="!Control.IsVisible(91) + Control.IsVisible(92) + !Control.IsVisible(93) + !Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-88,0" end="-88,0" time="0" condition="Control.IsVisible(91) + Control.IsVisible(92) + Control.IsVisible(93) + !Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-108,0" end="-108,0" time="0" condition="!Control.IsVisible(91) + Control.IsVisible(92) + Control.IsVisible(93) + Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-200,0" end="-200,0" time="0" condition="!Control.IsVisible(91) + Control.IsVisible(92) + Control.IsVisible(93) + !Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-407,0" end="-407,0" time="0" condition="![Control.IsVisible(91) | Control.IsVisible(92) | Control.IsVisible(93) | Control.IsVisible(94)]">Conditional</animation>
-          <animation effect="slide" start="-261,0" end="-261,0" time="0" condition="!Control.IsVisible(91) + !Control.IsVisible(92) + Control.IsVisible(93) + Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-148,0" end="-148,0" time="0" condition="Control.IsVisible(91) + !Control.IsVisible(92) + Control.IsVisible(93) + Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-350,0" end="-350,0" time="0" condition="!Control.IsVisible(91) + !Control.IsVisible(92) + Control.IsVisible(93) + !Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-238,0" end="-238,0" time="0" condition="Control.IsVisible(91) + !Control.IsVisible(92) + Control.IsVisible(93) + !Control.IsVisible(94)">Conditional</animation>
-          <animation effect="slide" start="-177,0" end="-177,0" time="0" condition="!Control.IsVisible(91) + Control.IsVisible(92) + !Control.IsVisible(93) + Control.IsVisible(94)">Conditional</animation>
+        <control type="group">
+          <description>Rating</description>
+          <posx>100</posx>
+          <posy>575</posy>
+          <control type="image">
+            <colordiffuse>FF868686</colordiffuse>
+            <include>FloorRatingVars</include>
+            <texture>flags/rating/MPAA_NR_Certificate_US.png</texture>
+            <visible>[SubString(ListItem.mpaa,US:NR) | SubString(ListItem.mpaa,USA:NR) | SubString(ListItem.mpaa,Rated NR | SubString(ListItem.mpaa,NR)| IsEmpty(ListItem.Mpaa)]+!IsEmpty(ListItem.Title)</visible>
+          </control>
+          <control type="image">
+            <colordiffuse>FF868686</colordiffuse>
+            <include>FloorRatingVars</include>
+            <texture>flags/rating/TV-G_Certificate_US.png</texture>
+            <visible>substring(ListItem.mpaa,TV-G)</visible>
+          </control>
+          <control type="image">
+            <colordiffuse>FF868686</colordiffuse>
+            <include>FloorRatingVars</include>
+            <texture>flags/rating/TV-PG_Certificate_US.png</texture>
+            <visible>substring(ListItem.mpaa,TV-PG)</visible>
+          </control>
+          <control type="image">
+            <colordiffuse>FF868686</colordiffuse>
+            <include>FloorRatingVars</include>
+            <texture>flags/rating/TV-14_Certificate_US.png</texture>
+            <visible>substring(ListItem.mpaa,TV-14)</visible>
+          </control>
+          <control type="image">
+            <colordiffuse>FF868686</colordiffuse>
+            <include>FloorRatingVars</include>
+            <texture>flags/rating/TV-MA_Certificate_US.png</texture>
+            <visible>substring(ListItem.mpaa,TV-MA)</visible>
+          </control>
+          <control type="image">
+            <colordiffuse>FF868686</colordiffuse>
+            <include>FloorRatingVars</include>
+            <texture>flags/rating/tv-y.png</texture>
+            <visible>substring(ListItem.mpaa,TV-Y)+!substring(ListItem.mpaa,TV-Y7)</visible>
+          </control>
+          <control type="image">
+            <colordiffuse>FF868686</colordiffuse>
+            <include>FloorRatingVars</include>
+            <texture>flags/rating/tv-y7.png</texture>
+            <visible>substring(ListItem.mpaa,TV-Y7)</visible>
+          </control>
         </control>
       </control>
       <!-- Episode info -->
@@ -586,22 +617,20 @@
           <height>569</height>
           <texture>info/info_panellines_movie.png</texture>
         </control>
-        <control type="label">
-          <description>Rating</description>
+        <control type="image">
+          <description>IMDB rating</description>
           <posx>3</posx>
           <posy>58</posy>
-          <width>370</width>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_OSDTitle2</font>
-          <label fallback="312577">[UPPERCASE]$INFO[ListItem.mpaa][/UPPERCASE]</label>
-          <textcolor>FF868686</textcolor>
-          <height>56</height>
+          <width>151</width>
+          <height>60</height>
+          <aspectratio>keep</aspectratio>
+          <texture>$INFO[ListItem.Rating,stars/,.png]</texture>
+          <colordiffuse>FF7c7c7c</colordiffuse>
         </control>
         <control type="label">
           <description>Movie title</description>
           <posx>0</posx>
-          <posy>11</posy>
+          <posy>-15</posy>
           <width>700</width>
           <font>Font_Reg38</font>
           <label>[UPPERCASE]$INFO[ListItem.Title][/UPPERCASE]</label>
@@ -613,7 +642,7 @@
           <posy>30</posy>
           <width>700</width>
           <font>Font_Reg20</font>
-          <label>$INFO[ListItem.Tagline]</label>
+          <label>[UPPERCASE]$LOCALIZE[20373] $INFO[ListItem.Season], $LOCALIZE[20359] $INFO[ListItem.Episode][/UPPERCASE]</label>
           <textcolor>FFececec</textcolor>
         </control>
         <control type="label">
@@ -629,14 +658,28 @@
           <textcolor>FF868686</textcolor>
         </control>
         <control type="label">
-          <description>Genre</description>
+          <description>Rating</description>
           <posx>310</posx>
           <posy>58</posy>
           <width>370</width>
           <align>left</align>
           <aligny>center</aligny>
-          <font>Font_Reg20</font>
-          <label>[UPPERCASE]$LOCALIZE[20373] $INFO[ListItem.Season], $LOCALIZE[20359] $INFO[ListItem.Episode][/UPPERCASE]</label>
+          <font>Font_OSDTitle2</font>
+          <label>[UPPERCASE]$INFO[ListItem.mpaa][/UPPERCASE]</label>
+          <visible>!IsEmpty(ListItem.Mpaa)</visible>
+          <textcolor>FF868686</textcolor>
+          <height>56</height>
+        </control>
+        <control type="label">
+          <description>Rating</description>
+          <posx>310</posx>
+          <posy>58</posy>
+          <width>370</width>
+          <align>left</align>
+          <aligny>center</aligny>
+          <font>Font_OSDTitle2</font>
+          <label>[UPPERCASE]NOT RATED[/UPPERCASE]</label>
+          <visible>IsEmpty(ListItem.Mpaa)</visible>
           <textcolor>FF868686</textcolor>
           <height>56</height>
         </control>
@@ -918,7 +961,7 @@
       <font>Font_Info</font>
       <align>left</align>
       <aligny>center</aligny>
-      <label>$INFO[ListItem.FolderName]$INFO[ListItem.FileName]</label>
+      <label>$INFO[ListItem.Foldername]$INFO[ListItem.FileName]</label>
       <textcolor>FF868686</textcolor>
     </control>
     <include>AudioCodecGenerator</include>
