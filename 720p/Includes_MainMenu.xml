@@ -498,7 +498,7 @@
       <icon>special://skin/backgrounds/favourites.jpg</icon>
       <thumb>$INFO[Skin.String(Home_Custom_Back_Favourite1_Folder)]</thumb>
       <visible>Skin.HasSetting(HomeMenuFavourite1)+!IsEmpty(Skin.String(HomeMenuFavourite1_Label))</visible>
-    </item>  
+    </item>
   </include>
   <include name="CustomMainFav2">
     <item id="19">
@@ -558,7 +558,7 @@
   </include>
   <include name="Furniture_ClassicHome">
     <control type="group">
-      <visible>Skin.HasSetting(classichome)+![Player.HasMedia + System.IdleTime(8)]|Control.HasFocus(8003)</visible>
+      <visible>Skin.HasSetting(classichome)</visible>
       <control type="image">
         <posx>0</posx>
         <posy>302</posy>
@@ -566,45 +566,72 @@
         <height>150</height>
         <texture>home/homemenu_back.png</texture>
         <include>Animation_CommonFade</include>
+        <visible>![Player.HasMedia + System.IdleTime(8)]|Control.HasFocus(8003)</visible>
       </control>
-    </control>
-    <control type="image">
-      <posx>0</posx>
-      <posy>342</posy>
-      <width>1280</width>
-      <height>65</height>
-      <texture>osd/fullscreen_bottom.png</texture>
-      <visible>[Player.HasMedia + System.IdleTime(8)]+[Skin.HasSetting(glasshome)|Skin.HasSetting(classichome)]+!Control.HasFocus(8003)</visible>
-    </control>
-    <!-- Home OSD -->
-    <control type="group">
-      <visible>Skin.HasSetting(classichome)</visible>
-      <control type="label">
+      <control type="image">
         <posx>0</posx>
-        <posy>343</posy>
+        <posy>342</posy>
         <width>1280</width>
-        <height>61</height>
-        <align>center</align>
-        <aligny>center</aligny>
-        <font>Font_MainClassic</font>
-        <textcolor>48FFFFFF</textcolor>
-        <label>$INFO[Player.Time]   /   $INFO[Player.Duration]</label>
-        <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
-        <visible>Player.HasMedia + System.IdleTime(8)+!Control.HasFocus(8003)+Player.HasDuration</visible>
+        <height>65</height>
+        <texture>osd/fullscreen_bottom.png</texture>
+        <visible>Player.HasMedia + System.IdleTime(8)+!Control.HasFocus(8003)</visible>
       </control>
-      <!-- Same label but for streaming files -->
-      <control type="label">
-        <posx>0</posx>
-        <posy>343</posy>
-        <width>1280</width>
-        <height>61</height>
-        <align>center</align>
-        <aligny>center</aligny>
-        <font>Font_MainClassic</font>
-        <textcolor>48FFFFFF</textcolor>
-        <label>$INFO[Player.Time]   /   ∞</label>
-        <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
-        <visible>Player.HasMedia + System.IdleTime(8)+!Control.HasFocus(8003)+!Player.HasDuration</visible>
+      <!-- Home OSD -->
+      <control type="group">
+        <visible>Player.HasMedia + System.IdleTime(8)+!Control.HasFocus(8003)</visible>
+        <control type="label">
+          <posx>0</posx>
+          <posy>343</posy>
+          <width>1280</width>
+          <height>61</height>
+          <align>center</align>
+          <aligny>center</aligny>
+          <font>Font_MainClassic</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>$INFO[Player.Time]   /   $INFO[Player.Duration]</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>Player.HasDuration</visible>
+        </control>
+        <!-- Same label but for streaming files -->
+        <control type="label">
+          <posx>593</posx>
+          <posy>343</posy>
+          <width>635</width>
+          <height>61</height>
+          <align>right</align>
+          <aligny>center</aligny>
+          <font>Font_MainClassic</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>$INFO[Player.Time]</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>!Player.HasDuration</visible>
+        </control>
+        <control type="label">
+          <posx>0</posx>
+          <posy>343</posy>
+          <width>1280</width>
+          <height>61</height>
+          <align>center</align>
+          <aligny>center</aligny>
+          <font>Font_MainClassic</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>/</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>!Player.HasDuration</visible>
+        </control>
+        <control type="label">
+          <posx>690</posx>
+          <posy>343</posy>
+          <width>1280</width>
+          <height>61</height>
+          <align>left</align>
+          <aligny>center</aligny>
+          <font>Font_MainMenu</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>∞</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>!Player.HasDuration</visible>
+        </control>
       </control>
     </control>
   </include>
@@ -627,6 +654,7 @@
         <texture>views/showcase_spot.png</texture>
         <include>Animation_CommonFade</include>
         <animation effect="fade" start="100" end="35" time="50" condition="true">Conditional</animation>
+        <visible>![Player.HasMedia + System.IdleTime(8)]</visible>
       </control>
       <control type="image">
         <posx>0</posx>
@@ -636,81 +664,143 @@
         <texture>home/glass_bar.png</texture>
         <aspectratio scalediffuse="false">stretch</aspectratio>
         <include>Animation_CommonFade</include>
-        <visible>!Skin.HasSetting(classichome)|[Player.HasMedia + System.IdleTime(8)]</visible>
+        <visible>![Player.HasMedia + System.IdleTime(8)]</visible>
         <animation effect="fade" start="100" end="80" time="50" condition="true">Conditional</animation>
       </control>
-    </control>
-    <!-- Home OSD -->
-    <control type="group">
-      <visible>!Skin.HasSetting(classichome)</visible>
-      <control type="label">
+      <control type="image">
         <posx>0</posx>
-        <posy>343</posy>
+        <posy>342</posy>
         <width>1280</width>
-        <height>61</height>
-        <align>center</align>
-        <aligny>center</aligny>
-        <font>Font_MainMenu</font>
-        <textcolor>48FFFFFF</textcolor>
-        <label>$INFO[Player.Time]   /   $INFO[Player.Duration]</label>
-        <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
-        <visible>Player.HasMedia + System.IdleTime(8)+!Control.HasFocus(8003)+Player.HasDuration</visible>
+        <height>65</height>
+        <texture>osd/fullscreen_bottom.png</texture>
+        <visible>Player.HasMedia + System.IdleTime(8)+!Control.HasFocus(8003)</visible>
       </control>
-      <!-- Same label but for streaming files -->
-      <control type="label">
-        <posx>0</posx>
-        <posy>343</posy>
-        <width>1280</width>
-        <height>61</height>
-        <align>center</align>
-        <aligny>center</aligny>
-        <font>Font_MainMenu</font>
-        <textcolor>48FFFFFF</textcolor>
-        <label>$INFO[Player.Time]   /   ∞</label>
-        <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
-        <visible>Player.HasMedia + System.IdleTime(8)+!Control.HasFocus(8003)+!Player.HasDuration</visible>
+      <!-- Home OSD -->
+      <control type="group">
+        <visible>Player.HasMedia + System.IdleTime(8)+!Control.HasFocus(8003)</visible>
+        <control type="label">
+          <posx>0</posx>
+          <posy>343</posy>
+          <width>1280</width>
+          <height>61</height>
+          <align>center</align>
+          <aligny>center</aligny>
+          <font>Font_MainMenu</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>$INFO[Player.Time]   /   $INFO[Player.Duration]</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>Player.HasDuration</visible>
+        </control>
+        <!-- Same label but for streaming files -->
+        <control type="label">
+          <posx>593</posx>
+          <posy>343</posy>
+          <width>635</width>
+          <height>61</height>
+          <align>right</align>
+          <aligny>center</aligny>
+          <font>Font_MainMenu</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>$INFO[Player.Time]</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>!Player.HasDuration</visible>
+        </control>
+        <control type="label">
+          <posx>0</posx>
+          <posy>343</posy>
+          <width>1280</width>
+          <height>61</height>
+          <align>center</align>
+          <aligny>center</aligny>
+          <font>Font_MainMenu</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>/</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>!Player.HasDuration</visible>
+        </control>
+        <control type="label">
+          <posx>690</posx>
+          <posy>343</posy>
+          <width>1280</width>
+          <height>61</height>
+          <align>left</align>
+          <aligny>center</aligny>
+          <font>Font_MainMenu</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>∞</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>!Player.HasDuration</visible>
+        </control>
       </control>
     </control>
   </include>
   <include name="Furniture_NoxHome">
-    <control type="image">
-      <posx>0</posx>
-      <posy>340</posy>
-      <width>1280</width>
-      <height>66</height>
-      <texture>osd/osd_back.png</texture>
-      <include>Animation_CommonFade</include>
-      <visible>[!Skin.HasSetting(classichome)+!Skin.HasSetting(glasshome)]</visible>
-    </control>
-    <!-- Home OSD -->
     <control type="group">
-      <visible>!Skin.HasSetting(classichome)</visible>
-      <control type="label">
+      <visible>!Skin.HasSetting(classichome)+!Skin.HasSetting(glasshome)</visible>
+      <control type="image">
         <posx>0</posx>
-        <posy>343</posy>
+        <posy>340</posy>
         <width>1280</width>
-        <height>61</height>
-        <align>center</align>
-        <aligny>center</aligny>
-        <font>Font_MainMenu</font>
-        <textcolor>48FFFFFF</textcolor>
-        <label>$INFO[Player.Time]   /   $INFO[Player.Duration]</label>
-        <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
-        <visible>Player.HasMedia + System.IdleTime(8)+!Control.HasFocus(8003)+Player.HasDuration</visible>
+        <height>66</height>
+        <texture>osd/osd_back.png</texture>
+        <include>Animation_CommonFade</include>
       </control>
-      <!-- Same label but for streaming files -->
-      <control type="label">
-        <posx>0</posx>
-        <posy>343</posy>
-        <width>1280</width>
-        <height>61</height>
-        <align>center</align>
-        <aligny>center</aligny>
-        <font>Font_MainMenu</font>
-        <textcolor>48FFFFFF</textcolor>
-        <label>$INFO[Player.Time]   /   ∞</label>
-        <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
-        <visible>Player.HasMedia + System.IdleTime(8)+!Control.HasFocus(8003)+!Player.HasDuration</visible>
+      <!-- Home OSD -->
+      <control type="group">
+        <visible>Player.HasMedia + System.IdleTime(8)+!Control.HasFocus(8003)</visible>
+        <control type="label">
+          <posx>0</posx>
+          <posy>343</posy>
+          <width>1280</width>
+          <height>61</height>
+          <align>center</align>
+          <aligny>center</aligny>
+          <font>Font_MainMenu</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>$INFO[Player.Time]   /   $INFO[Player.Duration]</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>Player.HasDuration</visible>
+        </control>
+        <!-- Same label but for streaming files -->
+        <control type="label">
+          <posx>593</posx>
+          <posy>343</posy>
+          <width>635</width>
+          <height>61</height>
+          <align>right</align>
+          <aligny>center</aligny>
+          <font>Font_MainMenu</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>$INFO[Player.Time]</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>!Player.HasDuration</visible>
+        </control>
+        <control type="label">
+          <posx>0</posx>
+          <posy>343</posy>
+          <width>1280</width>
+          <height>61</height>
+          <align>center</align>
+          <aligny>center</aligny>
+          <font>Font_MainMenu</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>/</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>!Player.HasDuration</visible>
+        </control>
+        <control type="label">
+          <posx>690</posx>
+          <posy>343</posy>
+          <width>1280</width>
+          <height>61</height>
+          <align>left</align>
+          <aligny>center</aligny>
+          <font>Font_MainMenu</font>
+          <textcolor>48FFFFFF</textcolor>
+          <label>∞</label>
+          <animation effect="fade"  start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+          <visible>!Player.HasDuration</visible>
+        </control>
       </control>
     </control>
   </include>
