@@ -1092,8 +1092,8 @@
           <posy>658</posy>
           <include>AudioFlagsVars</include>
           <texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
-          <visible>[!IsEmpty(ListItem.Studio)+!Skin.HasSetting(nostudioratingflags)+Skin.HasSetting(highlist)]|[Container.Content(tvshows)|Container.Content(seasons)]</visible>
-          <animation effect="slide" time="400" tween="cubic" easing="inout" end="330,0" condition="[Container.Content(tvshows)|Container.Content(seasons)]">Conditional</animation>
+          <visible>[!IsEmpty(ListItem.Studio)+!Skin.HasSetting(nostudioratingflags)+Skin.HasSetting(highlist)]|[Container.Content(tvshows)|[Container.Content(seasons)+ListItem.IsFolder]]</visible>
+          <animation effect="slide" time="100" tween="cubic" easing="inout" end="330,0" condition="[Container.Content(tvshows)|Container.Content(seasons)]+ListItem.IsFolder">Conditional</animation>
         </control>
         <control type="group">
           <posx>850</posx>
@@ -1119,7 +1119,7 @@
           <description>Rating Flags</description>
           <posx>950</posx>
           <posy>658</posy>
-          <visible>[!Skin.HasSetting(nostudioratingflags)+Skin.HasSetting(highlist)+!Container.Content(tvshows)+!Container.Content(seasons)]|[[Container.Content(tvshows)|Container.Content(seasons)]+!Skin.HasSetting(highlist)]</visible>
+          <visible>[!Skin.HasSetting(nostudioratingflags)+Skin.HasSetting(highlist)+!Container.Content(tvshows)+![Container.Content(seasons)+ListItem.IsFolder]]|[[Container.Content(tvshows)|[Container.Content(seasons)+ListItem.IsFolder]]+!Skin.HasSetting(highlist)]</visible>
           <animation effect="slide" start="0,0" end="230,-50" time="50" condition="!Skin.HasSetting(highlist)">Conditional</animation>
           <include>FloorRatingFlags</include>
         </control>
@@ -1147,7 +1147,7 @@
           <font>Font_Bold20</font>
           <textcolor>abFFFFFF</textcolor>
           <label>$INFO[ListItem.Year]</label>
-          <visible>Container.Content(movies)</visible>
+          <visible>Container.Content(movies)|[Container.Content(seasons)+!ListItem.isFolder]</visible>
         </control>
         <control type="label">
           <posx>850</posx>
@@ -1168,6 +1168,7 @@
           <font>Font_Bold20</font>
           <textcolor>abFFFFFF</textcolor>
           <label>[LOWERCASE]$INFO[ListItem.Duration,, $LOCALIZE[12391]][/LOWERCASE]</label>
+          <visible>[Container.Content(movies)|Container.Content(episodes)|[Container.Content(seasons)+!ListItem.isFolder]]</visible>
         </control>
         <control type="image">
           <posx>850</posx>
@@ -1176,7 +1177,7 @@
           <width>410</width>
           <colordiffuse>66FFFFFF</colordiffuse>
           <texture background="true">views/listpanel_line.png</texture>
-          <visible>[Container.Content(movies)|Container.Content(episodes)]+!Skin.HasSetting(highlist)</visible>
+          <visible>[Container.Content(movies)|Container.Content(episodes)|[Container.Content(seasons)+!ListItem.isFolder]]+!Skin.HasSetting(highlist)</visible>
         </control>
         <control type="image">
           <posx>850</posx>
@@ -1185,7 +1186,7 @@
           <width>410</width>
           <colordiffuse>66FFFFFF</colordiffuse>
           <texture background="true">views/listpanel_line.png</texture>
-          <visible>Container.Content(movies)|Container.Content(episodes)</visible>
+          <visible>[Container.Content(movies)|Container.Content(episodes)|[Container.Content(seasons)+!ListItem.isFolder]]</visible>
         </control>
         <control type="image">
           <posx>850</posx>
@@ -1194,10 +1195,10 @@
           <width>410</width>
           <colordiffuse>66FFFFFF</colordiffuse>
           <texture background="true">views/listpanel_line.png</texture>
-          <visible>Container.Content(movies)|Container.Content(episodes)</visible>
+          <visible>[Container.Content(movies)|Container.Content(episodes)|[Container.Content(seasons)+!ListItem.isFolder]]</visible>
         </control>
         <control type="group">
-          <visible>!Skin.HasSetting(highlist)+!IsEmpty(ListItem.Title)+!Container.Content(tvshows)+!Container.Content(seasons)</visible>
+          <visible>!Skin.HasSetting(highlist)+!IsEmpty(ListItem.Title)+[Container.Content(movies)|Container.Content(episodes)|[Container.Content(seasons)+!ListItem.IsFolder]]</visible>
           <animation effect="fade" start="0" end="70" time="400">VisibleChange</animation>
           <control type="label">
             <posx>850</posx>
@@ -1276,7 +1277,7 @@
         </control>
         <control type="group">
           <posy>86</posy>
-          <visible>!IsEmpty(ListItem.Title)+[Container.Content(tvshows)|Container.Content(seasons)]</visible>
+          <visible>!IsEmpty(ListItem.Title)+[Container.Content(tvshows)|Container.Content(seasons)]+ListItem.IsFolder</visible>
           <animation effect="fade" start="0" end="70" time="400">VisibleChange</animation>
           <control type="label">
             <posx>850</posx>
@@ -1354,7 +1355,7 @@
               <width>323</width>
               <font>Font_Info</font>
               <textcolor>white</textcolor>
-              <label>$INFO[ListItem.Property(TotalEpisodes)] ($LOCALIZE[16101]: $INFO[ListItem.Property(UnWatchedEpisodes)])</label>
+              <label>$INFO[ListItem.Property(TotalEpisodes)]$INFO[ListItem.Property(UnWatchedEpisodes), ($LOCALIZE[16101]: ,)]</label>
             </control>
             <control type="image">
               <posx>850</posx>
@@ -1390,7 +1391,7 @@
             <label>$INFO[ListItem.Plot]</label>
             <textcolor>d0FFFFFF</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>IsEmpty(ListItem.PlotOutline)+!Container.Content(tvshows)</visible>
+            <visible>IsEmpty(ListItem.PlotOutline)+!Container.Content(tvshows)+!Container.Content(seasons)</visible>
           </control>
           <control type="textbox">
             <posx>850</posx>
@@ -1423,7 +1424,7 @@
             <label>$INFO[Container.ShowPlot]</label>
             <textcolor>d0FFFFFF</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>Container.Content(seasons)+Skin.HasSetting(highlist)</visible>
+            <visible>Container.Content(seasons)+Skin.HasSetting(highlist)+ListItem.IsFolder</visible>
           </control>
           <control type="textbox">
             <posx>850</posx>
@@ -1434,7 +1435,7 @@
             <label>$INFO[Container.ShowPlot]</label>
             <textcolor>d0FFFFFF</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>Container.Content(seasons)+!Skin.HasSetting(highlist)</visible>
+            <visible>Container.Content(seasons)+!Skin.HasSetting(highlist)+ListItem.IsFolder</visible>
           </control>
         </control>
       </control>
@@ -1488,30 +1489,7 @@
             <label>[UPPERCASE]$INFO[ListItem.Label2][/UPPERCASE]</label>
             <visible>!Container.Content(tvshows)</visible>
           </control>
-          <control type="label">
-            <posx>495</posx>
-            <posy>0</posy>
-            <width>430</width>
-            <height>44</height>
-            <align>right</align>
-            <aligny>center</aligny>
-            <include>listcolornofocus</include>
-            <font>Font_Info</font>
-            <label>$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[20359] ($LOCALIZE[16101]: $INFO[ListItem.Property(UnWatchedEpisodes)])</label>
-            <visible>Container.Content(seasons)+!IsEmpty(ListItem.Title)+!IntegerGreaterThan(ListItem.Property(TotalEpisodes),1)</visible>
-          </control>
-          <control type="label">
-            <posx>495</posx>
-            <posy>0</posy>
-            <width>430</width>
-            <height>44</height>
-            <align>right</align>
-            <aligny>center</aligny>
-            <include>listcolornofocus</include>
-            <font>Font_Info</font>
-            <label>$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[20360] ($LOCALIZE[16101]: $INFO[ListItem.Property(UnWatchedEpisodes)])</label>
-            <visible>Container.Content(seasons)+!IsEmpty(ListItem.Title)+IntegerGreaterThan(ListItem.Property(TotalEpisodes),1)</visible>
-          </control>
+
           <control type="image">
             <posx>503</posx>
             <posy>13</posy>
@@ -1572,30 +1550,6 @@
             <font>Font_Bold16</font>
             <label>[UPPERCASE]$INFO[ListItem.Label2][/UPPERCASE]</label>
             <visible>!Container.Content(tvshows)</visible>
-          </control>
-          <control type="label">
-            <posx>495</posx>
-            <posy>0</posy>
-            <width>430</width>
-            <height>44</height>
-            <align>right</align>
-            <aligny>center</aligny>
-            <include>listcolorfocus</include>
-            <font>Font_Info</font>
-            <label>$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[20359] ($LOCALIZE[16101]: $INFO[ListItem.Property(UnWatchedEpisodes)])</label>
-            <visible>Container.Content(seasons)+!IsEmpty(ListItem.Title)+!IntegerGreaterThan(ListItem.Property(TotalEpisodes),1)</visible>
-          </control>
-          <control type="label">
-            <posx>495</posx>
-            <posy>0</posy>
-            <width>430</width>
-            <height>44</height>
-            <align>right</align>
-            <aligny>center</aligny>
-            <include>listcolorfocus</include>
-            <font>Font_Info</font>
-            <label>$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[20360] ($LOCALIZE[16101]: $INFO[ListItem.Property(UnWatchedEpisodes)])</label>
-            <visible>Container.Content(seasons)+!IsEmpty(ListItem.Title)+IntegerGreaterThan(ListItem.Property(TotalEpisodes),1)</visible>
           </control>
           <control type="image">
             <posx>503</posx>
