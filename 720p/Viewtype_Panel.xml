@@ -1,4 +1,23 @@
 <includes>
+  <include name="DetailLabelVars">
+    <posx>465</posx>
+    <width>205</width>
+    <height>25</height>
+    <font>Font_Info</font>
+    <textcolor>grey2</textcolor>
+    <shadowcolor>black</shadowcolor>
+    <align>right</align>
+    <aligny>center</aligny>
+  </include>
+  <include name="DetailValueVars">
+    <posx>475</posx>
+    <width>415</width>
+    <height>25</height>
+    <font>Font_Info</font>
+    <textcolor>white</textcolor>
+    <shadowcolor>black</shadowcolor>
+    <aligny>center</aligny>
+  </include>
   <include name="Panel">
     <control type="group">
       <visible>Control.IsVisible(550)</visible>
@@ -26,7 +45,6 @@
         <animation effect="fade" start="100" end="10" time="50" delay="0" condition="Container.Content(episodes)|[Container.Content(movies)+Skin.HasSetting(paneldetail)]">Conditional</animation>
       </control>
       <control type="group">
-        <visible>Container.Content(tvshows)|[Container.Content(movies)+!Skin.HasSetting(paneldetail)]</visible>
         <control type="image">
           <posx>70</posx>
           <posy>50</posy>
@@ -82,12 +100,12 @@
           <posy>115</posy>
           <width>824</width>
           <font>Font_Reg24</font>
-          <label>[UPPERCASE]$INFO[ListItem.TvShowTitle] • $LOCALIZE[20373] $INFO[ListItem.Season][/UPPERCASE]</label>
+          <label>$INFO[ListItem.TvShowTitle]$INFO[ListItem.Season, • $LOCALIZE[20373] ]</label>
           <align>center</align>
           <aligny>center</aligny>
           <textcolor>grey2</textcolor>
           <shadowcolor>black</shadowcolor>
-          <visible>!IsEmpty(ListItem.Title)+Container.Content(episodes)+!SubString(ListItem.Episode,S)</visible>
+          <visible>Container.Content(episodes)+!SubString(ListItem.Episode,S)+!Skin.HasSetting(breadcrumb)</visible>
         </control>
         <control type="label">
           <description>header label</description>
@@ -95,12 +113,12 @@
           <posy>115</posy>
           <width>824</width>
           <font>Font_Reg24</font>
-          <label>[UPPERCASE]$INFO[ListItem.TvShowTitle] • $LOCALIZE[20381][/UPPERCASE]</label>
+          <label>$INFO[ListItem.TvShowTitle,, • $LOCALIZE[20381]]</label>
           <align>center</align>
           <aligny>center</aligny>
           <textcolor>grey2</textcolor>
           <shadowcolor>black</shadowcolor>
-          <visible>!IsEmpty(ListItem.Title)+Container.Content(episodes)+SubString(ListItem.Episode,S)</visible>
+          <visible>Container.Content(episodes)+SubString(ListItem.Episode,S)+!Skin.HasSetting(breadcrumb)</visible>
         </control>
         <control type="label">
           <description>header label</description>
@@ -108,7 +126,7 @@
           <posy>115</posy>
           <width>824</width>
           <font>Font_Reg24</font>
-          <label>[UPPERCASE]$INFO[ListItem.Tagline][/UPPERCASE]</label>
+          <label>$INFO[ListItem.Tagline]</label>
           <align>center</align>
           <aligny>center</aligny>
           <scroll>true</scroll>
@@ -118,9 +136,9 @@
         </control>
         <control type="label">
           <description>header label</description>
-          <posx>340</posx>
-          <posy>550</posy>
-          <width>824</width>
+          <posx>900</posx>
+          <posy>440</posy>
+          <width>267</width>
           <font>Font_Reg15</font>
           <label>$LOCALIZE[31259]</label>
           <align>center</align>
@@ -132,9 +150,9 @@
         </control>
         <control type="label">
           <description>header label</description>
-          <posx>340</posx>
-          <posy>550</posy>
-          <width>824</width>
+          <posx>900</posx>
+          <posy>440</posy>
+          <width>267</width>
           <font>Font_Reg15</font>
           <label>$LOCALIZE[312575]</label>
           <align>center</align>
@@ -143,22 +161,6 @@
           <textcolor>grey2</textcolor>
           <shadowcolor>black</shadowcolor>
           <visible>Container.Content(movies)+!IsEmpty(ListItem.Trailer)+ !Player.HasVideo + Control.HasFocus(7001)</visible>
-        </control>
-        <control type="label">
-          <description>header label</description>
-          <posx>340</posx>
-          <posy>550</posy>
-          <width>824</width>
-          <font>Font_Reg24</font>
-          <label>$LOCALIZE[312574]</label>
-          <align>center</align>
-          <aligny>center</aligny>
-          <scroll>true</scroll>
-          <textcolor>grey2</textcolor>
-          <shadowcolor>black</shadowcolor>
-          <visible>Container.Content(movies)+!IsEmpty(ListItem.Trailer)+Player.HasVideo</visible>
-          <animation effect="fade" start="0" end="100" time="400">VisibleChange</animation>
-          <animation effect="fade" start="100" end="0" time="400" delay="5000" condition="Player.HasVideo">Conditional</animation>
         </control>
         <control type="image">
           <posx>782</posx>
@@ -172,367 +174,302 @@
           <visible>Container.Content(episodes)</visible>
         </control>
         <control type="image">
-          <posx>912</posx>
+          <posx>950</posx>
           <posy>150</posy>
-          <width>240</width>
-          <height>360</height>
+          <width>167</width>
+          <height>250</height>
           <fadetime>IconCrossfadeTime2</fadetime>
           <aspectratio scalediffuse="false">stretch</aspectratio>
           <texture background="true" diffuse="thumbs/movieposter_mask.png">DefaultVideoBigPoster.png</texture>
+          <bordertexture border="-16">thumbs/poster_shadow.png</bordertexture>
           <info>ListItem.Thumb</info>
           <visible>Container.Content(movies)</visible>
         </control>
-        <control type="image">
-          <posx>912</posx>
-          <posy>150</posy>
-          <width>240</width>
-          <height>360</height>
-          <fadetime>IconCrossfadeTime2</fadetime>
-          <aspectratio scalediffuse="false">stretch</aspectratio>
-          <bordertexture border="-40">thumbs/poster_shadow.png</bordertexture>
-          <texture background="true" diffuse="thumbs/movieposter_mask.png">thumbs/poster_glass_noreflect.png</texture>
-          <visible>Container.Content(movies)</visible>
-        </control>
-        <control type="textbox">
-          <description>Plot</description>
-          <posx>340</posx>
-          <posy>190</posy>
-          <width>400</width>
-          <height>190</height>
-          <font>Font_Info</font>
-          <label>$INFO[ListItem.Plot]</label>
-          <align>left</align>
-          <textcolor>white</textcolor>
-          <shadowcolor>black</shadowcolor>
-          <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-          <visible>Container.Content(episodes)</visible>
-        </control>
-        <control type="textbox">
-          <description>Plot</description>
-          <posx>340</posx>
-          <posy>150</posy>
-          <width>550</width>
-          <height>170</height>
-          <font>Font_Info</font>
-          <label fallback="312577">$INFO[ListItem.Plot]</label>
-          <align>left</align>
-          <textcolor>white</textcolor>
-          <shadowcolor>black</shadowcolor>
-          <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-          <visible>Container.Content(movies)</visible>
-        </control>
         <control type="group">
-          <visible>Container.Content(episodes)</visible>
-          <control type="label">
-            <posx>340</posx>
-            <posy>405</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
-            <label>$LOCALIZE[20416]:</label>
+          <visible>Container.Content(episodes)+!IsEmpty(ListItem.Title)</visible>
+          <posy>-180</posy>
+          <control type="image">
+            <posx>1095</posx>
+            <posy>537</posy>
+            <width>20</width>
+            <height>20</height>
+            <visible>!IsEmpty(ListItem.Overlay)</visible>
+            <info>ListItem.Overlay</info>
           </control>
           <control type="label">
-            <posx>475</posx>
-            <posy>405</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
-            <label fallback="312577">$INFO[ListItem.Premiered]</label>
-          </control>
-          <control type="label">
-            <posx>340</posx>
-            <posy>430</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
-            <label>$LOCALIZE[563]:</label>
-          </control>
-          <control type="label">
-            <posx>475</posx>
-            <posy>430</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
-            <label fallback="312577">$INFO[ListItem.Rating]</label>
-          </control>
-          <control type="label">
-            <posx>340</posx>
-            <posy>455</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <posy>330</posy>
+            <include>DetailLabelVars</include>
             <label>$LOCALIZE[20339]:</label>
           </control>
           <control type="label">
-            <posx>475</posx>
-            <posy>455</posy>
-            <width>400</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <posy>330</posy>
+            <include>DetailValueVars</include>
             <label fallback="312577">$INFO[ListItem.Director]</label>
           </control>
           <control type="label">
-            <posx>340</posx>
-            <posy>480</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <posy>355</posy>
+            <include>DetailLabelVars</include>
             <label>$LOCALIZE[20417]:</label>
           </control>
           <control type="label">
-            <posx>475</posx>
-            <posy>480</posy>
-            <width>400</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <posy>355</posy>
+            <include>DetailValueVars</include>
             <label fallback="312577">$INFO[ListItem.Writer]</label>
+          </control>
+          <control type="label">
+            <posy>380</posy>
+            <include>DetailLabelVars</include>
+            <label>$LOCALIZE[20416]:</label>
+          </control>
+          <control type="label">
+            <posy>380</posy>
+            <include>DetailValueVars</include>
+            <label fallback="312577">$INFO[ListItem.Premiered]</label>
+          </control>
+          <control type="label">
+            <posy>405</posy>
+            <include>DetailLabelVars</include>
+            <label>$LOCALIZE[563]:</label>
+          </control>
+          <control type="label">
+            <posy>405</posy>
+            <include>DetailValueVars</include>
+            <label fallback="312577">$INFO[ListItem.Rating]</label>
+          </control>
+          <control type="label">
+            <posy>430</posy>
+            <include>DetailLabelVars</include>
+            <label>$LOCALIZE[20373]:</label>
+          </control>
+          <control type="label">
+            <posy>430</posy>
+            <include>DetailValueVars</include>
+            <label fallback="312577">$INFO[ListItem.Season]</label>
+          </control>
+          <control type="label">
+            <posy>455</posy>
+            <include>DetailLabelVars</include>
+            <label>$LOCALIZE[20359]:</label>
+          </control>
+          <control type="label">
+            <posy>455</posy>
+            <include>DetailValueVars</include>
+            <label fallback="312577">$INFO[ListItem.Episode]</label>
+          </control>
+          <control type="label">
+            <posy>480</posy>
+            <include>DetailLabelVars</include>
+            <label>$LOCALIZE[2050]:</label>
+          </control>
+          <control type="label">
+            <posy>480</posy>
+            <include>DetailValueVars</include>
+            <label fallback="312577">$INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
+          </control>
+          <control type="label">
+            <posy>505</posy>
+            <include>DetailLabelVars</include>
+            <label>$LOCALIZE[572]:</label>
+          </control>
+          <control type="label">
+            <posy>505</posy>
+            <include>DetailValueVars</include>
+            <label fallback="312577">$INFO[ListItem.Studio]</label>
+          </control>
+          <control type="label">
+            <posy>530</posy>
+            <include>DetailLabelVars</include>
+            <label >$LOCALIZE[563]:</label>
+          </control>
+          <control type="label">
+            <posy>530</posy>
+            <include>DetailValueVars</include>
+            <label fallback="312577">$INFO[ListItem.Mpaa]</label>
+          </control>
+          <control type="group">
+            <visible>!IsEmpty(ListItem.PlayCount)</visible>
+            <posy>25</posy>
+            <control type="label">
+              <posy>530</posy>
+              <include>DetailLabelVars</include>
+              <label>$LOCALIZE[567]:</label>
+            </control>
+            <control type="label">
+              <posy>530</posy>
+              <include>DetailValueVars</include>
+              <label>$INFO[ListItem.PlayCount]</label>
+            </control>
+            <control type="label">
+              <posy>555</posy>
+              <include>DetailLabelVars</include>
+              <label>$LOCALIZE[568]:</label>
+            </control>
+            <control type="label">
+              <posy>555</posy>
+              <include>DetailValueVars</include>
+              <label>$INFO[ListItem.LastPlayed]</label>
+            </control>
           </control>
         </control>
         <control type="group">
           <visible>Container.Content(movies)+!ListItem.IsFolder</visible>
-          <posy>-5</posy>
+          <posy>-180</posy>
+          <control type="image">
+            <posx>1095</posx>
+            <posy>557</posy>
+            <width>20</width>
+            <height>20</height>
+            <visible>!IsEmpty(ListItem.Overlay)</visible>
+            <info>ListItem.Overlay</info>
+          </control>
           <control type="label">
-            <posx>340</posx>
             <posy>330</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailLabelVars</include>            
             <label>$LOCALIZE[20339]:</label>
           </control>
           <control type="label">
-            <posx>475</posx>
             <posy>330</posy>
-            <width>415</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailValueVars</include>
             <label fallback="312577">$INFO[ListItem.Director]</label>
           </control>
           <control type="label">
-            <posx>340</posx>
             <posy>355</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailLabelVars</include>
             <label>$LOCALIZE[20417]:</label>
           </control>
           <control type="label">
-            <posx>475</posx>
             <posy>355</posy>
-            <width>415</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailValueVars</include>
             <label fallback="312577">$INFO[ListItem.Writer]</label>
           </control>
           <control type="label">
-            <posx>340</posx>
             <posy>380</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailLabelVars</include>
             <label>$LOCALIZE[515]:</label>
           </control>
           <control type="label">
-            <posx>475</posx>
             <posy>380</posy>
-            <width>415</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailValueVars</include>
             <label fallback="312577">$INFO[ListItem.Genre]</label>
           </control>
           <control type="label">
-            <posx>340</posx>
             <posy>405</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailLabelVars</include>
             <label>$LOCALIZE[345]:</label>
           </control>
           <control type="label">
-            <posx>475</posx>
             <posy>405</posy>
-            <width>415</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailValueVars</include>
             <label fallback="312577">$INFO[ListItem.Year]</label>
           </control>
           <control type="label">
-            <posx>340</posx>
             <posy>430</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailLabelVars</include>
             <label>$LOCALIZE[368]:</label>
           </control>
           <control type="label">
-            <posx>475</posx>
             <posy>430</posy>
-            <width>415</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailValueVars</include>
             <label fallback="312577">$INFO[ListItem.RatingAndVotes]$INFO[ListItem.Top250, • $LOCALIZE[13409] #]</label>
           </control>
           <control type="label">
-            <posx>340</posx>
             <posy>455</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailLabelVars</include>
             <label>$LOCALIZE[2050]:</label>
           </control>
           <control type="label">
-            <posx>475</posx>
             <posy>455</posy>
-            <width>415</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailValueVars</include>
             <label fallback="312577">$INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
           </control>
           <control type="label">
-            <posx>340</posx>
             <posy>480</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailLabelVars</include>
             <label>$LOCALIZE[21875]:</label>
           </control>
           <control type="label">
-            <posx>475</posx>
             <posy>480</posy>
-            <width>415</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailValueVars</include>
             <label fallback="312577">$INFO[ListItem.Country]</label>
           </control>
           <control type="label">
-            <posx>340</posx>
             <posy>505</posy>
-            <width>205</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>grey2</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailLabelVars</include>
             <label>$LOCALIZE[248]:</label>
           </control>
           <control type="label">
-            <posx>475</posx>
             <posy>505</posy>
-            <width>415</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailValueVars</include>
             <label>[UPPERCASE]$INFO[ListItem.AudioLanguage] / $INFO[ListItem.SubtitleLanguage][/UPPERCASE]</label>
             <visible>!IsEmpty(ListItem.AudioLanguage)+!IsEmpty(ListItem.SubtitleLanguage)</visible>
           </control>
           <control type="label">
-            <posx>475</posx>
             <posy>505</posy>
-            <width>415</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailValueVars</include>
             <label>$LOCALIZE[312577] / [UPPERCASE]$INFO[ListItem.SubtitleLanguage][/UPPERCASE]</label>
             <visible>IsEmpty(ListItem.AudioLanguage)+!IsEmpty(ListItem.SubtitleLanguage)</visible>
           </control>
           <control type="label">
-            <posx>475</posx>
             <posy>505</posy>
-            <width>415</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailValueVars</include>
             <label>$LOCALIZE[312577] / $LOCALIZE[16018]</label>
             <visible>IsEmpty(ListItem.AudioLanguage)+IsEmpty(ListItem.SubtitleLanguage)</visible>
           </control>
           <control type="label">
-            <posx>475</posx>
             <posy>505</posy>
-            <width>415</width>
-            <height>25</height>
-            <font>Font_Info</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <aligny>center</aligny>
+            <include>DetailValueVars</include>
             <label>[UPPERCASE]$INFO[ListItem.AudioLanguage][/UPPERCASE] / $LOCALIZE[16018]</label>
             <visible>!IsEmpty(ListItem.AudioLanguage)+IsEmpty(ListItem.SubtitleLanguage)</visible>
+          </control>
+          <control type="label">
+            <posy>530</posy>
+            <include>DetailLabelVars</include>
+            <label>$LOCALIZE[572]:</label>
+          </control>
+          <control type="label">
+            <posy>530</posy>
+            <include>DetailValueVars</include>
+            <label fallback="312577">$INFO[ListItem.Studio]</label>
+          </control>
+          <control type="label">
+            <posy>555</posy>
+            <include>DetailLabelVars</include>
+            <label>$LOCALIZE[563]:</label>
+          </control>
+          <control type="label">
+            <posy>555</posy>
+            <include>DetailValueVars</include>
+            <label fallback="312577">$INFO[ListItem.Mpaa]</label>
+          </control>
+          <control type="group">
+            <visible>!IsEmpty(ListItem.PlayCount)</visible>
+            <posy>50</posy>
+            <control type="label">
+              <posy>530</posy>
+              <include>DetailLabelVars</include>
+              <label>$LOCALIZE[567]:</label>
+            </control>
+            <control type="label">
+              <posy>530</posy>
+              <include>DetailValueVars</include>
+              <label>$INFO[ListItem.PlayCount]</label>
+            </control>
+            <control type="label">
+              <posy>555</posy>
+              <include>DetailLabelVars</include>
+              <label>$LOCALIZE[568]:</label>
+            </control>
+            <control type="label">
+              <posy>555</posy>
+              <include>DetailValueVars</include>
+              <label>$INFO[ListItem.LastPlayed]</label>
+            </control>
           </control>
         </control>
 
         <control type="group">
           <description>Flags</description>
-          <posy>-25</posy>
+          <posy>-135</posy>
           <animation effect="slide" start="0" end="-140" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
           <control type="group">
             <posx>340</posx>
@@ -654,7 +591,7 @@
             <width>205</width>
             <height>25</height>
             <font>Font_Info</font>
-            <textcolor>FF262728</textcolor>
+            <textcolor>ff2e2e2e</textcolor>
             <aligny>center</aligny>
             <label>$INFO[ListItem.Label]</label>
           </control>
@@ -664,24 +601,28 @@
             <width>870</width>
             <height>25</height>
             <font>Font_Reg14</font>
-            <textcolor>FF262728</textcolor>
+            <textcolor>ff2e2e2e</textcolor>
             <align>right</align>
             <aligny>center</aligny>
             <label>$INFO[ListItem.Label2]</label>
-            <visible>Container.Content(tvshows)</visible>
-          </control>
-          <control type="image">
-            <description>IMDB rating</description>
-            <posx>145</posx>
-            <posy>15</posy>
-            <width>65</width>
-            <height>65</height>
-            <texture>$INFO[ListItem.Rating,stars/,.png]</texture>
-            <colordiffuse>FF262728</colordiffuse>
-            <animation effect="fade" start="100" end="0" time="100" delay="0" condition="IsEmpty(ListItem.Title)" >Conditional</animation>
-            <visible>Container.Content(episodes)|Container.Content(movies)</visible>
           </control>
         </focusedlayout>
+      </control>
+      <control type="scrollbar" id="60">
+        <posx>1250</posx>
+        <posy>120</posy>
+        <width>25</width>
+        <height>530</height>
+        <texturesliderbackground>views/scrollbarbacklist.png</texturesliderbackground>
+        <texturesliderbar>-</texturesliderbar>
+        <texturesliderbarfocus>-</texturesliderbarfocus>
+        <textureslidernib>views/scrollbarnub-nofocus.png</textureslidernib>
+        <textureslidernibfocus>views/scrollbarnub-focus.png</textureslidernibfocus>
+        <onleft>5</onleft>
+        <onright>3</onright>
+        <showonepage>false</showonepage>
+        <orientation>vertical</orientation>
+        <visible allowhiddenfocus="true">Control.HasFocus(60)</visible>
       </control>
       <control type="image">
         <posx>331</posx>
