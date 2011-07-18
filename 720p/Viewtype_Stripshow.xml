@@ -164,6 +164,46 @@
           <visible>Skin.HasSetting(InfoPopUpEpisode)</visible>
         </control>
       </control>
+      <control type="group">
+        <description>Episode Info</description>
+        <visible>Container.Content(movies)</visible>
+        <control type="label">
+          <posx>1160</posx>
+          <posy>0</posy>
+          <height>38</height>
+          <width>620</width>
+          <font>Font_Reg17</font>
+          <textcolor>white</textcolor>
+          <aligny>center</aligny>
+          <align>right</align>
+          <label>$INFO[ListItem.Label,[COLOR abFFFFFF][/COLOR]]</label>
+        </control>
+        <control type="label">
+          <posx>1160</posx>
+          <posy>20</posy>
+          <height>38</height>
+          <width>620</width>
+          <font>Font_Reg17</font>
+          <textcolor>abFFFFFF</textcolor>
+          <aligny>center</aligny>
+          <align>right</align>
+          <label>$INFO[ListItem.Year]$INFO[ListItem.Duration, | , $LOCALIZE[12391] ]$INFO[ListItem.RatingAndVotes, | ]$INFO[ListItem.Top250, | Top 250 #]</label>
+          <visible>!Skin.HasSetting(InfoPopUp)</visible>
+        </control>
+        <control type="label">
+          <posx>1160</posx>
+          <posy>20</posy>
+          <height>38</height>
+          <width>620</width>
+          <font>Font_Reg17</font>
+          <textcolor>abFFFFFF</textcolor>
+          <aligny>center</aligny>
+          <align>right</align>
+          <label>$INFO[ListItem.Tagline]</label>
+          <visible>Skin.HasSetting(InfoPopUp)</visible>
+          <scroll>true</scroll>
+        </control>
+      </control>
     </control>
   </include>
   <include name="StripshowTVThumbsVars">
@@ -175,40 +215,67 @@
     <aspectratio scalediffuse="false">scale</aspectratio>
   </include>
   <include name="StripshowTVThumbs">
-    <control type="image">
-      <include>StripshowTVThumbsVars</include>
-      <texture diffuse="thumbs/multiplex_tvmask.png">DefaultEpisode.png</texture>
-      <bordertexture border="9">thumbs/multiplex_tvborder.png</bordertexture>
-      <info>ListItemNoWrap.Icon</info>
-    </control>
     <control type="group">
-      <animation effect="fade" start="100" end="0" time="400" easing="out" tween="cubic" reversible="true">Focus</animation>
+      <visible>Container.Content(episodes)</visible>
       <control type="image">
-        <posx>3.5</posx>
-        <posy>58</posy>
-        <width>153</width>
-        <height>34</height>
-        <texture>thumbs/multiwall_label.png</texture>
+        <include>StripshowTVThumbsVars</include>
+        <texture diffuse="thumbs/multiplex_tvmask.png">DefaultEpisode.png</texture>
+        <bordertexture border="9">thumbs/multiplex_tvborder.png</bordertexture>
+        <info>ListItemNoWrap.Icon</info>
       </control>
-      <control type="label">
-        <posx>79</posx>
-        <posy>71</posy>
-        <width>144</width>
-        <align>center</align>
-        <font>Font_Reg14</font>
-        <label>$INFO[ListItem.Season,$LOCALIZE[20359] ]$INFO[ListItem.Episode,.]</label>
+      <control type="group">
+        <animation effect="fade" start="100" end="0" time="400" easing="out" tween="cubic" reversible="true">Focus</animation>
+        <control type="image">
+          <posx>3.5</posx>
+          <posy>58</posy>
+          <width>153</width>
+          <height>34</height>
+          <texture>thumbs/multiwall_label.png</texture>
+        </control>
+        <control type="label">
+          <posx>79</posx>
+          <posy>71</posy>
+          <width>144</width>
+          <align>center</align>
+          <font>Font_Reg14</font>
+          <label>$INFO[ListItem.Season,$LOCALIZE[20359] ]$INFO[ListItem.Episode,.]</label>
+        </control>
+      </control>
+      <control type="image">
+        <include>StripshowTVThumbsVars</include>
+        <texture diffuse="thumbs/multiplex_tvmask.png">thumbs/multiplex_tvglass.png</texture>
+      </control>
+      <control type="image">
+        <posx>126.5</posx>
+        <posy>5</posy>
+        <width>30</width>
+        <height>30</height>
+        <include>OverlayVisibility0</include>
       </control>
     </control>
-    <control type="image">
-      <include>StripshowTVThumbsVars</include>
-      <texture diffuse="thumbs/multiplex_tvmask.png">thumbs/multiplex_tvglass.png</texture>
-    </control>
-    <control type="image">
-      <posx>126.5</posx>
-      <posy>5</posy>
-      <width>30</width>
-      <height>30</height>
-      <include>OverlayVisibility0</include>
+  </include>
+  <include name="StripshowPosterThumbs">
+    <control type="group">
+      <visible>Container.Content(movies)</visible>
+      <control type="image">
+        <posx>3</posx>
+        <posy>3</posy>
+        <width>97</width>
+        <height>142</height>
+        <texture background="true" diffuse="wall/wall_movie_mask.png">DefaultVideoBigPoster.png</texture>
+        <aspectratio scalediffuse="false">scale</aspectratio>
+        <info>ListItem.Icon</info>
+        <fadetime>500</fadetime>
+      </control>
+      <control type="image">
+        <posx>3</posx>
+        <posy>3</posy>
+        <width>97</width>
+        <height>142</height>
+        <texture background="true">wall/wall_nfoverlay.png</texture>
+        <bordertexture border="-4">wall/wall_movie_nfborder.png</bordertexture>
+      </control>
+
     </control>
   </include>
   <include name="VideoListContent">
@@ -218,6 +285,7 @@
     <height>146</height>
     <focusposition>4</focusposition>
     <visible>Container.Content(episodes)|Container.Content(movies)</visible>
+    <animation effect="slide" start="0,0" end="108,-55" time="400" tween="cubic" easing="in" reversible="true" condition="Container.Content(movies)">Conditional</animation>
     <itemlayout width="160" height="150" condition="Container.Content(episodes)">
       <include>StripshowTVThumbs</include>    
     </itemlayout>
@@ -228,14 +296,14 @@
         <include>StripshowTVThumbs</include>
       </control>
     </focusedlayout>
-    <itemlayout width="160" height="150" condition="Container.Content(movies)">
-      <include>StripshowTVThumbs</include>
+    <itemlayout width="140" height="150" condition="Container.Content(movies)">
+      <include>StripshowPosterThumbs</include>
     </itemlayout>
-    <focusedlayout width="160" height="150" condition="Container.Content(movies)">
+    <focusedlayout width="140" height="150" condition="Container.Content(movies)">
       <control type="group">
-        <animation effect="zoom" center="77,44" start="100" end="155" time="400" easing="out" tween="cubic" reversible="false">Focus</animation>
-        <animation effect="zoom" center="77,44" start="155" end="100" time="200" easing="out" tween="cubic" reversible="false">UnFocus</animation>
-        <include>StripshowTVThumbs</include>
+        <animation effect="zoom" center="51,71" start="100" end="155" time="400" easing="out" tween="cubic" reversible="false">Focus</animation>
+        <animation effect="zoom" center="51,71" start="155" end="100" time="400" easing="out" tween="cubic" reversible="false">UnFocus</animation>
+        <include>StripshowPosterThumbs</include>
       </control>
     </focusedlayout>
   </include>
