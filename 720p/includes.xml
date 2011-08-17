@@ -107,21 +107,27 @@
    			<include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
 			<include>CommonFanartVars</include>
 			<imagepath fallback="special://skin/backgrounds/curtains.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_Video_Folder)]</imagepath>
-			<visible>[!Container.Content(movies)+!Container.Content(tvshows)+!Container.Content(seasons)+!Container.Content(episodes)]|IsEmpty(ListItem.Property(Fanart_Image))</visible>
+			<visible>[!Container.Content(movies)+!Container.Content(tvshows)+!Container.Content(seasons)+!Container.Content(episodes)]</visible>
 		</control>
 		<control type="multiimage">
    			<include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
 			<include>CommonFanartVars</include>
 			<imagepath fallback="special://skin/backgrounds/movies.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_Movies_Folder)]</imagepath>
-			<visible>Container.Content(Movies) + !Skin.HasSetting(HomeMenuNoMovieButton) + Skin.HasSetting(VideoLibraryMovieFanart)</visible>
+			<visible>Container.Content(Movies) + !Skin.HasSetting(HomeMenuNoMovieButton) + [Skin.HasSetting(VideoLibraryMovieFanart)|IsEmpty(ListItem.property(fanart_image))]</visible>
 		</control>
 		<control type="multiimage">
    			<include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
 			<include>CommonFanartVars</include>
 			<imagepath fallback="special://skin/backgrounds/tvshows.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_TVShow_Folder)]</imagepath>
-			<visible>[Container.Content(TVShows) | Container.Content(Seasons) |Container.Content(Episodes)] +  !Skin.HasSetting(HomeMenuNoTVShowButton) + Skin.HasSetting(VideoLibraryTVFanart)</visible>
+			<visible>[Container.Content(TVShows) | Container.Content(Seasons) |Container.Content(Episodes)] +  !Skin.HasSetting(HomeMenuNoTVShowButton) + [Skin.HasSetting(VideoLibraryTVFanart)|IsEmpty(ListItem.property(fanart_image))]</visible>
 		</control>
-	</include>
+    <control type="image">
+      <include>FullscreenDimensions</include>
+      <texture>common/black.png</texture>
+      <visible>[[!Skin.HasSetting(VideoLibraryMovieFanart)+Container.Content(Movies)]|[[Container.Content(TVShows) | Container.Content(Seasons) |Container.Content(Episodes)]+Skin.HasSetting(VideoLibraryTVFanart)]]+IsEmpty(ListItem.property(fanart_image))</visible>
+      <animation effect="fade" start="100" end="0" time="1000">Visible</animation>
+    </control>
+  </include>
 	<include name="CommonMusicBackground">
 		<control type="multiimage">
    			<include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
