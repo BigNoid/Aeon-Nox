@@ -1,22 +1,9 @@
 <window id="0">
-	<defaultcontrol>8999</defaultcontrol>
-  <include condition="Skin.HasSetting(HomeVideoBookmarks)">LoadBookmarkScript</include>
+	<defaultcontrol>9000</defaultcontrol>
+  <onload condition="Skin.HasSetting(HomeVideoBookmarks)">XBMC.RunScript(script.video.bookmarks.browser,limit=5)</onload>
+  <onload condition="Window.Previous(startup)+Skin.HasSetting(customstartupfocus)">Control.Move(9000,$INFO[Skin.String(CustomFocusOffset)])</onload>
 	<allowoverlay>yes</allowoverlay>
 	<controls>
-	<!--Custom startup focus-->
-    <control type="button" id="8999">
-      <description>Don't run Recently added</description>
-      <include>HiddenObject</include>
-      <onfocus>Control.Move(9000,$INFO[Skin.String(CustomFocusOffset)])</onfocus>
-      <onfocus>SetFocus(9000)</onfocus>
-      <visible>Window.Previous(startup)+Skin.HasSetting(customstartupfocus)</visible>
-    </control>
-    <control type="button" id="8999">
-      <description>Don't run Recently added</description>
-      <include>HiddenObject</include>
-      <onfocus>SetFocus(9000)</onfocus>
-      <visible>!Window.Previous(startup)|!Skin.HasSetting(customstartupfocus)</visible>
-    </control>
     <!-- Fanart -->
 		<control type="multiimage">
       <include>CommonFanartVars</include>
@@ -371,7 +358,7 @@
 				<height>150</height>
 				<onleft>9000</onleft>
 				<onright>9000</onright>
-				<onup>10</onup>
+        <onup>10</onup>
 				<ondown>330</ondown>
 				<pagecontrol>-</pagecontrol>
 				<scrolltime>300</scrolltime>
@@ -391,59 +378,35 @@
 				<content>
 					<item id="4">
 						<label>31500</label>
-						<onclick>ActivateWindow(Pictures)</onclick>
-						<icon>special://skin/backgrounds/pictures.jpg</icon>
+						<onclick condition="IsEmpty(Skin.String(HomeMenuPictureDefaultAction))">ActivateWindow(Pictures)</onclick>
+            <onclick condition="!IsEmpty(Skin.String(HomeMenuPictureDefaultAction))">$INFO[Skin.String(HomeMenuPictureDefaultAction)]</onclick>
+            <icon>special://skin/backgrounds/pictures.jpg</icon>
 						<thumb>$INFO[Skin.String(Home_Custom_Back_Pictures_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoPicturesButton)+IsEmpty(Skin.String(HomeMenuPictureDefaultAction))</visible>
-					</item>
-					<item id="4">
-						<label>31500</label>
-						<onclick>$INFO[Skin.String(HomeMenuPictureDefaultAction)]</onclick>
-						<icon>special://skin/backgrounds/pictures.jpg</icon>
-						<thumb>$INFO[Skin.String(Home_Custom_Back_Pictures_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoPicturesButton)+!IsEmpty(Skin.String(HomeMenuPictureDefaultAction))</visible>
+						<visible>!Skin.HasSetting(HomeMenuNoPicturesButton)</visible>
 					</item>
 					<item id="3">
 						<label>31501</label>
-						<onclick>ActivateWindow(Music)</onclick>
-						<icon>special://skin/backgrounds/music.jpg</icon>
+						<onclick condition="IsEmpty(Skin.String(HomeMenuMusicDefaultAction))">ActivateWindow(Music)</onclick>
+            <onclick condition="!IsEmpty(Skin.String(HomeMenuMusicDefaultAction))">$INFO[Skin.String(HomeMenuMusicDefaultAction)]</onclick>
+            <icon>special://skin/backgrounds/music.jpg</icon>
 						<thumb>$INFO[Skin.String(Home_Custom_Back_Music_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoMusicButton)+IsEmpty(Skin.String(HomeMenuMusicDefaultAction))</visible>
-					</item>
-					<item id="3">
-						<label>31501</label>
-						<onclick>$INFO[Skin.String(HomeMenuMusicDefaultAction)]</onclick>
-						<icon>special://skin/backgrounds/music.jpg</icon>
-						<thumb>$INFO[Skin.String(Home_Custom_Back_Music_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoMusicButton)+!IsEmpty(Skin.String(HomeMenuMusicDefaultAction))</visible>
+						<visible>!Skin.HasSetting(HomeMenuNoMusicButton)</visible>
 					</item>
 					<item id="10">
 						<label>31502</label>
-						<onclick>ActivateWindow(Videos,MovieTitles,return)</onclick>
-						<icon>special://skin/backgrounds/movies.jpg</icon>
+						<onclick condition="IsEmpty(Skin.String(HomeMenuMoviesDefaultAction))">ActivateWindow(Videos,MovieTitles,return)</onclick>
+            <onclick condition="!IsEmpty(Skin.String(HomeMenuMoviesDefaultAction))">$INFO[Skin.String(HomeMenuMoviesDefaultAction)]</onclick>
+            <icon>special://skin/backgrounds/movies.jpg</icon>
 						<thumb>$INFO[Skin.String(Home_Custom_Back_Movies_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoMovieButton) + Library.HasContent(Movies)+ IsEmpty(Skin.String(HomeMenuMoviesDefaultAction))</visible>
-					</item>
-					<item id="10">
-						<label>31502</label>
-						<onclick>$INFO[Skin.String(HomeMenuMoviesDefaultAction)]</onclick>
-						<icon>special://skin/backgrounds/movies.jpg</icon>
-						<thumb>$INFO[Skin.String(Home_Custom_Back_Movies_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoMovieButton) + Library.HasContent(Movies)+ !IsEmpty(Skin.String(HomeMenuMoviesDefaultAction))</visible>
+						<visible>!Skin.HasSetting(HomeMenuNoMovieButton) + Library.HasContent(Movies)</visible>
 					</item>
 					<item id="11">
 						<label>31503</label>
-						<onclick>ActivateWindow(Videos,TVShowTitles,return)</onclick>
-						<icon>special://skin/backgrounds/tvshows.jpg</icon>
+						<onclick condition="IsEmpty(Skin.String(HomeMenuTVShowsDefaultAction))">ActivateWindow(Videos,TVShowTitles,return)</onclick>
+            <onclick condition="!IsEmpty(Skin.String(HomeMenuTVShowsDefaultAction))">$INFO[Skin.String(HomeMenuTVShowsDefaultAction)]</onclick>
+            <icon>special://skin/backgrounds/tvshows.jpg</icon>
 						<thumb>$INFO[Skin.String(Home_Custom_Back_TVShow_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoTVShowButton) + Library.HasContent(TVShows)+ IsEmpty(Skin.String(HomeMenuTVShowsDefaultAction))</visible>
-					</item>
-					<item id="11">
-						<label>31503</label>
-						<onclick>$INFO[Skin.String(HomeMenuTVShowsDefaultAction)]</onclick>
-						<icon>special://skin/backgrounds/tvshows.jpg</icon>
-						<thumb>$INFO[Skin.String(Home_Custom_Back_TVShow_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoTVShowButton) + Library.HasContent(TVShows)+ !IsEmpty(Skin.String(HomeMenuTVShowsDefaultAction))</visible>
+						<visible>!Skin.HasSetting(HomeMenuNoTVShowButton) + Library.HasContent(TVShows)</visible>
 					</item>
           <item id="25">
             <label>31290</label>
@@ -463,31 +426,19 @@
 					<include condition="!IsEmpty(Skin.String(HomeMenuFavourite6_Label))">CustomMainFav6</include>
 					<item id="2">
 						<label>31504</label>
-						<onclick>ActivateWindow(Videos,root)</onclick>
-						<icon>special://skin/backgrounds/videos.jpg</icon>
+						<onclick condition="IsEmpty(Skin.String(HomeMenuVideosDefaultAction))">ActivateWindow(Videos,root)</onclick>
+            <onclick condition="!IsEmpty(Skin.String(HomeMenuVideosDefaultAction))">$INFO[Skin.String(HomeMenuVideosDefaultAction)]</onclick>
+            <icon>special://skin/backgrounds/videos.jpg</icon>
 						<thumb>$INFO[Skin.String(Home_Custom_Back_Video_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoVideosButton)+IsEmpty(Skin.String(HomeMenuVideosDefaultAction))</visible>
-					</item>
-					<item id="2">
-						<label>31504</label>
-						<onclick>$INFO[Skin.String(HomeMenuVideosDefaultAction)]</onclick>
-						<icon>special://skin/backgrounds/videos.jpg</icon>
-						<thumb>$INFO[Skin.String(Home_Custom_Back_Video_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoVideosButton)+!IsEmpty(Skin.String(HomeMenuVideosDefaultAction))</visible>
+						<visible>!Skin.HasSetting(HomeMenuNoVideosButton)</visible>
 					</item>
 					<item id="1">
 						<label>31505</label>
-						<onclick>ActivateWindow(Programs,Addons,return)</onclick>
-						<icon>special://skin/backgrounds/programs.jpg</icon>
+						<onclick condition="IsEmpty(Skin.String(HomeMenuProgramsDefaultAction))">ActivateWindow(Programs,Addons,return)</onclick>
+            <onclick condition="!IsEmpty(Skin.String(HomeMenuProgramsDefaultAction))">$INFO[Skin.String(HomeMenuProgramsDefaultAction)]</onclick>
+            <icon>special://skin/backgrounds/programs.jpg</icon>
 						<thumb>$INFO[Skin.String(Home_Custom_Back_Programs_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoProgramsButton)+IsEmpty(Skin.String(HomeMenuProgramsDefaultAction))</visible>
-					</item>
-					<item id="1">
-						<label>31505</label>
-						<onclick>$INFO[Skin.String(HomeMenuProgramsDefaultAction)]</onclick>
-						<icon>special://skin/backgrounds/programs.jpg</icon>
-						<thumb>$INFO[Skin.String(Home_Custom_Back_Programs_Folder)]</thumb>
-						<visible>!Skin.HasSetting(HomeMenuNoProgramsButton)+!IsEmpty(Skin.String(HomeMenuProgramsDefaultAction))</visible>
+						<visible>!Skin.HasSetting(HomeMenuNoProgramsButton)</visible>
 					</item>
 					<item id="5">
 						<label>31506</label>
@@ -505,8 +456,8 @@
 					</item>
 					<item id="12">
 						<label>31508</label>
-						<include condition="!Skin.HasSetting(shutdownwarning)">NoShutdownWarning</include>
-						<include condition="Skin.HasSetting(shutdownwarning)">ShutdownWarning</include>
+            <onclick condition="!Skin.HasSetting(shutdownwarning)">Shutdown()</onclick>
+            <onclick condition="Skin.HasSetting(shutdownwarning)">ActivateWindow(1113)</onclick>
 						<icon>special://skin/backgrounds/shutdown.jpg</icon>
 						<thumb>$INFO[Skin.String(Home_Custom_Back_Shutdown_Folder)]</thumb>
 						<visible>!Skin.HasSetting(HomeMenuNoShutdownButton)</visible>
