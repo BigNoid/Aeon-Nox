@@ -13,26 +13,26 @@
         <include>CommonFanartVarsSingleScroll</include>
         <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
         <visible>!Skin.HasSetting(VideoLibraryMovieFanart)</visible>
-        <visible>!Container.Content(TVShows) + ![Container.Content(Episodes) + stringcompare(Container.FolderPath,videodb://5/)]</visible>
+        <visible>Container.Content(movies)</visible>
       </control>
       <control type="image">
         <include>CommonFanartVarsSingleScroll</include>
         <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
         <visible>!Skin.HasSetting(VideoLibraryTVFanart)</visible>
-        <visible>Container.Content(TVShows) | [Container.Content(Episodes) + stringcompare(Container.FolderPath,videodb://5/)]</visible>
+        <visible>Container.Content(TVShows) | Container.Content(Episodes)</visible>
       </control>
       <control type="image">
         <include>CommonFanartVarsSingleScroll</include>
         <info>Fanart.Image</info>
         <texture background="true">$INFO[Fanart.Image]</texture>
         <visible>!Skin.HasSetting(VideoLibraryTVFanart)</visible>
-        <visible>Container.Content(Seasons) | [Container.Content(Episodes) + !stringcompare(Container.FolderPath,videodb://5/)]</visible>
+        <visible>Container.Content(Seasons) | Container.Content(Episodes)</visible>
       </control>
       <control type="image">
         <include>CommonFanartVarsSingleScroll</include>
         <texture background="true">$INFO[ListItem.Path]$INFO[ListItem.Label,,/fanart.jpg]</texture>
         <visible>!Skin.HasSetting(VideoLibraryTVFanart)</visible>
-        <visible>Container.Content(seasons)+!StringCompare(ListItem.Label,..)</visible>
+        <visible>Container.Content(seasons)</visible>
       </control>
       <control type="image">
         <include>CommonFanartVarsSingleScroll</include>
@@ -51,18 +51,8 @@
         <texture background="true">$INFO[ListItem.Label,special://skin/extras/genre/video/fanart/,.jpg]</texture>
         <visible>Container.Content(genres)</visible>
       </control>
-      <control type="multiimage">
-        <randomize>false</randomize>
-        <include>CommonFanartVars</include>
-        <imagepath background="true">$INFO[ListItem.Path,,extrafanart]</imagepath>
-        <visible>[Container.Content(movies)+Skin.HasSetting(extrafanartmovies)]|[[Container.Content(tvshows|Container.Content(seasons)]+Skin.HasSetting(extrafanartseries)]</visible>
-      </control>
-      <control type="multiimage">
-        <randomize>false</randomize>
-        <include>CommonFanartVars</include>
-        <imagepath background="true">$INFO[ListItem.Path,,../extrafanart]</imagepath>
-        <visible>Container.Content(episodes)+Skin.HasSetting(extrafanartseries)]</visible>
-      </control>
+      <include condition="Skin.HasSetting(extrafanartmovies)|Skin.HasSetting(extrafanartseries)">ExtraFanartMoviesTVShows</include>
+      <include condition="Skin.HasSetting(extrafanartseries)">ExtraFanartEpisodes</include>
       <include>CommonCurtainBackdrop</include>
     </control>
     <control type="image" id="197">
