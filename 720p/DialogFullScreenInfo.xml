@@ -21,6 +21,74 @@
           <effect type="fade" time="400" start="100" end="0" />
           <effect type="slide" time="400" start="0,0" end="0,-90" easing="in" tween="cubic" />
         </animation>
+        <control type="group">
+          <posy>85</posy>
+          <visible>Player.Paused</visible>
+          <control type="image">
+            <posx>500</posx>
+            <posy>0</posy>
+            <width>280</width>
+            <height>28</height>
+            <texture flipy="true">osd/osd_button_paused.png</texture>
+          </control>
+          <control type="label">
+            <description>Paused Label</description>
+            <posx>500</posx>
+            <posy>0</posy>
+            <width>280</width>
+            <height>28</height>
+            <aligny>center</aligny>
+            <align>center</align>
+            <font>Font_Reg18</font>
+            <textcolor>FF363636</textcolor>
+            <include>Animation_CommonFade</include>
+            <label>[UPPERCASE]$LOCALIZE[31043][/UPPERCASE]</label>
+            <visible>[Player.Paused + !Player.Caching] + !Player.Seeking + !Player.DisplayAfterSeek</visible>
+          </control>
+          <control type="label">
+            <description>Cache Label</description>
+            <posx>500</posx>
+            <posy>0</posy>
+            <width>280</width>
+            <height>28</height>
+            <aligny>center</aligny>
+            <align>center</align>
+            <font>Font_Reg18</font>
+            <textcolor>FF363636</textcolor>
+            <include>Animation_CommonFade</include>
+            <label>[UPPERCASE]$LOCALIZE[15107] $INFO[Player.CacheLevel]%[/UPPERCASE]</label>
+            <visible>[Player.Paused + Player.Caching] + !Player.Seeking</visible>
+          </control>
+          <control type="label">
+            <description>Seeking Label</description>
+            <posx>500</posx>
+            <posy>0</posy>
+            <width>280</width>
+            <height>28</height>
+            <aligny>center</aligny>
+            <align>center</align>
+            <font>Font_Reg18</font>
+            <textcolor>FF363636</textcolor>
+            <include>Animation_CommonFade</include>
+            <label>[UPPERCASE]$LOCALIZE[773][/UPPERCASE]</label>
+            <visible>Player.Seeking</visible>
+          </control>
+          <control type="label">
+            <description>Final Seek amount Label</description>
+            <posx>500</posx>
+            <posy>0</posy>
+            <width>280</width>
+            <height>28</height>
+            <aligny>center</aligny>
+            <align>center</align>
+            <font>Font_Reg18</font>
+            <textcolor>FF363636</textcolor>
+            <include>Animation_CommonFade</include>
+            <label>[UPPERCASE]$LOCALIZE[773] $INFO[Player.SeekOffset][/UPPERCASE]</label>
+            <visible>Player.DisplayAfterSeek + ![player.forwarding | player.rewinding]+!IsEmpty(Player.SeekOffset)</visible>
+          </control>
+
+        </control>
         <control type="image">
           <description>osd bar top</description>
           <posx>0</posx>
@@ -298,8 +366,7 @@
           <width>280</width>
           <height>28</height>
           <texture>osd/osd_button_paused.png</texture>
-          <visible>Player.Paused</visible>
-          <animation effect="slide" start="0,28" end="0,0" time="100">VisibleChange</animation>
+          <visible>player.chaptercount+![Player.Forwarding | Player.Rewinding]</visible>
         </control>
         <control type="label" id="1">
           <description>Chapter Pos No</description>
@@ -311,9 +378,8 @@
           <align>center</align>
           <font>Font_Reg18</font>
           <textcolor>FF363636</textcolor>
-          <label>[UPPERCASE]$LOCALIZE[31043][/UPPERCASE]</label>
-          <visible>Player.Paused</visible>
-          <animation effect="slide" start="0,28" end="0,0" time="100">VisibleChange</animation>
+          <label>[UPPERCASE]$LOCALIZE[21396]: $INFO[player.chapter]$INFO[player.chaptercount, / ][/UPPERCASE]</label>
+          <visible>player.chaptercount+![Player.Forwarding | Player.Rewinding]</visible>
         </control>
         <control type="image">
           <description>osd bar bottom</description>
@@ -1076,6 +1142,10 @@
           <include>Objects_FSInfoButton</include>
           <label>More Info</label>
           <altlabel>Less Info</altlabel>
+          <onleft>left</onleft>
+          <onright>right</onright>
+          <onup>up</onup>
+          <ondown>down</ondown>
           <onclick>Skin.ToggleSetting(MoreFullscreenInfo)</onclick>
           <selected>Skin.HasSetting(MoreFullscreenInfo)</selected>
         </control>
