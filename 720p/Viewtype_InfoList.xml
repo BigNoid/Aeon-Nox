@@ -1,52 +1,6 @@
 <includes>
   <include name="InfoListEpisodes">
     <control type="group">
-      <visible>!Player.HasVideo</visible>
-      <control type="image">
-        <posx>775</posx>
-        <posy>182</posy>
-        <width>352</width>
-        <height>204</height>
-        <fadetime>IconCrossfadeTime2</fadetime>
-        <texture background="true">$INFO[ListItem.Thumb]</texture>
-        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-        <bordersize>7</bordersize>
-        <aspectratio align="center">keep</aspectratio>
-        <visible>Container.Content(episodes)</visible>
-      </control>
-      <control type="image">
-        <posx>775</posx>
-        <posy>182</posy>
-        <width>352</width>
-        <height>204</height>
-        <fadetime>IconCrossfadeTime2</fadetime>
-        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-        <bordersize>7</bordersize>
-        <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
-        <visible>Container.Content(tvshows)</visible>
-      </control>
-    </control>
-    <control type="group">
-      <visible>Player.HasVideo</visible>
-      <control type="image">
-        <posx>775</posx>
-        <posy>182</posy>
-        <width>352</width>
-        <height>204</height>
-        <fadetime>IconCrossfadeTime2</fadetime>
-        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-        <bordersize>7</bordersize>
-        <texture>common/black.png</texture>
-      </control>
-      <control type="videowindow">
-        <posx>782</posx>
-        <posy>190</posy>
-        <width>338</width>
-        <height>190</height>
-		<visible>Player.HasVideo</visible>
-      </control>
-    </control>
-    <control type="group">
       <visible>!Skin.HasSetting(infolistplotonly)+Container.Content(episodes)</visible>
       <control type="image">
         <posx>715</posx>
@@ -272,6 +226,7 @@
       </control>
     </control>
     <control type="group">
+      <visible>!Skin.HasSetting(infolistplotonly) + Container.Content(tvshows)</visible>
       <control type="label">
         <description>Episodes txt</description>
         <posx>885</posx>
@@ -367,7 +322,6 @@
         <autoscroll delay="5000" time="2000" repeat="1000">Skin.HasSetting(AutoScroll)</autoscroll>
         <textcolor>FFececec</textcolor>
       </control>
-      <visible>!Skin.HasSetting(infolistplotonly) + Container.Content(tvshows)</visible>
     </control>
     <control type="textbox">
       <description>Plot</description>
@@ -402,7 +356,33 @@
       <texture background="true">$INFO[ListItem.path,,logo.png]</texture>
       <visible>Container.Content(tvshows)</visible>
     </control>
-  </include>
+    <control type="label" id="161">
+      <posx>710</posx>
+      <posy>607</posy>
+      <width>475</width>
+      <height>41</height>
+      <font>Font_Reg15</font>
+      <align>center</align>
+      <aligny>center</aligny>
+      <textcolor>ff969696</textcolor>
+      <label>[UPPERCASE]$INFO[ListItem.TVShowTitle]$INFO[ListItem.Season, • $LOCALIZE[20373] ][/UPPERCASE]</label>
+      <visible>Container.Content(episodes)+!SubString(ListItem.Episode,S)</visible>
+      <visible>!Skin.HasSetting(breadcrumb)</visible>
+    </control>
+    <control type="label" id="161">
+      <posx>710</posx>
+      <posy>607</posy>
+      <width>475</width>
+      <height>41</height>
+      <font>Font_Reg15</font>
+      <align>center</align>
+      <aligny>center</aligny>
+      <textcolor>ff969696</textcolor>
+      <label>[UPPERCASE]$INFO[ListItem.TVShowTitle,, • $LOCALIZE[20381]][/UPPERCASE]</label>
+      <visible>Container.Content(episodes)+SubString(ListItem.Episode,S)</visible>
+      <visible>!Skin.HasSetting(breadcrumb)</visible>
+    </control> </include>
+  
   <include name="InfoList">
     <control type="group">
       <visible>Control.IsVisible(505)</visible>
@@ -428,32 +408,142 @@
           <texture>views/listpanel_back.png</texture>
         </control>
         <include condition="Skin.HasSetting(effect_bg)">BG_Effect_InfoList_Panel_Right</include>
-        <include condition="Window.IsActive(videolibrary)">InfoListEpisodes</include>
-        <control type="label" id="161">
-          <posx>710</posx>
-          <posy>607</posy>
-          <width>475</width>
-          <height>41</height>
-          <font>Font_Reg15</font>
-          <align>center</align>
-          <aligny>center</aligny>
-          <textcolor>ff969696</textcolor>
-          <label>[UPPERCASE]$INFO[ListItem.TVShowTitle]$INFO[ListItem.Season, • $LOCALIZE[20373] ][/UPPERCASE]</label>
-          <visible>Container.Content(episodes)+!SubString(ListItem.Episode,S)</visible>
-          <visible>!Skin.HasSetting(breadcrumb)</visible>
+        <control type="group">
+          <visible>!Player.HasVideo</visible>
+          <control type="image">
+            <posx>775</posx>
+            <posy>182</posy>
+            <width>352</width>
+            <height>204</height>
+            <fadetime>IconCrossfadeTime2</fadetime>
+            <texture background="true">$INFO[ListItem.Icon]</texture>
+            <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
+            <bordersize>7</bordersize>
+            <aspectratio align="center">keep</aspectratio>
+            <visible>Container.Content(episodes)|Container.Content(addons)</visible>
+          </control>
+          <control type="image">
+            <posx>775</posx>
+            <posy>182</posy>
+            <width>352</width>
+            <height>204</height>
+            <fadetime>IconCrossfadeTime2</fadetime>
+            <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
+            <bordersize>7</bordersize>
+            <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
+            <visible>Container.Content(tvshows)</visible>
+          </control>
         </control>
-        <control type="label" id="161">
-          <posx>710</posx>
-          <posy>607</posy>
-          <width>475</width>
-          <height>41</height>
-          <font>Font_Reg15</font>
-          <align>center</align>
-          <aligny>center</aligny>
-          <textcolor>ff969696</textcolor>
-          <label>[UPPERCASE]$INFO[ListItem.TVShowTitle,, • $LOCALIZE[20381]][/UPPERCASE]</label>
-          <visible>Container.Content(episodes)+SubString(ListItem.Episode,S)</visible>
-          <visible>!Skin.HasSetting(breadcrumb)</visible>
+        <control type="group">
+          <visible>Player.HasVideo</visible>
+          <control type="image">
+            <posx>775</posx>
+            <posy>182</posy>
+            <width>352</width>
+            <height>204</height>
+            <fadetime>IconCrossfadeTime2</fadetime>
+            <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
+            <bordersize>7</bordersize>
+            <texture>common/black.png</texture>
+          </control>
+          <control type="videowindow">
+            <posx>782</posx>
+            <posy>190</posy>
+            <width>338</width>
+            <height>190</height>
+            <visible>Player.HasVideo</visible>
+          </control>
+        </control>
+        <include condition="Window.IsActive(videolibrary)">InfoListEpisodes</include>
+        <control type="group">
+          <visible>Container.Content(addons)</visible>
+          <control type="label">
+            <description>Author</description>
+            <posx>845</posx>
+            <posy>390</posy>
+            <width>140</width>
+            <height>12</height>
+            <label>$LOCALIZE[21863]:</label>
+            <align>right</align>
+            <font>Font_Reg18</font>
+            <textcolor>abFFFFFF</textcolor>
+          </control>
+          <control type="label">
+            <description>Author value</description>
+            <posx>855</posx>
+            <posy>390</posy>
+            <width>300</width>
+            <height>12</height>
+            <scroll>true</scroll>
+            <label fallback="312577">$INFO[ListItem.Property(Addon.Creator)]</label>
+            <align>left</align>
+            <font>Font_Reg18</font>
+            <textcolor>white</textcolor>
+          </control>
+          <control type="label">
+            <description>Author</description>
+            <posx>845</posx>
+            <posy>415</posy>
+            <width>140</width>
+            <height>12</height>
+            <label>$LOCALIZE[24051]</label>
+            <align>right</align>
+            <font>Font_Reg18</font>
+            <textcolor>abFFFFFF</textcolor>
+          </control>
+          <control type="label">
+            <description>Author value</description>
+            <posx>855</posx>
+            <posy>415</posy>
+            <width>300</width>
+            <height>12</height>
+            <scroll>true</scroll>
+            <label fallback="312577">$INFO[ListItem.Property(Addon.Version)]</label>
+            <align>left</align>
+            <font>Font_Reg18</font>
+            <textcolor>white</textcolor>
+          </control>
+          <control type="label">
+            <description>Author</description>
+            <posx>845</posx>
+            <posy>440</posy>
+            <width>140</width>
+            <height>12</height>
+            <label>$LOCALIZE[563]:</label>
+            <align>right</align>
+            <font>Font_Reg18</font>
+            <textcolor>abFFFFFF</textcolor>
+          </control>
+          <control type="image">
+            <description>IMDB rating</description>
+            <posx>855</posx>
+            <posy>440</posy>
+            <width>100</width>
+            <height>23</height>
+            <aspectratio>keep</aspectratio>
+            <texture fallback="stars/0.0.png">$INFO[ListItem.Rating,stars/,.png]</texture>
+            <colordiffuse>white</colordiffuse>
+          </control>    
+          <control type="image">
+            <posx>740</posx>
+            <posy>475</posy>
+            <width>420</width>
+            <height>1</height>
+            <texture background="true">views/listpanel_line.png</texture>
+          </control>
+          <control type="textbox">
+            <description>Plot</description>
+            <posx>730</posx>
+            <posy>484</posy>
+            <width>450</width>
+            <height>120</height>
+            <align>left</align>
+            <font>Font_Reg17</font>
+            <label fallback="312577">$INFO[ListItem.Property(Addon.Description)]</label>
+            <autoscroll delay="5000" time="2000" repeat="1000">Skin.HasSetting(AutoScroll)</autoscroll>
+            <textcolor>FFececec</textcolor>
+          </control>
+
         </control>
        </control>
       <control type="group">
@@ -477,7 +567,7 @@
         </control>
         <include condition="Skin.HasSetting(effect_bg)">BG_Effect_InfoList_Panel_Left</include>
         <control type="list" id="505">
-          <visible>Container.Content(episodes)|Container.Content(tvshows)</visible>
+          <visible>Container.Content(episodes)|Container.Content(tvshows)|Container.Content(addons)</visible>
           <posx>60</posx>
           <posy>142</posy>
           <width>771</width>
@@ -491,7 +581,7 @@
           <pagecontrol>68</pagecontrol>
           <scrolltime>200</scrolltime>
           <preloaditems>2</preloaditems>
-          <itemlayout height="44" width="550" condition="Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]">
+          <itemlayout height="44" width="550" condition="[Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]]|Container.Content(addons)">
             <control type="image">
               <posx>1</posx>
               <posy>43</posy>
@@ -507,8 +597,8 @@
               <align>left</align>
               <aligny>center</aligny>
               <include>listcolornofocus</include>
-              <font>Font_Info</font>
-              <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
+              <font>Font_Reg18</font>
+              <label>$INFO[ListItem.Label]</label>
             </control>
             <control type="label">
               <posx>495</posx>
@@ -518,7 +608,7 @@
               <align>right</align>
               <aligny>center</aligny>
               <include>detailcolornofocus</include>
-              <font>Font_Info</font>
+              <font>Font_Reg18</font>
               <label>$INFO[ListItem.Label2]</label>
             </control>
             <control type="image">
@@ -530,7 +620,7 @@
               <info>ListItem.Overlay</info>
             </control>
           </itemlayout>
-          <focusedlayout height="44" width="550" condition="Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]">
+          <focusedlayout height="44" width="550" condition="[Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]]|Container.Content(addons)">
             <control type="image">
               <posx>1</posx>
               <posy>43</posy>
@@ -554,8 +644,8 @@
               <align>left</align>
               <aligny>center</aligny>
               <include>listcolorfocus</include>
-              <font>Font_Info</font>
-              <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
+              <font>Font_Reg18</font>
+              <label>$INFO[ListItem.Label]</label>
             </control>
             <control type="label">
               <posx>495</posx>
@@ -565,7 +655,7 @@
               <align>right</align>
               <aligny>center</aligny>
               <include>detailcolorfocus</include>
-              <font>Font_Info</font>
+              <font>Font_Reg18</font>
               <label>$INFO[ListItem.Label2]</label>
             </control>
             <control type="image">
@@ -577,7 +667,7 @@
               <info>ListItem.Overlay</info>
             </control>
           </focusedlayout>
-          <itemlayout height="60" width="550" condition="!Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]">
+          <itemlayout height="60" width="550" condition="!Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]+!Container.Content(addons)">
             <control type="image">
               <posx>1</posx>
               <posy>59</posy>
@@ -671,7 +761,7 @@
             </control>
 
           </itemlayout>
-          <focusedlayout height="60" widthe="550" condition="!Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]">
+          <focusedlayout height="60" widthe="550" condition="!Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]+!Container.Content(addons)">
             <control type="image">
               <posx>1</posx>
               <posy>59</posy>
@@ -878,64 +968,79 @@
           <showonepage>true</showonepage>
           <orientation>vertical</orientation>
         </control>
-        <control type="label" id="161">
-          <posx>492</posx>
-          <posy>640</posy>
-          <width>200</width>
-          <height>41</height>
-          <font>Font_Reg15</font>
-          <align>left</align>
-          <aligny>center</aligny>
-          <textcolor>ff969696</textcolor>
-          <label>$INFO[Container(505).CurrentPage,$LOCALIZE[31024] ]$INFO[Container(505).NumPages,/]</label>
-        </control>
-        <control type="label" id="161">
-          <posx>80</posx>
-          <posy>640</posy>
-          <width>200</width>
-          <height>41</height>
-          <font>Font_Reg15</font>
-          <align>left</align>
-          <aligny>center</aligny>
-          <textcolor>ff969696</textcolor>
-          <label>$INFO[Container(505).NumItems,, $LOCALIZE[20359]]$INFO[Container(505).Totaltime, (,)]</label>
-          <visible>StringCompare(Container(505).NumItems,1)+Container.COntent(episodes)</visible>
-        </control>
-        <control type="label" id="161">
-          <posx>80</posx>
-          <posy>640</posy>
-          <width>200</width>
-          <height>41</height>
-          <font>Font_Reg15</font>
-          <align>left</align>
-          <aligny>center</aligny>
-          <textcolor>ff969696</textcolor>
-          <label>$INFO[Container(505).NumItems,, $LOCALIZE[20364]]</label>
-          <visible>StringCompare(Container(505).NumItems,1)+Container.COntent(tvshows)</visible>
-        </control>
-        <control type="label" id="161">
-          <posx>80</posx>
-          <posy>640</posy>
-          <width>200</width>
-          <height>41</height>
-          <font>Font_Reg15</font>
-          <align>left</align>
-          <aligny>center</aligny>
-          <textcolor>ff969696</textcolor>
-          <label>$INFO[Container(505).NumItems,, $LOCALIZE[20343]]</label>
-          <visible>!StringCompare(Container(505).NumItems,1)+Container.COntent(tvshows)</visible>
-        </control>
-        <control type="label" id="161">
-          <posx>80</posx>
-          <posy>640</posy>
-          <width>200</width>
-          <height>41</height>
-          <font>Font_Reg15</font>
-          <align>left</align>
-          <aligny>center</aligny>
-          <textcolor>ff969696</textcolor>
-          <label>$INFO[Container(505).NumItems,, $LOCALIZE[20360]]$INFO[Container(505).Totaltime, (,)]</label>
-          <visible>!StringCompare(Container(505).NumItems,1)+Container.COntent(episodes)</visible>
+        <control type="group">
+          <visible>!Skin.HasSetting(breadcrumb)</visible>
+          <control type="label" id="161">
+            <posx>492</posx>
+            <posy>640</posy>
+            <width>200</width>
+            <height>41</height>
+            <font>Font_Reg15</font>
+            <align>left</align>
+            <aligny>center</aligny>
+            <textcolor>ff969696</textcolor>
+            <label>$INFO[Container(505).CurrentPage,$LOCALIZE[31024] ]$INFO[Container(505).NumPages,/]</label>
+          </control>
+          <control type="label" id="161">
+            <posx>80</posx>
+            <posy>640</posy>
+            <width>200</width>
+            <height>41</height>
+            <font>Font_Reg15</font>
+            <align>left</align>
+            <aligny>center</aligny>
+            <textcolor>ff969696</textcolor>
+            <label>$INFO[Container(505).NumItems,, $LOCALIZE[31025]]</label>
+            <visible>Container.Content(addons)</visible>
+          </control>
+          <control type="label" id="161">
+            <posx>80</posx>
+            <posy>640</posy>
+            <width>200</width>
+            <height>41</height>
+            <font>Font_Reg15</font>
+            <align>left</align>
+            <aligny>center</aligny>
+            <textcolor>ff969696</textcolor>
+            <label>$INFO[Container(505).NumItems,, $LOCALIZE[20359]]$INFO[Container(505).Totaltime, (,)]</label>
+            <visible>StringCompare(Container(505).NumItems,1)+Container.COntent(episodes)</visible>
+          </control>
+          <control type="label" id="161">
+            <posx>80</posx>
+            <posy>640</posy>
+            <width>200</width>
+            <height>41</height>
+            <font>Font_Reg15</font>
+            <align>left</align>
+            <aligny>center</aligny>
+            <textcolor>ff969696</textcolor>
+            <label>$INFO[Container(505).NumItems,, $LOCALIZE[20364]]</label>
+            <visible>StringCompare(Container(505).NumItems,1)+Container.COntent(tvshows)</visible>
+          </control>
+          <control type="label" id="161">
+            <posx>80</posx>
+            <posy>640</posy>
+            <width>200</width>
+            <height>41</height>
+            <font>Font_Reg15</font>
+            <align>left</align>
+            <aligny>center</aligny>
+            <textcolor>ff969696</textcolor>
+            <label>$INFO[Container(505).NumItems,, $LOCALIZE[20343]]</label>
+            <visible>!StringCompare(Container(505).NumItems,1)+Container.COntent(tvshows)</visible>
+          </control>
+          <control type="label" id="161">
+            <posx>80</posx>
+            <posy>640</posy>
+            <width>200</width>
+            <height>41</height>
+            <font>Font_Reg15</font>
+            <align>left</align>
+            <aligny>center</aligny>
+            <textcolor>ff969696</textcolor>
+            <label>$INFO[Container(505).NumItems,, $LOCALIZE[20360]]$INFO[Container(505).Totaltime, (,)]</label>
+            <visible>!StringCompare(Container(505).NumItems,1)+Container.COntent(episodes)</visible>
+          </control>
         </control>
       </control>
     </control>
