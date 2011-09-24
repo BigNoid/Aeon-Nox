@@ -1,5 +1,6 @@
 <window id="2001">
   <defaultcontrol>5000</defaultcontrol>
+  <visible>!Window.IsVisible(script-cdartmanager.xml)</visible>
   <include>Animation_CommonFade</include>
   <controls>
     <control type="group">
@@ -101,31 +102,31 @@
           <posx>0</posx>
           <posy>64</posy>
           <width>700</width>
-          <font>Font_ShowcaseMainLabel2_Caps</font>
-          <label>[UPPERCASE]$INFO[ListItem.Artist][/UPPERCASE]</label>
+          <font>Font_ShowcaseMainLabel2</font>
+          <label>$INFO[ListItem.Artist]</label>
           <textcolor>FF868686</textcolor>
         </control>
         <control type="label">
           <description>Movie year</description>
           <posx>0</posx>
-          <posy>102</posy>
-          <width>96</width>
+          <posy>99</posy>
+          <width>90</width>
+          <height>56</height>
           <align>center</align>
-          <height>53</height>
           <aligny>center</aligny>
-          <font>Font_OSDTitle2</font>
+          <font>Font_Bold35</font>
           <label fallback="-">$INFO[ListItem.Year]</label>
           <textcolor>FF868686</textcolor>
         </control>
         <control type="label">
           <description>Genre</description>
-          <posx>113</posx>
+          <posx>105</posx>
           <posy>99</posy>
           <width>370</width>
           <align>left</align>
           <aligny>center</aligny>
-          <font>Font_ShowcaseMainLabel2_Caps</font>
-          <label fallback="312577">[UPPERCASE]$INFO[ListItem.Genre][/UPPERCASE]</label>
+          <font>Font_ShowcaseMainLabel2</font>
+          <label fallback="312577">$INFO[ListItem.Genre]</label>
           <textcolor>FF868686</textcolor>
           <height>56</height>
         </control>
@@ -156,8 +157,8 @@
         <control type="label">
           <description>Label</description>
           <posy>154</posy>
-          <label fallback="312577">$INFO[ListItem.Property(Album_Label)]</label>
-          <posx>120</posx>
+          <label fallback="-">$INFO[ListItem.Property(Album_Label)]</label>
+          <posx>105</posx>
           <width>500</width>
           <height>29</height>
           <align>left</align>
@@ -168,8 +169,8 @@
         <control type="label">
           <description>Notes</description>
           <posy>183</posy>
-          <label fallback="312577">$INFO[ListItem.Property(Album_Type)]</label>
-          <posx>120</posx>
+          <label fallback="-">$INFO[ListItem.Property(Album_Type)]</label>
+          <posx>105</posx>
           <width>500</width>
           <height>29</height>
           <align>left</align>
@@ -177,13 +178,59 @@
           <font>Font_Info</font>
           <textcolor>FFececec</textcolor>
         </control>
-        <control type="image">
-          <description>IMDB rating</description>
-          <posx>0</posx>
-          <posy>566</posy>
-          <width>201</width>
-          <height>43</height>
-          <info>ListItem.StarRating</info>
+        <control type="group">
+          <control type="image">
+            <description>Star rating</description>
+            <posx>5</posx>
+            <posy>566</posy>
+            <width>201</width>
+            <height>43</height>
+            <info>ListItem.StarRating</info>
+          </control>
+          <control type="image">
+            <posx>217</posx>
+            <posy>556</posy>
+            <width>1</width>
+            <height>63</height>
+            <texture>info/info_flagupright.png</texture>
+            <colordiffuse>AAFFFFFF</colordiffuse>
+          </control>
+          <control type="image">
+            <posx>218</posx>
+            <posy>557</posy>
+            <width>91</width>
+            <height>62</height>
+            <colordiffuse>FF7c7c7c</colordiffuse>
+            <texture fallback="flags/music/recordlabel/defaultsource.png">$INFO[ListItem.Property(Album_Label),flags/music/recordlabel/,.png]</texture>
+          </control>
+          <control type="image">
+            <posx>309</posx>
+            <posy>556</posy>
+            <width>1</width>
+            <height>63</height>
+            <texture>info/info_flagupright.png</texture>
+            <colordiffuse>AAFFFFFF</colordiffuse>
+          </control>
+          <control type="image">
+            <posx>312</posx>
+            <posy>558</posy>
+            <width>153</width>
+            <height>59</height>
+            <aspectratio>keep</aspectratio>
+            <fadetime>400</fadetime>
+            <texture background="true">$INFO[Skin.String(ArtistsLogosPath)]$INFO[ListItem.Artist,,/logo.png]</texture>
+            <visible>!IsEmpty(Skin.String(ArtistsLogosPath))</visible>
+          </control>
+          <!--
+          <control type="image">
+            <posx>162</posx>
+            <posy>556</posy>
+            <width>1</width>
+            <height>63</height>
+            <texture>info/info_flagupright.png</texture>
+            <colordiffuse>AAFFFFFF</colordiffuse>
+          </control>
+-->
         </control>
       </control>
       <control type="group">
@@ -384,7 +431,7 @@
           <pagecontrol>60</pagecontrol>
           <autoscroll delay="3000" time="2000" repeat="10000">Skin.HasSetting(AutoScroll)</autoscroll>
           <textcolor>FFececec</textcolor>
-          <visible>!Container(5000).HasFocus(1)+!Container(5000).HasFocus(4)+!Container(5000).HasFocus(5)+Container.Content(albums)</visible>
+          <visible>![Container(5000).HasFocus(1)|Container(5000).HasFocus(4)|Container(5000).HasFocus(5)|Container(5000).HasFocus(6)|Container(5000).HasFocus(7)]+Container.Content(albums)</visible>
         </control>
         <control type="textbox" id="4">
           <description>Bio</description>
@@ -397,7 +444,7 @@
           <pagecontrol>60</pagecontrol>
           <autoscroll delay="3000" time="2000" repeat="10000">Skin.HasSetting(AutoScroll)</autoscroll>
           <textcolor>FFececec</textcolor>
-          <visible>![Container(5000).HasFocus(1)|Container(5000).HasFocus(4)|Container(5000).HasFocus(5)|Container(5000).HasFocus(6)]+Container.Content(artists)</visible>
+          <visible>![Container(5000).HasFocus(1)|Container(5000).HasFocus(4)|Container(5000).HasFocus(5)|Container(5000).HasFocus(6)|Container(5000).HasFocus(7)]+Container.Content(artists)</visible>
         </control>
       </control>
 
@@ -492,6 +539,11 @@
             <onclick>SendClick(2001,12)</onclick>
             <visible>!Container.Content(albums)</visible>
           </item>
+          <item id="7">
+            <description>cdART</description>
+            <label>31377</label>
+            <onclick>RunAddon(script.cdartmanager)</onclick>
+          </item>
         </content>
       </control>
       <control type="panel" id="50">
@@ -585,8 +637,33 @@
         <bordersize>7</bordersize>
         <visible>Container(5000).HasFocus(4)</visible>
       </control>
+      <control type="image">
+        <posx>757</posx>
+        <posy>302</posy>
+        <width>286</width>
+        <height>286</height>
+        <fadetime>500</fadetime>
+        <aspectratio align="center">keep</aspectratio>
+        <include condition="!Skin.HasSetting(vinylart)+!Skin.HasSetting(blurayart)">cdartlibraryalbums</include>
+        <include condition="Skin.HasSetting(vinylart)">cdartlibraryalbums</include>
+        <include condition="Skin.HasSetting(blurayart)">cdartlibraryalbums</include>
+        <animation effect="rotate" end="-360" center="auto" time="5000" loop="true" reversible="false" condition="StringCompare(ListItem.Album,MusicPlayer.Album)+Player.HasAudio">Conditional</animation>
+        <visible>Container(5000).HasFocus(7)</visible>
+      </control>
+      <control type="label">
+        <description>Filename</description>
+        <posx>550</posx>
+        <posy>690</posy>
+        <width>700</width>
+        <scroll>true</scroll>
+        <haspath>true</haspath>
+        <font>Font_Info</font>
+        <align>left</align>
+        <aligny>center</aligny>
+        <label>$INFO[ListItem.FileNameAndPath]</label>
+        <textcolor>FF868686</textcolor>
+        <visible>Container.Content(albums)</visible>
+      </control>
     </control>
-
-
   </controls>
 </window>
