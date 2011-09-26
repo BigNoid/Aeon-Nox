@@ -2,23 +2,37 @@
   <include name="LowList">
     <control type="group">
       <visible>Control.IsVisible(511)</visible>
-      <!--<control type="group">
+      <control type="group">
+        <posx>25</posx>
+        <posy>155</posy>
         <visible>Player.HasVideo</visible>
+        <animation effect="slide" tween="cubic" easing="inout" time="1300" start="-800,0" end="0,0" delay="1000">Visible</animation>
+        <animation effect="slide" tween="cubic" easing="inout" time="1300" start="-800,0" end="0,0" delay="1000">WindowOpen</animation>
+        <animation effect="slide" start="0,0" end="0,-110" time="150" condition="!Skin.HasSetting(highlist)|Control.HasFocus(7002)">Conditional</animation>
+        <include>Animation_CommonFade</include>
         <control type="image">
-          <posx>0</posx>
-          <posy>0</posy>
-          <width>1280</width>
-          <height>720</height>
-          <colordiffuse>FF000000</colordiffuse>
+          <description>gradient</description>
+          <posx>254</posx>
+          <posy>-11</posy>
+          <width>775</width>
+          <height>342</height>
+          <texture>home/nowplaying/OverlayDialogBackground.png</texture>
+        </control>
+        <control type="image">
+          <posx>280</posx>
+          <posy>10</posy>
+          <width>720</width>
+          <height>300</height>
           <texture>common/black.png</texture>
         </control>
         <control type="videowindow">
-          <posx>0</posx>
-          <posy>0</posy>
-          <width>1280</width>
-          <height>720</height>
+          <posx>280</posx>
+          <posy>10</posy>
+          <width>720</width>
+          <height>300</height>
+          <visible>Player.HasVideo</visible>
         </control>
-      </control>-->
+      </control>
       <control type="image">
         <posx>0</posx>
         <posy>0</posy>
@@ -28,6 +42,12 @@
         <colordiffuse>d0FFFFFF</colordiffuse>
       </control>
       <control type="group">
+        <description>Main info items outside list</description>
+        <include>Animation_VisibleChange200</include> 
+        <animation effect="slide" tween="cubic" easing="in" time="400" start="0,404" end="0,0">WindowOpen</animation>
+        <animation effect="slide" tween="cubic" easing="in" time="400" end="0,404" start="0,0">WindowClose</animation>
+
+        <control type="group">
         <description>Low List Furniture</description>
         <animation effect="slide" start="0,0" end="0,-143" time="150" condition="Skin.HasSetting(highlist)+Control.HasFocus(7002)">Conditional</animation>
         <animation effect="slide" start="0,0" end="0,-33" time="150" condition="!Skin.HasSetting(highlist)+Control.HasFocus(7002)">Conditional</animation>
@@ -40,7 +60,6 @@
           <height>404</height>
           <aspectratio scalediffuse="false">stretch</aspectratio>
           <texture>views/lowlist_panelback_shadow.png</texture>
-          <include>Animation_CommonFade</include>
         </control>
         <control type="image">
           <description>Low List Background Panel</description>
@@ -50,7 +69,6 @@
           <height>404</height>
           <aspectratio scalediffuse="false">stretch</aspectratio>
           <texture>views/lowlist_panelback.png</texture>
-          <include>Animation_CommonFade</include>
           <animation effect="fade" start="100" end="80" time="50" condition="!Skin.HasSetting(listpanelthin)">Conditional</animation>
           <animation effect="fade" start="100" end="35" time="50" condition="Skin.HasSetting(listpanelthin)">Conditional</animation>
         </control>
@@ -85,16 +103,6 @@
           <visible>[Container.Content(tvshows)|Container.Content(seasons)]</visible>
         </control>
       </control>
-      <!--<control type="image">
-        <posx>850</posx>
-        <posy>658</posy>
-        <width>100</width>
-        <height>60</height>
-        <aspectratio>keep</aspectratio>
-        <fadetime>400</fadetime>
-        <texture background="true">$INFO[ListItem.Path,,/logo.png]</texture>
-        <visible>[Container.Content(tvshows)|Container.Content(seasons)]</visible>
-      </control>-->
       <control type="group">
         <description>Low List info Furniture</description>
         <visible>Control.HasFocus(7002)</visible>
@@ -338,37 +346,6 @@
         </control>
       </control>
       <control type="group">
-        <posx>25</posx>
-        <posy>155</posy>
-        <visible>Player.HasVideo</visible>
-        <animation effect="slide" tween="cubic" easing="inout" time="1300" start="-800,0" end="0,0" delay="1000">Visible</animation>
-        <animation effect="slide" tween="cubic" easing="inout" time="1300" start="-800,0" end="0,0" delay="1000">WindowOpen</animation>
-        <animation effect="slide" start="0,0" end="0,-110" time="150" condition="!Skin.HasSetting(highlist)|Control.HasFocus(7002)">Conditional</animation>
-        <include>Animation_CommonFade</include>
-        <control type="image">
-          <description>gradient</description>
-          <posx>254</posx>
-          <posy>-11</posy>
-          <width>775</width>
-          <height>342</height>
-          <texture>home/nowplaying/OverlayDialogBackground.png</texture>
-        </control>
-        <control type="image">
-          <posx>280</posx>
-          <posy>10</posy>
-          <width>720</width>
-          <height>300</height>
-          <texture>common/black.png</texture>
-        </control>
-        <control type="videowindow">
-          <posx>280</posx>
-          <posy>10</posy>
-          <width>720</width>
-          <height>300</height>
-		  <visible>Player.HasVideo</visible>
-        </control>
-      </control>
-      <control type="group">
         <description>Low List Info infolabels</description>
         <visible>Control.HasFocus(7002)+Container.Content(episodes)</visible>
         <control type="fadelabel">
@@ -504,8 +481,258 @@
           <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
         </control>
       </control>
-
       <control type="group">
+        <description>Media Flags</description>
+        <control type="image">
+          <posx>850</posx>
+          <posy>658</posy>
+          <include>OSDAudioFlagsVars</include>
+          <visible>!IsEmpty(ListItem.Thumb)</visible>
+          <texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
+          <visible>!Skin.HasSetting(nostudioratingflags)|Container.Content(tvshows)|[Container.Content(seasons)+ListItem.IsFolder]</visible>
+        </control>
+        <control type="group">
+          <posx>950</posx>
+          <posy>658</posy>
+          <visible>Skin.HasSetting(sourceflags)</visible>
+          <include>LowListSourceFlags</include>
+        </control>
+        <control type="image">
+          <posx>950</posx>
+          <posy>658</posy>
+          <include>OSDAudioFlagsVars</include>
+          <texture>$INFO[ListItem.VideoCodec,flags/videocodec/,.png]</texture>
+          <visible>!Skin.HasSetting(sourceflags)|[!SubString(ListItem.filename,PDTV)+!SubString(ListItem.filename,sdtv)+!SubString(ListItem.Filename,hdtv)+!SubString(ListItem.Filename,hddvd)+!SubString(ListItem.Filename,hd-dvd)+!SubString(ListItem.Filename,bluray)+!SubString(ListItem.Filename,blu-ray)+!SubString(ListItem.Filename,brrip)+!SubString(ListItem.Filename,bdrip)+!SubString(ListItem.Filename,dvd)+!SubString(ListItem.Filename,dvb)+!SubString(ListItem.Filename,.iso,Right)+!SubString(ListItem.Filename,.ifo)+!SubString(ListItem.Filename,web-dl)]</visible>
+        </control>
+        <control type="image">
+          <posx>850</posx>
+          <posy>658</posy>
+          <include>OSDAudioFlagsVars</include>
+          <texture>$INFO[ListItem.VideoAspect,flags/aspectratio/,.png]</texture>
+          <visible>Skin.HasSetting(nostudioratingflags)</visible>
+        </control>
+        <control type="image">
+          <posx>1050</posx>
+          <posy>658</posy>
+          <include>OSDAudioFlagsVars</include>
+          <texture>$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
+        </control>
+        <control type="group">
+          <description>Audio Flags</description>
+          <posx>1150</posx>
+          <posy>658</posy>
+          <include>LowListAudioFlags</include>
+        </control>
+        <control type="group">
+          <description>Rating Flags</description>
+          <posx>1180</posx>
+          <posy>658</posy>
+          <include>LowListRatingFlags</include>
+          <visible>Container.Content(tvshows)|[Container.Content(seasons)+!IsEmpty(ListItem.TVShowTitle)]</visible>
+        </control>
+        <control type="image">
+          <posx>950</posx>
+          <posy>658</posy>
+          <width>220</width>
+          <height>60</height>
+          <aspectratio scalediffuse="true">keep</aspectratio>
+          <fadetime>400</fadetime>
+          <texture diffuse="thumbs/banner_mask.png" background="true">$INFO[ListItem.Path,,/banner.jpg]</texture>
+          <visible>Container.Content(tvshows)|[Container.Content(seasons)+!IsEmpty(ListItem.TVShowTitle)]</visible>
+        </control>
+      </control>
+      <control type="group">
+        <description>Info labels</description>
+        <visible>!Control.HasFocus(7002)</visible>
+        <control type="image">
+          <posx>850</posx>
+          <posy>532</posy>
+          <height>1</height>
+          <width>410</width>
+          <colordiffuse>66FFFFFF</colordiffuse>
+          <texture>views/listpanel_line.png</texture>
+          <visible>!Skin.HasSetting(highlist)+Skin.HasSetting(LowListPlotOnly)+[Container.Content(movies)|Container.Content(episodes)]</visible>
+        </control>
+        <control type="image">
+          <posx>850</posx>
+          <posy>660</posy>
+          <height>1</height>
+          <width>410</width>
+          <colordiffuse>66FFFFFF</colordiffuse>
+          <texture>views/listpanel_line.png</texture>
+        </control>
+        <control type="group">
+          <visible>!Skin.HasSetting(highlist)+!IsEmpty(ListItem.Title)+[Container.Content(movies)|Container.Content(episodes)|[Container.Content(seasons)+!ListItem.IsFolder]]+Skin.HasSetting(LowListPlotOnly)</visible>
+          <animation effect="fade" start="0" end="70" time="400">VisibleChange</animation>
+          <posy>10</posy>
+          <control type="label">
+            <posx>850</posx>
+            <posy>525</posy>
+            <height>13</height>
+            <width>120</width>
+            <font>Font_Reg18</font>
+            <textcolor>abFFFFFF</textcolor>
+            <scroll>true</scroll>
+            <label>$LOCALIZE[20339]:</label>
+          </control>
+          <control type="label">
+            <posx>975</posx>
+            <posy>525</posy>
+            <height>13</height>
+            <width>280</width>
+            <font>Font_Reg18</font>
+            <textcolor>white</textcolor>
+            <scroll>true</scroll>
+            <label fallback="312577">$INFO[ListItem.Director]</label>
+          </control>
+          <control type="label">
+            <posx>850</posx>
+            <posy>550</posy>
+            <height>13</height>
+            <width>120</width>
+            <font>Font_Reg18</font>
+            <textcolor>abFFFFFF</textcolor>
+            <scroll>true</scroll>
+            <label>$LOCALIZE[20417]:</label>
+          </control>
+          <control type="label">
+            <posx>975</posx>
+            <posy>550</posy>
+            <height>13</height>
+            <width>280</width>
+            <font>Font_Reg18</font>
+            <textcolor>white</textcolor>
+            <scroll>true</scroll>
+            <label fallback="312577">$INFO[ListItem.Writer]</label>
+          </control>
+          <control type="label">
+            <posx>850</posx>
+            <posy>575</posy>
+            <height>13</height>
+            <width>120</width>
+            <font>Font_Reg18</font>
+            <textcolor>abFFFFFF</textcolor>
+            <scroll>true</scroll>
+            <label>$LOCALIZE[572]:</label>
+          </control>
+          <control type="label">
+            <posx>975</posx>
+            <posy>575</posy>
+            <height>13</height>
+            <width>280</width>
+            <font>Font_Reg18</font>
+            <textcolor>white</textcolor>
+            <scroll>true</scroll>
+            <label fallback="312577">$INFO[ListItem.Studio]</label>
+          </control>
+          <control type="label">
+            <posx>850</posx>
+            <posy>600</posy>
+            <height>13</height>
+            <width>120</width>
+            <font>Font_Reg18</font>
+            <textcolor>abFFFFFF</textcolor>
+            <scroll>false</scroll>
+            <label>$LOCALIZE[20074]:</label>
+          </control>
+          <control type="label">
+            <posx>975</posx>
+            <posy>600</posy>
+            <height>13</height>
+            <width>280</width>
+            <font>Font_Reg18</font>
+            <textcolor>white</textcolor>
+            <scroll>true</scroll>
+            <label fallback="31452">$INFO[ListItem.Mpaa]</label>
+          </control>
+          <control type="label">
+            <posx>850</posx>
+            <posy>625</posy>
+            <height>13</height>
+            <width>105</width>
+            <font>Font_Reg18</font>
+            <textcolor>abFFFFFF</textcolor>
+            <scroll>true</scroll>
+            <label>$LOCALIZE[2050]:</label>
+          </control>
+          <control type="label">
+            <posx>975</posx>
+            <posy>625</posy>
+            <height>13</height>
+            <width>280</width>
+            <font>Font_Reg18</font>
+            <textcolor>white</textcolor>
+            <scroll>true</scroll>
+            <label fallback="312577">$INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
+          </control>
+        </control>
+        <control type="group">
+          <description>ListItem Info</description>
+          <animation effect="slide" start="0,0" end="0,-110" time="150" condition="!Skin.HasSetting(highlist)">Conditional</animation>
+          <control type="textbox">
+            <posx>850</posx>
+            <posy>510</posy>
+            <width>425</width>
+            <height>148</height>
+            <font>Font_Reg18</font>
+            <label>$INFO[ListItem.Plot]</label>
+            <textcolor>d0FFFFFF</textcolor>
+            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+            <visible>Skin.HasSetting(highlist)</visible>
+          </control>
+          <control type="textbox">
+            <posx>850</posx>
+            <posy>510</posy>
+            <width>425</width>
+            <height>128</height>
+            <font>Font_Reg18</font>
+            <label>$INFO[ListItem.Plot]</label>
+            <textcolor>d0FFFFFF</textcolor>
+            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+            <visible>!Container.Content(tvshows)+[!Container.Content(seasons)|IsEmpty(ListItem.TVShowTitle)]+Skin.HasSetting(LowListPlotOnly)+!Skin.HasSetting(highlist)</visible>
+          </control>
+          <control type="textbox">
+            <posx>850</posx>
+            <posy>510</posy>
+            <width>425</width>
+            <height>250</height>
+            <font>Font_Reg18</font>
+            <label>$INFO[ListItem.Plot]</label>
+            <textcolor>d0FFFFFF</textcolor>
+            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+            <visible>[!Container.Content(seasons)|IsEmpty(ListItem.TVShowTitle)]+[!Skin.HasSetting(LowListPlotOnly)|Container.Content(tvshows)]+!Skin.HasSetting(highlist)</visible>
+          </control>
+          <control type="textbox">
+            <posx>850</posx>
+            <posy>510</posy>
+            <width>425</width>
+            <height>148</height>
+            <font>Font_Reg18</font>
+            <label>$INFO[Container.ShowPlot]</label>
+            <textcolor>d0FFFFFF</textcolor>
+            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+            <visible>Container.Content(seasons)+Skin.HasSetting(highlist)+ListItem.IsFolder</visible>
+          </control>
+          <control type="textbox">
+            <posx>850</posx>
+            <posy>510</posy>
+            <width>425</width>
+            <height>250</height>
+            <font>Font_Reg18</font>
+            <label>$INFO[Container.ShowPlot]</label>
+            <textcolor>d0FFFFFF</textcolor>
+            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+            <visible>Container.Content(seasons)+!Skin.HasSetting(highlist)+ListItem.IsFolder</visible>
+          </control>
+        </control>
+      </control>
+      </control>
+      <control type="group">
+        <description>Thumbs</description>
+        <include>Animation_VisibleChange200</include>
+        <animation effect="slide" tween="cubic" easing="in" time="400" start="-300" end="0">WindowOpen</animation>
+        <animation effect="slide" tween="cubic" easing="in" time="400" end="-300" start="0">WindowClose</animation>
+        <control type="group">
         <description>Media icon</description>
         <posx>10</posx>
         <posy>381</posy>
@@ -894,253 +1121,9 @@
         </control>
 
       </control>
+      </control>
 
 
-      <control type="group">
-        <description>Media Flags</description>
-        <control type="image">
-          <posx>850</posx>
-          <posy>658</posy>
-          <include>OSDAudioFlagsVars</include>
-          <visible>!IsEmpty(ListItem.Thumb)</visible>
-          <texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
-          <visible>!Skin.HasSetting(nostudioratingflags)|Container.Content(tvshows)|[Container.Content(seasons)+ListItem.IsFolder]</visible>
-        </control>
-        <control type="group">
-          <posx>950</posx>
-          <posy>658</posy>
-          <visible>Skin.HasSetting(sourceflags)</visible>
-          <include>LowListSourceFlags</include>
-        </control>
-        <control type="image">
-          <posx>950</posx>
-          <posy>658</posy>
-          <include>OSDAudioFlagsVars</include>
-          <texture>$INFO[ListItem.VideoCodec,flags/videocodec/,.png]</texture>
-          <visible>!Skin.HasSetting(sourceflags)|[!SubString(ListItem.filename,PDTV)+!SubString(ListItem.filename,sdtv)+!SubString(ListItem.Filename,hdtv)+!SubString(ListItem.Filename,hddvd)+!SubString(ListItem.Filename,hd-dvd)+!SubString(ListItem.Filename,bluray)+!SubString(ListItem.Filename,blu-ray)+!SubString(ListItem.Filename,brrip)+!SubString(ListItem.Filename,bdrip)+!SubString(ListItem.Filename,dvd)+!SubString(ListItem.Filename,dvb)+!SubString(ListItem.Filename,.iso,Right)+!SubString(ListItem.Filename,.ifo)+!SubString(ListItem.Filename,web-dl)]</visible>
-        </control>
-        <control type="image">
-          <posx>850</posx>
-          <posy>658</posy>
-          <include>OSDAudioFlagsVars</include>
-          <texture>$INFO[ListItem.VideoAspect,flags/aspectratio/,.png]</texture>
-          <visible>Skin.HasSetting(nostudioratingflags)</visible>
-        </control>
-        <control type="image">
-          <posx>1050</posx>
-          <posy>658</posy>
-          <include>OSDAudioFlagsVars</include>
-          <texture>$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
-        </control>
-        <control type="group">
-          <description>Audio Flags</description>
-          <posx>1150</posx>
-          <posy>658</posy>
-          <include>LowListAudioFlags</include>
-        </control>
-        <control type="group">
-          <description>Rating Flags</description>
-          <posx>1180</posx>
-          <posy>658</posy>
-          <include>LowListRatingFlags</include>
-          <visible>Container.Content(tvshows)|[Container.Content(seasons)+!IsEmpty(ListItem.TVShowTitle)]</visible>
-        </control>
-        <control type="image">
-        <posx>950</posx>
-        <posy>658</posy>
-        <width>220</width>
-        <height>60</height>
-        <aspectratio scalediffuse="true">keep</aspectratio>
-        <fadetime>400</fadetime>
-        <texture diffuse="thumbs/banner_mask.png" background="true">$INFO[ListItem.Path,,/banner.jpg]</texture>
-        <visible>Container.Content(tvshows)|[Container.Content(seasons)+!IsEmpty(ListItem.TVShowTitle)]</visible>
-      </control>
-      </control>
-      <control type="group">
-        <description>Info labels</description>
-        <visible>!Control.HasFocus(7002)</visible>
-        <control type="image">
-          <posx>850</posx>
-          <posy>532</posy>
-          <height>1</height>
-          <width>410</width>
-          <colordiffuse>66FFFFFF</colordiffuse>
-          <texture>views/listpanel_line.png</texture>
-          <visible>!Skin.HasSetting(highlist)+Skin.HasSetting(LowListPlotOnly)+[Container.Content(movies)|Container.Content(episodes)]</visible>
-        </control>
-        <control type="image">
-          <posx>850</posx>
-          <posy>660</posy>
-          <height>1</height>
-          <width>410</width>
-          <colordiffuse>66FFFFFF</colordiffuse>
-          <texture>views/listpanel_line.png</texture>
-        </control>
-        <control type="group">
-          <visible>!Skin.HasSetting(highlist)+!IsEmpty(ListItem.Title)+[Container.Content(movies)|Container.Content(episodes)|[Container.Content(seasons)+!ListItem.IsFolder]]+Skin.HasSetting(LowListPlotOnly)</visible>
-          <animation effect="fade" start="0" end="70" time="400">VisibleChange</animation>
-          <posy>10</posy>
-          <control type="label">
-            <posx>850</posx>
-            <posy>525</posy>
-            <height>13</height>
-            <width>120</width>
-            <font>Font_Reg18</font>
-            <textcolor>abFFFFFF</textcolor>
-            <scroll>true</scroll>
-            <label>$LOCALIZE[20339]:</label>
-          </control>
-          <control type="label">
-            <posx>975</posx>
-            <posy>525</posy>
-            <height>13</height>
-            <width>280</width>
-            <font>Font_Reg18</font>
-            <textcolor>white</textcolor>
-            <scroll>true</scroll>
-            <label fallback="312577">$INFO[ListItem.Director]</label>
-          </control>
-          <control type="label">
-            <posx>850</posx>
-            <posy>550</posy>
-            <height>13</height>
-            <width>120</width>
-            <font>Font_Reg18</font>
-            <textcolor>abFFFFFF</textcolor>
-            <scroll>true</scroll>
-            <label>$LOCALIZE[20417]:</label>
-          </control>
-          <control type="label">
-            <posx>975</posx>
-            <posy>550</posy>
-            <height>13</height>
-            <width>280</width>
-            <font>Font_Reg18</font>
-            <textcolor>white</textcolor>
-            <scroll>true</scroll>
-            <label fallback="312577">$INFO[ListItem.Writer]</label>
-          </control>
-            <control type="label">
-              <posx>850</posx>
-              <posy>575</posy>
-              <height>13</height>
-              <width>120</width>
-              <font>Font_Reg18</font>
-              <textcolor>abFFFFFF</textcolor>
-              <scroll>true</scroll>
-              <label>$LOCALIZE[572]:</label>
-            </control>
-            <control type="label">
-              <posx>975</posx>
-              <posy>575</posy>
-              <height>13</height>
-              <width>280</width>
-              <font>Font_Reg18</font>
-              <textcolor>white</textcolor>
-              <scroll>true</scroll>
-              <label fallback="312577">$INFO[ListItem.Studio]</label>
-            </control>
-            <control type="label">
-              <posx>850</posx>
-              <posy>600</posy>
-              <height>13</height>
-              <width>120</width>
-              <font>Font_Reg18</font>
-              <textcolor>abFFFFFF</textcolor>
-              <scroll>false</scroll>
-              <label>$LOCALIZE[20074]:</label>
-            </control>
-            <control type="label">
-              <posx>975</posx>
-              <posy>600</posy>
-              <height>13</height>
-              <width>280</width>
-              <font>Font_Reg18</font>
-              <textcolor>white</textcolor>
-              <scroll>true</scroll>
-              <label fallback="31452">$INFO[ListItem.Mpaa]</label>
-            </control>
-          <control type="label">
-            <posx>850</posx>
-            <posy>625</posy>
-            <height>13</height>
-            <width>105</width>
-            <font>Font_Reg18</font>
-            <textcolor>abFFFFFF</textcolor>
-            <scroll>true</scroll>
-            <label>$LOCALIZE[2050]:</label>
-          </control>
-          <control type="label">
-            <posx>975</posx>
-            <posy>625</posy>
-            <height>13</height>
-            <width>280</width>
-            <font>Font_Reg18</font>
-            <textcolor>white</textcolor>
-            <scroll>true</scroll>
-            <label fallback="312577">$INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
-          </control>
-        </control>
-        <control type="group">
-          <description>ListItem Info</description>
-          <animation effect="slide" start="0,0" end="0,-110" time="150" condition="!Skin.HasSetting(highlist)">Conditional</animation>
-          <control type="textbox">
-            <posx>850</posx>
-            <posy>510</posy>
-            <width>425</width>
-            <height>148</height>
-            <font>Font_Reg18</font>
-            <label>$INFO[ListItem.Plot]</label>
-            <textcolor>d0FFFFFF</textcolor>
-            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>Skin.HasSetting(highlist)</visible>
-          </control>
-          <control type="textbox">
-            <posx>850</posx>
-            <posy>510</posy>
-            <width>425</width>
-            <height>128</height>
-            <font>Font_Reg18</font>
-            <label>$INFO[ListItem.Plot]</label>
-            <textcolor>d0FFFFFF</textcolor>
-            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>!Container.Content(tvshows)+[!Container.Content(seasons)|IsEmpty(ListItem.TVShowTitle)]+Skin.HasSetting(LowListPlotOnly)+!Skin.HasSetting(highlist)</visible>
-          </control>
-          <control type="textbox">
-            <posx>850</posx>
-            <posy>510</posy>
-            <width>425</width>
-            <height>250</height>
-            <font>Font_Reg18</font>
-            <label>$INFO[ListItem.Plot]</label>
-            <textcolor>d0FFFFFF</textcolor>
-            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>[!Container.Content(seasons)|IsEmpty(ListItem.TVShowTitle)]+[!Skin.HasSetting(LowListPlotOnly)|Container.Content(tvshows)]+!Skin.HasSetting(highlist)</visible>
-          </control>
-          <control type="textbox">
-            <posx>850</posx>
-            <posy>510</posy>
-            <width>425</width>
-            <height>148</height>
-            <font>Font_Reg18</font>
-            <label>$INFO[Container.ShowPlot]</label>
-            <textcolor>d0FFFFFF</textcolor>
-            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>Container.Content(seasons)+Skin.HasSetting(highlist)+ListItem.IsFolder</visible>
-          </control>
-          <control type="textbox">
-            <posx>850</posx>
-            <posy>510</posy>
-            <width>425</width>
-            <height>250</height>
-            <font>Font_Reg18</font>
-            <label>$INFO[Container.ShowPlot]</label>
-            <textcolor>d0FFFFFF</textcolor>
-            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>Container.Content(seasons)+!Skin.HasSetting(highlist)+ListItem.IsFolder</visible>
-          </control>
-        </control>
-      </control>
       <control type="fixedlist" id="511">
         <posx>300</posx>
         <posy>503</posy>
@@ -1157,6 +1140,9 @@
         <preloaditems>2</preloaditems>
         <focusposition>1</focusposition>
         <visible>Container.Content(movies)|Container.Content(episodes)|Container.Content(seasons)|Container.Content(tvshows)</visible>
+        <include>Animation_VisibleChange200</include>
+        <animation effect="slide" tween="cubic" easing="in" time="400" start="0,404" end="0,0">WindowOpen</animation>
+        <animation effect="slide" tween="cubic" easing="in" time="400" end="0,404" start="0,0">WindowClose</animation>
         <animation effect="slide" start="0,0" end="0,-110" time="150" condition="!Skin.HasSetting(highlist)">Conditional</animation>
         <animation effect="fade" start="100" end="0" time="50" condition="Control.HasFocus(7002)">Conditional</animation>
         <itemlayout height="44" width="550">
