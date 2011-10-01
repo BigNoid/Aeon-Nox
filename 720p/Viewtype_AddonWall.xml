@@ -766,6 +766,17 @@
             <font>Font_Reg18</font>
             <textcolor>abFFFFFF</textcolor>
             <scroll>true</scroll>
+            <label>$INFO[ListItem.Studio]</label>
+            <visible>[Window.IsActive(programs)+Substring(Container.FolderPath,advanced.launcher)]</visible>
+          </control>
+          <control type="label">
+            <posx>840</posx>
+            <posy>135</posy>
+            <height>13</height>
+            <width>400</width>
+            <font>Font_Reg18</font>
+            <textcolor>abFFFFFF</textcolor>
+            <scroll>true</scroll>
             <label>$INFO[ListItem.TVShowTitle]</label>
             <visible>Container.COntent(seasons)|Container.Content(episodes)</visible>
           </control>
@@ -802,18 +813,17 @@
             <textcolor>abFFFFFF</textcolor>
             <scroll>true</scroll>
             <label>$INFO[ListItem.Genre]</label>
-            <visible>Container.Content(tvshows)</visible>
+            <visible>Container.Content(tvshows)|[Window.IsActive(programs)+Substring(Container.FolderPath,advanced.launcher)]</visible>
           </control>
           <control type="label">
-            <posx>840</posx>
-            <posy>160</posy>
+            <posx>1260</posx>
+            <posy>710</posy>
             <height>13</height>
-            <width>400</width>
+            <width>1200</width>
             <font>Font_Reg18</font>
+            <align>right</align>
             <textcolor>abFFFFFF</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <scroll>true</scroll>
-            <label>$INFO[ListItem.Studio]$INFO[ListItem.Premiered, • ]</label>
+            <label>$INFO[ListItem.Writer]$INFO[ListItem.Premiered, • ]</label>
             <visible>[Window.IsActive(programs)+Substring(Container.FolderPath,advanced.launcher)]</visible>
             <animation effect="slide" start="0,0" end="0,-25" reversible="true" condition="Container.Content(episodes)">Conditional</animation>
           </control>
@@ -863,13 +873,12 @@
           </control>
           <control type="textbox">
             <posx>840</posx>
-            <posy>212</posy>
-            <width>350</width>
-            <height>417</height>
+            <posy>170</posy>
+            <width>400</width>
+            <height>230</height>
             <font>Font_Reg18</font>
             <label fallback="312577">$INFO[ListItem.Plot]</label>
             <textcolor>d0FFFFFF</textcolor>
-            <shadowcolor>black</shadowcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
             <visible>!IsEmpty(ListItem.Title)+[Window.IsActive(programs)+Substring(Container.FolderPath,advanced.launcher)]</visible>
           </control>
@@ -1033,7 +1042,7 @@
             <height>245</height>
             <texture>home/nowplaying/OverlayDialogBackground.png</texture>
             <include>Animation_VisibleChange200</include>
-            <visible>!Player.Hasvideo+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(episodes)|Window.IsActive(pictures)|Container.Content(artists)|Container.Content(addons)]</visible>
+            <visible>!Player.Hasvideo+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(episodes)|Window.IsActive(pictures)|Container.Content(artists)|Container.Content(addons)|[Window.IsActive(programs)+Substring(Container.FolderPath,advanced.launcher)]]</visible>
           </control>
           <control type="image">
             <posx>35</posx>
@@ -1041,32 +1050,11 @@
             <width>390</width>
             <height>215</height>
             <fadetime>IconCrossfadeTime</fadetime>
-            <aspectratio scalediffuse="false">scale</aspectratio>
-            <texture background="true">$INFO[Listitem.Property(Fanart_Image)]</texture>
+            <include condition="Window.IsActive(pictures)">Aspectratio_Keep</include>
+            <include condition="!Window.IsActive(pictures)">Aspectratio_Scale</include>
+            <texture background="true">$VAR[InfoWallPreviewTextureVar]</texture>
             <include>Animation_VisibleChange200</include>
-            <visible>Container.Content(movies)|Container.Content(tvshows)|Container.Content(episodes)|Container.Content(artists)</visible>
-          </control>
-          <control type="image">
-            <posx>35</posx>
-            <posy>471</posy>
-            <width>390</width>
-            <height>215</height>
-            <fadetime>IconCrossfadeTime</fadetime>
-            <aspectratio scalediffuse="false">scale</aspectratio>
-            <texture background="true" fallback="special://skin/backgrounds/addons.jpg">$INFO[Listitem.Property(Fanart_Image)]</texture>
-            <include>Animation_VisibleChange200</include>
-            <visible>Container.Content(addons)</visible>
-          </control>
-          <control type="image">
-            <posx>35</posx>
-            <posy>471</posy>
-            <width>390</width>
-            <height>215</height>
-            <fadetime>IconCrossfadeTime</fadetime>
-            <aspectratio align="center">keep</aspectratio>
-            <texture background="true">$INFO[Listitem.Thumb]</texture>
-            <include>Animation_VisibleChange200</include>
-            <visible>Window.IsActive(pictures)</visible>
+            <visible>!Player.Hasvideo+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(episodes)|Window.IsActive(pictures)|Container.Content(artists)|Container.Content(addons)|[Window.IsActive(programs)+Substring(Container.FolderPath,advanced.launcher)]]</visible>
           </control>
         </control>
       </control>
