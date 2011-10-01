@@ -270,11 +270,18 @@
     <value condition="Container.Content(studios)+IntegerGreaterThan(Container.NumItems,1)">$LOCALIZE[20388]</value>
     <value condition="Container.Content(directors)+!IntegerGreaterThan(Container.NumItems,1)">$LOCALIZE[20339]</value>
     <value condition="Container.Content(directors)+IntegerGreaterThan(Container.NumItems,1)">$LOCALIZE[20348]</value>
-    <value condition="Container.Content(addons)+!IntegerGreaterThan(Container.NumItems,1)">$LOCALIZE[24000]</value>
-    <value condition="Container.Content(addons)+IntegerGreaterThan(Container.NumItems,1)">$LOCALIZE[24001]</value>
     <value>$LOCALIZE[31025]</value>
   </variable>
-  
+  <variable name="VideoFanartVar">
+    <value condition="Container.Content(movies)]+IsEmpty(Listitem.Property(Fanart_Image))">special://skin/backgrounds/fallback_movies.jpg</value>
+    <value condition="[Container.Content(TVShows) | [Container.Content(Episodes) + stringcompare(Container.FolderPath,videodb://5/)]+IsEmpty(Listitem.Property(Fanart_Image))">special://skin/backgrounds/fallback_tvshows.jpg</value>
+    <value condition="Container.Content(Seasons) | [Container.Content(Episodes) + !stringcompare(Container.FolderPath,videodb://5/)]+IsEmpty(Fanart.Image)">special://skin/backgrounds/fallback_tvshows.jpg</value>
+    <value condition="[Container.Content(MusicVideos) | Container.Content(Artists) | Container.Content(Albums)]+IsEmpty(Listitem.Property(Fanart_Image))">special://skin/backgrounds/music.jpg</value>
+    <value condition="Container.Content(Seasons) | [Container.Content(Episodes) + !stringcompare(Container.FolderPath,videodb://5/)]+!IsEmpty(Fanart.Image)">$INFO[Fanart.Image]</value>
+    <value condition="Container.Content(addons)+IsEmpty(Listitem.Property(Fanart_Image))">special://skin/backgrounds/addons.jpg</value>
+    <value condition="Container.Content(files)+IsEmpty(Listitem.Property(Fanart_Image))">special://skin/backgrounds/videos.jpg</value>
+    <value>$INFO[Listitem.Property(Fanart_Image)]</value>
+  </variable>
   
   <include name="CommonMediaPlayingBackground">
 		<control type="image">
@@ -341,8 +348,20 @@
     <control type="multiimage">
       <include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
       <include>CommonFanartVars</include>
-      <imagepath fallback="special://skin/backgrounds/videos.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_Video_Folder)]</imagepath>
-      <visible>[Skin.HasSetting(VideoLibraryTVFanart)+[Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]]|[Skin.HasSetting(VideoLibraryMovieFanart)+Container.Content(movies)]|Container.Content(files)|Container.Content(addons)</visible>
+      <imagepath fallback="special://skin/backgrounds/music.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_Video_Folder)]</imagepath>
+      <visible>Skin.HasSetting(VideoLibraryMusicVideoFanart)+[Container.Content(MusicVideos) | Container.Content(Artists) | Container.Content(Albums)]</visible>
+    </control>
+    <control type="multiimage">
+      <include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
+      <include>CommonFanartVars</include>
+      <imagepath fallback="special://skin/backgrounds/movies.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_Movies_Folder)]</imagepath>
+      <visible>Skin.HasSetting(VideoLibraryMovieFanart)+Container.Content(movies)</visible>
+    </control>
+    <control type="multiimage">
+      <include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
+      <include>CommonFanartVars</include>
+      <imagepath fallback="special://skin/backgrounds/tvshows.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_TVShow_Folder)]</imagepath>
+      <visible>Skin.HasSetting(VideoLibraryTVFanart)+[Container.Content(TVShows) | Container.Content(Seasons) | Container.Content(Episodes)]]</visible>
     </control>
   </include>
 	<include name="CommonMusicBackground">
