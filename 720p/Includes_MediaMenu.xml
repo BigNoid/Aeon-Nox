@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <includes>
-  <!--Max: 1697 -->
+  <!--Max: 1698 -->
   <include name="MusicPlaylistButtons">
     <control type="radiobutton" id="20">
       <description>Shuffle button</description>
@@ -516,7 +516,7 @@
       <label>$LOCALIZE[31240]</label>
       <onclick>Skin.ToggleSetting(newstatus)</onclick>
       <selected>Skin.HasSetting(newstatus)</selected>
-      <enable>![Skin.HasSetting(landscapelogo)+Container.Content(tvshows)+!Skin.HasSetting(showcaseinfoontv)]+Skin.HasSetting(homepageHideRecentlyAdded)</enable>
+      <enable>![Control.IsVisible(503)+Skin.HasSetting(landscapelogo)+Container.Content(tvshows)+!Skin.HasSetting(showcaseinfoontv)]+Skin.HasSetting(homepageHideRecentlyAdded)</enable>
       <visible>[Control.IsVisible(51)|Control.IsVisible(514)|Control.IsVisible(517)|Control.IsVisible(508)|Control.IsVisible(501)|Control.IsVisible(504)|Control.IsVisible(55)|Control.IsVisible(510)|Control.IsVisible(503)|Control.IsVisible(508)|Control.IsVisible(512)|Control.IsVisible(560)|Control.IsVisible(516)]+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <control type="radiobutton" id="1637">
@@ -525,7 +525,7 @@
       <label>$LOCALIZE[31241]</label>
       <onclick>Skin.ToggleSetting(watchedoverlay)</onclick>
       <selected>Skin.HasSetting(watchedoverlay)</selected>
-      <enable>![Skin.HasSetting(landscapelogo)+Container.Content(tvshows)+!Skin.HasSetting(showcaseinfoontv)]</enable>
+      <enable>![Control.IsVisible(503)+Skin.HasSetting(landscapelogo)+Container.Content(tvshows)+!Skin.HasSetting(showcaseinfoontv)]</enable>
       <visible>[Control.IsVisible(51)|Control.IsVisible(514)|Control.IsVisible(517)|Control.IsVisible(508)|Control.IsVisible(501)|Control.IsVisible(504)|Control.IsVisible(55)|Control.IsVisible(510)|Control.IsVisible(503)|Control.IsVisible(508)|Control.IsVisible(512)|Control.IsVisible(560)|Control.IsVisible(516)]+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <!--InfoWall Options-->
@@ -536,6 +536,7 @@
       <onclick>Skin.ToggleSetting(usecasesinfowall)</onclick>
       <onclick>Skin.Reset(useclearcasesinfowall)</onclick>
       <selected>Skin.HasSetting(usecasesinfowall)</selected>
+      <enable>![Skin.HasSetting(TVInfoWallBanner)|Skin.HasSetting(TVInfoWallLandscape)]</enable>
       <visible>Control.IsVisible(512)+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)]+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <control type="radiobutton" id="1643">
@@ -545,6 +546,7 @@
       <onclick>Skin.ToggleSetting(useclearcasesinfowall)</onclick>
       <onclick>Skin.Reset(usecasesinfowall)</onclick>
       <selected>Skin.HasSetting(useclearcasesinfowall)</selected>
+      <enable>![Skin.HasSetting(TVInfoWallBanner)|Skin.HasSetting(TVInfoWallLandscape)]</enable>
       <visible>Control.IsVisible(512)+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)]+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <control type="radiobutton" id="1644">
@@ -561,6 +563,7 @@
       <label>$LOCALIZE[31454]</label>
       <onclick>Skin.ToggleSetting(TVInfoWallBanner)</onclick>
       <onclick>Skin.Reset(TVInfoWallLandscape)</onclick>
+      <onclick>Skin.Reset(TVInfoWallLogo)</onclick>
       <selected>Skin.HasSetting(TVInfoWallBanner)</selected>
       <visible>Control.IsVisible(512)+Container.Content(tvshows)+!Skin.HasSetting(hideoptions)</visible>
     </control>
@@ -570,8 +573,29 @@
       <label>$LOCALIZE[31150]</label>
       <onclick>Skin.ToggleSetting(TVInfoWallLandscape)</onclick>
       <onclick>Skin.Reset(TVInfoWallBanner)</onclick>
+      <onclick>Skin.Reset(TVInfoWallLogo)</onclick>
       <selected>Skin.HasSetting(TVInfoWallLandscape)</selected>
       <visible>Control.IsVisible(512)+Container.Content(tvshows)+!Skin.HasSetting(hideoptions)</visible>
+    </control>
+    <control type="radiobutton" id="1698">
+      <description>Toggle aspect of thumbs</description>
+      <include>Objects_MediaMenuButtonAlt</include>
+      <label>Logo</label>
+      <onclick>Skin.ToggleSetting(TVInfoWallLogo)</onclick>
+      <onclick>Skin.Reset(TVInfoWallBanner)</onclick>
+      <onclick>Skin.Reset(TVInfoWallLandscape)</onclick>
+      <selected>Skin.HasSetting(TVInfoWallLogo)</selected>
+      <visible>Control.IsVisible(512)+Container.Content(tvshows)+!Skin.HasSetting(hideoptions)</visible>
+    </control>
+    <control type="togglebutton" id="1699">
+      <description>Prefer Subtitle over country</description>
+      <pulseonselect>yes</pulseonselect>
+      <include>Objects_MediaMenuButtonAlt</include>
+      <label>$LOCALIZE[202]: [B]$LOCALIZE[351][/B]</label>
+      <altlabel>$LOCALIZE[202]: [B]$LOCALIZE[31429][/B]</altlabel>
+      <onclick>Skin.ToggleSetting(InfoWallTagLine)</onclick>
+      <usealttexture>!Skin.HasSetting(InfoWallTagLine)</usealttexture>
+      <visible>Control.IsVisible(512)+Container.Content(movies)+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <!--Posters Options-->
     <control type="radiobutton" id="1647">
@@ -814,6 +838,50 @@
 
       <control type="group">
         <description>First Panel</description>
+        <control type="group">
+          <animation type="Conditional" condition="!ControlGroup(9000).HasFocus">
+            <effect type="slide" end="-272" time="400" easing="in" tween="cubic"/>
+          </animation>
+          <animation type="WindowOpen" condition="!Window.Previous(fullscreenvideo)">
+            <effect type="slide" start="-70" end="0" time="400" easing="in" tween="cubic" delay="1000"/>
+          </animation>
+          <animation effect="fade" time="250" condition="Window.Previous(fullscreenvideo)">WindowOpen</animation>
+          <animation type="WindowClose">
+            <effect type="slide" end="-70" time="400" easing="in" tween="cubic"/>
+          </animation>
+          <animation effect="slide" start="0,0" end="0,-230" time="200" reversible="false" condition="Control.IsVisible(55)|Control.IsVisible(511)|Control.IsVisible(506)">Conditional</animation>
+          <animation effect="slide" start="0" end="-40" time="200" reversible="true" condition="[![Container.Content(tvshows)+[Skin.HasSetting(TVInfoWallBanner)|Skin.HasSetting(TVInfoWallLogo)]]+Container(512).Column(0)+Container(512).Row(1)]|[Container.Content(tvshows)+Skin.HasSetting(TVInfoWallBanner)+Container(512).Column(0)+[Container(512).Row(3)|Container(512).Row(4)]]">Conditional</animation>
+          <control type="image">
+            <description>Tool Tip</description>
+            <posx>272</posx>
+            <posy>272</posy>
+            <width>58</width>
+            <height>176</height>
+            <aspectratio>keep</aspectratio>
+            <texture>tooltip.png</texture>
+            <include>Animation_CommonFade</include>
+          </control>
+          <control type="image">
+            <description>right arrow</description>
+            <posx>275</posx>
+            <posy>350</posy>
+            <width>20</width>
+            <height>20</height>
+            <texture>views/multiplex_arrow.png</texture>
+            <include>Animation_VisibleChange400</include>
+            <visible>!ControlGroup(9000).HasFocus</visible>
+          </control>
+          <control type="image">
+            <description>right arrow</description>
+            <posx>275</posx>
+            <posy>350</posy>
+            <width>20</width>
+            <height>20</height>
+            <texture>views/multiplex_arrowfocus.png</texture>
+            <include>Animation_VisibleChange400</include>
+            <visible>ControlGroup(9000).HasFocus</visible>
+          </control>
+        </control>
         <control type="image">
           <posx>-215</posx>
           <posy>190</posy>
@@ -856,7 +924,6 @@
             <animation effect="rotate" center="auto" start="0" end="-90" time="100" condition="true">Conditional</animation>
           </control>
         </control>
-
         <control type="grouplist" id="9003">
           <posx>0</posx>
           <posy>15</posy>
