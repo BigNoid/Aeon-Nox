@@ -48,6 +48,7 @@
       </control>
       <include>Neon_Floor</include>
       <control type="group">
+        <animation effect="slide" start="0" end="10" time="200" reversible="true" condition="!Skin.HasSetting(HideToolTip)">Conditional</animation>
         <include>Animation_ListSlideLeft</include>
         <control type="image">
           <posx>20</posx>
@@ -2966,34 +2967,52 @@
       <enable>!Skin.HasSetting(kioskmode)</enable>
       <visible>!Skin.HasSetting(kioskmode)</visible>
       <posy>25</posy>
-      <control type="group" >
-        <description>Second Panel</description>
-        <animation type="Conditional" condition="!Control.HasFocus(9010)">
-          <effect type="fade" start="100" end="0" time="400" reversible="false"/>
-          <effect type="rotatey" start="0" end="-130" time="700" center="-20,0" tween="cubic" easing="in"/>
-        </animation>
-        <control type="image">
-          <posx>0</posx>
-          <posy>190</posy>
-          <width>680</width>
-          <height>300</height>
-          <texture background="true">views/listpanel_black.png</texture>
-          <animation effect="rotate" center="auto" start="0" end="-90" time="100" condition="true">Conditional</animation>
-          <include>Animation_MediaMenuSlide</include>
-        </control>
-        <control type="image">
-          <posx>0</posx>
-          <posy>190</posy>
-          <width>680</width>
-          <height>300</height>
-          <texture background="true">views/listpanel_back_noreflect.png</texture>
-          <animation effect="rotate" center="auto" start="0" end="-90" time="100" condition="true">Conditional</animation>
-          <include>Animation_MediaMenuSlide</include>
-        </control>
-      </control>
-
       <control type="group">
         <description>First Panel</description>
+        <control type="group">
+          <visible>!Skin.HasSetting(HideToolTip)</visible>
+          <posy>-25</posy>
+          <animation type="Conditional" condition="!ControlGroup(9000).HasFocus">
+            <effect type="slide" end="-272" time="400" easing="in" tween="cubic"/>
+          </animation>
+          <animation type="WindowOpen" condition="!Window.Previous(fullscreenvideo)">
+            <effect type="slide" start="-70" end="0" time="400" easing="in" tween="cubic" delay="1000"/>
+          </animation>
+          <animation effect="fade" time="250" condition="Window.Previous(fullscreenvideo)">WindowOpen</animation>
+          <animation type="WindowClose">
+            <effect type="slide" end="-70" time="400" easing="in" tween="cubic"/>
+          </animation>
+          <control type="image">
+            <description>Tool Tip</description>
+            <posx>272</posx>
+            <posy>272</posy>
+            <width>58</width>
+            <height>176</height>
+            <aspectratio>keep</aspectratio>
+            <texture>tooltip.png</texture>
+            <include>Animation_CommonFade</include>
+          </control>
+          <control type="image">
+            <description>right arrow</description>
+            <posx>275</posx>
+            <posy>350</posy>
+            <width>20</width>
+            <height>20</height>
+            <texture>views/multiplex_arrow.png</texture>
+            <include>Animation_VisibleChange400</include>
+            <visible>!ControlGroup(9000).HasFocus</visible>
+          </control>
+          <control type="image">
+            <description>right arrow</description>
+            <posx>275</posx>
+            <posy>350</posy>
+            <width>20</width>
+            <height>20</height>
+            <texture>views/multiplex_arrowfocus.png</texture>
+            <include>Animation_VisibleChange400</include>
+            <visible>ControlGroup(9000).HasFocus</visible>
+          </control>
+        </control>
         <control type="image">
           <posx>-215</posx>
           <posy>190</posy>
