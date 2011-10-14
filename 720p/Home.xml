@@ -6,9 +6,19 @@
 	<allowoverlay>yes</allowoverlay>
 	<controls>
     <!-- Fanart -->
-		<control type="multiimage">
+    <control type="multiimage">
       <include>CommonFanartVars</include>
-			<imagepath background="true">$VAR[HomeFanartVar]</imagepath>
+      <imagepath background="true">$INFO[Container(9000).ListItem.Icon]</imagepath>
+      <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
+      <animation effect="slide" start="-10,-10" end="10,10" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
+      <visible>![Control.HasFocus(8000)|Control.HasFocus(8003)]|IsEmpty(Control.GetLabel(8999))</visible>
+    </control>
+    <control type="multiimage" id="8999">
+      <fadetime>600</fadetime>
+      <include>CommonFanartVars</include>
+      <include>VisibleFadeEffect</include>
+      <imagepath background="true">$VAR[HomeFanartVar]</imagepath>
+      <visible>Control.HasFocus(8000)|Control.HasFocus(8003)</visible>
       <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
       <animation effect="slide" start="-10,-10" end="10,10" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
     </control>
@@ -46,16 +56,8 @@
 		<!-- Latest/Random Items -->
 		<control type="group">
 			<include>Animation_OpenCloseZoom</include>
-			<include condition="Skin.HasSetting(HomeLatestMovies)">LatestMovies</include>
-			<include condition="Skin.HasSetting(HomeRandomMovies)">RandomMovies</include>
-			<include condition="Skin.HasSetting(HomeLatestTV)">LatestTV</include>
-			<include condition="Skin.HasSetting(HomeRandomTV)">RandomTV</include>
-			<include condition="Skin.HasSetting(HomeLatestMusic)">LatestMusic</include>
-			<include condition="Skin.HasSetting(HomeRandomMusic)">RandomMusic</include>
-			<include condition="Skin.HasSetting(HomeLatestAlbums)">LatestAlbums</include>
-			<include condition="Skin.HasSetting(HomeRandomAddons)">RandomAddons</include>
+			<include condition="Skin.HasSetting(homepageHideRecentlyAdded)">RecentWidget</include>
 			<include condition="Skin.HasSetting(HomeVideoBookmarks)">MovieBookmarkWidget</include>
-			<include condition="Skin.HasSetting(HomeRandomAlbums)">RandomAlbums</include>
 		</control>
     <!-- Library Totals -->
     <include>LibraryStats</include>
@@ -74,6 +76,7 @@
 			<control type="group" id="9001">
 				<posx>160</posx>
 				<posy>406</posy>
+        <visible>Container(9000).HasFocus(6)|Container(9000).HasFocus(2) | Container(9000).HasFocus(3) | Container(9000).HasFocus(5) | Container(9000).HasFocus(7) | Container(9000).HasFocus(9) | [Container(9000).HasFocus(1) + [!IsEmpty(Skin.String(HomeProgramButton1)) |!IsEmpty(Skin.String(HomeProgramButton2)) |!IsEmpty(Skin.String(HomeProgramButton3)) |!IsEmpty(Skin.String(HomeProgramButton4)) | !IsEmpty(Skin.String(HomeProgramButton5)) | !IsEmpty(Skin.String(HomeProgramButton6))]] | Container(9000).HasFocus(10) | Container(9000).HasFocus(11) | Container(9000).HasFocus(12)</visible>
 				<animation effect="fade" start="100" end="0" time="300" condition="!Control.HasFocus(9010)">conditional</animation>
 				<animation effect="slide" start="0,0" end="0,-40" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(9010)">conditional</animation>
 				<control type="image">
@@ -94,9 +97,7 @@
           <scrolltime tween="quadratic" easing="out">300</scrolltime>
           <onup>9000</onup>
           <ondown condition="Skin.HasSetting(HomeVideoBookmarks)+Container(9000).HasFocus(2)">8005</ondown>
-          <ondown condition="[Skin.HasSetting(HomeLatestMovies)|Skin.HasSetting(HomeRandomMovies)]+Container(9000).HasFocus(10)">8000</ondown>
-          <ondown condition="[Skin.HasSetting(HomeLatestTV)|Skin.HasSetting(HomeRandomTV)]+Container(9000).HasFocus(11)">8001</ondown>
-          <ondown condition="[Skin.HasSetting(HomeLatestMusic)|Skin.HasSetting(HomeRandomMusic)|Skin.HasSetting(HomeLatestAlbums)|Skin.HasSetting(HomeRandomAlbums)]+Container(9000).HasFocus(3)">8002</ondown>
+          <ondown condition="![Skin.HasSetting(HomeVideoBookmarks)+Container(9000).HasFocus(2)]">8000</ondown>
           <itemlayout width="145" height="33">
 						<control type="label">
 							<posx>72.5</posx>
@@ -244,16 +245,13 @@
 				<height>150</height>
 				<onleft>9000</onleft>
 				<onright>9000</onright>
-        <onup condition="Skin.HasSetting(HomeVideoBookmarks)+Container(9000).HasFocus(2)+Skin.HasSetting(lowermainmenu)">8005</onup>
-        <onup condition="[Skin.HasSetting(HomeRandomPoster)|Skin.HasSetting(HomeLatestPoster)]+Container(9000).HasFocus(10)">8003</onup>
-        <onup condition="![Skin.HasSetting(HomeRandomPoster)|Skin.HasSetting(HomeLatestPoster)]+[Skin.HasSetting(HomeLatestMovies)|Skin.HasSetting(HomeRandomMovies)]+Skin.HasSetting(lowermainmenu)+Container(9000).HasFocus(10)">8000</onup>
-        <onup condition="[Skin.HasSetting(HomeLatestTV)|Skin.HasSetting(HomeRandomTV)]+Container(9000).HasFocus(11)+Skin.HasSetting(lowermainmenu)">8001</onup>
-        <onup condition="[Skin.HasSetting(HomeLatestMusic)|Skin.HasSetting(HomeRandomMusic)|Skin.HasSetting(HomeLatestAlbums)|Skin.HasSetting(HomeRandomAlbums)]+Container(9000).HasFocus(3)+Skin.HasSetting(lowermainmenu)">8002</onup>
-        <onup condition="Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8)+Skin.HasSetting(lowermainmenu)">8004</onup>
-        <onup condition="![[Skin.HasSetting(HomeRandomPoster)|Skin.HasSetting(HomeLatestPoster)]+Container(9000).HasFocus(10)]+![Skin.HasSetting(lowermainmenu)+[[[Skin.HasSetting(HomeLatestMusic)|Skin.HasSetting(HomeRandomMusic)|Skin.HasSetting(HomeLatestAlbums)|Skin.HasSetting(HomeRandomAlbums)]+Container(9000).HasFocus(3)]|[[Skin.HasSetting(HomeLatestTV)|Skin.HasSetting(HomeRandomTV)]+Container(9000).HasFocus(11)]|[[Skin.HasSetting(HomeLatestMovies)|Skin.HasSetting(HomeRandomMovies)]+Container(9000).HasFocus(10)]|[Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8)]|[Skin.HasSetting(HomeVideoBookmarks)+Container(9000).HasFocus(2)]]]+!Skin.HasSetting(lockmainmenu)">Skin.ToggleSetting(lowermainmenu)</onup>
-        <ondown condition="Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8)">8004</ondown>
-        <ondown condition="Container(9000).HasFocus(6)|Container(9000).HasFocus(2) | Container(9000).HasFocus(3) | Container(9000).HasFocus(5) | Container(9000).HasFocus(7) | Container(9000).HasFocus(9) | [Container(9000).HasFocus(1) + [!IsEmpty(Skin.String(HomeProgramButton1)) |!IsEmpty(Skin.String(HomeProgramButton2)) |!IsEmpty(Skin.String(HomeProgramButton3)) |!IsEmpty(Skin.String(HomeProgramButton4)) | !IsEmpty(Skin.String(HomeProgramButton5)) | !IsEmpty(Skin.String(HomeProgramButton6))]] | Container(9000).HasFocus(10) | Container(9000).HasFocus(11) | Container(9000).HasFocus(12)">9010</ondown>
-        <ondown condition="![Container(9000).HasFocus(8)|Container(9000).HasFocus(6)|Container(9000).HasFocus(2) | Container(9000).HasFocus(3) | Container(9000).HasFocus(5) | Container(9000).HasFocus(7) | Container(9000).HasFocus(9) | [Container(9000).HasFocus(1) + [!IsEmpty(Skin.String(HomeProgramButton1)) |!IsEmpty(Skin.String(HomeProgramButton2)) |!IsEmpty(Skin.String(HomeProgramButton3)) |!IsEmpty(Skin.String(HomeProgramButton4)) | !IsEmpty(Skin.String(HomeProgramButton5)) | !IsEmpty(Skin.String(HomeProgramButton6))]] | Container(9000).HasFocus(10) | Container(9000).HasFocus(11) | Container(9000).HasFocus(12)]+!Skin.HasSetting(lockmainmenu)">Skin.ToggleSetting(lowermainmenu)</ondown>
+        <onup condition="Control.isVisible(8996)+Skin.HasSetting(lowermainmenu)">8005</onup>
+        <onup condition="Control.isVisible(8997)">8003</onup>
+        <onup condition="Control.IsVisible(8998)+Skin.HasSetting(lowermainmenu)">8000</onup>
+        <onup condition="!Skin.HasSetting(lockmainmenu)+[![Control.isVisible(8996)|Control.isVisible(8997)|Control.isVisible(8998)]|!Skin.HasSetting(lowermainmenu)]">Skin.ToggleSetting(lowermainmenu)</onup>
+        <ondown condition="Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8)">8000</ondown>
+        <ondown condition="Control.IsVisible(9001)">9010</ondown>
+        <ondown condition="![Control.IsVisible(9001)|[Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8)]]+!Skin.HasSetting(lockmainmenu)">Skin.ToggleSetting(lowermainmenu)</ondown>
         <pagecontrol>-</pagecontrol>
         <scrolltime tween="quadratic" easing="out">300</scrolltime>
         <focusposition>2</focusposition>
@@ -427,8 +425,7 @@
 		<!-- Poster Widget-->
 		<control type="group">
 			<include>Animation_OpenCloseZoom</include>
-      <include condition="Skin.HasSetting(HomeRandomPoster)">RandomPosterWidget</include>
-			<include condition="Skin.HasSetting(HomeLatestPoster)">LatestPosterWidget</include>
+      <include condition="Skin.HasSetting(homepageHideRecentlyAdded)+[Skin.HasSetting(HomeRandomPoster)|Skin.HasSetting(HomeLatestPoster)]">PosterWidget</include>
 		</control>
     <control type="group">
       <include>Animation_OpenCloseZoom</include>
