@@ -4,15 +4,7 @@
     <height>60</height>
     <aspectratio>keep</aspectratio>
     <fadetime>IconCrossfadeTime2</fadetime>
-    <colordiffuse>floor</colordiffuse>
-    <animation effect="fade" time="250">VisibleChange</animation>
-  </include>
-  <include name="OSDRatingVars">
-    <width>90</width>
-    <height>60</height>
-    <aspectratio>keep</aspectratio>
-    <fadetime>IconCrossfadeTime2</fadetime>
-    <colordiffuse>FFe1e1e1</colordiffuse>
+    <colordiffuse>$INFO[Control.GetLabel(8890)]</colordiffuse>
     <animation effect="fade" time="250">VisibleChange</animation>
   </include>
   <include name="MusicCodecFlagsVars">
@@ -76,15 +68,7 @@
     <width>90</width>
     <height>60</height>
     <aspectratio>keep</aspectratio>
-    <colordiffuse>floor</colordiffuse>
-    <fadetime>IconCrossfadeTime2</fadetime>
-    <animation effect="fade" time="250">VisibleChange</animation>
-  </include>
-  <include name="OSDAudioFlagsVars">
-    <width>90</width>
-    <height>60</height>
-    <aspectratio>keep</aspectratio>
-    <colordiffuse>FFe1e1e1</colordiffuse>
+    <colordiffuse>$INFO[Control.GetLabel(8890)]</colordiffuse>
     <fadetime>IconCrossfadeTime2</fadetime>
     <animation effect="fade" time="250">VisibleChange</animation>
   </include>
@@ -103,24 +87,12 @@
       <texture fallback="flags/rating/MPAA_NR_Certificate_US.png">$VAR[RatingFlagVar,flags/rating/,.png]</texture>
     </control>
   </include>
-  <include name="LowListRatingFlags">
-    <control type="image">
-      <include>OSDRatingVars</include>
-      <texture fallback="flags/rating/MPAA_NR_Certificate_US.png">$VAR[RatingFlagVar,flags/rating/,.png]</texture>
-    </control>
-  </include>
   <include name="FloorSourceFlags">
 		<control type="image">
       <include>AudioFlagsVars</include>
 			<texture fallback="flags/source/defaultsource.png">$VAR[SourceFlagVar,flags/source/,.png]</texture>
 		</control>
 	</include>
-  <include name="LowListSourceFlags">
-    <control type="image">
-      <include>OSDAudioFlagsVars</include>
-      <texture fallback="flags/source/defaultsource.png">$VAR[SourceFlagVar,flags/source/,.png]</texture>
-    </control>
-  </include>
 
 	<include name="FloorAudioFlags">
     <control type="image">
@@ -128,21 +100,23 @@
       <texture fallback="flags/audio/defaultsound.png">$VAR[AudioFlagVar,flags/audio/,.png]</texture>
     </control>
 	</include>
-  <include name="LowListAudioFlags">
-    <control type="image">
-      <include>OSDAudioFlagsVars</include>
-      <texture fallback="flags/audio/defaultsound.png">$VAR[AudioFlagVar,flags/audio/,.png]</texture>
+  <include name="FlagDiffuse">
+    <control type="label" id="8890">
+      <include>HiddenObject</include>
+      <label>$VAR[FlagDiffuseVar]</label>
     </control>
   </include>
 	<include name="FloorFlags">
 		<control type="group">
-			<visible>[Control.IsVisible(55)|Control.IsVisible(51)|Control.IsVisible(500)|Control.IsVisible(560)|Control.IsVisible(501)|Control.IsVisible(503)|Control.IsVisible(504)|Control.IsVisible(508)|Control.IsVisible(510)]+!Window.IsActive(programs)+!Container.Content(addons)</visible>
 			<include>Animation_HideMultiplex</include>
-      <include>Animation_OpenCloseZoom_New</include>
+      <include>Animation_OpenClose_Furniture</include>
       <control type="group">
 				<posx>10</posx>
 				<posy>658</posy>
 				<animation effect="slide" start="0" end="70" reversible="false" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
+        <animation effect="slide" start="0" end="38" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
+        <animation effect="slide" start="0" end="700" reversible="true" condition="Control.IsVisible(516)+!Skin.HasSetting(nostudioratingflags)">Conditional</animation>
+        <animation effect="slide" start="0" end="800" reversible="true" condition="Control.IsVisible(516)+Skin.HasSetting(nostudioratingflags)">Conditional</animation>
         <visible>!ListItem.IsFolder</visible>
         <include>FloorSourceFlags</include>
 			</control>
@@ -151,48 +125,37 @@
 				<posy>658</posy>
 				<include>AudioFlagsVars</include>
 				<texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
-				<visible>!Skin.HasSetting(nostudioratingflags)+!SubString(Container.FolderPath,plugin.video)+!ListItem.IsFolder</visible>
+        <animation effect="slide" start="0" end="61" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
+        <animation effect="slide" start="0" end="700" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
+        <animation effect="slide" start="0" end="1070" reversible="true" condition="Control.IsVisible(517)">Conditional</animation>
+        <visible>!Skin.HasSetting(nostudioratingflags)+!SubString(Container.FolderPath,plugin.video)+!ListItem.IsFolder</visible>
 			</control>
-      <control type="group">
-        <visible>![Control.IsVisible(503)+!Skin.HasSetting(showcaseinfoontv)+[Container.Content(tvshows)|Container.Content(episodes)]+Skin.HasSetting(landscapelogo)]</visible>
         <control type="image">
           <posx>80</posx>
           <posy>658</posy>
           <include>AudioFlagsVars</include>
           <texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
+          <animation effect="slide" start="0" end="-32" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
+          <animation effect="slide" start="0" end="830" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
           <visible>[Container.Content(tvshows)|Container.Content(seasons)]+!IsEmpty(ListItem.TVShowTitle)</visible>
         </control>
         <control type="group">
           <description>Rating Flags</description>
           <posx>1110</posx>
           <posy>658</posy>
+          <animation effect="slide" start="0" end="-100" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
+          <animation effect="slide" start="0" end="-432" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
           <visible>[Container.Content(tvshows)|Container.Content(seasons)]+!IsEmpty(ListItem.TVShowTitle)</visible>
           <include>FloorRatingFlags</include>
-        </control>
-      </control>
-      <control type="group">
-        <visible>[Control.IsVisible(503)+!Skin.HasSetting(showcaseinfoontv)+[Container.Content(tvshows)|Container.Content(episodes)]+Skin.HasSetting(landscapelogo)]</visible>
-        <control type="image">
-          <posx>80</posx>
-          <posy>658</posy>
-          <include>OSDAudioFlagsVars</include>
-          <texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
-          <visible>!IsEmpty(ListItem.Title)+[Container.Content(tvshows)|[Container.Content(seasons)+!IsEmpty(ListItem.TVShowTitle)]]</visible>
-        </control>
-        <control type="group">
-          <description>Rating Flags</description>
-          <posx>1110</posx>
-          <posy>658</posy>
-          <visible>Container.Content(tvshows)|[Container.Content(seasons)+!IsEmpty(ListItem.TVShowTitle)]</visible>
-          <include>LowListRatingFlags</include>
-        </control>
       </control>
       <control type="group">
 				<description>Rating Flags</description>
 				<posx>210</posx>
 				<posy>658</posy>
-				<visible>!Skin.HasSetting(nostudioratingflags)+!SubString(Container.FolderPath,plugin.video)+!ListItem.IsFolder</visible>
-				<include>FloorRatingFlags</include>
+				<visible>!Skin.HasSetting(nostudioratingflags)+!SubString(Container.FolderPath,plugin.video)+!ListItem.IsFolder+!Control.IsVisible(516)</visible>
+        <animation effect="slide" start="0" end="87" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
+        <animation effect="slide" start="0" end="200" reversible="true" condition="Control.IsVisible(517)">Conditional</animation>
+        <include>FloorRatingFlags</include>
 			</control>
 			<control type="image">
 				<posx>980</posx>
@@ -200,6 +163,9 @@
 				<include>AudioFlagsVars</include>
 				<texture fallback="flags/aspectratio/defaultaspect.png">$INFO[ListItem.VideoAspect,flags/aspectratio/,.png]</texture>
 				<animation effect="slide" start="0" end="-800" reversible="false" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
+        <animation effect="slide" start="0" end="-554" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
+        <animation effect="slide" start="0" end="-70" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
+        <animation effect="slide" start="0" end="-870" reversible="true" condition="Control.IsVisible(517)">Conditional</animation>
         <visible>!ListItem.IsFolder</visible>
 			</control>
 			<control type="image">
@@ -208,6 +174,9 @@
 				<include>AudioFlagsVars</include>
 				<texture fallback="flags/resolution/defaultscreen.png">$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
 				<animation effect="slide" start="0" end="-80" reversible="false" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
+        <animation effect="slide" start="0" end="-528" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
+        <animation effect="slide" start="0" end="-70" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
+        <animation effect="slide" start="0" end="-870" reversible="true" condition="Control.IsVisible(517)">Conditional</animation>
         <visible>!ListItem.IsFolder</visible>
       </control>
 			<control type="group">
@@ -215,96 +184,13 @@
 				<posx>1180</posx>
 				<posy>658</posy>
 				<animation effect="slide" start="0" end="-70" reversible="false" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
-				<include>FloorAudioFlags</include>
+        <animation effect="slide" start="0" end="-502" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
+        <animation effect="slide" start="0" end="-70" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
+        <animation effect="slide" start="0" end="-870" reversible="true" condition="Control.IsVisible(517)">Conditional</animation>
+        <include>FloorAudioFlags</include>
         <visible>!ListItem.IsFolder</visible>
       </control>
 		</control>
-		<control type="group">
-			<visible>[Control.IsVisible(512)|Control.IsVisible(516)|Control.IsVisible(514)|Control.IsVisible(517)]+!Window.IsActive(programs)+!Container.Content(addons)</visible>
-			<include>Animation_HideMultiplex</include>
-      <include>Animation_OpenCloseZoom_New</include>
-      <control type="group">
-				<posx>10</posx>
-				<posy>658</posy>
-				<animation effect="slide" start="0" end="38" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
-				<animation effect="slide" start="0" end="700" reversible="true" condition="Control.IsVisible(516)+!Skin.HasSetting(nostudioratingflags)">Conditional</animation>
-				<animation effect="slide" start="0" end="800" reversible="true" condition="Control.IsVisible(516)+Skin.HasSetting(nostudioratingflags)">Conditional</animation>
-        <visible>!ListItem.IsFolder</visible>
-        <include>LowListSourceFlags</include>
-			</control>
-			<control type="image" id="76">
-				<posx>110</posx>
-				<posy>658</posy>
-				<include>OSDAudioFlagsVars</include>
-        <texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
-        <animation effect="slide" start="0" end="61" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
-				<animation effect="slide" start="0" end="700" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
-				<animation effect="slide" start="0" end="1070" reversible="true" condition="Control.IsVisible(517)">Conditional</animation>
-				<visible>!IsEmpty(ListItem.Title)+[!Skin.HasSetting(nostudioratingflags)|Control.IsVisible(512)|Control.IsVisible(514)]+!SubString(Container.FolderPath,plugin.video)+!ListItem.IsFolder</visible>
-			</control>
-			<control type="image">
-				<posx>80</posx>
-				<posy>658</posy>
-				<include>OSDAudioFlagsVars</include>
-				<texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
-        <visible>[Container.Content(tvshows)|Container.Content(seasons)]+!IsEmpty(ListItem.TVShowTitle)</visible>
-        <animation effect="slide" start="0" end="-32" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
-				<animation effect="slide" start="0" end="830" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
-			</control>
-			<control type="group">
-				<description>Rating Flags</description>
-				<posx>1110</posx>
-				<posy>658</posy>
-        <visible>[Container.Content(tvshows)|Container.Content(seasons)]+!IsEmpty(ListItem.TVShowTitle)</visible>
-        <animation effect="slide" start="0" end="-100" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
-				<animation effect="slide" start="0" end="-432" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
-				<include>LowListRatingFlags</include>
-			</control>
-			<control type="group">
-				<description>Rating Flags</description>
-				<posx>210</posx>
-				<posy>658</posy>
-				<animation effect="slide" start="0" end="87" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
-				<animation effect="slide" start="0" end="200" reversible="true" condition="Control.IsVisible(517)">Conditional</animation>
-				<visible>[!Skin.HasSetting(nostudioratingflags)|Control.IsVisible(512)|Control.IsVisible(514)]+!SubString(Container.FolderPath,plugin.video)+!ListItem.IsFolder+!Control.IsVisible(516)</visible>
-				<include>LowListRatingFlags</include>
-			</control>
-			<control type="image">
-				<posx>980</posx>
-				<posy>658</posy>
-				<include>OSDAudioFlagsVars</include>
-				<texture fallback="flags/aspectratio/defaultaspect.png">$INFO[ListItem.VideoAspect,flags/aspectratio/,.png]</texture>
-				<animation effect="slide" start="0" end="-554" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
-				<animation effect="slide" start="0" end="-70" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
-				<animation effect="slide" start="0" end="-870" reversible="true" condition="Control.IsVisible(517)">Conditional</animation>
-        <visible>!ListItem.IsFolder</visible>
-      </control>
-			<control type="image">
-				<posx>1080</posx>
-				<posy>658</posy>
-				<include>OSDAudioFlagsVars</include>
-				<texture fallback="flags/resolution/defaultscreen.png">$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
-				<animation effect="slide" start="0" end="-528" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
-				<animation effect="slide" start="0" end="-70" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
-				<animation effect="slide" start="0" end="-870" reversible="true" condition="Control.IsVisible(517)">Conditional</animation>
-        <visible>!ListItem.IsFolder</visible>
-      </control>
-			<control type="group">
-				<description>Audio Flags</description>
-				<posx>1180</posx>
-				<posy>658</posy>
-				<animation effect="slide" start="0" end="-502" reversible="true" condition="Control.IsVisible(512)|Control.IsVisible(514)">Conditional</animation>
-				<animation effect="slide" start="0" end="-70" reversible="true" condition="Control.IsVisible(516)">Conditional</animation>
-				<animation effect="slide" start="0" end="-870" reversible="true" condition="Control.IsVisible(517)">Conditional</animation>
-				<include>LowListAudioFlags</include>
-        <visible>!ListItem.IsFolder</visible>
-      </control>
-      <!--<control type="group">
-        <visible>Control.IsVisible(516)|Control.IsVisible(514)</visible>
-        <animation effect="slide" start="0" end="-300"  time="400" easing="inout" tween="cubic" condition="Control.IsVisible(514)">Conditional</animation>
-        <include condition="!Skin.HasSetting(DisableEpisodeVL)|!Skin.HasSetting(DisableBigFanVL)">InfoWallTVLogo</include>
-      </control>-->
-    </control>	
   </include>
 	<include name="MusicMediaFlags">
 		<control type="group">
@@ -543,7 +429,8 @@
 			<posy>658</posy>
 			<visible>!Control.HasFocus(70)</visible>
 			<include>Animation_HideMultiplex</include>
-			<control type="image">
+      <include>Animation_OpenClose_Furniture</include>
+      <control type="image">
 				<posy>1</posy>
 				<width>75</width>
 				<posx>1190</posx>
