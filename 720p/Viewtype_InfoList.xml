@@ -70,7 +70,7 @@
     </control>
     <control type="group">
       <description>TV Show Flags</description>
-      <visible>Container.Content(tvshows)</visible>
+      <visible>Container.Content(tvshows)|Container.Content(seasons)</visible>
       <control type="image">
         <posx>710</posx>
         <posy>658</posy>
@@ -91,18 +91,16 @@
         <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
         <visible>Skin.HasSetting(bannerinfolist)</visible>
       </control>
-      
       <control type="image">
         <description>Rating Flags</description>
         <posx>1102</posx>
         <posy>658</posy>
-        <visible>Container.Content(tvshows)</visible>
-                       <include>AudioFlagsVars</include>
- <texture fallback="flags/rating/MPAA_NR_Certificate_US.png">$VAR[RatingFlagVar,flags/rating/,.png]</texture>
+        <include>AudioFlagsVars</include>
+        <texture fallback="flags/rating/MPAA_NR_Certificate_US.png">$VAR[RatingFlagVar,flags/rating/,.png]</texture>
       </control>
     </control>
     <control type="group">
-      <visible>!Skin.HasSetting(infolistplotonly) + Container.Content(tvshows)</visible>
+      <visible>!Skin.HasSetting(infolistplotonly) + [Container.Content(tvshows)|Container.Content(seasons)]</visible>
       <control type="label">
         <description>Episodes txt</description>
         <posx>885</posx>
@@ -134,7 +132,7 @@
         <posy>410</posy>
         <width>140</width>
         <height>12</height>
-        <label>$LOCALIZE[312576]:</label>
+        <label>$VAR[FanartPanelDetail1Var]</label>
         <align>right</align>
         <aligny>center</aligny>
         <font>Font_Info</font>
@@ -146,7 +144,7 @@
         <posy>410</posy>
         <width>360</width>
         <height>12</height>
-        <label fallback="416">$INFO[listitem.Premiered]</label>
+        <label fallback="416">$VAR[FanartPanelValue1Var]</label>
         <align>left</align>
         <aligny>center</aligny>
         <font>Font_Info</font>
@@ -216,7 +214,7 @@
         <height>120</height>
         <align>left</align>
         <font>Font_Reg17</font>
-        <label fallback="312577">$INFO[ListItem.Plot]</label>
+        <label fallback="312577">$VAR[FanartPanelPlotVar]</label>
         <autoscroll delay="5000" time="2000" repeat="1000">Skin.HasSetting(AutoScroll)</autoscroll>
         <textcolor>FFececec</textcolor>
       </control>
@@ -229,10 +227,10 @@
       <height>217</height>
       <align>left</align>
       <font>Font_Reg17</font>
-      <label fallback="312577">$INFO[ListItem.Plot]</label>
+      <label fallback="312577">$VAR[FanartPanelPlotVar]</label>
       <autoscroll delay="5000" time="2000" repeat="10000">Skin.HasSetting(AutoScroll)</autoscroll>
       <textcolor>FFececec</textcolor>
-      <visible>Skin.HasSetting(infolistplotonly) + [Container.Content(tvshows)|Container.Content(episodes)]</visible>
+      <visible>Skin.HasSetting(infolistplotonly) + [Container.Content(tvshows)|Container.Content(episodes)|Container.Content(seasons)]</visible>
     </control>
     <control type="image">
       <posx>789</posx>
@@ -241,18 +239,8 @@
       <height>125</height>
       <aspectratio>stretch</aspectratio>
       <fadetime>400</fadetime>
-      <texture background="true">$INFO[ListItem.path,,../logo.png]</texture>
-      <visible>Container.Content(episodes)</visible>
-    </control>
-    <control type="image">
-      <posx>789</posx>
-      <posy>30</posy>
-      <width>322</width>
-      <height>125</height>
-      <aspectratio>stretch</aspectratio>
-      <fadetime>400</fadetime>
-      <texture background="true">$INFO[ListItem.path,,logo.png]</texture>
-      <visible>Container.Content(tvshows)</visible>
+      <texture background="true">$VAR[TVShowLogoVar]</texture>
+      <visible>Container.Content(episodes)|Container.Content(tvshows)|Container.Content(seasons)</visible>
     </control>
     <control type="label" id="161">
       <posx>710</posx>
@@ -329,7 +317,7 @@
             <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
             <bordersize>7</bordersize>
             <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
-            <visible>Container.Content(tvshows)</visible>
+            <visible>Container.Content(tvshows)|Container.Content(seasons)</visible>
           </control>
         </control>
         <control type="group">
@@ -465,7 +453,7 @@
         </control>
         <include condition="Skin.HasSetting(effect_bg)">BG_Effect_InfoList_Panel_Left</include>
         <control type="list" id="505">
-          <visible>Container.Content(episodes)|Container.Content(tvshows)|SubString(Container.FolderPath,addons://)</visible>
+          <visible>Container.Content(seasons)|Container.Content(episodes)|Container.Content(tvshows)|SubString(Container.FolderPath,addons://)</visible>
           <posx>60</posx>
           <posy>142</posy>
           <width>771</width>
@@ -479,7 +467,7 @@
           <pagecontrol>68</pagecontrol>
           <scrolltime>200</scrolltime>
           <preloaditems>2</preloaditems>
-          <itemlayout height="44" width="550" condition="[Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]]|Container.Content(addons)">
+          <itemlayout height="44" width="550" condition="[Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]]|Container.Content(addons)|Container.Content(seasons)">
             <control type="image">
               <posx>1</posx>
               <posy>43</posy>
@@ -509,6 +497,18 @@
               <font>Font_Reg18</font>
               <label>$INFO[ListItem.Label2]</label>
             </control>
+            <control type="label">
+              <posx>495</posx>
+              <posy>0</posy>
+              <width>430</width>
+              <height>44</height>
+              <align>right</align>
+              <aligny>center</aligny>
+              <include>detailcolornofocus</include>
+              <font>Font_Reg18</font>
+              <label>[LOWERCASE]$INFO[ListItem.Property(UnWatchedEpisodes),, $LOCALIZE[16101]][/LOWERCASE]</label>
+              <visible>Container.Content(seasons)</visible>
+            </control>
             <control type="image">
               <posx>513</posx>
               <posy>14</posy>
@@ -518,7 +518,7 @@
               <info>ListItem.Overlay</info>
             </control>
           </itemlayout>
-          <focusedlayout height="44" width="550" condition="[Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]]|Container.Content(addons)">
+          <focusedlayout height="44" width="550" condition="[Skin.HasSetting(sliminfolist)+![Container.Content(tvshows)+Skin.HasSetting(bannerinfolist)]]|Container.Content(addons)|Container.Content(seasons)">
             <control type="image">
               <posx>1</posx>
               <posy>43</posy>
@@ -555,6 +555,18 @@
               <include>detailcolorfocus</include>
               <font>Font_Reg18</font>
               <label>$INFO[ListItem.Label2]</label>
+            </control>
+            <control type="label">
+              <posx>495</posx>
+              <posy>0</posy>
+              <width>430</width>
+              <height>44</height>
+              <align>right</align>
+              <aligny>center</aligny>
+              <include>detailcolorfocus</include>
+              <font>Font_Reg18</font>
+              <label>[LOWERCASE]$INFO[ListItem.Property(UnWatchedEpisodes),, $LOCALIZE[16101]][/LOWERCASE]</label>
+              <visible>Container.Content(seasons)</visible>
             </control>
             <control type="image">
               <posx>513</posx>
