@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <includes>
-  <!--Max: 1695 -->
+  <!--Max: 1705 -->
   <include name="MusicPlaylistButtons">
     <control type="radiobutton" id="20">
       <description>Shuffle button</description>
@@ -322,8 +322,7 @@
       <include>Objects_MediaMenuButtonAlt</include>
       <label>31272</label>
       <onclick>SetFocus(9010)</onclick>
-      <onleft>SetFocus(9010)</onleft>
-      <visible>[Control.IsVisible(501)|Control.IsVisible(504)|Control.IsVisible(503)]+Container.Content(movies)+!Skin.HasSetting(hideoptions)</visible>
+      <visible>[Control.IsVisible(501)|Control.IsVisible(504)|Control.IsVisible(503)|Control.IsVisible(508)]+[Container.Content(movies)|Container.Content(tvshows)]+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <control type="togglebutton" id="1625">
       <description>Toggle Extrathumbs/Poster</description>
@@ -365,6 +364,25 @@
       <onclick>Skin.ToggleSetting(LandscapeThumb)</onclick>
       <usealttexture>!Skin.HasSetting(LandscapeThumb)</usealttexture>
       <visible>[Control.IsVisible(503)+Container.Content(episodes)]+!Skin.HasSetting(hideoptions)</visible>
+    </control>
+    <control type="togglebutton" id="1697">
+      <description>Toggle Overlay</description>
+      <pulseonselect>yes</pulseonselect>
+      <include>Objects_MediaMenuButtonAlt</include>
+      <label>$LOCALIZE[31459]</label>
+      <altlabel>$LOCALIZE[31192]</altlabel>
+      <onclick>Skin.ToggleSetting(TVLandscapeThumb)</onclick>
+      <usealttexture>Skin.HasSetting(TVLandscapeThumb)</usealttexture>
+      <visible>[Control.IsVisible(503)|Control.IsVisible(501)|Control.IsVisible(504)|Control.isVisible(508)]+[[Container.Content(tvshows)+![Skin.HasSetting(tvposterinfopane)|Skin.HasSetting(tvthumbsinfopane)]]|Container.Content(seasons)]+!Skin.HasSetting(hideoptions)</visible>
+    </control>
+    <control type="radiobutton" id="1702">
+      <description>Infopanel Trailer Label</description>
+      <include>Objects_MediaMenuButtonAlt</include>
+      <label>$LOCALIZE[31288]</label>
+      <onclick>Skin.ToggleSetting(notrailerlabel)</onclick>
+      <selected>Skin.HasSetting(notrailerlabel)</selected>
+      <visible>!Skin.HasSetting(breadcrumb)</visible>
+      <visible>Container.Content(movies)+[Control.IsVisible(501)|Control.IsVisible(504)|Control.IsVisible(503)|[Control.IsVisible(510)+Skin.HasSetting(posterslide)]]+!Skin.HasSetting(hideoptions)</visible>
     </control>
   </include>
   <include name="VideoLibraryMediaMenuButtons">
@@ -506,7 +524,7 @@
       <label>$LOCALIZE[31240]</label>
       <onclick>Skin.ToggleSetting(newstatus)</onclick>
       <selected>Skin.HasSetting(newstatus)</selected>
-      <enable>![Skin.HasSetting(landscapelogo)+Container.Content(tvshows)+!Skin.HasSetting(showcaseinfoontv)]+Skin.HasSetting(homepageHideRecentlyAdded)</enable>
+      <enable>![Control.IsVisible(503)+Skin.HasSetting(landscapelogo)+Container.Content(tvshows)+!Skin.HasSetting(showcaseinfoontv)]</enable>
       <visible>[Control.IsVisible(51)|Control.IsVisible(514)|Control.IsVisible(517)|Control.IsVisible(508)|Control.IsVisible(501)|Control.IsVisible(504)|Control.IsVisible(55)|Control.IsVisible(510)|Control.IsVisible(503)|Control.IsVisible(508)|Control.IsVisible(512)|Control.IsVisible(560)|Control.IsVisible(516)]+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <control type="radiobutton" id="1637">
@@ -515,7 +533,7 @@
       <label>$LOCALIZE[31241]</label>
       <onclick>Skin.ToggleSetting(watchedoverlay)</onclick>
       <selected>Skin.HasSetting(watchedoverlay)</selected>
-      <enable>![Skin.HasSetting(landscapelogo)+Container.Content(tvshows)+!Skin.HasSetting(showcaseinfoontv)]</enable>
+      <enable>![Control.IsVisible(503)+Skin.HasSetting(landscapelogo)+Container.Content(tvshows)+!Skin.HasSetting(showcaseinfoontv)]</enable>
       <visible>[Control.IsVisible(51)|Control.IsVisible(514)|Control.IsVisible(517)|Control.IsVisible(508)|Control.IsVisible(501)|Control.IsVisible(504)|Control.IsVisible(55)|Control.IsVisible(510)|Control.IsVisible(503)|Control.IsVisible(508)|Control.IsVisible(512)|Control.IsVisible(560)|Control.IsVisible(516)]+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <!--InfoWall Options-->
@@ -526,6 +544,7 @@
       <onclick>Skin.ToggleSetting(usecasesinfowall)</onclick>
       <onclick>Skin.Reset(useclearcasesinfowall)</onclick>
       <selected>Skin.HasSetting(usecasesinfowall)</selected>
+      <enable>![[Skin.HasSetting(TVInfoWallBanner)|Skin.HasSetting(TVInfoWallLandscape)]+Container.Content(tvshows)]</enable>
       <visible>Control.IsVisible(512)+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)]+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <control type="radiobutton" id="1643">
@@ -535,6 +554,7 @@
       <onclick>Skin.ToggleSetting(useclearcasesinfowall)</onclick>
       <onclick>Skin.Reset(usecasesinfowall)</onclick>
       <selected>Skin.HasSetting(useclearcasesinfowall)</selected>
+      <enable>![[Skin.HasSetting(TVInfoWallBanner)|Skin.HasSetting(TVInfoWallLandscape)]+Container.Content(tvshows)]</enable>
       <visible>Control.IsVisible(512)+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)]+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <control type="radiobutton" id="1644">
@@ -551,6 +571,7 @@
       <label>$LOCALIZE[31454]</label>
       <onclick>Skin.ToggleSetting(TVInfoWallBanner)</onclick>
       <onclick>Skin.Reset(TVInfoWallLandscape)</onclick>
+      <onclick>Skin.Reset(TVInfoWallLogo)</onclick>
       <selected>Skin.HasSetting(TVInfoWallBanner)</selected>
       <visible>Control.IsVisible(512)+Container.Content(tvshows)+!Skin.HasSetting(hideoptions)</visible>
     </control>
@@ -560,8 +581,29 @@
       <label>$LOCALIZE[31150]</label>
       <onclick>Skin.ToggleSetting(TVInfoWallLandscape)</onclick>
       <onclick>Skin.Reset(TVInfoWallBanner)</onclick>
+      <onclick>Skin.Reset(TVInfoWallLogo)</onclick>
       <selected>Skin.HasSetting(TVInfoWallLandscape)</selected>
       <visible>Control.IsVisible(512)+Container.Content(tvshows)+!Skin.HasSetting(hideoptions)</visible>
+    </control>
+    <control type="radiobutton" id="1698">
+      <description>Toggle aspect of thumbs</description>
+      <include>Objects_MediaMenuButtonAlt</include>
+      <label>Logo</label>
+      <onclick>Skin.ToggleSetting(TVInfoWallLogo)</onclick>
+      <onclick>Skin.Reset(TVInfoWallBanner)</onclick>
+      <onclick>Skin.Reset(TVInfoWallLandscape)</onclick>
+      <selected>Skin.HasSetting(TVInfoWallLogo)</selected>
+      <visible>Control.IsVisible(512)+Container.Content(tvshows)+!Skin.HasSetting(hideoptions)</visible>
+    </control>
+    <control type="togglebutton" id="1699">
+      <description>Prefer Subtitle over country</description>
+      <pulseonselect>yes</pulseonselect>
+      <include>Objects_MediaMenuButtonAlt</include>
+      <label>$LOCALIZE[202]: [B]$LOCALIZE[351][/B]</label>
+      <altlabel>$LOCALIZE[202]: [B]$LOCALIZE[31429][/B]</altlabel>
+      <onclick>Skin.ToggleSetting(InfoWallTagLine)</onclick>
+      <usealttexture>!Skin.HasSetting(InfoWallTagLine)</usealttexture>
+      <visible>Control.IsVisible(512)+Container.Content(movies)+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <!--Posters Options-->
     <control type="radiobutton" id="1647">
@@ -623,7 +665,7 @@
       <altlabel>$LOCALIZE[31229]</altlabel>
       <onclick>Skin.ToggleSetting(WallMoviesVertical)</onclick>
       <onclick>XBMC.ReloadSkin()</onclick>
-      <usealttexture>Skin.HasSetting(WallMoviesVertical)</usealttexture>
+      <usealttexture>!Skin.HasSetting(WallMoviesVertical)</usealttexture>
       <visible>Control.IsVisible(560)+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <control type="radiobutton" id="1688">
@@ -643,7 +685,7 @@
       <altlabel>$LOCALIZE[31229]</altlabel>
       <onclick>Skin.ToggleSetting(BannerwallVertical)</onclick>
       <onclick>XBMC.ReloadSkin()</onclick>
-      <usealttexture>Skin.HasSetting(BannerwallVertical)</usealttexture>
+      <usealttexture>!Skin.HasSetting(BannerwallVertical)</usealttexture>
       <visible>Control.IsVisible(51)+!Skin.HasSetting(hideoptions)</visible>
     </control>
     <!--List Options-->
@@ -664,6 +706,14 @@
       <enable>!Skin.HasSetting(usecaseslist)</enable>
       <visible>Control.IsVisible(50)+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)]+!Skin.HasSetting(hideoptions)</visible>
     </control>
+    <control type="radiobutton" id="1700">
+      <description>Show MediaFlags</description>
+      <include>Objects_MediaMenuButtonAlt</include>
+      <label>$LOCALIZE[31280]</label>
+      <onclick>Skin.ToggleSetting(HideListFlags)</onclick>
+      <selected>!Skin.HasSetting(HideListFlags)</selected>
+      <visible>Control.IsVisible(50)+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(episodes)]+!Skin.HasSetting(hideoptions)</visible>
+    </control>
     <!--Panel Options-->
     <control type="togglebutton" id="1657">
       <description>Toggle Logo</description>
@@ -674,6 +724,26 @@
       <onclick>Skin.ToggleSetting(paneldetail)</onclick>
       <usealttexture>!Skin.HasSetting(paneldetail)</usealttexture>
       <visible>Control.IsVisible(550)+Container.Content(movies)+!Skin.HasSetting(hideoptions)</visible>
+    </control>
+    <!--Episode option-->
+    <control type="togglebutton" id="1657">
+      <description>Toggle Logo</description>
+      <pulseonselect>yes</pulseonselect>
+      <include>Objects_MediaMenuButtonAlt</include>
+      <label>$LOCALIZE[31462]</label>
+      <altlabel>$LOCALIZE[31463]</altlabel>
+      <onclick>Skin.ToggleSetting(EpisodeViewIcon)</onclick>
+      <usealttexture>Skin.HasSetting(EpisodeViewIcon)</usealttexture>
+      <visible>Control.IsVisible(514)+!Skin.HasSetting(hideoptions)</visible>
+    </control>
+    <!--General videolibrary options-->
+    <control type="radiobutton" id="1701">
+      <description>Show MediaFlags</description>
+      <include>Objects_MediaMenuButtonAlt</include>
+      <label>$LOCALIZE[31145]</label>
+      <onclick>Skin.ToggleSetting(nostudioratingflags)</onclick>
+      <selected>!Skin.HasSetting(nostudioratingflags)</selected>
+      <visible>![Control.IsVisible(50)|Control.IsVisible(512)]+[Container.Content(movies)|Container.Content(episodes)]+!Skin.HasSetting(hideoptions)</visible>
     </control>
   </include>
   <include name="MusicFilesButtons">
@@ -770,40 +840,282 @@
       <visible>Control.IsVisible(512)+!Skin.HasSetting(hideoptions)</visible>
     </control>
   </include>
-
+  <include name="LayoutPanel">
+    <control type="panel" id="9010">
+      <posx>35</posx>
+      <posy>40</posy>
+      <width>300</width>
+      <height>680</height>
+      <itemgap>0</itemgap>
+      <orientation>vertical</orientation>
+      <onleft>SetFocus(1624)</onleft>
+      <onup>9010</onup>
+      <ondown>9010</ondown>
+      <onright>50</onright>
+      <onback>9003</onback>
+      <visible>[Container.Content(movies)|Container.Content(tvshows)]+!Skin.HasSetting(hideoptions)</visible>
+      <include>Animation_MediaMenuSlide2</include>
+      <animation type="Conditional" condition="!Control.HasFocus(9010)">
+        <effect type="fade" start="100" end="0" time="200" reversible="true"/>
+      </animation>
+      <itemlayout width="300" height="150">
+        <control type="image">
+          <posx>0</posx>
+          <posy>0</posy>
+          <width>186</width>
+          <height>126</height>
+          <info>ListItem.ActualIcon</info>
+        </control>
+        <control type="label">
+          <posx>93</posx>
+          <posy>120</posy>
+          <width>186</width>
+          <height>20</height>
+          <align>center</align>
+          <aligny>center</aligny>
+          <font>Font_Reg19</font>
+          <textcolor>60FFFFFF</textcolor>
+          <info>ListItem.Label</info>
+        </control>
+      </itemlayout>
+      <focusedlayout width="300" height="150">
+        <control type="image">
+          <posx>0</posx>
+          <posy>0</posy>
+          <width>186</width>
+          <height>126</height>
+          <info>ListItem.Thumb</info>
+        </control>
+        <control type="label">
+          <posx>93</posx>
+          <posy>120</posy>
+          <width>186</width>
+          <height>20</height>
+          <align>center</align>
+          <aligny>center</aligny>
+          <font>Font_Reg19</font>
+          <textcolor>white</textcolor>
+          <info>ListItem.Label</info>
+        </control>
+      </focusedlayout>
+      <content>
+        <item id="1">
+          <label>$LOCALIZE[31198]</label>
+          <icon>views/extrathumbs.png</icon>
+          <thumb>views/extrathumbs_focus.png</thumb>
+          <onclick>Skin.SetBool(extrathumbs)</onclick>
+          <onclick>Skin.Reset(fanartinfopane)</onclick>
+          <onclick>Skin.Reset(posterinfopane)</onclick>
+          <onclick>Skin.Reset(fourthumbs)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(501) + Container.Content(movies)</visible>
+        </item>
+        <item id="2">
+          <label>$LOCALIZE[20445]</label>
+          <icon>views/fanart.png</icon>
+          <thumb>views/fanart_focus.png</thumb>
+          <onclick>Skin.SetBool(fanartinfopane)</onclick>
+          <onclick>Skin.Reset(extrathumbs)</onclick>
+          <onclick>Skin.Reset(posterinfopane)</onclick>
+          <onclick>Skin.Reset(fourthumbs)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(501) + Container.Content(movies)</visible>
+        </item>
+        <item id="3">
+          <label>$LOCALIZE[31271]</label>
+          <icon>views/poster.png</icon>
+          <thumb>views/poster_focus.png</thumb>
+          <onclick>Skin.SetBool(posterinfopane)</onclick>
+          <onclick>Skin.Reset(extrathumbs)</onclick>
+          <onclick>Skin.Reset(fanartinfopane)</onclick>
+          <onclick>Skin.Reset(fourthumbs)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(501) + Container.Content(movies)</visible>
+        </item>
+        <item id="4">
+          <label>$LOCALIZE[31287]</label>
+          <icon>views/fourthumbs.png</icon>
+          <thumb>views/fourthumbs_focus.png</thumb>
+          <onclick>Skin.SetBool(fourthumbs)</onclick>
+          <onclick>Skin.Reset(extrathumbs)</onclick>
+          <onclick>Skin.Reset(fanartinfopane)</onclick>
+          <onclick>Skin.Reset(posterinfopane)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(501) + Container.Content(movies)</visible>
+        </item>
+        <item id="5">
+          <label>$LOCALIZE[31198]</label>
+          <icon>views/extrathumbs.png</icon>
+          <thumb>views/extrathumbs_focus.png</thumb>
+          <onclick>Skin.SetBool(extrathumbs503)</onclick>
+          <onclick>Skin.Reset(fanartinfopane503)</onclick>
+          <onclick>Skin.Reset(posterinfopane503)</onclick>
+          <onclick>Skin.Reset(fourthumbs503)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(503) + Container.Content(movies)</visible>
+        </item>
+        <item id="6">
+          <label>$LOCALIZE[20445]</label>
+          <icon>views/fanart.png</icon>
+          <thumb>views/fanart_focus.png</thumb>
+          <onclick>Skin.SetBool(fanartinfopane503)</onclick>
+          <onclick>Skin.Reset(extrathumbs503)</onclick>
+          <onclick>Skin.Reset(posterinfopane503)</onclick>
+          <onclick>Skin.Reset(fourthumbs503)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(503) + Container.Content(movies)</visible>
+        </item>
+        <item id="7">
+          <label>$LOCALIZE[31271]</label>
+          <icon>views/poster.png</icon>
+          <thumb>views/poster_focus.png</thumb>
+          <onclick>Skin.SetBool(posterinfopane503)</onclick>
+          <onclick>Skin.Reset(extrathumbs503)</onclick>
+          <onclick>Skin.Reset(fanartinfopane503)</onclick>
+          <onclick>Skin.Reset(fourthumbs503)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(503) + Container.Content(movies)</visible>
+        </item>
+        <item id="8">
+          <label>$LOCALIZE[31287]</label>
+          <icon>views/fourthumbs.png</icon>
+          <thumb>views/fourthumbs_focus.png</thumb>
+          <onclick>Skin.SetBool(fourthumbs503)</onclick>
+          <onclick>Skin.Reset(extrathumbs503)</onclick>
+          <onclick>Skin.Reset(fanartinfopane503)</onclick>
+          <onclick>Skin.Reset(posterinfopane503)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(503) + Container.Content(movies)</visible>
+        </item>
+        <item id="9">
+          <label>$LOCALIZE[31198]</label>
+          <icon>views/extrathumbs.png</icon>
+          <thumb>views/extrathumbs_focus.png</thumb>
+          <onclick>Skin.SetBool(extrathumbs504)</onclick>
+          <onclick>Skin.Reset(fanartinfopane504)</onclick>
+          <onclick>Skin.Reset(posterinfopane504)</onclick>
+          <onclick>Skin.Reset(fourthumbs504)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(504) + Container.Content(movies)</visible>
+        </item>
+        <item id="10">
+          <label>$LOCALIZE[20445]</label>
+          <icon>views/fanart.png</icon>
+          <thumb>views/fanart_focus.png</thumb>
+          <onclick>Skin.SetBool(fanartinfopane504)</onclick>
+          <onclick>Skin.Reset(extrathumbs504)</onclick>
+          <onclick>Skin.Reset(posterinfopane504)</onclick>
+          <onclick>Skin.Reset(fourthumbs504)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(504) + Container.Content(movies)</visible>
+        </item>
+        <item id="11">
+          <label>$LOCALIZE[31271]</label>
+          <icon>views/poster.png</icon>
+          <thumb>views/poster_focus.png</thumb>
+          <onclick>Skin.SetBool(posterinfopane504)</onclick>
+          <onclick>Skin.Reset(extrathumbs504)</onclick>
+          <onclick>Skin.Reset(fanartinfopane504)</onclick>
+          <onclick>Skin.Reset(fourthumbs504)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(504) + Container.Content(movies)</visible>
+        </item>
+        <item id="12">
+          <label>$LOCALIZE[31287]</label>
+          <icon>views/fourthumbs.png</icon>
+          <thumb>views/fourthumbs_focus.png</thumb>
+          <onclick>Skin.SetBool(fourthumbs504)</onclick>
+          <onclick>Skin.Reset(extrathumbs504)</onclick>
+          <onclick>Skin.Reset(fanartinfopane504)</onclick>
+          <onclick>Skin.Reset(posterinfopane504)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Control.IsVisible(504) + Container.Content(movies)</visible>
+        </item>
+        <item id="13">
+          <label>$LOCALIZE[31460]</label>
+          <icon>views/extrathumbs.png</icon>
+          <thumb>views/extrathumbs_focus.png</thumb>
+          <onclick>Skin.SetBool(tvthumbsinfopane)</onclick>
+          <onclick>Skin.Reset(tvposterinfopane)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Container.Content(tvshows)</visible>
+        </item>
+        <item id="14">
+          <label>$LOCALIZE[20445]</label>
+          <icon>views/fanart.png</icon>
+          <thumb>views/fanart_focus.png</thumb>
+          <onclick>Skin.Reset(tvposterinfopane)</onclick>
+          <onclick>Skin.Reset(tvthumbsinfopane)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Container.Content(tvshows)</visible>
+        </item>
+        <item id="15">
+          <label>$LOCALIZE[31271]</label>
+          <icon>views/poster.png</icon>
+          <thumb>views/poster_focus.png</thumb>
+          <onclick>Skin.SetBool(tvposterinfopane)</onclick>
+          <onclick>Skin.Reset(tvthumbsinfopane)</onclick>
+          <onclick>XBMC.ReloadSkin()</onclick>
+          <visible>Container.Content(tvshows)</visible>
+        </item>
+      </content>
+    </control>
+  </include>
   <include name="Media_Menu">
     <control type="group" id="9000">
       <enable>!Skin.HasSetting(kioskmode)</enable>
       <visible>!Skin.HasSetting(kioskmode)</visible>
       <posy>25</posy>
-      <control type="group" >
-        <description>Second Panel</description>
-        <animation type="Conditional" condition="!Control.HasFocus(9010)">
-          <effect type="fade" start="100" end="0" time="400" reversible="false"/>
-          <effect type="rotatey" start="0" end="-130" time="700" center="-20,0" tween="cubic" easing="in"/>
-        </animation>
-        <control type="image">
-          <posx>0</posx>
-          <posy>190</posy>
-          <width>680</width>
-          <height>300</height>
-          <texture background="true">views/listpanel_black.png</texture>
-          <animation effect="rotate" center="auto" start="0" end="-90" time="100" condition="true">Conditional</animation>
-          <include>Animation_MediaMenuSlide</include>
-        </control>
-        <control type="image">
-          <posx>0</posx>
-          <posy>190</posy>
-          <width>680</width>
-          <height>300</height>
-          <texture background="true">views/listpanel_back_noreflect.png</texture>
-          <animation effect="rotate" center="auto" start="0" end="-90" time="100" condition="true">Conditional</animation>
-          <include>Animation_MediaMenuSlide</include>
-        </control>
-      </control>
-
       <control type="group">
         <description>First Panel</description>
+        <control type="group">
+          <visible>!Skin.HasSetting(HideToolTip)</visible>
+          <posy>-25</posy>
+          <animation type="Conditional" condition="!ControlGroup(9000).HasFocus">
+            <effect type="slide" end="-272" time="400" easing="in" tween="cubic"/>
+          </animation>
+          <animation type="WindowOpen">
+            <effect type="slide" start="-70" end="0" time="400" easing="in" tween="cubic" delay="1000"/>
+          </animation>
+          <animation type="WindowClose" condition="!ControlGroup(9000).HasFocus">
+            <effect type="slide" end="-70" time="400" easing="in" tween="cubic"/>
+          </animation>
+          <animation type="WindowClose" condition="ControlGroup(9000).HasFocus">
+            <effect type="slide" end="-300" time="400" easing="in" tween="cubic"/>
+          </animation>
+          <animation effect="slide" start="0,0" end="0,-230" time="200" reversible="false" condition="Control.IsVisible(55)|Control.IsVisible(511)|Control.IsVisible(506)">Conditional</animation>
+          <animation effect="slide" start="0" end="-40" time="200" reversible="true" condition="[![Container.Content(tvshows)+[Skin.HasSetting(TVInfoWallBanner)|Skin.HasSetting(TVInfoWallLogo)]]+Container(512).Column(0)+Container(512).Row(1)]|[Container.Content(tvshows)+Skin.HasSetting(TVInfoWallBanner)+Container(512).Column(0)+[Container(512).Row(3)|Container(512).Row(4)]]">Conditional</animation>
+          <control type="image">
+            <description>Tool Tip</description>
+            <posx>272</posx>
+            <posy>272</posy>
+            <width>58</width>
+            <height>176</height>
+            <aspectratio>keep</aspectratio>
+            <texture>tooltip.png</texture>
+            <include>Animation_CommonFade</include>
+          </control>
+          <control type="image">
+            <description>right arrow</description>
+            <posx>275</posx>
+            <posy>350</posy>
+            <width>20</width>
+            <height>20</height>
+            <texture>views/multiplex_arrow.png</texture>
+            <include>Animation_VisibleChange400</include>
+            <visible>!ControlGroup(9000).HasFocus</visible>
+          </control>
+          <control type="image">
+            <description>right arrow</description>
+            <posx>275</posx>
+            <posy>350</posy>
+            <width>20</width>
+            <height>20</height>
+            <texture>views/multiplex_arrowfocus.png</texture>
+            <include>Animation_VisibleChange400</include>
+            <visible>ControlGroup(9000).HasFocus</visible>
+          </control>
+        </control>
         <control type="image">
           <posx>-215</posx>
           <posy>190</posy>
@@ -836,16 +1148,15 @@
           <ondown>9003</ondown>
           <onback>50</onback>
           <include>Animation_MediaMenuSlide2</include>
-
-          <control type="selectbutton" id="2">
+          <animation type="Conditional" condition="Window.IsActive(1121)|Control.HasFocus(9010)">
+            <effect type="fade" start="100" end="0" time="100" reversible="true"/>
+          </animation>
+          <control type="button" id="1802">
             <description>View As button</description>
-            <textureleft>views/multiplex_arrow2.png</textureleft>
-            <textureright>views/multiplex_arrow.png</textureright>
-            <textureleftfocus>views/multiplex_arrowfocus2.png</textureleftfocus>
-            <texturerightfocus>views/multiplex_arrowfocus.png</texturerightfocus>
             <pulseonselect>yes</pulseonselect>
             <include>Objects_MediaMenuButtonAlt</include>
-            <label>-</label>
+            <label>$LOCALIZE[582]: $INFO[Container.Viewmode]</label>
+            <onclick>ActivateWindow(1121)</onclick>
           </control>
           <control type="button" id="1600">
             <description>General options label</description>
@@ -915,6 +1226,14 @@
             <onclick>Skin.ToggleSetting(MusicLibraryFanart)</onclick>
             <selected>Skin.HasSetting(MusicLibraryFanart)</selected>
             <visible>!Control.IsVisible(500)+!Skin.HasSetting(hideoptions)+[Window.IsActive(musiclibrary)|Window.IsActive(musicplaylist)]</visible>
+          </control>
+          <control type="radiobutton" id="1704">
+            <description>Hide Music Video Fanart</description>
+            <label>$LOCALIZE[31307]</label>
+            <onclick>Skin.ToggleSetting(VideoFilesFanart)</onclick>
+            <selected>!Skin.HasSetting(VideoFilesFanart)</selected>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <visible>[Container.Content(addons)|Container.Content(files)]</visible>
           </control>
           <control type="radiobutton" id="1675">
             <description>Toggle Extrafanart</description>
@@ -1012,6 +1331,14 @@
             <enable>!Skin.HasSetting(VideoLibraryTVFanart)</enable>
             <visible>Container.Content(seasons)+!Skin.HasSetting(hideoptions)</visible>
           </control>
+          <control type="radiobutton" id="1703">
+            <description>Toggle Animated BG</description>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>$LOCALIZE[31375]</label>
+            <onclick>Skin.ToggleSetting(animatedbg)</onclick>
+            <selected>Skin.HasSetting(animatedbg)</selected>
+            <visible>!Skin.HasSetting(hideoptions)</visible>
+          </control>
           <control type="togglebutton" id="1666">
             <description>Toggle Overlay</description>
             <pulseonselect>yes</pulseonselect>
@@ -1075,7 +1402,7 @@
             <onclick>Skin.ToggleSetting(smallmusicwall)</onclick>
             <onclick>XBMC.ReloadSkin()</onclick>
             <selected>Skin.HasSetting(smallmusicwall)</selected>
-            <visible>Control.IsVisible(500)+[Container.Content(albums)|Container.Content(songs)|Container.Content(addons)]+!Skin.HasSetting(hideoptions)</visible>
+            <visible>Control.IsVisible(500)+!Skin.HasSetting(hideoptions)</visible>
           </control>
           <control type="radiobutton" id="1662">
             <description>Toggle Dark</description>
@@ -1111,8 +1438,20 @@
             <altlabel>$LOCALIZE[31229]</altlabel>
             <onclick>Skin.ToggleSetting(WallMusicVertical)</onclick>
             <onclick>XBMC.ReloadSkin()</onclick>
-            <usealttexture>Skin.HasSetting(WallMusicVertical)</usealttexture>
+            <usealttexture>!Skin.HasSetting(WallMusicVertical)</usealttexture>
             <visible>Control.IsVisible(500)+!Skin.HasSetting(hideoptions)</visible>
+          </control>
+          <control type="togglebutton" id="1696">
+            <description>Toggle wrap</description>
+            <pulseonselect>yes</pulseonselect>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>$LOCALIZE[31278]</label>
+            <aligny>center</aligny>
+            <altlabel>$LOCALIZE[31277]</altlabel>
+            <onclick>Skin.ToggleSetting(showcasewrap)</onclick>
+            <onclick>XBMC.ReloadSkin()</onclick>
+            <usealttexture>Skin.HasSetting(showcasewrap)</usealttexture>
+            <visible>[Control.IsVisible(501)|Control.IsVisible(503)|Control.IsVisible(504)|Control.IsVisible(509)|Control.IsVisible(513)]+!Skin.HasSetting(hideoptions)</visible>
           </control>
           <control type="radiobutton" id="1668">
             <description>Toggle Widescreen</description>
@@ -1129,7 +1468,7 @@
             <label>31298</label>
             <onclick>SetFocus(50)</onclick>
             <onclick>ActivateWindow(1126)</onclick>
-            <visible>[Control.IsVisible(500)|Control.IsVisible(560)|Control.IsVisible(55)|Control.IsVisible(508)|Control.IsVisible(503)|Control.IsVisible(509)|Control.IsVisible(504)|Control.IsVisible(501)|Control.IsVisible(510)|Control.IsVisible(50)]+!Skin.HasSetting(hideoptions)</visible>
+            <visible>[Control.IsVisible(55)|Control.IsVisible(508)|Control.IsVisible(503)|Control.IsVisible(509)|Control.IsVisible(504)|Control.IsVisible(501)|Control.IsVisible(510)|Control.IsVisible(50)]+!Skin.HasSetting(hideoptions)</visible>
           </control>
           <control type="button" id="1685">
             <description>Set topbar color</description>
@@ -1142,198 +1481,7 @@
         </control>
 
       </control>
-      <control type="panel" id="9010">
-        <posx>280</posx>
-        <posy>50</posy>
-        <width>300</width>
-        <height>680</height>
-        <itemgap>0</itemgap>
-        <orientation>vertical</orientation>
-        <onleft>SetFocus(1624)</onleft>
-        <onup>9010</onup>
-        <ondown>9010</ondown>
-        <onright>50</onright>
-        <onback>9003</onback>
-        <visible>Container.Content(movies)+!Skin.HasSetting(hideoptions)</visible>
-        <animation type="Conditional" condition="!Control.HasFocus(9010)">
-          <effect type="fade" start="100" end="0" time="400" reversible="false"/>
-          <effect type="rotatey" start="0" end="-130" time="700" center="-20,0" tween="cubic" easing="in"/>
-        </animation>
-        <itemlayout width="300" height="150">
-          <control type="image">
-            <posx>0</posx>
-            <posy>0</posy>
-            <width>186</width>
-            <height>126</height>
-            <info>ListItem.ActualIcon</info>
-          </control>
-          <control type="label">
-            <posx>93</posx>
-            <posy>120</posy>
-            <width>186</width>
-            <height>20</height>
-            <align>center</align>
-            <aligny>center</aligny>
-            <font>Font_Reg19</font>
-            <textcolor>60FFFFFF</textcolor>
-            <info>ListItem.Label</info>
-          </control>
-        </itemlayout>
-        <focusedlayout width="300" height="150">
-          <control type="image">
-            <posx>0</posx>
-            <posy>0</posy>
-            <width>186</width>
-            <height>126</height>
-            <info>ListItem.Thumb</info>
-          </control>
-          <control type="label">
-            <posx>93</posx>
-            <posy>120</posy>
-            <width>186</width>
-            <height>20</height>
-            <align>center</align>
-            <aligny>center</aligny>
-            <font>Font_Reg19</font>
-            <textcolor>white</textcolor>
-            <info>ListItem.Label</info>
-          </control>
-        </focusedlayout>
-        <content>
-          <item id="1">
-            <label>$LOCALIZE[31198]</label>
-            <icon>views/extrathumbs.png</icon>
-            <thumb>views/extrathumbs_focus.png</thumb>
-            <onclick>Skin.SetBool(extrathumbs)</onclick>
-            <onclick>Skin.Reset(fanartinfopane)</onclick>
-            <onclick>Skin.Reset(posterinfopane)</onclick>
-            <onclick>Skin.Reset(fourthumbs)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(501)</visible>
-          </item>
-          <item id="2">
-            <label>$LOCALIZE[20445]</label>
-            <icon>views/fanart.png</icon>
-            <thumb>views/fanart_focus.png</thumb>
-            <onclick>Skin.SetBool(fanartinfopane)</onclick>
-            <onclick>Skin.Reset(extrathumbs)</onclick>
-            <onclick>Skin.Reset(posterinfopane)</onclick>
-            <onclick>Skin.Reset(fourthumbs)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(501)</visible>
-          </item>
-          <item id="3">
-            <label>$LOCALIZE[31271]</label>
-            <icon>views/poster.png</icon>
-            <thumb>views/poster_focus.png</thumb>
-            <onclick>Skin.SetBool(posterinfopane)</onclick>
-            <onclick>Skin.Reset(extrathumbs)</onclick>
-            <onclick>Skin.Reset(fanartinfopane)</onclick>
-            <onclick>Skin.Reset(fourthumbs)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(501)</visible>
-          </item>
-          <item id="4">
-            <label>$LOCALIZE[31287]</label>
-            <icon>views/fourthumbs.png</icon>
-            <thumb>views/fourthumbs_focus.png</thumb>
-            <onclick>Skin.SetBool(fourthumbs)</onclick>
-            <onclick>Skin.Reset(extrathumbs)</onclick>
-            <onclick>Skin.Reset(fanartinfopane)</onclick>
-            <onclick>Skin.Reset(posterinfopane)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(501)</visible>
-          </item>
-          <item id="5">
-            <label>$LOCALIZE[31198]</label>
-            <icon>views/extrathumbs.png</icon>
-            <thumb>views/extrathumbs_focus.png</thumb>
-            <onclick>Skin.SetBool(extrathumbs503)</onclick>
-            <onclick>Skin.Reset(fanartinfopane503)</onclick>
-            <onclick>Skin.Reset(posterinfopane503)</onclick>
-            <onclick>Skin.Reset(fourthumbs503)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(503)</visible>
-          </item>
-          <item id="6">
-            <label>$LOCALIZE[20445]</label>
-            <icon>views/fanart.png</icon>
-            <thumb>views/fanart_focus.png</thumb>
-            <onclick>Skin.SetBool(fanartinfopane503)</onclick>
-            <onclick>Skin.Reset(extrathumbs503)</onclick>
-            <onclick>Skin.Reset(posterinfopane503)</onclick>
-            <onclick>Skin.Reset(fourthumbs503)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(503)</visible>
-          </item>
-          <item id="7">
-            <label>$LOCALIZE[31271]</label>
-            <icon>views/poster.png</icon>
-            <thumb>views/poster_focus.png</thumb>
-            <onclick>Skin.SetBool(posterinfopane503)</onclick>
-            <onclick>Skin.Reset(extrathumbs503)</onclick>
-            <onclick>Skin.Reset(fanartinfopane503)</onclick>
-            <onclick>Skin.Reset(fourthumbs503)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(503)</visible>
-          </item>
-          <item id="8">
-            <label>$LOCALIZE[31287]</label>
-            <icon>views/fourthumbs.png</icon>
-            <thumb>views/fourthumbs_focus.png</thumb>
-            <onclick>Skin.SetBool(fourthumbs503)</onclick>
-            <onclick>Skin.Reset(extrathumbs503)</onclick>
-            <onclick>Skin.Reset(fanartinfopane503)</onclick>
-            <onclick>Skin.Reset(posterinfopane503)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(503)</visible>
-          </item>
-          <item id="9">
-            <label>$LOCALIZE[31198]</label>
-            <icon>views/extrathumbs.png</icon>
-            <thumb>views/extrathumbs_focus.png</thumb>
-            <onclick>Skin.SetBool(extrathumbs504)</onclick>
-            <onclick>Skin.Reset(fanartinfopane504)</onclick>
-            <onclick>Skin.Reset(posterinfopane504)</onclick>
-            <onclick>Skin.Reset(fourthumbs504)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(504)</visible>
-          </item>
-          <item id="10">
-            <label>$LOCALIZE[20445]</label>
-            <icon>views/fanart.png</icon>
-            <thumb>views/fanart_focus.png</thumb>
-            <onclick>Skin.SetBool(fanartinfopane504)</onclick>
-            <onclick>Skin.Reset(extrathumbs504)</onclick>
-            <onclick>Skin.Reset(posterinfopane504)</onclick>
-            <onclick>Skin.Reset(fourthumbs504)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(504)</visible>
-          </item>
-          <item id="11">
-            <label>$LOCALIZE[31271]</label>
-            <icon>views/poster.png</icon>
-            <thumb>views/poster_focus.png</thumb>
-            <onclick>Skin.SetBool(posterinfopane504)</onclick>
-            <onclick>Skin.Reset(extrathumbs504)</onclick>
-            <onclick>Skin.Reset(fanartinfopane504)</onclick>
-            <onclick>Skin.Reset(fourthumbs504)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(504)</visible>
-          </item>
-          <item id="12">
-            <label>$LOCALIZE[31287]</label>
-            <icon>views/fourthumbs.png</icon>
-            <thumb>views/fourthumbs_focus.png</thumb>
-            <onclick>Skin.SetBool(fourthumbs504)</onclick>
-            <onclick>Skin.Reset(extrathumbs504)</onclick>
-            <onclick>Skin.Reset(fanartinfopane504)</onclick>
-            <onclick>Skin.Reset(posterinfopane504)</onclick>
-            <onclick>XBMC.ReloadSkin()</onclick>
-            <visible>Control.IsVisible(504)</visible>
-          </item>
-        </content>
-      </control>
+      <include condition="Window.IsActive(videolibrary)">LayoutPanel</include>
 
     </control>
     <control type="button" id="9000">

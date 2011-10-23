@@ -73,8 +73,11 @@
 		<timeperimage>10000</timeperimage>
 		<randomize>true</randomize>
 		<fadetime>900</fadetime>
-		<include condition="Skin.HasSetting(animatedbg)">Animation_Background</include>
-		<aspectratio align="center">scale</aspectratio>
+    <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+    <animation effect="slide" start="-10,-10" end="10,10" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+    <animation effect="fade" time="250">WindowOpen</animation>
+    <animation effect="fade" time="250">WindowClose</animation>
+    <aspectratio align="center">scale</aspectratio>
 	</include>
 	<include name="CommonFanartVarsSingle">
 		<posx>0</posx>
@@ -82,21 +85,15 @@
 		<width>1280</width>
 		<height>720</height>
 		<fadetime>FanartCrossfadeTime</fadetime>
-		<include condition="Skin.HasSetting(animatedbg)">Animation_Background</include>
+    <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+    <animation effect="slide" start="-10,-10" end="10,10" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
 		<aspectratio align="center">scale</aspectratio>
-	</include>
-	<include name="CommonFanartVarsSingleScroll">
-		<posx>0</posx>
-		<posy>0</posy>
-		<width>1280</width>
-		<height>720</height>
-		<fadetime>FanartCrossfadeTime</fadetime>
-		<include condition="Skin.HasSetting(animatedbg)">Animation_Background</include>
-		<aspectratio align="center">scale</aspectratio>
-	</include>
+    <animation effect="fade" time="250">WindowOpen</animation>
+    <animation effect="fade" time="250">WindowClose</animation>
+  </include>
 	<include name="CommonCurtainBackdrop">
 		<control type="image">
-			<include>CommonFanartVarsSingleScroll</include>
+			<include>CommonFanartVarsSingle</include>
 			<texture background="true">special://skin/backgrounds/curtains.jpg</texture>
 			<visible>Skin.HasSetting(CurtainBackdrop)</visible>
 		</control>
@@ -105,8 +102,8 @@
     <control type="multiimage">
       <include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
       <include>CommonFanartVars</include>
-      <imagepath fallback="special://skin/backgrounds/music.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_Video_Folder)]</imagepath>
-      <visible>Skin.HasSetting(VideoLibraryMusicVideoFanart)+[Container.Content(MusicVideos) | Container.Content(Artists) | Container.Content(Albums)]</visible>
+      <imagepath fallback="special://skin/backgrounds/videos.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_Video_Folder)]</imagepath>
+      <visible>[Skin.HasSetting(VideoLibraryMusicVideoFanart)+[Container.Content(MusicVideos) | Container.Content(Artists) | Container.Content(Albums)]]|[[Container.Content(addons)|Container.Content(files)]+!Skin.HasSetting(VideoFilesFanart)]</visible>
     </control>
     <control type="multiimage">
       <include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
@@ -308,7 +305,16 @@
 			<texture>dialogs/volume_icon.png</texture>
 		</control>
 	</include>
-	<include name="Dialogs_Progress">
+  <include name="Dialogs_Settings">
+    <control type="image">
+      <posx>9</posx>
+      <posy>9</posy>
+      <width>73</width>
+      <height>73</height>
+      <texture>dialogs/settings_icon.png</texture>
+    </control>
+  </include>
+  <include name="Dialogs_Progress">
 		<description>Progressbar</description>
 		<posx>85</posx>
 		<posy>3</posy>
@@ -346,7 +352,27 @@
 		<posy>62</posy>
 		<include>Dialogs_LabelVars</include>
 	</include>
-	<include name="Objects_MediaMenuButton">
+  <include name="Dialogs_Arrows">
+    <control type="image">
+      <description>left arrow</description>
+      <posx>195</posx>
+      <posy>62</posy>
+      <width>20</width>
+      <height>20</height>
+      <texture>views/multiplex_arrow2.png</texture>
+      <include>Animation_CommonFade</include>
+    </control>
+    <control type="image">
+      <description>right arrow</description>
+      <posx>322</posx>
+      <posy>62</posy>
+      <width>20</width>
+      <height>20</height>
+      <texture>views/multiplex_arrow.png</texture>
+      <include>Animation_CommonFade</include>
+    </control>
+  </include>
+  <include name="Objects_MediaMenuButton">
 		<height>34</height>
 		<width>195</width>
 		<texturenofocus>-</texturenofocus>
@@ -476,10 +502,13 @@
 			<posx>0</posx>
 			<posy>0</posy>
       <control type="image">
-        <posx>-170</posx>
-        <width>680</width>
-        <height>58</height>
-        <texture flipy="true" flipx="true">osd/osd_progress_bar_back.png</texture>
+        <description>time background</description>
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>499</width>
+        <height>27</height>
+        <texture flipy="true" flipx="true">home/timepanel_mid.png</texture>
+        <include>Animation_VisibleChange400</include>
         <visible>!Skin.HasSetting(breadcrumb)</visible>
       </control>
       <control type="progress">
@@ -677,30 +706,63 @@
 		<include>Objects_KeyOnVars</include>
 	</include>
 	<include name="Furniture_Clock">
-		<control type="group">
-			<visible>!Control.HasFocus(109)+!Skin.HasSetting(breadcrumb)</visible>
-			<include>Animation_WidgetZoom</include>
+    <control type="group">
+      <posx>499r</posx>
+      <posy>0</posy>
+      <visible>!Control.HasFocus(109)+!Skin.HasSetting(breadcrumb)</visible>
+      <animation effect="slide" start="0,0" end="500,0" time="300">WindowClose</animation>
+      <animation effect="slide" start="500,0" end="0,0" delay="WidgetSlideDelay" time="300">WindowOpen</animation>
+      <animation effect="slide" start="500" end="0" time="300">VisibleChange</animation>
       <control type="image">
-        <posx>858</posx>
+        <description>time background</description>
+        <posx>0</posx>
         <posy>0</posy>
-        <width>680</width>
-        <height>58</height>
-        <texture flipy="true">osd/osd_progress_bar_back.png</texture>
+        <width>499</width>
+        <height>27</height>
+        <texture flipy="true">home/timepanel_mid.png</texture>
+        <include>Animation_VisibleChange400</include>
       </control>
       <control type="label">
-				<description>time label</description>
-				<posx>1270</posx>
-				<posy>-2</posy>
-				<width>400</width>
-				<height>27</height>
-				<align>right</align>
-				<aligny>center</aligny>
-				<font>Font_Reg17</font>
-				<textcolor>white2</textcolor>
-				<shadowcolor>-</shadowcolor>
-				<label>[COLOR white2]$INFO[System.Date(DDD)], $INFO[System.Date(dd)] $INFO[System.Date(MMM)] $INFO[System.Date(YYYY)]  |  [/COLOR][COLOR ffaaaaaa]$INFO[System.Time][/COLOR]</label>
-			</control>
-		</control>
+        <description>time label</description>
+        <posx>489</posx>
+        <posy>-1</posy>
+        <width>400</width>
+        <height>27</height>
+        <align>right</align>
+        <aligny>center</aligny>
+        <font>Font_Reg17</font>
+        <textcolor>white2</textcolor>
+        <shadowcolor>-</shadowcolor>
+        <label>[COLOR white2]$INFO[System.Date(DDD)], $INFO[System.Date(d)] $INFO[System.Date(mmm)] $INFO[System.Date(yyyy)]  |  [/COLOR][COLOR ffaaaaaa]$INFO[System.Time][/COLOR]</label>
+        <animation effect="slide" start="0" end="-40" time="200" tween="quadratic" easing="out" condition="Window.IsActive(mutebug)">Conditional</animation>
+      </control>
+      <control type="group">
+        <posx>0</posx>
+        <visible>Weather.IsFetched</visible>
+        <control type="image">
+          <description>Weather image</description>
+          <posx>21</posx>
+          <posy>2</posy>
+          <width>25</width>
+          <height>25</height>
+          <aspectratio>keep</aspectratio>
+          <texture>$INFO[Window(weather).Property(Current.ConditionIcon)]</texture>
+        </control>
+        <control type="label">
+          <description>time label</description>
+          <posx>60</posx>
+          <posy>-1</posy>
+          <width>200</width>
+          <height>27</height>
+          <align>left</align>
+          <aligny>center</aligny>
+          <font>Font_Reg17_Caps</font>
+          <textcolor>white2</textcolor>
+          <shadowcolor>-</shadowcolor>
+          <label>$INFO[Window(weather).Property(Current.Temperature)] $INFO[System.TemperatureUnits,,  |  ][COLOR ffaaaaaa]$INFO[Window(Weather).Property(Current.Humidity)][/COLOR]</label>
+        </control>
+      </control>
+    </control>
 	</include>
 	<include name="Furniture_SettingsBackPanel">
 		<control type="image">
@@ -748,9 +810,9 @@
     <texture background="true" fallback="common/cdart/bd.png">$INFO[ListItem.FileNameAndPath,,/cdart.png]</texture>
   </include>
   <include name="SmallMusicInfoSlideAnimation">
-    <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-175" condition="Skin.HasSetting(lowermainmenu)|Skin.HasSetting(Lockhomemenulow)">Conditional</animation>
-    <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-280" condition="[Skin.HasSetting(lowermainmenu)|Skin.HasSetting(Lockhomemenulow)]+[Control.HasFocus(8000)|Control.HasFocus(8001)|Control.HasFocus(8002)]">Conditional</animation>
-    <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-400" condition="![Skin.HasSetting(lowermainmenu)|Skin.HasSetting(Lockhomemenulow)]+[Control.HasFocus(8000)|Control.HasFocus(8001)|Control.HasFocus(8002)|Control.HasFocus(8003)]">Conditional</animation>
+    <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-175" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+    <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-280" condition="Skin.HasSetting(lowermainmenu)+[Control.HasFocus(8000)|Control.HasFocus(8001)|Control.HasFocus(8002)]">Conditional</animation>
+    <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-400" condition="![kin.HasSetting(lowermainmenu)+[Control.HasFocus(8000)|Control.HasFocus(8001)|Control.HasFocus(8002)|Control.HasFocus(8003)]">Conditional</animation>
   </include>
 	<include name="SmallMusicInfo">
 		<control type="group">
@@ -852,7 +914,7 @@
 	</include>
 	<include name="BackgroundEffect">
 		<imagepath>cerberus</imagepath>
-		<timeperimage>0</timeperimage>
+		<timeperimage>20</timeperimage>
 		<fadetime>0</fadetime>
 		<loop>yes</loop>
 		<randomize>false</randomize>
@@ -917,11 +979,12 @@
 	</include>
 	<include name="RecentVisibiltyEpisodes">
 		<texture background="true">$INFO[ListItem(0).Overlay,thumbs/]</texture>
-		<visible>[Skin.HasSetting(watchedoverlay)+StringCompare(ListItem(0).Overlay,OverlayWatched.png)]|[Skin.HasSetting(newstatus)+StringCompare(ListItem(0).Overlay,OverlayUnWatched.png)+[[Container.Content(movies)+[StringCompare(Window(Home).Property(LatestMovie.1.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.2.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.3.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.4.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.5.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.6.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.7.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.8.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.9.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.10.Title),ListItem(0).Label)]]|[Container.Content(tvshows)+[StringCompare(Window(Home).Property(LatestEpisode.1.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.2.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.3.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.4.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.5.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.6.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.7.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.8.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.9.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.10.ShowTitle),ListItem(0).Label)]]|[Container.Content(episodes)+[StringCompare(Window(Home).Property(LatestEpisode.1.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.2.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.3.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.4.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.5.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.6.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.7.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.8.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.9.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.10.EpisodeTitle),ListItem.Title)]]]]</visible>
+		<visible>[Skin.HasSetting(watchedoverlay)+SubString(ListItem(0).Overlay,OverlayWatched.png)]|[Skin.HasSetting(newstatus)+SubString(ListItem(0).Overlay,OverlayUnWatched.png)+[[Container.Content(movies)+[StringCompare(Window(Home).Property(LatestMovie.1.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.2.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.3.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.4.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.5.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.6.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.7.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.8.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.9.Title),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestMovie.10.Title),ListItem(0).Label)]]|[Container.Content(tvshows)+[StringCompare(Window(Home).Property(LatestEpisode.1.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.2.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.3.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.4.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.5.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.6.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.7.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.8.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.9.ShowTitle),ListItem(0).Label) | StringCompare(Window(Home).Property(LatestEpisode.10.ShowTitle),ListItem(0).Label)]]|[Container.Content(episodes)+[StringCompare(Window(Home).Property(LatestEpisode.1.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.2.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.3.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.4.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.5.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.6.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.7.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.8.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.9.EpisodeTitle),ListItem.Title) | StringCompare(Window(Home).Property(LatestEpisode.10.EpisodeTitle),ListItem.Title)]]]]</visible>
 	</include>
-	<include name="RecentVisibilityPosters">
-		<visible>[Container.Content(movies)+[StringCompare(Window(Home).Property(LatestMovie.1.Title),ListItem.Label) | StringCompare(Window(Home).Property(LatestMovie.2.Title),ListItem.Label) | StringCompare(Window(Home).Property(LatestMovie.3.Title),ListItem.Label) | StringCompare(Window(Home).Property(LatestMovie.4.Title),ListItem.Label) | StringCompare(Window(Home).Property(LatestMovie.5.Title),ListItem.Label) | StringCompare(Window(Home).Property(LatestMovie.6.Title),ListItem.Label) | StringCompare(Window(Home).Property(LatestMovie.7.Title),ListItem.Label) | StringCompare(Window(Home).Property(LatestMovie.8.Title),ListItem.Label) | StringCompare(Window(Home).Property(LatestMovie.9.Title),ListItem.Label) | StringCompare(Window(Home).Property(LatestMovie.10.Title),ListItem.Label)]]|[Container.Content(tvshows)+[StringCompare(Window(Home).Property(LatestEpisode.1.ShowTitle),ListItem.Label) | StringCompare(Window(Home).Property(LatestEpisode.2.ShowTitle),ListItem.Label) | StringCompare(Window(Home).Property(LatestEpisode.3.ShowTitle),ListItem.Label) | StringCompare(Window(Home).Property(LatestEpisode.4.ShowTitle),ListItem.Label) | StringCompare(Window(Home).Property(LatestEpisode.5.ShowTitle),ListItem.Label) | StringCompare(Window(Home).Property(LatestEpisode.6.ShowTitle),ListItem.Label) | StringCompare(Window(Home).Property(LatestEpisode.7.ShowTitle),ListItem.Label) | StringCompare(Window(Home).Property(LatestEpisode.8.ShowTitle),ListItem.Label) | StringCompare(Window(Home).Property(LatestEpisode.9.ShowTitle),ListItem.Label) | StringCompare(Window(Home).Property(LatestEpisode.10.ShowTitle),ListItem.Label)]]</visible>
-	</include>
+  <include name="AltRecentVisibiltyEpisodes">
+    <texture background="true">$INFO[ListItem(0).Overlay,thumbs/]</texture>
+    <visible>[Skin.HasSetting(watchedoverlay)+SubString(ListItem(0).Overlay,OverlayWatched.png)]|[Skin.HasSetting(newstatus)+SubString(ListItem(0).Overlay,OverlayUnWatched.png)]</visible>
+  </include>
 	<include name="Default_SettingRadioButton">
 		<description>Default Action</description>
 		<posx>0</posx>
@@ -994,8 +1057,8 @@
     <aspectratio align="center">stretch</aspectratio>
   </include>
   <include name="NextAiredLogoVars">
-    <posx>15</posx>
-    <posy>10</posy>
+    <posx>7.5</posx>
+    <posy>20</posy>
     <width>100</width>
     <height>39</height>
     <aspectratio>keep</aspectratio>
@@ -1003,21 +1066,87 @@
     <visible>StringCompare(Window(Home).Property(TVGuide.ThumbType),2)</visible>
   </include>
   <include name="NextAiredThumbVars">
-    <posx>27.5</posx>
-    <posy>7.5</posy>
-    <width>75</width>
-    <height>50</height>
+    <posx>5</posx>
+    <posy>5</posy>
+    <width>105</width>
+    <height>70</height>
     <aspectratio>keep</aspectratio>
     <texture background="true">$INFO[ListItem.Thumb]</texture>
     <visible>StringCompare(Window(Home).Property(TVGuide.ThumbType),0)</visible>
   </include>
   <include name="NextAiredBannerVars">
-    <posx>15</posx>
+    <posx>7.5</posx>
     <posy>10</posy>
     <width>100</width>
     <height>39</height>
     <aspectratio>keep</aspectratio>
     <texture background="true">$INFO[ListItem.Property(Path),,banner.jpg]</texture>
     <visible>StringCompare(Window(Home).Property(TVGuide.ThumbType),1)</visible>
+  </include>
+  <include name="NextAiredLabelVars">
+    <posx>57</posx>
+    <posy>80</posy>
+    <width>114</width>
+    <height>20</height>
+    <label>$INFO[ListItem.Property(ShortTime)]</label>
+    <textcolor>grey2</textcolor>
+    <font>Font_Info</font>
+    <align>center</align>
+  </include>
+  <include name="NextAiredListpanel">
+    <posx>0</posx>
+    <posy>-5</posy>
+    <width>115</width>
+    <height>125</height>
+    <texture>views/listpanel_selectbar.png</texture>
+  </include>
+  <include name="Objects_CommonSettingsButton">
+    <posx>0</posx>
+    <posy>0</posy>
+    <width>781</width>
+    <height>40</height>
+    <font>Font_Reg20</font>
+    <textcolor>grey2</textcolor>
+    <focusedcolor>white</focusedcolor>
+    <textoffsetx>30</textoffsetx>
+    <radioposx>680</radioposx>
+    <texturefocus>osd/osd_settings_buttonf.png</texturefocus>
+    <texturenofocus>osd/osd_settings_buttonnf.png</texturenofocus>
+    <textureradiofocus>settings/settings_radiobuttononfocus.png</textureradiofocus>
+    <textureradionofocus>settings/settings_radiobuttonon.png</textureradionofocus>
+  </include>
+  <include name="Objects_CommonSettingsScrollbar">
+    <posx>230</posx>
+    <posy>190</posy>
+    <width>28</width>
+    <height>360</height>
+    <texturesliderbackground>views/scrollbarbacklist.png</texturesliderbackground>
+    <texturesliderbar>-</texturesliderbar>
+    <texturesliderbarfocus>-</texturesliderbarfocus>
+    <textureslidernib>views/scrollbarnub-nofocus.png</textureslidernib>
+    <textureslidernibfocus>views/scrollbarnub-focus.png</textureslidernibfocus>
+    <showonepage>false</showonepage>
+    <orientation>vertical</orientation>
+  </include>
+  <include name="AlaskaPausedLabel">
+    <control type="group">
+      <posx>0</posx>
+      <posy>0</posy>
+      <visible>Player.Paused + Skin.HasSetting(AlaskaPausedLabel)</visible>
+      <include>Animation_CommonFade</include>
+      <control type="label">
+        <posx>0</posx>
+        <posy>260</posy>
+        <width>1280</width>
+        <align>center</align>
+        <aligny>center</aligny>
+        <font>Font_BigPause</font>
+        <label>$LOCALIZE[112]</label>
+        <textcolor>44ffffff</textcolor>
+      </control>
+    </control>
+  </include>
+  <include condition="CinemaExpVisibilityCondition">
+    <visible>!SubString(Window(10025).Property(CinemaExperienceRunning),True)</visible>
   </include>
 </includes>

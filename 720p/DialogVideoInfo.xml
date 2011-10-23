@@ -463,7 +463,7 @@
           <label fallback="312577">$INFO[ListItem.Plot]</label>
           <autoscroll delay="15000" time="2000" repeat="10000">Skin.HasSetting(AutoScroll)+!Control.HasFocus(60)</autoscroll>
           <textcolor>FFececec</textcolor>
-          <visible>!Container(5000).HasFocus(1)+!Container(5000).HasFocus(6)+!Container(5000).HasFocus(5)+!Container(5000).HasFocus(8)</visible>
+          <visible>!Container(5000).HasFocus(1)+!Container(5000).HasFocus(6)+!Container(5000).HasFocus(7)+!Container(5000).HasFocus(8)+!Container(5000).HasFocus(9)</visible>
         </control>
         <control type="group">
           <visible>Container.Content(movies)|Container.Content(episodes)|Container.Content(MusicVideos)</visible>
@@ -475,7 +475,7 @@
           <posy>575</posy>
           <width>90</width>
           <height>60</height>
-          <texture>flags/studios/$INFO[ListItem.Studio].png</texture>
+          <texture>$INFO[ListItem.Studio,flags/studios/,.png]</texture>
           <colordiffuse>FF7c7c7c</colordiffuse>
           <visible>Container.Content(tvshows)</visible>
         </control>
@@ -484,7 +484,7 @@
             <posx>100</posx>
             <posy>575</posy>
             <colordiffuse>FF868686</colordiffuse>
-            <include>FloorRatingVars</include>
+            <include>AudioFlagsVars</include>
             <texture fallback="flags/rating/MPAA_NR_Certificate_US.png">$VAR[RatingFlagVar,flags/rating/,.png]</texture>
             <visible>Container.Content(tvshows)</visible>
           </control>
@@ -501,7 +501,7 @@
         <onright>5000</onright>
         <ondown>50</ondown>
         <showonepage>true</showonepage>
-        <visible>!Container(5000).HasFocus(6)+!Container(5000).HasFocus(5)</visible>
+        <visible>!Container(5000).HasFocus(6)+!Container(5000).HasFocus(7)+!Container(5000).HasFocus(8)</visible>
       </control>
 
         <control type="togglebutton" id="8">
@@ -541,6 +541,7 @@
         <texturenofocus>-</texturenofocus>
         <texturefocus>settings/listselect.png</texturefocus>
         <ondown>5000</ondown>
+        <enable>!IsEmpty(ListItem.Director)</enable>
       </control>
 
 
@@ -660,29 +661,36 @@
             <visible>Container.Content(Movies) + system.hasaddon(script.cinema.experience) + !SubString(Container.FolderPath,plugin)</visible>
           </item>
           <item id="5">
-            <description>Get Thumb</description>
-            <label>$LOCALIZE[13405]</label>
-            <onclick>SendClick(2003,10)</onclick>
-          </item>
-          <item id="6">
-            <description>Get Fanart</description>
-            <label>$LOCALIZE[20413]</label>
-            <onclick>SendClick(2003,12)</onclick>
-            <visible>!Container.Content(episodes)</visible>
-          </item>
-          <item id="7">
             <description>Play Trailer</description>
             <label>$LOCALIZE[20410]</label>
             <onclick>SendClick(2003,11)</onclick>
             <visible>!IsEmpty(ListItem.Trailer)+Container.Content(movies)</visible>
           </item>
-          <item id="8">
+          <item id="6">
+            <description>Get Thumb</description>
+            <label>$LOCALIZE[13405]</label>
+            <onclick>SendClick(2003,10)</onclick>
+          </item>
+          <item id="7">
+            <description>Get Fanart</description>
+            <label>$LOCALIZE[20413]</label>
+            <onclick>SendClick(2003,12)</onclick>
+            <visible>!Container.Content(episodes)</visible>
+          </item>
+ 		  <item id="8">
+		    <description>Get Extrafanart</description>
+		    <label>$LOCALIZE[31316]</label>
+		    <onclick condition="Container.Content(tvshows)">XBMC.RunScript(script.extrafanartdownloader, mediatype=tvshow, medianame=$INFO[ListItem.TVShowTitle])</onclick>
+		    <onclick condition="Container.Content(movies)">XBMC.RunScript(script.extrafanartdownloader, mediatype=movie, medianame=$INFO[ListItem.Title])</onclick>
+		    <visible>[Container.Content(tvshows)|Container.Content(movies)]+system.hasaddon(script.extrafanartdownloader)</visible>
+		  </item> 
+          <item id="9">
             <description>Get Logo</description>
             <label>$LOCALIZE[31173]</label>
             <onclick>XBMC.RunScript(script.logo-downloader,mode=solo,logo=True,clearart=True,showthumb=landscape.jpg,poster=poster.jpg,banner=banner.jpg,showname=$INFO[ListItem.TVShowTitle])</onclick>
             <visible>Container.Content(tvshows)+system.hasaddon(script.logo-downloader)</visible>
           </item>
-          <item id="9">
+          <item id="10">
             <description>Get Tune</description>
             <label>$LOCALIZE[31365]</label>
             <onclick>XBMC.RunScript(script.tvtunes,mode=solo&amp;tvpath=$INFO[ListItem.FilenameAndPath]&amp;tvname=$INFO[ListItem.TVShowTitle])</onclick>
@@ -700,7 +708,31 @@
         <texture background="true">$INFO[listitem.property(fanart_image)]</texture>
         <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
         <bordersize>7</bordersize>
-        <visible>!IsEmpty(listitem.property(fanart_image))+Container(5000).HasFocus(6)</visible>
+        <visible>!IsEmpty(listitem.property(fanart_image))+Container(5000).HasFocus(7)</visible>
+      </control>
+      <control type="multiimage">
+        <posx>715</posx>
+        <posy>404</posy>
+        <width>360</width>
+        <height>202</height>
+        <fadetime>1500</fadetime>
+        <timeperimage>4000</timeperimage>
+        <randomize>true</randomize>
+        <aspectratio align="center">scale</aspectratio>
+        <imagepath background="true">$INFO[ListItem.FileNameAndPath,,extrafanart]</imagepath>
+        <visible>Container.Content(tvshows)+Container(5000).HasFocus(8)</visible>
+      </control>
+      <control type="multiimage">
+        <posx>715</posx>
+        <posy>404</posy>
+        <width>360</width>
+        <height>202</height>
+        <fadetime>1500</fadetime>
+        <timeperimage>4000</timeperimage>
+        <randomize>true</randomize>
+        <aspectratio align="center">scale</aspectratio>
+        <imagepath background="true">$INFO[ListItem.Path,,extrafanart]</imagepath>
+        <visible>Container.Content(movies)+Container(5000).HasFocus(8)</visible>
       </control>
       <control type="image">
         <posx>708</posx>
@@ -712,7 +744,7 @@
         <texture background="true">$INFO[listitem.Thumb]</texture>
         <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
         <bordersize>7</bordersize>
-        <visible>Container(5000).HasFocus(5)</visible>
+        <visible>Container(5000).HasFocus(6)</visible>
       </control>
       <control type="image">
         <description>Actor image</description>
@@ -736,7 +768,7 @@
         <texture background="true">$INFO[ListItem.FileNameAndPath,,/landscape.jpg]</texture>
         <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
         <bordersize>7</bordersize>
-        <visible>Container(5000).HasFocus(8)</visible>
+        <visible>Container(5000).HasFocus(9)</visible>
       </control>
       <control type="image">
         <posx>703</posx>
@@ -748,7 +780,7 @@
         <texture background="true">$INFO[ListItem.FileNameAndPath,,/banner.jpg]</texture>
         <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
         <bordersize>7</bordersize>
-        <visible>Container(5000).HasFocus(8)</visible>
+        <visible>Container(5000).HasFocus(9)</visible>
       </control>
       <control type="image">
         <posx>793</posx>
@@ -759,7 +791,7 @@
         <aspectratio align="bottom">keep</aspectratio>
         <texture background="true">$INFO[ListItem.FileNameAndPath,,/logo.png]</texture>
         <bordersize>7</bordersize>
-        <visible>Container(5000).HasFocus(8)</visible>
+        <visible>Container(5000).HasFocus(9)</visible>
       </control>
       <control type="image">
         <posx>1043</posx>
@@ -770,7 +802,7 @@
         <aspectratio align="bottom">keep</aspectratio>
         <texture background="true">$INFO[ListItem.FileNameAndPath,,/clearart.png]</texture>
         <bordersize>7</bordersize>
-        <visible>Container(5000).HasFocus(8)</visible>
+        <visible>Container(5000).HasFocus(9)</visible>
       </control>
       <control type="label">
         <description>Filename</description>

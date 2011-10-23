@@ -25,6 +25,18 @@
         <texture background="true">$INFO[ListItem.property(fanart_image)]</texture>
         <animation effect="fade" start="100" end="10" time="50" delay="0" condition="Container.Content(episodes)|[Container.Content(movies)+Skin.HasSetting(paneldetail)]">Conditional</animation>
       </control>
+      <control type="image">
+        <description>POSTER icon</description>
+        <posx>635.5</posx>
+        <posy>206</posy>
+        <width>233</width>
+        <height>176</height>
+        <texture>thumbs/play-button.png</texture>
+        <fadetime>400</fadetime>
+        <visible>!IsEmpty(ListItem.Trailer)+Control.HasFocus(7001)+!Skin.HasSetting(paneldetail)</visible>
+        <animation effect="fade" start="50" end="20" time="1000" pulse="true" condition="Control.HasFocus(7001)">Conditional</animation>
+      </control>
+
       <control type="group">
         <control type="image">
           <posx>70</posx>
@@ -452,53 +464,46 @@
           <description>Flags</description>
           <posy>-135</posy>
           <animation effect="slide" start="0" end="-140" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
-          <control type="group">
-            <posx>340</posx>
-            <posy>600</posy>
-            <visible>Skin.HasSetting(sourceflags)</visible>
-            <animation effect="slide" start="0" end="280" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
-            <include>LowListSourceFlags</include>
-          </control>
           <control type="image">
             <posx>340</posx>
             <posy>600</posy>
-            <include>OSDAudioFlagsVars</include>
-            <texture>$INFO[ListItem.VideoCodec,flags/videocodec/,.png]</texture>
             <animation effect="slide" start="0" end="280" condition="Skin.HasSetting(nostudioratingflags)">Conditional</animation>
-            <visible>!Skin.HasSetting(sourceflags)|[!SubString(ListItem.filename,PDTV)+!SubString(ListItem.filename,sdtv)+!SubString(ListItem.Filename,hdtv)+!SubString(ListItem.Filename,hddvd)+!SubString(ListItem.Filename,hd-dvd)+!SubString(ListItem.Filename,bluray)+!SubString(ListItem.Filename,brrip)+!SubString(ListItem.Filename,blu-ray)+!SubString(ListItem.Filename,bdrip)+!SubString(ListItem.Filename,dvd)+!SubString(ListItem.Filename,dvb)+!SubString(ListItem.Filename,.iso,Right)+!SubString(ListItem.Filename,.ifo)+!SubString(ListItem.Filename,web-dl)]</visible>
+        <include>AudioFlagsVars</include>
+        <texture fallback="flags/source/defaultsource.png">$VAR[SourceFlagVar,flags/source/,.png]</texture>
           </control>
           <control type="image">
             <posx>480</posx>
             <posy>600</posy>
-            <include>OSDAudioFlagsVars</include>
+            <include>AudioFlagsVars</include>
             <texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
             <visible>!IsEmpty(ListItem.Studio)+!Skin.HasSetting(nostudioratingflags)+!Container.Content(tvshows)</visible>
           </control>
-
-          <control type="group">
+          <control type="image">
             <description>Rating Flags</description>
             <posx>620</posx>
             <posy>600</posy>
             <visible>!Skin.HasSetting(nostudioratingflags)+!Container.Content(tvshows)+!SubString(Container.FolderPath,plugin.video)+!Container.Content(seasons)</visible>
-            <include>LowListRatingFlags</include>
+                       <include>AudioFlagsVars</include>
+ <texture fallback="flags/rating/MPAA_NR_Certificate_US.png">$VAR[RatingFlagVar,flags/rating/,.png]</texture>
           </control>
           <control type="image">
             <posx>800</posx>
             <posy>600</posy>
-            <include>OSDAudioFlagsVars</include>
+            <include>AudioFlagsVars</include>
             <texture fallback="flags/aspectratio/defaultaspect.png">$INFO[ListItem.VideoAspect,flags/aspectratio/,.png]</texture>
           </control>
           <control type="image">
             <posx>940</posx>
             <posy>600</posy>
-            <include>OSDAudioFlagsVars</include>
+            <include>AudioFlagsVars</include>
             <texture fallback="flags/resolution/defaultscreen.png">$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
           </control>
-          <control type="group">
+          <control type="image">
             <description>Audio Flags</description>
             <posx>1080</posx>
             <posy>600</posy>
-            <include>LowListAudioFlags</include>
+        <include>AudioFlagsVars</include>
+        <texture fallback="flags/audio/defaultsound.png">$VAR[AudioFlagVar,flags/audio/,.png]</texture>
           </control>
         </control>
       </control>
@@ -526,15 +531,15 @@
         <width>380</width>
         <height>546</height>
         <itemgap>0</itemgap>
-        <onleft>60</onleft>
-        <onright condition="!IsEmpty(ListItem.Trailer)">SetFocus(7001)</onright>
-        <onright condition="IsEmpty(ListItem.Trailer)">9000</onright>
+        <onleft>9000</onleft>
+        <onright condition="!IsEmpty(ListItem.Trailer)">7001</onright>
+        <onright condition="IsEmpty(ListItem.Trailer)">60</onright>
         <onup>550</onup>
         <ondown>550</ondown>
         <pagecontrol>60</pagecontrol>
         <viewtype label="$LOCALIZE[31233]">list</viewtype>
         <visible>Container.Content(tvshows)|Container.Content(episodes)|Container.Content(movies)</visible>
-        <scrolltime>300</scrolltime>
+        <scrolltime tween="quadratic" easing="out">200</scrolltime>
         <itemlayout height="54" width="380">
           <control type="label">
             <posx>10</posx>
@@ -593,7 +598,7 @@
         </focusedlayout>
       </control>
       <control type="scrollbar" id="60">
-        <posx>-10</posx>
+        <posx>1185</posx>
         <posy>120</posy>
         <width>65</width>
         <height>530</height>
@@ -602,11 +607,12 @@
         <texturesliderbarfocus>-</texturesliderbarfocus>
         <textureslidernib>views/scrollbarnub-nofocus.png</textureslidernib>
         <textureslidernibfocus>views/scrollbarnub-focus.png</textureslidernibfocus>
-        <onleft>9000</onleft>
+        <onleft condition="!IsEmpty(ListItem.Trailer)">7001</onleft>
+        <onleft condition="IsEmpty(ListItem.Trailer)">550</onleft>
         <onright>550</onright>
         <showonepage>false</showonepage>
         <orientation>vertical</orientation>
-        <!--<animation effect="fade" start="0" end="100" time="400" condition="Control.HasFocus(60)">Conditional</animation>-->
+        <visible allowhiddenfocus="true">Control.HasFocus(60)</visible>
       </control>
       <control type="image">
         <posx>331</posx>
@@ -614,7 +620,7 @@
         <width>842</width>
         <height>634</height>
         <texture>settings/settings_intframe_top.png</texture>
-        <animation effect="fade" start="100" end="30" time="50" delay="0" condition="Container.Content(episodes)|[Container.Content(movies)+Skin.HasSetting(paneldetail)]">Conditional</animation>
+        <animation effect="fade" start="100" end="30" time="50" delay="0" condition="Container.Content(episodes)|[Container.Content(movies)+Skin.HasSetting(paneldetail)]|Player.HasVideo">Conditional</animation>
         <include>Animation_SettingsInternalPanel</include>
       </control>
     </control>
