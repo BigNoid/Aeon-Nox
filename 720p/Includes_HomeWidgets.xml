@@ -1,19 +1,5 @@
 <includes>
   <include name="PosterWidgetTrailerLabel">
-    <control type="button" id="8870">
-      <description>Run video bookmarks</description>
-      <include>HiddenObject</include>
-      <onfocus condition="!IsEmpty(Container(8003).ListItem.Property(Trailer))+Skin.HasSetting(lowermainmenu)">PlayMedia($INFO[Container(8003).ListItem.Property(Trailer)])</onfocus>
-      <onfocus>SetFocus(9000)</onfocus>
-      <visible>Control.HasFocus(8003)</visible>
-    </control>
-    <control type="button" id="8871">
-      <description>Run video bookmarks</description>
-      <include>HiddenObject</include>
-      <onfocus condition="!IsEmpty(Container(8003).ListItem.Property(Trailer))+!Skin.HasSetting(lowermainmenu)">PlayMedia($INFO[Container(8003).ListItem.Property(Trailer)])</onfocus>
-      <onfocus>SetFocus(9000)</onfocus>
-      <visible>Control.HasFocus(8003)</visible>
-    </control>
     <!--Trailer Label-->
     <control type="group">
       <posx>0</posx>
@@ -96,12 +82,14 @@
       <control type="wraplist" id="8003">
         <posx>294</posx>
         <posy>5</posy>
-        <width>692</width>
+        <width>691</width>
         <height>350</height>
         <onleft>8003</onleft>
         <onright>8003</onright>
-        <onup>8870</onup>
-        <ondown>8871</ondown>
+        <onup condition="!IsEmpty(Container(8003).ListItem.Property(Trailer))+Skin.HasSetting(lowermainmenu)">PlayMedia($INFO[Container(8003).ListItem.Property(Trailer)])</onup>
+        <onup>9000</onup>
+        <ondown condition="!IsEmpty(Container(8003).ListItem.Property(Trailer))+!Skin.HasSetting(lowermainmenu)">PlayMedia($INFO[Container(8003).ListItem.Property(Trailer)])</ondown>
+        <ondown>9000</ondown>
         <onback>9000</onback>
         <orientation>horizontal</orientation>
         <viewtype label="535">BigWrap</viewtype>
@@ -110,7 +98,6 @@
         <focusposition>2</focusposition>
         <visible>!Control.HasFocus(8000)</visible>
         <animation effect="slide" start="0,0" end="0,420" time="400" tween="cubic" easing="inout" condition="Control.HasFocus(8003)+!Skin.HasSetting(lowermainmenu)">Conditional</animation>
-        <!--<animation effect="slide" start="0,0" end="200,0" time="400" tween="cubic" easing="inout" condition="!Skin.HasSetting(homepageMusicinfo)+Player.HasAudio+!Skin.HasSetting(lowermainmenu)+!Skin.HasSetting(HomeBookmarkMovie)">Conditional</animation>-->
         <animation effect="slide" start="0,0" end="0,240" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)+!Control.HasFocus(8000)">Conditional</animation>
         <animation effect="slide" start="0,0" end="540,0" time="400" tween="cubic" easing="inout" condition="Control.HasFocus(8000)+Player.HasAudio">Conditional</animation>
         <animation effect="slide" start="0,0" end="0,-240" time="400" tween="cubic" easing="inout" condition="Player.HasAudio+Skin.HasSetting(lowermainmenu)+!Control.HasFocus(8000)">Conditional</animation>
@@ -122,8 +109,9 @@
             <width>100</width>
             <height>150</height>
             <fadetime>IconCrossfadeTime</fadetime>
-            <texture diffuse="thumbs/movieposter_mask.png" background="true" fallback="DefaultVideo.png">$INFO[ListItem.Icon]</texture>
+            <texture diffuse="thumbs/movieposter_mask.png" background="true">DefaultVideo.png</texture>
             <aspectratio scalediffuse="false">stretch</aspectratio>
+            <info>ListItem.Icon</info>
           </control>
           <control type="image">
             <description>Main Icon Glass overlay</description>
@@ -138,30 +126,25 @@
         </itemlayout>
         <focusedlayout height="300" width="180">
           <control type="group">
-            <animation effect="zoom" center="auto" start="100" end="150" time="300" tween="back" easing="out">Focus</animation>
-            <!--<animation type="UnFocus">
-              <effect type="slide" start="0" end="-26" time="50" tween="quadratic" easing="out"/>
-              <effect type="zoom" center="auto" start="150" end="100" time="300" tween="quadratic" easing="out"/>
-            </animation>-->
-            <animation effect="zoom" center="auto" start="100" end="150" time="300" tween="back" easing="out" condition="!Control.HasFocus(8003)">Conditional</animation>
             <control type="image">
               <description>Main Icon</description>
-              <posx>40</posx>
-              <posy>75</posy>
-              <width>100</width>
-              <height>150</height>
+              <posx>15</posx>
+              <posy>37.5</posy>
+              <width>150</width>
+              <height>225</height>
               <fadetime>IconCrossfadeTime</fadetime>
-              <texture diffuse="thumbs/movieposter_mask.png" background="true" fallback="DefaultVideo.png">$INFO[ListItem.Icon]</texture>
+              <texture diffuse="thumbs/movieposter_mask.png" background="true">DefaultVideo.png</texture>
               <aspectratio scalediffuse="false">stretch</aspectratio>
+              <info>ListItem.Icon</info>
             </control>
             <control type="image">
-              <posx>40</posx>
-              <posy>75</posy>
-              <width>100</width>
-              <height>150</height>
+              <posx>15</posx>
+              <posy>37.5</posy>
+              <width>150</width>
+              <height>225</height>
               <description>Main Icon Glass overlay</description>
               <texture diffuse="thumbs/movieposter_mask.png">thumbs/poster_glass_noreflect.png</texture>
-              <bordertexture border="-7">thumbs/poster_shadow.png</bordertexture>
+              <bordertexture border="-13">thumbs/poster_shadow.png</bordertexture>
               <aspectratio scalediffuse="false">stretch</aspectratio>
             </control>
           </control>
@@ -370,6 +353,7 @@
             <property name="Trailer">$INFO[Window.Property(WatchList_Movie.1.Trailer)]</property>
             <onclick>$INFO[Window.Property(WatchList_Movie.1.Path),PlayMedia(,)]</onclick>
             <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.1.Label))</visible>
           </item>
           <item id="18">
             <icon>$INFO[Window.Property(WatchList_Movie.2.Thumb)]</icon>
@@ -382,6 +366,7 @@
             <property name="Trailer">$INFO[Window.Property(WatchList_Movie.2.Trailer)]</property>
             <onclick>$INFO[Window.Property(WatchList_Movie.2.Path),PlayMedia(,)]</onclick>
             <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.2.Label))</visible>
           </item>
           <item id="19">
             <icon>$INFO[Window.Property(WatchList_Movie.3.Thumb)]</icon>
@@ -394,6 +379,7 @@
             <property name="Trailer">$INFO[Window.Property(WatchList_Movie.3.Trailer)]</property>
             <onclick>$INFO[Window.Property(WatchList_Movie.3.Path),PlayMedia(,)]</onclick>
             <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.3.Label))</visible>
           </item>
           <item id="20">
             <icon>$INFO[Window.Property(WatchList_Movie.4.Thumb)]</icon>
@@ -406,6 +392,7 @@
             <property name="Trailer">$INFO[Window.Property(WatchList_Movie.4.Trailer)]</property>
             <onclick>$INFO[Window.Property(WatchList_Movie.4.Path),PlayMedia(,)]</onclick>
             <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.4.Label))</visible>
           </item>
           <item id="21">
             <icon>$INFO[Window.Property(WatchList_Movie.5.Thumb)]</icon>
@@ -418,6 +405,7 @@
             <property name="Trailer">$INFO[Window.Property(WatchList_Movie.5.Trailer)]</property>
             <onclick>$INFO[Window.Property(WatchList_Movie.5.Path),PlayMedia(,)]</onclick>
             <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.5.Label))</visible>
           </item>
           <item id="22">
             <icon>$INFO[Window.Property(WatchList_Movie.6.Thumb)]</icon>
@@ -430,6 +418,7 @@
             <property name="Trailer">$INFO[Window.Property(WatchList_Movie.6.Trailer)]</property>
             <onclick>$INFO[Window.Property(WatchList_Movie.6.Path),PlayMedia(,)]</onclick>
             <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.6.Label))</visible>
           </item>
           <item id="23">
             <icon>$INFO[Window.Property(WatchList_Movie.7.Thumb)]</icon>
@@ -442,6 +431,7 @@
             <property name="Trailer">$INFO[Window.Property(WatchList_Movie.7.Trailer)]</property>
             <onclick>$INFO[Window.Property(WatchList_Movie.7.Path),PlayMedia(,)]</onclick>
             <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.7.Label))</visible>
           </item>
           <item id="24">
             <icon>$INFO[Window.Property(WatchList_Movie.8.Thumb)]</icon>
@@ -454,6 +444,7 @@
             <property name="Trailer">$INFO[Window.Property(WatchList_Movie.8.Trailer)]</property>
             <onclick>$INFO[Window.Property(WatchList_Movie.8.Path),PlayMedia(,)]</onclick>
             <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.8.Label))</visible>
           </item>
         </content>
       </control>
