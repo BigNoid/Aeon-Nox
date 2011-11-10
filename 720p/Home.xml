@@ -1,14 +1,15 @@
 <window id="0">
 	<defaultcontrol always="true">9000</defaultcontrol>
-  <onload condition="Skin.HasSetting(HomeVideoBookmarks)">XBMC.RunScript(script.video.bookmarks.browser,limit=5)</onload>
+  <onload condition="Skin.HasSetting(HomeWatchList)|Skin.HasSetting(HomeInProgress)|Skin.HasSetting(HomeInProgressPoster)">XBMC.RunScript(script.watchlist)</onload>
   <onload condition="Window.Previous(startup)+Skin.HasSetting(customstartupfocus)">Control.Move(9000,$INFO[Skin.String(CustomFocusOffset)])</onload>
   <onload condition="Window.Previous(startup)+[Skin.HasSetting(HomeRandomMovies)|Skin.HasSetting(HomeRandomTV)|Skin.HasSetting(HomeRandomMusic)|Skin.HasSetting(HomeRandomAddons)|Skin.HasSetting(HomeRandomAlbums)|Skin.HasSetting(HomeRandomPoster)]">XBMC.RunScript(script.randomitems,limit=8&amp;unplayed=True)</onload>
-	<allowoverlay>yes</allowoverlay>
+  <onload>ClearProperty(DontRunTVShowScripts,Home)</onload>
+  <allowoverlay>yes</allowoverlay>
 	<controls>
     <!-- Fanart -->
     <control type="multiimage">
       <include>CommonFanartVars</include>
-      <imagepath background="true">$INFO[Container(9000).ListItem.Icon]</imagepath>
+      <imagepath background="true">$VAR[HomeMainFanartVar]</imagepath>
       <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
       <animation effect="slide" start="-10,-10" end="10,10" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
       <visible>![Control.HasFocus(8000)|Control.HasFocus(8003)]|IsEmpty(Control.GetLabel(8999))</visible>
@@ -18,7 +19,7 @@
       <include>CommonFanartVars</include>
       <include>VisibleFadeEffect</include>
       <imagepath background="true">$VAR[HomeFanartVar]</imagepath>
-      <visible>Control.HasFocus(8000)|Control.HasFocus(8003)</visible>
+      <visible>Control.HasFocus(8000)|Control.HasFocus(8003)|Player.HasAudio</visible>
       <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
       <animation effect="slide" start="-10,-10" end="10,10" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
     </control>
@@ -40,7 +41,6 @@
       <include>BackgroundEffect</include>
       <visible>Skin.HasSetting(effect_bg_home)</visible>
     </control>
-
     <!-- Home Fullscreen Video -->
 		<include>CommonMediaPlayingBackground</include>
 		<control type="image">
@@ -56,8 +56,7 @@
 		<!-- Latest/Random Items -->
 		<control type="group">
 			<include>Animation_OpenCloseZoom</include>
-			<include condition="Skin.HasSetting(homepageHideRecentlyAdded)">RecentWidget</include>
-			<include condition="Skin.HasSetting(HomeVideoBookmarks)">MovieBookmarkWidget</include>
+			<include condition="Skin.HasSetting(homepageHideRecentlyAdded)|Skin.HasSetting(HomeSystemInfo)">RecentWidget</include>
 		</control>
     <!-- Library Totals -->
     <include>LibraryStats</include>
@@ -76,7 +75,18 @@
 			<control type="group" id="9001">
 				<posx>160</posx>
 				<posy>406</posy>
-        <visible>Container(9000).HasFocus(6)|Container(9000).HasFocus(2) | Container(9000).HasFocus(3) | Container(9000).HasFocus(5) | Container(9000).HasFocus(7) | Container(9000).HasFocus(9) | [Container(9000).HasFocus(1) + [!IsEmpty(Skin.String(HomeProgramButton1)) |!IsEmpty(Skin.String(HomeProgramButton2)) |!IsEmpty(Skin.String(HomeProgramButton3)) |!IsEmpty(Skin.String(HomeProgramButton4)) | !IsEmpty(Skin.String(HomeProgramButton5)) | !IsEmpty(Skin.String(HomeProgramButton6))|!IsEmpty(Skin.String(HomeMenuSubProgramsFavourite1_Path)) | !IsEmpty(Skin.String(HomeMenuSubProgramsFavourite2_Path)) | !IsEmpty(Skin.String(HomeMenuSubProgramsFavourite3_Path))]] | Container(9000).HasFocus(10) | Container(9000).HasFocus(11) | Container(9000).HasFocus(12)</visible>
+        <visible>
+          Container(9000).HasFocus(6)|Container(9000).HasFocus(2) | Container(9000).HasFocus(3) | Container(9000).HasFocus(5) | Container(9000).HasFocus(7) | Container(9000).HasFocus(9) | [Container(9000).HasFocus(1) + [Skin.HasSetting(ProgramsSub1) |Skin.HasSetting(ProgramsSub2) |Skin.HasSetting(ProgramsSub3) |Skin.HasSetting(ProgramsSub4) | Skin.HasSetting(ProgramsSub5) | Skin.HasSetting(ProgramsSub6)|Skin.HasSetting(ProgramsSubFav1) | Skin.HasSetting(ProgramsSubFav2) | Skin.HasSetting(ProgramsSubFav1)]] | Container(9000).HasFocus(10) | Container(9000).HasFocus(11) | Container(9000).HasFocus(12)
+          | [Container(9000).HasFocus(15)+[Skin.HasSetting(CustomSubPL1_1)|Skin.HasSetting(CustomSubPL1_2)|Skin.HasSetting(CustomSubPL1_3)|Skin.HasSetting(CustomSubPL1_4)|Skin.HasSetting(CustomSubPL1_5)]]
+          | [Container(9000).HasFocus(16)+[Skin.HasSetting(CustomSubPL2_1)|Skin.HasSetting(CustomSubPL2_2)|Skin.HasSetting(CustomSubPL2_3)|Skin.HasSetting(CustomSubPL2_4)|Skin.HasSetting(CustomSubPL2_5)]]
+          | [Container(9000).HasFocus(17)+[Skin.HasSetting(CustomSubPL3_1)|Skin.HasSetting(CustomSubPL3_2)|Skin.HasSetting(CustomSubPL3_3)|Skin.HasSetting(CustomSubPL3_4)|Skin.HasSetting(CustomSubPL3_5)]]
+          | [Container(9000).HasFocus(18)+[Skin.HasSetting(CustomSubFav1_1)|Skin.HasSetting(CustomSubFav1_2)|Skin.HasSetting(CustomSubFav1_3)|Skin.HasSetting(CustomSubFav1_4)|Skin.HasSetting(CustomSubFav1_5)]]
+          | [Container(9000).HasFocus(19)+[Skin.HasSetting(CustomSubFav2_1)|Skin.HasSetting(CustomSubFav2_2)|Skin.HasSetting(CustomSubFav2_3)|Skin.HasSetting(CustomSubFav2_4)|Skin.HasSetting(CustomSubFav2_5)]]
+          | [Container(9000).HasFocus(20)+[Skin.HasSetting(CustomSubFav3_1)|Skin.HasSetting(CustomSubFav3_2)|Skin.HasSetting(CustomSubFav3_3)|Skin.HasSetting(CustomSubFav3_4)|Skin.HasSetting(CustomSubFav3_5)]]
+          | [Container(9000).HasFocus(21)+[Skin.HasSetting(CustomSubFav4_1)|Skin.HasSetting(CustomSubFav4_2)|Skin.HasSetting(CustomSubFav4_3)|Skin.HasSetting(CustomSubFav4_4)|Skin.HasSetting(CustomSubFav4_5)]]
+          | [Container(9000).HasFocus(22)+[Skin.HasSetting(CustomSubFav5_1)|Skin.HasSetting(CustomSubFav5_2)|Skin.HasSetting(CustomSubFav5_3)|Skin.HasSetting(CustomSubFav5_4)|Skin.HasSetting(CustomSubFav5_5)]]
+          | [Container(9000).HasFocus(23)+[Skin.HasSetting(CustomSubFav6_1)|Skin.HasSetting(CustomSubFav6_2)|Skin.HasSetting(CustomSubFav6_3)|Skin.HasSetting(CustomSubFav6_4)|Skin.HasSetting(CustomSubFav6_5)]]
+        </visible>
 				<animation effect="fade" start="100" end="0" time="300" condition="!Control.HasFocus(9010)">conditional</animation>
 				<animation effect="slide" start="0,0" end="0,-40" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(9010)">conditional</animation>
 				<control type="image">
@@ -87,9 +97,9 @@
           <colordiffuse>$INFO[Skin.String(diffuse_home)]</colordiffuse>
         </control>
 				<control type="wraplist" id="9010">
-					<posx>122</posx>
+					<posx>105</posx>
 					<height>33</height>
-					<width>725</width>
+					<width>750</width>
 					<onleft>9010</onleft>
 					<onright>9010</onright>
 					<viewtype>list</viewtype>
@@ -97,11 +107,10 @@
 					<focusposition>2</focusposition>
           <scrolltime tween="quadratic" easing="out">300</scrolltime>
           <onup>9000</onup>
-          <ondown condition="Skin.HasSetting(HomeVideoBookmarks)+Container(9000).HasFocus(2)">8005</ondown>
-          <ondown condition="![Skin.HasSetting(HomeVideoBookmarks)+Container(9000).HasFocus(2)]">8000</ondown>
-          <itemlayout width="145" height="33">
+          <ondown>8000</ondown>
+          <itemlayout width="150" height="33">
 						<control type="label">
-							<posx>72.5</posx>
+							<posx>75</posx>
 							<posy>0</posy>
 							<height>33</height>
 							<width>145</width>
@@ -112,9 +121,9 @@
 							<textcolor>5fFFFFFF</textcolor>
 						</control>
 					</itemlayout>
-					<focusedlayout width="145" height="33">
+					<focusedlayout width="150" height="33">
 						<control type="label">
-							<posx>72.5</posx>
+							<posx>75</posx>
 							<posy>0</posy>
 							<height>33</height>
 							<width>145</width>
@@ -134,42 +143,96 @@
 						<include condition="Skin.HasSetting(HomeMusicPlaylist1)">CustomSubMusic1</include>
 						<include condition="Skin.HasSetting(HomeMusicPlaylist2)">CustomSubMusic2</include>
 						<include condition="Skin.HasSetting(HomeMusicPlaylist3)">CustomSubMusic3</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubMusicFavourite1_Label))">CustomSubMusic4</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubMusicFavourite2_Label))">CustomSubMusic5</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubMusicFavourite3_Label))">CustomSubMusic6</include>
+						<include condition="Skin.HasSetting(MusicSubFav1)">CustomSubMusic4</include>
+						<include condition="Skin.HasSetting(MusicSubFav2)">CustomSubMusic5</include>
+						<include condition="Skin.HasSetting(MusicSubFav3)">CustomSubMusic6</include>
             <include condition="!Skin.HasSetting(HomeMenuNoMusicButton)">DefaultMusicSubMenu</include>
 						<!--System-->
             <include condition="!Skin.HasSetting(HomeMenuNoSettingsButton)">DefaultSystemSubMenu</include>
 						<!--Custom-->
-						<include condition="!IsEmpty(Skin.String(HomeProgramButton1))">CustomSubProgram1</include>
-						<include condition="!IsEmpty(Skin.String(HomeProgramButton2))">CustomSubProgram2</include>
-						<include condition="!IsEmpty(Skin.String(HomeProgramButton3))">CustomSubProgram3</include>
-						<include condition="!IsEmpty(Skin.String(HomeProgramButton4))">CustomSubProgram4</include>
-						<include condition="!IsEmpty(Skin.String(HomeProgramButton5))">CustomSubProgram5</include>
-						<include condition="!IsEmpty(Skin.String(HomeProgramButton6))">CustomSubProgram6</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubProgramsFavourite1_Label))">CustomSubPrograms7</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubProgramsFavourite2_Label))">CustomSubPrograms8</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubProgramsFavourite3_Label))">CustomSubPrograms9</include>
+						<include condition="Skin.HasSetting(ProgramsSub1)">CustomSubProgram1</include>
+						<include condition="Skin.HasSetting(ProgramsSub2)">CustomSubProgram2</include>
+						<include condition="Skin.HasSetting(ProgramsSub3)">CustomSubProgram3</include>
+						<include condition="Skin.HasSetting(ProgramsSub4)">CustomSubProgram4</include>
+						<include condition="Skin.HasSetting(ProgramsSub5)">CustomSubProgram5</include>
+						<include condition="Skin.HasSetting(ProgramsSub6)">CustomSubProgram6</include>
+						<include condition="Skin.HasSetting(ProgramsSubFav1)">CustomSubPrograms7</include>
+						<include condition="Skin.HasSetting(ProgramsSubFav2)">CustomSubPrograms8</include>
+						<include condition="Skin.HasSetting(ProgramsSubFav3)">CustomSubPrograms9</include>
 						<!--Movies-->
             <include condition="!Skin.HasSetting(HomeMenuNoMovieButton)">DefaultMoviesSubMenu</include>
             <include condition="Skin.HasSetting(HomeMoviePlaylist1)">CustomSubMovies1</include>
 						<include condition="Skin.HasSetting(HomeMoviePlaylist2)">CustomSubMovies2</include>
 						<include condition="Skin.HasSetting(HomeMoviePlaylist3)">CustomSubMovies3</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubMoviesFavourite1_Label))">CustomSubMovies4</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubMoviesFavourite2_Label))">CustomSubMovies5</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubMoviesFavourite3_Label))">CustomSubMovies6</include>
+						<include condition="Skin.HasSetting(MoviesSubFav1)">CustomSubMovies4</include>
+						<include condition="Skin.HasSetting(MoviesSubFav2)">CustomSubMovies5</include>
+						<include condition="Skin.HasSetting(MoviesSubFav3)">CustomSubMovies6</include>
 						<!--TV Shows-->
 						<include condition="Skin.HasSetting(HomeTVPlaylist1)">CustomSubTV1</include>
 						<include condition="Skin.HasSetting(HomeTVPlaylist2)">CustomSubTV2</include>
 						<include condition="Skin.HasSetting(HomeTVPlaylist3)">CustomSubTV3</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubTVFavourite1_Label))">CustomSubTV4</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubTVFavourite2_Label))">CustomSubTV5</include>
-						<include condition="!IsEmpty(Skin.String(HomeMenuSubTVFavourite3_Label))">CustomSubTV6</include>
+						<include condition="Skin.HasSetting(TVShowsSubFav1)">CustomSubTV4</include>
+						<include condition="Skin.HasSetting(TVShowsSubFav1)">CustomSubTV5</include>
+						<include condition="Skin.HasSetting(TVShowsSubFav1)">CustomSubTV6</include>
             <include condition="!Skin.HasSetting(HomeMenuNoTVShowButton)">DefaultTVShowsSubMenu</include>
             <!--Shutdown-->
             <include condition="!Skin.HasSetting(HomeMenuNoShutdownButton)">DefaultShutdownSubMenu</include>
 						<!-- Weather -->
             <include condition="!Skin.HasSetting(HomeMenuNoWeatherButton)">DefaultWeatherSubMenu</include>
+            <!--CustomSubPL1-->
+            <include condition="Skin.HasSetting(CustomSubPL1_1)">CustomSubPL1_1</include>
+            <include condition="Skin.HasSetting(CustomSubPL1_2)">CustomSubPL1_2</include>
+            <include condition="Skin.HasSetting(CustomSubPL1_3)">CustomSubPL1_3</include>
+            <include condition="Skin.HasSetting(CustomSubPL1_4)">CustomSubPL1_4</include>
+            <include condition="Skin.HasSetting(CustomSubPL1_5)">CustomSubPL1_5</include>
+            <!--CustomSubPL2-->
+            <include condition="Skin.HasSetting(CustomSubPL2_1)">CustomSubPL2_1</include>
+            <include condition="Skin.HasSetting(CustomSubPL2_2)">CustomSubPL2_2</include>
+            <include condition="Skin.HasSetting(CustomSubPL2_3)">CustomSubPL2_3</include>
+            <include condition="Skin.HasSetting(CustomSubPL2_4)">CustomSubPL2_4</include>
+            <include condition="Skin.HasSetting(CustomSubPL2_5)">CustomSubPL2_5</include>
+            <!--CustomSubPL3-->
+            <include condition="Skin.HasSetting(CustomSubPL3_1)">CustomSubPL3_1</include>
+            <include condition="Skin.HasSetting(CustomSubPL3_2)">CustomSubPL3_2</include>
+            <include condition="Skin.HasSetting(CustomSubPL3_3)">CustomSubPL3_3</include>
+            <include condition="Skin.HasSetting(CustomSubPL3_4)">CustomSubPL3_4</include>
+            <include condition="Skin.HasSetting(CustomSubPL3_5)">CustomSubPL3_5</include>
+            <!--CustomSubFav1-->
+            <include condition="Skin.HasSetting(CustomSubFav1_1)">CustomSubFav1_1</include>
+            <include condition="Skin.HasSetting(CustomSubFav1_2)">CustomSubFav1_2</include>
+            <include condition="Skin.HasSetting(CustomSubFav1_3)">CustomSubFav1_3</include>
+            <include condition="Skin.HasSetting(CustomSubFav1_4)">CustomSubFav1_4</include>
+            <include condition="Skin.HasSetting(CustomSubFav1_5)">CustomSubFav1_5</include>
+            <!--CustomSubFav2-->
+            <include condition="Skin.HasSetting(CustomSubFav2_1)">CustomSubFav2_1</include>
+            <include condition="Skin.HasSetting(CustomSubFav2_2)">CustomSubFav2_2</include>
+            <include condition="Skin.HasSetting(CustomSubFav2_3)">CustomSubFav2_3</include>
+            <include condition="Skin.HasSetting(CustomSubFav2_4)">CustomSubFav2_4</include>
+            <include condition="Skin.HasSetting(CustomSubFav2_5)">CustomSubFav2_5</include>
+            <!--CustomSubFav3-->
+            <include condition="Skin.HasSetting(CustomSubFav3_1)">CustomSubFav3_1</include>
+            <include condition="Skin.HasSetting(CustomSubFav3_2)">CustomSubFav3_2</include>
+            <include condition="Skin.HasSetting(CustomSubFav3_3)">CustomSubFav3_3</include>
+            <include condition="Skin.HasSetting(CustomSubFav3_4)">CustomSubFav3_4</include>
+            <include condition="Skin.HasSetting(CustomSubFav3_5)">CustomSubFav3_5</include>
+            <!--CustomSubFav4-->
+            <include condition="Skin.HasSetting(CustomSubFav4_1)">CustomSubFav4_1</include>
+            <include condition="Skin.HasSetting(CustomSubFav4_2)">CustomSubFav4_2</include>
+            <include condition="Skin.HasSetting(CustomSubFav4_3)">CustomSubFav4_3</include>
+            <include condition="Skin.HasSetting(CustomSubFav4_4)">CustomSubFav4_4</include>
+            <include condition="Skin.HasSetting(CustomSubFav4_5)">CustomSubFav4_5</include>
+            <!--CustomSubFav5-->
+            <include condition="Skin.HasSetting(CustomSubFav5_1)">CustomSubFav5_1</include>
+            <include condition="Skin.HasSetting(CustomSubFav5_2)">CustomSubFav5_2</include>
+            <include condition="Skin.HasSetting(CustomSubFav5_3)">CustomSubFav5_3</include>
+            <include condition="Skin.HasSetting(CustomSubFav5_4)">CustomSubFav5_4</include>
+            <include condition="Skin.HasSetting(CustomSubFav5_5)">CustomSubFav5_5</include>
+            <!--CustomSubFav6-->
+            <include condition="Skin.HasSetting(CustomSubFav6_1)">CustomSubFav6_1</include>
+            <include condition="Skin.HasSetting(CustomSubFav6_2)">CustomSubFav6_2</include>
+            <include condition="Skin.HasSetting(CustomSubFav6_3)">CustomSubFav6_3</include>
+            <include condition="Skin.HasSetting(CustomSubFav6_4)">CustomSubFav6_4</include>
+            <include condition="Skin.HasSetting(CustomSubFav6_5)">CustomSubFav6_5</include>
           </content>
 				</control>
 			</control>
@@ -247,13 +310,12 @@
 				<height>150</height>
 				<onleft>9000</onleft>
 				<onright>9000</onright>
-        <onup condition="Control.isVisible(8996)+Skin.HasSetting(lowermainmenu)">8005</onup>
         <onup condition="Control.isVisible(8997)">8003</onup>
         <onup condition="Control.IsVisible(8998)+Skin.HasSetting(lowermainmenu)">8000</onup>
-        <onup condition="!Skin.HasSetting(lockmainmenu)+[![Control.isVisible(8996)|Control.isVisible(8997)|Control.isVisible(8998)]|[!Skin.HasSetting(lowermainmenu)+!Control.isVisible(8997)]]">Skin.ToggleSetting(lowermainmenu)</onup>
+        <onup condition="!Skin.HasSetting(lockmainmenu)+[![Control.isVisible(8997)|Control.isVisible(8998)]|[!Skin.HasSetting(lowermainmenu)+!Control.isVisible(8997)]]">Skin.ToggleSetting(lowermainmenu)</onup>
         <ondown condition="Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8)">8000</ondown>
         <ondown condition="Control.IsVisible(9001)">9010</ondown>
-        <ondown condition="![Control.IsVisible(9001)|[Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8)]]+!Skin.HasSetting(lockmainmenu)">Skin.ToggleSetting(lowermainmenu)</ondown>
+        <ondown condition="!Control.IsVisible(9001)+![Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8)]+!Skin.HasSetting(lockmainmenu)">Skin.ToggleSetting(lowermainmenu)</ondown>
         <pagecontrol>-</pagecontrol>
         <scrolltime tween="quadratic" easing="out">300</scrolltime>
         <focusposition>2</focusposition>
@@ -261,7 +323,7 @@
 				<orientation>horizontal</orientation>
 				<animation effect="slide" start="0,0" end="-201,0" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(biggergap)">Conditional</animation>
 				<animation effect="fade" start="0" end="100" time="200">Visible</animation>
-				<animation effect="fade" start="100" end="30" time="200" condition="Window.IsVisible(1113) | ControlGroup(9001).HasFocus | ControlGroup(10).HasFocus | Control.HasFocus(8000) | Control.HasFocus(8001)| Control.HasFocus(8002)| Control.HasFocus(8004)">conditional</animation>
+				<animation effect="fade" start="100" end="30" time="200" condition="Window.IsVisible(1113) | ControlGroup(9001).HasFocus | Control.HasFocus(8000)">conditional</animation>
 				<animation effect="fade" start="100" end="0" time="200" condition="Control.HasFocus(8003)">conditional</animation>
         <itemlayout height="150" width="346" condition="!Skin.HasSetting(biggergap)">
           <control type="label">
@@ -398,12 +460,12 @@
           <include condition="Skin.HasSetting(HomeMenuVideoPlaylist1)">CustomMainSPL1</include>
 					<include condition="Skin.HasSetting(HomeMenuVideoPlaylist2)">CustomMainSPL2</include>
 					<include condition="Skin.HasSetting(HomeMenuVideoPlaylist3)">CustomMainSPL3</include>
-					<include condition="!IsEmpty(Skin.String(HomeMenuFavourite1_Label))">CustomMainFav1</include>
-					<include condition="!IsEmpty(Skin.String(HomeMenuFavourite2_Label))">CustomMainFav2</include>
-					<include condition="!IsEmpty(Skin.String(HomeMenuFavourite3_Label))">CustomMainFav3</include>
-					<include condition="!IsEmpty(Skin.String(HomeMenuFavourite4_Label))">CustomMainFav4</include>
-					<include condition="!IsEmpty(Skin.String(HomeMenuFavourite5_Label))">CustomMainFav5</include>
-					<include condition="!IsEmpty(Skin.String(HomeMenuFavourite6_Label))">CustomMainFav6</include>
+					<include condition="Skin.HasSetting(HomeMenuFav1)">CustomMainFav1</include>
+					<include condition="Skin.HasSetting(HomeMenuFav2)">CustomMainFav2</include>
+					<include condition="Skin.HasSetting(HomeMenuFav3)">CustomMainFav3</include>
+					<include condition="Skin.HasSetting(HomeMenuFav4)">CustomMainFav4</include>
+					<include condition="Skin.HasSetting(HomeMenuFav5)">CustomMainFav5</include>
+					<include condition="Skin.HasSetting(HomeMenuFav6)">CustomMainFav6</include>
           <include condition="!Skin.HasSetting(HomeMenuNoVideosButton)">VideosMainMenu</include>
           <include condition="!Skin.HasSetting(HomeMenuNoProgramsButton)">ProgramsMainMenu</include>
           <include condition="!Skin.HasSetting(HomeMenuNoSettingsButton)">SettingsMainMenu</include>
@@ -417,7 +479,6 @@
 			</control>
     </control>
 		<!--Weather info-->
-		<include condition="!Skin.HasSetting(homepageWeatherinfo)+!StringCompare(Weather.Plugin,weather.weatherplus)">Weather_Widget_Standard</include>
 		<include condition="!Skin.HasSetting(homepageWeatherinfo)+StringCompare(Weather.Plugin,weather.weatherplus)">Weather_Widget_Plus</include>
 		<!-- Music Info -->
 		<include condition="!Skin.HasSetting(homepageMusicinfo)+!Skin.HasSetting(smallmusichome)">Furniture_HomeNowPlaying</include>

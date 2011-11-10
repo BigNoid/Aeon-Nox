@@ -1,19 +1,5 @@
 <includes>
   <include name="PosterWidgetTrailerLabel">
-    <control type="button" id="8870">
-      <description>Run video bookmarks</description>
-      <include>HiddenObject</include>
-      <onfocus condition="!IsEmpty(Container(8003).ListItem.Property(Trailer))+Skin.HasSetting(lowermainmenu)">PlayMedia($INFO[Container(8003).ListItem.Property(Trailer)])</onfocus>
-      <onfocus>SetFocus(9000)</onfocus>
-      <visible>Control.HasFocus(8003)</visible>
-    </control>
-    <control type="button" id="8871">
-      <description>Run video bookmarks</description>
-      <include>HiddenObject</include>
-      <onfocus condition="!IsEmpty(Container(8003).ListItem.Property(Trailer))+!Skin.HasSetting(lowermainmenu)">PlayMedia($INFO[Container(8003).ListItem.Property(Trailer)])</onfocus>
-      <onfocus>SetFocus(9000)</onfocus>
-      <visible>Control.HasFocus(8003)</visible>
-    </control>
     <!--Trailer Label-->
     <control type="group">
       <posx>0</posx>
@@ -48,7 +34,7 @@
     <control type="group" id="8997">
       <posx>0</posx>
       <posy>0</posy>
-      <visible>Library.HasContent(Movies)+[Skin.HasSetting(HomeRandomPoster)|Skin.HasSetting(HomeLatestPoster)]</visible>
+      <visible>Library.HasContent(Movies)+[Skin.HasSetting(HomeRandomPoster)|Skin.HasSetting(HomeLatestPoster)|Skin.HasSetting(HomeInProgressPoster)]</visible>
       <visible>Container(9000).Hasfocus(10)|[Container(9000).HasFocus(2)+Skin.HasSetting(HomeMenuNoMovieButton)]</visible>
       <include>Animation_HomeWidgetZoom</include>
       <control type="group">
@@ -93,15 +79,17 @@
           <include>Animation_CommonFade</include>
         </control>
       </control>
-      <control type="wraplist" id="8003">
+      <control type="fixedlist" id="8003">
         <posx>294</posx>
         <posy>5</posy>
-        <width>692</width>
+        <width>691</width>
         <height>350</height>
         <onleft>8003</onleft>
         <onright>8003</onright>
-        <onup>8870</onup>
-        <ondown>8871</ondown>
+        <onup condition="!IsEmpty(Container(8003).ListItem.Property(Trailer))+Skin.HasSetting(lowermainmenu)">PlayMedia($INFO[Container(8003).ListItem.Property(Trailer)])</onup>
+        <onup>9000</onup>
+        <ondown condition="!IsEmpty(Container(8003).ListItem.Property(Trailer))+!Skin.HasSetting(lowermainmenu)">PlayMedia($INFO[Container(8003).ListItem.Property(Trailer)])</ondown>
+        <ondown>9000</ondown>
         <onback>9000</onback>
         <orientation>horizontal</orientation>
         <viewtype label="535">BigWrap</viewtype>
@@ -110,7 +98,6 @@
         <focusposition>2</focusposition>
         <visible>!Control.HasFocus(8000)</visible>
         <animation effect="slide" start="0,0" end="0,420" time="400" tween="cubic" easing="inout" condition="Control.HasFocus(8003)+!Skin.HasSetting(lowermainmenu)">Conditional</animation>
-        <!--<animation effect="slide" start="0,0" end="200,0" time="400" tween="cubic" easing="inout" condition="!Skin.HasSetting(homepageMusicinfo)+Player.HasAudio+!Skin.HasSetting(lowermainmenu)+!Skin.HasSetting(HomeBookmarkMovie)">Conditional</animation>-->
         <animation effect="slide" start="0,0" end="0,240" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)+!Control.HasFocus(8000)">Conditional</animation>
         <animation effect="slide" start="0,0" end="540,0" time="400" tween="cubic" easing="inout" condition="Control.HasFocus(8000)+Player.HasAudio">Conditional</animation>
         <animation effect="slide" start="0,0" end="0,-240" time="400" tween="cubic" easing="inout" condition="Player.HasAudio+Skin.HasSetting(lowermainmenu)+!Control.HasFocus(8000)">Conditional</animation>
@@ -122,8 +109,9 @@
             <width>100</width>
             <height>150</height>
             <fadetime>IconCrossfadeTime</fadetime>
-            <texture diffuse="thumbs/movieposter_mask.png" background="true" fallback="DefaultVideo.png">$INFO[ListItem.Icon]</texture>
+            <texture diffuse="thumbs/movieposter_mask.png" background="true">DefaultVideo.png</texture>
             <aspectratio scalediffuse="false">stretch</aspectratio>
+            <info>ListItem.Icon</info>
           </control>
           <control type="image">
             <description>Main Icon Glass overlay</description>
@@ -138,12 +126,8 @@
         </itemlayout>
         <focusedlayout height="300" width="180">
           <control type="group">
-            <animation effect="zoom" center="auto" start="100" end="150" time="300" tween="back" easing="out">Focus</animation>
-            <!--<animation type="UnFocus">
-              <effect type="slide" start="0" end="-26" time="50" tween="quadratic" easing="out"/>
-              <effect type="zoom" center="auto" start="150" end="100" time="300" tween="quadratic" easing="out"/>
-            </animation>-->
-            <animation effect="zoom" center="auto" start="100" end="150" time="300" tween="back" easing="out" condition="!Control.HasFocus(8003)">Conditional</animation>
+            <animation effect="zoom" center="auto" start="100" end="150" time="300" tween="quadratic" easing="out" reversible="false">Focus</animation>
+            <animation effect="zoom" center="auto" start="100" end="150" time="300" tween="quadratic" easing="out" condition="!Control.HasFocus(8003)">Conditional</animation>
             <control type="image">
               <description>Main Icon</description>
               <posx>40</posx>
@@ -160,7 +144,7 @@
               <width>100</width>
               <height>150</height>
               <description>Main Icon Glass overlay</description>
-              <texture diffuse="thumbs/movieposter_mask.png">thumbs/poster_glass_noreflect.png</texture>
+              <texture background="true" diffuse="thumbs/movieposter_mask.png">thumbs/poster_glass_noreflect.png</texture>
               <bordertexture border="-7">thumbs/poster_shadow.png</bordertexture>
               <aspectratio scalediffuse="false">stretch</aspectratio>
             </control>
@@ -359,6 +343,110 @@
             <onclick>$INFO[Window.Property(LatestMovie.8.Path),PlayMedia(,)]</onclick>
             <visible>Skin.HasSetting(HomeLatestPoster)</visible>
           </item>
+          <item id="17">
+            <icon>$INFO[Window.Property(WatchList_Movie.1.Thumb)]</icon>
+            <label>$INFO[Window.Property(WatchList_Movie.1.Label)]</label>
+            <label2>$INFO[Window.Property(WatchList_Movie.1.Year)]</label2>
+            <property name="Rating">$INFO[Window.Property(WatchList_Movie.1.Rating)]</property>
+            <property name="Plot">$INFO[Window.Property(WatchList_Movie.1.Plot)]</property>
+            <property name="Fanart">$INFO[Window.Property(WatchList_Movie.1.Fanart)]</property>
+            <property name="Duration">$INFO[Window.Property(WatchList_Movie.1.Runtime)]</property>
+            <property name="Trailer">$INFO[Window.Property(WatchList_Movie.1.Trailer)]</property>
+            <onclick>$INFO[Window.Property(WatchList_Movie.1.Path),PlayMedia(,)]</onclick>
+            <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.1.Label))</visible>
+          </item>
+          <item id="18">
+            <icon>$INFO[Window.Property(WatchList_Movie.2.Thumb)]</icon>
+            <label>$INFO[Window.Property(WatchList_Movie.2.Label)]</label>
+            <label2>$INFO[Window.Property(WatchList_Movie.2.Year)]</label2>
+            <property name="Rating">$INFO[Window.Property(WatchList_Movie.2.Rating)]</property>
+            <property name="Plot">$INFO[Window.Property(WatchList_Movie.2.Plot)]</property>
+            <property name="Fanart">$INFO[Window.Property(WatchList_Movie.2.Fanart)]</property>
+            <property name="Duration">$INFO[Window.Property(WatchList_Movie.2.Runtime)]</property>
+            <property name="Trailer">$INFO[Window.Property(WatchList_Movie.2.Trailer)]</property>
+            <onclick>$INFO[Window.Property(WatchList_Movie.2.Path),PlayMedia(,)]</onclick>
+            <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.2.Label))</visible>
+          </item>
+          <item id="19">
+            <icon>$INFO[Window.Property(WatchList_Movie.3.Thumb)]</icon>
+            <label>$INFO[Window.Property(WatchList_Movie.3.Label)]</label>
+            <label2>$INFO[Window.Property(WatchList_Movie.3.Year)]</label2>
+            <property name="Rating">$INFO[Window.Property(WatchList_Movie.3.Rating)]</property>
+            <property name="Plot">$INFO[Window.Property(WatchList_Movie.3.Plot)]</property>
+            <property name="Fanart">$INFO[Window.Property(WatchList_Movie.3.Fanart)]</property>
+            <property name="Duration">$INFO[Window.Property(WatchList_Movie.3.Runtime)]</property>
+            <property name="Trailer">$INFO[Window.Property(WatchList_Movie.3.Trailer)]</property>
+            <onclick>$INFO[Window.Property(WatchList_Movie.3.Path),PlayMedia(,)]</onclick>
+            <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.3.Label))</visible>
+          </item>
+          <item id="20">
+            <icon>$INFO[Window.Property(WatchList_Movie.4.Thumb)]</icon>
+            <label>$INFO[Window.Property(WatchList_Movie.4.Label)]</label>
+            <label2>$INFO[Window.Property(WatchList_Movie.4.Year)]</label2>
+            <property name="Rating">$INFO[Window.Property(WatchList_Movie.4.Rating)]</property>
+            <property name="Plot">$INFO[Window.Property(WatchList_Movie.4.Plot)]</property>
+            <property name="Fanart">$INFO[Window.Property(WatchList_Movie.4.Fanart)]</property>
+            <property name="Duration">$INFO[Window.Property(WatchList_Movie.4.Runtime)]</property>
+            <property name="Trailer">$INFO[Window.Property(WatchList_Movie.4.Trailer)]</property>
+            <onclick>$INFO[Window.Property(WatchList_Movie.4.Path),PlayMedia(,)]</onclick>
+            <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.4.Label))</visible>
+          </item>
+          <item id="21">
+            <icon>$INFO[Window.Property(WatchList_Movie.5.Thumb)]</icon>
+            <label>$INFO[Window.Property(WatchList_Movie.5.Label)]</label>
+            <label2>$INFO[Window.Property(WatchList_Movie.5.Year)]</label2>
+            <property name="Rating">$INFO[Window.Property(WatchList_Movie.5.Rating)]</property>
+            <property name="Plot">$INFO[Window.Property(WatchList_Movie.5.Plot)]</property>
+            <property name="Fanart">$INFO[Window.Property(WatchList_Movie.5.Fanart)]</property>
+            <property name="Duration">$INFO[Window.Property(WatchList_Movie.5.Runtime)]</property>
+            <property name="Trailer">$INFO[Window.Property(WatchList_Movie.5.Trailer)]</property>
+            <onclick>$INFO[Window.Property(WatchList_Movie.5.Path),PlayMedia(,)]</onclick>
+            <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.5.Label))</visible>
+          </item>
+          <item id="22">
+            <icon>$INFO[Window.Property(WatchList_Movie.6.Thumb)]</icon>
+            <label>$INFO[Window.Property(WatchList_Movie.6.Label)]</label>
+            <label2>$INFO[Window.Property(WatchList_Movie.6.Year)]</label2>
+            <property name="Rating">$INFO[Window.Property(WatchList_Movie.6.Rating)]</property>
+            <property name="Plot">$INFO[Window.Property(WatchList_Movie.6.Plot)]</property>
+            <property name="Fanart">$INFO[Window.Property(WatchList_Movie.6.Fanart)]</property>
+            <property name="Duration">$INFO[Window.Property(WatchList_Movie.6.Runtime)]</property>
+            <property name="Trailer">$INFO[Window.Property(WatchList_Movie.6.Trailer)]</property>
+            <onclick>$INFO[Window.Property(WatchList_Movie.6.Path),PlayMedia(,)]</onclick>
+            <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.6.Label))</visible>
+          </item>
+          <item id="23">
+            <icon>$INFO[Window.Property(WatchList_Movie.7.Thumb)]</icon>
+            <label>$INFO[Window.Property(WatchList_Movie.7.Label)]</label>
+            <label2>$INFO[Window.Property(WatchList_Movie.7.Year)]</label2>
+            <property name="Rating">$INFO[Window.Property(WatchList_Movie.7.Rating)]</property>
+            <property name="Plot">$INFO[Window.Property(WatchList_Movie.7.Plot)]</property>
+            <property name="Fanart">$INFO[Window.Property(WatchList_Movie.7.Fanart)]</property>
+            <property name="Duration">$INFO[Window.Property(WatchList_Movie.7.Runtime)]</property>
+            <property name="Trailer">$INFO[Window.Property(WatchList_Movie.7.Trailer)]</property>
+            <onclick>$INFO[Window.Property(WatchList_Movie.7.Path),PlayMedia(,)]</onclick>
+            <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.7.Label))</visible>
+          </item>
+          <item id="24">
+            <icon>$INFO[Window.Property(WatchList_Movie.8.Thumb)]</icon>
+            <label>$INFO[Window.Property(WatchList_Movie.8.Label)]</label>
+            <label2>$INFO[Window.Property(WatchList_Movie.8.Year)]</label2>
+            <property name="Rating">$INFO[Window.Property(WatchList_Movie.8.Rating)]</property>
+            <property name="Plot">$INFO[Window.Property(WatchList_Movie.8.Plot)]</property>
+            <property name="Fanart">$INFO[Window.Property(WatchList_Movie.8.Fanart)]</property>
+            <property name="Duration">$INFO[Window.Property(WatchList_Movie.8.Runtime)]</property>
+            <property name="Trailer">$INFO[Window.Property(WatchList_Movie.8.Trailer)]</property>
+            <onclick>$INFO[Window.Property(WatchList_Movie.8.Path),PlayMedia(,)]</onclick>
+            <visible>Skin.HasSetting(HomeInProgressPoster)</visible>
+            <visible>!IsEmpty(Window.Property(WatchList_Movie.8.Label))</visible>
+          </item>
         </content>
       </control>
     </control>
@@ -462,7 +550,7 @@
       </control>
       <control type="group">
         <posx>0</posx>
-        <visible>Weather.IsFetched</visible>
+        <visible>Weather.IsFetched|!IsEmpty(Window(Weather).Property(36Hour.IsFetched))</visible>
         <animation effect="slide" start="0,0" end="0,-316" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(timehomehigh)">Conditional</animation>
         <control type="image">
           <description>Weather image</description>
@@ -948,7 +1036,6 @@
       <animation effect="slide" start="0,-600" end="0,0" time="800" tween="sine" easing="out" delay="1700">WindowOpen</animation>
       <animation effect="slide" start="0,0" end="0,-600" time="800" tween="cubic" easing="out">WindowClose</animation>
       <animation effect="fade" time="400" >VisibleChange</animation>
-      <visible>Container(9000).HasFocus(3)|Container(9000).HasFocus(11)|Container(9000).HasFocus(10)|Container(9000).HasFocus(18)|Container(9000).HasFocus(1)|Container(9000).HasFocus(4)|Container(9000).HasFocus(5)|Container(9000).HasFocus(6)|Container(9000).HasFocus(12)|Container(9000).HasFocus(13)|Container(9000).HasFocus(14)|Control.HasFocus(8000)|Control.HasFocus(8001)|Control.HasFocus(8002)|Container(9000).HasFocus(15)|Container(9000).HasFocus(16)|Container(9000).HasFocus(17)|Container(9000).HasFocus(18)|Container(9000).HasFocus(19)|Container(9000).HasFocus(20)|Container(9000).HasFocus(21)|Container(9000).HasFocus(22)|Container(9000).HasFocus(23)|Container(9000).HasFocus(2)|Container(9000).HasFocus(25)|Container(9000).HasFocus(26)</visible>
       <visible>!IsEmpty(MusicPlayer.offset(1).Title)+Skin.HasSetting(itemsplaylist)</visible>
       <control type="label">
         <posx>777</posx>
@@ -1270,40 +1357,6 @@
       <include>HomeNowPlayingPlaylist</include>
     </control>
   </include>
-  <include name="Weather_Widget_Standard">
-    <control type="group">
-      <visible>Container(9000).HasFocus(6)</visible>
-      <posy>20</posy>
-      <include>Animation_HomeWidgetZoom</include>
-      <animation effect="slide" start="0,0" end="0,225" time="400" tween="cubic" easing="inout" condition="[Skin.HasSetting(lowermainmenu)]+![Player.HasAudio+!Skin.HasSetting(homepageMusicinfo)]">Conditional</animation>
-      <animation effect="slide" start="0,0" end="0,425" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowerweatherwidget)+!Skin.HasSetting(lowermainmenu)+![Player.HasAudio+!Skin.HasSetting(homepageMusicinfo)]">Conditional</animation>
-      <control type="group">
-        <description>current</description>
-        <posx>50</posx>
-        <include>Standard_WeatherWidgetCurrent</include>
-      </control>
-      <control type="group">
-        <description>day 0</description>
-        <posx>300</posx>
-        <include>Standard_WeatherWidgetDay0</include>
-      </control>
-      <control type="group">
-        <description>day 1</description>
-        <posx>550</posx>
-        <include>Standard_WeatherWidgetDay1</include>
-      </control>
-      <control type="group">
-        <description>day 2</description>
-        <posx>800</posx>
-        <include>Standard_WeatherWidgetDay2</include>
-      </control>
-      <control type="group">
-        <description>day 3</description>
-        <posx>1050</posx>
-        <include>Standard_WeatherWidgetDay3</include>
-      </control>
-    </control>
-  </include>
   <include name="Weather_Widget_Plus">
     <control type="group">
       <visible>Container(9000).HasFocus(6)</visible>
@@ -1335,277 +1388,6 @@
         <description>day 3</description>
         <posx>1050</posx>
         <include>Plus_WeatherWidgetDay4</include>
-      </control>
-    </control>
-  </include>
-  <!--BookMark Widget-->
-  <include name="VideoBookmarks_widget_back">
-    <control type="image">
-      <posx>0</posx>
-      <posy>-5</posy>
-      <width>360</width>
-      <height>240</height>
-      <texture border="0,10,0,0">home/videobookmarks.png</texture>
-      <visible>!IsEmpty(Window.Property(VideoBookmark.5.Type))+!IsEmpty(Window.Property(VideoBookmark.4.Type))+!IsEmpty(Window.Property(VideoBookmark.3.Type))+!IsEmpty(Window.Property(VideoBookmark.2.Type))+!IsEmpty(Window.Property(VideoBookmark.1.Type))</visible>
-    </control>
-    <control type="image">
-      <posx>0</posx>
-      <posy>18</posy>
-      <width>360</width>
-      <height>217</height>
-      <texture border="0,20,0,10">home/videobookmarks.png</texture>
-      <visible>IsEmpty(Window.Property(VideoBookmark.5.Type))+!IsEmpty(Window.Property(VideoBookmark.4.Type))+!IsEmpty(Window.Property(VideoBookmark.3.Type))+!IsEmpty(Window.Property(VideoBookmark.2.Type))+!IsEmpty(Window.Property(VideoBookmark.1.Type))</visible>
-    </control>
-    <control type="image">
-      <posx>0</posx>
-      <posy>41</posy>
-      <width>360</width>
-      <height>194</height>
-      <texture border="0,28,0,14">home/videobookmarks.png</texture>
-      <visible>IsEmpty(Window.Property(VideoBookmark.5.Type))+IsEmpty(Window.Property(VideoBookmark.4.Type))+!IsEmpty(Window.Property(VideoBookmark.3.Type))+!IsEmpty(Window.Property(VideoBookmark.2.Type))+!IsEmpty(Window.Property(VideoBookmark.1.Type))</visible>
-    </control>
-    <control type="image">
-      <posx>0</posx>
-      <posy>64</posy>
-      <width>360</width>
-      <height>171</height>
-      <texture border="0,35,0,20">home/videobookmarks.png</texture>
-      <visible>IsEmpty(Window.Property(VideoBookmark.5.Type))+IsEmpty(Window.Property(VideoBookmark.4.Type))+IsEmpty(Window.Property(VideoBookmark.3.Type))+!IsEmpty(Window.Property(VideoBookmark.2.Type))+!IsEmpty(Window.Property(VideoBookmark.1.Type))</visible>
-    </control>
-    <control type="image">
-      <posx>0</posx>
-      <posy>87</posy>
-      <width>360</width>
-      <height>148</height>
-      <texture border="0,38,0,20">home/videobookmarks.png</texture>
-      <visible>IsEmpty(Window.Property(VideoBookmark.5.Type))+IsEmpty(Window.Property(VideoBookmark.4.Type))+IsEmpty(Window.Property(VideoBookmark.3.Type))+IsEmpty(Window.Property(VideoBookmark.2.Type))+!IsEmpty(Window.Property(VideoBookmark.1.Type))</visible>
-    </control>
-  </include>
-  <include name="VideoBookmarks_common_title">
-    <control type="label">
-      <description>Title label</description>
-      <posx>0</posx>
-      <posy>5</posy>
-      <width>360</width>
-      <height>40</height>
-      <align>center</align>
-      <aligny>center</aligny>
-      <label>[UPPERCASE]$LOCALIZE[31335][/UPPERCASE]</label>
-      <font>Font_Reg19_Caps</font>
-      <textcolor>c0FFFFFF</textcolor>
-      <shadowcolor>black</shadowcolor>
-      <animation effect="slide" start="0,0" end="0,23" time="400" tween="cubic" easing="inout" condition="IsEmpty(Window.Property(VideoBookmark.4.Type))">Conditional</animation>
-      <animation effect="slide" start="0,0" end="0,23" time="400" tween="cubic" easing="inout" condition="IsEmpty(Window.Property(VideoBookmark.3.Type))">Conditional</animation>
-      <animation effect="slide" start="0,0" end="0,23" time="400" tween="cubic" easing="inout" condition="IsEmpty(Window.Property(VideoBookmark.2.Type))">Conditional</animation>
-      <animation effect="slide" start="0,0" end="0,23" time="400" tween="cubic" easing="inout" condition="IsEmpty(Window.Property(VideoBookmark.5.Type))">Conditional</animation>
-      <visible>!IsEmpty(Window.Property(VideoBookmark.1.Type))</visible>
-    </control>
-  </include>
-  <include name="MovieBookmarkWidget">
-    <control type="group" id="8996">
-      <visible>Container(9000).HasFocus(2)</visible>
-      <animation effect="slide" start="-400" end="0" time="300" tween="quadratic" easing="out">VisibleChange</animation>
-      <posx>15</posx>
-      <posy>452</posy>
-      <include>VideoBookmarks_widget_back</include>
-      <include>VideoBookmarks_common_title</include>
-      <animation effect="slide" start="0,0" end="0,-380" time="400" tween="cubic" easing="inout" condition="[[!Skin.HasSetting(homepageMusicinfo)+Player.HasAudio]|[!Skin.HasSetting(homepageVideoinfo)+Player.HasVideo+Skin.HasSetting(ShowBackgroundVideo)]]+!Skin.HasSetting(lowermainmenu)">Conditional</animation>
-      <animation effect="slide" start="0,0" end="0,-143" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
-      <animation effect="slide" start="0,0" end="0,-285" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)+[[!Skin.HasSetting(homepageMusicinfo)+Player.HasAudio]]">Conditional</animation>
-      <control type="list" id="8005">
-        <posx>0</posx>
-        <posy>40</posy>
-        <width>365</width>
-        <height>175</height>
-        <onleft>9000</onleft>
-        <onright>9000</onright>
-        <viewtype label="535">list</viewtype>
-        <pagecontrol>-</pagecontrol>
-        <scrolltime>200</scrolltime>
-        <focusposition>0</focusposition>
-        <animation effect="slide" start="0,0" end="0,23" time="400" tween="cubic" easing="inout" condition="IsEmpty(Window.Property(VideoBookmark.4.Type))">Conditional</animation>
-        <animation effect="slide" start="0,0" end="0,23" time="400" tween="cubic" easing="inout" condition="IsEmpty(Window.Property(VideoBookmark.3.Type))">Conditional</animation>
-        <animation effect="slide" start="0,0" end="0,23" time="400" tween="cubic" easing="inout" condition="IsEmpty(Window.Property(VideoBookmark.2.Type))">Conditional</animation>
-        <animation effect="slide" start="0,0" end="0,23" time="400" tween="cubic" easing="inout" condition="IsEmpty(Window.Property(VideoBookmark.5.Type))">Conditional</animation>
-        <itemlayout height="23" width="365">
-          <control type="image">
-            <posx>-6</posx>
-            <posy>0</posy>
-            <width>372</width>
-            <height>23</height>
-            <texture>dialogs/context_nofocus.png</texture>
-            <include>VisibleFadeEffect</include>
-          </control>
-          <control type="label">
-            <posx>14</posx>
-            <posy>0</posy>
-            <width>338</width>
-            <height>23</height>
-            <font>Font_Info_Caps</font>
-            <textcolor>c0FFFFFF</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <selectedcolor>selected</selectedcolor>
-            <align>left</align>
-            <aligny>center</aligny>
-            <label>[UPPERCASE]$INFO[ListItem.Label]$INFO[ListItem.Property(EpisodeNo), • ][/UPPERCASE]</label>
-            <visible>Stringcompare(ListItem.Property(Type),episode)</visible>
-          </control>
-          <control type="label">
-            <posx>14</posx>
-            <posy>0</posy>
-            <width>338</width>
-            <height>23</height>
-            <font>Font_Info_Caps</font>
-            <textcolor>c0FFFFFF</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <selectedcolor>selected</selectedcolor>
-            <align>left</align>
-            <aligny>center</aligny>
-            <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-            <visible>Stringcompare(ListItem.Property(Type),movie)</visible>
-          </control>
-        </itemlayout>
-        <focusedlayout height="80" width="365">
-          <control type="image">
-            <posx>-6</posx>
-            <posy>0</posy>
-            <width>372</width>
-            <height>80</height>
-            <texture>dialogs/context_nofocus.png</texture>
-            <include>VisibleFadeEffect</include>
-            <visible>!Control.HasFocus(8005)</visible>
-          </control>
-          <control type="image">
-            <posx>-6</posx>
-            <posy>0</posy>
-            <width>372</width>
-            <height>80</height>
-            <texture>dialogs/context_highlight.png</texture>
-            <include>VisibleFadeEffect</include>
-            <visible>Control.HasFocus(8005)</visible>
-          </control>
-          <control type="image">
-            <posx>15</posx>
-            <posy>5</posy>
-            <width>130</width>
-            <height>70</height>
-            <texture diffuse="thumbs/multiplex_tvmask.png" background="true">$INFO[ListItem.Thumb]</texture>
-            <fadetime>200</fadetime>
-            <aspectratio scalediffuse="false">scale</aspectratio>
-          </control>
-          <control type="label">
-            <posx>150</posx>
-            <posy>10</posy>
-            <width>195</width>
-            <height>30</height>
-            <align>left</align>
-            <aligny>top</aligny>
-            <font>Font_Info_Caps</font>
-            <textcolor>c0FFFFFF</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <selectedcolor>selected</selectedcolor>
-            <scroll>true</scroll>
-            <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-          </control>
-          <control type="label">
-            <posx>150</posx>
-            <posy>30</posy>
-            <width>195</width>
-            <height>20</height>
-            <align>left</align>
-            <aligny>top</aligny>
-            <font>Font_Reg15</font>
-            <textcolor>c0AAAAAA</textcolor>
-            <shadowcolor>FFAAAAA</shadowcolor>
-            <selectedcolor>selected</selectedcolor>
-            <scroll>true</scroll>
-            <label>$INFO[ListItem.Label2]</label>
-          </control>
-          <control type="label">
-            <posx>340</posx>
-            <posy>54</posy>
-            <width>200</width>
-            <height>20</height>
-            <align>right</align>
-            <aligny>top</aligny>
-            <font>Font_Info</font>
-            <textcolor>c0FFFFFF</textcolor>
-            <selectedcolor>selected</selectedcolor>
-            <label>$INFO[ListItem.Property(TimeRemaining)]</label>
-          </control>
-        </focusedlayout>
-        <content>
-          <item id="1">
-            <label>$INFO[Window.Property(VideoBookmark.1.Title)]</label>
-            <label2>$INFO[Window.Property(VideoBookmark.1.Extra)]</label2>
-            <property name="RunningTime">$INFO[Window.Property(VideoBookmark.1.RunningTime)]</property>
-            <property name="TimeRemaining">$INFO[Window.Property(VideoBookmark.1.RemainingTime)]</property>
-            <property name="Year">$INFO[Window.Property(VideoBookmark.1.Year)]</property>
-            <property name="Trailer">$INFO[Window.Property(VideoBookmark.1.Trailer)]</property>
-            <property name="EpisodeNo">$INFO[Window.Property(VideoBookmark.1.EpisodeNo)]</property>
-            <property name="Fanart">$INFO[Window.Property(VideoBookmark.1.Fanart)]</property>
-            <property name="Type">$INFO[Window.Property(VideoBookmark.1.Type)]</property>
-            <thumb>$INFO[Window.Property(VideoBookmark.1.Thumb)]</thumb>
-            <onclick>PlayMedia($INFO[Window.Property(VideoBookmark.1.Path)],resume)</onclick>
-            <visible>!IsEmpty(Window.Property(VideoBookmark.1.Type))</visible>
-          </item>
-          <item id="2">
-            <label>$INFO[Window.Property(VideoBookmark.2.Title)]</label>
-            <label2>$INFO[Window.Property(VideoBookmark.2.Extra)]</label2>
-            <property name="RunningTime">$INFO[Window.Property(VideoBookmark.2.RunningTime)]</property>
-            <property name="TimeRemaining">$INFO[Window.Property(VideoBookmark.2.RemainingTime)]</property>
-            <property name="Year">$INFO[Window.Property(VideoBookmark.2.Year)]</property>
-            <property name="Trailer">$INFO[Window.Property(VideoBookmark.2.Trailer)]</property>
-            <property name="EpisodeNo">$INFO[Window.Property(VideoBookmark.2.EpisodeNo)]</property>
-            <property name="Fanart">$INFO[Window.Property(VideoBookmark.2.Fanart)]</property>
-            <property name="Type">$INFO[Window.Property(VideoBookmark.2.Type)]</property>
-            <thumb>$INFO[Window.Property(VideoBookmark.2.Thumb)]</thumb>
-            <onclick>PlayMedia($INFO[Window.Property(VideoBookmark.2.Path)],resume)</onclick>
-            <visible>!IsEmpty(Window.Property(VideoBookmark.2.Type))</visible>
-          </item>
-          <item id="3">
-            <label>$INFO[Window.Property(VideoBookmark.3.Title)]</label>
-            <label2>$INFO[Window.Property(VideoBookmark.3.Extra)]</label2>
-            <property name="RunningTime">$INFO[Window.Property(VideoBookmark.3.RunningTime)]</property>
-            <property name="TimeRemaining">$INFO[Window.Property(VideoBookmark.3.RemainingTime)]</property>
-            <property name="Year">$INFO[Window.Property(VideoBookmark.3.Year)]</property>
-            <property name="Trailer">$INFO[Window.Property(VideoBookmark.3.Trailer)]</property>
-            <property name="EpisodeNo">$INFO[Window.Property(VideoBookmark.3.EpisodeNo)]</property>
-            <property name="Fanart">$INFO[Window.Property(VideoBookmark.3.Fanart)]</property>
-            <property name="Type">$INFO[Window.Property(VideoBookmark.3.Type)]</property>
-            <thumb>$INFO[Window.Property(VideoBookmark.3.Thumb)]</thumb>
-            <onclick>PlayMedia($INFO[Window.Property(VideoBookmark.3.Path)],resume)</onclick>
-            <visible>!IsEmpty(Window.Property(VideoBookmark.3.Type))</visible>
-          </item>
-          <item id="4">
-            <label>$INFO[Window.Property(VideoBookmark.4.Title)]</label>
-            <label2>$INFO[Window.Property(VideoBookmark.4.Extra)]</label2>
-            <property name="RunningTime">$INFO[Window.Property(VideoBookmark.4.RunningTime)]</property>
-            <property name="TimeRemaining">$INFO[Window.Property(VideoBookmark.4.RemainingTime)]</property>
-            <property name="Year">$INFO[Window.Property(VideoBookmark.4.Year)]</property>
-            <property name="Trailer">$INFO[Window.Property(VideoBookmark.4.Trailer)]</property>
-            <property name="EpisodeNo">$INFO[Window.Property(VideoBookmark.4.EpisodeNo)]</property>
-            <property name="Fanart">$INFO[Window.Property(VideoBookmark.4.Fanart)]</property>
-            <property name="Type">$INFO[Window.Property(VideoBookmark.4.Type)]</property>
-            <thumb>$INFO[Window.Property(VideoBookmark.4.Thumb)]</thumb>
-            <onclick>PlayMedia($INFO[Window.Property(VideoBookmark.4.Path)],resume)</onclick>
-            <visible>!IsEmpty(Window.Property(VideoBookmark.4.Type))</visible>
-          </item>
-          <item id="5">
-            <label>$INFO[Window.Property(VideoBookmark.5.Title)]</label>
-            <label2>$INFO[Window.Property(VideoBookmark.5.Extra)]</label2>
-            <property name="RunningTime">$INFO[Window.Property(VideoBookmark.5.RunningTime)]</property>
-            <property name="TimeRemaining">$INFO[Window.Property(VideoBookmark.5.RemainingTime)]</property>
-            <property name="Year">$INFO[Window.Property(VideoBookmark.5.Year)]</property>
-            <property name="Trailer">$INFO[Window.Property(VideoBookmark.5.Trailer)]</property>
-            <property name="EpisodeNo">$INFO[Window.Property(VideoBookmark.5.EpisodeNo)]</property>
-            <property name="Fanart">$INFO[Window.Property(VideoBookmark.5.Fanart)]</property>
-            <property name="Type">$INFO[Window.Property(VideoBookmark.5.Type)]</property>
-            <thumb>$INFO[Window.Property(VideoBookmark.5.Thumb)]</thumb>
-            <onclick>PlayMedia($INFO[Window.Property(VideoBookmark.5.Path)],resume)</onclick>
-            <visible>!IsEmpty(Window.Property(VideoBookmark.5.Type))</visible>
-          </item>
-        </content>
       </control>
     </control>
   </include>
