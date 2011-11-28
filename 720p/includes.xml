@@ -93,8 +93,8 @@
 		<timeperimage>10000</timeperimage>
 		<randomize>true</randomize>
 		<fadetime>900</fadetime>
-    <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
-    <animation effect="slide" start="-10,-10" end="10,10" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+    <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)+!Window.IsActive(home)">Conditional</animation>
+    <animation effect="slide" start="-10,-10" end="10,10" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)+!Window.IsActive(home)">Conditional</animation>
     <animation effect="fade" time="250">WindowOpen</animation>
     <animation effect="fade" time="250">WindowClose</animation>
     <aspectratio align="center">scale</aspectratio>
@@ -122,20 +122,8 @@
     <control type="multiimage">
       <include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
       <include>CommonFanartVars</include>
-      <imagepath fallback="special://skin/backgrounds/videos.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_Video_Folder)]</imagepath>
-      <visible>[Skin.HasSetting(VideoLibraryMusicVideoFanart)+[Container.Content(MusicVideos) | Container.Content(Artists) | Container.Content(Albums)]]|[[Container.Content(addons)|Container.Content(files)]+!Skin.HasSetting(VideoFilesFanart)]</visible>
-    </control>
-    <control type="multiimage">
-      <include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
-      <include>CommonFanartVars</include>
-      <imagepath fallback="special://skin/backgrounds/movies.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_Movies_Folder)]</imagepath>
-      <visible>Skin.HasSetting(VideoLibraryMovieFanart)+Container.Content(movies)</visible>
-    </control>
-    <control type="multiimage">
-      <include condition="Skin.HasSetting(animatedbg)">Animation_CommonFade</include>
-      <include>CommonFanartVars</include>
-      <imagepath fallback="special://skin/backgrounds/tvshows.jpg" background="true">$INFO[Skin.String(Home_Custom_Back_TVShow_Folder)]</imagepath>
-      <visible>Skin.HasSetting(VideoLibraryTVFanart)+[Container.Content(TVShows) | Container.Content(Seasons) | Container.Content(Episodes)]</visible>
+      <imagepath fallback="special://skin/backgrounds/videos.jpg" background="true">$VAR[VideoLibraryBackground]</imagepath>
+      <visible>Skin.HasSetting(VideoLibraryFanart)</visible>
     </control>
   </include>
 	<include name="CommonMusicBackground">
@@ -500,11 +488,11 @@
 	</include>
 	<include name="subcolorfocus">
 		<textcolor>ff2e2e2e</textcolor>
-		<selectedcolor>FFEB9E17</selectedcolor>
+		<selectedcolor>ff2e2e2e</selectedcolor>
 	</include>
 	<include name="listcolorfocus">
 		<textcolor>ff2e2e2e</textcolor>
-		<selectedcolor>FFEB9E17</selectedcolor>
+		<selectedcolor>ff2e2e2e</selectedcolor>
 	</include>
 	<include name="detailcolornofocus">
 		<textcolor>dcbdbdbd</textcolor>
@@ -512,11 +500,14 @@
 	</include>
 	<include name="detailcolorfocus">
 		<textcolor>ff2e2e2e</textcolor>
-		<selectedcolor>FFEB9E17</selectedcolor>
+		<selectedcolor>ff2e2e2e</selectedcolor>
 	</include>
 	<include name="Furniture_NowPlayingWidget">
 		<control type="group">
 			<include>Animation_WidgetZoom</include>
+      <animation type="Conditional" reversible="true" condition="[Control.HasFocus(109)|Control.HasFocus(110)|Control.HasFocus(195)]">
+        <effect type="slide" start="0,0" end="0,-35" time="400" tween="cubic" easing="in" />
+      </animation>
       <animation effect="slide" time="200" start="0,0" end="-88,0" tween="cubic" easing="inout" condition="true">Conditional</animation>
       <visible>Player.HasMedia</visible>
 			<visible>!SubString(Window(videolibrary).Property(tvtunesIsAlive),True)</visible>

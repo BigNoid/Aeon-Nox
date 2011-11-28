@@ -1,6 +1,6 @@
 <includes>
 	<include name="contents501list">
-		<visible>[Container.Content(Movies) | Container.Content(Seasons) | Container.Content(TVShows) | Container.Content(files) | Window.IsActive(programs) | Container.Content(genres) | Window.IsActive(pictures)]+!Container.Content(addons)</visible>
+		<visible>[Container.Content(Movies) | Container.Content(Seasons) | Container.Content(TVShows) | Container.Content(files) | Window.IsActive(programs) | Container.Content(genres) | Window.IsActive(pictures) | SubString(Container.FolderPath,videodb://5/)]+!Container.Content(addons)</visible>
     <posx>-83</posx>
     <posy>369</posy>
     <width>1363</width>
@@ -19,64 +19,19 @@
     <animation effect="fade" start="100" end="0" time="400" condition="Control.HasFocus(109)">Conditional</animation>
 		<itemlayout height="400" width="196">
 			<control type="group">
-				<visible>[[Skin.HasSetting(noflow)+![Container.Content(tvshows)|Container.Content(seasons)]]|[Skin.HasSetting(noflowtv)+[Container.Content(tvshows)|Container.Content(seasons)]]] +!Control.IsVisible(6000)</visible>
-				<control type="image">
-          <posx>30</posx>
-          <posy>0</posy>
-          <width>211</width>
-          <height>292</height>
-          <aspectratio scalediffuse="false">stretch</aspectratio>
-          <texture background="true" diffuse="thumbs/thumb_mask.png">DefaultVideoBigPoster.png</texture>
-          <bordertexture border="18">thumbs/poster_shadow.png</bordertexture>
-          <bordersize>18</bordersize>
-          <info>ListItem.Thumb</info>
-          <visible>!Container.COntent(genres)</visible>
-				</control>
-				<control type="image">
-          <posx>30</posx>
-          <posy>0</posy>
-          <width>211</width>
-          <height>292</height>
-          <align>center</align>
-          <aspectratio scalediffuse="false">stretch</aspectratio>
-          <bordertexture border="18">thumbs/poster_shadow.png</bordertexture>
-          <bordersize>18</bordersize>
-          <texture background="true" diffuse="thumbs/thumb_mask.png" fallback="special://skin/extras/genre/video/icons/default.jpg">$INFO[ListItem.Label,special://skin/extras/genre/video/icons/,.jpg]</texture>
-					<visible>Container.COntent(genres)</visible>
-				</control>
+				<visible>[[Skin.HasSetting(noflow)+![Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]]|[Skin.HasSetting(noflowtv)+[Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]]] +!Control.IsVisible(6000)</visible>
+        <posy>11</posy>
         <control type="image">
-          <posx>48</posx>
-          <posy>18</posy>
-          <width>175</width>
-          <height>256</height>
-          <texture diffuse="thumbs/thumb_mask.png">thumbs/poster_glass_noreflect.png</texture>
+          <include>MovieShowcaseThumb</include>
+          <texture background="true" diffuse="thumbs/thumb_mask.png" fallback="DefaultVideoBigPoster.png">$VAR[ShowcaseItem0Var]</texture>
+        </control>
+        <include>MovieShowcaseGlassOverlayAngled</include>
+        <control type="image">
+          <include>MovieShowcaseThumbReflection</include>
+          <texture background="true" flipy="true" diffuse="thumbs/movieposter_mask_reflect.png" fallback="DefaultVideoBigPoster.png">$VAR[ShowcaseItem0Var]</texture>
         </control>
         <control type="image">
-          <posx>49</posx>
-          <posy>275</posy>
-          <width>173</width>
-          <height>254</height>
-          <colordiffuse>white6</colordiffuse>
-          <texture background="true" flipy="true" diffuse="thumbs/movieposter_mask_reflect.png">DefaultVideoBigPoster.png</texture>
-          <aspectratio scalediffuse="false">stretch</aspectratio>
-          <info>ListItem.Thumb</info>
-					<visible>!Container.COntent(genres)</visible>
-				</control>
-				<control type="image">
-          <posx>49</posx>
-          <posy>275</posy>
-          <width>173</width>
-          <height>254</height>
-          <colordiffuse>white6</colordiffuse>
-          <aspectratio scalediffuse="false">stretch</aspectratio>
-          <texture background="true" flipy="true" diffuse="thumbs/movieposter_mask_reflect.png" fallback="special://skin/extras/genre/video/icons/default.jpg">$INFO[ListItem.Label,special://skin/extras/genre/video/icons/,.jpg]</texture>
-					<visible>Container.COntent(genres)</visible>
-				</control>
-        <control type="image">
-          <posx>162</posx>
-          <posy>18</posy>
-          <width>60</width>
-          <height>60</height>
+          <include>WatchedOverlayShowCase</include>
           <include condition="!Skin.HasSetting(AltNewOverlay)">OverlayVisibility0</include>
           <include condition="Skin.HasSetting(AltNewOverlay)">AltOverlayVisibility0</include>
         </control>
@@ -84,71 +39,10 @@
 		</itemlayout>
 		<focusedlayout height="350" width="196">
 			<control type="group">
-				<visible>[[Skin.HasSetting(noflow)+![Container.Content(tvshows)|Container.Content(seasons)]]|[Skin.HasSetting(noflowtv)+[Container.Content(tvshows)|Container.Content(seasons)]]] +!Control.IsVisible(6000)</visible>
+				<visible>[[Skin.HasSetting(noflow)+![Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]]|[Skin.HasSetting(noflowtv)+[Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]]] +!Control.IsVisible(6000)</visible>
         <animation effect="zoom" start="100" end="120" center="135,230" time="300" easing="out" reversible="false" tween="cubic">Focus</animation>
-        <!--<animation effect="zoom" start="120" end="100" center="135,230" time="300" easing="out" reversible="false" tween="cubic">Unfocus</animation>-->
-        <!--<animation effect="zoom" start="100" end="110" center="135,170" time="300" easing="out" reversible="false" tween="cubic">Focus</animation>
-        <animation effect="zoom" start="110" end="100" center="135,170" time="300" easing="out" reversible="false" tween="cubic" condition="!Control.HasFocus(501)">Unfocus</animation>-->
-        <control type="image">
-          <posx>30</posx>
-          <posy>0</posy>
-          <width>211</width>
-          <height>292</height>
-          <aspectratio scalediffuse="false">stretch</aspectratio>
-          <texture background="true" diffuse="thumbs/thumb_mask.png">DefaultVideoBigPoster.png</texture>
-          <bordertexture border="18">thumbs/poster_shadow.png</bordertexture>
-          <bordersize>18</bordersize>
-          <info>ListItem.Thumb</info>
-          <visible>!Container.COntent(genres)</visible>
-        </control>
-        <control type="image">
-          <posx>30</posx>
-          <posy>0</posy>
-          <width>211</width>
-          <height>292</height>
-          <align>center</align>
-          <aspectratio scalediffuse="false">stretch</aspectratio>
-          <bordertexture border="18">thumbs/poster_shadow.png</bordertexture>
-          <bordersize>18</bordersize>
-          <texture background="true" diffuse="thumbs/thumb_mask.png" fallback="special://skin/extras/genre/video/icons/default.jpg">$INFO[ListItem.Label,special://skin/extras/genre/video/icons/,.jpg]</texture>
-          <visible>Container.COntent(genres)</visible>
-        </control>
-        <control type="image">
-          <posx>48</posx>
-          <posy>18</posy>
-          <width>175</width>
-          <height>256</height>
-          <texture diffuse="thumbs/thumb_mask.png">thumbs/poster_glass_noreflect.png</texture>
-        </control>
-        <control type="image">
-          <posx>49</posx>
-          <posy>275</posy>
-          <width>173</width>
-          <height>254</height>
-          <colordiffuse>52FFFFFF</colordiffuse>
-          <texture background="true" flipy="true" diffuse="thumbs/movieposter_mask_reflect.png">DefaultVideoBigPoster.png</texture>
-          <aspectratio scalediffuse="false">stretch</aspectratio>
-          <info>ListItem.Thumb</info>
-          <visible>!Container.COntent(genres)</visible>
-        </control>
-        <control type="image">
-          <posx>49</posx>
-          <posy>275</posy>
-          <width>173</width>
-          <height>254</height>
-          <colordiffuse>52FFFFFF</colordiffuse>
-          <aspectratio scalediffuse="false">stretch</aspectratio>
-          <texture background="true" flipy="true" diffuse="thumbs/movieposter_mask_reflect.png" fallback="special://skin/extras/genre/video/icons/default.jpg">$INFO[ListItem.Label,special://skin/extras/genre/video/icons/,.jpg]</texture>
-          <visible>Container.COntent(genres)</visible>
-        </control>
-        <control type="image">
-          <posx>162</posx>
-          <posy>18</posy>
-          <width>60</width>
-          <height>60</height>
-          <include condition="!Skin.HasSetting(AltNewOverlay)">OverlayVisibility0</include>
-          <include condition="Skin.HasSetting(AltNewOverlay)">AltOverlayVisibility0</include>
-        </control>
+        <posy>11</posy>
+        <include>MovieShowCaseItem0</include>
       </control>
 		</focusedlayout>
 	</include>
@@ -173,8 +67,8 @@
 			<control type="scrollbar" id="61">
         <animation effect="fade" start="100" end="0" time="0" condition="!Control.HasFocus(61)">Conditional</animation>
         <ondown condition="Skin.HasSetting(FullScreenFanart)+!Window.IsActive(pictures)">SetFocus(109)</ondown>
-        <ondown condition="!Skin.HasSetting(FullScreenFanart)+[Container.Content(tvshows)|Container.Content(seasons)]">Skin.ToggleSetting(noflowtv)</ondown>
-        <ondown condition="[!Skin.HasSetting(FullScreenFanart)+![Container.Content(tvshows)|Container.Content(seasons)]]|Window.IsActive(pictures)">Skin.ToggleSetting(noflow)</ondown>
+        <ondown condition="!Skin.HasSetting(FullScreenFanart)+[Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]">Skin.ToggleSetting(noflowtv)</ondown>
+        <ondown condition="[!Skin.HasSetting(FullScreenFanart)+![Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]]|Window.IsActive(pictures)">Skin.ToggleSetting(noflow)</ondown>
 				<onup>501</onup>
         <enable>Control.IsVisible(501)</enable>
 			</control>
