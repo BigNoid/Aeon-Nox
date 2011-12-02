@@ -97,11 +97,11 @@
         <pagecontrol>-</pagecontrol>
         <scrolltime tween="quadratic" easing="out">300</scrolltime>
         <focusposition>2</focusposition>
-        <visible>![Control.HasFocus(8000)|[Player.HasVideo+!Skin.HasSetting(homepageVideoinfo)]]</visible>
+        <visible>!Control.HasFocus(8000)</visible>
         <animation effect="slide" start="0,0" end="0,420" time="400" tween="cubic" easing="inout" condition="Control.HasFocus(8003)+!Skin.HasSetting(lowermainmenu)">Conditional</animation>
         <animation effect="slide" start="0,0" end="0,240" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)+!Control.HasFocus(8000)">Conditional</animation>
-        <animation effect="slide" start="0,0" end="540,0" time="400" tween="cubic" easing="inout" condition="Control.HasFocus(8000)+Player.HasAudio">Conditional</animation>
-        <animation effect="slide" start="0,0" end="0,-240" time="400" tween="cubic" easing="inout" condition="Player.HasAudio+Skin.HasSetting(lowermainmenu)+!Control.HasFocus(8000)">Conditional</animation>
+        <animation effect="slide" start="0,0" end="540,0" time="400" tween="cubic" easing="inout" condition="Control.HasFocus(8000)+[Control.IsVisible(8994)|Control.IsVisible(8995)]">Conditional</animation>
+        <animation effect="slide" start="0,0" end="0,-240" time="400" tween="cubic" easing="inout" condition="[Control.IsVisible(8994)|Control.IsVisible(8995)]+Skin.HasSetting(lowermainmenu)+!Control.HasFocus(8000)">Conditional</animation>
         <itemlayout height="300" width="128">
           <control type="image">
             <description>Main Icon</description>
@@ -817,7 +817,7 @@
 
 
   <include name="Furniture_HomeNowPlayingVideo">
-    <control type="group">
+    <control type="group" id="8994">
       <description>Now Playing Video</description>
       <visible>Player.Hasvideo+![Control.HasFocus(8000)]</visible>
       <include>Animation_CommonFade</include>
@@ -852,52 +852,55 @@
           </control>
         </control>
         <control type="group">
-          <visible>VideoPlayer.Content(movies)+!Skin.HasSetting(ShowBackgroundVideo)</visible>
-          <include>Animation_CommonFade</include>
-          <control type="image">
-            <description>Main Icon</description>
-            <posx>20</posx>
-            <posy>457</posy>
-            <width>173</width>
-            <height>260</height>
-            <fadetime>IconCrossfadeTime</fadetime>
-            <texture diffuse="thumbs/movieposter_mask.png" background="true" fallback="DefaultVideoBigPoster.png">$INFO[VideoPlayer.Cover]</texture>
-            <aspectratio scalediffuse="false">stretch</aspectratio>
+          <visible>!Skin.HasSetting(ShowBackgroundVideo)</visible>
+          <control type="group">
+            <visible>VideoPlayer.Content(movies)</visible>
+            <include>Animation_CommonFade</include>
+            <control type="image">
+              <description>Main Icon</description>
+              <posx>20</posx>
+              <posy>457</posy>
+              <width>173</width>
+              <height>260</height>
+              <fadetime>IconCrossfadeTime</fadetime>
+              <texture diffuse="thumbs/movieposter_mask.png" background="true" fallback="DefaultVideoBigPoster.png">$INFO[VideoPlayer.Cover]</texture>
+              <aspectratio scalediffuse="false">stretch</aspectratio>
+            </control>
+            <control type="image">
+              <description>Main Icon Glass overlay</description>
+              <texture diffuse="thumbs/movieposter_mask.png">thumbs/poster_glass.png</texture>
+              <bordertexture border="-18">thumbs/poster_shadow.png</bordertexture>
+              <aspectratio scalediffuse="false">stretch</aspectratio>
+              <posx>20</posx>
+              <posy>457</posy>
+              <width>173</width>
+              <height>260</height>
+            </control>
           </control>
-          <control type="image">
-            <description>Main Icon Glass overlay</description>
-            <texture diffuse="thumbs/movieposter_mask.png">thumbs/poster_glass.png</texture>
-            <bordertexture border="-18">thumbs/poster_shadow.png</bordertexture>
-            <aspectratio scalediffuse="false">stretch</aspectratio>
-            <posx>20</posx>
-            <posy>457</posy>
-            <width>173</width>
-            <height>260</height>
-          </control>
-        </control>
-        <control type="group">
-          <visible>![VideoPlayer.Content(movies)|Skin.HasSetting(ShowBackgroundVideo)]</visible>
-          <include>Animation_CommonFade</include>
-          <control type="image">
-            <texture background="true" diffuse="thumbs/multiplex_tvmask.png">$INFO[VideoPlayer.Cover]</texture>
-            <aspectratio scalediffuse="false">scale</aspectratio>
-            <bordertexture border="9">thumbs/multiplex_tvborder.png</bordertexture>
-            <bordersize>9</bordersize>
-            <posx>20</posx>
-            <posy>519</posy>
-            <width>339</width>
-            <height>198</height>
-            <fadetime>IconCrossfadeTime</fadetime>
-          </control>
-          <control type="image">
-            <posx>20</posx>
-            <posy>519</posy>
-            <width>339</width>
-            <height>198</height>
-            <fadetime>IconCrossfadeTime2</fadetime>
-            <aspectratio scalediffuse="false">scale</aspectratio>
-            <texture diffuse="thumbs/multiplex_tvmask.png">thumbs/multiplex_tvglass.png</texture>
-            <bordersize>9</bordersize>
+          <control type="group">
+            <visible>!VideoPlayer.Content(movies)</visible>
+            <include>Animation_CommonFade</include>
+            <control type="image">
+              <texture background="true" diffuse="thumbs/multiplex_tvmask.png">$INFO[VideoPlayer.Cover]</texture>
+              <aspectratio scalediffuse="false">scale</aspectratio>
+              <bordertexture border="9">thumbs/multiplex_tvborder.png</bordertexture>
+              <bordersize>9</bordersize>
+              <posx>20</posx>
+              <posy>519</posy>
+              <width>339</width>
+              <height>198</height>
+              <fadetime>IconCrossfadeTime</fadetime>
+            </control>
+            <control type="image">
+              <posx>20</posx>
+              <posy>519</posy>
+              <width>339</width>
+              <height>198</height>
+              <fadetime>IconCrossfadeTime2</fadetime>
+              <aspectratio scalediffuse="false">scale</aspectratio>
+              <texture diffuse="thumbs/multiplex_tvmask.png">thumbs/multiplex_tvglass.png</texture>
+              <bordersize>9</bordersize>
+            </control>
           </control>
         </control>
         <control type="group">
@@ -1260,7 +1263,7 @@
   </include>
 
   <include name="Furniture_HomeNowPlaying">
-    <control type="group">
+    <control type="group" id="8995">
       <posx>15</posx>
       <posy>-30</posy>
       <height>720</height>
@@ -1288,11 +1291,11 @@
   </include>
   <include name="Weather_Widget_Standard">
     <control type="group">
-      <visible>Container(9000).HasFocus(6)+![Player.HasVideo+!Skin.HasSetting(homepageVideoinfo)]</visible>
+      <visible>Container(9000).HasFocus(6)</visible>
       <posy>20</posy>
       <include>Animation_HomeWidgetZoom</include>
-      <animation effect="slide" start="0,0" end="0,225" time="400" tween="cubic" easing="inout" condition="[Skin.HasSetting(lowermainmenu)|Skin.HasSetting(Lockhomemenulow)]+![Player.HasAudio+!Skin.HasSetting(homepageMusicinfo)]">Conditional</animation>
-      <animation effect="slide" start="0,0" end="0,425" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowerweatherwidget)+!Skin.HasSetting(lowermainmenu)+!Skin.HasSetting(Lockhomemenulow)+![Player.HasAudio+!Skin.HasSetting(homepageMusicinfo)]">Conditional</animation>
+      <animation effect="slide" start="0,0" end="0,225" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)+Skin.HasSetting(lowerweatherwidget)+![Control.IsVisible(8994)|Control.IsVisible(8995)]">Conditional</animation>
+      <animation effect="slide" start="0,0" end="0,425" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowerweatherwidget)+!Skin.HasSetting(lowermainmenu)+![Control.IsVisible(8994)|Control.IsVisible(8995)]">Conditional</animation>
       <control type="group">
         <description>current</description>
         <posx>50</posx>
@@ -1322,11 +1325,11 @@
   </include>
   <include name="Weather_Widget_Plus">
     <control type="group">
-      <visible>Container(9000).HasFocus(6)+![Player.HasVideo+!Skin.HasSetting(homepageVideoinfo)]</visible>
+      <visible>Container(9000).HasFocus(6)</visible>
       <posy>20</posy>
       <include>Animation_HomeWidgetZoom</include>
-      <animation effect="slide" start="0,0" end="0,225" time="400" tween="cubic" easing="inout" condition="[Skin.HasSetting(lowermainmenu)]+![Player.HasAudio+!Skin.HasSetting(homepageMusicinfo)]">Conditional</animation>
-      <animation effect="slide" start="0,0" end="0,425" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowerweatherwidget)+!Skin.HasSetting(lowermainmenu)+![Player.HasAudio+!Skin.HasSetting(homepageMusicinfo)]">Conditional</animation>
+      <animation effect="slide" start="0,0" end="0,225" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)+Skin.HasSetting(lowerweatherwidget)+![Control.IsVisible(8994)|Control.IsVisible(8995)]">Conditional</animation>
+      <animation effect="slide" start="0,0" end="0,425" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowerweatherwidget)+!Skin.HasSetting(lowermainmenu)+![Control.IsVisible(8994)|Control.IsVisible(8995)]">Conditional</animation>
       <control type="group">
         <description>current</description>
         <posx>50</posx>
