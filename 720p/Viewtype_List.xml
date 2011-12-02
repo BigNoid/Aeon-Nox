@@ -27,7 +27,7 @@
 			<posx>854</posx>
 			<posy>94</posy>
 			<include>Animation_ListSlideRight</include>
-			<visible>!Control.IsVisible(40001)</visible>
+			<visible>!Control.IsVisible(40001)+!Skin.HasSetting(roundedcovers)</visible>
 			<visible>[Container.Content(movies)|[Container.Content(tvshows)+Skin.HasSetting(TVShowsUsePosters)]|Container.Content(seasons)|Container.Content(genres)]</visible>
 			<control type="image">
 				<posx>0</posx>
@@ -59,29 +59,38 @@
         <bordersize>19.5</bordersize>
         <fadetime>400</fadetime>
       </control>
-      <control type="image">
-				<description>POSTER icon</description>
-				<posx>64</posx>
-				<posy>188</posy>
-				<width>233</width>
-				<height>176</height>
-				<texture>thumbs/play-button.png</texture>
-				<fadetime>400</fadetime>
-				<visible>!IsEmpty(ListItem.Trailer)+!Control.HasFocus(7001)+Skin.HasSetting(bigtrailerbutton)</visible>
-				<animation effect="fade" start="35" end="35" condition="!Control.HasFocus(7001)">Conditional</animation>
-			</control>
-			<control type="image">
-				<description>POSTER icon</description>
-				<posx>64</posx>
-				<posy>188</posy>
-				<width>233</width>
-				<height>176</height>
-				<texture>thumbs/play-button.png</texture>
-				<fadetime>400</fadetime>
-				<visible>!IsEmpty(ListItem.Trailer)+Control.HasFocus(7001)</visible>
-				<animation effect="fade" start="50" end="20" time="1000" pulse="true" condition="Control.HasFocus(7001)">Conditional</animation>
-			</control>
 		</control>
+  </include>
+  <include name="TrailerButtonList">
+    <control type="group">
+      <visible>!IsEmpty(ListItem.Trailer)</visible>
+      <posx>854</posx>
+      <posy>94</posy>
+      <animation effect="slide" time="700" start="500,0" end="0,0" tween="cubic" easing="out">WindowOpen</animation>
+      <animation effect="slide" time="300" start="0,0" end="500,0" tween="cubic" easing="in">WindowClose</animation>
+      <control type="image">
+        <description>POSTER icon</description>
+        <posx>64</posx>
+        <posy>188</posy>
+        <width>233</width>
+        <height>176</height>
+        <texture>thumbs/play-button.png</texture>
+        <fadetime>400</fadetime>
+        <visible>!Control.HasFocus(7001)+Skin.HasSetting(bigtrailerbutton)</visible>
+        <animation effect="fade" start="35" end="35" condition="!Control.HasFocus(7001)">Conditional</animation>
+      </control>
+      <control type="image">
+        <description>POSTER icon</description>
+        <posx>64</posx>
+        <posy>188</posy>
+        <width>233</width>
+        <height>176</height>
+        <texture>thumbs/play-button.png</texture>
+        <fadetime>400</fadetime>
+        <visible>Control.HasFocus(7001)</visible>
+        <animation effect="fade" start="50" end="20" time="1000" pulse="true" condition="Control.HasFocus(7001)">Conditional</animation>
+      </control>
+    </control>
   </include>
 	<include name="CommonRootView">
 		<control type="group">
@@ -145,14 +154,14 @@
 					<viewtype label="535">list</viewtype>
 					<pagecontrol>60</pagecontrol>
           <scrolltime tween="quadratic" easing="out">200</scrolltime>
-          <itemlayout height="65" condition="!Skin.HasSetting(slimlist)+[Container.Content(albums)|Container.Content(songs)|[Container.Content(files)+!IsEmpty(Container.FolderPath)]|Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)|Substring(Container.FolderPath,advanced.launcher)]">
-						<control type="image">
-							<posx>12</posx>
-							<posy>64</posy>
-							<height>1</height>
-							<width>739</width>
-							<texture>views/listpanel_line.png</texture>
-						</control>
+          <itemlayout height="65" condition="!Skin.HasSetting(slimlist)+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)|Container.Content(albums)|Container.Content(songs)]">
+            <control type="image">
+              <posx>12</posx>
+              <posy>64</posy>
+              <height>1</height>
+              <width>739</width>
+              <texture>views/listpanel_line.png</texture>
+            </control>
             <control type="image">
               <posx>15</posx>
               <posy>5</posy>
@@ -230,23 +239,23 @@
               <width>30</width>
               <height>30</height>
               <info>ListItem.Overlay</info>
-						</control>
-					</itemlayout>
-					<focusedlayout height="65" condition="!Skin.HasSetting(slimlist)+[Container.Content(albums)|Container.Content(songs)|[Container.Content(files)+!IsEmpty(Container.FolderPath)]|Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)|Substring(Container.FolderPath,advanced.launcher)]">
-						<control type="image">
-							<posx>12</posx>
-							<posy>64</posy>
-							<height>1</height>
-							<width>739</width>
-							<texture>views/listpanel_line.png</texture>
-						</control>
-						<control type="image">
-							<posx>7</posx>
-							<posy>-5</posy>
-							<width>743</width>
-							<height>76</height>
-							<texture>views/listpanel_selectbar.png</texture>
-						</control>
+            </control>
+          </itemlayout>
+          <focusedlayout height="65" condition="!Skin.HasSetting(slimlist)+[Container.Content(movies)|Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)|Container.Content(albums)|Container.Content(songs)]">
+            <control type="image">
+              <posx>12</posx>
+              <posy>64</posy>
+              <height>1</height>
+              <width>739</width>
+              <texture>views/listpanel_line.png</texture>
+            </control>
+            <control type="image">
+              <posx>7</posx>
+              <posy>-5</posy>
+              <width>743</width>
+              <height>76</height>
+              <texture>views/listpanel_selectbar.png</texture>
+            </control>
             <control type="image">
               <posx>15</posx>
               <posy>5</posy>
@@ -319,13 +328,13 @@
               <colordiffuse>ff2e2e2e</colordiffuse>
             </control>
             <control type="image">
-							<posx>716</posx>
-							<posy>19</posy>
-							<width>30</width>
-							<height>30</height>
+              <posx>716</posx>
+              <posy>19</posy>
+              <width>30</width>
+              <height>30</height>
               <info>ListItem.Overlay</info>
-						</control>
-					</focusedlayout>
+            </control>
+          </focusedlayout>
           <itemlayout height="65" condition="!Skin.HasSetting(slimlist)">
             <control type="image">
               <posx>12</posx>
@@ -393,7 +402,7 @@
               <posy>20</posy>
               <width>113</width>
               <height>65</height>
-              <font>Font_Reg15</font>
+              <font>Font_Info</font>
               <align>center</align>
               <aligny>bottom</aligny>
               <include>detailcolorfocus</include>
@@ -543,7 +552,7 @@
         <posx>850</posx>
         <posy>100</posy>
         <include>Animation_ListSlideRight</include>
-        <visible>!Control.IsVisible(40001)+[[Container.Content(files)+!IsEmpty(Container.FolderPath)+!Window.IsActive(musicfiles)]|Window.IsActive(pictures)|Container.Content(actors)|Container.Content(artists)|Container.Content(episodes)|Substring(Container.FolderPath,advanced.launcher)]</visible>
+        <visible>!Control.IsVisible(40001)+Skin.HasSetting(roundedcovers)</visible>
         <control type="image">
           <posx>0</posx>
           <posy>0</posy>
@@ -565,6 +574,7 @@
           <texture diffuse="thumbs/diffuse_mirror3.png" flipy="true" background="true">$INFO[ListItem.Icon]</texture>
         </control>
       </control>
+      <include condition="Window.IsActive(videolibrary)">TrailerButtonList</include>
       <control type="group">
         <posx>854</posx>
         <posy>94</posy>
@@ -575,7 +585,7 @@
           <posy>180</posy>
           <width>360</width>
           <height>360</height>
-          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <aspectratio scalediffuse="false">scale</aspectratio>
           <fadetime>IconCrossfadeTime2</fadetime>
           <texture background="true" diffuse="thumbs/cdcover_mask.png" fallback="DefaultAlbumCover.png">$VAR[ListAlbumVar]</texture>
         </control>
@@ -584,7 +594,7 @@
           <posy>541</posy>
           <width>360</width>
           <height>360</height>
-          <aspectratio scalediffuse="false">stretch</aspectratio>
+          <aspectratio scalediffuse="false">scale</aspectratio>
           <fadetime>IconCrossfadeTime2</fadetime>
           <texture diffuse="thumbs/cdcover_mask_reflect.png" flipy="true" background="true" fallback="DefaultAlbumCover.png">$VAR[ListAlbumVar]</texture>
         </control>
