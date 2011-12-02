@@ -7,30 +7,6 @@
     <fadetime>IconCrossfadeTime2</fadetime>
     <animation effect="fade" time="250">VisibleChange</animation>
   </include>
-  <include name="MusicCodecFlagsVars">
-    <include>Animation_CommonFade</include>
-    <posx>1165</posx>
-    <posy>653</posy>
-    <width>90</width>
-    <height>59</height>
-    <colordiffuse>floor</colordiffuse>
-    <fadetime>IconCrossfadeTime2</fadetime>
-    <visible>Container.Content(Songs) + [Control.IsVisible(50)|Control.IsVisible(509)|Control.IsVisible(513)]</visible>
-    <animation effect="slide" start="0,0" end="-300,-15" time="0" condition="Control.IsVisible(50)">Conditional</animation>
-    <include>Animation_CommonFade</include>
-  </include>
-  <include name="MusicRatingFlagsVars">
-    <include>Animation_CommonFade</include>
-    <posx>5</posx>
-    <posy>653</posy>
-    <width>90</width>
-    <height>59</height>
-    <colordiffuse>floor</colordiffuse>
-    <fadetime>IconCrossfadeTime2</fadetime>
-    <visible>Container.Content(Albums) | Container.Content(Songs)</visible>
-    <visible>Control.IsVisible(509)|  Control.IsVisible(513)|  Control.IsVisible(500)</visible>
-    <animation effect="slide" start="0,0" end="845,-20" time="0" condition="Control.IsVisible(50)">Conditional</animation>
-  </include>
   <include name="Furniture_MovieInfoFlagSource">
     <posx>4</posx>
     <posy>589</posy>
@@ -203,29 +179,33 @@
   </include>
 	<include name="MusicMediaFlags">
 		<control type="group">
-			<visible>!Control.HasFocus(110)</visible>
-      <visible>!Skin.HasSetting(HideListFlags)</visible>
+			<visible>!Control.HasFocus(110) + [[!Skin.HasSetting(HideListFlags) + Control.IsVisible(50)] | Control.IsVisible(509) |  Control.IsVisible(513) | Control.IsVisible(500)] + [Container.Content(Albums) | Container.Content(Songs)]</visible>
       <include>Animation_CommonFade</include>
 			<include>Animation_HideMusic</include>
 			<!-- Rating -->
-			<control type="image" id="5091">
-				<include>MusicRatingFlagsVars</include>
-				<texture>$INFO[ListItem.StarRating,flags/music/rating/]</texture>
-				<visible>!IsEmpty(ListItem.Rating)</visible>
+			<control type="image">
+        <include>Animation_CommonFade</include>
+        <posx>5</posx>
+        <posy>653</posy>
+        <width>90</width>
+        <height>59</height>
+        <colordiffuse>floor</colordiffuse>
+        <fadetime>IconCrossfadeTime2</fadetime>
+        <animation effect="slide" start="0,0" end="850,-15" time="0" condition="Control.IsVisible(50)">Conditional</animation>
+        <visible>!Container.Content(songs)</visible>
+        <texture>$INFO[ListItem.StarRating,flags/music/rating/]</texture>
 			</control>
 			<!-- Genre -->
-			<control type="image" id="5092">
+			<control type="image">
 				<include>Animation_CommonFade</include>
 				<posx>100</posx>
 				<posy>653</posy>
 				<width>90</width>
 				<height>59</height>
 				<colordiffuse>floor</colordiffuse>
-				<visible>Container.Content(Albums) | Container.Content(Songs)</visible>
-				<visible>Control.IsVisible(509) | Control.IsVisible(50) | Control.IsVisible(513)|Control.IsVisible(500)</visible>
 				<animation effect="slide" start="0,0" end="990,-20" time="0" condition="Control.IsVisible(50)">Conditional</animation>
 				<texture>flags/music/genre/genre.png</texture>
-				<visible>!IsEmpty(ListItem.Genre)</visible>
+        <visible>!IsEmpty(ListItem.Genre)</visible>
 			</control>
 			<control type="label">
 				<include>Animation_CommonFade</include>
@@ -237,25 +217,21 @@
 				<textcolor>floor</textcolor>
 				<align>left</align>
 				<colordiffuse>floor</colordiffuse>
-				<visible>[Container.Content(Albums) | Container.Content(Songs)]</visible>
-				<visible>Control.IsVisible(509) | Control.IsVisible(50) | Control.IsVisible(513)|Control.IsVisible(500)</visible>
-				<animation effect="slide" start="0,0" end="990,-20" time="0" condition="Control.IsVisible(50)">Conditional</animation>
+        <animation effect="slide" start="0,0" end="990,-20" time="0" condition="Control.IsVisible(50)">Conditional</animation>
 				<label>$INFO[ListItem.Genre]</label>
 			</control>
 			<!-- Year -->
-			<control type="image" id="5093">
+			<control type="image">
 				<include>Animation_CommonFade</include>
 				<posx>1055</posx>
 				<posy>653</posy>
 				<width>90</width>
 				<height>59</height>
 				<colordiffuse>floor</colordiffuse>
-				<visible>Container.Content(Albums) | Container.Content(Songs)</visible>
-				<visible>Control.IsVisible(509) | Control.IsVisible(50) | Control.IsVisible(513)|Control.IsVisible(500)</visible>
 				<animation effect="slide" start="0,0" end="-80,-18" time="0" condition="Control.IsVisible(50)">Conditional</animation>
 				<texture>flags/music/year/year.png</texture>
-				<visible>!IsEmpty(ListItem.Year)</visible>
-			</control>
+        <visible>!IsEmpty(ListItem.Year)</visible>
+      </control>
 			<control type="label">
 				<include>Animation_CommonFade</include>
 				<posx>1055</posx>
@@ -266,29 +242,34 @@
 				<textcolor>floor</textcolor>
 				<align>center</align>
 				<colordiffuse>floor</colordiffuse>
-				<visible>Container.Content(Albums) | Container.Content(Songs)</visible>
-				<visible>Control.IsVisible(509) | Control.IsVisible(50) | Control.IsVisible(513)|Control.IsVisible(500)</visible>
-				<visible>!IsEmpty(ListItem.Year)</visible>
 				<animation effect="slide" start="0,0" end="-80,-18" time="0" condition="Control.IsVisible(50)">Conditional</animation>
 				<label>$INFO[ListItem.Year]</label>
 				<fadetime>250</fadetime>
 			</control>
 			<!-- Label -->
-			<control type="image" id="5094">
+			<control type="image">
 				<posx>1165</posx>
 				<posy>653</posy>
 				<width>90</width>
 				<height>59</height>
 				<colordiffuse>floor</colordiffuse>
-				<visible>Container.Content(Albums) + [Control.IsVisible(509) |  Control.IsVisible(50) |  Control.IsVisible(513)|Control.IsVisible(500)] + !IsEmpty(ListItem.Album)</visible>
-				<animation effect="slide" start="0,0" end="-300,-10" time="0" condition="Control.IsVisible(50)">Conditional</animation>
+				<visible>!Control.IsVisible(50) + !Container.Content(songs)</visible>
 				<texture fallback="flags/source/defaultsource.png">$INFO[ListItem.Property(Album_Label),flags/music/recordlabel/,.png]</texture>
 				<fadetime>250</fadetime>
 			</control>
-			<!-- Codec -->
-			<control type="image" id="5094">
-				<include>MusicCodecFlagsVars</include>
-				<texture>$INFO[ListItem.FileExtension,flags/audio/,.png]</texture>
+      <!-- Codec -->
+			<control type="image">
+        <include>Animation_CommonFade</include>
+        <posx>1165</posx>
+        <posy>653</posy>
+        <width>90</width>
+        <height>59</height>
+        <colordiffuse>floor</colordiffuse>
+        <fadetime>IconCrossfadeTime2</fadetime>
+        <visible>Container.Content(Songs) + [Control.IsVisible(50)|Control.IsVisible(509)|Control.IsVisible(513)]</visible>
+        <animation effect="slide" start="0,0" end="-300,-15" time="0" condition="Control.IsVisible(50)">Conditional</animation>
+        <include>Animation_CommonFade</include>
+        <texture>$INFO[ListItem.FileExtension,flags/audio/,.png]</texture>
 			</control>
 		</control>
 	</include>
