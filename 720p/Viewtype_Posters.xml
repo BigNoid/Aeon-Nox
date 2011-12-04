@@ -3003,40 +3003,40 @@
     <control type="group">
       <visible>Skin.HasSetting(posterslide)</visible>
       <control type="image">
-        <posx>6</posx>
+        <posx>5</posx>
         <posy>100</posy>
-        <width>107</width>
-        <height>165</height>
+        <width>200</width>
+        <height>300</height>
         <fadetime>200</fadetime>
-        <texture background="true" diffuse="thumbs/posterdiffuse.png">DefaultVideoBigPoster.png</texture>
-        <aspectratio scalediffuse="false">scale</aspectratio>
-        <info>ListItem.Icon</info>
+        <texture background="true" diffuse="thumbs/movieposter_mask.png" fallback="DefaultVideoBigPoster.png">$VAR[ListPosterVar]</texture>
+        <aspectratio scalediffuse="false">stretch</aspectratio>
       </control>
       <control type="image">
-        <posx>-11</posx>
-        <posy>84</posy>
-        <width>142</width>
-        <height>241</height>
+        <posx>5</posx>
+        <posy>100</posy>
+        <width>200</width>
+        <height>300</height>
         <fadetime>200</fadetime>
-        <texture>thumbs/poster_overlay-focus.png</texture>
-        <aspectratio scalediffuse="false">scale</aspectratio>
+        <texture>thumbs/poster_glass.png</texture>
+        <bordertexture border="-24">thumbs/poster_shadow.png</bordertexture>
       </control>
       <control type="image">
-        <posx>6</posx>
-        <posy>265</posy>
-        <width>107</width>
-        <height>165</height>
+        <posx>5</posx>
+        <posy>400.5</posy>
+        <width>200</width>
+        <height>300</height>
         <fadetime>200</fadetime>
-        <texture background="true" flipy="true" diffuse="thumbs/posterreflectiondiffuse.png">DefaultVideoBigPoster.png</texture>
-        <aspectratio scalediffuse="false">scale</aspectratio>
-        <info>ListItem.Icon</info>
+        <texture background="true" flipy="true" diffuse="thumbs/movieposter_mask_reflect.png" fallback="DefaultVideoBigPoster.png">$VAR[ListPosterVar]</texture>
+        <aspectratio scalediffuse="false">stretch</aspectratio>
+        <animation effect="fade" start="100" end="30" time="200" reversible="true">Focus</animation>
+        <animation effect="fade" start="30" end="100" time="200" reversible="true">UnFocus</animation>
       </control>
       <control type="image">
         <description>overlay</description>
-        <posx>73</posx>
+        <posx>145</posx>
         <posy>100</posy>
-        <width>40</width>
-        <height>40</height>
+        <width>60</width>
+        <height>60</height>
         <include condition="!Skin.HasSetting(AltNewOverlay)">OverlayVisibility0</include>
         <include condition="Skin.HasSetting(AltNewOverlay)">AltOverlayVisibility0</include>
       </control>
@@ -3044,34 +3044,71 @@
   </include>
 
   <include name="contents510list">
-    <posx>-20</posx>
-    <posy>375</posy>
-    <width>1320</width>
+    <posx>-80</posx>
+    <posy>200</posy>
+    <width>1400</width>
     <height>500</height>
-    <onleft>-</onleft>
-    <onright>-</onright>
-    <onup condition="!IsEmpty(ListItem.Trailer)+!Skin.HasSetting(posterslide)">7001</onup>
-    <onup condition="IsEmpty(ListItem.Trailer)+!Skin.HasSetting(posterslide)">9000</onup>
-    <onup condition="Skin.HasSetting(posterslide)">7000</onup>
+    <onleft condition="Skin.HasSetting(posterslide)">510</onleft>
+    <onright condition="Skin.HasSetting(posterslide)">510</onright>
+    <onup condition="!IsEmpty(ListItem.Trailer)">7001</onup>
+    <onup condition="IsEmpty(ListItem.Trailer)">9000</onup>
     <ondown>70</ondown>
     <orientation>horizontal</orientation>
     <viewtype label="31271">Wraplist of Posters</viewtype>
     <pagecontrol>70</pagecontrol>
     <scrolltime tween="quadratic" easing="out">200</scrolltime>
-    <focusposition>5</focusposition>
+    <focusposition>1</focusposition>
     <visible>!Container.Content(episodes)+!Container.Content(genres)</visible>
     <include>Animation_OpenCloseZoom_New</include>
     <animation effect="fade" start="100" end="0" time="400" condition="Control.HasFocus(109)">Conditional</animation>
-    <itemlayout width="120" height="300">
+    <itemlayout width="210" height="500">
       <include>NoSlideMultiplexThumbs</include>
     </itemlayout>
-    <focusedlayout width="120" height="300">
+    <focusedlayout width="210" height="500">
       <control type="group">
-        <animation effect="zoom" center="56,170" start="100" end="115" time="200" tween="cubic" easing="inout">Focus</animation>
-        <animation effect="zoom" center="56,170" start="115" end="100" time="200" tween="cubic" easing="inout">Unfocus</animation>
+        <animation effect="zoom" center="auto" start="100" end="130" time="200" tween="quadratic" easing="out">Focus</animation>
+        <animation effect="zoom" center="auto" start="130" end="100" time="200" tween="quadratic" easing="out">Unfocus</animation>
         <include>NoSlideMultiplexThumbs</include>
       </control>
     </focusedlayout>
+  </include>
+  <include name="Furniture_NoSlide">
+    <control type="group">
+      <visible>![Control.HasFocus(70)|Control.HasFocus(109)]</visible>
+      <include>Animation_OpenCloseZoom_New</include>
+      <include>Animation_VisibleChange200</include>
+      <control type="label">
+        <posx>130</posx>
+        <posy>670</posy>
+        <width>830</width>
+        <align>left</align>
+        <aligny>center</aligny>
+        <font>Font_Info_Caps</font>
+        <textcolor>floor</textcolor>
+        <shadowcolor>floorshadow</shadowcolor>
+        <label>[UPPERCASE]$INFO[ListItem.Genre][/UPPERCASE]</label>
+      </control>
+      <control type="label">
+        <posx>130</posx>
+        <posy>693</posy>
+        <width>830</width>
+        <align>left</align>
+        <aligny>center</aligny>
+        <font>Font_ShowcaseMainLabel2_Caps</font>
+        <scroll>true</scroll>
+        <scrollspeed>50</scrollspeed>
+        <textcolor>floor</textcolor>
+        <shadowcolor>floorshadow</shadowcolor>
+        <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
+      </control>
+      <control type="image">
+        <posx>0</posx>
+        <posy>629</posy>
+        <width>1280</width>
+        <height>130</height>
+        <texture>home/homemenu_gradient.png</texture>
+      </control>
+    </control>
   </include>
   <include name="posterwraplist">
     <control type="wraplist" id="510">
@@ -3098,18 +3135,13 @@
       <include condition="!Skin.HasSetting(posterslide)+Skin.HasSetting(posterwrap)">PosterSlideWrap</include>
       <include condition="Skin.HasSetting(posterwrap)">posterwraplist</include>
       <include condition="!Skin.HasSetting(posterwrap)">posterfixedlist</include>
+      <include>Posters_Furniture</include>
+      <include condition="Skin.HasSetting(posterslide)">Furniture_NoSlide</include>
       <control type="scrollbar" id="70">
         <animation effect="fade" start="100" end="0" time="0" condition="!Control.HasFocus(70)">Conditional</animation>
         <onup>510</onup>
-        <ondown>SetFocus(109)</ondown>
+        <ondown condition="Skin.HasSetting(FullScreenFanart)|Player.HasVideo">SetFocus(109)</ondown>
         <animation effect="slide" start="290,0" end="290,0" condition="!Skin.HasSetting(posterslide)">Conditional</animation>
-      </control>
-      <include condition="!Skin.HasSetting(posterslide)">Posters_Furniture</include>
-      <control type="group">
-        <visible>!Control.HasFocus(109)+!Control.HasFocus(70)</visible>
-        <include>Animation_HideMultiplex</include>
-        <include condition="Skin.HasSetting(posterslide)">SecondLabelFloor</include>
-        <include condition="Skin.HasSetting(posterslide)">FirstLabelFloor</include>
       </control>
     </control>
   </include>
