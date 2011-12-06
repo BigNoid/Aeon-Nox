@@ -2708,40 +2708,62 @@
           <include>VisibleFadeEffect</include>
           <posx>595</posx>
           <posy>20</posy>
-          <control type="label">
-            <posx>45</posx>
-            <posy>38</posy>
-            <width>560</width>
-            <height>20</height>
-            <font>Font_Reg18</font>
-            <textcolor>grey</textcolor>
-            <align>center</align>
-            <aligny>center</aligny>
-            <label>$INFO[Window.Property(Weather.CurrentMap)]</label>
+          <control type="group">
+            <visible>!Player.HasVideo</visible>
+            <control type="label">
+              <posx>65</posx>
+              <posy>38</posy>
+              <width>520</width>
+              <height>20</height>
+              <font>Font_Reg18</font>
+              <textcolor>grey</textcolor>
+              <align>center</align>
+              <aligny>center</aligny>
+              <label>$INFO[Window.Property(Weather.CurrentMap)]</label>
+            </control>
+            <control type="multiimage">
+              <description>maps multiimage</description>
+              <posx>65</posx>
+              <posy>80</posy>
+              <width>520</width>
+              <height>350</height>
+              <imagepath>$INFO[Window.Property(MapPath)]</imagepath>
+              <timeperimage>500</timeperimage>
+              <pauseatend>1000</pauseatend>
+              <fadetime>0</fadetime>
+              <randomize>false</randomize>
+              <loop>yes</loop>
+              <aspectratio>keep</aspectratio>
+              <aligny>center</aligny>
+            </control>
+            <control type="image">
+              <description>legend image</description>
+              <posx>65</posx>
+              <posy>80</posy>
+              <width>520</width>
+              <height>50</height>
+              <texture>$INFO[Window.Property(LegendPath)]</texture>
+              <aspectratio aligny="top">keep</aspectratio>
+            </control>
           </control>
-          <control type="multiimage">
-            <description>maps multiimage</description>
-            <posx>45</posx>
-            <posy>80</posy>
-            <width>560</width>
-            <height>350</height>
-            <imagepath>$INFO[Window.Property(MapPath)]</imagepath>
-            <timeperimage>500</timeperimage>
-            <pauseatend>1000</pauseatend>
-            <fadetime>0</fadetime>
-            <randomize>false</randomize>
-            <loop>yes</loop>
-            <aspectratio>keep</aspectratio>
-            <aligny>center</aligny>
-          </control>
-          <control type="image">
-            <description>legend image</description>
-            <posx>45</posx>
-            <posy>80</posy>
-            <width>560</width>
-            <height>50</height>
-            <texture>$INFO[Window.Property(LegendPath)]</texture>
-            <aspectratio aligny="top">keep</aspectratio>
+          <control type="group">
+            <visible>Player.HasVideo</visible>
+            <control type="image">
+              <description>legend image</description>
+              <posx>65</posx>
+              <posy>80</posy>
+              <width>520</width>
+              <height>350</height>
+              <texture>common/black.png</texture>
+              <aspectratio>stretch</aspectratio>
+            </control>
+            <control type="videowindow" id="2">
+              <posx>65</posx>
+              <posy>80</posy>
+              <width>520</width>
+              <height>350</height>
+              <visible>Player.HasVideo</visible>
+            </control>
           </control>
           <control type="list" id="7505">
             <posx>45</posx>
@@ -2818,10 +2840,22 @@
             </focusedlayout>
             <content>
               <item>
-                <label>31907</label>
+                <label>$INFO[Window.Property(Video.1.Title)]</label>
                 <icon>icon-video.png</icon>
-                <onclick>PlayMedia($INFO[Window.Property(Video)],1,noresume)</onclick>
-                <visible>!IsEmpty(Window.Property(Video))</visible>
+                <onclick>PlayMedia($INFO[Window.Property(Video.1)],1,noresume)</onclick>
+                <visible>!IsEmpty(Window.Property(Video.1.Title))</visible>
+              </item>
+              <item>
+                <label>$INFO[Window.Property(Video.2.Title)]</label>
+                <icon>icon-video.png</icon>
+                <onclick>PlayMedia($INFO[Window.Property(Video.2)],1,noresume)</onclick>
+                <visible>!IsEmpty(Window.Property(Video.2.Title))</visible>
+              </item>
+              <item>
+                <label>$INFO[Window.Property(Video.3.Title)]</label>
+                <icon>icon-video.png</icon>
+                <onclick>PlayMedia($INFO[Window.Property(Video.3)],1,noresume)</onclick>
+                <visible>!IsEmpty(Window.Property(Video.3.Title))</visible>
               </item>
               <item>
                 <label>$INFO[Window.Property(MapList.1.MapLabel.1)]</label>
@@ -3047,7 +3081,7 @@
           <scrolltime>200</scrolltime>
           <onup>7500</onup>
           <ondown>7500</ondown>
-          <visible>![SubString(Window.Property(Weather.CurrentView),hourly)|SubString(Window.Property(Weather.CurrentView),maps)]</visible>
+          <visible>![SubString(Window.Property(Weather.CurrentView),hourly)|SubString(Window.Property(Weather.CurrentView),maps)|SubString(Window.Property(Weather.CurrentView),video)]</visible>
           <include>VisibleFadeEffect</include>
           <itemlayout width="140" height="130">
             <control type="label">
