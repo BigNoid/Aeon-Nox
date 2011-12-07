@@ -535,7 +535,7 @@
           <label fallback="312577">$INFO[ListItem.Plot]</label>
           <autoscroll delay="15000" time="2000" repeat="10000">Skin.HasSetting(AutoScroll)+!Control.HasFocus(60)</autoscroll>
           <textcolor>FFececec</textcolor>
-          <visible>!Container(5000).HasFocus(1)+!Container(5000).HasFocus(6)+!Container(5000).HasFocus(7)+!Container(5000).HasFocus(8)+!Container(5000).HasFocus(9)</visible>
+          <visible>![Container(5000).HasFocus(6)|Container(5000).HasFocus(7)|Container(5000).HasFocus(8)|Container(5000).HasFocus(9)|Container(5000).HasFocus(11)|Control.IsVisible(50)]</visible>
         </control>
         <control type="group">
           <visible>Container.Content(movies)|Container.Content(episodes)|Container.Content(MusicVideos)</visible>
@@ -661,7 +661,7 @@
         <onright>5000</onright>
         <ondown>50</ondown>
         <showonepage>true</showonepage>
-        <visible>!Container(5000).HasFocus(6)+!Container(5000).HasFocus(7)+!Container(5000).HasFocus(8)</visible>
+        <visible>![Container(5000).HasFocus(6)|Container(5000).HasFocus(7)|Container(5000).HasFocus(8)|Container(5000).HasFocus(9)|Container(5000).HasFocus(11)]</visible>
       </control>
 
       <control type="button" id="13">
@@ -723,7 +723,7 @@
         <description>wrap list</description>
         <posx>530</posx>
         <posy>365</posy>
-        <width>730</width>
+        <width>750</width>
         <height>29</height>
         <viewtype>list</viewtype>
         <orientation>horizontal</orientation>
@@ -733,11 +733,11 @@
         <ondown>60</ondown>
         <scrolltime>200</scrolltime>
         <focusposition>2</focusposition>
-        <itemlayout width="146" height="33">
+        <itemlayout width="150" height="33">
           <control type="label">
-            <posx>73</posx>
+            <posx>75</posx>
             <posy>0</posy>
-            <width>144</width>
+            <width>150</width>
             <height>30</height>
             <align>center</align>
             <font>Font_Reg19</font>
@@ -745,11 +745,11 @@
             <textcolor>FF868686</textcolor>
           </control>
         </itemlayout>
-        <focusedlayout width="146" height="33">
+        <focusedlayout width="150" height="33">
           <control type="label">
-            <posx>73</posx>
+            <posx>75</posx>
             <posy>0</posy>
-            <width>144</width>
+            <width>150</width>
             <height>30</height>
             <align>center</align>
             <font>Font_Reg19</font>
@@ -758,9 +758,9 @@
             <visible>Control.HasFocus(5000)</visible>
           </control>
           <control type="label">
-            <posx>73</posx>
+            <posx>75</posx>
             <posy>0</posy>
-            <width>144</width>
+            <width>150</width>
             <height>30</height>
             <align>center</align>
             <font>Font_Reg19</font>
@@ -811,16 +811,29 @@
             <visible>!Container.Content(episodes)</visible>
           </item>
           <item id="8">
+            <description>Get Extrafanart</description>
+            <label>$LOCALIZE[31467]</label>
+            <onclick condition="Container.Content(movies)">XBMC.RunScript(script.artwork.downloader,mode=custom,mediatype=movie,medianame=$INFO[ListItem.Title],extrafanart)</onclick>
+            <onclick condition="Container.Content(tvshows)">XBMC.RunScript(script.artwork.downloader,mode=custom,mediatype=tvshow,medianame=$INFO[ListItem.TVShowTitle],extrafanart)</onclick>            
+            <visible>[Container.Content(movies)|Container.Content(tvshows)] + system.hasaddon(script.artwork.downloader)</visible>
+          </item>
+          <item id="9">
             <description>Get Artwork</description>
             <label>$LOCALIZE[31316]</label>
-            <onclick>SetFocus(5052)</onclick>            
-            <visible>[Container.Content(tvshows)|Container.Content(movies)]+system.hasaddon(script.artwork.downloader)</visible>
+            <onclick>SetFocus(5052)</onclick>
+            <visible>Container.Content(tvshows) + system.hasaddon(script.artwork.downloader)</visible>
+          </item>
+          <item id="11">
+            <description>Get Extrathumbs</description>
+            <label>$LOCALIZE[31468]</label>
+            <onclick>XBMC.RunScript(script.artwork.downloader,mode=custom,mediatype=movie,medianame=$INFO[ListItem.Title],extrathumbs)</onclick>
+            <visible>Container.Content(movies) + system.hasaddon(script.artwork.downloader)</visible>
           </item>
           <item id="10">
             <description>Get Tune</description>
             <label>$LOCALIZE[31365]</label>
             <onclick>XBMC.RunScript(script.tvtunes,mode=solo&amp;tvpath=$INFO[ListItem.FilenameAndPath]&amp;tvname=$INFO[ListItem.TVShowTitle])</onclick>
-            <visible>Container.Content(tvshows)+system.hasaddon(script.tvtunes)</visible>
+            <visible>Container.Content(tvshows) + system.hasaddon(script.tvtunes)</visible>
           </item>
         </content>
       </control>
@@ -845,8 +858,8 @@
         <timeperimage>4000</timeperimage>
         <randomize>true</randomize>
         <aspectratio align="center">scale</aspectratio>
-        <imagepath background="true">$INFO[ListItem.Path,,extrafanart]</imagepath>
-        <visible>Container.Content(movies)+Container(5000).HasFocus(8)</visible>
+        <imagepath background="true">$VAR[ExtraFanartPreviewVar]</imagepath>
+        <visible>Container(5000).HasFocus(8) | Container(5000).HasFocus(11)</visible>
       </control>
       <control type="image">
         <posx>708</posx>
@@ -872,51 +885,50 @@
         <bordersize>7</bordersize>
         <visible>Control.IsVisible(50)</visible>
       </control>
-      <control type="image">
-        <posx>543</posx>
-        <posy>450</posy>
-        <width>214</width>
-        <height>214</height>
-        <fadetime>500</fadetime>
-        <aspectratio align="center">keep</aspectratio>
-        <texture background="true">$INFO[ListItem.FileNameAndPath,,/landscape.jpg]</texture>
-        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-        <bordersize>7</bordersize>
-        <visible>Container.Content(tvshows)+Container(5000).HasFocus(8)</visible>
-      </control>
-      <control type="image">
-        <posx>703</posx>
-        <posy>340</posy>
-        <width>414</width>
-        <height>214</height>
-        <fadetime>500</fadetime>
-        <aspectratio align="top">keep</aspectratio>
-        <texture background="true">$INFO[ListItem.FileNameAndPath,,/banner.jpg]</texture>
-        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-        <bordersize>7</bordersize>
-        <visible>Container.Content(tvshows)+Container(5000).HasFocus(8)</visible>
-      </control>
-      <control type="image">
-        <posx>793</posx>
-        <posy>450</posy>
-        <width>214</width>
-        <height>214</height>
-        <fadetime>500</fadetime>
-        <aspectratio align="bottom">keep</aspectratio>
-        <texture background="true">$INFO[ListItem.FileNameAndPath,,/logo.png]</texture>
-        <bordersize>7</bordersize>
-        <visible>Container.Content(tvshows)+Container(5000).HasFocus(8)</visible>
-      </control>
-      <control type="image">
-        <posx>1043</posx>
-        <posy>450</posy>
-        <width>214</width>
-        <height>214</height>
-        <fadetime>500</fadetime>
-        <aspectratio align="bottom">keep</aspectratio>
-        <texture background="true">$INFO[ListItem.FileNameAndPath,,/clearart.png]</texture>
-        <bordersize>7</bordersize>
-        <visible>Container.Content(tvshows)+Container(5000).HasFocus(8)</visible>
+      <control type="group">
+        <visible>Container(5000).HasFocus(9)</visible>
+        <control type="image">
+          <posx>543</posx>
+          <posy>450</posy>
+          <width>214</width>
+          <height>214</height>
+          <fadetime>500</fadetime>
+          <aspectratio align="center">keep</aspectratio>
+          <texture background="true">$INFO[ListItem.FileNameAndPath,,/landscape.jpg]</texture>
+          <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
+          <bordersize>7</bordersize>
+        </control>
+        <control type="image">
+          <posx>703</posx>
+          <posy>340</posy>
+          <width>414</width>
+          <height>214</height>
+          <fadetime>500</fadetime>
+          <aspectratio align="top">keep</aspectratio>
+          <texture background="true">$INFO[ListItem.FileNameAndPath,,/banner.jpg]</texture>
+          <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
+          <bordersize>7</bordersize>
+        </control>
+        <control type="image">
+          <posx>793</posx>
+          <posy>450</posy>
+          <width>214</width>
+          <height>214</height>
+          <fadetime>500</fadetime>
+          <aspectratio align="bottom">keep</aspectratio>
+          <texture background="true">$INFO[ListItem.FileNameAndPath,,/logo.png]</texture>
+          <bordersize>7</bordersize>
+        </control>
+        <control type="image">
+          <posx>1043</posx>
+          <posy>450</posy>
+          <width>214</width>
+          <height>214</height>
+          <fadetime>500</fadetime>
+          <aspectratio align="bottom">keep</aspectratio>
+          <texture background="true">$INFO[ListItem.FileNameAndPath,,/clearart.png]</texture>
+          <bordersize>7</bordersize>
+        </control>
       </control>
       <control type="label">
         <description>Filename</description>
@@ -967,15 +979,14 @@
           <onup>5053</onup>
           <ondown>5053</ondown>
           <onback>5000</onback>
-          <onclick condition="Container.Content(tvshows)">XBMC.RunScript(script.artwork.downloader,mode=gui, mediatype=tvshow, medianame=$INFO[ListItem.TVShowTitle])</onclick>
-          <onclick condition="Container.Content(movies)">XBMC.RunScript(script.artwork.downloader,mode=gui, mediatype=movie, medianame=$INFO[ListItem.Title])</onclick>
+          <onclick>XBMC.RunScript(script.artwork.downloader,mode=gui, mediatype=tvshow, medianame=$INFO[ListItem.TVShowTitle])</onclick>
           <onclick>SetFocus(5000)</onclick>
           <include>Animation_CommonFade</include>
           <visible allowhiddenfocus="true">Control.HasFocus(5052)</visible>
         </control>
         <control type="button" id="5053">
           <posx>220</posx>
-          <posy>50  </posy>
+          <posy>50</posy>
           <width>98</width>
           <align>center</align>
           <textcolor>abFFFFFF</textcolor>
@@ -989,8 +1000,7 @@
           <onup>5052</onup>
           <ondown>5052</ondown>
           <onback>5000</onback>
-          <onclick condition="Container.Content(tvshows)">XBMC.RunScript(script.artwork.downloader, mediatype=tvshow, medianame=$INFO[ListItem.TVShowTitle])</onclick>
-          <onclick condition="Container.Content(movies)">XBMC.RunScript(script.artwork.downloader, mediatype=movie, medianame=$INFO[ListItem.Title])</onclick>
+          <onclick>XBMC.RunScript(script.artwork.downloader, mediatype=tvshow, medianame=$INFO[ListItem.TVShowTitle])</onclick>
           <onclick>SetFocus(5000)</onclick>
           <include>Animation_CommonFade</include>
           <visible allowhiddenfocus="true">Control.HasFocus(5053)</visible>
