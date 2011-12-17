@@ -1,0 +1,158 @@
+<includes>
+  <include name="ShiftThumbs">
+    <control type="group">
+      <visible>Window.IsActive(videos) + !Container.Content(addons)</visible>
+      <animation effect="zoom" center="auto" start="100" end="130" time="200" tween="quadratic" easing="out">Focus</animation>
+      <animation effect="zoom" center="auto" start="130" end="100" time="200" tween="quadratic" easing="out">Unfocus</animation>
+      <control type="image">
+        <posx>5</posx>
+        <posy>100</posy>
+        <width>200</width>
+        <height>300</height>
+        <fadetime>200</fadetime>
+        <texture background="true" diffuse="thumbs/movieposter_mask.png" fallback="DefaultVideoBigPoster.png">$VAR[ListPosterVar]</texture>
+        <aspectratio scalediffuse="false">stretch</aspectratio>
+      </control>
+      <control type="image">
+        <posx>5</posx>
+        <posy>100</posy>
+        <width>200</width>
+        <height>300</height>
+        <fadetime>200</fadetime>
+        <texture diffuse="thumbs/movieposter_mask.png">thumbs/thumb_glass.png</texture>
+        <bordertexture border="-24">thumbs/poster_shadow.png</bordertexture>
+      </control>
+      <control type="image">
+        <posx>5</posx>
+        <posy>400.5</posy>
+        <width>200</width>
+        <height>300</height>
+        <fadetime>200</fadetime>
+        <texture background="true" flipy="true" diffuse="thumbs/movieposter_mask_reflect.png" fallback="DefaultVideoBigPoster.png">$VAR[ListPosterVar]</texture>
+        <aspectratio scalediffuse="false">stretch</aspectratio>
+        <animation effect="fade" start="100" end="30" time="200" reversible="true">Focus</animation>
+        <animation effect="fade" start="30" end="100" time="200" reversible="true">UnFocus</animation>
+      </control>
+      <control type="image">
+        <description>overlay</description>
+        <posx>145</posx>
+        <posy>100</posy>
+        <width>60</width>
+        <height>60</height>
+        <include condition="!Skin.HasSetting(AltNewOverlay)">OverlayVisibility0</include>
+        <include condition="Skin.HasSetting(AltNewOverlay)">AltOverlayVisibility0</include>
+      </control>
+    </control>
+    <control type="group">
+      <visible>[!Window.IsActive(videos)|Container.Content(addons)]</visible>
+      <posy>50</posy>
+      <animation effect="zoom" center="105,300" start="100" end="130" time="200" tween="quadratic" easing="out">Focus</animation>
+      <animation effect="zoom" center="105,300" start="130" end="100" time="200" tween="quadratic" easing="out">Unfocus</animation>
+      <control type="image">
+        <posx>5</posx>
+        <posy>150</posy>
+        <width>200</width>
+        <height>200</height>
+        <fadetime>200</fadetime>
+        <texture background="true" diffuse="thumbs/cdcover_mask.png" fallback="DefaultAudio.png">$VAR[ListAlbumVar]</texture>
+        <aspectratio scalediffuse="false">scale</aspectratio>
+      </control>
+      <control type="image">
+        <posx>5</posx>
+        <posy>150</posy>
+        <width>200</width>
+        <height>200</height>
+        <fadetime>200</fadetime>
+        <aspectratio scalediffuse="false" align="right">scale</aspectratio>
+        <texture diffuse="thumbs/cdcover_mask.png">thumbs/cdcover_glass_aa.png</texture>
+        <bordertexture border="-13">thumbs/cd_shadow.png</bordertexture>
+      </control>
+      <control type="image">
+        <posx>5</posx>
+        <posy>350.5</posy>
+        <width>200</width>
+        <height>200</height>
+        <fadetime>200</fadetime>
+        <texture background="true" flipy="true" diffuse="thumbs/cdcover_mask_reflect.png" fallback="DefaultAudio.png">$VAR[ListAlbumVar]</texture>
+        <aspectratio scalediffuse="false">scale</aspectratio>
+        <animation effect="fade" start="100" end="30" time="200" reversible="true">Focus</animation>
+        <animation effect="fade" start="30" end="100" time="200" reversible="true">UnFocus</animation>
+      </control>
+    </control>
+  </include>
+
+ 
+  <include name="ShiftView">
+    <control type="group">
+      <visible>Control.IsVisible(57)</visible>
+      <control type="fixedlist" id="57">
+        <posx>-80</posx>
+        <posy>200</posy>
+        <width>1400</width>
+        <height>500</height>
+        <onleft>57</onleft>
+        <onright>57</onright>
+        <onup condition="!IsEmpty(ListItem.Trailer)">7001</onup>
+        <onup condition="IsEmpty(ListItem.Trailer)">9000</onup>
+        <ondown>70</ondown>
+        <orientation>horizontal</orientation>
+        <viewtype label="20178">BigWrap</viewtype>
+        <pagecontrol>70</pagecontrol>
+        <scrolltime tween="quadratic" easing="out">200</scrolltime>
+        <focusposition>1</focusposition>
+        <include>Animation_OpenCloseZoom</include>
+        <visible>Window.IsActive(musicfiles) | Window.IsActive(musiclibrary) | Window.IsActive(musicplaylist) | Window.isActive(programs) | Window.isActive(addonbrowser) | [Window.IsActive(videos) + [!Container.Content(episodes)|SubString(Container.FolderPath,videodb://5/)]]</visible>
+        <animation effect="fade" start="100" end="0" time="400" condition="Control.HasFocus(110) | Control.HasFocus(109)">Conditional</animation>
+        <itemlayout width="210" height="500">
+          <include>ShiftThumbs</include>
+        </itemlayout>
+        <focusedlayout width="210" height="500">
+            <include>ShiftThumbs</include>
+        </focusedlayout>
+      </control>
+      <control type="group">
+        <visible>![Control.HasFocus(70)|Control.HasFocus(110)|Control.HasFocus(109)]</visible>
+        <include>Animation_OpenCloseZoom</include>
+        <include>Animation_VisibleChange200</include>
+        <control type="label">
+          <posx>130</posx>
+          <posy>670</posy>
+          <width>830</width>
+          <align>left</align>
+          <aligny>center</aligny>
+          <font>Font_Info_Caps</font>
+          <textcolor>floor</textcolor>
+          <shadowcolor>floorshadow</shadowcolor>
+          <label>[UPPERCASE]$VAR[SecondLabelVar][/UPPERCASE]</label>
+        </control>
+        <control type="label">
+          <posx>130</posx>
+          <posy>693</posy>
+          <width>830</width>
+          <align>left</align>
+          <aligny>center</aligny>
+          <font>Font_ShowcaseMainLabel2_Caps</font>
+          <scroll>true</scroll>
+          <scrollspeed>50</scrollspeed>
+          <textcolor>floor</textcolor>
+          <shadowcolor>floorshadow</shadowcolor>
+          <label>[UPPERCASE]$VAR[FirstLabelVar][/UPPERCASE]</label>
+        </control>
+        <control type="image">
+          <posx>0</posx>
+          <posy>629</posy>
+          <width>1280</width>
+          <height>130</height>
+          <texture>home/homemenu_gradient.png</texture>
+          <visible>!Skin.HasTheme(Lite_Floor)</visible>
+        </control>
+      </control>
+      <control type="scrollbar" id="70">
+        <animation effect="fade" start="100" end="0" time="0" condition="!Control.HasFocus(70)">Conditional</animation>
+        <onup>57</onup>
+        <ondown condition="[Window.IsActive(musicfiles) | Window.IsActive(musiclibrary) | Window.IsActive(musicplaylist)] + [Skin.HasSetting(FullScreenFanart)|Player.HasVideo]">SetFocus(110)</ondown>
+        <ondown condition="Window.IsActive(videos) + [Skin.HasSetting(FullScreenFanart)|Player.HasVideo]">SetFocus(109)</ondown>
+      </control>
+    </control>
+  </include>
+</includes>
