@@ -533,7 +533,6 @@
   <include name="SecondLabelFloor">
     <control type="group">
       <visible>[!ControlGroup(9000).HasFocus|Skin.HasSetting(breadcrumb)]</visible>
-      <visible>!Control.HasFocus(110)+!Control.HasFocus(109)+!Control.HasFocus(60)+!Control.HasFocus(61)+!Control.HasFocus(62)+!Control.HasFocus(64)+!Control.HasFocus(65)+!Control.HasFocus(72)+!Control.HasFocus(73)</visible>
       <include>Animation_OpenCloseZoom_New</include>
       <include>Animation_VisibleChange200</include>
       <include>Animation_HideMultiplex</include>
@@ -566,7 +565,6 @@
       <shadowcolor>floorshadow</shadowcolor>
       <label>[UPPERCASE]$VAR[FirstLabelVar][/UPPERCASE]</label>
       <visible>!ControlGroup(9000).HasFocus|Skin.HasSetting(breadcrumb)</visible>
-      <visible>!Control.HasFocus(110)+!Control.HasFocus(109)+!Control.HasFocus(60)+!Control.HasFocus(61)+!Control.HasFocus(62)+!Control.HasFocus(64)+!Control.HasFocus(65)+!Control.HasFocus(72)+!Control.HasFocus(73)</visible>
     </control>
     <control type="label">
       <posx>340</posx>
@@ -586,6 +584,7 @@
   <include name="FloorLabels">
     <control type="group">
       <visible>Control.IsVisible(509)|Control.IsVisible(500)|Control.IsVisible(508)|Control.isVisible(560)|Control.IsVisible(513)|Control.IsVisible(504)|Control.IsVisible(51)|Control.IsVisible(501)|Control.IsVisible(55)</visible>
+      <visible>![Control.HasFocus(110)|Control.HasFocus(109)]</visible>
       <include>SecondLabelFloor</include>
       <include>FirstLabelFloor</include>
     </control>
@@ -670,9 +669,24 @@
       <texture>views/showcase_gradient.png</texture>
       <include>Animation_CommonFade</include>
       <include>Animation_HideMultiplex</include>
-      <visible>Control.IsVisible(8857)+Control.IsVisible(8860)+![Control.IsVisible(50)|Control.IsVisible(57)]</visible>
+      <visible>[Control.IsVisible(8857)|Control.IsVisible(8860)]+![Control.IsVisible(50)|Control.IsVisible(57)]</visible>
       <animation effect="slide" time="200" start="0" end="960" tween="cubic" easing="out" condition="Control.IsVisible(510)+!Skin.HasSetting(posterslide)">Conditional</animation>
       <animation effect="slide" time="200" start="0" end="-520" tween="cubic" easing="out" condition="Control.IsVisible(512)">Conditional</animation>
+    </control>
+    <control type="scrollbar" id="61">
+      <visible>Control.IsVisible(509)|Control.IsVisible(500)|Control.IsVisible(508)|Control.isVisible(560)|Control.IsVisible(513)|Control.IsVisible(504)|Control.IsVisible(51)|Control.IsVisible(501)|Control.IsVisible(55)|Control.IsVisible(57)|Control.IsVisible(510)|Control.IsVisible(503)</visible>
+      <animation effect="fade" start="100" end="0" time="0" condition="!Control.HasFocus(61)">Conditional</animation>
+      <onup>50</onup>
+      <ondown condition="Skin.HasSetting(FullScreenFanart) + Window.isActive(videos) + !Control.isVisible(55)">SetFocus(109)</ondown>
+      <ondown condition="!Skin.HasSetting(FullScreenFanart) + Control.isVisible(501) + [Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]">Skin.ToggleSetting(noflowtv)</ondown>
+      <ondown condition="!Skin.HasSetting(FullScreenFanart) + Control.isVisible(504) + [Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]">Skin.ToggleSetting(noflowdvdtv)</ondown>
+      <ondown condition="!Skin.HasSetting(FullScreenFanart) + Control.isVisible(501) + ![Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]">Skin.ToggleSetting(noflow)</ondown>
+      <ondown condition="!Skin.HasSetting(FullScreenFanart) + Control.isVisible(504) + ![Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]">Skin.ToggleSetting(noflowdvd)</ondown>
+      <ondown condition="!Skin.HasSetting(FullScreenFanart) + Control.isVisible(509)">Skin.ToggleSetting(noflowalbum)</ondown>
+      <ondown condition="!Skin.HasSetting(FullScreenFanart) + Control.isVisible(513)">Skin.ToggleSetting(noflowalbumdvd)</ondown>
+      <ondown condition="Control.isVisible(55)">Skin.ToggleSetting(carouselflow)</ondown>
+      <ondown condition="[Window.IsActive(musicfiles) | Window.IsActive(musiclibrary) | Window.IsActive(musicplaylist)] + [Skin.HasSetting(FullScreenFanart)|Player.HasVideo]">SetFocus(110)</ondown>
+      <showonepage>true</showonepage>
     </control>
   </include>
   <include name="4thumbs_tablet">
