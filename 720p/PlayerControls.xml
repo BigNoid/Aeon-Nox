@@ -1,8 +1,23 @@
 <window type="dialog" id="114">
-  <defaultcontrol always="true">602</defaultcontrol>
-  <visible>Player.HasMedia + Window.IsActive(PlayerControls) + !Window.IsActive(FullscreenVideo) + !Window.IsActive(Visualisation)</visible>
+  <defaultcontrol always="true">451</defaultcontrol>
+  <include>Animation_DialogZoom</include>
   <controls>
+    <control type="button" id="451">
+      <description>Run Playlists script</description>
+      <posx>-20</posx>
+      <posy>-20</posy>
+      <width>1</width>
+      <height>1</height>
+      <label>-</label>
+      <font>-</font>
+      <texturenofocus>-</texturenofocus>
+      <texturefocus>-</texturefocus>
+      <onfocus>RunScript(script.playlists,type=music)</onfocus>
+      <onfocus>RunScript(script.favourites,playlists=play)</onfocus>
+      <onfocus>SetFocus(300)</onfocus>
+    </control>
     <control type="group">
+      <visible>!Window.IsActive(FullscreenVideo) + !Window.IsActive(Visualisation)</visible>
       <control type="image">
         <posx>0</posx>
         <posy>0</posy>
@@ -14,17 +29,136 @@
         <animation effect="fade" start="70" end="0" time="500" reversible="true">WindowClose</animation>
       </control>
       <include condition="Skin.HasSetting(effect_bg)">BG_Effect_Home</include>
+      <control type="image">
+        <description>Panel</description>
+        <posx>200</posx>
+        <posy>120</posy>
+        <width>881</width>
+        <height>481</height>
+        <texture>osd/osd_settings_back.png</texture>
+      </control>
+      <control type="image">
+        <posx>250</posx>
+        <posy>155</posy>
+        <width>781</width>
+        <height>40</height>
+        <texture>osd/osd_settings_buttonnf.png</texture>
+      </control>
+      <control type="image">
+        <posx>250</posx>
+        <posy>516</posy>
+        <width>781</width>
+        <height>40</height>
+        <texture>osd/osd_settings_buttonnf.png</texture>
+      </control>
+      <control type="rss">
+        <description>RSS feed</description>
+        <posx>250</posx>
+        <posy>560</posy>
+        <width>781</width>
+        <height>40</height>
+        <font>Font_Reg17</font>
+        <urlset>1</urlset>
+        <textcolor>white2</textcolor>
+        <shadowcolor>-</shadowcolor>
+        <headlinecolor>grey2</headlinecolor>
+        <highlightcolor>selected</highlightcolor>
+        <titlecolor>selected</titlecolor>
+        <scrollspeed>50</scrollspeed>
+      </control>
+
+      <control type="list" id="300">
+        <description>Quickmenu</description>
+        <posx>280</posx>
+        <posy>150</posy>
+        <width>730</width>
+        <height>100</height>
+        <onup>300</onup>
+        <ondown>450</ondown>
+        <onleft>300</onleft>
+        <onright>300</onright>
+        <focusposition>0</focusposition>
+        <scrolltime tween="quadratic" easing="out">200</scrolltime>
+        <orientation>horizontal</orientation>
+        <itemlayout width="181" height="100">
+          <control type="label">
+            <posx>0</posx>
+            <posy>0</posy>
+            <height>40</height>
+            <width>181</width>
+            <font>Font_Bold19</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>grey2</textcolor>
+            <shadowcolor>-</shadowcolor>
+            <align>left</align>
+            <aligny>center</aligny>
+          </control>
+        </itemlayout>
+        <focusedlayout width="181" height="100">
+          <control type="label">
+            <posx>0</posx>
+            <posy>0</posy>
+            <height>40</height>
+            <width>181</width>
+            <font>Font_Bold19</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>white</textcolor>
+            <shadowcolor>-</shadowcolor>
+            <align>left</align>
+            <aligny>center</aligny>
+            <visible>Control.hasFocus(300)</visible>
+          </control>
+          <control type="label">
+            <posx>0</posx>
+            <posy>0</posy>
+            <height>40</height>
+            <width>181</width>
+            <font>Font_Bold19</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>selected</textcolor>
+            <shadowcolor>-</shadowcolor>
+            <align>left</align>
+            <aligny>center</aligny>
+            <visible>!Control.hasFocus(300)</visible>
+          </control>
+        </focusedlayout>
+        <content>
+          <item id="1">
+            <description>Now Playing</description>
+            <label>$LOCALIZE[13350]</label>
+            <onclick>ActivateWindow(500)</onclick>
+            <icon>-</icon>
+            <thumb>-</thumb>
+            <visible>Player.HasMedia</visible>
+          </item>
+          <item id="2">
+            <description>Favorites</description>
+            <label>$LOCALIZE[1036]</label>
+            <onclick>ActivateWindow(favourites)</onclick>
+            <icon>-</icon>
+            <thumb>-</thumb>
+          </item>
+          <item id="3">
+            <description>Playlists</description>
+            <label>$LOCALIZE[136]</label>
+            <onclick>ActivateWindow(musicplaylisteditor)</onclick>
+            <icon>-</icon>
+            <thumb>-</thumb>
+          </item>
+          <item id="4">
+            <description>System Info</description>
+            <label>$LOCALIZE[10511]</label>
+            <onclick>ActivateWindow(systeminfo)</onclick>
+            <icon>-</icon>
+            <thumb>-</thumb>
+          </item>
+        </content>
+      </control>
+
       <control type="group">
-        <include>Animation_DialogZoom</include>
-        <posx>380</posx>
-        <posy>278</posy>
-        <control type="image">
-          <posx>0</posx>
-          <posy>5</posy>
-          <width>520</width>
-          <height>164</height>
-          <texture>views/listpanel_back_noreflect.png</texture>
-        </control>
+        <posx>220</posx>
+        <posy>220</posy>
+        <visible>Container(300).HasFocus(1)</visible>
         <control type="group">
           <visible>Player.HasVideo</visible>
           <control type="image">
@@ -72,36 +206,35 @@
         </control>
         <control type="group">
           <visible>Player.HasAudio</visible>
+          <posy>29</posy>
           <control type="image">
-            <description>Cover image</description>
-            <posx>20</posx>
-            <posy>20</posy>
-            <width>130</width>
-            <height>130</height>
-            <aspectratio scaledifuuse="false">stretch</aspectratio>
-            <texture background="true" diffuse="thumbs/cdcover_mask.png">common/black.png</texture>
-            <info>MusicPlayer.Cover</info>
+            <posx>28</posx>
+            <posy>0</posy>
+            <height>242</height>
+            <width>242</width>
+            <texture fallback="DefaultAlbumCover.png" diffuse="thumbs/cdcover_mask.png">$INFO[MusicPlayer.Cover]</texture>
           </control>
           <control type="image">
-            <description>Cover image</description>
-            <posx>20</posx>
-            <posy>20</posy>
-            <width>130</width>
-            <height>130</height>
-            <aspectratio scaledifuuse="false">stretch</aspectratio>
-            <texture background="true" diffuse="thumbs/cdcover_mask.png">thumbs/cd_glass_noedge.png</texture>
-            <bordertexture border="-7">thumbs/cd_shadow.png</bordertexture>
+            <posx>28</posx>
+            <posy>0</posy>
+            <height>242</height>
+            <width>242</width>
+            <aspectratio scalediffuse="false" align="right">scale</aspectratio>
+            <texture diffuse="thumbs/cdcover_mask.png">thumbs/cdcover_glass_noreflect.png</texture>
+            <bordertexture border="-20">thumbs/cd_shadow.png</bordertexture>
           </control>
         </control>
-        <control type="grouplist" id="599">
-          <posx>160</posx>
-          <posy>110</posy>
-          <width>400</width>
+        <control type="grouplist" id="450">
+          <posx>-10</posx>
+          <posy>214</posy>
+          <width>820</width>
+          <onup>300</onup>
+          <align>right</align>
           <orientation>horizontal</orientation>
-          <itemgap>-15</itemgap>
+          <itemgap>-25</itemgap>
           <control type="button" id="600">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <label>210</label>
             <font>-</font>
             <texturefocus>osd/buttons/OSDPrevTrackFO.png</texturefocus>
@@ -109,8 +242,8 @@
             <onclick>PlayerControl(Previous)</onclick>
           </control>
           <control type="button" id="601">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <label>31354</label>
             <font>-</font>
             <texturefocus>osd/buttons/OSDRewindFO.png</texturefocus>
@@ -118,8 +251,8 @@
             <onclick>PlayerControl(Rewind)</onclick>
           </control>
           <control type="togglebutton" id="602">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <label>31351</label>
             <altlabel>208</altlabel>
             <font>-</font>
@@ -131,8 +264,8 @@
             <onclick>PlayerControl(Play)</onclick>
           </control>
           <control type="button" id="603">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <label>31352</label>
             <font>-</font>
             <texturefocus>osd/buttons/OSDStopFO.png</texturefocus>
@@ -141,8 +274,8 @@
             <onclick>Dialog.Close(114)</onclick>
           </control>
           <control type="button" id="604">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <label>31353</label>
             <font>-</font>
             <texturefocus>osd/buttons/OSDForwardFO.png</texturefocus>
@@ -150,8 +283,8 @@
             <onclick>PlayerControl(Forward)</onclick>
           </control>
           <control type="button" id="605">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <label>209</label>
             <font>-</font>
             <texturefocus>osd/buttons/OSDNextTrackFO.png</texturefocus>
@@ -159,8 +292,8 @@
             <onclick>PlayerControl(Next)</onclick>
           </control>
           <control type="button" id="700">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <label>10517</label>
             <font>-</font>
             <texturefocus>osd/buttons/OSDPlaylistFO.png</texturefocus>
@@ -174,8 +307,8 @@
             <visible>Player.HasAudio</visible>
           </control>
           <control type="button" id="701">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <label>10517</label>
             <font>-</font>
             <texturefocus>osd/buttons/OSDPlaylistFO.png</texturefocus>
@@ -189,8 +322,8 @@
             <visible>Player.HasVideo</visible>
           </control>
           <control type="togglebutton" id="705">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <label>$LOCALIZE[590]$INFO[Playlist.Random, : ]</label>
             <font>-</font>
             <texturefocus>osd/buttons/OSDRandomOffFO.png</texturefocus>
@@ -201,50 +334,50 @@
             <onclick>XBMC.PlayerControl(Random)</onclick>
           </control>
           <control type="image" id="706">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <texture>osd/buttons/OSDRepeatNF.png</texture>
             <visible>!Playlist.IsRepeat + !Playlist.IsRepeatOne</visible>
             <visible>!Control.HasFocus(704)</visible>
           </control>
           <control type="image" id="707">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <texture>osd/buttons/OSDRepeatFO.png</texture>
             <visible>!Playlist.IsRepeat + !Playlist.IsRepeatOne</visible>
             <visible>Control.HasFocus(704)</visible>
           </control>
           <control type="image" id="708">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <texture>osd/buttons/OSDRepeatOneNF.png</texture>
             <visible>Playlist.IsRepeatOne</visible>
             <visible>!Control.HasFocus(704)</visible>
           </control>
           <control type="image" id="709">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <texture>osd/buttons/OSDRepeatOneFO.png</texture>
             <visible>Playlist.IsRepeatOne</visible>
             <visible>Control.HasFocus(704)</visible>
           </control>
           <control type="image" id="710">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <texture>osd/buttons/OSDRepeatAllNF.png</texture>
             <visible>Playlist.IsRepeat</visible>
             <visible>!Control.HasFocus(704)</visible>
           </control>
           <control type="image" id="711">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <texture>osd/buttons/OSDRepeatAllFO.png</texture>
             <visible>Playlist.IsRepeat</visible>
             <visible>Control.HasFocus(704)</visible>
           </control>
           <control type="button" id="704">
-            <width>50</width>
-            <height>50</height>
+            <width>75</width>
+            <height>75</height>
             <label>$LOCALIZE[486]$INFO[Playlist.Repeat, : ]</label>
             <font>-</font>
             <texturefocus>-</texturefocus>
@@ -252,64 +385,160 @@
             <onclick>XBMC.PlayerControl(Repeat)</onclick>
           </control>
         </control>
-        <control type="group">
+       <control type="group">
           <visible>Player.HasAudio</visible>
+         <posx>300</posx>
+         <posy>20</posy>
           <control type="label">
             <description>Artist label</description>
-            <posx>170</posx>
+            <posx>0</posx>
             <posy>20</posy>
             <height>30</height>
-            <width>321</width>
-            <label>[UPPERCASE]$INFO[MusicPlayer.Artist][/UPPERCASE]</label>
+            <width>500</width>
+            <label>$INFO[MusicPlayer.Title]</label>
             <align>left</align>
             <aligny>center</aligny>
-            <font>Font_Info_Caps</font>
-            <textcolor>91FFFFFF</textcolor>
-            <shadowcolor>black</shadowcolor>
+            <font>Font_Reg18</font>
+            <textcolor>white2</textcolor>
+            <shadowcolor>-</shadowcolor>
             <scroll>true</scroll>
           </control>
           <control type="label">
             <description>Artist label</description>
-            <posx>170</posx>
-            <posy>38</posy>
+            <posx>0</posx>
+            <posy>50</posy>
             <height>30</height>
-            <width>321</width>
-            <label>[UPPERCASE]$INFO[MusicPlayer.Album][/UPPERCASE]</label>
+            <width>500</width>
+            <label>$INFO[MusicPlayer.Artist]</label>
             <align>left</align>
             <aligny>center</aligny>
-            <font>Font_Info_Caps</font>
-            <textcolor>AA777777</textcolor>
-            <shadowcolor>black</shadowcolor>
+            <font>Font_Reg18</font>
+            <textcolor>91FFFFFF</textcolor>
+            <shadowcolor>-</shadowcolor>
             <scroll>true</scroll>
           </control>
           <control type="label">
             <description>Title label</description>
-            <posx>170</posx>
-            <posy>62</posy>
-            <height>60</height>
-            <width>321</width>
-            <label>[UPPERCASE]$INFO[MusicPlayer.Title][/UPPERCASE]</label>
-            <align>left</align>
-            <font>Font_Info_Caps</font>
-            <textcolor>white</textcolor>
-            <shadowcolor>black</shadowcolor>
-            <scroll>true</scroll>
-          </control>
-          <control type="label">
-            <description>Title label</description>
-            <posx>170</posx>
+            <posx>0</posx>
             <posy>80</posy>
             <height>60</height>
-            <width>321</width>
-            <label>[UPPERCASE]$INFO[MusicPlayer.offset(1).Title,[COLOR 91FFFFFF]$LOCALIZE[209]: [/COLOR]][/UPPERCASE]</label>
+            <width>500</width>
+            <label>$INFO[MusicPlayer.Album]</label>
             <align>left</align>
-            <font>Font_Info_Caps</font>
+            <font>Font_Reg18</font>
             <textcolor>AA777777</textcolor>
-            <shadowcolor>black</shadowcolor>
+            <shadowcolor>-</shadowcolor>
             <scroll>true</scroll>
           </control>
-        </control>
-        <control type="group">
+          <control type="label">
+            <description>Title label</description>
+            <posx>0</posx>
+            <posy>110</posy>
+            <height>60</height>
+            <width>500</width>
+            <label>$INFO[MusicPlayer.offset(1).Title,[COLOR 91FFFFFF]$LOCALIZE[209]: [/COLOR]]</label>
+            <align>left</align>
+            <font>Font_Reg18</font>
+            <textcolor>AA777777</textcolor>
+            <shadowcolor>-</shadowcolor>
+            <scroll>true</scroll>
+          </control>
+         <control type="label">
+           <description>Title label</description>
+           <posx>0</posx>
+           <posy>140</posy>
+           <height>60</height>
+           <width>500</width>
+           <label>[COLOR AAa7a4a4]$LOCALIZE[31713][/COLOR][COLOR AAFFFFFF] $INFO[MusicPlayer.PlayListLength][/COLOR]</label>
+           <align>left</align>
+           <font>Font_Reg18</font>
+           <textcolor>AA777777</textcolor>
+           <shadowcolor>-</shadowcolor>
+           <scroll>true</scroll>
+         </control>
+         <control type="label">
+           <description>Title label</description>
+           <posx>0</posx>
+           <posy>170</posy>
+           <height>60</height>
+           <width>500</width>
+           <label>[COLOR AAa7a4a4]$LOCALIZE[31714][/COLOR][COLOR AAFFFFFF] $INFO[MusicPlayer.PlayListPosition][/COLOR]</label>
+           <align>left</align>
+           <font>Font_Reg18</font>
+           <textcolor>AA777777</textcolor>
+           <shadowcolor>-</shadowcolor>
+           <scroll>true</scroll>
+         </control>
+         <control type="group">
+           <posx>-285</posx>
+           <posy>250</posy>
+           <control type="progress" id="20">
+             <description>Progressbar</description>
+             <posx>110</posx>
+             <posy>38</posy>
+             <width>589</width>
+             <height>13</height>
+             <texturebg>osd/seek/progress_back_long.png</texturebg>
+             <lefttexture>osd/seek/progresscache_left.png</lefttexture>
+             <midtexture>osd/seek/progresscache_mid.png</midtexture>
+             <righttexture>osd/seek/progresscache_right.png</righttexture>
+             <overlaytexture>-</overlaytexture>
+             <info>Player.ProgressCache</info>
+           </control>
+           <control type="progress" id="20">
+             <description>Progressbar</description>
+             <posx>110</posx>
+             <posy>38</posy>
+             <width>589</width>
+             <height>13</height>
+             <texturebg>osd/seek/progresscache_back_long.png</texturebg>
+             <lefttexture>osd/seek/progress_left.png</lefttexture>
+             <midtexture>osd/seek/progress_mid.png</midtexture>
+             <righttexture>osd/seek/progress_right.png</righttexture>
+             <overlaytexture>-</overlaytexture>
+             <info>Player.Progress</info>
+           </control>
+           <control type="label">
+             <description>Current Position</description>
+             <posx>100</posx>
+             <posy>30</posy>
+             <width>200</width>
+             <height>28</height>
+             <font>Font_Reg18</font>
+             <textcolor>osdseek</textcolor>
+             <label>$INFO[Player.Time]</label>
+             <align>right</align>
+             <aligny>center</aligny>
+           </control>
+           <control type="label">
+             <description>Duration</description>
+             <posx>709</posx>
+             <posy>30</posy>
+             <width>200</width>
+             <height>28</height>
+             <font>Font_Reg18</font>
+             <textcolor>osdseek</textcolor>
+             <label>$INFO[Player.Duration]</label>
+             <align>left</align>
+             <aligny>center</aligny>
+             <visible>!Skin.HasSetting(PreferRemaining)</visible>
+           </control>
+           <control type="label">
+             <description>Duration</description>
+             <posx>709</posx>
+             <posy>30</posy>
+             <width>200</width>
+             <height>28</height>
+             <font>Font_Reg18</font>
+             <textcolor>osdseek</textcolor>
+             <label>$INFO[Player.TimeRemaining,- ]</label>
+             <align>left</align>
+             <aligny>center</aligny>
+             <visible>Skin.HasSetting(PreferRemaining)</visible>
+           </control>
+         </control>
+       </control>
+        <!-- <control type="group">
           <visible>Player.HasVideo</visible>
           <control type="label">
             <description>Artist label</description>
@@ -335,8 +564,584 @@
             <textcolor>white6</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
           </control>
+        </control>-->
+      </control>
+
+      <control type="group">
+        <visible>Container(300).HasFocus(2)</visible>
+        <control type="list" id="450">
+          <posx>250</posx>
+          <posy>195</posy>
+          <width>781</width>
+          <height>360</height>
+          <onleft>61</onleft>
+          <onright>300</onright>
+          <onup>450</onup>
+          <ondown>450</ondown>
+          <pagecontrol>61</pagecontrol>
+          <scrolltime>0</scrolltime>
+          <itemlayout height="40">
+            <control type="image">
+              <posx>0</posx>
+              <posy>0</posy>
+              <width>781</width>
+              <height>40</height>
+              <texture>osd/osd_settings_buttonnf.png</texture>
+            </control>
+            <control type="label">
+              <posx>30</posx>
+              <posy>0</posy>
+              <width>721</width>
+              <height>40</height>
+              <textcolor>FF929191</textcolor>
+              <aligny>center</aligny>
+              <font>Font_Reg19</font>
+              <info>ListItem.Label</info>
+            </control>
+          </itemlayout>
+          <focusedlayout height="40">
+            <control type="group">
+              <visible>!Control.HasFocus(450)</visible>
+              <control type="image">
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>781</width>
+                <height>40</height>
+                <texture>osd/osd_settings_buttonnf.png</texture>
+              </control>
+              <control type="label">
+                <posx>30</posx>
+                <posy>0</posy>
+                <width>721</width>
+                <height>40</height>
+                <textcolor>FF929191</textcolor>
+                <aligny>center</aligny>
+                <font>Font_Reg19</font>
+                <info>ListItem.Label</info>
+              </control>
+            </control>
+            <control type="group">
+              <visible>Control.HasFocus(450)</visible>
+              <control type="image">
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>781</width>
+                <height>40</height>
+                <texture>osd/osd_settings_buttonf.png</texture>
+              </control>
+              <control type="label">
+                <posx>30</posx>
+                <posy>0</posy>
+                <width>721</width>
+                <height>40</height>
+                <textcolor>white</textcolor>
+                <aligny>center</aligny>
+                <font>Font_Reg19</font>
+                <info>ListItem.Label</info>
+              </control>
+            </control>
+          </focusedlayout>
+          <content>
+            <item id="1">
+              <label>$INFO[Window(0).Property(favourite.1.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.1.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.1.name))</visible>
+            </item>
+            <item id="2">
+              <label>$INFO[Window(0).Property(favourite.2.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.2.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.2.name))</visible>
+            </item>
+            <item id="3">
+              <label>$INFO[Window(0).Property(favourite.3.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.3.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.3.name))</visible>
+            </item>
+            <item id="4">
+              <label>$INFO[Window(0).Property(favourite.4.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.4.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.4.name))</visible>
+            </item>
+            <item id="5">
+              <label>$INFO[Window(0).Property(favourite.5.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.5.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.5.name))</visible>
+            </item>
+            <item id="6">
+              <label>$INFO[Window(0).Property(favourite.6.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.6.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.6.name))</visible>
+            </item>
+            <item id="7">
+              <label>$INFO[Window(0).Property(favourite.7.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.7.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.7.name))</visible>
+            </item>
+            <item id="8">
+              <label>$INFO[Window(0).Property(favourite.8.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.8.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.8.name))</visible>
+            </item>
+            <item id="9">
+              <label>$INFO[Window(0).Property(favourite.9.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.9.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.9.name))</visible>
+            </item>
+            <item id="10">
+              <label>$INFO[Window(0).Property(favourite.10.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.10.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.10.name))</visible>
+            </item>
+            <item id="11">
+              <label>$INFO[Window(0).Property(favourite.11.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.11.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.11.name))</visible>
+            </item>
+            <item id="12">
+              <label>$INFO[Window(0).Property(favourite.12.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.12.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.12.name))</visible>
+            </item>
+            <item id="13">
+              <label>$INFO[Window(0).Property(favourite.13.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.13.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.13.name))</visible>
+            </item>
+            <item id="14">
+              <label>$INFO[Window(0).Property(favourite.14.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.14.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.14.name))</visible>
+            </item>
+            <item id="15">
+              <label>$INFO[Window(0).Property(favourite.15.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.15.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.15.name))</visible>
+            </item>
+            <item id="16">
+              <label>$INFO[Window(0).Property(favourite.16.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.16.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.16.name))</visible>
+            </item>
+            <item id="17">
+              <label>$INFO[Window(0).Property(favourite.17.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.17.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.17.name))</visible>
+            </item>
+            <item id="18">
+              <label>$INFO[Window(0).Property(favourite.18.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.18.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.18.name))</visible>
+            </item>
+            <item id="19">
+              <label>$INFO[Window(0).Property(favourite.19.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.19.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.19.name))</visible>
+            </item>
+            <item id="20">
+              <label>$INFO[Window(0).Property(favourite.20.name)]</label>
+              <onclick>$INFO[Window(0).Property(favourite.20.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(favourite.20.name))</visible>
+            </item>
+          </content>
+        </control>
+        <control type="scrollbar" id="61">
+          <description>Scrollbar</description>
+          <include>Objects_CommonSettingsScrollbar</include>
+          <onleft>300</onleft>
+          <onright>450</onright>
+          <ondown>61</ondown>
+          <onup>61</onup>
         </control>
       </control>
+
+      <control type="group">
+        <visible>Container(300).HasFocus(3)</visible>
+        <control type="list" id="450">
+          <posx>250</posx>
+          <posy>195</posy>
+          <width>781</width>
+          <height>360</height>
+          <onleft>61</onleft>
+          <onright>300</onright>
+          <onup>450</onup>
+          <ondown>450</ondown>
+          <pagecontrol>61</pagecontrol>
+          <scrolltime>0</scrolltime>
+          <itemlayout height="40">
+            <control type="image">
+              <posx>0</posx>
+              <posy>0</posy>
+              <width>781</width>
+              <height>40</height>
+              <texture>osd/osd_settings_buttonnf.png</texture>
+            </control>
+            <control type="label">
+              <posx>30</posx>
+              <posy>0</posy>
+              <width>721</width>
+              <height>40</height>
+              <textcolor>FF929191</textcolor>
+              <aligny>center</aligny>
+              <font>Font_Reg19</font>
+              <info>ListItem.Label</info>
+            </control>
+          </itemlayout>
+          <focusedlayout height="40">
+            <control type="group">
+              <visible>!Control.HasFocus(450)</visible>
+              <control type="image">
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>781</width>
+                <height>40</height>
+                <texture>osd/osd_settings_buttonnf.png</texture>
+              </control>
+              <control type="label">
+                <posx>30</posx>
+                <posy>0</posy>
+                <width>721</width>
+                <height>40</height>
+                <textcolor>FF929191</textcolor>
+                <aligny>center</aligny>
+                <font>Font_Reg19</font>
+                <info>ListItem.Label</info>
+              </control>
+            </control>
+            <control type="group">
+              <visible>Control.HasFocus(450)</visible>
+              <control type="image">
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>781</width>
+                <height>40</height>
+                <texture>osd/osd_settings_buttonf.png</texture>
+              </control>
+              <control type="label">
+                <posx>30</posx>
+                <posy>0</posy>
+                <width>721</width>
+                <height>40</height>
+                <textcolor>white</textcolor>
+                <aligny>center</aligny>
+                <font>Font_Reg19</font>
+                <info>ListItem.Label</info>
+              </control>
+            </control>
+          </focusedlayout>
+          <content>
+            <item id="1">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.1.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.1.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.1.name))</visible>
+            </item>
+            <item id="2">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.2.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.2.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.2.name))</visible>
+            </item>
+            <item id="3">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.3.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.3.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.3.name))</visible>
+            </item>
+            <item id="4">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.4.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.4.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.4.name))</visible>
+            </item>
+            <item id="5">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.5.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.5.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.5.name))</visible>
+            </item>
+            <item id="6">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.6.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.6.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.6.name))</visible>
+            </item>
+            <item id="7">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.7.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.7.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.7.name))</visible>
+            </item>
+            <item id="8">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.8.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.8.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.8.name))</visible>
+            </item>
+            <item id="9">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.9.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.9.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.9.name))</visible>
+            </item>
+            <item id="10">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.10.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.10.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.10.name))</visible>
+            </item>
+            <item id="11">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.11.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.11.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.11.name))</visible>
+            </item>
+            <item id="12">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.12.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.12.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.12.name))</visible>
+            </item>
+            <item id="13">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.13.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.13.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.13.name))</visible>
+            </item>
+            <item id="14">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.14.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.14.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.14.name))</visible>
+            </item>
+            <item id="15">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.15.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.15.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.15.name))</visible>
+            </item>
+            <item id="16">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.16.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.16.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.16.name))</visible>
+            </item>
+            <item id="17">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.17.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.17.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.17.name))</visible>
+            </item>
+            <item id="18">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.18.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.18.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.18.name))</visible>
+            </item>
+            <item id="19">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.19.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.19.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.19.name))</visible>
+            </item>
+            <item id="20">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.20.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.20.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.20.name))</visible>
+            </item>
+            <item id="21">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.21.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.21.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.21.name))</visible>
+            </item>
+            <item id="22">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.22.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.22.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.22.name))</visible>
+            </item>
+            <item id="23">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.23.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.23.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.23.name))</visible>
+            </item>
+            <item id="24">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.24.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.24.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.24.name))</visible>
+            </item>
+            <item id="25">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.25.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.25.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.25.name))</visible>
+            </item>
+            <item id="26">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.26.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.26.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.26.name))</visible>
+            </item>
+            <item id="27">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.27.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.27.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.27.name))</visible>
+            </item>
+            <item id="28">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.28.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.28.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.28.name))</visible>
+            </item>
+            <item id="29">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.29.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.29.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.29.name))</visible>
+            </item>
+            <item id="30">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.30.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.30.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.30.name))</visible>
+            </item>
+            <item id="31">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.31.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.31.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.31.name))</visible>
+            </item>
+            <item id="32">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.32.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.32.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.32.name))</visible>
+            </item>
+            <item id="33">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.33.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.33.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.33.name))</visible>
+            </item>
+            <item id="34">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.34.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.34.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.34.name))</visible>
+            </item>
+            <item id="35">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.35.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.35.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.35.name))</visible>
+            </item>
+            <item id="36">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.36.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.36.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.36.name))</visible>
+            </item>
+            <item id="37">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.37.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.37.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.37.name))</visible>
+            </item>
+            <item id="38">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.38.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.38.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.38.name))</visible>
+            </item>
+            <item id="39">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.39.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.39.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.39.name))</visible>
+            </item>
+            <item id="40">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.40.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.40.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.40.name))</visible>
+            </item>
+            <item id="41">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.41.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.41.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.41.name))</visible>
+            </item>
+            <item id="42">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.42.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.42.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.42.name))</visible>
+            </item>
+            <item id="43">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.43.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.43.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.43.name))</visible>
+            </item>
+            <item id="44">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.44.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.44.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.44.name))</visible>
+            </item>
+            <item id="45">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.45.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.45.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.45.name))</visible>
+            </item>
+            <item id="46">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.46.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.46.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.46.name))</visible>
+            </item>
+            <item id="47">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.47.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.47.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.47.name))</visible>
+            </item>
+            <item id="48">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.48.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.48.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.48.name))</visible>
+            </item>
+            <item id="49">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.49.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.49.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.49.name))</visible>
+            </item>
+            <item id="50">
+              <label>$INFO[Window(0).Property(ScriptPlaylist.50.name)]</label>
+              <onclick>PlayList.Clear</onclick>
+              <onclick>$INFO[Window(0).Property(ScriptPlaylist.50.path)]</onclick>
+              <visible>!IsEmpty(Window(0).Property(ScriptPlaylist.50.name))</visible>
+            </item>
+          </content>
+        </control>
+        <control type="scrollbar" id="61">
+          <description>Scrollbar</description>
+          <include>Objects_CommonSettingsScrollbar</include>
+          <onleft>300</onleft>
+          <onright>450</onright>
+          <ondown>61</ondown>
+          <onup>61</onup>
+        </control>
+      </control>
+
+
     </control>
   </controls>
 </window>
