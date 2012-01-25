@@ -238,6 +238,7 @@
           <posy>40</posy>
           <width>234</width>
           <height>132</height>
+          <fadetime>800</fadetime>
           <animation effect="fade" time="300">Visible</animation>
           <animation effect="fade" time="50">Hidden</animation>
           <visible>Container(9000).Hasfocus(10)|Container(9000).Hasfocus(11)</visible>
@@ -251,6 +252,7 @@
           <posy>40</posy>
           <width>234</width>
           <height>164</height>
+          <fadetime>800</fadetime>
           <animation effect="fade" time="300">Visible</animation>
           <animation effect="fade" time="50">Hidden</animation>
           <visible>Container(9000).Hasfocus(3)|Container(9000).Hasfocus(8)</visible>
@@ -625,14 +627,17 @@
 					<posx>5</posx>
 					<posy>43</posy>
 					<width>300</width>
-					<height>187</height>
-          <onleft condition="Skin.HasSetting(HomeRandomMovies)+!IsEmpty(Container(8000).ListItem.Property(Trailer))">PlayMedia(&quot;$INFO[Container(8000).ListItem.Property(Trailer)])</onleft>
-          <onleft condition="IsEmpty(Container(8000).ListItem.Property(Trailer))|!Skin.HasSetting(HomeRandomMovies)">9000</onleft>
+          <height>187</height>
+          <onleft condition="Skin.HasSetting(HomeRandomMovies) + Control.IsVisible(8996)">$INFO[Container(8000).ListItem.Property(Trailer),PlayMedia(,)]</onleft>
+          <onleft condition="[!Control.IsVisible(8996) | !Skin.HasSetting(HomeRandomMovies)] + !Skin.HasSetting(NoWidgetAlarm)">AlarmClock(WidgetMove,Control.Move(8000,1),00:07,silent,loop)</onleft>
+          <onleft condition="!Control.IsVisible(8996) | !Skin.HasSetting(HomeRandomMovies)">9000</onleft>
           <onright condition="[Container(9000).Hasfocus(10)+Skin.HasSetting(HomeRandomMovies)]|[Container(9000).Hasfocus(11)+Skin.HasSetting(HomeRandomTV)]|[Container(9000).Hasfocus(8)+Skin.HasSetting(HomeRandomAddons)]|[Container(9000).Hasfocus(3)+[Skin.HasSetting(HomeRandomMusic)|Skin.HasSetting(HomeRandomAlbums)]]">XBMC.RunScript(script.randomitems,limit=8&amp;unplayed=True)</onright>
-          <onright condition="Skin.HasSetting(HomeLatestMovies)+!IsEmpty(Container(8000).ListItem.Property(Trailer))">PlayMedia(&quot;$INFO[Container(8000).ListItem.Property(Trailer)])</onright>
-          <onright condition="[Container(9000).Hasfocus(10)+Skin.HasSetting(HomeLatestMovies)+IsEmpty(Container(8000).ListItem.Property(Trailer))]|[Container(9000).Hasfocus(11)+Skin.HasSetting(HomeLatestTV)]|[Container(9000).Hasfocus(3)+[Skin.HasSetting(HomeLatestMusic)|Skin.HasSetting(HomeLatestAlbums)]]">9000</onright>
+          <onright condition="Skin.HasSetting(HomeLatestMovies) + Control.IsVisible(8996)">$INFO[Container(8000).ListItem.Property(Trailer),PlayMedia(,)]</onright>
+          <onright condition="!Skin.HasSetting(NoWidgetAlarm) + [[Container(9000).Hasfocus(10)+Skin.HasSetting(HomeLatestMovies) + !Control.IsVisible(8996)]|[Container(9000).Hasfocus(11)+Skin.HasSetting(HomeLatestTV)]|[Container(9000).Hasfocus(3)+[Skin.HasSetting(HomeLatestMusic)|Skin.HasSetting(HomeLatestAlbums)]]]">AlarmClock(WidgetMove,Control.Move(8000,1),00:07,silent,loop)</onright>
+          <onright condition="[Container(9000).Hasfocus(10)+Skin.HasSetting(HomeLatestMovies) + !Control.IsVisible(8996)]|[Container(9000).Hasfocus(11)+Skin.HasSetting(HomeLatestTV)]|[Container(9000).Hasfocus(3)+[Skin.HasSetting(HomeLatestMusic)|Skin.HasSetting(HomeLatestAlbums)]]">9000</onright>
           <onup>8000</onup>
 					<ondown>8000</ondown>
+          <onback condition="!Skin.HasSetting(NoWidgetAlarm)">AlarmClock(WidgetMove,Control.Move(8000,1),00:07,silent,loop)</onback>
           <onback>9000</onback>
 					<viewtype label="535">list</viewtype>
 					<pagecontrol>-</pagecontrol>
@@ -661,7 +666,7 @@
 						</control>
 					</itemlayout>
 					<focusedlayout height="23" width="300">
-						<control type="image">
+            <control type="image">
 							<posx>-10</posx>
 							<posy>0</posy>
 							<width>283</width>

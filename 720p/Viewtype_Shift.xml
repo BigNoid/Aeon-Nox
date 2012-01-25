@@ -1,4 +1,77 @@
 <includes>
+  <include name="ShiftProgramThumbs">
+    <control type="group">
+      <visible>Substring(Container.FolderPath,advanced.launcher) + SubString(ListItem.Writer,IBM PC)</visible>
+      <animation effect="zoom" center="auto" start="100" end="130" time="200" tween="quadratic" easing="out">Focus</animation>
+      <animation effect="zoom" center="auto" start="130" end="100" time="200" tween="quadratic" easing="out">Unfocus</animation>
+      <control type="image">
+        <posx>5</posx>
+        <posy>100</posy>
+        <width>200</width>
+        <height>300</height>
+        <fadetime>200</fadetime>
+        <texture background="true" diffuse="thumbs/movieposter_mask.png" fallback="DefaultVideoBigPoster.png">$VAR[ListPosterVar]</texture>
+        <aspectratio scalediffuse="false">stretch</aspectratio>
+      </control>
+      <control type="image">
+        <posx>5</posx>
+        <posy>100</posy>
+        <width>200</width>
+        <height>300</height>
+        <fadetime>200</fadetime>
+        <texture diffuse="thumbs/movieposter_mask.png">thumbs/thumb_glass.png</texture>
+        <bordertexture border="-24">thumbs/poster_shadow.png</bordertexture>
+      </control>
+      <control type="image">
+        <posx>5</posx>
+        <posy>400.5</posy>
+        <width>200</width>
+        <height>300</height>
+        <fadetime>200</fadetime>
+        <texture background="true" flipy="true" diffuse="thumbs/movieposter_mask_reflect.png" fallback="DefaultVideoBigPoster.png">$VAR[ListPosterVar]</texture>
+        <aspectratio scalediffuse="false">stretch</aspectratio>
+        <animation effect="fade" start="100" end="30" time="200" reversible="true">Focus</animation>
+        <animation effect="fade" start="30" end="100" time="200" reversible="true">UnFocus</animation>
+      </control>
+    </control>
+    <control type="group">
+      <visible>![Substring(Container.FolderPath,advanced.launcher) +  SubString(ListItem.Writer,IBM PC)]</visible>
+      <posy>50</posy>
+      <animation effect="zoom" center="100,300" start="100" end="130" time="200" tween="quadratic" easing="out">Focus</animation>
+      <animation effect="zoom" center="100,300" start="130" end="100" time="200" tween="quadratic" easing="out">Unfocus</animation>
+      <control type="image">
+        <posx>5</posx>
+        <posy>150</posy>
+        <width>200</width>
+        <height>200</height>
+        <fadetime>200</fadetime>
+        <texture background="true" diffuse="thumbs/cdcover_mask.png" fallback="DefaultAudio.png">$VAR[ListAlbumVar]</texture>
+        <aspectratio scalediffuse="false">scale</aspectratio>
+      </control>
+      <control type="image">
+        <posx>5</posx>
+        <posy>150</posy>
+        <width>200</width>
+        <height>200</height>
+        <fadetime>200</fadetime>
+        <aspectratio scalediffuse="false" align="right">scale</aspectratio>
+        <texture diffuse="thumbs/cdcover_mask.png">thumbs/cdcover_glass_aa.png</texture>
+        <bordertexture border="-13">thumbs/cd_shadow.png</bordertexture>
+      </control>
+      <control type="image">
+        <posx>5</posx>
+        <posy>350.5</posy>
+        <width>200</width>
+        <height>200</height>
+        <fadetime>200</fadetime>
+        <texture background="true" flipy="true" diffuse="thumbs/cdcover_mask_reflect.png" fallback="DefaultAudio.png">$VAR[ListAlbumVar]</texture>
+        <aspectratio scalediffuse="false">scale</aspectratio>
+        <animation effect="fade" start="100" end="30" time="200" reversible="true">Focus</animation>
+        <animation effect="fade" start="30" end="100" time="200" reversible="true">UnFocus</animation>
+      </control>
+    </control>
+  </include>
+
   <include name="ShiftThumbs">
     <control type="group">
       <visible>Window.IsActive(videos) + !Container.Content(addons)</visible>
@@ -44,10 +117,10 @@
       </control>
     </control>
     <control type="group">
-      <visible>[!Window.IsActive(videos)|Container.Content(addons)]</visible>
+      <visible>!Window.IsActive(videos)|Container.Content(addons)</visible>
       <posy>50</posy>
-      <animation effect="zoom" center="105,300" start="100" end="130" time="200" tween="quadratic" easing="out">Focus</animation>
-      <animation effect="zoom" center="105,300" start="130" end="100" time="200" tween="quadratic" easing="out">Unfocus</animation>
+      <animation effect="zoom" center="100,300" start="100" end="130" time="200" tween="quadratic" easing="out">Focus</animation>
+      <animation effect="zoom" center="100,300" start="130" end="100" time="200" tween="quadratic" easing="out">Unfocus</animation>
       <control type="image">
         <posx>5</posx>
         <posy>150</posy>
@@ -104,10 +177,12 @@
         <visible>Window.IsActive(musicfiles) | Window.IsActive(musiclibrary) | Window.IsActive(musicplaylist) | Window.isActive(programs) | Window.isActive(addonbrowser) | [Window.IsActive(videos) + [!Container.Content(episodes)|SubString(Container.FolderPath,videodb://5/)]]</visible>
         <animation effect="fade" start="100" end="0" time="400" condition="Control.HasFocus(110) | Control.HasFocus(109)">Conditional</animation>
         <itemlayout width="210" height="500">
-          <include>ShiftThumbs</include>
+          <include condition="!Window.IsActive(programs)">ShiftThumbs</include>
+          <include condition="Window.IsActive(programs)">ShiftProgramThumbs</include>
         </itemlayout>
         <focusedlayout width="210" height="500">
-            <include>ShiftThumbs</include>
+          <include condition="!Window.IsActive(programs)">ShiftThumbs</include>
+          <include condition="Window.IsActive(programs)">ShiftProgramThumbs</include>
         </focusedlayout>
       </control>
       <control type="group">

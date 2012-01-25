@@ -3,6 +3,10 @@
   <onload condition="Window.Previous(startup)+Skin.HasSetting(customstartupfocus)">Control.Move(9000,$INFO[Skin.String(CustomFocusOffset)])</onload>
   <onload condition="Window.Previous(startup)+[Skin.HasSetting(HomeRandomMovies)|Skin.HasSetting(HomeRandomTV)|Skin.HasSetting(HomeRandomMusic)|Skin.HasSetting(HomeRandomAddons)|Skin.HasSetting(HomeRandomAlbums)|Skin.HasSetting(HomeRandomPoster)]">XBMC.RunScript(script.randomitems,limit=8&amp;unplayed=True)</onload>
   <onload>ClearProperty(DontRunTVShowScripts,Home)</onload>
+  <onload condition="!Skin.HasSetting(NoWidgetAlarm) + [Skin.HasSetting(HomeLatestMusic)|Skin.HasSetting(HomeRandomMusic)|Skin.HasSetting(HomeLatestAlbums)|Skin.HasSetting(HomeRandomAlbums)|Skin.HasSetting(HomeLatestMovies)|Skin.HasSetting(HomeRandomMovies)|Skin.HasSetting(HomeInProgress)|Skin.HasSetting(HomeLatestTV)|Skin.HasSetting(HomeRandomTV)|Skin.HasSetting(HomeWatchList)|Skin.HasSetting(HomeRandomAddons)]">AlarmClock(WidgetMove,Control.Move(8000,1),00:07,silent,loop)</onload>
+  <onload condition="!Skin.HasSetting(NoWidgetAlarm) + [Skin.HasSetting(HomeRandomPoster)|Skin.HasSetting(HomeLatestPoster)|Skin.HasSetting(HomeInProgressPoster)|Skin.HasSetting(HomeInProgressTVPoster)]">AlarmClock(WidgetMoveTwo,Control.Move(8003,1),00:04,silent,loop)</onload>
+  <onunload>CancelAlarm(WidgetMove,true)</onunload>
+  <onunload>CancelAlarm(WidgetMoveTwo,true)</onunload>
   <allowoverlay>yes</allowoverlay>
 	<controls>
     <!-- Fanart -->
@@ -10,6 +14,7 @@
       <imagepath background="true">$VAR[HomeMainFanartVar]</imagepath>
       <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
       <animation effect="slide" start="-10,-10" end="10,10" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
+      <visible>![Control.HasFocus(8000)|Control.HasFocus(8003)]</visible>
     </control>
     <control type="multiimage">
       <fadetime>600</fadetime>
@@ -100,6 +105,7 @@
 					<focusposition>2</focusposition>
           <scrolltime tween="quadratic" easing="out">300</scrolltime>
           <onup>9000</onup>
+          <ondown condition="Control.IsVisible(8998) + !Skin.HasSetting(NoWidgetAlarm)">CancelAlarm(WidgetMove,true)</ondown>
           <ondown>8000</ondown>
           <itemlayout width="150" height="33">
 						<control type="label">
@@ -303,11 +309,14 @@
 				<posy>300</posy>
 				<width>2046</width>
 				<height>150</height>
-				<onleft>9000</onleft>
+        <onleft>9000</onleft>
 				<onright>9000</onright>
+        <onup condition="Control.isVisible(8997) + !Skin.HasSetting(NoWidgetAlarm)">CancelAlarm(WidgetMoveTwo,true)</onup>
         <onup condition="Control.isVisible(8997)">8003</onup>
-        <onup condition="Control.IsVisible(8998)+Skin.HasSetting(lowermainmenu)">8000</onup>
+        <onup condition="Control.IsVisible(8998) + !Control.isVisible(8997) + Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(NoWidgetAlarm)">CancelAlarm(WidgetMove,true)</onup>
+        <onup condition="Control.IsVisible(8998) + !Control.isVisible(8997) + Skin.HasSetting(lowermainmenu)">8000</onup>
         <onup condition="!Skin.HasSetting(lockmainmenu)+[![Control.isVisible(8997)|Control.isVisible(8998)]|[!Skin.HasSetting(lowermainmenu)+!Control.isVisible(8997)]]">Skin.ToggleSetting(lowermainmenu)</onup>
+        <ondown condition="Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8) + !Skin.HasSetting(NoWidgetAlarm)">CancelAlarm(WidgetMove,true)</ondown>
         <ondown condition="Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8)">8000</ondown>
         <ondown condition="Control.IsVisible(9001)">9010</ondown>
         <ondown condition="!Control.IsVisible(9001)+![Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8)]+!Skin.HasSetting(lockmainmenu)">Skin.ToggleSetting(lowermainmenu)</ondown>
