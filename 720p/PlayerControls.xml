@@ -195,48 +195,81 @@
               <scroll>true</scroll>
               <visible>VideoPlayer.Content(movies)</visible>
             </control>
-            <control type="label">
-              <description>Title label</description>
-              <posx>280</posx>
-              <posy>30</posy>
-              <height>30</height>
-              <width>520</width>
-              <label>$INFO[VideoPlayer.TVShowTitle]</label>
-              <align>left</align>
-              <aligny>center</aligny>
-              <font>Font_Reg18</font>
-              <textcolor>grey2</textcolor>
-              <shadowcolor>-</shadowcolor>
-              <scroll>true</scroll>
+            <control type="group">
               <visible>VideoPlayer.Content(episodes)</visible>
+              <control type="label">
+                <description>Title label</description>
+                <posx>280</posx>
+                <posy>30</posy>
+                <height>30</height>
+                <width>520</width>
+                <label>$INFO[VideoPlayer.TVShowTitle]</label>
+                <align>left</align>
+                <aligny>center</aligny>
+                <font>Font_Reg18</font>
+                <textcolor>grey2</textcolor>
+                <shadowcolor>-</shadowcolor>
+                <scroll>true</scroll>
+              </control>
+              <control type="label">
+                <description>Title label</description>
+                <posx>280</posx>
+                <posy>55</posy>
+                <height>30</height>
+                <width>520</width>
+                <label>$INFO[VideoPlayer.Premiered]$INFO[VideoPlayer.Duration, | ]$INFO[VideoPlayer.RatingAndVotes, | ]$INFO[VideoPlayer.Top250, | $LOCALIZE[13409] #]</label>
+                <align>left</align>
+                <aligny>center</aligny>
+                <font>Font_Reg18</font>
+                <textcolor>white2</textcolor>
+                <shadowcolor>-</shadowcolor>
+                <scroll>true</scroll>
+              </control>
+              <control type="label">
+                <description>Title label</description>
+                <posx>280</posx>
+                <posy>80</posy>
+                <height>30</height>
+                <width>520</width>
+                <label>$INFO[VideoPlayer.Season,$LOCALIZE[20373] , • ]$INFO[VideoPlayer.Episode,$LOCALIZE[20359] ,]</label>
+                <align>left</align>
+                <aligny>center</aligny>
+                <font>Font_Reg18</font>
+                <textcolor>grey2</textcolor>
+                <shadowcolor>-</shadowcolor>
+                <scroll>true</scroll>
+              </control>
             </control>
-            <control type="label">
-              <description>Title label</description>
-              <posx>280</posx>
-              <posy>55</posy>
-              <height>30</height>
-              <width>520</width>
-              <label>$INFO[VideoPlayer.Year]$INFO[VideoPlayer.Duration, | ]$INFO[VideoPlayer.RatingAndVotes, | ]$INFO[VideoPlayer.Top250, | $LOCALIZE[13409] #]</label>
-              <align>left</align>
-              <aligny>center</aligny>
-              <font>Font_Reg18</font>
-              <textcolor>white2</textcolor>
-              <shadowcolor>-</shadowcolor>
-              <scroll>true</scroll>
-            </control>
-            <control type="label">
-              <description>Title label</description>
-              <posx>280</posx>
-              <posy>80</posy>
-              <height>30</height>
-              <width>520</width>
-              <label>$INFO[VideoPlayer.Genre]</label>
-              <align>left</align>
-              <aligny>center</aligny>
-              <font>Font_Reg18</font>
-              <textcolor>grey2</textcolor>
-              <shadowcolor>-</shadowcolor>
-              <scroll>true</scroll>
+            <control type="group">
+              <visible>!VideoPlayer.Content(episodes)</visible>
+              <control type="label">
+                <description>Title label</description>
+                <posx>280</posx>
+                <posy>55</posy>
+                <height>30</height>
+                <width>520</width>
+                <label>$INFO[VideoPlayer.Year]$INFO[VideoPlayer.Duration, | ]$INFO[VideoPlayer.RatingAndVotes, | ]$INFO[VideoPlayer.Top250, | $LOCALIZE[13409] #]</label>
+                <align>left</align>
+                <aligny>center</aligny>
+                <font>Font_Reg18</font>
+                <textcolor>white2</textcolor>
+                <shadowcolor>-</shadowcolor>
+                <scroll>true</scroll>
+              </control>
+              <control type="label">
+                <description>Title label</description>
+                <posx>280</posx>
+                <posy>80</posy>
+                <height>30</height>
+                <width>520</width>
+                <label>$INFO[VideoPlayer.Genre]</label>
+                <align>left</align>
+                <aligny>center</aligny>
+                <font>Font_Reg18</font>
+                <textcolor>grey2</textcolor>
+                <shadowcolor>-</shadowcolor>
+                <scroll>true</scroll>
+              </control>
             </control>
             <control type="textbox">
               <posx>280</posx>
@@ -320,8 +353,19 @@
             </control>
           </control>
           <control type="group">
-            <visible>VideoPlayer.Content(movies)|VideoPlayer.Content(musicvideos)|Container.Content(episodes)</visible>
             <posy>-18</posy>
+            <control type="image">
+              <description>Cover Image</description>
+              <posx>28</posx>
+              <posy>0</posy>
+              <height>346</height>
+              <width>230</width>
+              <texture background="true">$INFO[VideoPlayer.Cover]</texture>
+              <bordertexture border="7">thumbs/bordershadow2.png</bordertexture>
+              <bordersize>7</bordersize>
+              <aspectratio>keep</aspectratio>
+              <visible>![VideoPlayer.Content(movies)|VideoPlayer.Content(musicvideos)]</visible>
+            </control>
             <control type="image">
               <description>Cover Image</description>
               <posx>28</posx>
@@ -331,14 +375,15 @@
               <texture background="true" diffuse="thumbs/movieposter_mask.png">$INFO[VideoPlayer.Cover]</texture>
               <bordertexture border="-34">thumbs/poster_shadow.png</bordertexture>
               <aspectratio>stretch</aspectratio>
+              <visible>VideoPlayer.Content(movies)|VideoPlayer.Content(musicvideos)</visible>
             </control>
-            <control type="image">
+            <control type="image" id="8661">
               <description>Cover Image</description>
               <posx>28</posx>
               <posy>0</posy>
               <height>346</height>
               <width>230</width>
-              <texture background="true" diffuse="thumbs/movieposter_mask.png">$INFO[Player.FolderPath,,/../poster.jpg]</texture>
+              <texture background="true" diffuse="thumbs/movieposter_mask.png" fallback="empty.png">$INFO[Player.FolderPath,,/../poster.jpg]</texture>
               <bordertexture border="-34">thumbs/poster_shadow.png</bordertexture>
               <aspectratio>stretch</aspectratio>
               <visible>VideoPlayer.Content(episodes)</visible>
@@ -351,6 +396,7 @@
               <width>230</width>
               <texture background="true" diffuse="thumbs/movieposter_mask.png">thumbs/thumb_glass_noreflect.png</texture>
               <aspectratio>stretch</aspectratio>
+              <visible>[VideoPlayer.Content(movies)|VideoPlayer.Content(musicvideos)|VideoPlayer.Content(episodes)] + !SubString(Control.getLabel(8661,empty.png,left))</visible>
             </control>
           </control>
         </control>
