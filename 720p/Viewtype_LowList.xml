@@ -299,6 +299,7 @@
   
       <control type="group">
         <description>Media Flags</description>
+        <visible>!SubString(ListItem.Path,videodb://1/7)</visible>
         <control type="image">
           <posx>850</posx>
           <posy>658</posy>
@@ -358,16 +359,8 @@
       </control>
       <control type="group">
         <description>Info labels</description>
-        <visible>!Control.HasFocus(7002)</visible>
-        <control type="image">
-          <posx>850</posx>
-          <posy>532</posy>
-          <height>1</height>
-          <width>410</width>
-          <colordiffuse>66FFFFFF</colordiffuse>
-          <texture>views/lowlistpanel_line.png</texture>
-          <visible>!Skin.HasSetting(highlist)+Skin.HasSetting(LowListPlotOnly)+[Container.Content(movies)|Container.Content(episodes)|Container.Content(tvshows)]</visible>
-        </control>
+        <visible>!Control.HasFocus(7002) + !SubString(ListItem.Path,videodb://1/7)</visible>
+        <animation effect="fade" time="400">VisibleChange</animation>
         <control type="image">
           <posx>850</posx>
           <posy>660</posy>
@@ -377,9 +370,17 @@
           <texture>views/lowlistpanel_line.png</texture>
         </control>
         <control type="group">
-          <visible>!Skin.HasSetting(highlist)+!IsEmpty(ListItem.Title)+[Container.Content(movies)|Container.Content(episodes)|[Container.Content(seasons)+!ListItem.IsFolder]|Container.Content(tvshows)]+Skin.HasSetting(LowListPlotOnly)</visible>
-          <animation effect="fade" start="0" end="70" time="400">VisibleChange</animation>
+          <visible>!Skin.HasSetting(highlist) + !IsEmpty(ListItem.Title) + Skin.HasSetting(LowListPlotOnly) + ![Container.Content(seasons)+ListItem.IsFolder]</visible>
+          <animation effect="fade" time="400">VisibleChange</animation>
           <posy>10</posy>
+          <control type="image">
+            <posx>850</posx>
+            <posy>522</posy>
+            <height>1</height>
+            <width>410</width>
+            <colordiffuse>66FFFFFF</colordiffuse>
+            <texture>views/lowlistpanel_line.png</texture>
+          </control>
           <control type="label">
             <posx>850</posx>
             <posy>525</posy>
@@ -518,7 +519,7 @@
             <align>justify</align>
             <textcolor>white6</textcolor>
             <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-            <visible>[!Skin.HasSetting(LowListPlotOnly)|Container.Content(seasons)]+!Skin.HasSetting(highlist)</visible>
+            <visible>[!Skin.HasSetting(LowListPlotOnly)|[Container.Content(seasons)+ListItem.IsFolder]]+!Skin.HasSetting(highlist)</visible>
           </control>
         </control>
       </control>
@@ -722,15 +723,13 @@
             <aligny>center</aligny>
             <include>listcolornofocus</include>
             <font>Font_Bold16</font>
-            <label fallback="-">$INFO[ListItem.Rating]</label>
-            <visible>!IsEmpty(ListItem.Thumb)+!Container.Content(seasons)</visible>
+            <label>$INFO[ListItem.Rating]</label>
           </control>
           <control type="image">
             <posx>500</posx>
             <posy>5</posy>
             <width>35</width>
             <height>35</height>
-            <visible>!IsEmpty(ListItem.Overlay)</visible>
             <info>ListItem.Overlay,thumbs/Alt</info>
           </control>
         </itemlayout>
@@ -770,32 +769,7 @@
             <aligny>center</aligny>
             <include>listcolorfocus</include>
             <font>Font_Info</font>
-            <label>$INFO[ListItem.Genre]</label>
-            <visible>Container.Content(movies)|Container.Content(tvshows)</visible>
-          </control>
-          <control type="label">
-            <posx>20</posx>
-            <posy>20</posy>
-            <width>430</width>
-            <height>22</height>
-            <align>left</align>
-            <aligny>center</aligny>
-            <include>listcolorfocus</include>
-            <font>Font_Info</font>
-            <label>$INFO[ListItem.Premiered,$LOCALIZE[20416] ]$INFO[ListItem.Duration, • , $LOCALIZE[12391]]</label>
-            <visible>Container.Content(episodes)</visible>
-          </control>
-          <control type="label">
-            <posx>20</posx>
-            <posy>20</posy>
-            <width>430</width>
-            <height>22</height>
-            <align>left</align>
-            <aligny>center</aligny>
-            <include>listcolorfocus</include>
-            <font>Font_Info</font>
-            <label>$INFO[ListItem.Episode,, [LOWERCASE]$LOCALIZE[20360] [/LOWERCASE]]$INFO[ListItem.Property(WatchedEpisodes), (,]$INFO[ListItem.Property(TotalEpisodes),/,)]</label>
-            <visible>Container.Content(seasons)</visible>
+            <label>$VAR[LowListSubTitleVar]</label>
           </control>
           <control type="label">
             <posx>473</posx>
@@ -806,7 +780,7 @@
             <aligny>center</aligny>
             <include>listcolorfocus</include>
             <font>Font_Bold16</font>
-            <label>[UPPERCASE]$INFO[ListItem.Year][/UPPERCASE]</label>
+            <label>$INFO[ListItem.Year]</label>
           </control>
           <control type="label">
             <posx>473</posx>
@@ -817,16 +791,13 @@
             <aligny>center</aligny>
             <include>listcolorfocus</include>
             <font>Font_Info</font>
-            <label fallback="-">$INFO[ListItem.Rating]</label>
-            <visible>!IsEmpty(ListItem.Thumb)+!Container.Content(seasons)</visible>
+            <label>$INFO[ListItem.Rating]</label>
           </control>
           <control type="image">
             <posx>500</posx>
             <posy>5</posy>
             <width>35</width>
             <height>35</height>
-            <visible>!IsEmpty(ListItem.Overlay)</visible>
-            <!--            <colordiffuse>ff2e2e2e</colordiffuse>-->
             <info>ListItem.Overlay,thumbs/Alt</info>
           </control>
         </focusedlayout>
