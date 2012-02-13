@@ -3,14 +3,11 @@
   <onload condition="Window.Previous(startup)+Skin.HasSetting(customstartupfocus)">Control.Move(9000,$INFO[Skin.String(CustomFocusOffset)])</onload>
   <onload condition="Window.Previous(startup)+[Skin.HasSetting(HomeRandomMovies)|Skin.HasSetting(HomeRandomTV)|Skin.HasSetting(HomeRandomMusic)|Skin.HasSetting(HomeRandomAddons)|Skin.HasSetting(HomeRandomAlbums)|Skin.HasSetting(HomeRandomPoster)]">XBMC.RunScript(script.randomitems,limit=8&amp;unplayed=True)</onload>
   <onload>ClearProperty(DontRunTVShowScripts,Home)</onload>
-  <onload condition="!Skin.HasSetting(NoWidgetAlarm) + [Skin.HasSetting(HomeLatestMusic)|Skin.HasSetting(HomeRandomMusic)|Skin.HasSetting(HomeLatestAlbums)|Skin.HasSetting(HomeRandomAlbums)|Skin.HasSetting(HomeLatestMovies)|Skin.HasSetting(HomeRandomMovies)|Skin.HasSetting(HomeInProgress)|Skin.HasSetting(HomeLatestTV)|Skin.HasSetting(HomeRandomTV)|Skin.HasSetting(HomeWatchList)|Skin.HasSetting(HomeRandomAddons)]">AlarmClock(WidgetMove,Control.Move(8000,1),00:07,silent,loop)</onload>
-  <onload condition="!Skin.HasSetting(NoWidgetAlarm) + [Skin.HasSetting(HomeRandomPoster)|Skin.HasSetting(HomeLatestPoster)|Skin.HasSetting(HomeInProgressPoster)|Skin.HasSetting(HomeInProgressTVPoster)]">AlarmClock(WidgetMoveTwo,Control.Move(8003,1),00:04,silent,loop)</onload>
-  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist1) + Skin.HasSetting(HomeLatestVPL1) + System.HasAddon(script.RandomAndLastItems)">XBMC.RunScript(script.RandomAndLastItems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist1_Path)],limit=10,method=Last,menu=VPL1)</onload>
-  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist1) + Skin.HasSetting(HomeRandomVPL1) + System.HasAddon(script.RandomAndLastItems)">XBMC.RunScript(script.RandomAndLastItems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist1_Path)],limit=10,method=Random,menu=VPL1)</onload>
-  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist2) + Skin.HasSetting(HomeLatestVPL2) + System.HasAddon(script.RandomAndLastItems)">XBMC.RunScript(script.RandomAndLastItems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist2_Path)],limit=10,method=Last,menu=VPL2)</onload>
-  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist2) + Skin.HasSetting(HomeRandomVPL2) + System.HasAddon(script.RandomAndLastItems)">XBMC.RunScript(script.RandomAndLastItems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist2_Path)],limit=10,method=Random,menu=VPL2)</onload>
-  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist3) + Skin.HasSetting(HomeLatestVPL3) + System.HasAddon(script.RandomAndLastItems)">XBMC.RunScript(script.RandomAndLastItems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist3_Path)],limit=10,method=Last,menu=VPL3)</onload>
-  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist3) + Skin.HasSetting(HomeRandomVPL3) + System.HasAddon(script.RandomAndLastItems)">XBMC.RunScript(script.RandomAndLastItems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist3_Path)],limit=10,method=Random,menu=VPL3)</onload>
+  <onload condition="!Skin.HasSetting(NoWidgetAlarm) + Control.isVisible(8998)">AlarmClock(WidgetMove,Control.Move(8000,1),00:07,silent,loop)</onload>
+  <onload condition="!Skin.HasSetting(NoWidgetAlarmTwo) + Control.isVisible(8997)">AlarmClock(WidgetMoveTwo,Control.Move(8003,1),00:04,silent,loop)</onload>
+  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist1) + [Skin.HasSetting(HomeLatestVPL1) | Skin.HasSetting(HomeLatestPosterVPL1)] + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist1_Path)],unwatched=True,resume=false,limit=10,method=Last,menu=VPL1)</onload>
+  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist2) + [Skin.HasSetting(HomeLatestVPL2) | Skin.HasSetting(HomeLatestPosterVPL2)] + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist2_Path)],unwatched=true,resume=false,limit=10,method=Last,menu=VPL2)</onload>
+  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist3) + [Skin.HasSetting(HomeLatestVPL3) | Skin.HasSetting(HomeLatestPosterVPL3)] + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist3_Path)],unwatched=true,resume=false,limit=10,method=Last,menu=VPL3)</onload>
   <onunload>CancelAlarm(WidgetMove,true)</onunload>
   <onunload>CancelAlarm(WidgetMoveTwo,true)</onunload>
   <allowoverlay>yes</allowoverlay>
@@ -309,6 +306,12 @@
       </control>
 
       <!-- Home Menu -->
+      <control type="button" id="8993">
+        <include>HiddenObject</include>
+        <onfocus condition="!Skin.HasSetting(NoWidgetAlarm)">AlarmClock(WidgetMove,Control.Move(8000,1),00:07,silent,loop)</onfocus>
+        <onfocus condition="!Skin.HasSetting(NoWidgetAlarmTwo)">AlarmClock(WidgetMoveTwo,Control.Move(8003,1),00:04,silent,loop)</onfocus>
+        <onfocus>SetFocus(9000)</onfocus>
+      </control>
 			<control type="wraplist" id="9000">
 				<hitrect x="50" y="50" w="330" h="620" />
 				<posx>-225</posx>
@@ -324,6 +327,7 @@
         <onup condition="!Skin.HasSetting(lockmainmenu)+[![Control.isVisible(8997)|Control.isVisible(8998)]|[!Skin.HasSetting(lowermainmenu)+!Control.isVisible(8997)]]">Skin.ToggleSetting(lowermainmenu)</onup>
         <ondown condition="Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8) + !Skin.HasSetting(NoWidgetAlarm)">CancelAlarm(WidgetMove,true)</ondown>
         <ondown condition="Control.IsVisible(9001)">9010</ondown>
+        <ondown condition="!Control.IsVisible(9001) + Control.IsVisible(8998)">CancelAlarm(WidgetMove,true)</ondown>
         <ondown condition="!Control.IsVisible(9001) + Control.IsVisible(8998)">8000</ondown>
         <ondown condition="!Control.IsVisible(9001)+!Control.IsVisible(8998)+!Skin.HasSetting(lockmainmenu)">Skin.ToggleSetting(lowermainmenu)</ondown>
         <pagecontrol>-</pagecontrol>
