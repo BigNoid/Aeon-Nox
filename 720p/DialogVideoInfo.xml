@@ -5,6 +5,7 @@
     <control type="group">
       <animation effect="slide" start="-486,0" end="0,0" time="400" easing="out" tween="quadratic">WindowOpen</animation>
       <animation effect="slide" start="0,0" end="-486,0" time="400" easing="out" tween="quadratic">WindowClose</animation>
+      <animation effect="slide" start="0,0" end="-486,0" time="400" easing="out" tween="quadratic" condition="!IsEmpty(Window.Property(script.metadata.actors.isactive))">Conditional</animation>
       <control type="image">
         <description>Cover image</description>
         <posx>0</posx>
@@ -51,6 +52,7 @@
     <control type="group">
       <animation effect="slide" start="795,0" end="0,0" time="400" easing="out" tween="quadratic">WindowOpen</animation>
       <animation effect="slide" start="0,0" end="795,0" time="400" easing="out" tween="quadratic">WindowClose</animation>
+      <animation effect="slide" start="0,0" end="795,0" time="400" easing="out" tween="quadratic" condition="!IsEmpty(Window.Property(script.metadata.actors.isactive))">Conditional</animation>
       <control type="image">
         <description>background image</description>
         <posx>486</posx>
@@ -681,9 +683,9 @@
       <control type="panel" id="50">
         <posx>750</posx>
         <posy>400</posy>
-        <width>370</width>
+        <width>430</width>
         <height>206</height>
-        <onleft>5000</onleft>
+        <onleft>5054</onleft>
         <onright>60</onright>
         <onup>50</onup>
         <ondown>50</ondown>
@@ -883,7 +885,28 @@
         <aspectratio>keep</aspectratio>
         <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
         <bordersize>7</bordersize>
-        <visible>Control.IsVisible(50)</visible>
+        <visible>Control.IsVisible(50) + !Control.HasFocus(5054)</visible>
+      </control>
+      <control type="image">
+        <description>Actor image</description>
+        <posx>545</posx>
+        <posy>405</posy>
+        <width>210</width>
+        <height>210</height>
+        <texture background="true">$INFO[Container(50).Listitem.Icon]</texture>
+        <aspectratio>keep</aspectratio>
+        <bordertexture border="5">featured/tile_fo.png</bordertexture>
+        <bordersize>5</bordersize>
+        <visible>Control.IsVisible(50) + Control.HasFocus(5054)</visible>
+      </control>
+      <control type="button" id="5054">
+        <include>HiddenObject</include>
+        <onfocus condition="!System.HasAddon(script.metadata.actors)">SetFocus(5000)</onfocus>
+        <onclick>RunScript(script.metadata.actors,$INFO[Container(50).Listitem.Label])</onclick>
+        <onleft>5000</onleft>
+        <onright>50</onright>
+        <onup>Control.Move(50,-1)</onup>
+        <ondown>Control.Move(50,1)</ondown>
       </control>
       <control type="group">
         <visible>Container(5000).HasFocus(9)</visible>
