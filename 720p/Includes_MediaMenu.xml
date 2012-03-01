@@ -1090,16 +1090,6 @@
     </control>
     <include condition="Window.IsActive(musicfiles)|Window.IsActive(musiclibrary)|Window.IsActive(musicplaylist)">Media_Menu_BackdropMusic</include>
     <include condition="Window.IsActive(videolibrary)">Media_Menu_BackdropVideo</include>
-    <control type="radiobutton" id="1605">
-      <description>Curtain Backdrop</description>
-      <label>31384</label>
-      <onclick condition="Container.Content(movies)">Skin.ToggleSetting(CurtainBackdropMovies)</onclick>
-      <onclick condition="[Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)]">Skin.ToggleSetting(CurtainBackdropTV)</onclick>
-      <onclick condition="![Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)|Container.Content(movies)]">Skin.ToggleSetting(CurtainBackdrop)</onclick>
-      <selected>[Container.Content(movies) + Skin.HasSetting(CurtainBackdropMovies)] | [[Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)] + Skin.HasSetting(CurtainBackdropTV)] | [![Container.Content(tvshows)|Container.Content(seasons)|Container.Content(episodes)|Container.Content(movies)] + Skin.HasSetting(CurtainBackdrop)]</selected>
-      <include>Objects_MediaMenuButtonAlt</include>
-      <visible>!Control.IsVisible(516)</visible>
-    </control>
     <control type="radiobutton" id="1678">
       <description>Toggle MoviesFanart</description>
       <include>Objects_MediaMenuButtonAlt</include>
@@ -1231,7 +1221,7 @@
       <posx>-8</posx>
       <posy>-25</posy>
       <animation type="Conditional" condition="!ControlGroup(9000).HasFocus">
-        <effect type="slide" end="-266" time="400" easing="in" tween="cubic"/>
+        <effect type="slide" end="-268" time="400" easing="in" tween="cubic"/>
       </animation>
       <animation type="WindowOpen">
         <effect type="slide" start="-70" end="0" time="400" easing="in" tween="cubic" delay="1000"/>
@@ -1255,7 +1245,7 @@
       </control>
       <control type="image">
         <description>right arrow</description>
-        <posx>275</posx>
+        <posx>277</posx>
         <posy>350</posy>
         <width>20</width>
         <height>20</height>
@@ -1265,7 +1255,7 @@
       </control>
       <control type="image">
         <description>right arrow</description>
-        <posx>275</posx>
+        <posx>277</posx>
         <posy>350</posy>
         <width>20</width>
         <height>20</height>
@@ -1279,11 +1269,10 @@
   <include name="Media_Menu_Furniture">
     <control type="image">
       <posx>-28</posx>
-      <posy>5</posy>
-      <width>300</width>
-      <height>680</height>
-      <texture background="true" >views/listpanel_back_noreflect.png</texture>
-      <!--<animation effect="rotate" center="auto" start="0" end="-90" time="100" condition="true">Conditional</animation>-->
+      <posy>0</posy>
+      <width>308</width>
+      <height>720</height>
+      <texture>dialogs/context_middle.png</texture>
       <include>Animation_MediaMenuSlide</include>
     </control>
   </include>
@@ -1292,26 +1281,28 @@
     <control type="group" id="9000">
       <enable>!Skin.HasSetting(kioskmode)</enable>
       <visible>!Skin.HasSetting(kioskmode)</visible>
-      <posy>25</posy>
+      <posy>0</posy>
         <include condition="!Skin.HasSetting(HideToolTip)">Media_Menu_Tooltip</include>
-      <include>Media_Menu_Furniture</include> 
-      <control type="grouplist" id="9003">
+      <include>Media_Menu_Furniture</include>
+      <control type="group">
+        <include>Animation_MediaMenuSlide2</include>
+        <animation type="Conditional" condition="Window.IsActive(1121)|Control.HasFocus(9010)">
+          <effect type="fade" start="100" end="0" time="100" reversible="true"/>
+        </animation>
+        <control type="grouplist" id="9003">
           <posx>0</posx>
-          <posy>20</posy>
+          <posy>0</posy>
           <width>300</width>
-          <height>650</height>
+          <height>720</height>
           <itemgap>0</itemgap>
           <orientation>vertical</orientation>
           <scroll>true</scroll>
           <onleft>50</onleft>
-          <onright>50</onright>
+          <onright>9004</onright>
           <onup>9003</onup>
           <ondown>9003</ondown>
           <onback>50</onback>
-          <include>Animation_MediaMenuSlide2</include>
-          <animation type="Conditional" condition="Window.IsActive(1121)|Control.HasFocus(9010)">
-            <effect type="fade" start="100" end="0" time="100" reversible="true"/>
-          </animation>
+          <pagecontrol>9004</pagecontrol>
           <control type="button" id="1802">
             <description>View As button</description>
             <pulseonselect>yes</pulseonselect>
@@ -1351,7 +1342,25 @@
           <include condition="Window.IsActive(musicplaylisteditor)">PlaylistEditorButtons</include>
           <include condition="!Skin.HasSetting(hideoptions)">MediaMenuOptions</include>
         </control>
-     <include condition="Window.IsActive(videolibrary)">LayoutPanel</include>
+        <control type="scrollbar" id="9004">
+          <posx>260</posx>
+          <posy>0</posy>
+          <width>6</width>
+          <height>720</height>
+          <showonepage>false</showonepage>
+          <texturesliderbackground>views/list/texturesliderbackground.png</texturesliderbackground>
+          <texturesliderbar border="0,2,0,2">views/list/texturesliderbar.png</texturesliderbar>
+          <texturesliderbarfocus border="0,2,0,2">views/list/texturesliderbarfocus.png</texturesliderbarfocus>
+          <textureslidernib>views/ScrollBarNib.png</textureslidernib>
+          <textureslidernibfocus>views/ScrollBarNib.png</textureslidernibfocus>
+          <orientation>vertical</orientation>
+          <onup>9004</onup>
+          <ondown>9004</ondown>
+          <onleft>9003</onleft>
+          <onright>50</onright>
+        </control>
+      </control>
+      <include condition="Window.IsActive(videolibrary)">LayoutPanel</include>
     </control>
     <control type="button" id="9000">
       <include>HiddenObject</include>
