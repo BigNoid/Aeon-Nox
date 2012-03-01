@@ -43,14 +43,14 @@
       <include>Neon_Floor</include>
     </control>
     <control type="group">
-        <animation type="WindowOpen" reversible="false">
-          <effect type="zoom" start="150" end="100" center="640,360" time="600" tween="cubic" easing="out"/>
-          <effect type="fade" start="0" end="100" time="100"/>
-        </animation>
-        <animation type="WindowClose" reversible="false">
-          <effect type="fade" start="100" end="0" time="300"/>
-          <effect type="zoom" start="100" end="130" center="640,360" time="300" tween="cubic" easing="in"/>
-        </animation>
+      <animation type="WindowOpen" reversible="false">
+        <effect type="zoom" start="150" end="100" center="640,360" time="600" tween="cubic" easing="out"/>
+        <effect type="fade" start="0" end="100" time="100"/>
+      </animation>
+      <animation type="WindowClose" reversible="false">
+        <effect type="fade" start="100" end="0" time="300"/>
+        <effect type="zoom" start="100" end="130" center="640,360" time="300" tween="cubic" easing="in"/>
+      </animation>
       <control type="group">
         <posy>-10</posy>
         <control type="image">
@@ -80,72 +80,112 @@
       <include condition="SubString(Weather.Plugin,weather.weatherplus)">WeatherPlusLayout</include>
       <include condition="!SubString(Weather.Plugin,weather.weatherplus)">StandardWeatherLayout</include>
     </control>
-    <!---MEDIA MENU-->
-  <control type="group" id="9000">
-    <enable>!Skin.HasSetting(kioskmode)</enable>
-    <visible>!Skin.HasSetting(kioskmode)</visible>
-    <posy>25</posy>
+
     <control type="group">
-      <description>First Panel</description>
-      <include condition="!Skin.HasSetting(HideToolTip)">Media_Menu_Tooltip</include>
-      <include>Media_Menu_Furniture</include>
-      <control type="grouplist" id="9003">
-        <posx>0</posx>
-        <posy>15</posy>
-        <width>300</width>
-        <height>650</height>
-        <itemgap>0</itemgap>
-        <orientation>vertical</orientation>
-        <scroll>true</scroll>
-        <onleft>7510</onleft>
-        <onright>7510</onright>
-        <onup>9003</onup>
-        <ondown>9003</ondown>
-        <onback>7510</onback>
-        <include>Animation_MediaMenuSlide2</include>
-
-
-        <control type="button" id="1600">
-          <description>General options label</description>
-          <textcolor>selected</textcolor>
-          <disabledcolor>selected</disabledcolor>
-          <include>Objects_MediaMenuButtonAlt</include>
-          <label>$LOCALIZE[128] [LOWERCASE]$LOCALIZE[33063][/LOWERCASE]</label>
-          <enable>no</enable>
-        </control>
-        <control type="button" id="2">
-          <description>Settings</description>
-          <include>Objects_MediaMenuButtonAlt</include>
-          <label>-</label>
-        </control>
-        <control type="spincontrolex" id="3">
-          <description>change location button</description>
-          <textcolor>60FFFFFF</textcolor>
-          <focusedcolor>white6</focusedcolor>
-          <disabledcolor>3cFFFFFF</disabledcolor>
-          <textureup>settings/spin-up.png</textureup>
-          <texturedown>settings/spin-down.png</texturedown>
-          <textureupfocus>settings/spin-up-focus.png</textureupfocus>
-          <texturedownfocus>settings/spin-down-focus.png</texturedownfocus>
-          <texturenofocus>-</texturenofocus>
-          <height>26</height>
-          <width>265</width>
-          <texturenofocus>-</texturenofocus>
-          <texturefocus>settings/listselect.png</texturefocus>
-          <font>Font_Reg19</font>
-          <textoffsety>-10</textoffsety>
+      <description>Breadcrumbs</description>
+      <visible>Skin.HasSetting(breadcrumb)</visible>
+      <include>Animation_HideBreadCrumbs</include>
+      <include>Breadcrumbs_BackBar</include>
+      <control type="group">
+        <visible>!Player.HasMedia|!IsEmpty(Window(videolibrary).Property(tvtunesIsAlive))</visible>
+        <control type="grouplist">
+          <posx>15</posx>
+          <posy>0</posy>
+          <width>500</width>
           <align>left</align>
-          <textoffsetx>0</textoffsetx>
-          <spinposx>2</spinposx>
-          <spinwidth>35</spinwidth>
-          <spinheight>60</spinheight>
+          <visible></visible>
+          <itemgap>0</itemgap>
+          <orientation>horizontal</orientation>
+          <control type="image">
+            <description>Items Icon</description>
+            <width>36</width>
+            <height>25</height>
+            <texture>common/logo_pics.png</texture>
+            <include>BreadcrumbsIcon</include>
+            <animation effect="slide" start="0" end="-6" time="0" condition="true">Conditional</animation>
+          </control>
+          <control type="label">
+            <include>BreadcrumbsLabel</include>
+            <label>$LOCALIZE[8]</label>
+          </control>
+          <control type="label">
+            <include>BreadcrumbsLabel</include>
+            <label>$INFO[Container.FolderName, / ]</label>
+            <include>BreadcrumbsLabel</include>
+          </control>
         </control>
-        <control type="button" id="4">
-          <description>Settings</description>
-          <include>Objects_MediaMenuButtonAlt</include>
-          <label>5</label>
-          <onclick>ActivateWindow(MyWeatherSettings)</onclick>
-        </control>
+      </control>
+      <include>Breadcrumbs_Furniture</include>
+    </control>
+
+    <include condition="Skin.HasSetting(globaltime)">Furniture_Clock</include>
+    <include>Furniture_NowPlayingWidget</include>
+    <!---MEDIA MENU-->
+    <control type="group" id="9000">
+      <enable>!Skin.HasSetting(kioskmode)</enable>
+      <visible>!Skin.HasSetting(kioskmode)</visible>
+      <posy>0</posy>
+      <control type="group">
+        <description>First Panel</description>
+        <include condition="!Skin.HasSetting(HideToolTip)">Media_Menu_Tooltip</include>
+        <include>Media_Menu_Furniture</include>
+        <control type="grouplist" id="9003">
+          <posx>0</posx>
+          <posy>0</posy>
+          <width>300</width>
+          <height>720</height>
+          <itemgap>0</itemgap>
+          <orientation>vertical</orientation>
+          <scroll>true</scroll>
+          <onleft>7510</onleft>
+          <onright>7510</onright>
+          <onup>9003</onup>
+          <ondown>9003</ondown>
+          <onback>7510</onback>
+          <include>Animation_MediaMenuSlide2</include>
+
+
+          <control type="button" id="1600">
+            <description>General options label</description>
+            <textcolor>selected</textcolor>
+            <disabledcolor>selected</disabledcolor>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>$LOCALIZE[128] [LOWERCASE]$LOCALIZE[33063][/LOWERCASE]</label>
+            <enable>no</enable>
+          </control>
+          <control type="button" id="2">
+            <description>Settings</description>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>-</label>
+          </control>
+          <control type="spincontrolex" id="3">
+            <description>change location button</description>
+            <textcolor>60FFFFFF</textcolor>
+            <focusedcolor>white6</focusedcolor>
+            <disabledcolor>3cFFFFFF</disabledcolor>
+            <textureup>settings/spin-up.png</textureup>
+            <texturedown>settings/spin-down.png</texturedown>
+            <textureupfocus>settings/spin-up-focus.png</textureupfocus>
+            <texturedownfocus>settings/spin-down-focus.png</texturedownfocus>
+            <texturenofocus>-</texturenofocus>
+            <height>26</height>
+            <width>265</width>
+            <texturenofocus>-</texturenofocus>
+            <texturefocus>settings/listselect.png</texturefocus>
+            <font>Font_Reg19</font>
+            <textoffsety>-10</textoffsety>
+            <align>left</align>
+            <textoffsetx>0</textoffsetx>
+            <spinposx>2</spinposx>
+            <spinwidth>35</spinwidth>
+            <spinheight>60</spinheight>
+          </control>
+          <control type="button" id="4">
+            <description>Settings</description>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>5</label>
+            <onclick>ActivateWindow(MyWeatherSettings)</onclick>
+          </control>
           <control type="button" id="301">
             <description>Forecast options label</description>
             <textcolor>selected</textcolor>
@@ -195,122 +235,82 @@
             <selected>SubString(Window.Property(Weather.CurrentView),maps)</selected>
             <visible>SubString(Weather.Plugin,weather.weatherplus)</visible>
           </control>
-        <control type="button" id="1601">
-          <description>Backdrop options label</description>
-          <textcolor>selected</textcolor>
-          <disabledcolor>selected</disabledcolor>
-          <include>Objects_MediaMenuButtonAlt</include>
-          <label>$LOCALIZE[31383] [LOWERCASE]$LOCALIZE[33063][/LOWERCASE]</label>
-          <enable>no</enable>
-        </control>
-        <control type="togglebutton" id="1602">
-          <description>Toggle background</description>
-          <pulseonselect>yes</pulseonselect>
-          <include>Objects_MediaMenuButtonAlt</include>
-          <label>$LOCALIZE[31374] [LOWERCASE]$LOCALIZE[31912][/LOWERCASE]</label>
-          <aligny>center</aligny>
-          <altlabel>$LOCALIZE[571]</altlabel>
-          <onclick>Skin.ToggleSetting(ShowWeatherFanart)</onclick>
-          <usealttexture>!Skin.HasSetting(ShowWeatherFanart)</usealttexture>
-        </control>
-        <control type="radiobutton" id="1603">
-          <description>Toggle Dark</description>
-          <include>Objects_MediaMenuButtonAlt</include>
-          <label>$LOCALIZE[31387]</label>
-          <onclick>Skin.ToggleSetting(darkinfopane)</onclick>
-          <selected>Skin.HasSetting(darkinfopane)</selected>
-          <visible>!Skin.HasSetting(hideoptions)</visible>
-        </control>
-        <control type="button" id="1604">
-          <description>Viewtype options label</description>
-          <textcolor>selected</textcolor>
-          <disabledcolor>selected</disabledcolor>
-          <include>Objects_MediaMenuButtonAlt</include>
-          <label>$LOCALIZE[31185] [LOWERCASE]$LOCALIZE[33063][/LOWERCASE]</label>
-          <enable>no</enable>
-        </control>
-        <control type="radiobutton" id="1605">
-          <description>Toggle animated icons</description>
-          <include>Objects_MediaMenuButtonAlt</include>
-          <label>$LOCALIZE[31465]</label>
-          <onclick>Skin.ToggleSetting(AnimatedWeatherIcons)</onclick>
-          <selected>Skin.HasSetting(AnimatedWeatherIcons)</selected>
-          <visible>!Skin.HasSetting(hideoptions)</visible>
-        </control>
-        <control type="button" id="1606">
-          <description>Set path</description>
-          <include>Objects_MediaMenuButtonAlt</include>
-          <label>- $LOCALIZE[573]</label>
-          <label2>[COLOR=grey2]$INFO[Skin.String(AnimatedWeatherIconsDir)][/COLOR]</label2>
-          <include>Default_SettingButton</include>
-          <onclick>Skin.SetPath(AnimatedWeatherIconsDir)</onclick>
-          <visible>Skin.HasSetting(AnimatedWeatherIcons)</visible>
-          <visible>!Skin.HasSetting(hideoptions)</visible>
-        </control>
-        <control type="radiobutton" id="1607">
-          <description>Toggle Listpanel thin</description>
-          <include>Objects_MediaMenuButtonAlt</include>
-          <label>$LOCALIZE[31169]</label>
-          <onclick>Skin.ToggleSetting(lightweatherpanel)</onclick>
-          <selected>!Skin.HasSetting(lightweatherpanel)</selected>
-          <visible>!Skin.HasSetting(hideoptions)</visible>
-        </control>
-        <control type="button" id="1608">
-          <description>Set topbar color</description>
-          <include>Objects_MediaMenuButtonAlt</include>
-          <label>31389</label>
-          <onclick>ActivateWindow(1128)</onclick>
-          <visible>!Skin.HasSetting(hideoptions)</visible>
-        </control>
-      </control>
-    </control>
-  </control>
-  <control type="button" id="9000">
-    <include>HiddenObject</include>
-    <enable>Skin.HasSetting(kioskmode)</enable>
-    <visible>Skin.HasSetting(kioskmode)</visible>
-    <onfocus>SetFocus(50)</onfocus>
-  </control>
-
-    <control type="group">
-      <description>Breadcrumbs</description>
-      <visible>Skin.HasSetting(breadcrumb)</visible>
-      <include>Animation_HideBreadCrumbs</include>
-      <include>Breadcrumbs_BackBar</include>
-      <control type="group">
-        <visible>!Player.HasMedia|!IsEmpty(Window(videolibrary).Property(tvtunesIsAlive))</visible>
-        <control type="grouplist">
-          <posx>15</posx>
-          <posy>0</posy>
-          <width>500</width>
-          <align>left</align>
-          <visible></visible>
-          <itemgap>0</itemgap>
-          <orientation>horizontal</orientation>
-          <control type="image">
-            <description>Items Icon</description>
-            <width>36</width>
-            <height>25</height>
-            <texture>common/logo_pics.png</texture>
-			<include>BreadcrumbsIcon</include>
-            <animation effect="slide" start="0" end="-6" time="0" condition="true">Conditional</animation>
-         </control>
-          <control type="label">
-            <include>BreadcrumbsLabel</include>
-            <label>$LOCALIZE[8]</label>
+          <control type="button" id="1601">
+            <description>Backdrop options label</description>
+            <textcolor>selected</textcolor>
+            <disabledcolor>selected</disabledcolor>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>$LOCALIZE[31383] [LOWERCASE]$LOCALIZE[33063][/LOWERCASE]</label>
+            <enable>no</enable>
           </control>
-          <control type="label">
-            <include>BreadcrumbsLabel</include>
-            <label>$INFO[Container.FolderName, / ]</label>
-            <include>BreadcrumbsLabel</include>
+          <control type="togglebutton" id="1602">
+            <description>Toggle background</description>
+            <pulseonselect>yes</pulseonselect>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>$LOCALIZE[31374] [LOWERCASE]$LOCALIZE[31912][/LOWERCASE]</label>
+            <aligny>center</aligny>
+            <altlabel>$LOCALIZE[571]</altlabel>
+            <onclick>Skin.ToggleSetting(ShowWeatherFanart)</onclick>
+            <usealttexture>!Skin.HasSetting(ShowWeatherFanart)</usealttexture>
+          </control>
+          <control type="radiobutton" id="1603">
+            <description>Toggle Dark</description>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>$LOCALIZE[31387]</label>
+            <onclick>Skin.ToggleSetting(darkinfopane)</onclick>
+            <selected>Skin.HasSetting(darkinfopane)</selected>
+            <visible>!Skin.HasSetting(hideoptions)</visible>
+          </control>
+          <control type="button" id="1604">
+            <description>Viewtype options label</description>
+            <textcolor>selected</textcolor>
+            <disabledcolor>selected</disabledcolor>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>$LOCALIZE[31185] [LOWERCASE]$LOCALIZE[33063][/LOWERCASE]</label>
+            <enable>no</enable>
+          </control>
+          <control type="radiobutton" id="1605">
+            <description>Toggle animated icons</description>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>$LOCALIZE[31465]</label>
+            <onclick>Skin.ToggleSetting(AnimatedWeatherIcons)</onclick>
+            <selected>Skin.HasSetting(AnimatedWeatherIcons)</selected>
+            <visible>!Skin.HasSetting(hideoptions)</visible>
+          </control>
+          <control type="button" id="1606">
+            <description>Set path</description>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>- $LOCALIZE[573]</label>
+            <label2>[COLOR=grey2]$INFO[Skin.String(AnimatedWeatherIconsDir)][/COLOR]</label2>
+            <include>Default_SettingButton</include>
+            <onclick>Skin.SetPath(AnimatedWeatherIconsDir)</onclick>
+            <visible>Skin.HasSetting(AnimatedWeatherIcons)</visible>
+            <visible>!Skin.HasSetting(hideoptions)</visible>
+          </control>
+          <control type="radiobutton" id="1607">
+            <description>Toggle Listpanel thin</description>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>$LOCALIZE[31169]</label>
+            <onclick>Skin.ToggleSetting(lightweatherpanel)</onclick>
+            <selected>!Skin.HasSetting(lightweatherpanel)</selected>
+            <visible>!Skin.HasSetting(hideoptions)</visible>
+          </control>
+          <control type="button" id="1608">
+            <description>Set topbar color</description>
+            <include>Objects_MediaMenuButtonAlt</include>
+            <label>31389</label>
+            <onclick>ActivateWindow(1128)</onclick>
+            <visible>!Skin.HasSetting(hideoptions)</visible>
           </control>
         </control>
       </control>
-      <include>Breadcrumbs_Furniture</include>
     </control>
-
-    <include condition="Skin.HasSetting(globaltime)">Furniture_Clock</include>
-  <include>Furniture_NowPlayingWidget</include>
+    <control type="button" id="9000">
+      <include>HiddenObject</include>
+      <enable>Skin.HasSetting(kioskmode)</enable>
+      <visible>Skin.HasSetting(kioskmode)</visible>
+      <onfocus>SetFocus(50)</onfocus>
+    </control>
   </controls>
 
 </window>
