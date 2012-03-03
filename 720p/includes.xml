@@ -284,7 +284,7 @@
   <include name="Dialogs_Progress">
     <description>Progressbar</description>
     <posx>100</posx>
-    <posy>62</posy>
+    <posy>64</posy>
     <width>385</width>
     <height>14</height>
     <texturebg>dialogs/progress/progress_back.png</texturebg>
@@ -299,15 +299,15 @@
     <height>21</height>
     <textcolor>abFFFFFF</textcolor>
     <align>left</align>
-    <font>Font_Info</font>
+    <font>Font_Condensed20</font>
     <scroll>true</scroll>
   </include>
   <include name="Dialogs_Label1">
-    <posy>8</posy>
+    <posy>3</posy>
     <include>Dialogs_LabelVars</include>
   </include>
   <include name="Dialogs_Label2">
-    <posy>26</posy>
+    <posy>23</posy>
     <include>Dialogs_LabelVars</include>
   </include>
   <include name="Dialogs_Label3">
@@ -322,7 +322,7 @@
     <control type="image">
       <description>left arrow</description>
       <posx>195</posx>
-      <posy>62</posy>
+      <posy>67</posy>
       <width>20</width>
       <height>20</height>
       <texture>views/multiplex_arrow2.png</texture>
@@ -331,7 +331,7 @@
     <control type="image">
       <description>right arrow</description>
       <posx>322</posx>
-      <posy>62</posy>
+      <posy>67</posy>
       <width>20</width>
       <height>20</height>
       <texture>views/multiplex_arrow.png</texture>
@@ -412,8 +412,11 @@
     <textcolor>ff2e2e2e</textcolor>
     <selectedcolor>ff2e2e2e</selectedcolor>
   </include>
+  <include name="TvTunesVisibleCondition">
+    <visible>IsEmpty(Window(videolibrary).Property(tvtunesIsAlive))</visible>
+  </include>
   <include name="Furniture_NowPlayingWidget">
-    <control type="group">
+    <!--<control type="group">
       <animation type="Conditional" reversible="true" condition="[Control.HasFocus(109)|Control.HasFocus(110)|Control.HasFocus(195)]">
         <effect type="slide" start="0,0" end="0,-35" time="400" tween="cubic" easing="in" />
       </animation>
@@ -522,6 +525,103 @@
         <label>$VAR[HomeOSDLabelVar]</label>
         <align>center</align>
         <textcolor>white2</textcolor>
+      </control>
+    </control>-->
+    <control type="group">
+      <include condition="Window.isActive(videos) + Skin.HasSetting(tv_theme)">TvTunesVisibleCondition</include>
+      <visible>Player.HasAudio</visible>
+      <visible>![Control.HasFocus(109)|Control.HasFocus(110)|Control.HasFocus(195)]</visible>
+      <animation effect="zoom" start="100" end="70" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(smallerdialogs)">Conditional</animation>
+      <animation effect="slide" end="220,-10" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(smallerdialogs)">Conditional</animation>
+      <animation effect="slide" end="0,100" time="800" easing="inout" tween="circle" condition="[Window.IsVisible(videoscan)|Window.IsVisible(musicscan)]">Conditional</animation>
+      <animation type="Visible" reversible="false">
+        <effect type="zoom" start="80" end="100" center="640,360" delay="200" easing="out" tween="back" time="300" />
+        <effect type="fade" delay="200" start="0" end="100" time="300" />
+      </animation>
+      <animation type="WindowOpen" reversible="false" condition="Window.Previous(Home)">
+        <effect type="zoom" start="80" end="100" center="640,360" delay="200" easing="out" tween="back" time="300" />
+        <effect type="fade" delay="200" start="0" end="100" time="300" />
+      </animation>
+      <animation type="Hidden" reversible="false">
+        <effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="300" />
+        <effect type="fade" start="100" end="0" time="300" />
+      </animation>
+      <animation type="WindowClose" reversible="false" condition="Window.Next(Home)">
+        <effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="300" />
+        <effect type="fade" start="100" end="0" time="300" />
+      </animation>
+      <posx>760</posx>
+      <posy>38</posy>
+      <width>509</width>
+      <height>91</height>
+      <include>Dialogs_Tablet</include>
+      <control type="image">
+        <posx>12</posx>
+        <posy>9</posy>
+        <width>73</width>
+        <height>73</height>
+        <texture>$INFO[MusicPlayer.Cover]</texture>
+      </control>
+      <control type="label">
+        <posx>92</posx>
+        <posy>9</posy>
+        <width>402</width>
+        <height>21</height>
+        <textcolor>abFFFFFF</textcolor>
+        <align>left</align>
+        <font>Font_Condensed20</font>
+        <scroll>true</scroll>
+        <textoffsetx>10</textoffsetx>
+        <label>$INFO[MusicPlayer.Title]</label>
+      </control>
+      <control type="label">
+        <posx>92</posx>
+        <posy>33</posy>
+        <width>402</width>
+        <height>21</height>
+        <textcolor>abFFFFFF</textcolor>
+        <align>left</align>
+        <font>Font_Condensed20</font>
+        <scroll>true</scroll>
+        <textoffsetx>10</textoffsetx>
+        <label>$INFO[MusicPlayer.Artist]</label>
+      </control>
+      <control type="label">
+        <posx>92</posx>
+        <posy>58</posy>
+        <width>402</width>
+        <height>21</height>
+        <textcolor>abFFFFFF</textcolor>
+        <align>left</align>
+        <font>Font_Condensed20</font>
+        <scroll>true</scroll>
+        <textoffsetx>10</textoffsetx>
+        <label>$INFO[Player.Time(mm:ss)]</label>
+      </control>
+      <control type="progress">
+        <description>Progressbar</description>
+        <posx>150</posx>
+        <posy>64</posy>
+        <width>280</width>
+        <height>14</height>
+        <texturebg>dialogs/progress/progress_back.png</texturebg>
+        <lefttexture>dialogs/progress/progress_left.png</lefttexture>
+        <midtexture>dialogs/progress/progress_mid.png</midtexture>
+        <righttexture>dialogs/progress/progress_right.png</righttexture>
+        <overlaytexture>-</overlaytexture>
+        <info>Player.Progress</info>
+      </control>
+      <control type="label">
+        <posx>494</posx>
+        <posy>58</posy>
+        <width>402</width>
+        <height>21</height>
+        <textcolor>abFFFFFF</textcolor>
+        <align>right</align>
+        <font>Font_Condensed20</font>
+        <scroll>true</scroll>
+        <textoffsetx>10</textoffsetx>
+        <label>$INFO[Player.TimeRemaining(mm:ss),-]</label>
       </control>
     </control>
   </include>
