@@ -412,8 +412,76 @@
     <textcolor>ff2e2e2e</textcolor>
     <selectedcolor>ff2e2e2e</selectedcolor>
   </include>
+  
   <include name="TvTunesVisibleCondition">
     <visible>IsEmpty(Window(videolibrary).Property(tvtunesIsAlive))</visible>
+  </include>
+  
+  <include name="TrailerLabel">
+    <control type="group">
+      <visible>!IsEmpty(ListItem.Trailer)</visible>
+      <animation effect="slide" start="0,-30" end="0,0" time="100">Visible</animation>
+      <animation effect="slide" start="0,-30" end="0,0" time="100">WindowOpen</animation>
+      <animation effect="slide" start="0,0" end="0,-30" time="100">Hidden</animation>
+      <animation effect="slide" start="0,0" end="0,-30" time="100">WindowClose</animation>
+      <control type="image">
+        <posx>469</posx>
+        <posy>0</posy>
+        <width>342</width>
+        <height>58</height>
+        <texture flipy="true">osd/osd_top_bar.png</texture>
+      </control>
+      <control type="label">
+        <description>Paused Label</description>
+        <posx>463</posx>
+        <posy>-1</posy>
+        <width>342</width>
+        <height>28</height>
+        <aligny>center</aligny>
+        <align>center</align>
+        <font>Font_Reg17</font>
+        <scroll>true</scroll>
+        <textcolor>FF363636</textcolor>
+        <shadowcolor>88e5e5e5</shadowcolor>
+        <textoffsetx>51</textoffsetx>
+        <label>$VAR[BreadcrumbsTrailerVar]</label>
+      </control>
+    </control>
+  </include>
+
+  <include name="GlobalRSS">
+    <control type="group">
+      <animation type="WindowClose" reversible="true"  condition="!Window.Next(1111)+!Window.IsActive(1111)+!Window.Next(10012)+!Window.IsActive(10012)+!Window.Next(10013)+!Window.IsActive(10013)+!Window.Next(10014)+!Window.IsActive(10014)+!Window.Next(10015)+!Window.IsActive(10015)+!Window.Next(10016)+!Window.IsActive(10016)+!Window.Next(10017)+!Window.IsActive(10017)+!Window.Next(10018)+!Window.IsActive(10018)+!Window.Next(10019)+!Window.IsActive(10019)+!Window.Next(10007)+!Window.IsActive(10007)">
+        <effect type="slide" start="0,0" end="0,-35" time="300" tween="cubic" easing="in" />
+      </animation>
+      <animation type="WindowOpen" reversible="true" condition="!Window.Previous(settings)+!Window.Previous(1111)+!Window.Previous(10012)+!Window.Previous(10013)+!Window.Previous(10014)+!Window.Previous(10015)+!Window.Previous(10016)+!Window.Previous(10017)+!Window.Previous(10018)+!Window.Previous(10019)+!Window.Previous(10007)">
+        <effect type="slide" start="0,-35" end="0,0" time="400" tween="cubic" easing="in" />
+      </animation>
+      <animation effect="slide" start="-490,0" end="0,0" delay="0" time="300">VisibleChange</animation>
+      <control type="image">
+        <description>time background</description>
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>529</width>
+        <height>58</height>
+        <texture flipy="true" flipx="true">home/timepanel_mid.png</texture>
+        <colordiffuse>$INFO[Skin.String(diffuse_home)]</colordiffuse>
+      </control>
+      <control type="rss">
+        <posx>0</posx>
+        <posy>2</posy>
+        <width>478</width>
+        <height>30</height>
+        <aligny>center</aligny>
+        <font>Font_Reg17_Caps</font>
+        <urlset>1</urlset>
+        <textcolor>white2</textcolor>
+        <headlinecolor>white2</headlinecolor>
+        <highlightcolor>white2</highlightcolor>
+        <titlecolor>dc2B60DE</titlecolor>
+        <scrollspeed>50</scrollspeed>
+      </control>
+    </control>
   </include>
   <include name="Furniture_NowPlayingWidget">
     <!--<control type="group">
@@ -754,6 +822,9 @@
         </control>
       </control>
     </control>
+
+    <include condition="!Skin.HasSetting(breadcrumb)">TrailerLabel</include>
+    <include condition="!Skin.HasSetting(breadcrumb) + Skin.HasSetting(GlobalRSS)">GlobalRSS</include>
   </include>
   <include name="Objects_KeyOffVars">
     <textcolor>77FFFFFF</textcolor>
@@ -824,13 +895,13 @@
         <posx>489</posx>
         <posy>0</posy>
         <width>400</width>
-        <height>22</height>
+        <height>25</height>
         <align>right</align>
         <aligny>center</aligny>
-        <font>Font_Condensed20</font>
+        <font>Font_Reg17_Caps</font>
         <textcolor>white2</textcolor>
         <shadowcolor>-</shadowcolor>
-        <label>[COLOR white2]$INFO[System.Date(DDD)], $INFO[System.Date(d)] $INFO[System.Date(mmm)] $INFO[System.Date(yyyy)]  |  [/COLOR][COLOR ffaaaaaa]$INFO[System.Time][/COLOR]</label>
+        <label>[COLOR ffaaaaaa]$INFO[System.Date(DDD)], $INFO[System.Date(d)] $INFO[System.Date(mmm)] $INFO[System.Date(yyyy)]  [/COLOR]|  [COLOR white2]$INFO[System.Time][/COLOR]</label>
         <animation effect="slide" start="0" end="-40" time="200" tween="quadratic" easing="out" condition="Window.IsActive(mutebug)">Conditional</animation>
       </control>
       <control type="group">
@@ -850,10 +921,10 @@
           <posx>60</posx>
           <posy>0</posy>
           <width>200</width>
-          <height>22</height>
+          <height>25</height>
           <align>left</align>
           <aligny>center</aligny>
-          <font>Font_Condensed20</font>
+          <font>Font_Reg17_Caps</font>
           <textcolor>white2</textcolor>
           <shadowcolor>-</shadowcolor>
           <label>$INFO[Window(weather).Property(Current.Temperature)] $INFO[System.TemperatureUnits,,  |  ][COLOR ffaaaaaa]$INFO[Window(Weather).Property(Current.Humidity)][/COLOR]</label>
