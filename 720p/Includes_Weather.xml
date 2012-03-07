@@ -3269,6 +3269,15 @@
     </control>
   </include>
   <include name="StandardWeatherLayout">
+    <control type="image">
+      <posx>84</posx>
+      <posy>82</posy>
+      <width>1113</width>
+      <height>524</height>
+      <texture background="true">$INFO[Window.Property(Current.Earth.Phase.LargeImage)]</texture>
+      <colordiffuse>DD27292b</colordiffuse>
+    </control>
+
     <control type="group">
       <description>Left side</description>
       <control type="label">
@@ -3397,7 +3406,7 @@
         <control type="group">
           <description>Sunrise</description>
           <posy>520</posy>
-          <visible>!IsEmpty(Window.Property(Current.Locale.Sunrise))</visible>
+          <visible>!IsEmpty(Window.Property(Current.Sunrise))</visible>
           <control type="label">
             <description>current Sunrise label</description>
             <posx>170</posx>
@@ -3419,7 +3428,7 @@
             <font>Font_Reg20</font>
             <align>left</align>
             <aligny>center</aligny>
-            <info>Window.Property(Current.Locale.Sunrise)</info>
+            <info>Window.Property(Current.Sunrise)</info>
             <textcolor>white2</textcolor>
           </control>
         </control>
@@ -3427,7 +3436,7 @@
         <control type="group">
           <dwescription>Sunset</dwescription>
           <posy>550</posy>
-          <visible>!IsEmpty(Window.Property(Current.Locale.Sunset))</visible>
+          <visible>!IsEmpty(Window.Property(Current.Sunset))</visible>
           <control type="label">
             <description>current Sunset label</description>
             <posx>170</posx>
@@ -3449,11 +3458,41 @@
             <font>Font_Reg20</font>
             <align>left</align>
             <aligny>center</aligny>
-            <info>Window.Property(Current.Locale.Sunset)</info>
+            <info>Window.Property(Current.Sunset)</info>
             <textcolor>white2</textcolor>
           </control>
         </control>
-        
+
+        <control type="group">
+          <description>Moon Phase</description>
+          <posy>580</posy>
+          <visible>!IsEmpty(Window.Property(Current.Moon.Phase))</visible>
+          <control type="label">
+            <description>current Sunrise label</description>
+            <posx>170</posx>
+            <posy>0</posy>
+            <width>170</width>
+            <height>35</height>
+            <font>Font_Reg20</font>
+            <align>right</align>
+            <aligny>center</aligny>
+            <label>$LOCALIZE[31929] :</label>
+            <textcolor>grey2</textcolor>
+          </control>
+          <control type="label">
+            <description>current Moon Phase Value</description>
+            <posx>185</posx>
+            <posy>0</posy>
+            <width>300</width>
+            <height>35</height>
+            <font>Font_Reg20</font>
+            <align>left</align>
+            <aligny>center</aligny>
+            <info>Window.Property(Current.Moon.Phase)</info>
+            <textcolor>white2</textcolor>
+          </control>
+        </control>
+
         <control type="label">
           <description>current dew Value</description>
           <posx>185</posx>
@@ -3496,14 +3535,14 @@
       <posx>640</posx>
       <posy>81</posy>
       <width>560</width>
-      <height>538</height>
+      <height>364</height>
       <orientation>vertical</orientation>
       <pagecontrol>60</pagecontrol>
       <viewtype label="535">list</viewtype>
-      <scrolltime>200</scrolltime>
+      <scrolltime tween="quadratic" easing="out">200</scrolltime>
       <onleft>9000</onleft>
-      <onup>7500</onup>
-      <ondown>7500</ondown>
+      <onup>7510</onup>
+      <ondown>7510</ondown>
       <visible>IsEmpty(Window.Property(Weather.CurrentView))</visible>
       <include>VisibleFadeEffect</include>
       <itemlayout width="560" height="91">
@@ -3589,6 +3628,21 @@
       </itemlayout>
       <focusedlayout width="560" height="91">
         <control type="image">
+          <posx>0</posx>
+          <posy>51</posy>
+          <height>40</height>
+          <width>560</width>
+          <texture>osd/osd_settings_buttonnf.png</texture>
+        </control>
+        <control type="image">
+          <posx>0</posx>
+          <posy>-5</posy>
+          <width>558</width>
+          <height>103</height>
+          <texture>views/listpanel_selectbar.png</texture>
+          <visible>Control.HasFocus(7510) + IntegerGreaterThan(Container(7510).NumPages,1)</visible>
+        </control>
+        <control type="image">
           <description>day icon</description>
           <posx>15</posx>
           <posy>5</posy>
@@ -3611,14 +3665,9 @@
           <aspectratio align="center">keep</aspectratio>
           <visible>Skin.HasSetting(AnimatedWeatherIcons)</visible>
         </control>
-        <control type="image">
-          <posx>0</posx>
-          <posy>51</posy>
-          <height>40</height>
-          <width>560</width>
-          <texture>osd/osd_settings_buttonnf.png</texture>
-        </control>
-        <control type="label">
+        <control type="group">
+          <visible>!Control.HasFocus(7510)|!IntegerGreaterThan(Container(7510).NumPages,1)</visible>
+          <control type="label">
             <posx>110</posx>
             <posy>5</posy>
             <width>250</width>
@@ -3667,6 +3716,55 @@
             <aligny>center</aligny>
             <label>$INFO[ListItem.Property(LowTemp),[COLOR grey2]$LOCALIZE[418]: [/COLOR]]</label>
           </control>
+        </control>
+        <control type="group">
+          <visible>Control.HasFocus(7510) + IntegerGreaterThan(Container(7510).NumPages,1)</visible>
+          <control type="label">
+            <posx>110</posx>
+            <posy>5</posy>
+            <width>250</width>
+            <height>23</height>
+            <font>Font_Reg18_Caps</font>
+            <include>listcolorfocus</include>
+            <align>left</align>
+            <aligny>center</aligny>
+            <label>$INFO[ListItem.Label]</label>
+          </control>
+          <control type="label">
+            <posx>110</posx>
+            <posy>30</posy>
+            <width>440</width>
+            <height>23</height>
+            <font>Font_Reg18</font>
+            <include>listcolorfocus</include>
+            <align>left</align>
+            <aligny>center</aligny>
+            <label>$INFO[ListItem.Label2]</label>
+            <scroll>true</scroll>
+          </control>
+          <control type="label">
+            <posx>110</posx>
+            <posy>55</posy>
+            <width>440</width>
+            <height>23</height>
+            <font>Font_Reg18</font>
+            <include>listcolorfocus</include>
+            <align>left</align>
+            <aligny>center</aligny>
+            <label>$INFO[ListItem.Property(HighTemp),$LOCALIZE[419]: ]</label>
+          </control>
+          <control type="label">
+            <posx>260</posx>
+            <posy>55</posy>
+            <width>440</width>
+            <height>23</height>
+            <font>Font_Reg18</font>
+            <include>listcolorfocus</include>
+            <align>left</align>
+            <aligny>center</aligny>
+            <label>$INFO[ListItem.Property(LowTemp),$LOCALIZE[418]:]</label>
+          </control>
+        </control>
       </focusedlayout>
       <content>
         <item id="1">
@@ -3705,7 +3803,51 @@
           <property name="HighTemp">$INFO[Window(weather).Property(Day3.HighTemp)] $INFO[System.TemperatureUnits]</property>
           <property name="LowTemp">$INFO[Window(weather).Property(Day3.LowTemp)] $INFO[System.TemperatureUnits]</property>
         </item>
+        <item id="5">
+          <label>$INFO[Window(weather).Property(Day4.Title)]</label>
+          <label2>$INFO[Window(weather).Property(Day4.Outlook)]</label2>
+          <onclick>-</onclick>
+          <icon>$INFO[Window(weather).Property(Day4.OutlookIcon)]</icon>
+          <thumb>$INFO[Skin.String(AnimatedWeatherIconsDir)]$INFO[Window(weather).Property(Day4.FanartCode)]</thumb>
+          <property name="HighTemp">$INFO[Window(weather).Property(Day4.HighTemp)] $INFO[System.TemperatureUnits]</property>
+          <property name="LowTemp">$INFO[Window(weather).Property(Day4.LowTemp)] $INFO[System.TemperatureUnits]</property>
+          <visible>!IsEmpty(Window(weather).Property(Day4.Title))</visible>
+        </item>
+        <item id="6">
+          <label>$INFO[Window(weather).Property(Day5.Title)]</label>
+          <label5>$INFO[Window(weather).Property(Day5.Outlook)]</label5>
+          <onclick>-</onclick>
+          <icon>$INFO[Window(weather).Property(Day5.OutlookIcon)]</icon>
+          <thumb>$INFO[Skin.String(AnimatedWeatherIconsDir)]$INFO[Window(weather).Property(Day5.FanartCode)]</thumb>
+          <property name="HighTemp">$INFO[Window(weather).Property(Day5.HighTemp)] $INFO[System.TemperatureUnits]</property>
+          <property name="LowTemp">$INFO[Window(weather).Property(Day5.LowTemp)] $INFO[System.TemperatureUnits]</property>
+          <visible>!IsEmpty(Window(weather).Property(Day5.Title))</visible>
+        </item>
+        <item id="7">
+          <label>$INFO[Window(weather).Property(Day6.Title)]</label>
+          <label2>$INFO[Window(weather).Property(Day6.Outlook)]</label2>
+          <onclick>-</onclick>
+          <icon>$INFO[Window(weather).Property(Day6.OutlookIcon)]</icon>
+          <thumb>$INFO[Skin.String(AnimatedWeatherIconsDir)]$INFO[Window(weather).Property(Day6.FanartCode)]</thumb>
+          <property name="HighTemp">$INFO[Window(weather).Property(Day6.HighTemp)] $INFO[System.TemperatureUnits]</property>
+          <property name="LowTemp">$INFO[Window(weather).Property(Day6.LowTemp)] $INFO[System.TemperatureUnits]</property>
+          <visible>!IsEmpty(Window(weather).Property(Day6.Title))</visible>
+        </item>
       </content>
+    </control>
+    <control type="image">
+      <posx>720</posx>
+      <posy>450</posy>
+      <width>154</width>
+      <height>154</height>
+      <texture background="true">$INFO[Window.Property(Current.Earth.Phase.Image)]</texture>
+    </control>
+    <control type="image">
+      <posx>920</posx>
+      <posy>450</posy>
+      <width>154</width>
+      <height>154</height>
+      <texture background="true">$INFO[Window.Property(Current.Moon.Phase.Image)]</texture>
     </control>
   </include>
 </includes>
