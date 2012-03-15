@@ -39,6 +39,66 @@
   <include file="Includes_Weather.xml" />
   <include file="Includes_MainMenu.xml" />
   <include file="Includes_MainMenu.xml" />
+  <include file="ViewsLiveTV.xml" />
+  <include file="ViewsPVR.xml" />
+  <include file="IncludesBackgroundBuilding.xml" />
+  <include name="BehindDialogFadeOut">
+    <control type="image">
+      <posx>0</posx>
+      <posy>0</posy>
+      <width>1920</width>
+      <height>1080</height>
+      <texture>black-back.png</texture>
+      <animation effect="fade" time="400">Visible</animation>
+      <animation effect="fade" time="200">Hidden</animation>
+      <visible>Window.IsActive(MovieInformation) | Window.IsActive(MusicInformation) | Window.IsActive(SongInformation) | Window.IsActive(FileBrowser) | Window.IsActive(TextViewer) | Window.IsActive(AddonSettings) | Window.IsActive(ContentSettings) | Window.IsActive(SelectDialog) | Window.IsActive(FileStackingDialog) | Window.IsActive(MediaSource) | Window.IsActive(PictureInfo) | Window.IsActive(PlayerControls) | Window.IsActive(VirtualKeyboard) | Window.IsActive(NumericInput) | Window.IsActive(ProfileSettings) | Window.IsActive(LockSettings) | Window.IsActive(SmartPlaylistEditor) | Window.IsActive(SmartPlaylistRule) | Window.IsActive(script-Apple_Movie_Trailers-settings.xml) | Window.IsActive(script-Apple_Movie_Trailers-chooser.xml) | Window.IsActive(script-Apple_Movie_Trailers-search.xml) | Window.IsActive(script-Apple_Movie_Trailers-showtimes.xml) | Window.IsActive(script-XBMC_Lyrics-settings.xml) | Window.IsActive(script-RSS_Editor-rssEditor.xml) | Window.IsActive(script-RSS_Editor-setEditor.xml) | Window.IsActive(AddonInformation) | Window.IsActive(Peripherals) | Window.IsActive(PeripheralSettings) | Window.IsActive(PVRChannelManager)</visible>
+    </control>
+  </include>
+  <include name="ButtonInfoDialogsCommonValues">
+    <height>60</height>
+    <width>255</width>
+    <textoffsetx>30</textoffsetx>
+    <align>center</align>
+    <aligny>center</aligny>
+    <font>font12_title</font>
+    <texturefocus border="8">button-focus.png</texturefocus>
+    <texturenofocus border="8">button-nofocus.png</texturenofocus>
+    <pulseonselect>false</pulseonselect>
+  </include>
+  <include name="SideBladeLeft">
+    <animation effect="slide" start="0,0" end="375,0" time="400" tween="quadratic" easing="out" condition="ControlGroup(9000).HasFocus | Control.HasFocus(9001) | Control.HasFocus(8999)">Conditional</animation>
+    <animation effect="slide" start="0,0" end="-450,0" time="400" tween="quadratic" easing="out" condition="ControlGroup(9000).HasFocus | Control.HasFocus(9001)">WindowClose</animation>
+    <animation effect="slide" start="0,0" end="-75,0" time="300" tween="quadratic" easing="out" condition="![ControlGroup(9000).HasFocus | Control.HasFocus(9001)]">WindowClose</animation>
+    <animation effect="slide" start="-75,0" end="0,0" time="300" tween="quadratic" easing="out">WindowOpen</animation>
+  </include>
+  <include name="backgroundfade">
+    <animation effect="fade" time="600">Visible</animation>
+    <animation effect="fade" time="600">Hidden</animation>
+  </include>
+  <include name="Window_OpenClose_Animation">
+    <animation effect="fade" time="250">WindowOpen</animation>
+    <animation effect="fade" time="250">WindowClose</animation>
+  </include>
+  <include name="dialogeffect">
+    <animation effect="fade" time="250">WindowOpen</animation>
+    <animation effect="fade" time="250">WindowClose</animation>
+  </include>
+  <include name="VisibleFadeEffect">
+    <animation effect="fade" time="300">Visible</animation>
+    <animation effect="fade" time="300">Hidden</animation>
+  </include>
+  <include name="BehindDialogFadeOut">
+    <control type="image">
+      <posx>0</posx>
+      <posy>0</posy>
+      <width>1920</width>
+      <height>1080</height>
+      <texture>black-back.png</texture>
+      <animation effect="fade" time="400">Visible</animation>
+      <animation effect="fade" time="200">Hidden</animation>
+      <visible>Window.IsActive(PVRChannelManager)</visible>
+    </control>
+  </include>
   <include name="VideoBackground">
     <control type="group">
       <visible>Player.HasVideo+[Control.IsVisible(51)|Control.IsVisible(506)|Control.IsVisible(511)|Control.IsVisible(50)|Control.IsVisible(500)|Control.IsVisible(514)|Control.IsVisible(516)|Control.IsVisible(551)|Control.IsVisible(500)|Control.IsVisible(510)|Control.IsVisible(57)|[[Control.IsVisible(501)|Control.IsVisible(504)|Control.IsVisible(503)|Control.IsVisible(508)] + !Control.IsVisible(7550)]]</visible>
@@ -574,6 +634,110 @@
         <titlecolor>dc2B60DE</titlecolor>
         <scrollspeed>50</scrollspeed>
         <visible>Skin.HasSetting(GlobalRSS)</visible>
+      </control>
+    </control>
+  </include>
+  <include name="Furniture_NowPlayingWidget_PVR">
+    <control type="group">
+      <include>Animation_CommonFade</include>
+      <animation type="Conditional" reversible="true" condition="[Control.HasFocus(109)|Control.HasFocus(110)|Control.HasFocus(195)]">
+        <effect type="slide" start="0,0" end="0,-52" time="400" tween="cubic" easing="in" />
+      </animation>
+      <visible>Player.HasMedia</visible>
+      <visible>!SubString(Window(videolibrary).Property(tvtunesIsAlive),True)</visible>
+      <posx>-132</posx>
+      <posy>0</posy>
+      <control type="image">
+        <description>time background</description>
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>794</width>
+        <height>87</height>
+        <texture flipy="true" flipx="true">home/timepanel_mid.png</texture>
+        <colordiffuse>$INFO[Skin.String(diffuse_home)]</colordiffuse>
+        <include>Animation_VisibleChange400</include>
+        <visible>!Skin.HasSetting(breadcrumb)</visible>
+      </control>
+      <control type="progress">
+        <description>Progressbar</description>
+        <posx>525</posx>
+        <posy>2</posy>
+        <width>180</width>
+        <height>20</height>
+        <texturebg>osd/seek/progress_back.png</texturebg>
+        <lefttexture>osd/seek/progresscache_left.png</lefttexture>
+        <midtexture>osd/seek/progresscache_mid.png</midtexture>
+        <righttexture>osd/seek/progresscache_right.png</righttexture>
+        <overlaytexture>-</overlaytexture>
+        <info>Player.ProgressCache</info>
+      </control>
+      <control type="progress" id="20">
+        <description>Progressbar</description>
+        <posx>525</posx>
+        <posy>2</posy>
+        <width>180</width>
+        <height>20</height>
+        <texturebg>osd/seek/progresscache_back.png</texturebg>
+        <lefttexture>osd/seek/progress_left.png</lefttexture>
+        <midtexture>osd/seek/progress_mid.png</midtexture>
+        <righttexture>osd/seek/progress_right.png</righttexture>
+        <overlaytexture>-</overlaytexture>
+        <info>Player.Progress</info>
+      </control>
+      <control type="fadelabel">
+        <posx>142</posx>
+        <posy>4</posy>
+        <width>360</width>
+        <height>27</height>
+        <font>Font_Reg17</font>
+        <textcolor>white2</textcolor>
+        <scroll>true</scroll>
+        <label>[COLOR a8FFFFFF]$INFO[MusicPlayer.Artist][/COLOR]</label>
+        <label>[COLOR white2]$INFO[MusicPlayer.Title][/COLOR]</label>
+        <scrollout>false</scrollout>
+        <scrollspeed>50</scrollspeed>
+        <pauseatend>10000</pauseatend>
+        <visible>Player.HasAudio</visible>
+      </control>
+      <control type="fadelabel">
+        <posx>142</posx>
+        <posy>4</posy>
+        <width>360</width>
+        <height>27</height>
+        <font>Font_Reg17</font>
+        <textcolor>white2</textcolor>
+        <scroll>true</scroll>
+        <label>[COLOR a8FFFFFF]$INFO[Videoplayer.TVShowTitle][/COLOR]</label>
+        <label>[COLOR white2]$INFO[Videoplayer.Title][/COLOR]</label>
+        <scrollout>false</scrollout>
+        <scrollspeed>50</scrollspeed>
+        <pauseatend>10000</pauseatend>
+        <visible>!IsEmpty(Videoplayer.TVShowTitle)+Player.HasVideo</visible>
+      </control>
+      <control type="fadelabel">
+        <posx>142</posx>
+        <posy>4</posy>
+        <width>360</width>
+        <height>27</height>
+        <font>Font_Reg17</font>
+        <textcolor>white2</textcolor>
+        <scroll>true</scroll>
+        <label>$INFO[Videoplayer.Title]</label>
+        <scrollout>false</scrollout>
+        <scrollspeed>50</scrollspeed>
+        <pauseatend>10000</pauseatend>
+        <visible>IsEmpty(Videoplayer.TVShowTitle)+Player.HasVideo</visible>
+      </control>
+      <control type="label">
+        <description>Current time</description>
+        <posx>465</posx>
+        <posy>15</posy>
+        <width>300</width>
+        <height>30</height>
+        <font>Font_Reg14</font>
+        <label>$VAR[HomeOSDLabelVar]</label>
+        <align>center</align>
+        <textcolor>white2</textcolor>
       </control>
     </control>
   </include>
