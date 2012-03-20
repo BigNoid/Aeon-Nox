@@ -6,10 +6,11 @@
   <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist1) + [Skin.HasSetting(HomeRandomVPL1) | Skin.HasSetting(HomeRandomPosterVPL1)] + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist1_Path)],unwatched=$INFO[Skin.String(IncludeWatchedCVPL)],resume=False,limit=10,method=Random,menu=VPL1)</onload>
   <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist2) + [Skin.HasSetting(HomeRandomVPL2) | Skin.HasSetting(HomeRandomPosterVPL2)] + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist2_Path)],unwatched=$INFO[Skin.String(IncludeWatchedCVPL)],resume=False,limit=10,method=Random,menu=VPL2)</onload>
   <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist3) + [Skin.HasSetting(HomeRandomVPL3) | Skin.HasSetting(HomeRandomPosterVPL3)] + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist3_Path)],unwatched=$INFO[Skin.String(IncludeWatchedCVPL)],resume=False,limit=10,method=Random,menu=VPL3)</onload>
+  <onload condition="System.HasAddon(script.xbmc.intro.movie)">RunScript(script.xbmc.intro.movie)</onload>
   <controls>
     <control type="button" id="10">
       <description>trigger</description>
-      <onfocus>ReplaceWindow(Home)</onfocus>
+      <onfocus condition="!System.HasAddon(script.xbmc.intro.movie)">ReplaceWindow(Home)</onfocus>
       <texturenofocus>-</texturenofocus>
       <texturefocus>-</texturefocus>
       <visible>!Skin.HasSetting(Use_Startup_Playlist)</visible>
@@ -17,7 +18,7 @@
     <control type="button" id="10">
       <description>trigger with startup Playlist</description>
       <onfocus>XBMC.PlayMedia($ESCINFO[Skin.String(Startup_Playlist_Path)])</onfocus>
-      <onfocus>ReplaceWindow(Home)</onfocus>
+      <onfocus condition="!System.HasAddon(script.xbmc.intro.movie)">ReplaceWindow(Home)</onfocus>
       <texturenofocus>-</texturenofocus>
       <texturefocus>-</texturefocus>
       <visible>Skin.HasSetting(Use_Startup_Playlist)</visible>
@@ -25,6 +26,10 @@
     <control type="image">
       <include>FullscreenDimensions</include>
       <texture>common/black.png</texture>
+    </control>
+    <control type="videowindow">
+      <include>FullscreenDimensions</include>
+      <visible>Player.HasVideo</visible>
     </control>
   </controls>
 </window>
