@@ -810,27 +810,27 @@
           <item id="8">
             <description>Get Extrafanart</description>
             <label>$LOCALIZE[31467]</label>
-            <onclick condition="Container.Content(movies)">XBMC.RunScript(script.artwork.downloader,mode=custom,mediatype=movie,medianame=$INFO[ListItem.Title],mediapath=$INFO[ListItem.Path],extrafanart)</onclick>
-            <onclick condition="Container.Content(tvshows)">XBMC.RunScript(script.artwork.downloader,mode=custom,mediatype=tvshow,medianame=$INFO[ListItem.TVShowTitle],extrafanart)</onclick>
-            <visible>[Container.Content(movies) | Container.Content(tvshows)] + system.hasaddon(script.artwork.downloader)</visible>
+            <onclick condition="Container.Content(movies)">XBMC.RunScript(script.artwork.downloader,mode=custom,mediatype=movie,medianame=$ESCINFO[ListItem.Title],mediapath=$INFO[ListItem.Path],extrafanart)</onclick>
+            <onclick condition="Container.Content(tvshows)">XBMC.RunScript(script.artwork.downloader,mode=custom,mediatype=tvshow,medianame=$ESCINFO[ListItem.TVShowTitle],extrafanart)</onclick>
+            <visible>[Container.Content(movies)|Container.Content(tvshows)] + system.hasaddon(script.artwork.downloader)</visible>
           </item>
           <item id="9">
             <description>Get Artwork</description>
             <label>$LOCALIZE[31316]</label>
             <onclick>SetFocus(5052)</onclick>
-            <visible>Container.Content(tvshows) + system.hasaddon(script.artwork.downloader)</visible>
-          </item>
-          <item id="11">
-            <description>Get Extrathumbs</description>
-            <label>$LOCALIZE[31468]</label>
-            <onclick>XBMC.RunScript(script.artwork.downloader,mode=custom,mediatype=movie,medianame=$INFO[ListItem.Title],mediapath=$INFO[ListItem.Path],extrathumbs)</onclick>
-            <visible>Container.Content(movies) + system.hasaddon(script.artwork.downloader)</visible>
+            <visible>[Container.Content(tvshows)|Container.Content(movies)] + system.hasaddon(script.artwork.downloader)</visible>
           </item>
           <item id="10">
             <description>Get Tune</description>
             <label>$LOCALIZE[31365]</label>
             <onclick>XBMC.RunScript(script.tvtunes,mode=solo&amp;tvpath=$INFO[ListItem.FilenameAndPath]&amp;tvname=$INFO[ListItem.TVShowTitle])</onclick>
             <visible>Container.Content(tvshows) + system.hasaddon(script.tvtunes)</visible>
+          </item>
+          <item id="11">
+            <description>Get Extrathumbs</description>
+            <label>$LOCALIZE[31468]</label>
+            <onclick>XBMC.RunScript(script.artwork.downloader,mode=custom,mediatype=movie,medianame=$ESCINFO[ListItem.Title],mediapath=$ESCINFO[ListItem.Path],extrathumbs)</onclick>
+            <visible>Container.Content(movies) + system.hasaddon(script.artwork.downloader)</visible>
           </item>
         </content>
       </control>
@@ -857,6 +857,41 @@
         <aspectratio align="center">scale</aspectratio>
         <imagepath background="true">$VAR[ExtraFanartPreviewVar]</imagepath>
         <visible>Container(5000).HasFocus(8)  |  Container(5000).HasFocus(11)</visible>
+      </control>
+      <control type="group">
+        <visible>Container(5000).HasFocus(9) + Container.Content(movies)</visible>
+        <posx>825</posx>
+        <posy>606</posy>
+        <control type="image">
+          <posx>0</posx>
+          <posy>0</posy>
+          <width>315</width>
+          <height>315</height>
+          <fadetime>500</fadetime>
+          <aspectratio align="bottom">keep</aspectratio>
+          <texture background="true">$INFO[ListItem.Path,,logo.png]</texture>
+          <bordersize>7</bordersize>
+        </control>
+        <control type="image">
+          <posx>341</posx>
+          <posy>0</posy>
+          <width>315</width>
+          <height>315</height>
+          <fadetime>500</fadetime>
+          <aspectratio align="bottom">keep</aspectratio>
+          <texture background="true">$INFO[ListItem.Path,,clearart.png]</texture>
+          <bordersize>7</bordersize>
+        </control>
+        <control type="image">
+          <posx>682</posx>
+          <posy>0</posy>
+          <width>315</width>
+          <height>315</height>
+          <fadetime>500</fadetime>
+          <aspectratio align="bottom">keep</aspectratio>
+          <texture background="true">$INFO[ListItem.Path,,disc.png]</texture>
+          <bordersize>7</bordersize>
+        </control>
       </control>
       <control type="image">
         <posx>1065</posx>
@@ -904,7 +939,7 @@
         <ondown>Control.Move(50,1)</ondown>
       </control>
       <control type="group">
-        <visible>Container(5000).HasFocus(9)</visible>
+        <visible>Container(5000).HasFocus(9) + Container.Content(tvshows)</visible>
         <control type="image">
           <posx>817</posx>
           <posy>678</posy>
@@ -1033,7 +1068,8 @@
           <onup>5053</onup>
           <ondown>5053</ondown>
           <onback>5000</onback>
-          <onclick>XBMC.RunScript(script.artwork.downloader,mode=gui, mediatype=tvshow, medianame=$INFO[ListItem.TVShowTitle])</onclick>
+          <onclick condition="Container.Content(tvshows)">XBMC.RunScript(script.artwork.downloader,mode=gui, mediatype=tvshow, medianame=$ESCINFO[ListItem.TVShowTitle])</onclick>
+		  <onclick condition="Container.Content(movies)">XBMC.RunScript(script.artwork.downloader,mode=gui,mediatype=movie,medianame=$ESCINFO[ListItem.Title],mediapath=$ESCINFO[ListItem.Path])</onclick>
           <onclick>SetFocus(5000)</onclick>
         </control>
         <control type="button" id="5053">
@@ -1057,7 +1093,8 @@
           <onback>5000</onback>
           <onleft>5052</onleft>
           <onright>5052</onright>
-          <onclick>XBMC.RunScript(script.artwork.downloader, mediatype=tvshow, medianame=$INFO[ListItem.TVShowTitle])</onclick>
+          <onclick condition="Container.Content(tvshows)">XBMC.RunScript(script.artwork.downloader, mediatype=tvshow, medianame=$ESCINFO[ListItem.TVShowTitle])</onclick>
+          <onclick condition="Container.Content(movies)">XBMC.RunScript(script.artwork.downloader, mediatype=movie, medianame=$ESCINFO[ListItem.Title],mediapath=$ESCINFO[ListItem.Path])</onclick>
           <onclick>SetFocus(5000)</onclick>
         </control>
       </control>
