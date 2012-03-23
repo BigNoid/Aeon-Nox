@@ -1,18 +1,17 @@
 ﻿<window id="0">
   <defaultcontrol always="true">9000</defaultcontrol>
   <onload condition="Window.Previous(startup)+Skin.HasSetting(customstartupfocus)">Control.Move(9000,$INFO[Skin.String(CustomFocusOffset)])</onload>
-  <onload condition="Window.Previous(startup)+[Skin.HasSetting(HomeRandomMovies)|Skin.HasSetting(HomeRandomTV)|Skin.HasSetting(HomeRandomMusic)|Skin.HasSetting(HomeRandomAddons)|Skin.HasSetting(HomeRandomAlbums)|Skin.HasSetting(HomeRandomPoster)]">XBMC.RunScript(script.randomitems,limit=8&amp;unplayed=True)</onload>
+  <onload condition="Window.Previous(startup)+[Skin.HasSetting(HomeRandomMovies)|Skin.HasSetting(HomeRandomTV)|Skin.HasSetting(HomeRandomMusic)|Skin.HasSetting(HomeRandomAddons)|Skin.HasSetting(HomeRandomAlbums)]">XBMC.RunScript(script.randomitems,limit=8&amp;unplayed=True)</onload>
   <onload>ClearProperty(DontRunTVShowScripts,Home)</onload>
   <onload condition="!Skin.HasSetting(NoWidgetAlarm) + Control.isVisible(8998)">AlarmClock(WidgetMove,Control.Move(8000,1),00:07,silent,loop)</onload>
   <onload condition="!Skin.HasSetting(NoWidgetAlarmTwo) + Control.isVisible(8997)">AlarmClock(WidgetMoveTwo,Control.Move(8003,1),00:04,silent,loop)</onload>
-  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist1) + [Skin.HasSetting(HomeLatestVPL1) | Skin.HasSetting(HomeLatestPosterVPL1)] + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems, playlist=$INFO[Skin.String(HomeMenuVideoPlaylist1_Path)], method=Last, limit=10, unwatched=$INFO[Skin.String(IncludeWatchedCVPL)], resume=False, menu=VPL1, propertie=PlaylistLastMovieVPL1)</onload>
-  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist2) + [Skin.HasSetting(HomeLatestVPL2) | Skin.HasSetting(HomeLatestPosterVPL2)] + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist2_Path)],unwatched=$INFO[Skin.String(IncludeWatchedCVPL)],resume=False,limit=10,method=Last,menu=VPL2)</onload>
-  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist3) + [Skin.HasSetting(HomeLatestVPL3) | Skin.HasSetting(HomeLatestPosterVPL3)] + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems,playlist=$INFO[Skin.String(HomeMenuVideoPlaylist3_Path)],unwatched=$INFO[Skin.String(IncludeWatchedCVPL)],resume=False,limit=10,method=Last,menu=VPL3)</onload>
+  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist1) + Skin.HasSetting(HomeLatestVPL1) + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems, playlist=$INFO[Skin.String(HomeMenuVideoPlaylist1_Path)], method=$INFO[Skin.String(MethodVPL1)], limit=10, unwatched=$INFO[Skin.String(IncludeWatchedCVPL)], resume=False, propertie=PlaylistLastMovieVPL1)</onload>
+  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist2) + Skin.HasSetting(HomeLatestVPL2) + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems, playlist=$INFO[Skin.String(HomeMenuVideoPlaylist2_Path)], method=$INFO[Skin.String(MethodVPL2)], limit=10, unwatched=$INFO[Skin.String(IncludeWatchedCVPL)], resume=False, propertie=PlaylistLastMovieVPL2)</onload>
+  <onload condition="Skin.HasSetting(HomeMenuVideoPlaylist3) + Skin.HasSetting(HomeLatestVPL3) + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems, playlist=$INFO[Skin.String(HomeMenuVideoPlaylist3_Path)], method=$INFO[Skin.String(MethodVPL3)], limit=10, unwatched=$INFO[Skin.String(IncludeWatchedCVPL)], resume=False, propertie=PlaylistLastMovieVPL3)</onload>
   <onload condition="IsEmpty(Skin.String(IncludeWatchedCVPL))">Skin.SetString(IncludeWatchedCVPL,False)</onload>
   <onload>Skin.SetString(diffuse_bar,$INFO[Skin.String(diffuse_mainmenu)])</onload>
   <include>AutoConfig</include>
   <onunload>CancelAlarm(WidgetMove,true)</onunload>
-  <onunload>CancelAlarm(WidgetMoveTwo,true)</onunload>
   <allowoverlay>yes</allowoverlay>
   <controls>
     <!-- Fanart -->
@@ -287,7 +286,7 @@
           <textcolor>48FFFFFF</textcolor>
           <label>$VAR[HomeOSDLabelVar]</label>
           <animation effect="fade" start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
-          <visible>![Skin.HasSetting(classichome)|Skin.HasSetting(aurahome)]</visible>
+          <visible>!Skin.HasSetting(ClassicFont)</visible>
         </control>
         <control type="label">
           <posx>0</posx>
@@ -301,7 +300,7 @@
           <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
           <label>$VAR[HomeOSDLabelVar]</label>
           <animation effect="fade" start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
-          <visible>Skin.HasSetting(classichome)|Skin.HasSetting(aurahome)</visible>
+          <visible>Skin.HasSetting(ClassicFont)</visible>
         </control>
       </control>
       <!-- Home Menu -->
@@ -319,11 +318,9 @@
         <height>225</height>
         <onleft>9000</onleft>
         <onright>9000</onright>
-        <onup condition="Control.isVisible(8997) + !Skin.HasSetting(NoWidgetAlarm)">CancelAlarm(WidgetMoveTwo,true)</onup>
-        <onup condition="Control.isVisible(8997)">8003</onup>
         <onup condition="Control.IsVisible(8998) +  Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(NoWidgetAlarm)">CancelAlarm(WidgetMove,true)</onup>
         <onup condition="Control.IsVisible(8998) +  Skin.HasSetting(lowermainmenu)">8000</onup>
-        <onup condition="!Skin.HasSetting(lockmainmenu)+[![Control.isVisible(8997)|Control.isVisible(8998)]|[!Skin.HasSetting(lowermainmenu)+!Control.isVisible(8997)]]">Skin.ToggleSetting(lowermainmenu)</onup>
+        <onup condition="!Skin.HasSetting(lockmainmenu) + !Control.IsVisible(8998)">Skin.ToggleSetting(lowermainmenu)</onup>
         <ondown condition="Skin.HasSetting(HomeRandomAddons)+Container(9000).HasFocus(8) + !Skin.HasSetting(NoWidgetAlarm)">CancelAlarm(WidgetMove,true)</ondown>
         <ondown>9010</ondown>
         <ondown condition="!Control.IsVisible(9001) + Control.IsVisible(8998)">CancelAlarm(WidgetMove,true)</ondown>
