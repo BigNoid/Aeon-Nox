@@ -490,18 +490,6 @@
           <visible>Container.Content(tvshows)</visible>
         </control>
         <control type="textbox">
-          <description>Cast</description>
-          <posx>180</posx>
-          <posy>303</posy>
-          <width>750</width>
-          <height>160</height>
-          <align>left</align>
-          <font>Font_Reg18</font>
-          <label fallback="312577">$INFO[ListItem.CastAndRole]</label>
-          <textcolor>FFececec</textcolor>
-          <autoscroll delay="5000" time="2000" repeat="10000">Skin.HasSetting(AutoScroll)</autoscroll>
-        </control>
-        <control type="textbox">
           <description>Plot</description>
           <posx>4</posx>
           <posy>530</posy>
@@ -513,7 +501,7 @@
           <label fallback="312577">$INFO[ListItem.Plot]</label>
           <autoscroll delay="15000" time="2000" repeat="10000">Skin.HasSetting(AutoScroll) + !Control.HasFocus(60)</autoscroll>
           <textcolor>FFececec</textcolor>
-          <visible>![Container(5000).HasFocus(6) | Container(5000).HasFocus(7) | Container(5000).HasFocus(8) | Container(5000).HasFocus(9) | Container(5000).HasFocus(11) | Control.IsVisible(50)]</visible>
+          <visible>![Container(5000).HasFocus(6) | Container(5000).HasFocus(7) | Container(5000).HasFocus(8) | Container(5000).HasFocus(9) | Container(5000).HasFocus(11)]</visible>
         </control>
         <control type="group">
           <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos)</visible>
@@ -643,40 +631,60 @@
       </control>
       <control type="button" id="13">
         <description>Show all movies by the director of the selected movie</description>
-        <include>HiddenObject</include>
-        <ondown>5000</ondown>
+        <posx>991</posx>
+        <posy>239</posy>
+        <label>-</label>
+        <height>45</height>
+        <width>750</width>
+        <texturefocus>views/tripanel/listselect_fo.png</texturefocus>
+        <colordiffuse>$INFO[Skin.String(diffuse_bar)]</colordiffuse>
+        <ondown>50</ondown>
         <enable>!IsEmpty(ListItem.Director)</enable>
       </control>
       <control type="button" id="130">
         <description>Show all movies by the director of the selected movie</description>
         <posx>991</posx>
-        <posy>238</posy>
+        <posy>239</posy>
         <label>-</label>
         <height>45</height>
         <width>750</width>
-        <onclick condition="System.HasAddon(script.metadata.actors)">RunScript(script.metadata.actors,$INFO[ListItem.Director])</onclick>
-        <onclick condition="!System.HasAddon(script.metadata.actors)">SendClick(13)</onclick>
+        <onclick>RunScript(script.metadata.actors,$INFO[ListItem.Director])</onclick>
         <texturenofocus>-</texturenofocus>
         <texturefocus>views/tripanel/listselect_fo.png</texturefocus>
         <colordiffuse>$INFO[Skin.String(diffuse_bar)]</colordiffuse>
-        <ondown>5000</ondown>
+        <ondown>131</ondown>
         <enable>!IsEmpty(ListItem.Director)</enable>
       </control>
+      <control type="button" id="131">
+        <description>Show all movies by the writer of the selected movie</description>
+        <posx>991</posx>
+        <posy>284</posy>
+        <label>-</label>
+        <height>42</height>
+        <width>750</width>
+        <onclick>RunScript(script.metadata.actors,$INFO[ListItem.Writer])</onclick>
+        <texturenofocus>-</texturenofocus>
+        <texturefocus>views/tripanel/listselect_fo.png</texturefocus>
+        <colordiffuse>$INFO[Skin.String(diffuse_bar)]</colordiffuse>
+        <ondown>50</ondown>
+        <onup>130</onup>
+        <enable>!IsEmpty(ListItem.Writer)</enable>
+      </control>
       <control type="panel" id="50">
-        <posx>1125</posx>
-        <posy>600</posy>
+        <posx>991</posx>
+        <posy>360</posy>
         <width>645</width>
-        <height>309</height>
-        <onleft>5054</onleft>
-        <onright>60</onright>
-        <onup>50</onup>
+        <height>175</height>
+        <onleft>5000</onleft>
+        <onright>5054</onright>
+        <onup condition="!System.HasAddon(script.metadata.actors)">13</onup>
+        <onup condition="System.HasAddon(script.metadata.actors)">131</onup>
         <ondown>50</ondown>
         <viewtype label="">list</viewtype>
         <pagecontrol>60</pagecontrol>
         <scrolltime>200</scrolltime>
         <orientation>vertical</orientation>
-        <visible>Container(5000).HasFocus(1)</visible>
-        <itemlayout height="45" width="645">
+        <itemlayout height="25" width="645">
           <control type="label">
             <posx>15</posx>
             <posy>0</posy>
@@ -685,11 +693,11 @@
             <font>Font_Reg18</font>
             <align>left</align>
             <aligny>center</aligny>
-            <textcolor>FF868686</textcolor>
+            <textcolor>white</textcolor>
             <info>ListItem.Label</info>
           </control>
         </itemlayout>
-        <focusedlayout height="45" width="645">
+        <focusedlayout height="25" width="645">
           <control type="label">
             <posx>15</posx>
             <posy>0</posy>
@@ -714,7 +722,7 @@
         <orientation>horizontal</orientation>
         <onleft>5000</onleft>
         <onright>5000</onright>
-        <onup>130</onup>
+        <onup>50</onup>
         <ondown>60</ondown>
         <scrolltime>200</scrolltime>
         <focusposition>2</focusposition>
@@ -755,11 +763,6 @@
           </control>
         </focusedlayout>
         <content>
-          <item id="1">
-            <description>Cast</description>
-            <label>$LOCALIZE[206]</label>
-            <onclick>SetFocus(50)</onclick>
-          </item>
           <item id="2">
             <description>Refresh</description>
             <label>$LOCALIZE[184]</label>
@@ -895,34 +898,34 @@
       </control>
       <control type="image">
         <description>Actor image</description>
-        <posx>817</posx>
-        <posy>607</posy>
-        <width>315</width>
-        <height>315</height>
+        <posx>1517</posx>
+        <posy>368</posy>
+        <width>180</width>
+        <height>180</height>
         <texture background="true">$INFO[Container(50).Listitem.Icon]</texture>
         <aspectratio>keep</aspectratio>
         <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
         <bordersize>7</bordersize>
-        <visible>Control.IsVisible(50) + !Control.HasFocus(5054)</visible>
+        <visible>Control.HasFocus(50) + !Control.HasFocus(5054)</visible>
       </control>
       <control type="image">
         <description>Actor image</description>
-        <posx>819</posx>
-        <posy>609</posy>
-        <width>311</width>
-        <height>311</height>
+        <posx>1519</posx>
+        <posy>368</posy>
+        <width>172</width>
+        <height>172</height>
         <texture background="true">$INFO[Container(50).Listitem.Icon]</texture>
         <aspectratio>keep</aspectratio>
-        <bordertexture border="5">featured/tile_fo.png</bordertexture>
-        <bordersize>5</bordersize>
+        <bordertexture border="3">featured/tile_fo.png</bordertexture>
+        <bordersize>3</bordersize>
         <visible>Control.IsVisible(50) + Control.HasFocus(5054)</visible>
       </control>
       <control type="button" id="5054">
         <include>HiddenObject</include>
         <onfocus condition="!System.HasAddon(script.metadata.actors)">SetFocus(5000)</onfocus>
         <onclick>RunScript(script.metadata.actors,$INFO[Container(50).Listitem.Label])</onclick>
-        <onleft>5000</onleft>
-        <onright>50</onright>
+        <onleft>50</onleft>
+        <onright>5000</onright>
         <onup>Control.Move(50,-1)</onup>
         <ondown>Control.Move(50,1)</ondown>
       </control>
