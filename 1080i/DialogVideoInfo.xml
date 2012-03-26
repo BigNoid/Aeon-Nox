@@ -1,5 +1,6 @@
 ﻿<window id="2003">
   <defaultcontrol always="true">5000</defaultcontrol>
+  <onunload>ClearProperty(FanartZoom,movieinformation)</onunload>
   <allowoverlay>no</allowoverlay>
   <controls>
     <control type="group">
@@ -735,7 +736,8 @@
         <onleft>5000</onleft>
         <onright>5000</onright>
         <onup>50</onup>
-        <ondown>60</ondown>
+        <ondown condition="![Container(5000).HasFocus(7)|Container(5000).HasFocus(8)]">60</ondown>
+        <ondown condition="Container(5000).HasFocus(7)|Container(5000).HasFocus(8)">5055</ondown>
         <scrolltime>200</scrolltime>
         <focusposition>2</focusposition>
         <itemlayout width="225" height="50">
@@ -847,7 +849,7 @@
         <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
         <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
         <bordersize>7</bordersize>
-        <visible>!IsEmpty(ListItem.Property(Fanart_Image)) + Container(5000).HasFocus(7)</visible>
+        <visible>!IsEmpty(ListItem.Property(Fanart_Image)) + Container(5000).HasFocus(7) + !Control.HasFocus(5055)</visible>
       </control>
       <control type="multiimage">
         <posx>1072</posx>
@@ -940,6 +942,17 @@
         <onright>5000</onright>
         <onup>Control.Move(50,-1)</onup>
         <ondown>Control.Move(50,1)</ondown>
+      </control>
+      <control type="button" id="5055">
+        <include>HiddenObject</include>
+        <onclick condition="IsEmpty(Window(movieinformation).Property(FanartZoom))">SetProperty(FanartZoom,True,movieinformation)</onclick>
+        <onclick condition="!IsEmpty(Window(movieinformation).Property(FanartZoom))">ClearProperty(FanartZoom,movieinformation)</onclick>
+        <onback condition="!IsEmpty(Window(movieinformation).Property(FanartZoom))">ClearProperty(FanartZoom,movieinformation)</onback>
+        <onback condition="IsEmpty(Window(movieinformation).Property(FanartZoom))">Dialog.Close(movieinformation)</onback>
+        <onleft>5000</onleft>
+        <onright>5000</onright>
+        <onup>5000</onup>
+        <ondown>5000</ondown>
       </control>
       <control type="group">
         <visible>Container(5000).HasFocus(9) + Container.Content(tvshows)</visible>
@@ -1102,12 +1115,42 @@
         </control>
       </control>
       <include>Neon_VerticalBarInfoScreen</include>
-    </control>
-    <control type="group">
-      <animation effect="slide" start="-729,0" end="0,0" time="400" easing="out" tween="quadratic">WindowOpen</animation>
-      <animation effect="slide" start="0,0" end="-729,0" time="400" easing="out" tween="quadratic">WindowClose</animation>
-      <animation effect="slide" start="0,0" end="-729,0" time="400" easing="out" tween="quadratic" condition="!IsEmpty(Window.Property(script.metadata.actors.isactive))">Conditional</animation>
-      <include>Neon_VerticalBarInfoScreen</include>
+      <control type="image">
+        <posx>1067</posx>
+        <posy>601</posy>
+        <width>551</width>
+        <height>314</height>
+        <fadetime>500</fadetime>
+        <aspectratio align="center">scale</aspectratio>
+        <texture>common/blank.png</texture>
+        <bordertexture border="5">featured/tile_fo.png</bordertexture>
+        <bordertexture>featured/tile_fo.png</bordertexture>
+        <visible>Control.HasFocus(5055)</visible>
+      </control>
+      <control type="multiimage">
+        <posx>1072</posx>
+        <posy>606</posy>
+        <width>540</width>
+        <height>304</height>
+        <fadetime>1500</fadetime>
+        <timeperimage>4000</timeperimage>
+        <randomize>true</randomize>
+        <aspectratio align="center">scale</aspectratio>
+        <imagepath background="true">$VAR[ExtraFanartPreviewVar]</imagepath>
+        <animation effect="zoom" start="1072,606,540,304" end="0,0,1920,1080" time="800" tween="cubic" easing="out" reversible="true" condition="!IsEmpty(Window(movieinformation).Property(FanartZoom))">Conditional</animation>
+        <visible>Container(5000).HasFocus(8) + Control.HasFocus(5055)</visible>
+      </control>
+      <control type="image">
+        <posx>1072</posx>
+        <posy>606</posy>
+        <width>540</width>
+        <height>304</height>
+        <fadetime>500</fadetime>
+        <aspectratio align="center">scale</aspectratio>
+        <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
+        <animation effect="zoom" start="1072,606,540,304" end="0,0,1920,1080" time="800" tween="cubic" easing="out" reversible="true" condition="!IsEmpty(Window(movieinformation).Property(FanartZoom))">Conditional</animation>
+        <visible>!IsEmpty(ListItem.Property(Fanart_Image)) + Container(5000).HasFocus(7) + Control.HasFocus(5055)</visible>
+      </control>
     </control>
   </controls>
 </window>
