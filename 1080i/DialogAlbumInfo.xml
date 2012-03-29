@@ -1,6 +1,7 @@
 ﻿<window id="2001">
   <defaultcontrol>5000</defaultcontrol>
   <include>Animation_CommonFade</include>
+    <onunload>ClearProperty(FanartZoom,musicinformation)</onunload>
   <controls>
     <control type="group">
       <animation effect="slide" start="-762,0" end="0,0" time="400" easing="out" tween="quadratic">WindowOpen</animation>
@@ -389,7 +390,8 @@
         <onleft>5000</onleft>
         <onright>5000</onright>
         <onup>60</onup>
-        <ondown>60</ondown>
+        <ondown condition="!Control.IsVisible(5056)">60</ondown>
+        <ondown condition="Control.IsVisible(5056)">5055</ondown>
         <focusposition>2</focusposition>
         <animation effect="slide" start="0,0" end="0,-66" reversible="true" condition="Container.Content(artists)">Conditional</animation>
         <itemlayout width="219" height="50">
@@ -537,17 +539,26 @@
         <visible>!Container(5000).HasFocus(4) + !Container(5000).HasFocus(5)</visible>
         <animation effect="slide" start="0,0" end="0,-64" reversible="true" condition="Container.Content(artists)">Conditional</animation>
       </control>
+      <control type="button" id="5055">
+        <include>HiddenObject</include>
+        <onclick condition="IsEmpty(Window(musicinformation).Property(FanartZoom))">SetProperty(FanartZoom,True,musicinformation)</onclick>
+        <onclick condition="!IsEmpty(Window(musicinformation).Property(FanartZoom))">ClearProperty(FanartZoom,musicinformation)</onclick>
+        <onback condition="!IsEmpty(Window(musicinformation).Property(FanartZoom))">ClearProperty(FanartZoom,musicinformation)</onback>
+        <onback condition="IsEmpty(Window(musicinformation).Property(FanartZoom))">Dialog.Close(musicinformation)</onback>
+        <onleft>5000</onleft>
+        <onright>5000</onright>
+        <onup>5000</onup>
+        <ondown>5000</ondown>
+      </control>
       <control type="image">
-        <posx>828</posx>
-        <posy>453</posy>
-        <width>1044</width>
-        <height>444</height>
-        <fadetime>500</fadetime>
-        <aspectratio align="center">keep</aspectratio>
-        <texture background="true">$INFO[listitem.property(fanart_image)]</texture>
-        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-        <bordersize>7</bordersize>
-        <visible>!IsEmpty(listitem.property(fanart_image))+Container(5000).HasFocus(5)</visible>
+        <posx>823</posx>
+        <posy>395</posy>
+        <width>1054</width>
+        <height>597</height>
+        <aspectratio>stretch</aspectratio>
+        <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+        <texture border="5">$VAR[SelectBorderVar]</texture>
+        <visible>Control.HasFocus(5055)</visible>
       </control>
       <control type="image" id="3">
         <posx>1128</posx>
@@ -592,6 +603,20 @@
         <posy>0</posy>
         <animation effect="fade" start="100" end="50" time="400">WindowOpen</animation>
         <include>Neon_VerticalBar</include>
+        <visible>!Skin.HasSetting(DisableGlowbar)</visible>
+      </control>
+      <control type="image" id="5056">
+        <posx>828</posx>
+        <posy>400</posy>
+        <width>1044</width>
+        <height>587</height>
+        <fadetime>500</fadetime>
+        <aspectratio align="center">keep</aspectratio>
+        <texture background="true">$INFO[listitem.property(fanart_image)]</texture>
+        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
+        <animation effect="zoom" end="0,0,1920,1080" time="800" tween="cubic" easing="out" reversible="true" condition="!IsEmpty(Window(musicinformation).Property(FanartZoom))">Conditional</animation>
+        <bordersize>7</bordersize>
+        <visible>!IsEmpty(listitem.property(fanart_image)) + Container(5000).HasFocus(5)</visible>
       </control>
     </control>
     <control type="group">
@@ -601,7 +626,12 @@
         <posx>742</posx>
         <posy>0</posy>
         <animation effect="fade" start="100" end="50" time="400">WindowOpen</animation>
+        <animation effect="fade" time="400" delay="510">Visible</animation>
+        <animation effect="fade" time="100">Hidden</animation>
         <include>Neon_VerticalBar</include>
+        <visible>!Skin.HasSetting(DisableGlowbar) + IsEmpty(Window(musicinformation).Property(FanartZoom))</visible>
+        <animation effect="fade" time="400" delay="510">Visible</animation>
+        <animation effect="fade" time="100">Hidden</animation>
       </control>
     </control>
   </controls>
