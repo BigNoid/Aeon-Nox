@@ -36,6 +36,7 @@
     <control type="group">
       <posx>748r</posx>
       <posy>0</posy>
+      <visible>Skin.HasSetting(HasBackbar)</visible>
       <animation type="WindowClose" reversible="true" condition="!Window.Next(1111)+!Window.IsActive(1111)+!Window.Next(10012)+!Window.IsActive(10012)+!Window.Next(10013)+!Window.IsActive(10013)+!Window.Next(10014)+!Window.IsActive(10014)+!Window.Next(10015)+!Window.IsActive(10015)+!Window.Next(10016)+!Window.IsActive(10016)+!Window.Next(10017)+!Window.IsActive(10017)+!Window.Next(10018)+!Window.IsActive(10018)+!Window.Next(10019)+!Window.IsActive(10019)+!Window.Next(10007)+!Window.IsActive(10007)">
         <effect type="slide" start="0,0" end="0,-52" time="300" tween="cubic" easing="in" />
       </animation>
@@ -121,18 +122,6 @@
       </control>
     </control>
   </include>
-  <include name="NowPlaying_Back">
-    <control type="image">
-      <description>time background</description>
-      <posx>0</posx>
-      <posy>0</posy>
-      <width>794</width>
-      <height>87</height>
-      <texture flipy="true" flipx="true">home/timepanel_mid.png</texture>
-      <colordiffuse>$INFO[Skin.String(diffuse_home)]</colordiffuse>
-      <include>Animation_VisibleChange400</include>
-    </control>
-  </include>
 
   <include name="Furniture_NowPlayingWidget">
     <control type="group">
@@ -150,7 +139,17 @@
       <include condition="Window.isActive(videos) + system.hasaddon(script.tvtunes)">TvTunesVisibleCondition</include>
       <posx>-132</posx>
       <posy>0</posy>
-      <include condition="Skin.HasSetting(HasBackbar)">NowPlaying_Back</include>
+      <control type="image">
+        <description>time background</description>
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>794</width>
+        <height>87</height>
+        <texture flipy="true" flipx="true">home/timepanel_mid.png</texture>
+        <colordiffuse>$INFO[Skin.String(diffuse_home)]</colordiffuse>
+        <include>Animation_VisibleChange400</include>
+        <visible>Skin.HasSetting(HasBackbar)</visible>
+      </control>
       <control type="group">
         <visible>Skin.HasSetting(GlobalNowPlaying) + Player.HasMedia</visible>
         <control type="progress">
@@ -373,6 +372,7 @@
       <align>center</align>
       <aligny>center</aligny>
       <itemgap>15</itemgap>
+      <visible>!Skin.HasSetting(HasBackbar)</visible>
       <visible>!IsEmpty(Container.NumItems)</visible>
       <orientation>horizontal</orientation>
       <animation effect="fade" time="400" delay="400">Visible</animation>
@@ -431,6 +431,7 @@
       <description>Clock + Date and Time</description>
       <animation effect="slide" start="0" end="-60" time="200" tween="quadratic" easing="out" condition="Window.IsActive(mutebug)">Conditional</animation>
       <animation effect="slide" start="0" end="60" time="200" tween="quadratic" easing="out" condition="!Skin.HasSetting(analogclock)">Conditional</animation>
+      <visible>!Skin.HasSetting(HasBackbar)</visible>
       <control type="grouplist">
         <visible>true</visible>
         <posx>0</posx>
@@ -487,8 +488,8 @@
       <animation effect="fade" start="0" end="100" time="0">Visible</animation>
       <animation effect="fade" time="500">Hidden</animation>
     </control>
-    <include condition="Skin.HasSetting(HasBackbar)">ClockWidget</include>
-    <include condition="!Skin.HasSetting(HasBackbar)">BreadcrumbsClockAndItems</include>
+    <include condition="Skin.HasSetting(HasBackbar)|Window.IsActive(1111)">ClockWidget</include>
+    <include condition="!Skin.HasSetting(HasBackbar)|Window.IsActive(1111)">BreadcrumbsClockAndItems</include>
   </include>
   <include name="AnalogClock">
     <control type="group">
