@@ -20,14 +20,17 @@
     <include condition="![Window.IsActive(1111) | Window.IsActive(SettingsCategory.xml) | Window.IsActive(7) | Window.IsActive(settings)]">dialogeffect</include>
   </include>
   <include name="Breadcrumbs_BackBar">
-    <control type="image">
-      <posx>0</posx>
-      <posy>0</posy>
-      <width>1920</width>
-      <height>87</height>
-      <texture>common/common_topbar.png</texture>
+    <control type="group">
+      <visible>!Skin.HasSetting(HasBackbar)</visible>
+      <control type="image">
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>1920</width>
+        <height>87</height>
+        <texture>common/common_topbar.png</texture>
+      </control>
+      <include>Neon_Topbar</include>
     </control>
-    <include>Neon_Topbar</include>
   </include>
   <include name="ClockWidget">
     <control type="group">
@@ -117,14 +120,252 @@
         </control>
       </control>
     </control>
-  </include> 
-  <include name="Breadcrumbs_Furniture">
-    <control type="image" id="4051">
-      <texture>-</texture>
-      <visible>![Container.Scrolling|Container.OnScrollNext|Container.OnScrollPrevious]</visible>
-      <animation effect="fade" start="0" end="100" time="0">Visible</animation>
-      <animation effect="fade" time="500">Hidden</animation>
+  </include>
+  <include name="NowPlaying_Back">
+    <control type="image">
+      <description>time background</description>
+      <posx>0</posx>
+      <posy>0</posy>
+      <width>794</width>
+      <height>87</height>
+      <texture flipy="true" flipx="true">home/timepanel_mid.png</texture>
+      <colordiffuse>$INFO[Skin.String(diffuse_home)]</colordiffuse>
+      <include>Animation_VisibleChange400</include>
     </control>
+  </include>
+
+  <include name="Furniture_NowPlayingWidget">
+    <control type="group">
+      <animation type="Conditional" reversible="true" condition="Control.HasFocus(110) | Control.HasFocus(195)">
+        <effect type="slide" start="0,0" end="0,-52" time="400" tween="cubic" easing="in" />
+      </animation>
+      <animation type="WindowClose" reversible="true" condition="Window.Next(home)">
+        <effect type="slide" start="0,0" end="0,-52" time="300" tween="cubic" easing="in" />
+      </animation>
+      <animation type="WindowOpen" reversible="true" condition="Window.Previous(home)">
+        <effect type="slide" start="0,-52" end="0,0" time="400" tween="cubic" easing="in" />
+      </animation>
+      <animation effect="slide" start="-735,0" end="0,0" delay="0" time="300">VisibleChange</animation>
+      <visible>[Skin.HasSetting(GlobalNowPlaying) + Player.HasMedia] | Skin.HasSetting(GlobalRSS)</visible>
+      <include condition="Window.isActive(videos) + system.hasaddon(script.tvtunes)">TvTunesVisibleCondition</include>
+      <posx>-132</posx>
+      <posy>0</posy>
+      <include condition="Skin.HasSetting(HasBackbar)">NowPlaying_Back</include>
+      <control type="group">
+        <visible>Skin.HasSetting(GlobalNowPlaying) + Player.HasMedia</visible>
+        <control type="progress">
+          <description>Progressbar</description>
+          <posx>510</posx>
+          <posy>0</posy>
+          <width>180</width>
+          <height>20</height>
+          <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+          <texturebg>dialogs/progress/progress_back.png</texturebg>
+          <lefttexture>osd/seek/progresscache_left.png</lefttexture>
+          <midtexture>osd/seek/progresscache_mid.png</midtexture>
+          <righttexture>osd/seek/progresscache_right.png</righttexture>
+          <overlaytexture>-</overlaytexture>
+          <info>Player.ProgressCache</info>
+        </control>
+        <control type="progress" id="20">
+          <description>Progressbar</description>
+          <posx>510</posx>
+          <posy>0</posy>
+          <width>180</width>
+          <height>20</height>
+          <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+          <texturebg>osd/seek/progresscache_back.png</texturebg>
+          <lefttexture>dialogs/progress/progress_left.png</lefttexture>
+          <midtexture>dialogs/progress/progress_mid.png</midtexture>
+          <righttexture>dialogs/progress/progress_right.png</righttexture>
+          <overlaytexture>-</overlaytexture>
+          <info>Player.Progress</info>
+        </control>
+        <control type="fadelabel">
+          <posx>142</posx>
+          <posy>0</posy>
+          <width>352</width>
+          <height>38</height>
+          <aligny>center</aligny>
+          <font>Font_Reg17_Caps</font>
+          <textcolor>white2</textcolor>
+          <scroll>true</scroll>
+          <label>[COLOR a8FFFFFF]$INFO[MusicPlayer.Artist][/COLOR]</label>
+          <label>[COLOR white2]$INFO[MusicPlayer.Title][/COLOR]</label>
+          <scrollout>false</scrollout>
+          <scrollspeed>50</scrollspeed>
+          <pauseatend>10000</pauseatend>
+          <visible>Player.HasAudio</visible>
+        </control>
+        <control type="fadelabel">
+          <posx>142</posx>
+          <posy>0</posy>
+          <width>360</width>
+          <height>38</height>
+          <aligny>center</aligny>
+          <font>Font_Reg17_Caps</font>
+          <textcolor>white2</textcolor>
+          <scroll>true</scroll>
+          <label>[COLOR a8FFFFFF]$INFO[Videoplayer.TVShowTitle][/COLOR]</label>
+          <label>[COLOR white2]$INFO[Videoplayer.Title][/COLOR]</label>
+          <scrollout>false</scrollout>
+          <scrollspeed>50</scrollspeed>
+          <pauseatend>10000</pauseatend>
+          <visible>!IsEmpty(Videoplayer.TVShowTitle) + Player.HasVideo</visible>
+        </control>
+        <control type="fadelabel">
+          <posx>142</posx>
+          <posy>0</posy>
+          <width>360</width>
+          <height>38</height>
+          <aligny>center</aligny>
+          <font>Font_Reg17_Caps</font>
+          <textcolor>white2</textcolor>
+          <scroll>true</scroll>
+          <label>$INFO[Videoplayer.Title]</label>
+          <scrollout>false</scrollout>
+          <scrollspeed>50</scrollspeed>
+          <pauseatend>10000</pauseatend>
+          <visible>IsEmpty(Videoplayer.TVShowTitle) + Player.HasVideo</visible>
+        </control>
+        <control type="label">
+          <description>Current time</description>
+          <posx>450</posx>
+          <posy>14</posy>
+          <width>300</width>
+          <height>30</height>
+          <font>Font_Reg14</font>
+          <label>$VAR[HomeOSDLabelVar]</label>
+          <align>center</align>
+          <textcolor>white2</textcolor>
+        </control>
+      </control>
+      <control type="group">
+        <visible>Skin.HasSetting(GlobalRSS) + ![Skin.HasSetting(GlobalNowPlaying) + Player.HasMedia]</visible>
+        <control type="image">
+          <description>rss logo</description>
+          <posx>684</posx>
+          <posy>4</posy>
+          <width>32</width>
+          <height>32</height>
+          <texture>icon-rss.png</texture>
+          <colordiffuse>bclabel</colordiffuse>
+          <include>Animation_VisibleChange400</include>
+        </control>
+        <control type="rss">
+          <posx>0</posx>
+          <posy>4</posy>
+          <width>687</width>
+          <height>45</height>
+          <aligny>center</aligny>
+          <font>Font_Reg17_Caps</font>
+          <urlset>1</urlset>
+          <textcolor>88FFFFFF</textcolor>
+          <headlinecolor>88FFFFFF</headlinecolor>
+          <highlightcolor>88FFFFFF</highlightcolor>
+          <titlecolor>dc2B60DE</titlecolor>
+          <scrollspeed>50</scrollspeed>
+        </control>
+      </control>
+    </control>
+  </include>
+  <include name="Furniture_NowPlayingWidget_PVR">
+    <control type="group">
+      <include>Animation_CommonFade</include>
+      <animation type="Conditional" reversible="true" condition="Control.HasFocus(195)">
+        <effect type="slide" start="0,0" end="0,-52" time="400" tween="cubic" easing="in" />
+      </animation>
+      <visible>Player.HasMedia</visible>
+      <visible>!SubString(Window(videolibrary).Property(tvtunesIsAlive),True)</visible>
+      <posx>-132</posx>
+      <posy>0</posy>
+      <control type="progress">
+        <description>Progressbar</description>
+        <posx>525</posx>
+        <posy>1</posy>
+        <width>180</width>
+        <height>20</height>
+        <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+        <texturebg>osd/seek/progresscache_back.png</texturebg>
+        <lefttexture>dialogs/progress/progress_left.png</lefttexture>
+        <midtexture>dialogs/progress/progress_mid.png</midtexture>
+        <righttexture>dialogs/progress/progress_right.png</righttexture>
+        <overlaytexture>-</overlaytexture>
+        <info>Player.ProgressCache</info>
+      </control>
+      <control type="progress" id="20">
+        <description>Progressbar</description>
+        <posx>525</posx>
+        <posy>1</posy>
+        <width>180</width>
+        <height>20</height>
+        <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+        <texturebg>osd/seek/progresscache_back.png</texturebg>
+        <lefttexture>dialogs/progress/progress_left.png</lefttexture>
+        <midtexture>dialogs/progress/progress_mid.png</midtexture>
+        <righttexture>dialogs/progress/progress_right.png</righttexture>
+        <overlaytexture>-</overlaytexture>
+        <info>Player.Progress</info>
+      </control>
+      <control type="fadelabel">
+        <posx>142</posx>
+        <posy>4</posy>
+        <width>360</width>
+        <height>27</height>
+        <font>Font_Reg17</font>
+        <textcolor>white2</textcolor>
+        <scroll>true</scroll>
+        <label>[COLOR a8FFFFFF]$INFO[MusicPlayer.Artist][/COLOR]</label>
+        <label>[COLOR white2]$INFO[MusicPlayer.Title][/COLOR]</label>
+        <scrollout>false</scrollout>
+        <scrollspeed>50</scrollspeed>
+        <pauseatend>10000</pauseatend>
+        <visible>Player.HasAudio</visible>
+      </control>
+      <control type="fadelabel">
+        <posx>142</posx>
+        <posy>4</posy>
+        <width>360</width>
+        <height>27</height>
+        <font>Font_Reg17</font>
+        <textcolor>white2</textcolor>
+        <scroll>true</scroll>
+        <label>[COLOR a8FFFFFF]$INFO[Videoplayer.TVShowTitle][/COLOR]</label>
+        <label>[COLOR white2]$INFO[Videoplayer.Title][/COLOR]</label>
+        <scrollout>false</scrollout>
+        <scrollspeed>50</scrollspeed>
+        <pauseatend>10000</pauseatend>
+        <visible>!IsEmpty(Videoplayer.TVShowTitle) + Player.HasVideo</visible>
+      </control>
+      <control type="fadelabel">
+        <posx>142</posx>
+        <posy>4</posy>
+        <width>360</width>
+        <height>27</height>
+        <font>Font_Reg17</font>
+        <textcolor>white2</textcolor>
+        <scroll>true</scroll>
+        <label>$INFO[Videoplayer.Title]</label>
+        <scrollout>false</scrollout>
+        <scrollspeed>50</scrollspeed>
+        <pauseatend>10000</pauseatend>
+        <visible>IsEmpty(Videoplayer.TVShowTitle) + Player.HasVideo</visible>
+      </control>
+      <control type="label">
+        <description>Current time</description>
+        <posx>465</posx>
+        <posy>15</posy>
+        <width>300</width>
+        <height>30</height>
+        <font>Font_Reg14</font>
+        <label>$VAR[HomeOSDLabelVar]</label>
+        <align>center</align>
+        <textcolor>white2</textcolor>
+      </control>
+    </control>
+  </include>
+
+  <include name="BreadcrumbsClockAndItems">
     <control type="grouplist">
       <posx>0</posx>
       <posy>0</posy>
@@ -238,7 +479,16 @@
       </control>
       <include>AnalogClock</include>
     </control>
-    <include condition="Skin.HasTheme(Lite_Floor-No_Glow)">ClockWidget</include>
+  </include>
+  <include name="Breadcrumbs_Furniture">
+    <control type="image" id="4051">
+      <texture>-</texture>
+      <visible>![Container.Scrolling|Container.OnScrollNext|Container.OnScrollPrevious]</visible>
+      <animation effect="fade" start="0" end="100" time="0">Visible</animation>
+      <animation effect="fade" time="500">Hidden</animation>
+    </control>
+    <include condition="Skin.HasSetting(HasBackbar)">ClockWidget</include>
+    <include condition="!Skin.HasSetting(HasBackbar)">BreadcrumbsClockAndItems</include>
   </include>
   <include name="AnalogClock">
     <control type="group">
