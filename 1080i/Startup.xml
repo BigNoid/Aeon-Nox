@@ -7,7 +7,7 @@
   <controls>
     <control type="button" id="10">
       <description>trigger</description>
-      <onfocus condition="!System.HasAddon(script.xbmc.intro.movie)">ReplaceWindow(Home)</onfocus>
+      <onfocus condition="!System.HasAddon(script.xbmc.intro.movie)">SetFocus(11)</onfocus>
       <texturenofocus>-</texturenofocus>
       <texturefocus>-</texturefocus>
       <visible>!Skin.HasSetting(Use_Startup_Playlist)</visible>
@@ -15,14 +15,39 @@
     <control type="button" id="10">
       <description>trigger with startup Playlist</description>
       <onfocus>XBMC.PlayMedia($ESCINFO[Skin.String(Startup_Playlist_Path)])</onfocus>
-      <onfocus condition="!System.HasAddon(script.xbmc.intro.movie)">ReplaceWindow(Home)</onfocus>
+      <onfocus condition="!System.HasAddon(script.xbmc.intro.movie)">SetFocus(11)</onfocus>
       <texturenofocus>-</texturenofocus>
       <texturefocus>-</texturefocus>
       <visible>Skin.HasSetting(Use_Startup_Playlist)</visible>
     </control>
+        <control type="button" id="11">
+            <onfocus condition="!System.HasAddon(script.watchlist)">SetFocus(12)</onfocus>
+            <onfocus condition="System.HasAddon(script.watchlist)">SetFocus(11)</onfocus>
+            <visible>IsEmpty(Window(Home).Property(WatchList_Running))</visible>
+            <animation effect="fade" start="0" end="100" time="0" delay="1000">Focus</animation>
+        </control>
+        <control type="button" id="11">
+            <onfocus>ReplaceWindow(Home)</onfocus>
+            <visible>!IsEmpty(Window(Home).Property(WatchList_Running))</visible>
+            <animation effect="fade" start="0" end="100" time="0" delay="1000">Focus</animation>
+        </control>
+        <control type="button" id="12">
+            <onfocus>ReplaceWindow(Home)</onfocus>
+            <animation effect="fade" start="0" end="100" time="0" delay="4000">Focus</animation>
+        </control>
     <control type="image">
       <include>FullscreenDimensions</include>
       <texture>common/black.png</texture>
+    </control>
+    <control type="image">
+      <posx>923</posx>
+      <posy>503</posy>
+      <width>74</width>
+      <height>74</height>
+      <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+      <texture>dialogs/busy.png</texture>
+      <animation effect="rotate" start="360" end="0" center="auto" time="2500" loop="true" condition="true">conditional</animation>
+      <animation effect="fade" start="70" time="1500" condition="true" pulse="true">Conditional</animation>
     </control>
     <control type="videowindow">
       <include>FullscreenDimensions</include>
