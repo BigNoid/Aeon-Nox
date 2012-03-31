@@ -32,97 +32,6 @@
       <include>Neon_Topbar</include>
     </control>
   </include>
-  <include name="ClockWidget">
-    <control type="group">
-      <posx>748r</posx>
-      <posy>0</posy>
-      <visible>Skin.HasSetting(HasBackbar)</visible>
-      <animation type="WindowClose" reversible="true" condition="!Window.Next(1111)+!Window.IsActive(1111)+!Window.Next(10012)+!Window.IsActive(10012)+!Window.Next(10013)+!Window.IsActive(10013)+!Window.Next(10014)+!Window.IsActive(10014)+!Window.Next(10015)+!Window.IsActive(10015)+!Window.Next(10016)+!Window.IsActive(10016)+!Window.Next(10017)+!Window.IsActive(10017)+!Window.Next(10018)+!Window.IsActive(10018)+!Window.Next(10019)+!Window.IsActive(10019)+!Window.Next(10007)+!Window.IsActive(10007)">
-        <effect type="slide" start="0,0" end="0,-52" time="300" tween="cubic" easing="in" />
-      </animation>
-      <animation type="WindowOpen" reversible="true" condition="!Window.Previous(settings)+!Window.Previous(1111)+!Window.Previous(10012)+!Window.Previous(10013)+!Window.Previous(10014)+!Window.Previous(10015)+!Window.Previous(10016)+!Window.Previous(10017)+!Window.Previous(10018)+!Window.Previous(10019)+!Window.Previous(10007)">
-        <effect type="slide" start="0,-52" end="0,0" time="400" tween="cubic" easing="in" />
-      </animation>
-      <animation effect="slide" start="750" end="0" time="300">VisibleChange</animation>
-      <control type="image">
-        <description>time background</description>
-        <posx>-45</posx>
-        <posy>0</posy>
-        <width>794</width>
-        <height>87</height>
-        <texture flipy="true">home/timepanel_mid.png</texture>
-        <colordiffuse>$INFO[Skin.String(diffuse_home)]</colordiffuse>
-        <include>Animation_VisibleChange400</include>
-      </control>
-      <control type="label">
-        <description>time label</description>
-        <posx>734</posx>
-        <posy>0</posy>
-        <width>600</width>
-        <height>38</height>
-        <align>right</align>
-        <aligny>center</aligny>
-        <font>Font_Reg17_Caps</font>
-        <textcolor>white2</textcolor>
-        <shadowcolor>-</shadowcolor>
-        <label>[COLOR ffaaaaaa]$INFO[System.Date]  [/COLOR]|  [COLOR white2]$INFO[System.Time][/COLOR]</label>
-        <animation effect="slide" start="0" end="-60" time="200" tween="quadratic" easing="out" condition="Window.IsActive(mutebug)">Conditional</animation>
-      </control>
-      <control type="label">
-        <posx>300</posx>
-        <posy>0</posy>
-        <width>600</width>
-        <height>38</height>
-        <align>right</align>
-        <aligny>center</aligny>
-        <font>Font_Reg17_Caps</font>
-        <textcolor>white2</textcolor>
-        <shadowcolor>-</shadowcolor>
-        <animation effect="fade" start="100" end="0" time="500" delay="500" condition="Control.IsVisible(4051)">Conditional</animation>
-        <label>$INFO[ListItem.SortLetter]</label>
-        <visible>[SubString(Container.SortMethod,$LOCALIZE[551]) | SubString(Container.SortMethod,$LOCALIZE[561]) | SubString(Container.SortMethod,$LOCALIZE[558]) | SubString(Container.SortMethod,$LOCALIZE[557]) | SubString(Container.SortMethod,$LOCALIZE[556])]</visible>
-      </control>
-      <control type="image">
-        <description>Trailer Icon</description>
-        <posx>330</posx>
-        <posy>0</posy>
-        <width>42</width>
-        <height>42</height>
-        <aspectratio>keep</aspectratio>
-        <texture>common/logo_trailer.png</texture>
-        <colordiffuse>ffaaaaaa</colordiffuse>
-        <include>dialogeffect</include>
-        <animation effect="fade" start="100" end="0" time="200" condition="IsEmpty(ListItem.Trailer)">Conditional</animation>
-      </control>
-      <control type="group">
-        <posx>0</posx>
-        <visible>!IsEmpty(Weather.Plugin)</visible>
-        <control type="image">
-          <description>Weather image</description>
-          <posx>32</posx>
-          <posy>3</posy>
-          <width>38</width>
-          <height>38</height>
-          <aspectratio>keep</aspectratio>
-          <texture>$INFO[Window(weather).Property(Current.ConditionIcon)]</texture>
-        </control>
-        <control type="label">
-          <description>time label</description>
-          <posx>90</posx>
-          <posy>0</posy>
-          <width>300</width>
-          <height>38</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg17_Caps</font>
-          <textcolor>white2</textcolor>
-          <shadowcolor>-</shadowcolor>
-          <label>$INFO[Window(weather).Property(Current.Temperature)] $INFO[System.TemperatureUnits,,  |  ][COLOR ffaaaaaa]$INFO[Window(Weather).Property(Current.Humidity)][/COLOR]</label>
-        </control>
-      </control>
-    </control>
-  </include>
-
   <include name="Furniture_NowPlayingWidget">
     <control type="group">
       <animation type="Conditional" reversible="true" condition="Control.HasFocus(110) | Control.HasFocus(195)">
@@ -240,7 +149,7 @@
         </control>
       </control>
       <control type="group">
-        <visible>Skin.HasSetting(GlobalRSS) + ![Skin.HasSetting(GlobalNowPlaying) + Player.HasMedia]</visible>
+        <visible>Skin.HasSetting(GlobalRSS) + ![Skin.HasSetting(GlobalNowPlaying) + Player.HasMedia] + !Window.IsActive(1116)</visible>
         <control type="image">
           <description>rss logo</description>
           <posx>684</posx>
@@ -363,16 +272,43 @@
       </control>
     </control>
   </include>
-
-  <include name="BreadcrumbsClockAndItems">
-    <control type="grouplist">
+  <include name="Breadcrumbs_Furniture">
+    <control type="image" id="4051">
+      <texture>-</texture>
+      <visible>![Container.Scrolling|Container.OnScrollNext|Container.OnScrollPrevious]</visible>
+      <animation effect="fade" start="0" end="100" time="0">Visible</animation>
+      <animation effect="fade" time="500">Hidden</animation>
+    </control>
+    <control type="group"><!--clock widget -->
+      <posx>748r</posx>
+      <posy>0</posy>
+      <visible>Skin.HasSetting(HasBackbar)</visible>
+      <animation type="WindowClose" reversible="true" condition="!Window.Next(1111) + !Window.IsActive(1111) + !Window.Next(10012) + !Window.IsActive(10012) + !Window.Next(10013) + !Window.IsActive(10013) + !Window.Next(10014) + !Window.IsActive(10014) + !Window.Next(10015) + !Window.IsActive(10015) + !Window.Next(10016) + !Window.IsActive(10016) + !Window.Next(10017) + !Window.IsActive(10017) + !Window.Next(10018) + !Window.IsActive(10018) + !Window.Next(10019) + !Window.IsActive(10019) + !Window.Next(10007) + !Window.IsActive(10007)">
+        <effect type="slide" start="0,0" end="0,-52" time="300" tween="cubic" easing="in" />
+      </animation>
+      <animation type="WindowOpen" reversible="true" condition="!Window.Previous(settings) + !Window.Previous(1111) + !Window.Previous(10012) + !Window.Previous(10013) + !Window.Previous(10014) + !Window.Previous(10015) + !Window.Previous(10016) + !Window.Previous(10017) + !Window.Previous(10018) + !Window.Previous(10019) + !Window.Previous(10007)">
+        <effect type="slide" start="0,-52" end="0,0" time="400" tween="cubic" easing="in" />
+      </animation>
+      <animation effect="slide" start="750" end="0" time="300">VisibleChange</animation>
+      <control type="image">
+        <description>time background</description>
+        <posx>150</posx>
+        <posy>0</posy>
+        <width>794</width>
+        <height>87</height>
+        <animation effect="slide" start="0" end="200" time="400" condition="!Skin.HasSetting(breadcrumbsweather)">Conditional</animation>
+        <texture flipy="true">home/timepanel_mid.png</texture>
+        <colordiffuse>$INFO[Skin.String(diffuse_home)]</colordiffuse>
+        <include>Animation_VisibleChange400</include>
+      </control>
+    </control>
+    <control type="grouplist"><!--breadcrumbs-->
       <posx>0</posx>
       <posy>0</posy>
       <width>1920</width>
       <align>center</align>
       <aligny>center</aligny>
       <itemgap>15</itemgap>
-      <visible>!Skin.HasSetting(HasBackbar)</visible>
       <visible>!IsEmpty(Container.NumItems)</visible>
       <orientation>horizontal</orientation>
       <animation effect="fade" time="400" delay="400">Visible</animation>
@@ -430,8 +366,7 @@
     <control type="group">
       <description>Clock + Date and Time</description>
       <animation effect="slide" start="0" end="-60" time="200" tween="quadratic" easing="out" condition="Window.IsActive(mutebug)">Conditional</animation>
-      <animation effect="slide" start="0" end="60" time="200" tween="quadratic" easing="out" condition="!Skin.HasSetting(analogclock)">Conditional</animation>
-      <visible>!Skin.HasSetting(HasBackbar)</visible>
+      <animation effect="slide" start="0" end="60" time="200" tween="quadratic" easing="out" condition="!Skin.HasSetting(AnalogClock)">Conditional</animation>
       <control type="grouplist">
         <visible>true</visible>
         <posx>0</posx>
@@ -481,23 +416,13 @@
       <include>AnalogClock</include>
     </control>
   </include>
-  <include name="Breadcrumbs_Furniture">
-    <control type="image" id="4051">
-      <texture>-</texture>
-      <visible>![Container.Scrolling|Container.OnScrollNext|Container.OnScrollPrevious]</visible>
-      <animation effect="fade" start="0" end="100" time="0">Visible</animation>
-      <animation effect="fade" time="500">Hidden</animation>
-    </control>
-    <include condition="Skin.HasSetting(HasBackbar)|Window.IsActive(1111)">ClockWidget</include>
-    <include condition="!Skin.HasSetting(HasBackbar)|Window.IsActive(1111)">BreadcrumbsClockAndItems</include>
-  </include>
   <include name="AnalogClock">
     <control type="group">
       <posx>1860</posx>
       <posy>0</posy>
       <width>39</width>
       <height>39</height>
-      <visible>Skin.HasSetting(analogclock)</visible>
+      <visible>Skin.HasSetting(AnalogClock)</visible>
       <control type="image">
         <description>Clock Icon</description>
         <posx>0</posx>
