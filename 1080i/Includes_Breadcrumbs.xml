@@ -45,6 +45,8 @@
       <animation type="WindowOpen" reversible="true" condition="Window.Previous(home)">
         <effect type="slide" start="0,-52" end="0,0" time="400" tween="cubic" easing="in" />
       </animation>
+      
+      
       <animation effect="slide" start="-735,0" end="0,0" delay="0" time="300">VisibleChange</animation>
       <visible>[Skin.HasSetting(GlobalNowPlaying) + Player.HasMedia] | Skin.HasSetting(GlobalRSS)</visible>
       <include condition="Window.isActive(videos) + system.hasaddon(script.tvtunes)">TvTunesVisibleCondition</include>
@@ -164,6 +166,33 @@
           <textcolor>grey</textcolor>
         </control>
       </control>
+    </control>
+    <control type="group">
+      <animation type="Conditional" reversible="true" condition="Control.HasFocus(110) | Control.HasFocus(195)">
+        <effect type="slide" start="0,0" end="0,-52" time="400" tween="cubic" easing="in" />
+      </animation>
+      <animation type="WindowClose" reversible="true" condition="Window.Next(home)">
+        <effect type="slide" start="0,0" end="0,-52" time="300" tween="cubic" easing="in" />
+      </animation>
+      <animation type="WindowOpen" reversible="true" condition="Window.Previous(home)">
+        <effect type="slide" start="0,-52" end="0,0" time="400" tween="cubic" easing="in" />
+      </animation>
+      <animation effect="slide" start="-735,0" end="0,0" delay="0" time="300">VisibleChange</animation>
+      <visible>[Skin.HasSetting(GlobalNowPlaying) + Player.HasMedia] | Skin.HasSetting(GlobalRSS)</visible>
+      <include condition="Window.isActive(videos) + system.hasaddon(script.tvtunes)">TvTunesVisibleCondition</include>
+      <posx>-132</posx>
+      <posy>0</posy>
+      <control type="image">
+        <description>time background</description>
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>794</width>
+        <height>87</height>
+        <texture flipy="true" flipx="true">home/timepanel_mid.png</texture>
+        <colordiffuse>$INFO[Skin.String(diffuse_home)]</colordiffuse>
+        <include>Animation_VisibleChange400</include>
+        <visible>Skin.HasSetting(HasBackbar)</visible>
+      </control>
       <control type="group">
         <visible>Skin.HasSetting(GlobalRSS) + ![Skin.HasSetting(GlobalNowPlaying) + Player.HasMedia]</visible>
         <include>Animation_VisibleChange400</include>
@@ -195,9 +224,9 @@
     </control>
   </include>
   <include name="Breadcrumbs_Furniture">
-    <control type="image" id="4051">
+    <control type="button" id="4051">
       <texture>-</texture>
-      <visible>![Container.Scrolling|Container.OnScrollNext|Container.OnScrollPrevious]</visible>
+      <visible>![Container.Scrolling | Container.OnScrollNext | Container.OnScrollPrevious]</visible>
       <animation effect="fade" start="0" end="100" time="0">Visible</animation>
       <animation effect="fade" time="500">Hidden</animation>
     </control>
@@ -245,10 +274,10 @@
       <!--breadcrumbs-->
       <posx>0</posx>
       <posy>0</posy>
-      <width>1920</width>
-      <align>center</align>
+      <width>945</width>
+      <align>right</align>
       <aligny>center</aligny>
-      <itemgap>15</itemgap>
+      <itemgap>10</itemgap>
       <visible>!IsEmpty(Container.NumItems) + !Skin.HasSetting(HasBackBar)</visible>
       <orientation>horizontal</orientation>
       <animation effect="fade" time="400" delay="400">Visible</animation>
@@ -273,8 +302,21 @@
       </control>
       <control type="label">
         <include>BreadcrumbsLabel</include>
-        <label>$INFO[Container.NumItems] $VAR[ItemLabelVar]</label>
+        <label>$INFO[Container.NumItems]</label>
       </control>
+    </control>
+    <control type="grouplist">
+      <!--breadcrumbs-->
+      <posx>975 </posx>
+      <posy>0</posy>
+      <width>960</width>
+      <align>left</align>
+      <aligny>center</aligny>
+      <itemgap>10</itemgap>
+      <visible>!IsEmpty(Container.NumItems) + !Skin.HasSetting(HasBackBar)</visible>
+      <orientation>horizontal</orientation>
+      <animation effect="fade" time="400" delay="400">Visible</animation>
+      <animation effect="fade" time="400">Hidden</animation>
       <control type="image">
         <description>Items Icon</description>
         <posx>0</posx>
@@ -288,7 +330,7 @@
       </control>
       <control type="label">
         <include>BreadcrumbsLabel</include>
-        <label>$INFO[Container.CurrentPage,$LOCALIZE[31024] ]$INFO[Container.NumPages,/] </label>
+        <label>$INFO[Container.CurrentPage]$INFO[Container.NumPages,/] </label>
       </control>
       <control type="image">
         <description>Trailer Icon</description>
@@ -300,8 +342,22 @@
         <texture>common/logo_trailer.png</texture>
         <colordiffuse>bcicon</colordiffuse>
         <include>dialogeffect</include>
-        <animation effect="fade" start="100" end="0" time="200" condition="IsEmpty(ListItem.Trailer)">Conditional</animation>
+        <animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.IsVisible(4051)">Conditional</animation>
+        <animation effect="fade" start="100" end="0" time="200" condition="IsEmpty(ListItem.Trailer) | Container.Scrolling">Conditional</animation>
       </control>
+<!--     <control type="image">
+        <description>right arrow</description>
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>28</width>
+        <height>28</height>
+        <animation effect="rotate" start="0" end="-90" center="auto" delay="300" time="800" condition="Control.HasFocus(7000) | Control.IsVisible(501) | Control.IsVisible(503) | Control.IsVisible(504) | Control.IsVisible(510) | Control.IsVisible(57) | Control.IsVisible(509)">Conditional</animation>
+        <texture>common/arrowleft.png</texture>
+        <include>Animation_VisibleChange400</include>
+        <colordiffuse>bcicon</colordiffuse>
+        <animation effect="slide" start="0" end="0,6" time="0" condition="true">Conditional</animation>
+        <animation effect="fade" start="100" end="0" time="200" condition="IsEmpty(ListItem.Trailer) | ControlGroup(9000).HasFocus">Conditional</animation>
+      </control>-->
     </control>
     <control type="group">
       <description>Clock + Date and Time</description>
