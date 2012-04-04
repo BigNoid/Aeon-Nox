@@ -150,23 +150,59 @@
         <description>Infopanel Movies</description>
         <include>Objects_MediaMenuButtonAlt2</include>
         <label>31385</label>
-        <onclick condition="Container.Content(movies)">Skin.ToggleSetting(showcaseinfoon)</onclick>
         <onclick condition="[Container.Content(tvshows) | Container.Content(seasons)]">Skin.ToggleSetting(showcaseinfoontv)</onclick>
         <onclick condition="Container.Content(episodes)">Skin.ToggleSetting(showcaseinfoonep)</onclick>
-        <selected>[!Skin.HasSetting(showcaseinfoon) + Container.Content(movies)] | [[Container.Content(tvshows) | Container.Content(seasons)] + !Skin.HasSetting(showcaseinfoontv)] | [Container.Content(episodes) + !Skin.HasSetting(showcaseinfoonep)]</selected>
-        <visible>[stringcompare(Skin.String(actualViewtype),showcasemovies) | stringcompare(Skin.String(actualViewtype),showcasedvd) | stringcompare(Skin.String(actualViewtype),landscape) | stringcompare(Skin.String(actualViewtype),banners)] + [Container.Content(tvshows) | Container.Content(seasons) | Container.Content(movies) | Container.Content(episodes)]</visible>
+        <selected>[[Container.Content(tvshows) | Container.Content(seasons)] + !Skin.HasSetting(showcaseinfoontv)] | [Container.Content(episodes) + !Skin.HasSetting(showcaseinfoonep)]</selected>
+        <visible>[stringcompare(Skin.String(actualViewtype),showcasemovies) | stringcompare(Skin.String(actualViewtype),showcasedvd) | stringcompare(Skin.String(actualViewtype),landscape) | stringcompare(Skin.String(actualViewtype),banners)] + [Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]</visible>
       </control>
       <control type="radiobutton" id="1616">
         <description>Infopanel Auto Movies</description>
         <include>Objects_MediaMenuButtonAlt2</include>
         <label>31386</label>
-        <onclick condition="Container.Content(movies)">Skin.ToggleSetting(infopaneauto)</onclick>
         <onclick condition="[Container.Content(tvshows) | Container.Content(seasons)]">Skin.ToggleSetting(infopaneautotv)</onclick>
         <onclick condition="Container.Content(episodes)">Skin.ToggleSetting(infopaneautoep)</onclick>
         <onclick condition="[Skin.HasSetting(infopaneauto) + Container.Content(movies)] | [[Container.Content(tvshows) | Container.Content(seasons)] + Skin.HasSetting(infopaneautotv)] | [Container.Content(episodes) + Skin.HasSetting(infopaneautoep)]">ActivateWindow(1114)</onclick>
-        <selected>[Skin.HasSetting(infopaneauto) + Container.Content(movies)] | [[Container.Content(tvshows) | Container.Content(seasons)] + Skin.HasSetting(infopaneautotv)] | [Container.Content(episodes) + Skin.HasSetting(infopaneautoep)]</selected>
-        <selected>[Skin.HasSetting(showcaseinfoon) + Container.Content(movies)] | [[Container.Content(tvshows) | Container.Content(seasons)] + Skin.HasSetting(showcaseinfoontv)] | [Container.Content(episodes) + Skin.HasSetting(showcaseinfoonep)]</selected>
-        <visible>[stringcompare(Skin.String(actualViewtype),showcasemovies) | stringcompare(Skin.String(actualViewtype),showcasedvd) | stringcompare(Skin.String(actualViewtype),landscape) | stringcompare(Skin.String(actualViewtype),banners)] + [Container.Content(tvshows) | Container.Content(seasons) | Container.Content(movies) | Container.Content(episodes)]</visible>
+        <selected> [[Container.Content(tvshows) | Container.Content(seasons)] + Skin.HasSetting(infopaneautotv)] | [Container.Content(episodes) + Skin.HasSetting(infopaneautoep)]</selected>
+        <selected>[[Container.Content(tvshows) | Container.Content(seasons)] + Skin.HasSetting(showcaseinfoontv)] | [Container.Content(episodes) + Skin.HasSetting(showcaseinfoonep)]</selected>
+        <visible>[stringcompare(Skin.String(actualViewtype),showcasemovies) | stringcompare(Skin.String(actualViewtype),showcasedvd) | stringcompare(Skin.String(actualViewtype),landscape) | stringcompare(Skin.String(actualViewtype),banners)] + [Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]</visible>
+      </control>
+      <control type="radiobutton" id="1617">
+        <!-- Toggle Fanart -->
+        <description>Toggle Fanart</description>
+        <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+        <height>60</height>
+        <width>600</width>
+        <texturenofocus>settings/listselect_nf.png</texturenofocus>
+        <texturefocus>views/tripanel/listselect_fo.png</texturefocus>
+        <alttexturenofocus>settings/listselect_nf.png</alttexturenofocus>
+        <alttexturefocus>views/tripanel/listselect_fo.png</alttexturefocus>
+        <textureradiofocus>common/arrowright.png</textureradiofocus>
+        <textureradionofocus></textureradionofocus>
+        <selected>Skin.HasSetting(showcaseinfoon) + Skin.HasSetting(infopaneauto)</selected>
+        <textcolor>77ffffff</textcolor>
+        <focusedcolor>white6</focusedcolor>
+        <disabledcolor>3cFFFFFF</disabledcolor>
+        <textoffsetx>15</textoffsetx>
+        <textoffsety>2</textoffsety>
+        <align>left</align>
+        <aligny>center</aligny>
+        <onleft>Dialog.Close(1126)</onleft>
+        <font>Font_Condensed22</font>
+        <include>Animation_CommonFade</include>
+        <radiowidth>30</radiowidth>
+        <radioheight>30</radioheight>
+        <radioposx>542</radioposx>
+        <pulseonselect>yes</pulseonselect>
+        <label>InfoPanel: $VAR[InfoPanelToggleLabelVar]</label>
+        <onright condition="![Skin.HasSetting(showcaseinfoon) + Skin.HasSetting(infopaneauto)]">Dialog.Close(1126)</onright>
+        <onright condition="![Skin.HasSetting(showcaseinfoon) + Skin.HasSetting(infopaneauto)]">SetFocus(50)</onright>
+        <onright condition="Skin.HasSetting(showcaseinfoon) + Skin.HasSetting(infopaneauto)">ActivateWindow(1114)</onright>
+        <onclick condition="Skin.HasSetting(showcaseinfoon) + Skin.HasSetting(infopaneauto)">Skin.Reset(showcaseinfoon)</onclick>
+        <onclick condition="Skin.HasSetting(showcaseinfoon) + Skin.HasSetting(infopaneauto)">Skin.Reset(infopaneauto)</onclick>
+        <onclick condition="!Skin.HasSetting(showcaseinfoon) + !Skin.HasSetting(infopaneauto)">Skin.SetBool(showcaseinfoon)</onclick>
+        <onclick condition="Skin.HasSetting(showcaseinfoon) + !Skin.HasSetting(infopaneauto)">Notification(Attention,Press RIGHT to adjust Delay)</onclick>
+        <onclick condition="Skin.HasSetting(showcaseinfoon) + !Skin.HasSetting(infopaneauto)">Skin.SetBool(infopaneauto)</onclick>
+        <visible>Container.Content(movies) + !stringcompare(Skin.String(actualViewtype),bigfan)</visible>
       </control>
       <control type="button" id="1624">
         <description>Layout</description>
@@ -178,7 +214,6 @@
       </control>
       <control type="togglebutton" id="1667">
         <description>Toggle Overlay</description>
-        <pulseonselect>yes</pulseonselect>
         <include>Objects_MediaMenuButtonAlt2</include>
         <label>$LOCALIZE[31272]: [B]$LOCALIZE[21371][/B]</label>
         <altlabel>$LOCALIZE[31272]: [B]$LOCALIZE[20445][/B]</altlabel>
@@ -188,7 +223,6 @@
       </control>
       <control type="togglebutton" id="1697">
         <description>Toggle Overlay</description>
-        <pulseonselect>yes</pulseonselect>
         <include>Objects_MediaMenuButtonAlt2</include>
         <label>$LOCALIZE[31459]</label>
         <altlabel>$LOCALIZE[31192]</altlabel>
