@@ -27,7 +27,21 @@
         <include>Animation_VisibleChange200</include>
         <aspectratio>stretch</aspectratio>
       </control>
+      <control type="image">
+        <animation effect="fade" time="400" delay="510">Visible</animation>
+        <animation effect="fade" time="100">Hidden</animation>
+        <posx>709</posx>
+        <posy>0</posy>
+        <width>40</width>
+        <height>1080</height>
+        <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+        <texture>common/topbar_down.png</texture>
+        <include>TopbarPulseAnimationRight</include>
+        <visible>!Skin.HasSetting(DisableGlowbar) + IsEmpty(Window(movieinformation).Property(FanartZoom))</visible>
+      </control>
     </control>
+
+
     <control type="group">
       <animation effect="slide" start="1192,0" end="0,0" time="400" easing="out" tween="quadratic">WindowOpen</animation>
       <animation effect="slide" start="0,0" end="1192,0" time="400" easing="out" tween="quadratic">WindowClose</animation>
@@ -136,29 +150,6 @@
           <texture>info/info_panellines_movie.png</texture>
           <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
         </control>
-        <control type="image">
-          <description>Rating flags</description>
-          <posx>10</posx>
-          <posy>102</posy>
-          <visible>Container.Content(movies) | Container.Content(MusicVideos)</visible>
-          <animation effect="fade" time="250">VisibleChange</animation>
-          <width>249</width>
-          <height>57</height>
-          <colordiffuse>FF868686</colordiffuse>
-          <aspectratio>keep</aspectratio>
-          <texture fallback="flags/rating/info/MPAA_NR_Certificate_US.png">$VAR[RatingFlagVar,flags/rating/info/,.png]</texture>
-        </control>
-        <control type="image">
-          <description>IMDB rating</description>
-          <posx>4</posx>
-          <posy>87</posy>
-          <width>226</width>
-          <height>90</height>
-          <aspectratio>keep</aspectratio>
-          <texture fallback="rating0.png">$INFO[ListItem.Rating,stars/,.png]</texture>
-          <colordiffuse>FF7c7c7c</colordiffuse>
-          <visible>Container.Content(tvshows) | Container.Content(episodes)</visible>
-        </control>
         <control type="label">
           <description>Movie title</description>
           <posx>0</posx>
@@ -182,7 +173,7 @@
           <visible>Container.Content(movies)</visible>
         </control>
         <control type="label">
-          <description>Tagline</description>
+          <description>Artist</description>
           <posx>0</posx>
           <posy>45</posy>
           <width>1050</width>
@@ -193,7 +184,7 @@
           <visible>Container.Content(musicvideos)</visible>
         </control>
         <control type="label">
-          <description>Tagline</description>
+          <description>Episode info</description>
           <posx>0</posx>
           <posy>45</posy>
           <width>1050</width>
@@ -201,6 +192,30 @@
           <label>[UPPERCASE]$INFO[ListItem.Season,$LOCALIZE[20373] ]$INFO[ListItem.Episode, • $LOCALIZE[20359] ][/UPPERCASE]</label>
           <textcolor>FF868686</textcolor>
           <visible>Container.Content(episodes)</visible>
+        </control>
+        <!-- First Row -->
+        <control type="image">
+          <description>Rating flags</description>
+          <posx>10</posx>
+          <posy>102</posy>
+          <animation effect="fade" time="250">VisibleChange</animation>
+          <width>249</width>
+          <height>57</height>
+          <colordiffuse>FF868686</colordiffuse>
+          <aspectratio>keep</aspectratio>
+          <texture fallback="flags/rating/info/MPAA_NR_Certificate_US.png">$VAR[RatingFlagVar,flags/rating/info/,.png]</texture>
+          <visible>Container.Content(movies) | Container.Content(MusicVideos)</visible>
+        </control>
+        <control type="image">
+          <description>IMDB rating</description>
+          <posx>4</posx>
+          <posy>87</posy>
+          <width>226</width>
+          <height>90</height>
+          <aspectratio>keep</aspectratio>
+          <texture fallback="rating0.png">$INFO[ListItem.Rating,stars/,.png]</texture>
+          <colordiffuse>FF7c7c7c</colordiffuse>
+          <visible>Container.Content(tvshows) | Container.Content(episodes)</visible>
         </control>
         <control type="label">
           <description>Movie year</description>
@@ -241,157 +256,305 @@
           <height>84</height>
           <visible>Container.Content(episodes)</visible>
         </control>
-        <control type="label">
-          <description>Directed by:</description>
-          <posy>171</posy>
-          <posx>4</posx>
-          <width>165</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FF868686</textcolor>
-          <label>$LOCALIZE[20339]:</label>
+        <!-- Second Row -->
+        <control type="group">
           <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos)</visible>
+          <control type="label">
+            <description>Directed by:</description>
+            <posy>171</posy>
+            <posx>4</posx>
+            <width>165</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FF868686</textcolor>
+            <label>$LOCALIZE[20339]:</label>
+          </control>
+          <control type="label">
+            <description>Director</description>
+            <posy>171</posy>
+            <posx>180</posx>
+            <width>750</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <scroll>true</scroll>
+            <textcolor>FFececec</textcolor>
+            <label fallback="312577">$INFO[ListItem.Director]</label>
+          </control>
         </control>
-        <control type="label">
-          <description>Written by:</description>
-          <posy>214</posy>
-          <posx>4</posx>
-          <width>165</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FF868686</textcolor>
-          <label>$LOCALIZE[20417]:</label>
-          <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos)</visible>
-        </control>
-        <control type="label">
-          <description>Duration:</description>
-          <posy>255</posy>
-          <posx>4</posx>
-          <width>165</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FF868686</textcolor>
-          <label>$LOCALIZE[2050]:</label>
-          <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos)</visible>
-        </control>
-        <control type="image">
-          <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
-          <posx>570</posx>
-          <posy>256</posy>
-          <width>1</width>
-          <height>40</height>
-          <texture>info/info_flagupright.png</texture>
-          <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos) | [Container.Content(tvshows) + !Skin.HasSetting(NextAiredInfo)]</visible>
-        </control>
-        <control type="label">
-          <description>IMDb:</description>
-          <posy>255</posy>
-          <posx>562</posx>
-          <width>165</width>
-          <height>44</height>
-          <align>right</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FF868686</textcolor>
-          <label>$LOCALIZE[368]:</label>
-          <visible>Container.Content(movies)</visible>
-        </control>
-        <control type="label">
-          <description>IMDb:</description>
-          <posy>255</posy>
-          <posx>562</posx>
-          <width>165</width>
-          <height>44</height>
-          <align>right</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FF868686</textcolor>
-          <label>$LOCALIZE[563]:</label>
-          <visible>Container.Content(episodes) | Container.Content(MusicVideos)</visible>
-        </control>
-        <control type="label">
-          <description>Next:</description>
-          <posy>255</posy>
-          <posx>562</posx>
-          <width>300</width>
-          <height>44</height>
-          <align>right</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FF868686</textcolor>
-          <label>$LOCALIZE[31190]:</label>
-          <visible>Container.Content(tvshows) + !IsEmpty(Window(Home).Property(NextAired.NextDate)) + !Skin.HasSetting(NextAiredInfo)</visible>
-        </control>
-        <control type="label">
-          <description>Previous:</description>
-          <posy>255</posy>
-          <posx>562</posx>
-          <width>300</width>
-          <height>44</height>
-          <align>right</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FF868686</textcolor>
-          <label>$LOCALIZE[31189]:</label>
-          <visible>Container.Content(tvshows) + IsEmpty(Window(Home).Property(NextAired.NextDate)) + !Skin.HasSetting(NextAiredInfo)</visible>
-        </control>
-        <control type="label">
-          <description>Premiered</description>
-          <posy>171</posy>
-          <posx>4</posx>
-          <width>165</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FF868686</textcolor>
-          <label>$LOCALIZE[312576]:</label>
+        <control type="group">
           <visible>Container.Content(tvshows)</visible>
+          <control type="label">
+            <description>Premiered</description>
+            <posy>171</posy>
+            <posx>4</posx>
+            <width>165</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FF868686</textcolor>
+            <label>$LOCALIZE[312576]:</label>
+          </control>
+          <control type="label">
+            <description>Premiered</description>
+            <posy>171</posy>
+            <posx>180</posx>
+            <width>750</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FFececec</textcolor>
+            <label fallback="312577">$INFO[ListItem.Premiered]</label>
+          </control>
         </control>
-        <control type="label">
-          <description>Rating</description>
-          <posy>214</posy>
-          <posx>4</posx>
-          <width>165</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FF868686</textcolor>
-          <label>$LOCALIZE[31188]:</label>
+        <!-- Third Row -->
+        <control type="group">
+          <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos)</visible>
+          <control type="label">
+            <description>Written by:</description>
+            <posy>214</posy>
+            <posx>4</posx>
+            <width>165</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FF868686</textcolor>
+            <label>$LOCALIZE[20417]:</label>
+          </control>
+          <control type="label">
+            <description>Writer</description>
+            <posy>214</posy>
+            <posx>180</posx>
+            <width>750</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <scroll>true</scroll>
+            <textcolor>FFececec</textcolor>
+            <label fallback="312577">$INFO[ListItem.Writer]</label>
+          </control>
+        </control>
+        <control type="group">
+          <visible>Container.Content(tvshows)</visible>
+          <control type="label">
+            <description>Show Status</description>
+            <posy>214</posy>
+            <posx>4</posx>
+            <width>165</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FF868686</textcolor>
+            <label>$LOCALIZE[31188]:</label>
+            <visible>!Skin.HasSetting(NextAiredInfo)</visible>
+          </control>
+          <control type="label">
+            <description>Network</description>
+            <posy>214</posy>
+            <posx>4</posx>
+            <width>165</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FF868686</textcolor>
+            <label>$LOCALIZE[13279]:</label>
+            <visible>Skin.HasSetting(NextAiredInfo)</visible>
+          </control>
+          <control type="label">
+            <description>Show Status</description>
+            <posy>214</posy>
+            <posx>180</posx>
+            <width>750</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FFececec</textcolor>
+            <label fallback="31397">$VAR[ShowStatusVar]</label>
+            <visible>!Skin.HasSetting(NextAiredInfo)</visible>
+          </control>
+          <control type="label">
+            <description>Network</description>
+            <posy>214</posy>
+            <posx>180</posx>
+            <width>750</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FFececec</textcolor>
+            <label fallback="31397">$INFO[ListItem.Studio]</label>
+            <visible>Skin.HasSetting(NextAiredInfo)</visible>
+          </control>
+        </control>
+        <!-- Fourth Row Left-->
+        <control type="group">
+          <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos)</visible>
+          <control type="label">
+            <description>Duration:</description>
+            <posy>255</posy>
+            <posx>4</posx>
+            <width>165</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FF868686</textcolor>
+            <label>$LOCALIZE[2050]:</label>
+          </control>
+          <control type="label">
+            <description>Duration</description>
+            <posy>255</posy>
+            <posx>180</posx>
+            <width>750</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FFececec</textcolor>
+            <label fallback="312577">$INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
+          </control>
+        </control>
+        <control type="group">
           <visible>Container.Content(tvshows) + !Skin.HasSetting(NextAiredInfo)</visible>
+          <control type="label">
+            <description>Next:</description>
+            <posy>255</posy>
+            <posx>4</posx>
+            <width>300</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FF868686</textcolor>
+            <label>$LOCALIZE[31051]:</label>
+            <visible>!IsEmpty(Window(Home).Property(NextAired.NextDate)) </visible>
+          </control>
+          <control type="label">
+            <description>Previous:</description>
+            <posy>255</posy>
+            <posx>4</posx>
+            <width>300</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FF868686</textcolor>
+            <label>$LOCALIZE[31050]:</label>
+            <visible>IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
+          </control>
+          <control type="label">
+            <description>Next</description>
+            <posy>255</posy>
+            <posx>180</posx>
+            <width>750</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FFececec</textcolor>
+            <label>$VAR[NextEpisodeVar]</label>
+            <visible>!IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
+          </control>
+          <control type="label">
+            <description>Previous</description>
+            <posy>255</posy>
+            <posx>180</posx>
+            <width>750</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FFececec</textcolor>
+            <label>$VAR[LastEpisodeVar]</label>
+            <visible>IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
+          </control>
         </control>
-        <control type="label">
-          <description>Rating</description>
-          <posy>214</posy>
-          <posx>4</posx>
-          <width>165</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FF868686</textcolor>
-          <label>$LOCALIZE[13279]:</label>
+        <control type="group">
           <visible>Container.Content(tvshows) + Skin.HasSetting(NextAiredInfo)</visible>
+          <control type="label">
+            <description>Total Episodes</description>
+            <posy>255</posy>
+            <posx>4</posx>
+            <width>165</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FF868686</textcolor>
+            <label>$LOCALIZE[563]:</label>
+          </control>
+          <control type="label">
+            <description>RatingAndVotes+Top250</description>
+            <posy>255</posy>
+            <posx>180</posx>
+            <width>750</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FFececec</textcolor>
+            <label fallback="-">$INFO[ListItem.RatingAndVotes]</label>
+          </control>
         </control>
-        <control type="label">
-          <description>Total Episodes</description>
-          <posy>255</posy>
-          <posx>4</posx>
-          <width>165</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FF868686</textcolor>
-          <label>$LOCALIZE[563]:</label>
-          <visible>Container.Content(tvshows)</visible>
+        <!-- Fourth Row Right -->
+        <control type="group">
+          <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos) | [Container.Content(tvshows) + !Skin.HasSetting(NextAiredInfo)]</visible>
+          <control type="image">
+            <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+            <posx>570</posx>
+            <posy>256</posy>
+            <width>1</width>
+            <height>40</height>
+            <texture>info/info_flagupright.png</texture>
+          </control>
+          <control type="label">
+            <description>IMDb:</description>
+            <posy>255</posy>
+            <posx>562</posx>
+            <width>165</width>
+            <height>44</height>
+            <align>right</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FF868686</textcolor>
+            <label>$LOCALIZE[368]:</label>
+            <visible>Container.Content(movies)</visible>
+          </control>
+          <control type="label">
+            <description>IMDb:</description>
+            <posy>255</posy>
+            <posx>562</posx>
+            <width>165</width>
+            <height>44</height>
+            <align>right</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FF868686</textcolor>
+            <label>$LOCALIZE[563]:</label>
+            <visible>!Container.Content(movies)</visible>
+          </control>
+          <control type="label">
+            <description>RatingAndVotes+Top250</description>
+            <posy>255</posy>
+            <posx>585</posx>
+            <width>750</width>
+            <height>44</height>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg18</font>
+            <textcolor>FFececec</textcolor>
+            <label fallback="-">$INFO[ListItem.RatingAndVotes]$INFO[ListItem.Top250, / $LOCALIZE[13409] #]</label>
+          </control>
         </control>
         <control type="label">
           <description>Starring:</description>
@@ -404,138 +567,6 @@
           <font>Font_Reg18</font>
           <textcolor>FF868686</textcolor>
           <label>$LOCALIZE[206]:</label>
-        </control>
-        <control type="label">
-          <description>Director</description>
-          <posy>171</posy>
-          <posx>180</posx>
-          <width>750</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <scroll>true</scroll>
-          <textcolor>FFececec</textcolor>
-          <label fallback="312577">$INFO[ListItem.Director]</label>
-          <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos)</visible>
-        </control>
-        <control type="label">
-          <description>Writer</description>
-          <posy>214</posy>
-          <posx>180</posx>
-          <width>750</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <scroll>true</scroll>
-          <textcolor>FFececec</textcolor>
-          <label fallback="312577">$INFO[ListItem.Writer]</label>
-          <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos)</visible>
-        </control>
-        <control type="label">
-          <description>Duration</description>
-          <posy>255</posy>
-          <posx>180</posx>
-          <width>750</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FFececec</textcolor>
-          <label fallback="312577">$INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
-          <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos)</visible>
-        </control>
-        <control type="label">
-          <description>RatingAndVotes+Top250</description>
-          <posy>255</posy>
-          <posx>585</posx>
-          <width>750</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FFececec</textcolor>
-          <label fallback="-">$INFO[ListItem.RatingAndVotes]$INFO[ListItem.Top250, / $LOCALIZE[13409] #]</label>
-          <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos)</visible>
-        </control>
-        <control type="label">
-          <description>RatingAndVotes+Top250</description>
-          <posy>255</posy>
-          <posx>585</posx>
-          <width>750</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FFececec</textcolor>
-          <label>$VAR[NextEpisodeVar]</label>
-          <visible>Container.Content(tvshows) + !IsEmpty(Window(Home).Property(NextAired.NextDate)) + !Skin.HasSetting(NextAiredInfo)</visible>
-        </control>
-        <control type="label">
-          <description>RatingAndVotes+Top250</description>
-          <posy>255</posy>
-          <posx>585</posx>
-          <width>750</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FFececec</textcolor>
-          <label>$VAR[LastEpisodeVar]</label>
-          <visible>Container.Content(tvshows) + IsEmpty(Window(Home).Property(NextAired.NextDate)) + !Skin.HasSetting(NextAiredInfo)</visible>
-        </control>
-        <control type="label">
-          <description>Premiered</description>
-          <posy>171</posy>
-          <posx>180</posx>
-          <width>750</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FFececec</textcolor>
-          <label fallback="312577">$INFO[ListItem.Premiered]</label>
-          <visible>Container.Content(tvshows)</visible>
-        </control>
-        <control type="label">
-          <description>Show Status</description>
-          <posy>214</posy>
-          <posx>180</posx>
-          <width>750</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FFececec</textcolor>
-          <label fallback="31397">$VAR[ShowStatusVar]</label>
-          <visible>Container.Content(tvshows) + !Skin.HasSetting(NextAiredInfo)</visible>
-        </control>
-        <control type="label">
-          <description>Show Status</description>
-          <posy>214</posy>
-          <posx>180</posx>
-          <width>750</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FFececec</textcolor>
-          <label fallback="31397">$INFO[ListItem.Studio]</label>
-          <visible>Container.Content(tvshows) + Skin.HasSetting(NextAiredInfo)</visible>
-        </control>
-        <control type="label">
-          <description>Episodes</description>
-          <posy>255</posy>
-          <posx>180</posx>
-          <width>750</width>
-          <height>44</height>
-          <align>left</align>
-          <aligny>center</aligny>
-          <font>Font_Reg18</font>
-          <textcolor>FFececec</textcolor>
-          <label>$INFO[ListItem.RatingAndVotes]</label>
-          <visible>Container.Content(tvshows)</visible>
         </control>
         <control type="textbox">
           <description>Plot</description>
@@ -1015,6 +1046,18 @@
         <label>$INFO[ListItem.FileNameAndPath]</label>
         <textcolor>FF868686</textcolor>
       </control>
+      <control type="image">
+        <posx>709</posx>
+        <posy>0</posy>
+        <posy>0</posy>
+        <posx>0</posx>
+        <width>40</width>
+        <height>1080</height>
+        <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+        <texture>common/topbar_top.png</texture>
+        <include>TopbarPulseAnimationLeft</include>
+        <visible>!Skin.HasSetting(DisableGlowbar)</visible>
+      </control>
       <control type="group" id="5050">
         <posx>570</posx>
         <posy>375</posy>
@@ -1116,18 +1159,6 @@
         </control>
       </control>
       <control type="image">
-        <posx>709</posx>
-        <posy>0</posy>
-        <posy>0</posy>
-        <posx>0</posx>
-        <width>40</width>
-        <height>1080</height>
-        <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
-        <texture>common/topbar_top.png</texture>
-        <include>TopbarPulseAnimationLeft</include>
-        <visible>!Skin.HasSetting(DisableGlowbar)</visible>
-      </control>
-      <control type="image">
         <posx>1067</posx>
         <posy>601</posy>
         <width>550</width>
@@ -1160,21 +1191,6 @@
         <animation effect="zoom" start="1072,606,540,304" end="0,0,1920,1080" time="800" tween="cubic" easing="out" reversible="true" condition="!IsEmpty(Window(movieinformation).Property(FanartZoom))">Conditional</animation>
         <visible>!IsEmpty(ListItem.Property(Fanart_Image)) + Container(5000).HasFocus(7) + Control.HasFocus(5055)</visible>
       </control>
-    </control>
-    <control type="image">
-      <animation effect="slide" start="-729,0" end="0,0" time="400" easing="out" tween="quadratic">WindowOpen</animation>
-      <animation effect="slide" start="0,0" end="-729,0" time="400" easing="out" tween="quadratic">WindowClose</animation>
-      <animation effect="slide" start="0,0" end="-729,0" time="400" easing="out" tween="quadratic" condition="!IsEmpty(Window.Property(script.metadata.actors.isactive))">Conditional</animation>
-      <animation effect="fade" time="400" delay="510">Visible</animation>
-      <animation effect="fade" time="100">Hidden</animation>
-      <posx>709</posx>
-      <posy>0</posy>
-      <width>40</width>
-      <height>1080</height>
-      <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
-      <texture>common/topbar_down.png</texture>
-      <include>TopbarPulseAnimationRight</include>
-      <visible>!Skin.HasSetting(DisableGlowbar) + IsEmpty(Window(movieinformation).Property(FanartZoom))</visible>
     </control>
   </controls>
 </window>
