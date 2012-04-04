@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <window id="1111">
   <defaultcontrol always="true">9000</defaultcontrol>
-  <onload condition="!IsEmpty(Skin.String(diffuse_settings))">Skin.SetString(diffuse_color,$INFO[Skin.String(diffuse_settings)])</onload>
-  <onload condition="Skin.HasSetting(colortext) + !IsEmpty(Skin.String(diffuse_settings))">Skin.SetString(diffuse_text,$INFO[Skin.String(diffuse_settings)])</onload>
+  <onload condition="IsEmpty(Skin.String(diffuse_color))">Skin.SetString(diffuse_color,FFFFFFFF)</onload>
+  <onload condition="Skin.HasSetting(colortext) + !IsEmpty(Skin.String(diffuse_settings))">Skin.SetString(diffuse_text,$INFO[Skin.String(diffuse_color)])</onload>
   <onload condition="!Skin.HasSetting(colortext)">Skin.SetString(diffuse_text,grey)</onload>
   <controls>
     <include>CommonSettingsBackground</include>
@@ -321,22 +321,25 @@
           <control type="button" id="306">
             <label>$LOCALIZE[31378]</label>
             <label2>[COLOR selected]$INFO[Skin.String(ArtistsLogosPath)][/COLOR]</label2>
-            <include>Default_SettingRadioButton</include>
+            <include>Default_SettingButton</include>
             <onclick>Skin.SetPath(ArtistsLogosPath)</onclick>
           </control>
-          <control type="radiobutton" id="261">
-            <label>31179</label>
-            <include>Default_SettingRadioButton</include>
-            <onclick>Skin.ToggleSetting(kioskmode)</onclick>
-            <onclick>Skin.Reset(hideoptions)</onclick>
-            <selected>Skin.HasSetting(kioskmode)</selected>
+          <control type="button" id="261">
+            <label>KIOSK MODE: $VAR[KioskModeLabelVar]</label>
+            <include>Default_SettingButton</include>
+            <onclick condition="!Skin.HasSetting(kioskmode) + !Skin.HasSetting(hideoptions)">Skin.SetBool(hideoptions)</onclick>
+            <onclick condition="Skin.HasSetting(hideoptions)">Skin.SetBool(kioskmode)</onclick>
+            <onclick condition="Skin.HasSetting(hideoptions)">Skin.Reset(hideoptions)</onclick>
+            <onclick condition="Skin.HasSetting(kioskmode)">Skin.Reset(kioskmode)</onclick>
           </control>
           <control type="radiobutton" id="262">
-            <label>31180</label>
+            <description>Background effect</description>
+            <label>31269</label>
             <include>Default_SettingRadioButton</include>
-            <onclick>Skin.ToggleSetting(hideoptions)</onclick>
-            <onclick>Skin.Reset(kioskmode)</onclick>
-            <selected>Skin.HasSetting(hideoptions)</selected>
+            <onclick>Skin.ToggleSetting(effect_bg)</onclick>
+            <selected>Skin.HasSetting(effect_bg)</selected>
+            <onback>Dialog.Close(1129)</onback>
+            <onback condition="!IsEmpty(Window(home).Property(Settings.Shortcut))">ActivateWindow(1111)</onback>
           </control>
           <control type="radiobutton" id="286">
             <label>31638</label>
@@ -407,12 +410,6 @@
             <label>Widgets auswählen</label>
             <onclick>ActivateWindow(1127)</onclick>
           </control>
-          <control type="button" id="517">
-            <description>Default Action</description>
-            <include>Default_SettingButton</include>
-            <label>Set Area Color</label>
-            <onclick>ActivateWindow(1128)</onclick>
-          </control>
         </control>
         <control type="scrollbar" id="60">
           <posx>1815</posx>
@@ -437,19 +434,11 @@
           <onright>60</onright>
           <onup>9003</onup>
           <ondown>9003</ondown>
-          <control type="radiobutton" id="205">
-            <description>Show Recently added info</description>
-            <include>Default_SettingRadioButton</include>
-            <label>31117</label>
-            <onclick>Skin.ToggleSetting(homepageHideRecentlyAdded)</onclick>
-            <selected>Skin.HasSetting(homepageHideRecentlyAdded)</selected>
-          </control>
           <control type="radiobutton" id="271">
             <description>Include watched items</description>
             <include>Default_SettingRadioButton</include>
             <label>31672</label>
             <label2>[COLOR selected]$INFO[Skin.String(IncludeWatchedCVPL)][/COLOR]</label2>
-            <enable>Skin.HasSetting(homepageHideRecentlyAdded)</enable>
             <onclick>Skin.ToggleSetting(IncludeWatchedCVPLBool)</onclick>
             <onclick condition="!Skin.HasSetting(IncludeWatchedCVPLBool)">Skin.SetString(IncludeWatchedCVPL,True)</onclick>
             <onclick condition="Skin.HasSetting(IncludeWatchedCVPLBool)">Skin.SetString(IncludeWatchedCVPL,False)</onclick>

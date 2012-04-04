@@ -109,17 +109,16 @@
         <label>31613</label>
         <include>Objects_CommonSettingsButton</include>
         <onclick>Skin.ToggleSetting(customstartupfocus)</onclick>
+        <onclick condition="Skin.HasSetting(customstartupfocus)">Skin.SetNumeric(CustomFocusOffset)</onclick>
         <selected>Skin.HasSetting(customstartupfocus)</selected>
         <onback>Dialog.Close(1129)</onback>
         <onback condition="!IsEmpty(Window(home).Property(Settings.Shortcut))">ActivateWindow(1111)</onback>
       </control>
-      <control type="button" id="454">
+      <control type="radiobutton" id="454">
         <description>Default focus</description>
-        <label>- $LOCALIZE[31612]</label>
-        <label2>[COLOR=selected]$INFO[Skin.String(CustomFocusOffset)][/COLOR]</label2>
+        <label>Shorter Library Stats Bars</label>
         <include>Objects_CommonSettingsButton</include>
-        <onclick>Skin.SetNumeric(CustomFocusOffset)</onclick>
-        <visible>Skin.HasSetting(customstartupfocus)</visible>
+        <onclick>Skin.ToggleSetting(shorterhomebars)</onclick>
         <onback>Dialog.Close(1129)</onback>
         <onback condition="!IsEmpty(Window(home).Property(Settings.Shortcut))">ActivateWindow(1111)</onback>
       </control>
@@ -131,15 +130,6 @@
         <selected>Skin.HasSetting(animatedbghome)</selected>
         <onback condition="!IsEmpty(Window(home).Property(Settings.Shortcut))">ActivateWindow(1111)</onback>
         <onback>Dialog.Close(1129)</onback>
-      </control>
-      <control type="radiobutton" id="461">
-        <description>Background effect</description>
-        <label>31269</label>
-        <include>Objects_CommonSettingsButton</include>
-        <onclick>Skin.ToggleSetting(effect_bg_home)</onclick>
-        <selected>Skin.HasSetting(effect_bg_home)</selected>
-        <onback>Dialog.Close(1129)</onback>
-        <onback condition="!IsEmpty(Window(home).Property(Settings.Shortcut))">ActivateWindow(1111)</onback>
       </control>
       <control type="radiobutton" id="462">
         <description>Shutdown warning</description>
@@ -173,43 +163,37 @@
       <onup>450</onup>
       <ondown>450</ondown>
       <visible>Window.IsActive(1111)</visible>
+      <control type="radiobutton" id="451">
+        <description>Choose style</description>
+        <label>DISABLE TOP BAR</label>
+        <include>Objects_CommonSettingsButton</include>
+        <onclick>Skin.ToggleSetting(DisableTopBar)</onclick>
+        <selected>Skin.HasSetting(DisableTopBar)</selected>
+        <onback>Dialog.Close(1129)</onback>
+        <onback>Dialog.Close(1116)</onback>
+      </control>
       <control type="radiobutton" id="452">
         <description>Choose style</description>
-        <label>OLD TOP BAR LAYOUT</label>
+        <label>CLASSIC TOP BAR LAYOUT</label>
         <include>Objects_CommonSettingsButton</include>
-        <onclick>Skin.ToggleSetting(HasBackBar)</onclick>
-        <selected>Skin.HasSetting(HasBackBar)</selected>
+        <onclick>Skin.ToggleSetting(ClassicTopBar)</onclick>
+        <selected>Skin.HasSetting(ClassicTopBar)</selected>
         <onback>Dialog.Close(1129)</onback>
         <onback>Dialog.Close(1116)</onback>
+        <visible>!Skin.HasSetting(DisableTopBar)</visible>
       </control>
-      <control type="button" id="453">
-        <description>Choose style</description>
-        <label>SHOW BREADCRUMBS</label>
+      <control type="button" id="440">
         <include>Objects_CommonSettingsButton</include>
-        <onclick>Skin.Reset(GlobalRSS)</onclick>
-        <onclick>Skin.SetBool(breadcrumbslabel)</onclick>
+        <label>Left Side: $VAR[TopBarLeftSideLabelVar]</label>
+        <onclick condition="!Skin.HasSetting(breadcrumbslabel) + !Skin.HasSetting(GlobalRSS)">Skin.SetBool(GlobalRSS)</onclick>
+        <onclick condition="Skin.HasSetting(GlobalRSS)">Skin.SetBool(breadcrumbslabel)</onclick>
+        <onclick condition="Skin.HasSetting(GlobalRSS)">Skin.Reset(GlobalRSS)</onclick>
+        <onclick condition="Skin.HasSetting(breadcrumbslabel)">Skin.Reset(GlobalNowPlaying)</onclick>
+        <onclick condition="Skin.HasSetting(breadcrumbslabel)">Skin.Reset(breadcrumbslabel)</onclick>
         <onback>Dialog.Close(1129)</onback>
         <onback>Dialog.Close(1116)</onback>
-      </control>
-      <control type="button" id="455">
-        <description>Timepanel high</description>
-        <label>SHOW RSS FEED</label>
-        <include>Objects_CommonSettingsButton</include>
-        <onclick>Skin.SetBool(GlobalRSS)</onclick>
-        <onclick>Skin.Reset(breadcrumbslabel)</onclick>
-        <onback condition="!IsEmpty(Window(home).Property(Settings.Shortcut))">ActivateWindow(1111)</onback>
-        <onback>Dialog.Close(1129)</onback>
-        <onback>Dialog.Close(1116)</onback>
-      </control>
-      <control type="button" id="456">
-        <description>Color selector</description>
-        <label>SHOW NOTHING</label>
-        <include>Objects_CommonSettingsButton</include>
-        <onclick>Skin.Reset(GlobalRSS)</onclick>
-        <onclick>Skin.Reset(GlobalNowPlaying)</onclick>
-        <onclick>Skin.Reset(breadcrumbslabel)</onclick>
-        <onback>Dialog.Close(1129)</onback>
-        <onback>Dialog.Close(1116)</onback>
+        <ondown condition="![Skin.HasSetting(breadcrumbslabel) | Skin.HasSetting(GlobalRSS)]">458</ondown>
+        <visible>!Skin.HasSetting(DisableTopBar)</visible>
       </control>
       <control type="radiobutton" id="457">
         <description>Color selector</description>
@@ -219,14 +203,19 @@
         <selected>Skin.HasSetting(GlobalNowPlaying)</selected>
         <onback>Dialog.Close(1129)</onback>
         <onback>Dialog.Close(1116)</onback>
+        <enable>[Skin.HasSetting(breadcrumbslabel) | Skin.HasSetting(GlobalRSS)]</enable>
+        <visible>!Skin.HasSetting(DisableTopBar)</visible>
       </control>
       <control type="radiobutton" id="458">
         <description>Color selector</description>
         <label>WEATHER INFO</label>
         <include>Objects_CommonSettingsButton</include>
         <onclick>Skin.ToggleSetting(breadcrumbsweather)</onclick>
+        <onup condition="![Skin.HasSetting(breadcrumbslabel) | Skin.HasSetting(GlobalRSS)]">458</onup>
         <onback>Dialog.Close(1129)</onback>
         <onback>Dialog.Close(1116)</onback>
+        <visible>!Skin.HasSetting(DisableTopBar)</visible>
+
       </control>
       <control type="button" id="460">
         <description>Exit</description>

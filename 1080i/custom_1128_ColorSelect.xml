@@ -26,7 +26,17 @@
       <posy>900</posy>
       <width>764</width>
       <height>136</height>
-      <include>Dialogs_Tablet</include>
+      <control type="image">
+        <posx>-4</posx>
+        <posy>-4</posy>
+        <width>776</width>
+        <height>297</height>
+        <texture>dialogs/scan_backg.png</texture>
+        <animation type="Conditional" condition="Window.IsActive(home)">
+          <effect type="zoom" end="100,80" time="0" easing="in" tween="cubic" />
+     <!--     <effect type="slide" end="-149" time="400" easing="in" tween="cubic" />-->
+        </animation>
+      </control>
       <include>Dialogs_Settings</include>
       <animation effect="slide" start="0,0" end="0,-870" time="0" condition="Window.IsActive(home)">Conditional</animation>
       <animation effect="slide" start="0,0" end="0,-870" time="0" condition="!Window.IsActive(home)">Conditional</animation>
@@ -39,6 +49,7 @@
         <focusposition>3</focusposition>
         <scrolltime>200</scrolltime>
         <onback>Dialog.Close(1128)</onback>
+        <ondown>11</ondown>
         <onback condition="Window.IsActive(musiclibrary)">Skin.SetString(diffuse_music,$INFO[Skin.String(diffuse_color)])</onback>
         <onback condition="Window.IsActive(videolibrary)">Skin.SetString(diffuse_videolibrary,$INFO[Skin.String(diffuse_color)])</onback>
         <onback condition="Window.IsActive(PVR)">Skin.SetString(diffuse_PVR,$INFO[Skin.String(diffuse_color)])</onback>
@@ -80,6 +91,7 @@
             <height>60</height>
             <texture>views/addonwall_select.png</texture>
             <include>Animation_CommonFade</include>
+            <visible>Control.HasFocus(10)</visible>
           </control>
         </focusedlayout>
         <content>
@@ -190,36 +202,99 @@
             <onclick>Skin.SetString(diffuse_old,$INFO[Skin.String(diffuse_color)])</onclick>
             <onclick>RunScript(script.color.picker,Skin.SetString(diffuse_color),Start=PickColorOnScreen)</onclick>
           </item>
-          <item>
-            <label>13012</label>
-            <label2>-</label2>
-            <icon>close.png</icon>
-            <thumb>-</thumb>
-            <onclick>Dialog.Close(1128)</onclick>
-            <onclick condition="Window.IsActive(musiclibrary) | Window.IsActive(Window.IsActive(musicfiles))">Skin.SetString(diffuse_music,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="Window.IsActive(videolibrary)">Skin.SetString(diffuse_videolibrary,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="Window.IsActive(PVR)">Skin.SetString(diffuse_PVR,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="Window.IsActive(pictures)">Skin.SetString(diffuse_pictures,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="Window.IsActive(1111)">Skin.SetString(diffuse_settings,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="Window.IsActive(addonbrowser)">Skin.SetString(diffuse_addons,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="Window.IsActive(programs)">Skin.SetString(diffuse_programs,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="Window.IsActive(musicplaylist)">Skin.SetString(diffuse_musicplaylist,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="Window.IsActive(videoplaylist)">Skin.SetString(diffuse_videoplaylist,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="Window.IsActive(weather)">Skin.SetString(diffuse_videoplaylist,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="Window.IsActive(home) + Skin.HasSetting(editdialogs)">Skin.SetString(diffuse_home,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="Window.IsActive(home) + !Skin.HasSetting(editdialogs)">Skin.SetString(diffuse_mainmenu,$INFO[Skin.String(diffuse_color)])</onclick>
-            <onclick condition="stringcompare(Window(home).Property(Selector.Shortcut),1)">ActivateWindow(1129)</onclick>
-          </item>
         </content>
       </control>
-      <control type="label">
-        <posx>120</posx>
-        <posy>98</posy>
-        <align>center</align>
-        <include>Dialogs_Label3</include>
-        <label>$INFO[Container(10).ListItem.Label]</label>
+      <control type="radiobutton" id="11">
+        <posx>138</posx>
+        <posy>148</posy>
+        <description>Color Labels</description>
+        <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+        <height>60</height>
+        <width>603</width>
+        <texturenofocus>settings/listselect_nf.png</texturenofocus>
+        <texturefocus>views/tripanel/listselect_fo.png</texturefocus>
+        <alttexturenofocus>settings/listselect_nf.png</alttexturenofocus>
+        <alttexturefocus>views/tripanel/listselect_fo.png</alttexturefocus>
+        <textcolor>77ffffff</textcolor>
+        <focusedcolor>white6</focusedcolor>
+        <disabledcolor>3cFFFFFF</disabledcolor>
+        <textoffsetx>15</textoffsetx>
+        <textoffsety>2</textoffsety>
+        <align>left</align>
+        <aligny>center</aligny>
+        <onleft>10</onleft>
+        <onright>10</onright>
+        <onup>10</onup>
+        <ondown>12</ondown>
+        <font>Font_Condensed22</font>
+        <include>Animation_CommonFade</include>
+        <radiowidth>98</radiowidth>
+        <radioheight>98</radioheight>
+        <radioposx>508</radioposx>
+        <pulseonselect>yes</pulseonselect>
+        <label>Color Labels</label>
+        <onclick>Skin.ToggleSetting(colortext)</onclick>
+        <selected>Skin.HasSetting(colortext)</selected>
+        <onclick condition="Skin.HasSetting(colortext)">Skin.SetString(diffuse_text,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="!Skin.HasSetting(colortext)">Skin.SetString(diffuse_text,grey)</onclick>
+        <visible>!Window.IsActive(home)</visible>
       </control>
-      <include>Dialogs_Arrows</include>
+      <control type="button" id="12">
+        <posx>138</posx>
+        <posy>208</posy>
+        <description>Color Labels</description>
+        <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+        <height>60</height>
+        <width>603</width>
+        <texturenofocus>settings/listselect_nf.png</texturenofocus>
+        <texturefocus>views/tripanel/listselect_fo.png</texturefocus>
+        <alttexturenofocus>settings/listselect_nf.png</alttexturenofocus>
+        <alttexturefocus>views/tripanel/listselect_fo.png</alttexturefocus>
+        <textcolor>77ffffff</textcolor>
+        <focusedcolor>white6</focusedcolor>
+        <disabledcolor>3cFFFFFF</disabledcolor>
+        <textoffsetx>15</textoffsetx>
+        <textoffsety>2</textoffsety>
+        <align>left</align>
+        <aligny>center</aligny>
+        <animation effect="slide" start="0,0" end="0,-60" time="0" condition="Window.IsActive(home)">Conditional</animation>
+        <onleft>10</onleft>
+        <onright>10</onright>
+        <onup>11</onup>
+        <ondown>10</ondown>
+        <font>Font_Condensed22</font>
+        <include>Animation_CommonFade</include>
+        <pulseonselect>yes</pulseonselect>
+        <description>Exit</description>
+        <label>13012</label>
+        <onback>Dialog.Close(1128)</onback>
+        <onclick>Dialog.Close(1128)</onclick>
+        <onclick condition="Window.IsActive(musiclibrary) | Window.IsActive(Window.IsActive(musicfiles))">Skin.SetString(diffuse_music,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="Window.IsActive(videolibrary)">Skin.SetString(diffuse_videolibrary,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="Window.IsActive(PVR)">Skin.SetString(diffuse_PVR,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="Window.IsActive(pictures)">Skin.SetString(diffuse_pictures,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="Window.IsActive(1111)">Skin.SetString(diffuse_settings,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="Window.IsActive(addonbrowser)">Skin.SetString(diffuse_addons,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="Window.IsActive(programs)">Skin.SetString(diffuse_programs,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="Window.IsActive(musicplaylist)">Skin.SetString(diffuse_musicplaylist,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="Window.IsActive(videoplaylist)">Skin.SetString(diffuse_videoplaylist,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="Window.IsActive(weather)">Skin.SetString(diffuse_videoplaylist,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="Window.IsActive(home) + Skin.HasSetting(editdialogs)">Skin.SetString(diffuse_home,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="Window.IsActive(home) + !Skin.HasSetting(editdialogs)">Skin.SetString(diffuse_mainmenu,$INFO[Skin.String(diffuse_color)])</onclick>
+        <onclick condition="stringcompare(Window(home).Property(Selector.Shortcut),1)">ActivateWindow(1129)</onclick>
+      </control>
+      <control type="group">
+        <visible>Control.HasFocus(10)</visible>
+        <include>Animation_VisibleChange200</include>
+        <control type="label">
+          <posx>120</posx>
+          <posy>98</posy>
+          <align>center</align>
+          <include>Dialogs_Label3</include>
+          <label>$INFO[Container(10).ListItem.Label]</label>
+        </control>
+        <include>Dialogs_Arrows</include>
+      </control>
     </control>
   </controls>
 </window>
