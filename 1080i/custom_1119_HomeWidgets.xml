@@ -6,6 +6,8 @@
   <onunload condition="Skin.HasSetting(HomeMenuVideoPlaylist2) + [Skin.HasSetting(HomeLatestVPL2) | Skin.HasSetting(HomeRandomVPL2)] + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems, playlist=$INFO[Skin.String(HomeMenuVideoPlaylist2_Path)], method=$INFO[Skin.String(MethodVPL2)], limit=10, unwatched=$INFO[Skin.String(IncludeWatchedCVPL)], resume=False, propertie=PlaylistLastMovieVPL2)</onunload>
   <onunload condition="Skin.HasSetting(HomeMenuVideoPlaylist3) + [Skin.HasSetting(HomeLatestVPL3) | Skin.HasSetting(HomeRandomVPL3)] + System.HasAddon(script.randomandlastitems)">XBMC.RunScript(script.randomandlastitems, playlist=$INFO[Skin.String(HomeMenuVideoPlaylist3_Path)], method=$INFO[Skin.String(MethodVPL3)], limit=10, unwatched=$INFO[Skin.String(IncludeWatchedCVPL)], resume=False, propertie=PlaylistLastMovieVPL3)</onunload>
   <onunload condition="Skin.HasSetting(NoWidgetAlarm)">CancelAlarm(WidgetMove,true)</onunload>
+  <onunload>ClearProperty(actualItem)</onunload>
+  <onunload>ClearProperty(actualItem,1119)</onunload>
   <coordinates>
     <system>1</system>
     <posx>0</posx>
@@ -65,6 +67,7 @@
         <onclick condition="Skin.HasSetting(HomeInProgress)">Skin.Reset(HomeInProgress)</onclick>
         <onclick condition="Skin.HasSetting(HomeHasFeaturedItemsWidget)">Skin.Reset(HomeHasFeaturedItemsWidget)</onclick>     
         <visible>!Skin.HasSetting(HomeMenuNoMovieButton)</visible>
+        <visible>Stringcompare(Window.Property(actualItem),Movies)</visible>
       </control>
       <control type="button" id="456">
         <description>Show video info</description>
@@ -76,7 +79,7 @@
         <onclick condition="Skin.HasSetting(HomeRandomTV)">Skin.SetBool(HomeWatchList)</onclick>
         <onclick condition="Skin.HasSetting(HomeRandomTV)">Skin.Reset(HomeRandomTV)</onclick>
         <onclick condition="Skin.HasSetting(HomeWatchList)">Skin.Reset(HomeWatchList)</onclick> 
-        <visible>!Skin.HasSetting(HomeMenuNoTVShowButton)</visible>
+        <visible>Stringcompare(Window.Property(actualItem),TVShows)</visible>
       </control>
       <control type="button" id="458">
         <description>Show video info</description>
@@ -91,6 +94,7 @@
         <onclick condition="Skin.HasSetting(HomeLatestAlbums)">Skin.Reset(HomeLatestAlbums)</onclick> 
         <onclick condition="Skin.HasSetting(HomeRandomAlbums)">Skin.Reset(HomeRandomAlbums)</onclick>
         <visible>!Skin.HasSetting(HomeMenuNoMusicButton)</visible>
+        <visible>Stringcompare(Window.Property(actualItem),Music)</visible>
       </control>
       <control type="radiobutton" id="462">
         <description>Show video info</description>
@@ -99,6 +103,26 @@
         <onclick>Skin.ToggleSetting(HomeRandomAddons)</onclick>
         <selected>Skin.HasSetting(HomeRandomAddons)</selected>
         <visible>!Skin.HasSetting(HomeMenuNoAddonsButton)</visible>
+        <visible>Stringcompare(Window.Property(actualItem),Addons)</visible> 
+      </control>
+      <control type="radiobutton" id="271">
+        <description>Include watched items</description>
+        <include>Objects_CommonSettingsButton</include>
+        <label>31672</label>
+        <label2>[COLOR selected]$INFO[Skin.String(IncludeWatchedCVPL)][/COLOR]</label2>
+        <onclick>Skin.ToggleSetting(IncludeWatchedCVPLBool)</onclick>
+        <onclick condition="!Skin.HasSetting(IncludeWatchedCVPLBool)">Skin.SetString(IncludeWatchedCVPL,True)</onclick>
+        <onclick condition="Skin.HasSetting(IncludeWatchedCVPLBool)">Skin.SetString(IncludeWatchedCVPL,False)</onclick>
+        <selected>Skin.HasSetting(IncludeWatchedCVPLBool)</selected>
+        <visible>System.HasAddon(script.randomandlastitems)</visible>
+      </control>
+      <control type="radiobutton" id="204">
+        <description>enable weather info</description>
+        <include>Objects_CommonSettingsButton</include>
+        <label>20084</label>
+        <onclick>Skin.ToggleSetting(homepagenoweatherinfo)</onclick>
+        <selected>!Skin.HasSetting(homepagenoweatherinfo)</selected>
+        <visible>Stringcompare(Window.Property(actualItem),Weather)</visible>
       </control>
       <control type="radiobutton" id="469">
         <description>Show VPL1 widget</description>
@@ -109,6 +133,7 @@
         <onclick>Skin.SetString(MethodVPL1,Last)</onclick>
         <selected>Skin.HasSetting(HomeLatestVPL1)</selected>
         <visible>Skin.HasSetting(HomeMenuVideoPlaylist1) + System.HasAddon(script.randomandlastitems)</visible>
+        <visible>Stringcompare(Window.Property(actualItem),VPL1)</visible> 
       </control>
       <control type="radiobutton" id="470">
         <description>Show VPL1 widget</description>
@@ -119,6 +144,7 @@
         <onclick>Skin.SetString(MethodVPL1,Random)</onclick>
         <selected>Skin.HasSetting(HomeRandomVPL1)</selected>
         <visible>Skin.HasSetting(HomeMenuVideoPlaylist1) + System.HasAddon(script.randomandlastitems)</visible>
+        <visible>Stringcompare(Window.Property(actualItem),VPL1)</visible> 
       </control>
       <control type="radiobutton" id="471">
         <description>Show VPL2 widget</description>
@@ -129,6 +155,7 @@
         <onclick>Skin.SetString(MethodVPL2,Last)</onclick>
         <selected>Skin.HasSetting(HomeLatestVPL2)</selected>
         <visible>Skin.HasSetting(HomeMenuVideoPlaylist2) + System.HasAddon(script.randomandlastitems)</visible>
+        <visible>Stringcompare(Window.Property(VPL2),Addons)</visible> 
       </control>
       <control type="radiobutton" id="472">
         <description>Show VPL2 widget</description>
@@ -139,6 +166,7 @@
         <onclick>Skin.SetString(MethodVPL2,Random)</onclick>
         <selected>Skin.HasSetting(HomeRandomVPL2)</selected>
         <visible>Skin.HasSetting(HomeMenuVideoPlaylist2) + System.HasAddon(script.randomandlastitems)</visible>
+        <visible>Stringcompare(Window.Property(VPL2),Addons)</visible> 
       </control>
       <control type="radiobutton" id="473">
         <description>Show VPL3 widget</description>
@@ -149,6 +177,7 @@
         <onclick>Skin.SetString(MethodVPL3,Last)</onclick>
         <selected>Skin.HasSetting(HomeLatestVPL3)</selected>
         <visible>Skin.HasSetting(HomeMenuVideoPlaylist3) + System.HasAddon(script.randomandlastitems)</visible>
+        <visible>Stringcompare(Window.Property(actualItem),VPL3)</visible> 
       </control>
       <control type="radiobutton" id="474">
         <description>Show VPL3 widget</description>
@@ -159,6 +188,7 @@
         <onclick>Skin.SetString(MethodVPL3,Random)</onclick>
         <selected>Skin.HasSetting(HomeRandomVPL3)</selected>
         <visible>Skin.HasSetting(HomeMenuVideoPlaylist3) + System.HasAddon(script.randomandlastitems)</visible>
+        <visible>Stringcompare(Window.Property(actualItem),VPL3)</visible> 
       </control>
       <control type="radiobutton" id="468">
         <description>Show video info</description>
