@@ -9,7 +9,7 @@
   </coordinates>
   <controls>
     <control type="multiimage">
-      <imagepath background="true">$INFO[Container(9000).ListItem.ActualIcon]</imagepath>
+      <imagepath background="true">$VAR[HomeMainFanartVar]</imagepath>
       <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
       <animation effect="slide" start="-15,-15" end="15,15" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
     </control>
@@ -71,10 +71,15 @@
         <visible>Container(9000).HasFocus(10) | Container(9000).HasFocus(1) | Container(9000).HasFocus(15) | Container(9000).HasFocus(16) | Container(9000).HasFocus(17) | Container(9000).HasFocus(18) | Container(9000).HasFocus(19) | Container(9000).HasFocus(20) | Container(9000).HasFocus(21) | Container(9000).HasFocus(22) | Container(9000).HasFocus(23)</visible>
       </control>
     </control>
+    <include>HomeFeaturedWidget</include>
     <!-- Library Totals -->
     <include>LibraryStats</include>
     <!-- Time Panel-->
     <include>TimePanel</include>
+    <control type="group">
+      <include>Animation_OpenCloseZoom</include>
+      <include>RecentWidget</include>
+    </control>
     <!--Main Menu-->
     <control type="group">
       <posx>0</posx>
@@ -2066,16 +2071,6 @@
             <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
             <include>MainMenuLabels</include>
             <font>Font_MainClassic</font>
-            <visible>Skin.HasSetting(ClassicFont)</visible>
-          </control>
-          <control type="label">
-            <posx>260</posx>
-            <posy>-2</posy>
-            <width>519</width>
-            <textcolor>white5</textcolor>
-            <include>MainMenuLabels</include>
-            <font>Font_MainMenu</font>
-            <visible>!Skin.HasSetting(ClassicFont)</visible>
           </control>
           <control type="image">
             <posx>214</posx>
@@ -2090,20 +2085,21 @@
             <posx>260</posx>
             <posy>-2</posy>
             <width>519</width>
-            <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
+            <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
             <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
             <include>MainMenuLabels</include>
             <font>Font_MainClassic</font>
-            <visible>Skin.HasSetting(ClassicFont)</visible>
           </control>
           <control type="label">
             <posx>260</posx>
             <posy>-2</posy>
             <width>519</width>
-            <textcolor>white</textcolor>
+            <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
+            <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
             <include>MainMenuLabels</include>
-            <font>Font_MainMenu</font>
-            <visible>!Skin.HasSetting(ClassicFont)</visible>
+            <font>Font_MainClassic</font>
+            <visible>Control.HasFocus(9000)</visible>
+            <include>Animation_VisibleChange200</include>
           </control>
           <control type="image">
             <posx>214</posx>
@@ -2122,16 +2118,6 @@
             <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
             <include>MainMenuLabels</include>
             <font>Font_MainClassic</font>
-            <visible>Skin.HasSetting(ClassicFont)</visible>
-          </control>
-          <control type="label">
-            <posx>320</posx>
-            <posy>-2</posy>
-            <width>639</width>
-            <textcolor>white5</textcolor>
-            <include>MainMenuLabels</include>
-            <font>Font_MainMenu</font>
-            <visible>!Skin.HasSetting(ClassicFont)</visible>
           </control>
           <control type="image">
             <posx>274</posx>
@@ -2146,20 +2132,21 @@
             <posx>320</posx>
             <posy>-2</posy>
             <width>639</width>
-            <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
+            <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
             <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
             <include>MainMenuLabels</include>
             <font>Font_MainClassic</font>
-            <visible>Skin.HasSetting(ClassicFont)</visible>
           </control>
           <control type="label">
             <posx>320</posx>
             <posy>-2</posy>
             <width>639</width>
-            <textcolor>white</textcolor>
+            <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
+            <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
             <include>MainMenuLabels</include>
-            <font>Font_MainMenu</font>
-            <visible>!Skin.HasSetting(ClassicFont)</visible>
+            <font>Font_MainClassic</font>
+            <visible>Control.HasFocus(9000)</visible>
+            <include>Animation_VisibleChange200</include>
           </control>
           <control type="image">
             <posx>274</posx>
@@ -2222,7 +2209,6 @@
             <label>31502</label>
             <onclick>Skin.SetString(MenuItem,MovieHomeItem)</onclick>
             <onclick>ActivateWindow(1123)</onclick>
-            <onclick condition="!Skin.HasSetting(HomeMenuNoMovieButton)">SetFocus(8010)</onclick> -->
             <icon>special://skin/backgrounds/movies.jpg</icon>
             <thumb>-</thumb>
             <visible>!Skin.HasSetting(HomeMenuNoMovieButton) + Library.HasContent(Movies)</visible>
@@ -2540,9 +2526,16 @@
       <include>Furniture_ClassicHomeGradient</include>
       <include>Neon_Home</include>
     </control>
-    <control type="label" id="4321">
-    <posy>100</posy>
-    <label>$VAR[WidgetTypeVar]</label>
-  </control>
+    <control type="group">
+      <animation effect="fade" start="100" end="0" time="200" condition="true">Conditional</animation>
+      <control type="label" id="4321">
+        <posy>100</posy>
+        <label>$VAR[WidgetTypeVar]</label>
+      </control>
+      <control type="label" id="4322">
+        <posy>100</posy>
+        <label>$VAR[MultiFanartVar]</label>
+      </control>
+    </control>
   </controls>
 </window>
