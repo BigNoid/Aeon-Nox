@@ -1422,7 +1422,7 @@
   <include name="Furniture_HomeNowPlaying">
     <control type="group" id="8995">
       <posx>22</posx>
-      <posy>-45</posy>
+      <posy>-650</posy>
       <height>1080</height>
       <width>1920</width>
       <include>Animation_OpenCloseZoom</include>
@@ -1435,14 +1435,102 @@
         <effect type="slide" start="0,-1200" end="0,0" delay="500" time="200" easing="out" tween="quadratic" />
         <effect type="fade" start="0" end="100" delay="500" time="200" />
       </animation>
-      <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-180" condition="[Skin.HasSetting(lowermainmenu)]">Conditional</animation>
-      <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-420" condition="[Skin.HasSetting(lowermainmenu)] + Control.HasFocus(8000)">Conditional</animation>
-      <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-600" condition="![[Skin.HasSetting(lowermainmenu)]] + [Control.HasFocus(8000) | Control.HasFocus(8003) | Substring(Control.GetLabel(4321),featured) | Substring(Control.GetLabel(4321),panel)]">Conditional</animation>
-      <animation effect="slide" time="200" start="0,0" end="0,-30" condition="[Skin.HasSetting(lowermainmenu)] + !Skin.HasSetting(totalshomehigh)">Conditional</animation>
       <animation effect="slide" time="200" start="0,0" end="0,45" condition="![Skin.HasSetting(lowermainmenu)] + !Skin.HasSetting(rsshomelow)">Conditional</animation>
-      <animation type="Conditional" condition="ControlGroup(5000).HasFocus">
-        <effect type="fade" start="100" end="0" time="200" tween="cubic" easing="inout" />
-      </animation>
+        <control type="group">
+          <visible>[Player.HasAudio | [Window.IsActive(1124) + !Player.HasVideo]] + !Skin.HasSetting(nohomepageMusicinfo) + Skin.HasSetting(smallmusichome)</visible>
+          <include>Animation_OpenCloseZoom</include>
+          <posy>-220</posy>
+          <control type="image">
+            <description>gradient</description>
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>1920</width>
+            <height>945</height>
+            <texture>home/nowplaying_shadow.png</texture>
+            <visible>!Window.IsActive(home)</visible>
+          </control>
+          <control type="image">
+            <posx>216</posx>
+            <posy>282</posy>
+            <height>120</height>
+            <width>330</width>
+            <texture>home/nowplaying_info.png</texture>
+          </control>
+          <control type="image">
+            <description>Cover image</description>
+            <posx>30</posx>
+            <posy>225</posy>
+            <width>195</width>
+            <height>195</height>
+            <aspectratio scalediffuse="false">stretch</aspectratio>
+            <texture background="true" diffuse="thumbs/cdcover_mask.png">common/black.png</texture>
+            <info>MusicPlayer.Cover</info>
+          </control>
+          <control type="image">
+            <description>Cover image</description>
+            <posx>30</posx>
+            <posy>225</posy>
+            <width>195</width>
+            <height>195</height>
+            <aspectratio scalediffuse="false" align="right">scale</aspectratio>
+            <texture diffuse="thumbs/cdcover_mask.png">thumbs/cdcover_glass_aa.png</texture>
+            <bordertexture border="-14">thumbs/cd_shadow.png</bordertexture>
+          </control>
+          <control type="label">
+            <description>Artist label</description>
+            <posx>248</posx>
+            <posy>240</posy>
+            <height>45</height>
+            <width>488</width>
+            <label>[UPPERCASE]$INFO[MusicPlayer.Artist][/UPPERCASE]</label>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Bold16_Caps</font>
+            <textcolor>white</textcolor>
+            <shadowcolor>black</shadowcolor>
+          </control>
+          <control type="fadelabel">
+            <description>Title label</description>
+            <posx>248</posx>
+            <posy>364</posy>
+            <height>45</height>
+            <width>600</width>
+            <label>[UPPERCASE]$INFO[MusicPlayer.Title][/UPPERCASE]</label>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Bold16_Caps</font>
+            <textcolor>abFFFFFF</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <scrollout>false</scrollout>
+            <pauseatend>2000</pauseatend>
+          </control>
+          <control type="label">
+            <description>Album Label</description>
+            <posx>248</posx>
+            <posy>276</posy>
+            <height>45</height>
+            <width>600</width>
+            <label>$INFO[MusicPlayer.Album]$INFO[musicplayer.discnumber, - $LOCALIZE[427]:]</label>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg15</font>
+            <textcolor>abFFFFFF</textcolor>
+            <shadowcolor>black</shadowcolor>
+          </control>
+          <control type="label">
+            <description>Time Label</description>
+            <posx>248</posx>
+            <posy>338</posy>
+            <height>45</height>
+            <width>600</width>
+            <label>$INFO[MusicPlayer.Time]$INFO[MusicPlayer.Duration, / ]</label>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>Font_Reg12</font>
+            <textcolor>ab749a9a</textcolor>
+            <shadowcolor>black</shadowcolor>
+          </control>
+        </control>          
       <control type="group">
         <visible>!Skin.HasSetting(smallmusichome)</visible> 
         <include>Animation_VisibleChange200</include>
@@ -1460,10 +1548,9 @@
     <control type="group">
       <visible>Stringcompare(Control.GetLabel(4321),weather) + Weather.IsFetched</visible>
       <visible>!Skin.HasSetting(homepagenoweatherinfo) + !SubString(Weather.Plugin,weather.weatherplus) + !IsEmpty(Weather.Plugin)</visible>
-      <posy>30</posy>
+      <posy>660</posy>
       <include>Animation_HomeWidgetZoom</include>
-      <animation effect="slide" start="0,0" end="0,338" time="400" tween="cubic" easing="inout" condition="[Skin.HasSetting(lowermainmenu)] + Skin.HasSetting(lowerweatherwidget) + ![Control.IsVisible(8994) | Control.IsVisible(8995)]">Conditional</animation>
-      <animation effect="slide" start="0,0" end="0,638" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowerweatherwidget) + ![Skin.HasSetting(lowermainmenu)] + ![Control.IsVisible(8994) | Control.IsVisible(8995)]">Conditional</animation>
+      <animation effect="slide" start="0,0" end="0,-268" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
       <control type="group">
         <description>current</description>
         <posx>75</posx>
@@ -1891,10 +1978,9 @@
     <control type="group">
       <visible>Stringcompare(Control.GetLabel(4321),weather) + Weather.IsFetched</visible>
       <visible>!Skin.HasSetting(homepagenoweatherinfo) + SubString(Weather.Plugin,weather.weatherplus) + !IsEmpty(Weather.Plugin)</visible>
-      <posy>30</posy>
+      <posy>660</posy>
       <include>Animation_HomeWidgetZoom</include>
-      <animation effect="slide" start="0,0" end="0,338" time="400" tween="cubic" easing="inout" condition="[Skin.HasSetting(lowermainmenu)] + Skin.HasSetting(lowerweatherwidget) + ![Control.IsVisible(8994) | Control.IsVisible(8995)]">Conditional</animation>
-      <animation effect="slide" start="0,0" end="0,638" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowerweatherwidget) + ![Skin.HasSetting(lowermainmenu)] + ![Control.IsVisible(8994) | Control.IsVisible(8995)]">Conditional</animation>
+      <animation effect="slide" start="0,0" end="0,-268" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
       <control type="group">
         <description>current</description>
         <posx>75</posx>
@@ -2345,12 +2431,11 @@
         <effect type="fade" start="100" end="0" time="300" />
         <effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" />
       </animation>
-      <animation effect="fade" start="100" end="0" time="200" condition="Control.IsVisible(8995) + !ControlGroup(5000).HasFocus">Conditional</animation>
       <animation type="Conditional" condition="true">
         <effect type="fade" start="100" end="90" time="500" tween="cubic" easing="inout" />
       </animation>
       <animation effect="fade" time="300">Visible</animation>
-      <animation effect="slide" start="0,0" end="0,-338" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+      <animation effect="slide" start="0,0" end="0,-268" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
       <control type="group">
         <posx>0</posx>
         <control type="image">

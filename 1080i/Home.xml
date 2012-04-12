@@ -67,9 +67,6 @@
     </control>
     <!-- Home Fullscreen Video -->
     <include>CommonMediaPlayingBackground</include>
-    <!-- Featured widget test -->
-    <include>HomeFeaturedWidget</include>
-    
     <control type="image">
       <description>media info background image</description>
       <posx>0</posx>
@@ -78,10 +75,23 @@
       <height>945</height>
       <texture>home/nowplaying_shadow.png</texture>
       <visible>!ControlGroup(5000).HasFocus</visible>
-      <visible>Control.HasFocus(8000) | [Player.HasAudio + !Skin.HasSetting(nohomepageMusicinfo)] | [Player.HasVideo + !Skin.HasSetting(homepageVideoinfo)]</visible>
+      <visible>Control.HasFocus(8000)</visible>
       <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
     </control>
-    <!-- Latest/Random Items -->
+    <control type="image">
+      <description>media info background image</description>
+      <posx>0</posx>
+      <posy>0</posy>
+      <width>1920</width>
+      <height>945</height>
+      <texture flipy="true">home/nowplaying_shadow.png</texture>
+      <visible>!ControlGroup(5000).HasFocus</visible>
+      <visible>[Player.HasAudio + !Skin.HasSetting(nohomepageMusicinfo)] | [Player.HasVideo + !Skin.HasSetting(homepageVideoinfo)]</visible>
+      <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+    </control>
+    <!-- Featured widget test -->
+    <include>HomeFeaturedWidget</include>
+        <!-- Latest/Random Items -->
     <control type="group">
       <include>Animation_OpenCloseZoom</include>
       <include>RecentWidget</include>
@@ -130,6 +140,7 @@
           <onup>9000</onup>
           <ondown condition="Control.IsVisible(8998) + !Skin.HasSetting(NoWidgetAlarm)">CancelAlarm(WidgetMove,true)</ondown>
           <ondown condition="Control.IsVisible(8998)">8000</ondown>
+          <ondown condition="Control.IsVisible(5000) + !Skin.HasSetting(lowermainmenu)">SetFocus(5010)</ondown>        
           <itemlayout width="225" height="50">
             <control type="label">
               <posx>112</posx>
@@ -331,6 +342,7 @@
         <ondown condition="!Control.HasFocus(9010) + !Skin.HasSetting(NoWidgetAlarm)">CancelAlarm(WidgetMove,true)</ondown>
         <ondown condition="!Control.IsVisible(9001) + Control.IsVisible(8998)">CancelAlarm(WidgetMove,true)</ondown>
         <ondown condition="!Control.IsVisible(9001) + Control.IsVisible(8998)">8000</ondown>
+        <ondown condition="!Control.HasFocus(9010) + Control.IsVisible(5000) + !Skin.HasSetting(lowermainmenu)">SetFocus(5010)</ondown>        
         <pagecontrol>-</pagecontrol>
         <scrolltime tween="quadratic" easing="out">300</scrolltime>
         <focusposition>2</focusposition>
@@ -442,19 +454,19 @@
     <include condition="!Skin.HasSetting(homepagenoweatherinfo) + !SubString(Weather.Plugin,weather.weatherplus) + !IsEmpty(Weather.Plugin)">Weather_Widget_Standard</include>
     <include condition="!Skin.HasSetting(homepagenoweatherinfo) + SubString(Weather.Plugin,weather.weatherplus) + !IsEmpty(Weather.Plugin)">Weather_Widget_Plus</include>
     <!-- Music Info -->
-    <include condition="!Skin.HasSetting(nohomepageMusicinfo) + !Skin.HasSetting(smallmusichome)">Furniture_HomeNowPlaying</include>
-    <include condition="!Skin.HasSetting(nohomepageMusicinfo) + Skin.HasSetting(smallmusichome)">SmallMusicInfo</include>
+    <include>Furniture_HomeNowPlaying</include>
     <!-- Video Info -->
     <include condition="!Skin.HasSetting(homepageVideoinfo)">Furniture_HomeNowPlayingVideo</include>
     <control type="group">
-      <animation effect="fade" start="100" end="0" time="200" condition="true">Conditional</animation>
       <control type="label" id="4321">
         <posy>100</posy>
+        <include>HiddenObject</include>
         <label>$VAR[WidgetTypeVar]</label>
       </control>
       <control type="label" id="4322">
         <posy>100</posy>
         <label>$VAR[MultiFanartVar]</label>
+        <include>HiddenObject</include>
       </control>
     </control>
     <include>DebugGrid</include>
