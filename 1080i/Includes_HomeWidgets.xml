@@ -55,7 +55,6 @@
           <texture>$VAR[NavHelper1IconVar]</texture>
           <colordiffuse>$VAR[HomeMenuWidgetTextVar]</colordiffuse>
           <aspectratio>keep</aspectratio>
-          <include>Animation_VisibleChange</include>
           <include>dialogeffect</include>
           <animation effect="slide" start="0,0" end="0,5" time="200" tween="quadratic" easing="out" condition="true">Conditional</animation>
           <visible>[Control.IsVisible(8998) | Control.IsVisible(5000)]</visible>
@@ -73,7 +72,6 @@
           <align>left</align>
           <include>dialogeffect</include>
           <label>$VAR[NavHelper1LabelVar]</label>
-          <include>Animation_VisibleChange</include>
           <visible>[Control.IsVisible(8998) | Control.IsVisible(5000)]</visible>
         </control>
         <control type="image">
@@ -84,7 +82,6 @@
           <texture>common/arrowdown.png</texture>
           <colordiffuse>$VAR[HomeMenuWidgetTextVar]</colordiffuse>
           <aspectratio>keep</aspectratio>
-          <include>Animation_VisibleChange</include>
           <include>dialogeffect</include>
           <animation effect="slide" start="0,0" end="0,5" time="200" tween="quadratic" easing="out" condition="true">Conditional</animation>
           <visible>Control.HasFocus(9000)</visible>
@@ -97,7 +94,6 @@
           <texture>common/arrowdown.png</texture>
           <colordiffuse>$VAR[HomeMenuWidgetTextVar]</colordiffuse>
           <aspectratio>keep</aspectratio>
-          <include>Animation_VisibleChange</include>
           <include>dialogeffect</include>
           <animation effect="slide" start="0,0" end="0,5" time="200" tween="quadratic" easing="out" condition="true">Conditional</animation>
           <visible>ControlGroup(5000).HasFocus</visible>
@@ -115,7 +111,6 @@
           <align>left</align>
           <include>dialogeffect</include>
           <label>$LOCALIZE[1034]</label>
-          <include>Animation_VisibleChange</include>
           <visible>Control.HasFocus(9000)</visible>
         </control>
         <control type="label">
@@ -131,7 +126,6 @@
           <align>left</align>
           <include>dialogeffect</include>
           <label>MENU</label>
-          <include>Animation_VisibleChange</include>
           <visible>ControlGroup(5000).HasFocus</visible>
         </control>
       </control>
@@ -2973,6 +2967,10 @@
             <ondown>AlarmClock(HomeTileMid,Control.Move(5002,1),00:15,silent,loop)</ondown>
             <ondown>9000</ondown>
             <onclick condition="!IsEmpty(Container(5002).ListItem.Label2)">XBMC.RunAddon($INFO[Container(5002).ListItem.Label2])</onclick>
+            <onclick condition="!IsEmpty(Container(5002).ListItem.Label2) + !stringcompare(Skin.String(CustomHomeItem1.Type),4) + !stringcompare(Skin.String(CustomHomeItem1.Type),5) + !stringcompare(Skin.String(CustomHomeItem1.Type),6) + !stringcompare(Skin.String(CustomHomeItem1.Type),7)">RunAddon($INFO[Container(5002).ListItem.Label2])</onclick>
+            <onclick condition="!IsEmpty(Container(5002).ListItem.Label2) + stringcompare(Skin.String(CustomHomeItem1.Type),4)">ActivateWindow(Videos,$INFO[Container(5002).ListItem.Label2],return)</onclick>
+            <onclick condition="!IsEmpty(Container(5002).ListItem.Label2) + stringcompare(Skin.String(CustomHomeItem1.Type),5)">ActivateWindow(MusicLibrary,$INFO[Container(5002).ListItem.Label2],return)</onclick>
+            <onclick condition="!IsEmpty(Container(5002).ListItem.Label2) + stringcompare(Skin.String(CustomHomeItem1.Type),6) | stringcompare(Skin.String(CustomHomeItem1.Type),7)">$INFO[Container(5002).ListItem.Label2]</onclick>
             <onclick condition="IsEmpty(Container(5002).ListItem.Label2)">SetFocus(5002)</onclick>
             <onclick condition="Stringcompare(Control.GetLabel(4321),featuredmusic)">$INFO[Container(5002).ListItem.Property(Path)]</onclick>
           </control>
@@ -3104,47 +3102,52 @@
                 <visible>Stringcompare(Control.GetLabel(4321),featuredmusic)</visible>
               </item>
               <item>
-                <label fallback="ADD-ON1">$INFO[system.addontitle(Skin.String(HomeMenuTileVideos1))]</label>
-                <label2>$INFO[Skin.String(HomeMenuTileVideos1)]</label2>
-                <onclick>Skin.SetAddon(HomeMenuTileVideos1,xbmc.addon.video)</onclick>
+                <label fallback="ADD-ON1">$INFO[Skin.String(HomeMenuTileVideos1.Label)]</label>
+                <label2>$INFO[Skin.String(HomeMenuTileVideos1.Path)]</label2>
+                <onclick>Skin.SetString(MenuItem,HomeMenuTileVideos1)</onclick>
+                <onclick>ActivateWindow(1135)</onclick>
                 <icon>DefaultAddonVideo.png</icon>
-                <thumb>$INFO[system.addonicon(Skin.String(HomeMenuTileVideos1))]</thumb>
+                <thumb>$INFO[Skin.String(HomeMenuTileVideos1.Icon)]</thumb>
                 <property name="NavItem">item1.png</property>
                 <visible>Stringcompare(Control.GetLabel(4321),featuredmovies) | Stringcompare(Control.GetLabel(4321),featuredtv)</visible>
               </item>
               <item>
-                <label fallback="ADD-ON2">$INFO[system.addontitle(Skin.String(HomeMenuTileVideos2))]</label>
-                <label2>$INFO[Skin.String(HomeMenuTileVideos2)]</label2>
-                <onclick>Skin.SetAddon(HomeMenuTileVideos2,xbmc.addon.video)</onclick>
+                <label fallback="ADD-ON2">$INFO[Skin.String(HomeMenuTileVideos2.Label)]</label>
+                <label2>$INFO[Skin.String(HomeMenuTileVideos2.Path)]</label2>
+                <onclick>Skin.SetString(MenuItem,HomeMenuTileVideos2)</onclick>
+                <onclick>ActivateWindow(1135)</onclick>
                 <icon>DefaultAddonVideo.png</icon>
-                <thumb>$INFO[system.addonicon(Skin.String(HomeMenuTileVideos2))]</thumb>
+                <thumb>$INFO[Skin.String(HomeMenuTileVideos2.Icon)]</thumb>
                 <property name="NavItem">item2.png</property>
                 <visible>Stringcompare(Control.GetLabel(4321),featuredmovies) | Stringcompare(Control.GetLabel(4321),featuredtv)</visible>
               </item>
               <item>
-                <label fallback="ADD-ON3">$INFO[system.addontitle(Skin.String(HomeMenuTileVideos3))]</label>
-                <label2>$INFO[Skin.String(HomeMenuTileVideos3)]</label2>
-                <onclick>Skin.SetAddon(HomeMenuTileVideos3,xbmc.addon.video)</onclick>
+                <label fallback="ADD-ON3">$INFO[Skin.String(HomeMenuTileVideos3.Label)]</label>
+                <label2>$INFO[Skin.String(HomeMenuTileVideos3.Path)]</label2>
+                <onclick>Skin.SetString(MenuItem,HomeMenuTileVideos3)</onclick>
+                <onclick>ActivateWindow(1135)</onclick>
                 <icon>DefaultAddonVideo.png</icon>
-                <thumb>$INFO[system.addonicon(Skin.String(HomeMenuTileVideos3))]</thumb>
+                <thumb>$INFO[Skin.String(HomeMenuTileVideos3.Icon)]</thumb>
                 <property name="NavItem">item3.png</property>
                 <visible>Stringcompare(Control.GetLabel(4321),featuredmovies) | Stringcompare(Control.GetLabel(4321),featuredtv)</visible>
               </item>
               <item>
-                <label fallback="ADD-ON4">$INFO[system.addontitle(Skin.String(HomeMenuTileVideos4))]</label>
-                <label2>$INFO[Skin.String(HomeMenuTileVideos4)]</label2>
-                <onclick>Skin.SetAddon(HomeMenuTileVideos4,xbmc.addon.video)</onclick>
+                <label fallback="ADD-ON4">$INFO[Skin.String(HomeMenuTileVideos4.Label)]</label>
+                <label2>$INFO[Skin.String(HomeMenuTileVideos4.Path)]</label2>
+                <onclick>Skin.SetString(MenuItem,HomeMenuTileVideos4)</onclick>
+                <onclick>ActivateWindow(1135)</onclick>
                 <icon>DefaultAddonVideo.png</icon>
-                <thumb>$INFO[system.addonicon(Skin.String(HomeMenuTileVideos4))]</thumb>
+                <thumb>$INFO[Skin.String(HomeMenuTileVideos4.Icon)]</thumb>
                 <property name="NavItem">item4.png</property>
                 <visible>Stringcompare(Control.GetLabel(4321),featuredmovies) | Stringcompare(Control.GetLabel(4321),featuredtv)</visible>
               </item>
               <item>
-                <label fallback="ADD-ON5">$INFO[system.addontitle(Skin.String(HomeMenuTileVideos5))]</label>
-                <label2>$INFO[Skin.String(HomeMenuTileVideos5)]</label2>
-                <onclick>Skin.SetAddon(HomeMenuTileVideos5,xbmc.addon.video)</onclick>
+                <label fallback="ADD-ON5">$INFO[Skin.String(HomeMenuTileVideos5.Label)]</label>
+                <label2>$INFO[Skin.String(HomeMenuTileVideos5.Path)]</label2>       
+                <onclick>Skin.SetString(MenuItem,HomeMenuTileVideos5)</onclick>
+                <onclick>ActivateWindow(1135)</onclick>
                 <icon>DefaultAddonVideo.png</icon>
-                <thumb>$INFO[system.addonicon(Skin.String(HomeMenuTileVideos5))]</thumb>
+                <thumb>$INFO[Skin.String(HomeMenuTileVideos5.Icon)]</thumb>
                 <property name="NavItem">item5.png</property>
                 <visible>Stringcompare(Control.GetLabel(4321),featuredmovies) | Stringcompare(Control.GetLabel(4321),featuredtv)</visible>
               </item>
