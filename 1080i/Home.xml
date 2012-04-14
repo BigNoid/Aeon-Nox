@@ -30,7 +30,10 @@
   <controls>
     <!-- Fanart -->
     <control type="multiimage">
+      <fadetime>600</fadetime>
       <imagepath background="true">$VAR[HomeMainFanartVar]</imagepath>
+      <include>Animation_VisibleChange400</include>
+      <randomize>true</randomize>
       <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
       <animation effect="slide" start="-15,-15" end="15,15" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
       <visible>![Control.HasFocus(8000) | Control.HasFocus(8003)]</visible>
@@ -38,17 +41,21 @@
     <control type="multiimage">
       <fadetime>600</fadetime>
       <imagepath background="true">$VAR[HomeFanartVar]</imagepath>
+      <include>Animation_VisibleChange400</include>
+      <randomize>true</randomize>
       <visible>[Player.HasAudio + Skin.HasSetting(musicfanarthome)] | Control.HasFocus(8000)</visible>
       <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
       <animation effect="slide" start="-15,-15" end="15,15" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
     </control>
     <control type="multiimage">
       <description>extrafanart</description>
-      <randomize>false</randomize>
+      <randomize>true</randomize>
       <imagepath background="true">$INFO[Skin.String(ArtistsLogosPath)]$INFO[MusicPlayer.Artist,,/extrafanart]</imagepath>
       <visible>Player.HasAudio + Skin.HasSetting(musicfanarthome) + !IsEmpty(Skin.String(ArtistsLogosPath))</visible>
+      <include>Animation_VisibleChange400</include>
       <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
       <animation effect="slide" start="-15,-15" end="15,15" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
+      <fadetime>600</fadetime>
     </control>
     <control type="multiimage">
       <posx>0</posx>
@@ -67,28 +74,57 @@
     </control>
     <!-- Home Fullscreen Video -->
     <include>CommonMediaPlayingBackground</include>
-    <control type="image">
-      <description>media info background image</description>
-      <posx>0</posx>
-      <posy>360</posy>
-      <width>1920</width>
-      <height>945</height>
-      <texture>home/nowplaying_shadow.png</texture>
-      <visible>!ControlGroup(5000).HasFocus</visible>
-      <visible>Control.HasFocus(8000) | Substring(Control.GetLabel(4321),featured) | Substring(Control.GetLabel(4321),weather)</visible>
+    <control type="group">
+      <visible>!Skin.HasSetting(lowermainmenu)</visible>
       <include>Animation_VisibleChangeDelayed</include>
-      <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+      <control type="image">
+        <description>media info background image</description>
+        <posx>0</posx>
+        <posy>360</posy>
+        <width>1920</width>
+        <height>945</height>
+        <texture>home/nowplaying_shadow.png</texture>
+        <visible>!ControlGroup(5000).HasFocus</visible>
+        <visible>Control.HasFocus(8000) | Substring(Control.GetLabel(4321),featured) | Substring(Control.GetLabel(4321),weather)</visible>
+        <include>Animation_VisibleChangeDelayed</include>
+        <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+      </control>
+      <control type="image">
+        <description>media info background image</description>
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>1920</width>
+        <height>945</height>
+        <texture flipy="true">home/nowplaying_shadow.png</texture>
+        <include>Animation_VisibleChangeDelayed</include>
+        <visible>[Player.HasAudio + !Skin.HasSetting(nohomepageMusicinfo)] | [Player.HasVideo + !Skin.HasSetting(homepageVideoinfo)]</visible>
+        <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+      </control>
     </control>
-    <control type="image">
-      <description>media info background image</description>
-      <posx>0</posx>
-      <posy>0</posy>
-      <width>1920</width>
-      <height>945</height>
-      <texture flipy="true">home/nowplaying_shadow.png</texture>
+   <control type="group">
+      <visible>Skin.HasSetting(lowermainmenu)</visible>
       <include>Animation_VisibleChangeDelayed</include>
-      <visible>[Player.HasAudio + !Skin.HasSetting(nohomepageMusicinfo)] | [Player.HasVideo + !Skin.HasSetting(homepageVideoinfo)]</visible>
-      <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+     <control type="image">
+        <description>media info background image</description>
+        <posx>0</posx>
+        <posy>360</posy>
+        <width>1920</width>
+        <height>494</height>
+        <texture>home/nowplaying_shadow.png</texture>
+        <visible>!ControlGroup(5000).HasFocus</visible>
+        <visible>Control.HasFocus(8000) | Substring(Control.GetLabel(4321),featured) | Substring(Control.GetLabel(4321),weather)</visible>
+        <include>Animation_VisibleChangeDelayed</include>
+      </control>
+      <control type="image">
+        <description>media info background image</description>
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>1920</width>
+        <height>545</height>
+        <texture flipy="true">home/nowplaying_shadow.png</texture>
+        <include>Animation_VisibleChangeDelayed</include>
+        <visible>[Player.HasAudio + !Skin.HasSetting(nohomepageMusicinfo)] | [Player.HasVideo + !Skin.HasSetting(homepageVideoinfo)]</visible>
+      </control>
     </control>
     <!-- Featured widget test -->
     <include>HomeFeaturedWidget</include>
