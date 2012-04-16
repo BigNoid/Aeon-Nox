@@ -53,6 +53,33 @@
           <posy>0</posy>
           <width>30</width>
           <height>30</height>
+          <texture>common/arrowleft.png</texture>
+          <colordiffuse>$VAR[HomeMenuWidgetTextVar]</colordiffuse>
+          <aspectratio>keep</aspectratio>
+          <include>dialogeffect</include>
+          <animation effect="slide" start="0,0" end="0,5" time="200" tween="quadratic" easing="out" condition="true">Conditional</animation>
+          <visible>Control.HasFocus(8000) + SubString(Control.GetLabel(4321),random) + !IsEmpty(Container(8000).ListItem.Property(Trailer))</visible>
+        </control>
+        <control type="label">
+          <posx>0</posx>
+          <posy>0</posy>
+          <height>38</height>
+          <aligny>top</aligny>
+          <width min="15" max="1920">auto</width>
+          <font>Font_Condensed22_Caps</font>
+          <textcolor>grey</textcolor>
+          <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
+          <scroll>false</scroll>
+          <align>left</align>
+          <include>dialogeffect</include>
+          <label>$LOCALIZE[20410]</label>
+          <visible>Control.HasFocus(8000) + SubString(Control.GetLabel(4321),random) + !IsEmpty(Container(8000).ListItem.Property(Trailer))</visible>
+        </control>
+        <control type="image">
+          <description>Items Icon</description>
+          <posy>0</posy>
+          <width>30</width>
+          <height>30</height>
           <texture>$VAR[NavHelper1IconVar]</texture>
           <colordiffuse>$VAR[HomeMenuWidgetTextVar]</colordiffuse>
           <aspectratio>keep</aspectratio>
@@ -80,24 +107,12 @@
           <posy>0</posy>
           <width>30</width>
           <height>30</height>
-          <texture>common/arrowdown.png</texture>
+          <texture>$VAR[NavHelper2IconVar]</texture>
           <colordiffuse>$VAR[HomeMenuWidgetTextVar]</colordiffuse>
           <aspectratio>keep</aspectratio>
           <include>dialogeffect</include>
           <animation effect="slide" start="0,0" end="0,5" time="200" tween="quadratic" easing="out" condition="true">Conditional</animation>
-          <visible>Control.HasFocus(9000)</visible>
-        </control>
-        <control type="image">
-          <description>Items Icon</description>
-          <posy>0</posy>
-          <width>30</width>
-          <height>30</height>
-          <texture>common/arrowdown.png</texture>
-          <colordiffuse>$VAR[HomeMenuWidgetTextVar]</colordiffuse>
-          <aspectratio>keep</aspectratio>
-          <include>dialogeffect</include>
-          <animation effect="slide" start="0,0" end="0,5" time="200" tween="quadratic" easing="out" condition="true">Conditional</animation>
-          <visible>ControlGroup(5000).HasFocus</visible>
+          <visible>Control.HasFocus(9000) | ControlGroup(5000).HasFocus | Control.HasFocus(8000)</visible>
         </control>
         <control type="label">
           <posx>0</posx>
@@ -111,23 +126,8 @@
           <scroll>false</scroll>
           <align>left</align>
           <include>dialogeffect</include>
-          <label>$LOCALIZE[1034]</label>
-          <visible>Control.HasFocus(9000)</visible>
-        </control>
-        <control type="label">
-          <posx>0</posx>
-          <posy>0</posy>
-          <height>38</height>
-          <aligny>top</aligny>
-          <width min="15" max="1920">auto</width>
-          <font>Font_Condensed22_Caps</font>
-          <textcolor>grey</textcolor>
-          <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-          <scroll>false</scroll>
-          <align>left</align>
-          <include>dialogeffect</include>
-          <label>MENU</label>
-          <visible>ControlGroup(5000).HasFocus</visible>
+          <label>$VAR[NavHelper2LabelVar]</label>
+          <visible>Control.HasFocus(9000) | ControlGroup(5000).HasFocus | Control.HasFocus(8000)</visible>
         </control>
       </control>
     </control>
@@ -2447,9 +2447,12 @@
             <onleft>5012</onleft>
             <onright>AlarmClock(HomeTileLeft,Control.Move(5001,1),00:07,silent,loop)</onright>
             <onright>5011</onright>
-            <ondown>AlarmClock(HomeTileLeft,Control.Move(5001,1),00:07,silent,loop)</ondown>
-            <ondown>9000</ondown>
-            <onup>Control.Move(5001,1)</onup>
+            <ondown condition="Skin.HasSetting(lowermainmenu)">AlarmClock(HomeTileLeft,Control.Move(5001,1),00:07,silent,loop)</ondown>
+            <ondown condition="Skin.HasSetting(lowermainmenu)">9000</ondown>
+            <onup condition="Skin.HasSetting(lowermainmenu)">Control.Move(5001,1)</onup>
+            <ondown condition="!Skin.HasSetting(lowermainmenu)">Control.Move(5001,1)</ondown>
+            <onup condition="!Skin.HasSetting(lowermainmenu)">AlarmClock(HomeTileLeft,Control.Move(5001,1),00:07,silent,loop)</onup>
+            <onup condition="!Skin.HasSetting(lowermainmenu)">9000</onup>
             <onback>AlarmClock(HomeTileLeft,Control.Move(5001,1),00:07,silent,loop)</onback>
             <onback>9000</onback>
             <onclick>PlayMedia($ESCINFO[Container(5001).ListItem.Property(Path)])</onclick>
@@ -2892,12 +2895,15 @@
             <onleft>5010</onleft>
             <onright>AlarmClock(HomeTileMid,Control.Move(5002,1),00:15,silent,loop)</onright>
             <onright>5012</onright>
-            <onup>Control.Move(5002,1)</onup>
+            <onup condition="Skin.HasSetting(lowermainmenu)">Control.Move(5002,1)</onup>
+            <onup condition="!Skin.HasSetting(lowermainmenu)">AlarmClock(HomeTileMid,Control.Move(5002,1),00:15,silent,loop)</onup>
+            <onup condition="!Skin.HasSetting(lowermainmenu)">9000</onup>
             <onfocus>CancelAlarm(HomeTileMid,true)</onfocus>
             <onback>AlarmClock(HomeTileMid,Control.Move(5002,1),00:15,silent,loop)</onback>
             <onback>9000</onback>
-            <ondown>AlarmClock(HomeTileMid,Control.Move(5002,1),00:15,silent,loop)</ondown>
-            <ondown>9000</ondown>
+            <ondown condition="Skin.HasSetting(lowermainmenu)">AlarmClock(HomeTileMid,Control.Move(5002,1),00:15,silent,loop)</ondown>
+            <ondown condition="Skin.HasSetting(lowermainmenu)">9000</ondown>
+            <ondown condition="!Skin.HasSetting(lowermainmenu)">Control.Move(5002,1)</ondown>
             <onclick condition="!IsEmpty(Container(5002).ListItem.Label2)">XBMC.RunAddon($INFO[Container(5002).ListItem.Label2])</onclick>
             <onclick condition="!IsEmpty(Container(5002).ListItem.Label2) + !stringcompare(Container(5002).ListItem.Property(Type),4) + !stringcompare(Container(5002).ListItem.Property(Type),5) + !stringcompare(Container(5002).ListItem.Property(Type),6) + !stringcompare(Container(5002).ListItem.Property(Type),7)">RunAddon($INFO[Container(5002).ListItem.Label2])</onclick>
             <onclick condition="!IsEmpty(Container(5002).ListItem.Label2) + stringcompare(Container(5002).ListItem.Property(Type),4)">ActivateWindow(Videos,$INFO[Container(5002).ListItem.Label2],return)</onclick>
@@ -3153,10 +3159,13 @@
             <onleft>5011</onleft>
             <onright>AlarmClock(HomeTileRight,Control.Move(5003,1),00:10,silent,loop)</onright>
             <onright>5010</onright>
-            <onup>Control.Move(5003,1)</onup>
+            <onup condition="Skin.HasSetting(lowermainmenu)">Control.Move(5003,1)</onup>
+            <onup condition="!Skin.HasSetting(lowermainmenu)">AlarmClock(HomeTileRight,Control.Move(5003,1),00:10,silent,loop)</onup>
+            <onup condition="!Skin.HasSetting(lowermainmenu)">9000</onup>
             <onclick>PlayMedia($ESCINFO[Container(5003).ListItem.Property(Path)])</onclick>
-            <ondown>AlarmClock(HomeTileRight,Control.Move(5003,1),00:10,silent,loop)</ondown>
-            <ondown>9000</ondown>
+            <ondown condition="Skin.HasSetting(lowermainmenu)">AlarmClock(HomeTileRight,Control.Move(5003,1),00:10,silent,loop)</ondown>
+            <ondown condition="Skin.HasSetting(lowermainmenu)">9000</ondown>
+            <ondown condition="!Skin.HasSetting(lowermainmenu)">Control.Move(5003,1)</ondown>
             <onback>AlarmClock(HomeTileRight,Control.Move(5003,1),00:10,silent,loop)</onback>
             <onback>9000</onback>
             <onfocus>CancelAlarm(HomeTileRight,true)</onfocus>
