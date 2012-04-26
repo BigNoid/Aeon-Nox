@@ -4,7 +4,53 @@
     <onunload>ClearProperty(FanartZoom,movieinformation)</onunload>
     <allowoverlay>no</allowoverlay>
     <controls>
-        <control type="group">
+        <control type="grouplist">
+            <description>Default videoinformation buttons</description>
+            <posx>-100</posx>
+            <posy>-150</posy>
+            <width>0</width>
+            <height>0</height>
+            <onleft>5000</onleft>
+            <onright>50</onright>
+            <ondown>50</ondown>
+            <align>left</align>
+            <orientation>horizontal</orientation>
+            <itemgap>50</itemgap>
+            <control type="button" id="6">
+                <description>Refresh video information</description>
+                <label>$LOCALIZE[184]</label>
+                <include>HiddenObject</include>
+            </control>
+            <control type="button" id="8">
+                <description>Play video</description>
+                <label>$LOCALIZE[208]</label>
+                <include>HiddenObject</include>
+            </control>
+            <control type="button" id="9">
+                <description>Resume video</description>
+                <label>$LOCALIZE[13404]</label>
+                <include>HiddenObject</include>
+            </control>
+            <control type="button" id="10">
+                <description>Get video thumbnail</description>
+                <label>$LOCALIZE[13405]</label>
+                <include>HiddenObject</include>
+            </control>
+            <control type="button" id="11">
+                <description>Play movie trailer</description>
+                <label>$LOCALIZE[20410]</label>
+                <include>HiddenObject</include>
+				<visible>!IsEmpty(ListItem.Trailer)</visible>
+            </control>
+            <control type="button" id="12">
+                <description>Get video fanart image</description>
+                <label>$LOCALIZE[20413]</label>
+                <include>HiddenObject</include>
+            </control>
+        </control>
+       
+
+	   <control type="group">
             <animation effect="slide" start="-729,0" end="0,0" time="400" easing="out" tween="quadratic">WindowOpen</animation>
             <animation effect="slide" start="0,0" end="-729,0" time="400" easing="out" tween="quadratic">WindowClose</animation>
             <animation effect="slide" start="0,0" end="-729,0" time="400" easing="out" tween="quadratic" condition="!IsEmpty(Window.Property(script.metadata.actors.isactive))">Conditional</animation>
@@ -851,15 +897,29 @@
                     </control>
                 </focusedlayout>
                 <content>
+                    <item id="6">
+                        <description>Get Thumb</description>
+                        <label>$INFO[Control.GetLabel(10)]</label>
+                        <onclick>SendClick(2003,10)</onclick>
+						<visible>Control.IsEnabled(10) + Control.IsVisible(10)</visible>
+                    </item>
                     <item id="2">
                         <description>Refresh</description>
-                        <label>$LOCALIZE[184]</label>
+                        <label>$INFO[Control.GetLabel(6)]</label>
                         <onclick>SendClick(2003,6)</onclick>
+						<visible>Control.IsEnabled(6) + Control.IsVisible(6)</visible>
                     </item>
                     <item id="3">
                         <description>Play/browse to Show</description>
-                        <label>$LOCALIZE[208]</label>
+                        <label>$INFO[Control.GetLabel(8)]</label>
                         <onclick>SendClick(2003,8)</onclick>
+						<visible>Control.IsEnabled(8) + Control.IsVisible(8)</visible>
+                    </item>
+                    <item id="1">
+                        <description>Resume</description>
+                        <label>$INFO[Control.GetLabel(9)]</label>
+                        <onclick>SendClick(2003,9)</onclick>
+						<visible>Control.IsEnabled(9) + Control.IsVisible(9)</visible>
                     </item>
                     <item id="4">
                         <description>Cinema</description>
@@ -871,20 +931,16 @@
                     </item>
                     <item id="5">
                         <description>Play Trailer</description>
-                        <label>$LOCALIZE[20410]</label>
+                        <label>$INFO[Control.GetLabel(11)]</label>
                         <onclick>SendClick(2003,11)</onclick>
-                        <visible>!IsEmpty(ListItem.Trailer) + Container.Content(movies)</visible>
-                    </item>
-                    <item id="6">
-                        <description>Get Thumb</description>
-                        <label>$LOCALIZE[13405]</label>
-                        <onclick>SendClick(2003,10)</onclick>
+						<visible>Control.IsEnabled(11) + Control.IsVisible(11)</visible>
                     </item>
                     <item id="7">
                         <description>Get Fanart</description>
-                        <label>$LOCALIZE[20413]</label>
+                        <label>$INFO[Control.GetLabel(12)]</label>
                         <onclick>SendClick(2003,12)</onclick>
                         <visible>!Container.Content(episodes)</visible>
+						<visible>Control.IsEnabled(12) + Control.IsVisible(12)</visible>
                     </item>
                     <item id="8">
                         <description>Get Extrafanart</description>
