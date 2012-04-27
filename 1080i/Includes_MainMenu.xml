@@ -1073,7 +1073,6 @@
             <width>1920</width>
             <height>225</height>
             <texture>home/homemenu_gradient.png</texture>
-                <visible>!Skin.HasSetting(verticalhomemenu)</visible>
         </control>
         <control type="image">
             <posx>0</posx>
@@ -1083,8 +1082,6 @@
             <texture>home/homemenu_overlay.png</texture>
             <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
             <visible>Skin.HasSetting(glasshome)</visible>
-                <visible>!Skin.HasSetting(verticalhomemenu)</visible>
-
         </control>
     </include>
     <include name="MainMenuLabels">
@@ -1094,8 +1091,99 @@
         <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
     </include>
     <include name="MainMenuListContent">
-        <include condition="!Skin.HasSetting(verticalhomemenu)">MainMenuHorizontalList</include>
-        <include condition="Skin.HasSetting(verticalhomemenu)">MainMenuVerticalList</include>
+        <hitrect x="75" y="75" w="495" h="930" />
+        <posx>-338</posx>
+        <posy>450</posy>
+        <width>3069</width>
+        <height>225</height>
+        <onleft>9000</onleft>
+        <onright>9000</onright>
+        <onup condition="Substring(Control.GetLabel(4321),weather) +  Skin.HasSetting(lowermainmenu) ">ActivateWindow(weather)</onup>
+        <onup condition="Control.IsVisible(5000)">5009</onup>
+        <onup condition="Control.IsVisible(8998) +  Skin.HasSetting(lowermainmenu)">CancelAlarm(WidgetMove,true)</onup>
+        <onup condition="Control.IsVisible(8998) +  Skin.HasSetting(lowermainmenu)">8000</onup>
+        <ondown>9010</ondown>
+        <ondown condition="Substring(Control.GetLabel(4321),weather) +  !Skin.HasSetting(lowermainmenu) ">ActivateWindow(weather)</ondown>
+        <ondown condition="!Control.HasFocus(9010)">CancelAlarm(WidgetMove,true)</ondown>
+        <ondown condition="!Control.IsVisible(9001) + Control.IsVisible(8998)">CancelAlarm(WidgetMove,true)</ondown>
+        <ondown condition="!Control.IsVisible(9001) + Control.IsVisible(8998)">8000</ondown>
+        <ondown condition="!Control.HasFocus(9010) + Control.IsVisible(5000) + !Skin.HasSetting(lowermainmenu)">SetFocus(5010)</ondown>
+        <pagecontrol>-</pagecontrol>
+        <scrolltime tween="quadratic" easing="out">300</scrolltime>
+        <focusposition>2</focusposition>
+        <preloaditems>2</preloaditems>
+        <visible>![Player.HasMedia + System.IdleTime(8)]</visible>
+        <orientation>horizontal</orientation>
+        <animation effect="slide" start="0,0" end="-302,0" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(biggergap)">Conditional</animation>
+        <animation effect="fade" start="0" end="100" time="200">Visible</animation>
+        <animation effect="fade" start="100" end="30" time="200" condition="[Window.IsVisible(1113) | ControlGroup(9001).HasFocus | Control.HasFocus(8000)] + !Skin.HasSetting(aurahome)">conditional</animation>
+        <animation effect="fade" start="100" end="0" time="200" condition="Control.HasFocus(8003)">conditional</animation>
+        <itemlayout height="225" width="519" condition="!Skin.HasSetting(biggergap)">
+            <control type="label">
+                <posx>260</posx>
+                <posy>-2</posy>
+                <width>519</width>
+                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
+                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
+                <include>MainMenuLabels</include>
+                <font>Font_MainClassic</font>
+            </control>
+        </itemlayout>
+        <focusedlayout height="225" width="519" condition="!Skin.HasSetting(biggergap)">
+            <control type="label">
+                <posx>260</posx>
+                <posy>-2</posy>
+                <width>519</width>
+                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
+                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
+                <include>MainMenuLabels</include>
+                <font>Font_MainClassic</font>
+            </control>
+            <control type="label">
+                <posx>260</posx>
+                <posy>-2</posy>
+                <width>519</width>
+                <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
+                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
+                <include>MainMenuLabels</include>
+                <font>Font_MainClassic</font>
+                <visible>Control.HasFocus(9000)</visible>
+                <include>Animation_VisibleChange200</include>
+            </control>
+        </focusedlayout>
+        <itemlayout height="225" width="639" condition="Skin.HasSetting(biggergap)">
+            <control type="label">
+                <posx>320</posx>
+                <posy>-2</posy>
+                <width>639</width>
+                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
+                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
+                <include>MainMenuLabels</include>
+                <font>Font_MainClassic</font>
+            </control>
+        </itemlayout>
+        <focusedlayout height="225" width="639" condition="Skin.HasSetting(biggergap)">
+            <control type="label">
+                <posx>320</posx>
+                <posy>-2</posy>
+                <width>639</width>
+                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
+                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
+                <include>MainMenuLabels</include>
+                <font>Font_MainClassic</font>
+            </control>
+            <control type="label">
+                <posx>320</posx>
+                <posy>-2</posy>
+                <width>639</width>
+                <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
+                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
+                <include>MainMenuLabels</include>
+                <font>Font_MainClassic</font>
+                <visible>Control.HasFocus(9000)</visible>
+                <include>Animation_VisibleChange200</include>
+            </control>
+        </focusedlayout>
         <content>
             <include condition="!Skin.HasSetting(HomeMenuNoPicturesButton)">PicturesMainMenu</include>
             <include condition="!Skin.HasSetting(HomeMenuNoMusicButton)">MusicMainMenu</include>
@@ -1138,10 +1226,10 @@
         <scrolltime tween="quadratic" easing="out">300</scrolltime>
         <onup>9000</onup>
         <preloaditems>2</preloaditems>
-        <ondown condition="Substring(Control.GetLabel(4321),weather) +  [!Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)] ">ActivateWindow(weather)</ondown>
+        <ondown condition="Substring(Control.GetLabel(4321),weather) +  !Skin.HasSetting(lowermainmenu) ">ActivateWindow(weather)</ondown>
         <ondown condition="Control.IsVisible(8998)">CancelAlarm(WidgetMove,true)</ondown>
         <ondown condition="Control.IsVisible(8998)">8000</ondown>
-        <ondown condition="Control.IsVisible(5000) + [!Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)]">SetFocus(5010)</ondown>
+        <ondown condition="Control.IsVisible(5000) + !Skin.HasSetting(lowermainmenu)">SetFocus(5010)</ondown>
         <itemlayout width="225" height="50">
             <control type="label">
                 <posx>112</posx>
@@ -1217,209 +1305,5 @@
         <control type="wraplist" id="9010">
             <include>SubMenuListContent</include>
         </control>
-    </include>
-    <include name="MainMenuVerticalList">
-        <hitrect x="75" y="75" w="495" h="930" />
-        <posx>0</posx>
-        <posy>0</posy>
-        <width>3069</width>
-        <height>1200</height>
-        <onup>9000</onup>
-        <ondown>9000</ondown>
-        <onright condition="Substring(Control.GetLabel(4321),weather)">ActivateWindow(weather)</onright>
-        <onright condition="Control.IsVisible(5000)">5009</onright>
-        <onright condition="Control.IsVisible(8998)">CancelAlarm(WidgetMove,true)</onright>
-        <onright condition="Control.IsVisible(8998)">8000</onright>
-        <onleft>9010</onleft>
-        <focusposition>3</focusposition>
-        <orientation>vertical</orientation>
-        <pagecontrol>-</pagecontrol>
-        <scrolltime tween="quadratic" easing="out">300</scrolltime>
-        <preloaditems>2</preloaditems>
-        <visible>![Player.HasMedia + System.IdleTime(8)]</visible>
-        <animation effect="slide" start="0,0" end="-302,0" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(biggergap) + !Skin.HasSetting(verticalhomemenu)">Conditional</animation>
-        <animation effect="fade" start="0" end="100" time="200">Visible</animation>
-        <animation effect="fade" start="100" end="30" time="200" condition="[Window.IsVisible(1113) | ControlGroup(9001).HasFocus | Control.HasFocus(8000)] + !Skin.HasSetting(aurahome)">conditional</animation>
-        <animation effect="fade" start="100" end="0" time="200" condition="Control.HasFocus(8003)">conditional</animation>
-        <itemlayout height="122" width="639">
-            <control type="label">
-                <posx>20</posx>
-                <posy>-2</posy>
-                <width>639</width>
-                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <height>225</height>
-                <align>left</align>
-                <aligny>center</aligny>
-                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-                <font>Font_MainClassic</font>
-            </control>
-        </itemlayout>
-        <focusedlayout height="150" width="639">
-            <control type="label">
-                <posx>20</posx>
-                <posy>-2</posy>
-                <width>639</width>
-                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <height>225</height>
-                <align>left</align>
-                <aligny>center</aligny>
-                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-                <font>Font_MainClassic</font>
-            </control>
-            <control type="label">
-                <posx>20</posx>
-                <posy>-2</posy>
-                <width>639</width>
-                <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <height>225</height>
-                <align>left</align>
-                <aligny>center</aligny>
-                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-                <font>Font_MainClassic</font>
-                <visible>Control.HasFocus(9000)</visible>
-                <include>Animation_VisibleChange200</include>
-            </control>
-        </focusedlayout>
-    </include>
-    <include name="MainMenuHorizontalList">
-        <hitrect x="75" y="75" w="495" h="930" />
-        <posx>-338</posx>
-        <posy>450</posy>
-        <width>3069</width>
-        <height>1200</height>
-        <animation effect="slide" start="0,0" end="338,-450" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(verticalhomemenu)">Conditional</animation>
-        <onright>9000</onright>
-        <onleft>9000</onleft>
-        <onup condition="Substring(Control.GetLabel(4321),weather) +  [Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)] ">ActivateWindow(weather)</onup>
-        <onup condition="Control.IsVisible(5000)">5009</onup>
-        <onup condition="Control.IsVisible(8998) +  [Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)]">CancelAlarm(WidgetMove,true)</onup>
-        <onup condition="Control.IsVisible(8998) +  [Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)]">8000</onup>
-        <ondown>9010</ondown>
-        <ondown condition="Substring(Control.GetLabel(4321),weather) +  [!Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)] ">ActivateWindow(weather)</ondown>
-        <ondown condition="!Control.HasFocus(9010)">CancelAlarm(WidgetMove,true)</ondown>
-        <ondown condition="!Control.IsVisible(9001) + Control.IsVisible(8998)">CancelAlarm(WidgetMove,true)</ondown>
-        <ondown condition="!Control.IsVisible(9001) + Control.IsVisible(8998)">8000</ondown>
-        <ondown condition="!Control.HasFocus(9010) + Control.IsVisible(5000) + [!Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)]">SetFocus(5010)</ondown>
-        <focusposition>3</focusposition><!--changed-->
-        <orientation>vertical</orientation><!--changed-->
-        <pagecontrol>-</pagecontrol>
-        <scrolltime tween="quadratic" easing="out">300</scrolltime>
-        <preloaditems>2</preloaditems>
-        <visible>![Player.HasMedia + System.IdleTime(8)]</visible>
-        <animation effect="slide" start="0,0" end="-302,0" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(biggergap) + !Skin.HasSetting(verticalhomemenu)">Conditional</animation>
-        <animation effect="fade" start="0" end="100" time="200">Visible</animation>
-        <animation effect="fade" start="100" end="30" time="200" condition="[Window.IsVisible(1113) | ControlGroup(9001).HasFocus | Control.HasFocus(8000)] + !Skin.HasSetting(aurahome)">conditional</animation>
-        <animation effect="fade" start="100" end="0" time="200" condition="Control.HasFocus(8003)">conditional</animation>
-        <itemlayout height="225" width="519" condition="!Skin.HasSetting(verticalhomemenu) + !Skin.HasSetting(biggergap)">
-            <control type="label">
-                <posx>260</posx>
-                <posy>-2</posy>
-                <width>519</width>
-                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <include>MainMenuLabels</include>
-                <font>Font_MainClassic</font>
-            </control>
-        </itemlayout>
-        <focusedlayout height="225" width="519" condition="!Skin.HasSetting(verticalhomemenu) + !Skin.HasSetting(biggergap)">
-            <control type="label">
-                <posx>260</posx>
-                <posy>-2</posy>
-                <width>519</width>
-                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <include>MainMenuLabels</include>
-                <font>Font_MainClassic</font>
-            </control>
-            <control type="label">
-                <posx>260</posx>
-                <posy>-2</posy>
-                <width>519</width>
-                <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <include>MainMenuLabels</include>
-                <font>Font_MainClassic</font>
-                <visible>Control.HasFocus(9000)</visible>
-                <include>Animation_VisibleChange200</include>
-            </control>
-        </focusedlayout>
-        <itemlayout height="225" width="639" condition="!Skin.HasSetting(verticalhomemenu) + Skin.HasSetting(biggergap)">
-            <control type="label">
-                <posx>320</posx>
-                <posy>-2</posy>
-                <width>639</width>
-                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <include>MainMenuLabels</include>
-                <font>Font_MainClassic</font>
-            </control>
-        </itemlayout>
-        <focusedlayout height="225" width="639" condition="!Skin.HasSetting(verticalhomemenu) + Skin.HasSetting(biggergap)">
-            <control type="label">
-                <posx>320</posx>
-                <posy>-2</posy>
-                <width>639</width>
-                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <include>MainMenuLabels</include>
-                <font>Font_MainClassic</font>
-            </control>
-            <control type="label">
-                <posx>320</posx>
-                <posy>-2</posy>
-                <width>639</width>
-                <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <include>MainMenuLabels</include>
-                <font>Font_MainClassic</font>
-                <visible>Control.HasFocus(9000)</visible>
-                <include>Animation_VisibleChange200</include>
-            </control>
-        </focusedlayout>
-        <itemlayout height="150" width="639" condition="Skin.HasSetting(verticalhomemenu)">
-            <control type="label">
-                <posx>20</posx>
-                <posy>-2</posy>
-                <width>639</width>
-                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <height>225</height>
-                <align>left</align>
-                <aligny>center</aligny>
-                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-                <font>Font_MainClassic</font>
-            </control>
-        </itemlayout>
-        <focusedlayout height="150" width="639" condition="Skin.HasSetting(verticalhomemenu)">
-            <control type="label">
-                <posx>20</posx>
-                <posy>-2</posy>
-                <width>639</width>
-                <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <height>225</height>
-                <align>left</align>
-                <aligny>center</aligny>
-                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-                <font>Font_MainClassic</font>
-            </control>
-            <control type="label">
-                <posx>20</posx>
-                <posy>-2</posy>
-                <width>639</width>
-                <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
-                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
-                <height>225</height>
-                <align>left</align>
-                <aligny>center</aligny>
-                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-                <font>Font_MainClassic</font>
-                <visible>Control.HasFocus(9000)</visible>
-                <include>Animation_VisibleChange200</include>
-            </control>
-        </focusedlayout>
     </include>
 </includes>
