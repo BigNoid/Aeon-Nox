@@ -103,7 +103,7 @@
             <include>PVRPanel</include>
         </control>
         <control type="group">
-            <visible>!Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(Glowbar_Home)</visible>
+            <visible>[!Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)] + !Skin.HasSetting(Glowbar_Home)</visible>
             <include>Animation_VisibleChangeDelayed</include>
             <control type="image">
                 <description>media info background image</description>
@@ -113,9 +113,9 @@
                 <height>945</height>
                 <texture>home/nowplaying_shadow.png</texture>
                 <visible>!ControlGroup(5000).HasFocus</visible>
-                <visible>Control.HasFocus(8000) | Substring(Control.GetLabel(4321),featured) | Substring(Control.GetLabel(4321),weather)</visible>
+                <visible>Control.HasFocus(8000) | Substring(Control.GetLabel(4321),featured) | Substring(Control.GetLabel(4321),weather) | Substring(Control.GetLabel(4321),panel)</visible>
                 <include>Animation_VisibleChangeDelayed</include>
-                <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+                <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="[Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)]">Conditional</animation>
             </control>
             <control type="image">
                 <description>media info background image</description>
@@ -126,11 +126,11 @@
                 <texture flipy="true">home/nowplaying_shadow.png</texture>
                 <include>Animation_VisibleChangeDelayed</include>
                 <visible>[Player.HasAudio + !Skin.HasSetting(nohomepageMusicinfo)] | [Player.HasVideo + !Skin.HasSetting(homepageVideoinfo)]</visible>
-                <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+                <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="[Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)]">Conditional</animation>
             </control>
         </control>
         <control type="group">
-            <visible>Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(Glowbar_Home)</visible>
+            <visible>[Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)] + !Skin.HasSetting(Glowbar_Home)</visible>
             <include>Animation_VisibleChangeDelayed</include>
             <control type="image">
                 <description>media info background image</description>
@@ -140,7 +140,41 @@
                 <height>694</height>
                 <texture>home/nowplaying_shadow.png</texture>
                 <visible>!ControlGroup(5000).HasFocus</visible>
-                <visible>Control.HasFocus(8000) | Substring(Control.GetLabel(4321),featured) | Substring(Control.GetLabel(4321),weather)</visible>
+                <visible>Control.HasFocus(8000) | Substring(Control.GetLabel(4321),featured) | Substring(Control.GetLabel(4321),weather) | Substring(Control.GetLabel(4321),panel)</visible>
+                <include>Animation_VisibleChangeDelayed</include>
+            </control>
+            <control type="image">
+                <description>media info background image</description>
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>1920</width>
+                <height>545</height>
+                <texture flipy="true">home/nowplaying_shadow.png</texture>
+                <include>Animation_VisibleChangeDelayed</include>
+                <visible>[Player.HasAudio + !Skin.HasSetting(nohomepageMusicinfo)] | [Player.HasVideo + !Skin.HasSetting(homepageVideoinfo)]</visible>
+            </control>
+        </control>
+        <control type="group">
+            <visible>Skin.HasSetting(verticalhomemenu) + !Skin.HasSetting(Glowbar_Home)</visible>
+            <include>Animation_VisibleChangeDelayed</include>
+            <control type="image">
+                <description>media info background image</description>
+                <posx>-350</posx>
+                <posy>0</posy>
+                <width>1920</width>
+                <height>1380</height>
+                <texture flipx="true">views/episodebgoverlay.png</texture>
+                <include>Animation_VisibleChangeDelayed</include>
+            </control>
+            <control type="image">
+                <description>media info background image</description>
+                <posx>0</posx>
+                <posy>410</posy>
+                <width>1920</width>
+                <height>694</height>
+                <texture>home/nowplaying_shadow.png</texture>
+                <visible>!ControlGroup(5000).HasFocus</visible>
+                <visible>Control.HasFocus(8000) | Substring(Control.GetLabel(4321),featured) | Substring(Control.GetLabel(4321),weather) | Substring(Control.GetLabel(4321),panel)</visible>
                 <include>Animation_VisibleChangeDelayed</include>
             </control>
             <control type="image">
@@ -161,16 +195,16 @@
             <include>Animation_OpenCloseZoom</include>
             <include>RecentWidget</include>
         </control>
-        <include>PosterWidgetTrailerLabel</include>
+        <include condition="!Skin.HasSetting(verticalhomemenu)">PosterWidgetTrailerLabel</include>
         <!-- Library Totals -->
-        <include>LibraryStats</include>
+        <include condition="!Skin.HasSetting(verticalhomemenu)">LibraryStats</include>
         <!-- Time Panel-->
         <include>TimePanel</include>
         <!-- RSS -->
         <include>RSSPanel</include>
         <control type="group">
             <include>FullscreenDimensions</include>
-            <animation effect="slide" start="0,0" end="0,338" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+            <animation effect="slide" start="0,0" end="0,338" time="400" tween="cubic" easing="inout" condition="!Skin.HasSetting(verticalhomemenu) + [Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(verticalhomemenu)]">Conditional</animation>
             <include>Animation_OpenCloseZoom</include>
             <!-- Submenu -->
             <control type="group" id="9001">
@@ -227,6 +261,7 @@
                 <width>1920</width>
                 <height>225</height>
                 <texture>$VAR[HomeMenuBackVar]</texture>
+                <visible>!Skin.HasSetting(verticalhomemenu)</visible>
                 <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
                 <animation effect="fade" start="100" end="90" time="50" condition="Skin.HasSetting(glasshome) + ![Player.HasMedia + System.IdleTime(8)]">Conditional</animation>
             </control>
@@ -255,6 +290,18 @@
             </control>
             <include condition="Skin.HasSetting(mainmenufixedlist)">MainMenuFixedList</include>
             <include condition="!Skin.HasSetting(mainmenufixedlist)">MainMenuWrapList</include>
+            <control type="label">
+                <posx>15</posx>
+                <posy>600</posy>
+                <width>703</width>
+                <height>40</height>
+                <aligny>center</aligny>
+                <font>Font_Condensed22_Caps</font>
+                <textcolor>$VAR[HomeMenuWidgetTextVar]</textcolor>
+                <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
+                <scroll>true</scroll>
+                <label>$VAR[LibraryStatsVar]</label>
+            </control>
             <include>Furniture_ClassicHomeGradient</include>
             <include>Neon_Home</include>
         </control>
@@ -269,7 +316,7 @@
                 <include>HiddenObject</include>
                 <label>$VAR[WidgetTypeVar]</label>
             </control>
-            <control type="label" id="4322">LibraryStatsVar
+            <control type="label" id="4322">
                 <label>$VAR[MultiFanartVar]</label>
                 <include>HiddenObject</include>
             </control>
