@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <window id="2003">
     <defaultcontrol always="true">5000</defaultcontrol>
+    <onload>AlarmClock(ActorIconMove,Control.Move(50,1),00:07,silent,loop)</onload>
+    <onunload>CancelAlarm(ActorIconMove,true)</onunload>
     <onunload>ClearProperty(FanartZoom,movieinformation)</onunload>
     <allowoverlay>no</allowoverlay>
     <controls>
@@ -798,8 +800,10 @@
                 <posy>366</posy>
                 <width>645</width>
                 <height>177</height>
+                <onleft>AlarmClock(ActorIconMove,Control.Move(50,1),00:07,silent,loop)</onleft>
                 <onleft>5000</onleft>
                 <onright condition="System.HasAddon(script.metadata.actors)">5054</onright>
+                <onright condition="!System.HasAddon(script.metadata.actors)">AlarmClock(ActorIconMove,Control.Move(50,1),00:07,silent,loop)</onright>
                 <onright condition="!System.HasAddon(script.metadata.actors)">5000</onright>
                 <onup condition="!System.HasAddon(script.metadata.actors)">13</onup>
                 <onup condition="System.HasAddon(script.metadata.actors)">131</onup>
@@ -856,6 +860,7 @@
                 <orientation>horizontal</orientation>
                 <onleft>5000</onleft>
                 <onright>5000</onright>
+                <onup>CancelAlarm(ActorIconMove,true)</onup>
                 <onup>50</onup>
                 <ondown condition="![Container(5000).HasFocus(7) | Container(5000).HasFocus(8)]">60</ondown>
                 <ondown condition="Container(5000).HasFocus(7) | Container(5000).HasFocus(8)">5055</ondown>
@@ -1048,26 +1053,45 @@
                 <width>180</width>
                 <height>180</height>
                 <texture background="true">$INFO[Container(50).Listitem.Icon]</texture>
-                <aspectratio>scale</aspectratio>
+                <aspectratio>keep</aspectratio>
+                <fadetime>400</fadetime>
                 <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
                 <bordersize>7</bordersize>
-                <visible>Control.HasFocus(50) | Control.HasFocus(5054)</visible>
+                <visible>!Control.HasFocus(5054)</visible>
             </control>
-            <control type="image">
-                <description>Border</description>
-                <posx>1608</posx>
-                <posy>366</posy>
-                <width>176</width>
-                <height>176</height>
-                <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
-                <texture border="5">views/addonwall_select.png</texture>
+            <control type="group">
                 <visible>Control.HasFocus(5054)</visible>
+                <control type="image">
+                    <description>Actor image</description>
+                    <posx>1608</posx>
+                    <posy>366</posy>
+                    <width>176</width>
+                    <height>176</height>
+                    <texture background="true">$INFO[Container(50).Listitem.Icon]</texture>
+                    <aspectratio>keep</aspectratio>
+                    <fadetime>400</fadetime>
+                    <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
+                    <bordertexture border="5">views/addonwall_select.png</bordertexture>
+                    <bordersize>5</bordersize>
+                </control>
+                <control type="image">
+                    <description>Actor image</description>
+                    <posx>1608</posx>
+                    <posy>366</posy>
+                    <width>176</width>
+                    <height>176</height>
+i                    <texture background="true">$INFO[Container(50).Listitem.Icon]</texture>
+                    <aspectratio>keep</aspectratio>
+                    <fadetime>400</fadetime>
+                    <bordersize>5</bordersize>
+                </control>
             </control>
             <control type="button" id="5054">
                 <include>HiddenObject</include>
                 <onfocus condition="!System.HasAddon(script.metadata.actors)">SetFocus(5000)</onfocus>
                 <onclick>RunScript(script.metadata.actors,$INFO[Container(50).Listitem.Label])</onclick>
                 <onleft>50</onleft>
+                <onright>AlarmClock(ActorIconMove,Control.Move(50,1),00:07,silent,loop)</onright>
                 <onright>5000</onright>
                 <onup>Control.Move(50,-1)</onup>
                 <ondown>Control.Move(50,1)</ondown>
