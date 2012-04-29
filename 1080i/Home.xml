@@ -90,18 +90,9 @@
             <include>Animation_WindowFade200</include>
             <animation effect="fade" start="100" end="80" time="5000" pulse="true" condition="true">conditional</animation>
         </control>
-        <control type="multiimage">
-            <include>FullscreenDimensions</include>
-            <include>BackgroundEffect</include>
-            <visible>Skin.HasSetting(effect_bg)</visible>
-        </control>
+        <include condition="Skin.HasSetting(effect_bg)">BG_Effect_Home</include>
         <!-- LiveTV Info -->
-        <control type="group">
-            <posx>-132</posx>
-            <posy>0</posy>
-            <visible>Container(9000).HasFocus(21) + [PVR.IsRecording | PVR.HasNonRecordingTimer]</visible>
-            <include>PVRPanel</include>
-        </control>
+        <include condition="System.GetBool(pvrmanager.enabled)">PVRPanel</include>
         <control type="group">
             <visible>!Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(Glowbar_Home)</visible>
             <include>Animation_VisibleChangeDelayed</include>
@@ -232,7 +223,8 @@
             </control>
             <!-- Home OSD -->
             <control type="group">
-                <visible>Player.HasMedia + System.IdleTime(8) + !Control.HasFocus(8003)</visible>
+                <visible>Player.HasMedia + System.IdleTime(8)</visible>
+                <animation effect="fade" start="0" end="100" time="1050">Visible</animation>
                 <control type="label">
                     <posx>0</posx>
                     <posy>448</posy>
@@ -244,7 +236,6 @@
                     <textcolor>$VAR[HomeMenuTextUnFocusVar]</textcolor>
                     <shadowcolor>$VAR[HomeMenuShadowVar]</shadowcolor>
                     <label>$VAR[HomeOSDLabelVar]</label>
-                    <animation effect="fade" start="0" end="100" time="1050" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
                 </control>
             </control>
             <!-- Home Menu -->
@@ -262,7 +253,7 @@
         <include condition="!SubString(Weather.Plugin,weather.wunderground) + !IsEmpty(Weather.Plugin)">Weather_Widget_Standard</include>
         <include condition="SubString(Weather.Plugin,weather.wunderground) + !IsEmpty(Weather.Plugin)">Weather_Widget_Plus</include>
         <!-- Music Info -->
-        <include>Furniture_HomeNowPlaying</include>
+        <include condition="!Skin.HasSetting(nohomepageMusicinfo) | !Skin.HasSetting(homepageVideoinfo)">Furniture_HomeNowPlaying</include>
         <!-- Featured widget test -->
         <include condition="Skin.HasSetting(lowermainmenu)">HomeFeaturedWidget</include>
         <!-- Video Info -->
