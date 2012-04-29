@@ -2368,7 +2368,7 @@
                         <height>350</height>
                         <include>Animation_VisibleChange400</include>
                         <orientation>horizontal</orientation>
-                        <animation effect="fade" start="100" end="0" time="0" condition="Substring(Container(9000).ListItem.Property(Widget),movies) + !Substring(Container(9000).ListItem.Property(Widget),panel)">Conditional</animation>
+                        <animation effect="fade" start="100" end="0" time="0" condition="[Substring(Container(9000).ListItem.Property(Widget),movies) | Substring(Container(9000).ListItem.Property(Widget),musicvideos)] + !Substring(Container(9000).ListItem.Property(Widget),panel)">Conditional</animation>
                         <animation effect="fade" start="100" end="0" time="0" condition="Substring(Container(9000).ListItem.Property(Widget),tv) + !Substring(Container(9000).ListItem.Property(Widget),panel)">Conditional</animation>
                         <animation effect="fade" start="100" end="0" time="0" condition="[Substring(Container(9000).ListItem.Property(Widget),addons) | Substring(Container(9000).ListItem.Property(Widget),songs) | Substring(Container(9000).ListItem.Property(Widget),albums)] + !Substring(Container(9000).ListItem.Property(Widget),panel)">Conditional</animation>
                         <onleft>5010</onleft>
@@ -2390,7 +2390,7 @@
                         <preloaditems>2</preloaditems>
                         <pagecontrol>-</pagecontrol>
                         <scrolltime tween="quadratic" easing="out">400</scrolltime>
-                        <itemlayout width="228" height="340" condition="Substring(Container(9000).ListItem.Property(Widget),movie)">
+                        <itemlayout width="228" height="340" condition="Substring(Container(9000).ListItem.Property(Widget),movie) | Substring(Container(9000).ListItem.Property(Widget),musicvideo)">
                             <control type="image">
                                 <description>Main Icon</description>
                                 <posx>5</posx>
@@ -2411,7 +2411,7 @@
                                 <visible>Control.HasFocus(5010)</visible>
                             </control>
                         </itemlayout>
-                        <focusedlayout width="228" height="340" condition="Substring(Container(9000).ListItem.Property(Widget),movie)">
+                        <focusedlayout width="228" height="340" condition="Substring(Container(9000).ListItem.Property(Widget),movie) | Substring(Container(9000).ListItem.Property(Widget),musicvideo)">
                             <control type="image">
                                 <description>Main Icon</description>
                                 <posx>5</posx>
@@ -2502,7 +2502,7 @@
                                     <align>center</align>
                                     <aligny>center</aligny>
                                     <font>Font_Condensed20</font>
-                                    <textcolor>white2</textcolor>
+                                    <textcolor>$VAR[SelectedColorVar]</textcolor>
                                     <shadowcolor>-</shadowcolor>
                                     <label>$INFO[ListItem.Label]</label>
                                     <textoffsetx>15</textoffsetx>
@@ -2606,6 +2606,7 @@
                                     <aligny>center</aligny>
                                     <font>Font_Condensed22</font>
                                     <textcolor>white2</textcolor>
+                                    <visible>!Control.HasFocus(5010)</visible>
                                     <shadowcolor>-</shadowcolor>
                                     <label>$INFO[ListItem.Label2]</label>
                                     <textoffsetx>15</textoffsetx>
@@ -2620,7 +2621,36 @@
                                     <font>Font_Condensed18</font>
                                     <textcolor>white2</textcolor>
                                     <shadowcolor>-</shadowcolor>
+                                    <visible>!Control.HasFocus(5010)</visible>
                                     <label>$INFO[ListItem.Property(EpisodeNumber),, - ]$INFO[ListItem.Label]</label>
+                                    <textoffsetx>15</textoffsetx>
+                                </control>
+                                <control type="label">
+                                    <posx>5</posx>
+                                    <posy>275</posy>
+                                    <width>389</width>
+                                    <height>30</height>
+                                    <align>left</align>
+                                    <aligny>center</aligny>
+                                    <font>Font_Condensed22</font>
+                                    <textcolor>$VAR[SelectedColorVar]</textcolor>
+                                    <shadowcolor>-</shadowcolor>
+                                    <label>$INFO[ListItem.Label2]</label>
+                                    <textoffsetx>15</textoffsetx>
+                                    <visible>Control.HasFocus(5010)</visible>
+                                </control>
+                                <control type="label">
+                                    <posx>5</posx>
+                                    <posy>305</posy>
+                                    <width>389</width>
+                                    <height>40</height>
+                                    <align>left</align>
+                                    <aligny>center</aligny>
+                                    <font>Font_Condensed18</font>
+                                    <textcolor>$VAR[SelectedColorVar]</textcolor>
+                                    <shadowcolor>-</shadowcolor>
+                                    <label>$INFO[ListItem.Property(EpisodeNumber),, - ]$INFO[ListItem.Label]</label>
+                                    <visible>Control.HasFocus(5010)</visible>
                                     <textoffsetx>15</textoffsetx>
                                 </control>
                             </control>
@@ -4256,14 +4286,15 @@
             </control>
             <control type="group">
                 <posx>0</posx>
-                <animation type="Conditional" condition="!IsEmpty(Window(Home).Property(PanelWidgetInfo))" reversible="false">
+                <visible>!IsEmpty(Window(Home).Property(PanelWidgetInfo))</visible>
+                <animation type="Visible" reversible="false">
                     <effect type="rotatey" center="960" start="0" end="-90" time="550" tween="cubic" easing="in" />
                     <effect type="rotatey" center="960" start="-90" end="90" time="0" delay="550" />
                     <effect type="fade" start="0" end="100" time="0" delay="550" />
                     <effect type="rotatey" center="960" start="90" end="0" time="550" delay="550" tween="cubic" easing="out" />
                     <!--<effect type="slide" start="0,-45" end="0,0" delay="550" time="550" />-->
                 </animation>
-                <animation type="Conditional" condition="IsEmpty(Window(Home).Property(PanelWidgetInfo))" reversible="false">
+                <animation type="Hidden" reversible="false">
                     <effect type="rotatey" center="960" start="0" end="90" time="550" tween="cubic" easing="in" />
                     <effect type="rotatey" center="960" start="90" end="-90" time="0" delay="550" />
                     <effect type="fade" start="100" end="0" time="0" delay="550" />
@@ -4303,7 +4334,7 @@
                     <posy>26</posy>
                     <width>1596</width>
                     <height>350</height>
-                    <visible>Substring(Container(9000).ListItem.Property(Widget),movie)</visible>
+                    <visible>Substring(Container(9000).ListItem.Property(Widget),movie) | Substring(Container(9000).ListItem.Property(Widget),musicvideo)</visible>
                     <control type="image">
                         <description>Main Icon</description>
                         <posx>5</posx>
