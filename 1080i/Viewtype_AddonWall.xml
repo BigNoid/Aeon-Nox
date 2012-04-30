@@ -1,0 +1,663 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<includes>
+    <include name="AddonWall">
+        <control type="group">
+            <include>Animation_OpenCloseZoom</include>
+            <visible>Control.IsVisible(512)</visible>
+            <control type="group">
+                <posy>-30</posy>
+                <control type="panel" id="512">
+                    <posx>60</posx>
+                    <posy>154</posy>
+                    <width>1140</width>
+                    <height>807</height>
+                    <onleft>9000</onleft>
+                    <onright>60</onright>
+                    <onup>512</onup>
+                    <ondown>512</ondown>
+                    <preloaditems>4</preloaditems>
+                    <scrolltime tween="cubic" easing="out">200</scrolltime>
+                    <visible>!Container.Content(seasons) + !Container.Content(genres) + !Container.Content()</visible>
+                    <viewtype label="$LOCALIZE[31283]">icon</viewtype>
+                    <pagecontrol>60</pagecontrol>
+                    <itemlayout height="268" width="285" condition="![Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(musicvideos)]">
+                        <control type="image">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>261</width>
+                            <height>261</height>
+                            <fadetime>IconCrossfadeTime2</fadetime>
+                            <aspectratio>keep</aspectratio>
+                            <bordertexture border="5">thumbs/bordershadow4.png</bordertexture>
+                            <bordersize>5</bordersize>
+                            <texture background="true">$INFO[ListItem.Icon]</texture>
+                            <animation effect="fade" end="90" time="0" condition="true">Conditional</animation>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="268" width="285" condition="![Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(musicvideos)]">
+                        <control type="image">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>261</width>
+                            <height>261</height>
+                            <fadetime>IconCrossfadeTime2</fadetime>
+                            <aspectratio>keep</aspectratio>
+                            <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
+                            <texture border="5">views/addonwall_select.png</texture>
+                        </control>
+                        <control type="image">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>261</width>
+                            <height>261</height>
+                            <fadetime>IconCrossfadeTime2</fadetime>
+                            <aspectratio>keep</aspectratio>
+                            <bordersize>5</bordersize>
+                            <texture background="true">$INFO[ListItem.Icon]</texture>
+                        </control>
+                    </focusedlayout>
+                    <itemlayout height="268" width="189" condition="[Container.Content(movies) + !Skin.HasSetting(usecasesinfowall)] | [Container.Content(tvshows) + ![Skin.HasSetting(TVInfoWallLandscape) | Skin.HasSetting(TVInfoWallBanner) | Skin.HasSetting(TVInfoWallLogo)]] | [[Window.IsActive(programs) + !Container.Content(addons)] + !Skin.HasSetting(InfoWallSquare)]">
+                        <control type="group">
+                            <visible>Skin.HasSetting(useclearcasesinfowall)</visible>
+                            <control type="image">
+                                <posx>4</posx>
+                                <posy>10</posy>
+                                <width>165</width>
+                                <height>246</height>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture background="true" diffuse="wall/wall_movie_mask.png">$INFO[ListItem.Icon]</texture>
+                                <visible>IsEmpty(ListItem.Thumb)</visible>
+                            </control>
+                            <control type="image">
+                                <posx>4</posx>
+                                <posy>10</posy>
+                                <width>165</width>
+                                <height>246</height>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture background="true" diffuse="wall/wall_movie_mask.png">$VAR[ListPosterVar]</texture>
+                                <visible>!IsEmpty(ListItem.Thumb)</visible>
+                            </control>
+                            <control type="image">
+                                <posx>-3</posx>
+                                <posy>4</posy>
+                                <width>180</width>
+                                <height>262</height>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture>wall/boxes/wall_movie_overlay.png</texture>
+                            </control>
+                            <control type="image">
+                                <posx>110</posx>
+                                <posy>10</posy>
+                                <width>60</width>
+                                <height>60</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <include>OverlayVisibility0</include>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <visible>!Skin.HasSetting(useclearcasesinfowall)</visible>
+                            <animation effect="fade" end="90" time="0" condition="true">Conditional</animation>
+                            <control type="image">
+                                <posx>0</posx>
+                                <posy>0</posy>
+                                <width>189</width>
+                                <height>268</height>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture background="true">$VAR[ListPosterVar]</texture>
+                                <bordertexture border="5">thumbs/bordershadow4.png</bordertexture>
+                                <bordersize>5</bordersize>
+                            </control>
+                            <control type="image">
+                                <posx>125</posx>
+                                <posy>5</posy>
+                                <width>60</width>
+                                <height>60</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <include>OverlayVisibility0</include>
+                            </control>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="268" width="189" condition="[Container.Content(movies) + !Skin.HasSetting(usecasesinfowall)] | [Container.Content(tvshows) + ![Skin.HasSetting(TVInfoWallLandscape) | Skin.HasSetting(TVInfoWallBanner) | Skin.HasSetting(TVInfoWallLogo)]] | [[Window.IsActive(programs) + !Container.Content(addons)] + !Skin.HasSetting(InfoWallSquare)]">
+                        <control type="group">
+                            <visible>Skin.HasSetting(useclearcasesinfowall)</visible>
+                            <animation effect="zoom" center="87,133" start="100" end="118" time="200" easing="out" tween="quadratic" reversible="false">Focus</animation>
+                            <control type="image">
+                                <posx>4</posx>
+                                <posy>10</posy>
+                                <width>165</width>
+                                <height>246</height>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture background="true" diffuse="wall/wall_movie_mask.png">$INFO[ListItem.Icon]</texture>
+                                <visible>IsEmpty(ListItem.Thumb)</visible>
+                            </control>
+                            <control type="image">
+                                <posx>4</posx>
+                                <posy>10</posy>
+                                <width>165</width>
+                                <height>246</height>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture background="true" diffuse="wall/wall_movie_mask.png">$VAR[ListPosterVar]</texture>
+                                <visible>!IsEmpty(ListItem.Thumb)</visible>
+                            </control>
+                            <control type="image">
+                                <posx>-3</posx>
+                                <posy>4</posy>
+                                <width>180</width>
+                                <height>262</height>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture>wall/boxes/wall_movie_overlay.png</texture>
+                            </control>
+                            <control type="image">
+                                <posx>110</posx>
+                                <posy>10</posy>
+                                <width>60</width>
+                                <height>60</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <include>OverlayVisibility0</include>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <visible>!Skin.HasSetting(useclearcasesinfowall)</visible>
+                            <control type="image">
+                                <posx>0</posx>
+                                <posy>0</posy>
+                                <width>189</width>
+                                <height>268</height>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <colordiffuse>$VAR{SelectedColorVar]</colordiffuse>
+                                <texture border="5">views/addonwall_select.png</texture>
+                            </control>
+                            <control type="image">
+                                <posx>0</posx>
+                                <posy>0</posy>
+                                <width>189</width>
+                                <height>268</height>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture background="true">$VAR[ListPosterVar]</texture>
+                                <bordersize>5</bordersize>
+                            </control>
+                            <control type="image">
+                                <posx>125</posx>
+                                <posy>5</posy>
+                                <width>60</width>
+                                <height>60</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <include>OverlayVisibility0</include>
+                            </control>
+                        </control>
+                    </focusedlayout>
+                    <itemlayout height="268" width="189" condition="Container.Content(movies) + Skin.HasSetting(usecasesinfowall)">
+                        <control type="group">
+                            <posy>-6</posy>
+                            <control type="image">
+                                <posx>-6</posx>
+                                <posy>-6</posy>
+                                <width>177</width>
+                                <height>280</height>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture fallback="thumbs/boxes/default_case.png">thumbs/boxes/movies/$INFO[ListItem.VideoResolution]p.png</texture>
+                            </control>
+                            <control type="image">
+                                <posx>9</posx>
+                                <posy>36</posy>
+                                <width>150</width>
+                                <height>225</height>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture background="true" diffuse="thumbs/boxes/case_mask.png">$INFO[ListItem.Icon]</texture>
+                                <visible>IsEmpty(ListItem.Thumb)</visible>
+                            </control>
+                            <control type="image">
+                                <posx>9</posx>
+                                <posy>36</posy>
+                                <width>150</width>
+                                <height>225</height>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture background="true" diffuse="thumbs/boxes/case_mask.png">$VAR[ListPosterVar]</texture>
+                                <visible>!IsEmpty(ListItem.Thumb)</visible>
+                            </control>
+                            <control type="image">
+                                <posx>-6</posx>
+                                <posy>-6</posy>
+                                <width>177</width>
+                                <height>280</height>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <texture>thumbs/boxes/case_overlay.png</texture>
+                            </control>
+                            <control type="image">
+                                <posx>106</posx>
+                                <posy>36</posy>
+                                <width>52</width>
+                                <height>52</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <include>OverlayVisibility0</include>
+                            </control>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="268" width="189" condition="Container.Content(movies) + Skin.HasSetting(usecasesinfowall)">
+                        <control type="group">
+                            <posy>-6</posy>
+                            <animation effect="zoom" center="58,93" start="100" end="110" time="200" easing="out" tween="quadratic" reversible="false">Focus</animation>
+                            <control type="image">
+                                <posx>-6</posx>
+                                <posy>-6</posy>
+                                <width>177</width>
+                                <height>280</height>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture fallback="thumbs/boxes/default_case.png">thumbs/boxes/movies/$INFO[ListItem.VideoResolution]p.png</texture>
+                            </control>
+                            <control type="image">
+                                <posx>9</posx>
+                                <posy>36</posy>
+                                <width>150</width>
+                                <height>225</height>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture background="true" diffuse="thumbs/boxes/case_mask.png">$INFO[ListItem.Icon]</texture>
+                                <visible>IsEmpty(ListItem.Thumb)</visible>
+                            </control>
+                            <control type="image">
+                                <posx>9</posx>
+                                <posy>36</posy>
+                                <width>150</width>
+                                <height>225</height>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <texture background="true" diffuse="thumbs/boxes/case_mask.png">$VAR[ListPosterVar]</texture>
+                                <visible>!IsEmpty(ListItem.Thumb)</visible>
+                            </control>
+                            <control type="image">
+                                <posx>-6</posx>
+                                <posy>-6</posy>
+                                <width>177</width>
+                                <height>280</height>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <texture>thumbs/boxes/case_overlay.png</texture>
+                            </control>
+                            <control type="image">
+                                <posx>106</posx>
+                                <posy>36</posy>
+                                <width>52</width>
+                                <height>52</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <include>OverlayVisibility0</include>
+                            </control>
+                        </control>
+                    </focusedlayout>
+                    <itemlayout height="161" width="285" condition="Container.Content(episodes) | [Container.Content(tvshows) + Skin.HasSetting(TVInfoWallLandscape)]">
+                        <control type="group">
+                            <posy>1</posy>
+                            <control type="group">
+                                <visible>Container.Content(episodes)</visible>
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>0</posy>
+                                    <width>285</width>
+                                    <height>161</height>
+                                    <fadetime>IconCrossfadeTime2</fadetime>
+                                    <aspectratio scalediffuse="false">scale</aspectratio>
+                                    <texture background="true">$INFO[ListItem.Icon]</texture>
+                                    <bordertexture border="5">thumbs/bordershadow4.png</bordertexture>
+                                    <bordersize>5</bordersize>
+                                </control>
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>116</posy>
+                                    <width>285</width>
+                                    <height>45</height>
+                                    <texture>common/black.png</texture>
+                                    <colordiffuse>BBFFFFFF</colordiffuse>
+                                    <bordersize>5</bordersize>
+                                </control>
+                                <control type="label">
+                                    <posx>142</posx>
+                                    <posy>110</posy>
+                                    <width>285</width>
+                                    <height>51</height>
+                                    <aligny>center</aligny>
+                                    <align>center</align>
+                                    <font>Font_Info</font>
+                                    <textcolor>grey2</textcolor>
+                                    <textoffsetx>5</textoffsetx>
+                                    <label fallback="..">$INFO[ListItem.Season,$LOCALIZE[20359] ]$INFO[ListItem.Episode,.]</label>
+                                </control>
+                            </control>
+                            <control type="image">
+                                <posx>0</posx>
+                                <posy>0</posy>
+                                <width>285</width>
+                                <height>161</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <texture background="true" fallback="common/black.png">$INFO[ListItem.Path,,landscape.jpg]</texture>
+                                <bordertexture border="5">thumbs/bordershadow4.png</bordertexture>
+                                <bordersize>5</bordersize>
+                                <visible>Container.Content(tvshows)</visible>
+                                <animation effect="fade" end="90" time="0" condition="true">Conditional</animation>
+                            </control>
+                            <control type="image">
+                                <posx>205</posx>
+                                <posy>5</posy>
+                                <width>75</width>
+                                <height>75</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <include>OverlayVisibility0</include>
+                            </control>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="161" width="285" condition="Container.Content(episodes) | [Container.Content(tvshows) + Skin.HasSetting(TVInfoWallLandscape)]">
+                        <control type="group">
+                            <posy>1</posy>
+                            <control type="group">
+                                <visible>Container.Content(episodes)</visible>
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>0</posy>
+                                    <width>285</width>
+                                    <height>161</height>
+                                    <fadetime>IconCrossfadeTime2</fadetime>
+                                    <aspectratio scalediffuse="false">scale</aspectratio>
+                                    <texture background="true">$INFO[ListItem.Icon]</texture>
+                                    <bordersize>5</bordersize>
+                                </control>
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>0</posy>
+                                    <width>285</width>
+                                    <height>161</height>
+                                    <fadetime>IconCrossfadeTime2</fadetime>
+                                    <aspectratio scalediffuse="false">scale</aspectratio>
+                                    <colordiffuse>$VAR{SelectedColorVar]</colordiffuse>
+                                    <texture border="5">views/addonwall_select.png</texture>
+                                </control>
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>116</posy>
+                                    <width>285</width>
+                                    <height>45</height>
+                                    <texture>common/black.png</texture>
+                                    <colordiffuse>BBFFFFFF</colordiffuse>
+                                    <bordersize>5</bordersize>
+                                </control>
+                                <control type="label">
+                                    <posx>142</posx>
+                                    <posy>110</posy>
+                                    <width>285</width>
+                                    <height>51</height>
+                                    <aligny>center</aligny>
+                                    <align>center</align>
+                                    <font>Font_Info</font>
+                                    <textcolor>white2</textcolor>
+                                    <textoffsetx>5</textoffsetx>
+                                    <label fallback="..">$INFO[ListItem.Season,$LOCALIZE[20359] ]$INFO[ListItem.Episode,.]</label>
+                                </control>
+                            </control>
+                            <control type="image">
+                                <posx>0</posx>
+                                <posy>0</posy>
+                                <width>285</width>
+                                <height>161</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <aspectratio>stretch</aspectratio>
+                                <texture background="true" fallback="common/black.png">$INFO[ListItem.Path,,landscape.jpg]</texture>
+                                <bordersize>5</bordersize>
+                                <visible>Container.Content(tvshows)</visible>
+                            </control>
+                            <control type="image">
+                                <posx>0</posx>
+                                <posy>0</posy>
+                                <width>285</width>
+                                <height>161</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <aspectratio>stretch</aspectratio>
+                                <colordiffuse>$VAR{SelectedColorVar]</colordiffuse>
+                                <texture border="5">views/addonwall_select.png</texture>
+                                <visible>Container.Content(tvshows)</visible>
+                            </control>
+                            <control type="image">
+                                <posx>205</posx>
+                                <posy>5</posy>
+                                <width>75</width>
+                                <height>75</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <include>OverlayVisibility0</include>
+                            </control>
+                        </control>
+                    </focusedlayout>
+                    <itemlayout height="114" width="570" condition="Container.Content(tvshows) + Skin.HasSetting(TVInfoWallBanner)">
+                        <control type="label">
+                            <posx>285</posx>
+                            <posy>10</posy>
+                            <width>540</width>
+                            <height>99</height>
+                            <aligny>center</aligny>
+                            <align>center</align>
+                            <textcolor>grey2</textcolor>
+                            <label>$INFO[ListItem.Label]</label>
+                            <font>Font_Bold24</font>
+                        </control>
+                        <control type="image">
+                            <posx>11</posx>
+                            <posy>6</posy>
+                            <width>549</width>
+                            <height>108</height>
+                            <fadetime>IconCrossfadeTime2</fadetime>
+                            <aspectratio align="center">stretch</aspectratio>
+                            <texture background="true">$VAR[BannerVar]</texture>
+                            <bordertexture border="5">thumbs/bordershadow4.png</bordertexture>
+                            <bordersize>5</bordersize>
+                        </control>
+                        <control type="image">
+                            <posx>465</posx>
+                            <posy>10</posy>
+                            <width>90</width>
+                            <height>90</height>
+                            <include>OverlayVisibility0</include>
+                        </control>
+                        <include>UnwatchedIcon</include>
+                    </itemlayout>
+                    <focusedlayout height="114" width="570" condition="Container.Content(tvshows) + Skin.HasSetting(TVInfoWallBanner)">
+                        <control type="group">
+                            <control type="image">
+                                <posx>11</posx>
+                                <posy>6</posy>
+                                <width>549</width>
+                                <height>108</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <aspectratio align="center">stretch</aspectratio>
+                                <texture>common/black.png</texture>
+                                <bordersize>5</bordersize>
+                            </control>
+                            <control type="label">
+                                <posx>285</posx>
+                                <posy>10</posy>
+                                <width>540</width>
+                                <height>99</height>
+                                <aligny>center</aligny>
+                                <align>center</align>
+                                <textcolor>white2</textcolor>
+                                <label>$INFO[ListItem.Label]</label>
+                                <font>Font_Bold24</font>
+                            </control>
+                            <control type="image">
+                                <posx>11</posx>
+                                <posy>6</posy>
+                                <width>549</width>
+                                <height>108</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <aspectratio align="center">stretch</aspectratio>
+                                <colordiffuse>$VAR{SelectedColorVar]</colordiffuse>
+                                <texture border="5">views/addonwall_select.png</texture>
+                            </control>
+                            <control type="image">
+                                <posx>11</posx>
+                                <posy>6</posy>
+                                <width>549</width>
+                                <height>108</height>
+                                <fadetime>IconCrossfadeTime2</fadetime>
+                                <aspectratio align="center">stretch</aspectratio>
+                                <texture background="true">$VAR[BannerVar]</texture>
+                                <bordersize>5</bordersize>
+                            </control>
+                            <control type="image">
+                                <posx>465</posx>
+                                <posy>10</posy>
+                                <width>90</width>
+                                <height>90</height>
+                                <include>OverlayVisibility0</include>
+                            </control>
+                            <include>UnwatchedIcon</include>
+                        </control>
+                    </focusedlayout>
+                    <itemlayout height="204" width="285" condition="Container.Content(tvshows) + Skin.HasSetting(TVInfoWallLogo)">
+                        <control type="image">
+                            <posx>22</posx>
+                            <posy>56</posy>
+                            <width>240</width>
+                            <height>93</height>
+                            <aspectratio align="center">keep</aspectratio>
+                            <fadetime>IconCrossfadeTime2</fadetime>
+                            <texture background="true">$INFO[ListItem.Path,,logo.png]</texture>
+                            <colordiffuse>FF777777</colordiffuse>
+                        </control>
+                        <include>UnwatchedIcon</include>
+                    </itemlayout>
+                    <focusedlayout height="204" width="285" condition="Container.Content(tvshows) + Skin.HasSetting(TVInfoWallLogo)">
+                        <control type="image">
+                            <posx>22</posx>
+                            <posy>56</posy>
+                            <width>240</width>
+                            <height>93</height>
+                            <aspectratio align="center">keep</aspectratio>
+                            <fadetime>IconCrossfadeTime2</fadetime>
+                            <texture background="true">$INFO[ListItem.Path,,logo.png]</texture>
+                            <animation effect="zoom" center="auto" start="100" end="120" time="200" easing="out" tween="quadratic" reversible="false">Focus</animation>
+                        </control>
+                        <include>UnwatchedIcon</include>
+                    </focusedlayout>
+                </control>
+                <control type="scrollbar" id="60">
+                    <posx>1200</posx>
+                    <posy>164</posy>
+                    <width>9</width>
+                    <height>787</height>
+                    <showonepage>false</showonepage>
+                    <include>CommonVerticalScrollbar</include>
+                    <onleft>512</onleft>
+                    <onright>9000</onright>
+                </control>
+                <control type="group">
+                    <posx>-22</posx>
+                    <control type="label">
+                        <posx>1260</posx>
+                        <posy>154</posy>
+                        <height>20</height>
+                        <width>570</width>
+                        <font>Font_Bold25_Caps</font>
+                        <textcolor>white2</textcolor>
+                        <scroll>true</scroll>
+                        <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
+                    </control>
+                    <control type="image">
+                        <posx>1245</posx>
+                        <posy>190</posy>
+                        <height>60</height>
+                        <width>600</width>
+                        <texture>osd/osd_settings_buttonnf.png</texture>
+                    </control>
+                    <control type="group">
+                        <control type="label">
+                            <posx>1260</posx>
+                            <posy>202</posy>
+                            <height>20</height>
+                            <width>570</width>
+                            <font>Font_Reg18</font>
+                            <textcolor>abFFFFFF</textcolor>
+                            <scroll>true</scroll>
+                            <label>$VAR[InfoWallSubTitleVar]</label>
+                        </control>
+                        <control type="group">
+                            <control type="label">
+                                <posx>1830</posx>
+                                <posy>1015</posy>
+                                <height>20</height>
+                                <width>690</width>
+                                <font>Font_Condensed22</font>
+                                <align>right</align>
+                                <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                                <scroll>true</scroll>
+                                <label>$VAR[InfoWallBottomLabel1Var]</label>
+                            </control>
+                            <control type="label">
+                                <posx>1830</posx>
+                                <posy>1060</posy>
+                                <height>20</height>
+                                <width>690</width>
+                                <font>Font_Condensed22</font>
+                                <align>right</align>
+                                <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                                <label>$VAR[InfoWallBottomLabel2Var]</label>
+                            </control>
+                        </control>
+                        <control type="textbox">
+                            <posx>1260</posx>
+                            <posy>254</posy>
+                            <width>570</width>
+                            <height>350</height>
+                            <font>Font_Condensed22</font>
+                            <align>justify</align>
+                            <label fallback="312577">$VAR[InfoWallTextboxVar]</label>
+                            <textcolor>white6</textcolor>
+                            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+                        </control>
+                    </control>
+                    <control type="group">
+                        <posx>1252</posx>
+                        <posy>622</posy>
+                        <control type="image">
+                            <posx>-15</posx>
+                            <posy>-15</posy>
+                            <width>603</width>
+                            <height>352</height>
+                            <texture>common/black.png</texture>
+                            <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
+                            <bordertexture border="15">home/nowplaying/OverlayDialogBackground.png</bordertexture>
+                            <bordersize>15</bordersize>
+                        </control>
+                        <control type="image">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>573</width>
+                            <height>322</height>
+                            <fadetime>IconCrossfadeTime</fadetime>
+                            <include condition="Window.IsActive(pictures)">Aspectratio_Keep</include>
+                            <include condition="!Window.IsActive(pictures)">Aspectratio_Scale</include>
+                            <texture background="true" fallback="special://skin/backgrounds/videos.jpg">$VAR[InfoWallPreviewTextureVar]</texture>
+                            <visible>!Player.Hasvideo</visible>
+                            <include>Animation_VisibleChange200</include>
+                        </control>
+                        <control type="videowindow" id="40001">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>573</width>
+                            <height>322</height>
+                            <visible>Player.Hasvideo + !VideoPlayer.IsFullscreen</visible>
+                        </control>
+                    </control>
+                </control>
+            </control>
+        </control>
+    </include>
+</includes>
