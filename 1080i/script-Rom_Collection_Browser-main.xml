@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <window>
-    <allowoverlay>$LOCALIZE[106]</allowoverlay>
+    <allowoverlay>yes</allowoverlay>
     <defaultcontrol always="false">2</defaultcontrol>
     <coordinates>
         <system>1</system>
@@ -25,8 +25,15 @@
             <colordiffuse>aaffffff</colordiffuse>
             <animation effect="fade" start="0" end="100" time="550" delay="200">Visible</animation>
             <animation effect="fade" start="100" end="0" time="100">Hidden</animation>
-            <visible>!Control.IsVisible(514) + !Control.IsVisible(516)</visible>
-            <visible>[Skin.HasSetting(darkinfopane) + [Control.IsVisible(7550) | Control.IsVisible(510) | Control.IsVisible(50) | Control.IsVisible(500)]]</visible>
+            <visible>[Skin.HasSetting(darkinfopane) | !Skin.HasSetting(DisableGlowbar)] + ![Control.IsVisible(52) + Skin.HasSetting(addonwallaltbackground)]</visible>
+        </control>
+        <control type="image">
+            <include>FullscreenDimensions</include>
+            <texture>common/black.png</texture>
+            <colordiffuse>ccffffff</colordiffuse>
+            <animation effect="fade" start="0" end="100" time="550" delay="200">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="100">Hidden</animation>
+            <visible>Control.IsVisible(52) + Skin.HasSetting(addonwallaltbackground)</visible>
         </control>
         <!-- Furniture -->
         <control type="group">
@@ -283,6 +290,7 @@
         <control type="group">
             <description>Furniture</description>
             <include>Animation_OpenClose_Furniture</include>
+            <visible>![Skin.HasSetting(addonwallaltbackground) + Control.IsVisible(52)]</visible>
             <control type="image">
                 <posx>0</posx>
                 <posy>472</posy>
@@ -299,6 +307,16 @@
                 <texture>views/showcase_spot.png</texture>
                 <colordiffuse>$VAR[SpotColorVar]</colordiffuse>
                 <animation effect="slide" time="200" start="0" end="-585" tween="cubic" easing="out" condition="Control.IsVisible(57)">Conditional</animation>
+                <visible>!Control.IsVisible(52)</visible>
+            </control>
+            <control type="image">
+                <width>1920</width>
+                <height>206</height>
+                <posx>0</posx>
+                <posy>874</posy>
+                <texture>views/panel_spot.png</texture>
+                <colordiffuse>$VAR[SpotColorVar]</colordiffuse>
+                <visible>Control.IsVisible(52)</visible>
             </control>
             <control type="image">
                 <posx>0</posx>
@@ -319,6 +337,27 @@
                 <texture flipx="true">views/showcase_vignette.png</texture>
             </control>
             <include>Neon_Floor</include>
+        </control>
+        <control type="group">
+            <include>Animation_OpenCloseZoom_New</include>
+            <visible>[Control.IsVisible(52) + !Skin.HasSetting(addonwallaltbackground)]</visible>
+            <control type="image">
+                <posx>112</posx>
+                <posy>68</posy>
+                <width>1695</width>
+                <height>1038</height>
+                <texture>wall/wall_bg.png</texture>
+                <animation effect="zoom" start="112,68,1695,1038" end="38,68,1845,1038" time="0" reversible="false" condition="Control.IsVisible(52)">Conditional</animation>
+            </control>
+            <control type="image">
+                <posx>112</posx>
+                <posy>68</posy>
+                <width>1695</width>
+                <height>1038</height>
+                <texture>wall/wall_bg_reflection.png</texture>
+                <animation effect="zoom" start="112,68,1695,1038" end="38,68,1845,1038" time="0" reversible="false" condition="Control.IsVisible(52)">Conditional</animation>
+            </control>
+            <include condition="Skin.HasSetting(effect_bg)">BG_Effect_Wall_Panel</include>
         </control>
         <!-- gamelist groups -->
         <control type="group" id="200">
@@ -423,6 +462,7 @@
             </control>
             <control type="group">
                 <visible>Control.IsVisible(51)</visible>
+                <include>Animation_OpenCloseZoom_New</include>
                 <control type="group" id="7007">
                     <posy>580</posy>
                     <camera x="960" y="810" />
@@ -1192,6 +1232,169 @@
                     </focusedlayout>
                 </control>
             </control>
+            <control type="group">
+                <visible>Control.isVisible(52)</visible>
+                <include>Animation_OpenCloseZoom_New</include>
+                <posy>-30</posy>
+                <control type="panel" id="52">
+                    <posx>60</posx>
+                    <posy>154</posy>
+                    <width>1140</width>
+                    <height>807</height>
+                    <onleft>9000</onleft>
+                    <onright>60</onright>
+                    <onup>52</onup>
+                    <ondown>52</ondown>
+                    <preloaditems>4</preloaditems>
+                    <scrolltime tween="cubic" easing="out">200</scrolltime>
+                    <viewtype label="$LOCALIZE[31283]">icon</viewtype>
+                    <pagecontrol>60</pagecontrol>
+                    <itemlayout height="268" width="285">
+                        <control type="image">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>261</width>
+                            <height>261</height>
+                            <fadetime>IconCrossfadeTime2</fadetime>
+                            <aspectratio>keep</aspectratio>
+                            <bordertexture border="5">thumbs/bordershadow4.png</bordertexture>
+                            <bordersize>5</bordersize>
+                            <texture background="true">$INFO[ListItem.Icon]</texture>
+                            <animation effect="fade" end="90" time="0" condition="true">Conditional</animation>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="268" width="285">
+                        <control type="image">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>261</width>
+                            <height>261</height>
+                            <fadetime>IconCrossfadeTime2</fadetime>
+                            <aspectratio>keep</aspectratio>
+                            <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
+                            <texture border="5">views/addonwall_select.png</texture>
+                        </control>
+                        <control type="image">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>261</width>
+                            <height>261</height>
+                            <fadetime>IconCrossfadeTime2</fadetime>
+                            <aspectratio>keep</aspectratio>
+                            <bordersize>5</bordersize>
+                            <texture background="true">$INFO[ListItem.Icon]</texture>
+                        </control>
+                    </focusedlayout>
+                </control>
+                <control type="scrollbar" id="60">
+                    <posx>1200</posx>
+                    <posy>164</posy>
+                    <width>9</width>
+                    <height>787</height>
+                    <showonepage>false</showonepage>
+                    <include>CommonVerticalScrollbar</include>
+                    <onleft>52</onleft>
+                    <onright>9000</onright>
+                </control>
+                <control type="group">
+                    <posx>-22</posx>
+                    <control type="label">
+                        <posx>1260</posx>
+                        <posy>154</posy>
+                        <height>20</height>
+                        <width>570</width>
+                        <font>Font_Bold25_Caps</font>
+                        <textcolor>white2</textcolor>
+                        <scroll>true</scroll>
+                        <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
+                    </control>
+                    <control type="image">
+                        <posx>1245</posx>
+                        <posy>190</posy>
+                        <height>60</height>
+                        <width>600</width>
+                        <texture>osd/osd_settings_buttonnf.png</texture>
+                    </control>
+                    <control type="group">
+                        <control type="label">
+                            <posx>1260</posx>
+                            <posy>202</posy>
+                            <height>20</height>
+                            <width>570</width>
+                            <font>Font_Reg18</font>
+                            <textcolor>abFFFFFF</textcolor>
+                            <scroll>true</scroll>
+                            <label>$INFO[ListItem.Property(genre)]</label>
+                        </control>
+                        <control type="group">
+                            <control type="label">
+                                <posx>1830</posx>
+                                <posy>1015</posy>
+                                <height>20</height>
+                                <width>690</width>
+                                <font>Font_Condensed22</font>
+                                <align>right</align>
+                                <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                                <scroll>true</scroll>
+                                <label>$INFO[ListItem.Property(year)]$INFO[ListItem.Property(maxplayers), • , Players]$INFO[ListItem.Property(rating), • ]$INFO[ListItem.Property(votes),(,)]</label>
+                            </control>
+                            <control type="label">
+                                <posx>1830</posx>
+                                <posy>1060</posy>
+                                <height>20</height>
+                                <width>690</width>
+                                <font>Font_Condensed22</font>
+                                <align>right</align>
+                                <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                                <label>$INFO[ListItem.Property(publisher)]</label>
+                            </control>
+                        </control>
+                        <control type="textbox">
+                            <posx>1260</posx>
+                            <posy>254</posy>
+                            <width>570</width>
+                            <height>350</height>
+                            <font>Font_Condensed22</font>
+                            <align>justify</align>
+                            <label fallback="312577">$INFO[ListItem.Property(plot)]</label>
+                            <textcolor>white6</textcolor>
+                            <autoscroll delay="8000" time="2000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+                        </control>
+                    </control>
+                    <control type="group">
+                        <posx>1252</posx>
+                        <posy>622</posy>
+                        <control type="image">
+                            <posx>-15</posx>
+                            <posy>-15</posy>
+                            <width>603</width>
+                            <height>352</height>
+                            <texture>common/black.png</texture>
+                            <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
+                            <bordertexture border="15">home/nowplaying/OverlayDialogBackground.png</bordertexture>
+                            <bordersize>15</bordersize>
+                        </control>
+                        <control type="image">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>573</width>
+                            <height>322</height>
+                            <fadetime>IconCrossfadeTime</fadetime>
+                            <include>Aspectratio_Keep</include>
+                            <texture background="true"  fallback="special://skin/backgrounds/programs.jpg">$INFO[ListItem.Property(gameinfobig)]</texture>
+                            <visible>!Player.Hasvideo</visible>
+                            <include>Animation_VisibleChange200</include>
+                        </control>
+                        <control type="videowindow" id="40001">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>573</width>
+                            <height>322</height>
+                            <visible>Player.Hasvideo + !VideoPlayer.IsFullscreen</visible>
+                        </control>
+                    </control>
+                </control>
+            </control>
             <!-- gamelist 57 -->
             <control type="group">
                 <visible>Control.IsVisible(57)</visible>
@@ -1371,7 +1574,7 @@
             <height>72</height>
             <texture>views/showcase_gradient.png</texture>
             <include>Animation_CommonFade</include>
-            <visible>!Control.IsVisible(57)</visible>
+            <visible>![Control.IsVisible(57)  | Control.IsVisible(52)]</visible>
         </control>
         <!-- Hidden Controls -->
         <control type="group" id="100">
@@ -1897,7 +2100,10 @@
                         <description>Viewtype Settings</description>
                         <include>Objects_MediaMenuButtonAlt</include>
                         <label>Viewtype Settings</label>
+                        <onclick condition="Control.IsVisible(50)">Skin.SetString(actualViewtype,landscape)</onclick>
                         <onclick condition="Control.IsVisible(51)">Skin.SetString(actualViewtype,showcasesquare)</onclick>
+                        <onclick condition="Control.IsVisible(52)">Skin.SetString(actualViewtype,addonwall)</onclick>
+                        <onclick condition="Control.IsVisible(57)">Skin.SetString(actualViewtype,shift)</onclick>
                         <onclick>ActivateWindow(1126)</onclick>
                         <ondown condition="!Control.IsVisible(1801) + !Control.IsVisible(1800) + Player.HasAudio">3000</ondown>
                     </control>
