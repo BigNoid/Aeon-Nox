@@ -17,6 +17,18 @@
                 <posy>200</posy>
                 <width>1210</width>
                 <height>492</height>
+                <texture border="50">osd/osd_settings_back_glow.png</texture>
+                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                <visible>[Skin.HasSetting(Glowbar_Home) + [Window.IsActive(home) | Window.IsActive(1124)]] | [!Skin.HasSetting(DisableGlowbar) + ![Window.IsActive(home) | Window.IsActive(1124)]]</visible>                <include>PanelGlowFade</include>
+                <include>Animation_VisibleChange400</include>
+                <include>PanelGlowFade</include>
+            </control>
+            <control type="image">
+                <description>Panel</description>
+                <posx>356</posx>
+                <posy>200</posy>
+                <width>1210</width>
+                <height>492</height>
                 <texture border="50">osd/osd_settings_back.png</texture>
             </control>
             <control type="image">
@@ -113,7 +125,7 @@
                     <onclick>Skin.ToggleSetting(biggergap)</onclick>
                     <visible>Stringcompare(Window.Property(actualItem),MainMenu)</visible>
                 </control>
-                <control type="radiobutton" id="467">
+                <control type="radiobutton" id="468">
                     <description>Show video info</description>
                     <include>Objects_CommonSettingsButton</include>
                     <selected>Skin.HasSetting(smallermainmenu)</selected>
@@ -141,22 +153,20 @@
                     <visible>Stringcompare(Window.Property(actualItem),MainMenu)</visible>
                     <selected>Skin.HasSetting(customstartupfocus)</selected>
                 </control>
-                <control type="radiobutton" id="456">
+                <control type="button" id="456">
                     <description>Default focus</description>
                     <label>$LOCALIZE[31694]</label>
-                    <include>Objects_CommonSettingsButton</include>
-                    <onclick>Skin.ToggleSetting(mainmenufixedlist)</onclick>
+                    <label2>[COLOR=$VAR[SelectedColorVar]]$VAR[MainMenuFixedListVar][/COLOR]</label2>
+                    <include>Objects_CommonSettingsButton</include>                    
+                    <onclick condition="!Skin.HasSetting(mainmenufixedlist) + !Skin.HasSetting(submenufixedlist)">Skin.SetBool(submenufixedlist)</onclick>
+                    <onclick condition="Skin.HasSetting(submenufixedlist)">Skin.SetBool(mainmenufixedlist)</onclick>
+                    <onclick condition="Skin.HasSetting(submenufixedlist)">Skin.Reset(submenufixedlist)</onclick>
+                    <onclick condition="Skin.HasSetting(mainmenufixedlist)">Skin.SetBool(submenufixedlist)</onclick>    
+                    <onclick condition="Skin.HasSetting(mainmenufixedlist) + Skin.HasSetting(submenufixedlist)">Skin.Reset(submenufixedlist)</onclick>
+                    <onclick condition="Skin.HasSetting(mainmenufixedlist) + Skin.HasSetting(submenufixedlist)">Skin.Reset(mainmenufixedlist)</onclick>
                     <visible>Stringcompare(Window.Property(actualItem),MainMenu)</visible>
-                    <selected>Skin.HasSetting(mainmenufixedlist)</selected>
                 </control>
-                <control type="radiobutton" id="457">
-                    <description>Default focus</description>
-                    <label>$LOCALIZE[31695]</label>
-                    <include>Objects_CommonSettingsButton</include>
-                    <onclick>Skin.ToggleSetting(submenufixedlist)</onclick>
-                    <visible>Stringcompare(Window.Property(actualItem),MainMenu)</visible>
-                    <selected>Skin.HasSetting(submenufixedlist)</selected>
-                </control>
+
                 <control type="button" id="470">
                     <description>Show video info</description>
                     <include>Objects_CommonSettingsButton</include>
