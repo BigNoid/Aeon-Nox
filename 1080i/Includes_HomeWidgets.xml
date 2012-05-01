@@ -296,7 +296,6 @@
             <posx>-132</posx>
             <visible>Container(9000).HasFocus(21) + [PVR.IsRecording | PVR.HasNonRecordingTimer]</visible>
 			<posy>472</posy>
-            <visible>Container(9000).HasFocus(21) + [PVR.IsRecording | PVR.HasNonRecordingTimer]</visible>
             <animation effect="slide" start="0,0" end="-750,0" time="300">WindowClose</animation>
             <animation effect="slide" start="-750,0" end="0,0" delay="WidgetSlideDelay" time="300" condition="!Window.Previous(startup)">WindowOpen</animation>
             <animation effect="slide" start="-750" end="0" time="300">VisibleChange</animation>
@@ -1400,6 +1399,28 @@
             <include>Animation_OpenCloseZoom</include>
             <visible>[!Skin.HasSetting(nohomepageMusicinfo) + Player.HasAudio] | [!Skin.HasSetting(homepageVideoinfo) + Player.HasVideo]</visible>
             <control type="group">
+                                <animation effect="zoom" start="100" end="95" time="800" easing="inout" tween="circle" center="960,500" condition="Skin.HasSetting(smallmusichome)">Conditional</animation>
+                <control type="image">
+                    <posx>120</posx>
+                    <posy>660</posy>
+                    <width>1650</width>
+                    <height>402</height>
+                    <animation effect="fade" start="100" end="80" time="2500" pulse="true" condition="true">conditional</animation>
+                    <texture border="50">featured/panel_featured_shadow.png</texture>
+                    <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                    <visible>Skin.HasSetting(Glowbar_Home)</visible>
+                    <include>Animation_VisibleChange400</include>
+                </control>
+                <control type="image">
+                    <posx>120</posx>
+                    <posy>660</posy>
+                    <width>1650</width>
+                    <height>402</height>
+                    <animation effect="fade" start="100" end="70" time="0" condition="Skin.HasSetting(smallmusichome)">Conditional</animation>
+                    <texture border="50">featured/panel_featured.png</texture>
+                </control>
+            </control>
+            <control type="group">
                 <animation type="WindowOpen" reversible="false">
                     <effect type="slide" start="-1200,0" end="0,0" delay="500" time="200" easing="out" tween="quadratic" />
                     <effect type="fade" start="0" end="100" delay="500" time="200" />
@@ -1409,8 +1430,8 @@
                     <effect type="fade" start="0" end="100" delay="500" time="200" />
                 </animation>
                 <control type="group">
-                    <animation effect="zoom" start="100" end="60" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(smallmusichome)">Conditional</animation>
-                    <animation effect="slide" end="400,430" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(smallmusichome)">Conditional</animation>
+                    <animation effect="zoom" start="100" end="75" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(smallmusichome)">Conditional</animation>
+                    <animation effect="slide" end="280,250" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(smallmusichome)">Conditional</animation>
                     <animation effect="zoom" start="100" end="90" time="400" easing="inout" tween="circle" condition="Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(smallmusichome)">Conditional</animation>
                     <animation effect="slide" end="0,70" time="400" easing="inout" tween="circle" condition="Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(smallmusichome)">Conditional</animation>
                     <include>Furniture_HomeNowPlayingAudio</include>
@@ -1418,8 +1439,8 @@
                 </control>
                 <control type="group">
                     <visible>Player.HasAudio</visible>
-                    <animation effect="zoom" start="100" end="60" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(smallmusichome)">Conditional</animation>
-                    <animation effect="slide" end="-1450,430" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(smallmusichome)">Conditional</animation>
+                    <animation effect="zoom" start="100" end="75" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(smallmusichome)">Conditional</animation>
+                    <animation effect="slide" end="370,300" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(smallmusichome)">Conditional</animation>
                     <animation effect="zoom" start="100" end="90" time="400" easing="inout" tween="circle" condition="Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(smallmusichome)">Conditional</animation>
                     <animation effect="slide" end="200,70" time="400" easing="inout" tween="circle" condition="Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(smallmusichome)">Conditional</animation>
                     <include>HomeNowPlayingPlaylist</include>
@@ -4425,6 +4446,19 @@
                             <ondown>SetFocus(5010)</ondown>
                         </control>
                         <control type="button" id="5017">
+                            <description>RANDOMIZE</description>
+                            <label>RANDOMIZE]</label>
+                            <onclick>RunScript(script.metadata.actors,borntoday,10,random)</onclick>
+                            <include>HiddenObject</include>
+                            <visible>Substring(Control.GetLabel(4321),actors)</visible>
+                            <onback>ClearProperty(PanelWidgetInfo,Home)</onback>
+                            <onback>SetFocus(5010)</onback>
+                            <onup>ClearProperty(PanelWidgetInfo,Home)</onup>
+                            <onup>SetFocus(5010)</onup>
+                            <ondown>ClearProperty(PanelWidgetInfo,Home)</ondown>
+                            <ondown>SetFocus(5010)</ondown>
+                        </control>
+                        <control type="button" id="5018">
                             <description>Return</description>
                             <label>$LOCALIZE[31066]</label>
                             <onclick>ClearProperty(PanelWidgetInfo,Home)</onclick>
@@ -4437,6 +4471,7 @@
                             <ondown>ClearProperty(PanelWidgetInfo,Home)</ondown>
                             <ondown>SetFocus(5010)</ondown>
                         </control>
+                        
                     </control>
                     <control type="grouplist">
                         <posx>238</posx>
