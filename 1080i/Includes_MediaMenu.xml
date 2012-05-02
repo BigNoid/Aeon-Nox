@@ -521,9 +521,9 @@
         </control>
     </include>
     <include name="Media_Menu">
+        <include>Media_Menu_Furniture</include>
         <control type="group" id="9000">
             <visible>!Skin.HasSetting(kioskmode)</visible>
-            <include>Media_Menu_Furniture</include>
             <control type="group">
                 <include>Animation_MediaMenuSlide2</include>
                 <animation type="Conditional" condition="Window.IsActive(1121) | Window.IsActive(1119) | Window.IsActive(1126)">
@@ -600,7 +600,8 @@
                         <radioheight>98</radioheight>
                         <radioposx>308</radioposx>
                         <label></label>
-                        <onclick>PlayMedia($ESCINFO[ListItem.Trailer])</onclick>
+                        <onclick condition="!Skin.HasSetting(fstrailer)">PlayMedia($ESCINFO[ListItem.Trailer],1)</onclick>
+                        <onclick condition="Skin.HasSetting(fstrailer)">PlayMedia($ESCINFO[ListItem.Trailer])</onclick>
                         <enable>no</enable>
                         <visible>[Window.IsActive(videolibrary) + !IsEmpty(ListItem.Trailer)] | [!IsEmpty(Window.Property(SongToMusicVideo.Path)) + Window.IsActive(musiclibrary)]</visible>
                     </control>
@@ -626,7 +627,8 @@
                         <radioheight>40</radioheight>
                         <radioposx>338</radioposx>
                         <label>$LOCALIZE[31484]</label>
-                        <onclick>PlayMedia($ESCINFO[ListItem.Trailer])</onclick>
+                        <onclick condition="!Skin.HasSetting(fstrailer)">PlayMedia($ESCINFO[ListItem.Trailer],1)</onclick>
+                        <onclick condition="Skin.HasSetting(fstrailer)">PlayMedia($ESCINFO[ListItem.Trailer])</onclick>
                         <textureradiofocus>common/logo_trailer.png</textureradiofocus>
                         <textureradionofocus>common/logo_trailer.png</textureradionofocus>
                         <ondown condition="Control.IsVisible(4000)">3000</ondown>
@@ -665,6 +667,11 @@
             </control>
         </control>
         <control type="button" id="9000">
+            <include>HiddenObject</include>
+            <visible>Skin.HasSetting(kioskmode)</visible>
+            <onfocus>SetFocus(50)</onfocus>
+        </control>
+        <control type="button" id="1801">
             <include>HiddenObject</include>
             <visible>Skin.HasSetting(kioskmode)</visible>
             <onfocus condition="!Skin.HasSetting(fstrailer)">PlayMedia($ESCINFO[ListItem.Trailer],1)</onfocus>
