@@ -578,8 +578,6 @@
 		</control>
 	</include>
 	<include name="SecondLabelFloor">
-		<control type="group">
-			<include>Animation_CommonFade</include>
 			<control type="label">
 				<posx>510</posx>
 				<posy>1002</posy>
@@ -591,7 +589,6 @@
 				<shadowcolor>floorshadow</shadowcolor>
 				<label>[UPPERCASE]$VAR[SecondLabelVar][/UPPERCASE]</label>
 			</control>
-		</control>
 	</include>
 	<include name="FirstLabelFloor">
 		<control type="label">
@@ -600,7 +597,6 @@
 			<width>900</width>
 			<align>center</align>
 			<aligny>center</aligny>
-			<include>Animation_CommonFade</include>
 			<font>Font_ShowcaseMainLabel2_Caps</font>
 			<scroll>true</scroll>
 			<scrollspeed>50</scrollspeed>
@@ -612,23 +608,12 @@
 	<include name="FloorLabels">
 		<control type="group">
 			<visible>Control.IsVisible(509) | [Control.IsVisible(500) + !StringCompare(Container.FolderName,youtube)] | Control.IsVisible(508) |  Control.IsVisible(513) | Control.IsVisible(504) | Control.IsVisible(501)</visible>
-            <control type="image" id="8822">
-				<description>ClearART</description>
-                <posx>837.5</posx>
-                <posy>970</posy>
-                <width>245</width>
-                <height>95</height>
-                <texture background="true" fallback="empty.png">$INFO[ListItem.Path,,logo.png]</texture>
-				<aspectratio>keep</aspectratio>
-				<animation effect="fade" delay="300" time="300" reversible="false">Hidden</animation>
-				<animation effect="fade" start="0" delay="100" end="100" time="300" reversible="true" condition="!Stringcompare(Control.GetLabel(8822),empty.png)">Conditional</animation>
-				<visible>!Skin.HasSetting(movielogosfloor) + Container.Content(movies) + !Container.OnNext</visible>
-			</control>
+            <include>dialogeffect</include>
 			<control type="group">
 				<visible>![Container.Content(movies) + !Skin.HasSetting(movielogosfloor) + !Stringcompare(Control.GetLabel(8822),empty.png)]</visible>
 				<animation effect="fade" start="0" end="100" time="100" delay="100" reversible="false">Visible</animation>
 				<animation effect="fade" start="100" end="0" time="0" delay="0" reversible="false">Hidden</animation>
-                <visible>!Container.OnScrollNext + !Container.OnScrollPrevious</visible>
+                <visible>[Control.IsVisible(8822)  + !Container.OnScrollNext + !Container.OnScrollPrevious] | !Control.IsVisible(8822)</visible>
 				<include>SecondLabelFloor</include>
 				<include>FirstLabelFloor</include>
 			</control>
@@ -660,14 +645,8 @@
 			<colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
 			<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(61) + Control.IsVisible(4050)">Conditional</animation>
 			<onup>50</onup>
-			<ondown condition="Control.isVisible(501) + [Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]">Skin.ToggleSetting(noflowtv)</ondown>
-			<ondown condition="Control.isVisible(504) + [Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]">Skin.ToggleSetting(noflowdvdtv)</ondown>
-			<ondown condition="Control.isVisible(501) + ![Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]">Skin.ToggleSetting(noflow)</ondown>
-			<ondown condition="Control.isVisible(504) + ![Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]">Skin.ToggleSetting(noflowdvd)</ondown>
-			<ondown condition="Control.isVisible(509)">Skin.ToggleSetting(noflowalbum)</ondown>
-			<ondown condition="Control.isVisible(513)">Skin.ToggleSetting(noflowalbumdvd)</ondown>
-			<ondown condition="[Window.IsActive(musicfiles) | Window.IsActive(musiclibrary) | Window.IsActive(musicplaylist)] + Player.HasVideo">SetFocus(110)</ondown>
-			<showonepage>true</showonepage>
+            <ondown>50</ondown>
+            <showonepage>true</showonepage>
 		</control>
 		<control type="image">
 			<posx>0</posx>
