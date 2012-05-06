@@ -4472,6 +4472,7 @@
                     <include>HiddenObject</include>
                     <onfocus condition="Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)">SetFocus(5020)</onfocus>
                     <onfocus condition="Substring(Control.GetLabel(4321),tv)">SetFocus(5021)</onfocus>
+                    <onfocus condition="Substring(Control.GetLabel(4321),addons)">SetFocus(5040)</onfocus>
                     <onfocus condition="Substring(Control.GetLabel(4321),album) | Substring(Control.GetLabel(4321),song) | Substring(Control.GetLabel(4321),music)">SetFocus(5030)</onfocus>
                 </control>
                 <control type="group">
@@ -4595,7 +4596,7 @@
                             <ondown>ClearProperty(PanelWidgetInfo,Home)</ondown>
                             <ondown>SetFocus(5010)</ondown>
                         </control>
-                        <control type="button" id="5019">
+                        <control type="button" id="5013">
                             <description>Return</description>
                             <label>$LOCALIZE[31066]</label>
                             <onclick>ClearProperty(PanelWidgetInfo,Home)</onclick>
@@ -4624,6 +4625,7 @@
                             <include>BreadcrumbsLabel</include>
                             <label>$INFO[Control.GetLabel(5015)]</label>
                             <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5015)">Conditional</animation>
+                            <visible>Control.IsVisible(5015)</visible>
                         </control>
                         <control type="label">
                             <textcolor>white2</textcolor>
@@ -4650,6 +4652,16 @@
                             <include>BreadcrumbsLabel</include>
                             <label>$INFO[Control.GetLabel(5018)]</label>
                             <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5018)">Conditional</animation>
+                            <visible>Control.IsVisible(5018)</visible>
+                        </control>
+                        <control type="label">
+                            <textcolor>white2</textcolor>
+                            <font>Font_Condensed22_Caps</font>
+                            <shadowcolor>black</shadowcolor>
+                            <include>BreadcrumbsLabel</include>
+                            <label>$INFO[Control.GetLabel(5013)]</label>
+                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5013)">Conditional</animation>
+                            <visible>Control.IsVisible(5013)</visible>
                         </control>
                     </control>
                 </control>
@@ -4749,6 +4761,19 @@
                             <ondown>ClearProperty(PanelWidgetInfo,Home)</ondown>
                             <ondown>SetFocus(5010)</ondown>
                         </control>
+                        <control type="button" id="5024">
+                            <description>RANDOMIZE</description>
+                            <label>$LOCALIZE[31087]</label>
+                            <onclick>XBMC.RunScript(script.randomitems,limit=8&amp;unplayed=True)</onclick>
+                            <include>HiddenObject</include>
+                            <visible>Substring(Control.GetLabel(4321),random)</visible>
+                            <onback>ClearProperty(PanelWidgetInfo,Home)</onback>
+                            <onback>SetFocus(5010)</onback>
+                            <onup>ClearProperty(PanelWidgetInfo,Home)</onup>
+                            <onup>SetFocus(5010)</onup>
+                            <ondown>ClearProperty(PanelWidgetInfo,Home)</ondown>
+                            <ondown>SetFocus(5010)</ondown>
+                        </control>
                     </control>
                     <control type="grouplist">
                         <posx>625</posx>
@@ -4762,16 +4787,25 @@
                             <font>Font_Condensed22_Caps</font>
                             <shadowcolor>black</shadowcolor>
                             <include>BreadcrumbsLabel</include>
-                            <label>$INFO[Control.GetLabel(5015)]</label>
-                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5015)">Conditional</animation>
+                            <label>$INFO[Control.GetLabel(5022)]</label>
+                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5022)">Conditional</animation>
                         </control>
                         <control type="label">
                             <textcolor>white2</textcolor>
                             <font>Font_Condensed22_Caps</font>
                             <shadowcolor>black</shadowcolor>
                             <include>BreadcrumbsLabel</include>
-                            <label>$INFO[Control.GetLabel(5017)]</label>
-                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5017)">Conditional</animation>
+                            <label>$INFO[Control.GetLabel(5023)]</label>
+                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5023)">Conditional</animation>
+                        </control>
+                        <control type="label">
+                            <textcolor>white2</textcolor>
+                            <font>Font_Condensed22_Caps</font>
+                            <shadowcolor>black</shadowcolor>
+                            <include>BreadcrumbsLabel</include>
+                            <label>$INFO[Control.GetLabel(5024)]</label>
+                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5024)">Conditional</animation>
+                            <visible>Control.IsVisible(5024)</visible>
                         </control>
                     </control>
                 </control>
@@ -4797,22 +4831,22 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                     </control>
                     <control type="label">
-                        <posx>610</posx>
+                        <posx>345</posx>
                         <posy>5</posy>
-                        <width>986</width>
+                        <width>1251</width>
                         <height>50</height>
                         <align>left</align>
                         <aligny>center</aligny>
                         <font>Font_Reg24</font>
                         <textcolor>white2</textcolor>
                         <shadowcolor>-</shadowcolor>
-                        <label>$INFO[Container(5010).ListItem.Label]</label>
+                        <label>$INFO[Container(5010).ListItem.Label][COLOR $VAR[HomeMenuWidgetTextVar]]$INFO[Container(5010).ListItem.Property(Year), [,]][/COLOR]</label>
                         <textoffsetx>15</textoffsetx>
                     </control>
                     <control type="label">
-                        <posx>610</posx>
+                        <posx>345</posx>
                         <posy>58</posy>
-                        <width>986</width>
+                        <width>1251</width>
                         <height>30</height>
                         <align>left</align>
                         <aligny>center</aligny>
@@ -4820,20 +4854,34 @@
                         <textcolor>grey2</textcolor>
                         <shadowcolor>-</shadowcolor>
                         <label>$INFO[Container(5010).ListItem.Label2]$INFO[Container(5010).ListItem.Property(EpisodeNumber), • [UPPERCASE],[/UPPERCASE]]</label>
-                        <label>$INFO[Container(5010).ListItem.Label2]$INFO[Container(5010).ListItem.Property(EpisodeNumber), • [UPPERCASE],[/UPPERCASE]]$INFO[Container(5010).ListItem.Property(Rating), • ]</label>
                         <textoffsetx>15</textoffsetx>
                     </control>
+                    <control type="label">
+                        <posx>345</posx>
+                        <posy>150</posy>
+                        <width>1251</width>
+                        <height>30</height>
+                        <align>left</align>
+                        <aligny>center</aligny>
+                        <font>Font_Condensed22</font>
+                        <textcolor>grey2</textcolor>
+                        <shadowcolor>-</shadowcolor>
+                        <label>$INFO[Container(5010).ListItem.Property(Album)]</label>
+                        <textoffsetx>15</textoffsetx>
+                        <visible>!Substring(Control.GetLabel(4321),watchlistmusic)</visible>
+                    </control>
                     <control type="textbox">
-                        <posx>625</posx>
+                        <posx>360</posx>
                         <posy>145</posy>
-                        <width>956</width>
+                        <width>1221</width>
                         <height>195</height>
                         <align>justify</align>
                         <aligny>top</aligny>
                         <font>Font_Condensed22</font>
                         <textcolor>ccffffff</textcolor>
-                        <label>$INFO[Container(5010).ListItem.Property(Plot)]</label>
+                        <label fallback="414">$INFO[Container(5010).ListItem.Property(Album_Description)]</label>
                         <autoscroll delay="5000" time="5000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+                        <visible>Substring(Control.GetLabel(4321),watchlistmusic)</visible>
                     </control>
                     <control type="grouplist" id="5030">
                         <description>Play + Return button</description>
@@ -4877,9 +4925,22 @@
                             <ondown>ClearProperty(PanelWidgetInfo,Home)</ondown>
                             <ondown>SetFocus(5010)</ondown>
                         </control>
+                        <control type="button" id="5034">
+                            <description>RANDOMIZE</description>
+                            <label>$LOCALIZE[31087]</label>
+                            <onclick>XBMC.RunScript(script.randomitems,limit=8&amp;unplayed=True)</onclick>
+                            <include>HiddenObject</include>
+                            <visible>Substring(Control.GetLabel(4321),random)</visible>
+                            <onback>ClearProperty(PanelWidgetInfo,Home)</onback>
+                            <onback>SetFocus(5010)</onback>
+                            <onup>ClearProperty(PanelWidgetInfo,Home)</onup>
+                            <onup>SetFocus(5010)</onup>
+                            <ondown>ClearProperty(PanelWidgetInfo,Home)</ondown>
+                            <ondown>SetFocus(5010)</ondown>
+                        </control>
                     </control>
                     <control type="grouplist">
-                        <posx>625</posx>
+                        <posx>360</posx>
                         <posy>98</posy>
                         <width>1373</width>
                         <align>left</align>
@@ -4890,27 +4951,171 @@
                             <font>Font_Condensed22_Caps</font>
                             <shadowcolor>black</shadowcolor>
                             <include>BreadcrumbsLabel</include>
-                            <label>$INFO[Control.GetLabel(5015)]</label>
-                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5015)">Conditional</animation>
+                            <label>$INFO[Control.GetLabel(5032)]</label>
+                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5032)">Conditional</animation>
                         </control>
                         <control type="label">
                             <textcolor>white2</textcolor>
                             <font>Font_Condensed22_Caps</font>
                             <shadowcolor>black</shadowcolor>
                             <include>BreadcrumbsLabel</include>
-                            <label>$INFO[Control.GetLabel(5017)]</label>
-                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5017)">Conditional</animation>
+                            <label>$INFO[Control.GetLabel(5033)]</label>
+                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5033)">Conditional</animation>
+                        </control>
+                        <control type="label">
+                            <textcolor>white2</textcolor>
+                            <font>Font_Condensed22_Caps</font>
+                            <shadowcolor>black</shadowcolor>
+                            <include>BreadcrumbsLabel</include>
+                            <label>$INFO[Control.GetLabel(5034)]</label>
+                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5034)">Conditional</animation>
+                            <visible>Control.IsVisible(5034)</visible>
                         </control>
                     </control>
                 </control>
-                
-                
-                
-                
-                
-                
-                
-                
+
+                <control type="group">
+                    <posx>27</posx>
+                    <posy>26</posy>
+                    <width>1596</width>
+                    <height>350</height>
+                    <visible>Substring(Control.GetLabel(4321),addons)</visible>
+                    <control type="image">
+                        <description>Main Icon</description>
+                        <posx>5</posx>
+                        <posy>5</posy>
+                        <width>340</width>
+                        <height>340</height>
+                        <texture background="true" fallback="DefaultAddon.png.png">$INFO[Container(5010).ListItem.Icon]</texture>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                    </control>
+                    <control type="label">
+                        <posx>345</posx>
+                        <posy>5</posy>
+                        <width>1251</width>
+                        <height>50</height>
+                        <align>left</align>
+                        <aligny>center</aligny>
+                        <font>Font_Reg24</font>
+                        <textcolor>white2</textcolor>
+                        <shadowcolor>-</shadowcolor>
+                        <label>$INFO[Container(5010).ListItem.Label][COLOR $VAR[HomeMenuWidgetTextVar]]$INFO[Container(5010).ListItem.Property(Year), [,]][/COLOR]</label>
+                        <textoffsetx>15</textoffsetx>
+                    </control>
+                    <control type="label">
+                        <posx>345</posx>
+                        <posy>58</posy>
+                        <width>1251</width>
+                        <height>30</height>
+                        <align>left</align>
+                        <aligny>center</aligny>
+                        <font>Font_Condensed22</font>
+                        <textcolor>grey2</textcolor>
+                        <shadowcolor>-</shadowcolor>
+                        <label>$INFO[Container(5010).ListItem.Label2]$INFO[Container(5010).ListItem.Property(EpisodeNumber), • [UPPERCASE],[/UPPERCASE]]</label>
+                        <textoffsetx>15</textoffsetx>
+                    </control>
+                    <control type="textbox">
+                        <posx>360</posx>
+                        <posy>145</posy>
+                        <width>1221</width>
+                        <height>195</height>
+                        <align>justify</align>
+                        <aligny>top</aligny>
+                        <font>Font_Condensed22</font>
+                        <textcolor>ccffffff</textcolor>
+                        <label fallback="414">$INFO[Container(5010).ListItem.Property(Summary)]</label>
+                        <autoscroll delay="5000" time="5000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+                    </control>
+                    <control type="grouplist" id="5040">
+                        <description>Play + Return button</description>
+                        <posx>-100</posx>
+                        <posy>-150</posy>
+                        <width>0</width>
+                        <height>0</height>
+                        <onleft>5040</onleft>
+                        <onright>5040</onright>
+                        <onback>ClearProperty(PanelWidgetInfo,Home)</onback>
+                        <onback>SetFocus(5010)</onback>
+                        <onup>ClearProperty(PanelWidgetInfo,Home)</onup>
+                        <onup>SetFocus(5010)</onup>
+                        <ondown>ClearProperty(PanelWidgetInfo,Home)</ondown>
+                        <ondown>SetFocus(5010)</ondown>
+                        <align>left</align>
+                        <orientation>horizontal</orientation>
+                        <itemgap>50</itemgap>
+                        <control type="button" id="5042">
+                            <description>Play</description>
+                            <label>$LOCALIZE[208]</label>
+                            <include>HiddenObject</include>
+                            <onclick>PlayMedia($ESCINFO[Container(5010).ListItem.Property(Path)])</onclick>
+                            <onback>ClearProperty(PanelWidgetInfo,Home)</onback>
+                            <onback>SetFocus(5010)</onback>
+                            <onup>ClearProperty(PanelWidgetInfo,Home)</onup>
+                            <onup>SetFocus(5010)</onup>
+                            <ondown>ClearProperty(PanelWidgetInfo,Home)</ondown>
+                            <ondown>SetFocus(5010)</ondown>
+                        </control>
+                        <control type="button" id="5043">
+                            <description>Return</description>
+                            <label>$LOCALIZE[31066]</label>
+                            <onclick>ClearProperty(PanelWidgetInfo,Home)</onclick>
+                            <onclick>SetFocus(5010)</onclick>
+                            <include>HiddenObject</include>
+                            <onback>ClearProperty(PanelWidgetInfo,Home)</onback>
+                            <onback>SetFocus(5010)</onback>
+                            <onup>ClearProperty(PanelWidgetInfo,Home)</onup>
+                            <onup>SetFocus(5010)</onup>
+                            <ondown>ClearProperty(PanelWidgetInfo,Home)</ondown>
+                            <ondown>SetFocus(5010)</ondown>
+                        </control>
+                        <control type="button" id="5044">
+                            <description>RANDOMIZE</description>
+                            <label>$LOCALIZE[31087]</label>
+                            <onclick>XBMC.RunScript(script.randomitems,limit=8&amp;unplayed=True)</onclick>
+                            <include>HiddenObject</include>
+                            <onback>ClearProperty(PanelWidgetInfo,Home)</onback>
+                            <onback>SetFocus(5010)</onback>
+                            <onup>ClearProperty(PanelWidgetInfo,Home)</onup>
+                            <onup>SetFocus(5010)</onup>
+                            <ondown>ClearProperty(PanelWidgetInfo,Home)</ondown>
+                            <ondown>SetFocus(5010)</ondown>
+                        </control>
+                    </control>
+                    <control type="grouplist">
+                        <posx>360</posx>
+                        <posy>98</posy>
+                        <width>1373</width>
+                        <align>left</align>
+                        <itemgap>40</itemgap>
+                        <orientation>horizontal</orientation>
+                        <control type="label">
+                            <textcolor>white2</textcolor>
+                            <font>Font_Condensed22_Caps</font>
+                            <shadowcolor>black</shadowcolor>
+                            <include>BreadcrumbsLabel</include>
+                            <label>$INFO[Control.GetLabel(5042)]</label>
+                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5042)">Conditional</animation>
+                        </control>
+                        <control type="label">
+                            <textcolor>white2</textcolor>
+                            <font>Font_Condensed22_Caps</font>
+                            <shadowcolor>black</shadowcolor>
+                            <include>BreadcrumbsLabel</include>
+                            <label>$INFO[Control.GetLabel(5043)]</label>
+                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5043)">Conditional</animation>
+                        </control>
+                        <control type="label">
+                            <textcolor>white2</textcolor>
+                            <font>Font_Condensed22_Caps</font>
+                            <shadowcolor>black</shadowcolor>
+                            <include>BreadcrumbsLabel</include>
+                            <label>$INFO[Control.GetLabel(5044)]</label>
+                            <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(5044)">Conditional</animation>
+                        </control>
+                    </control>
+                </control>
+
                 <control type="image">
                     <posx>21</posx>
                     <posy>21</posy>
