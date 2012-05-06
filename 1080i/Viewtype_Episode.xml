@@ -37,7 +37,7 @@
                 <onright>61</onright>
                 <preloaditems>2</preloaditems>
                 <pagecontrol>61</pagecontrol>
-                <visible>Container.Content(episodes) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons)</visible>
+                <visible>Container.Content(episodes) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Window.IsActive(musiclibrary)</visible>
                 <animation effect="slide" start="0,0" end="40,0" time="0" condition="Container.Content(movies)">Conditional</animation>
                 <animation effect="slide" start="0,0" end="0,65" time="0" condition="Skin.HasSetting(ClassicTopBar) | Skin.HasSetting(altbreadcrumbstexture)">Conditional</animation>
                 <animation effect="slide" end="0,15" time="200" condition="Container(514).Row(0)">Conditional</animation>
@@ -49,7 +49,7 @@
                 <animation effect="slide" end="0,-29" time="200" condition="Container(514).Row(6)">Conditional</animation>
                 <animation effect="slide" end="0,-36" time="200" condition="Container(514).Row(7)">Conditional</animation>
                 <animation effect="slide" end="0,-43" time="200" condition="Container(514).Row(8)">Conditional</animation>
-                <itemlayout width="950" height="90" condition="![[Skin.HasSetting(episodebanner) | Skin.HasSetting(episodelogo)]+ Container.Content(tvshows)]">
+                <itemlayout width="950" height="90" condition="Window.IsActive(videos) + ![[Skin.HasSetting(episodebanner) | Skin.HasSetting(episodelogo)]+ Container.Content(tvshows)]">
                     <control type="label">
                         <posx>1265</posx>
                         <posy>0</posy>
@@ -320,6 +320,114 @@
                         </control>
                     </control>
                 </focusedlayout>
+                
+                
+                <itemlayout width="950" height="90" condition="Window.IsActive(musiclibrary)">
+                    <control type="label">
+                        <posx>1265</posx>
+                        <posy>0</posy>
+                        <width>126</width>
+                        <height>90</height>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <label>$INFO[ListItem.Episode]</label>
+                        <font>Font_Condensed28_Caps</font>
+                        <include>listcolornofocus</include>
+                    </control>
+                    <control type="label">
+                        <posx>1230</posx>
+                        <posy>0</posy>
+                        <width>690</width>
+                        <height>45</height>
+                        <align>right</align>
+                        <textcolor>$VAR[TitleColorVar]</textcolor>
+                        <label>$VAR[EpisodeTitleVar]</label>
+                        <font>Font_Condensed28_Caps</font>
+                        <include>listcolornofocus</include>
+                    </control>
+                    <control type="label">
+                        <posx>1230</posx>
+                        <posy>50</posy>
+                        <width>950</width>
+                        <height>45</height>
+                        <align>right</align>
+                        <label>$VAR[EpisodeSubTitleVar]</label>
+                        <font>Font_Condensed20</font>
+                        <textcolor>ffaaaaaa</textcolor>
+                    </control>
+                    <control type="image">
+                        <posx>1287</posx>
+                        <posy>26</posy>
+                        <width>42</width>
+                        <height>42</height>
+                        <info>ListItem.Overlay,thumbs/Alt</info>
+                    </control>
+                </itemlayout>
+         
+
+               <focusedlayout width="950" height="346" condition="Window.IsActive(musiclibrary)">
+                    <control type="image">
+                        <posx>951</posx>
+                        <posy>11</posy>
+                        <width>300</width>
+                        <height>300</height>
+                        <texture background="true" diffuse="thumbs/multiplex_tvmask.png">$INFO[ListItem.Icon]</texture>
+                        <bordertexture border="9">thumbs/multiplex_tvborder.png</bordertexture>
+                        <bordersize>9</bordersize>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                    </control>
+                    <control type="image">
+                        <posx>1287</posx>
+                        <posy>106</posy>
+                        <width>42</width>
+                        <height>42</height>
+                        <info>ListItem.Overlay,thumbs/Alt</info>
+                    </control>
+                    <control type="group">
+                        <animation type="Conditional" reversible="false" condition="Control.HasFocus(514) + [!Container(514).OnNext + !Container(514).OnPrevious]">
+                            <effect type="fade" start="0" end="100" time="200" />
+                        </animation>
+                        <posx>100</posx>
+                        <control type="label">
+                            <posx>838</posx>
+                            <posy>22</posy>
+                            <align>right</align>
+                            <width>825</width>
+                            <scrollout>false</scrollout>
+                            <pauseatend>1800</pauseatend>
+                            <scrollspeed>40</scrollspeed>
+                            <label>$INFO[ListItem.Label]</label>
+                            <textcolor>$VAR[TitleColorVar]</textcolor>
+                            <font>Font_Condensed28_Caps</font>
+                            <include>listcolornofocus</include>
+                        </control>
+                        <control type="label">
+                            <posx>838</posx>
+                            <posy>70</posy>
+                            <width>950</width>
+                            <height>90</height>
+                            <align>right</align>
+                            <label>$VAR[InfoWallBottomLabel1Var]dd$INFO[ListItem.Rating, • ]</label>
+                            <font>Font_Condensed20</font>
+                            <textcolor>ffaaaaaa</textcolor>
+                            <visible>!IsEmpty(ListItem.Title)</visible>
+                        </control>
+                        <control type="textbox">
+                            <posx>99</posx>
+                            <posy>107</posy>
+                            <width>740</width>
+                            <height>122</height>
+                            <align>right</align>
+                            <label>$VAR[InfoWallTextboxVar]</label>
+                            <font>Font_Condensed22</font>
+                            <include>listcolornofocus</include>
+                            <autoscroll time="3600" delay="6000" repeat="6000">Skin.HasSetting(AutoScroll)</autoscroll>
+                        </control>
+                    </control>
+                </focusedlayout>
+
+
+         
             </control>
             <control type="scrollbar" id="61">
                 <posx>1911</posx>
