@@ -264,6 +264,7 @@
             </control>
         </control>
     </include>
+
     <include name="PVRPanel">
         <control type="group">
             <posx>-132</posx>
@@ -690,6 +691,18 @@
                     <control type="group">
                         <visible>VideoPlayer.Content(movies) | VideoPlayer.Content(musicvideos)</visible>
                         <include>Animation_CommonFade</include>
+                     <control type="image">
+                        <description>Cd overlay</description>
+                        <animation effect="rotate" end="-360" center="auto" time="6000" loop="true" reversible="false" condition="!Player.Paused">Conditional</animation>
+                        <width>300</width>
+                        <height>300</height>
+                        <posx>108</posx>
+                        <fadetime>300</fadetime>
+                        <posy>693</posy>
+                        <aligny>top</aligny>
+                        <texture background="true" fallback="common/cdart/bd.png">$INFO[Player.FolderPath]cdart.png</texture>
+                        <aspectratio align="bottom">keep</aspectratio>
+                    </control>
                         <control type="image">
                             <description>Main Icon</description>
                             <posx>30</posx>
@@ -713,7 +726,7 @@
                         </control>
                     </control>
                     <control type="group">
-                        <visible>![VideoPlayer.Content(movies)|VideoPlayer.Content(musicvideos)]</visible>
+                        <visible>![VideoPlayer.Content(movies) | VideoPlayer.Content(musicvideos)]</visible>
                         <include>Animation_CommonFade</include>
                         <control type="image">
                             <texture background="true" diffuse="thumbs/multiplex_tvmask.png">$INFO[VideoPlayer.Cover]</texture>
@@ -739,9 +752,10 @@
                     </control>
                 </control>
                 <control type="group">
-                    <posx>-330</posx>
+                    <posx>-370</posx>
                     <posy>0</posy>
-                    <animation effect="slide" time="400" tween="cubic" easing="inout" start="0" end="219" condition="![VideoPlayer.Content(movies) | VideoPlayer.Content(musicvideos) | Skin.HasSetting(ShowBackgroundVideo)]">Conditional</animation>
+                    <animation effect="slide" end="0,50" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
+                    <animation effect="slide" time="400" tween="cubic" easing="inout" start="0" end="259" condition="![VideoPlayer.Content(movies) | VideoPlayer.Content(musicvideos) | Skin.HasSetting(ShowBackgroundVideo)]">Conditional</animation>
                     <animation effect="slide" time="400" tween="cubic" easing="inout" start="0" end="330" condition="Skin.HasSetting(ShowBackgroundVideo)">Conditional</animation>
                     <control type="image">
                         <posx>660</posx>
@@ -957,10 +971,8 @@
             <align>left</align>
             <itemgap>-4</itemgap>
             <orientation>vertical</orientation>
-            <animation effect="slide" start="0,-900" end="0,0" time="800" tween="sine" easing="out" delay="1700">WindowOpen</animation>
-            <animation effect="slide" start="0,0" end="0,-900" time="300" tween="cubic" easing="out">WindowClose</animation>
             <animation effect="zoom" start="100" end="105" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
-            <animation effect="slide" start="0" end="-10" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
+            <animation effect="slide" start="0" end="-20" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
             <animation effect="fade" time="400">VisibleChange</animation>
             <visible>!IsEmpty(MusicPlayer.offset(1).Title) + [Skin.HasSetting(itemsplaylist) | Skin.HasSetting(nowplayingpanel)]</visible>
             <control type="label">
@@ -1101,7 +1113,7 @@
                 <posx>0</posx>
                 <posy>0</posy>
                 <width>425</width>
-                <height>400</height>
+                <height>398</height>
                 <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
                 <texture>thumbs/boxes/cd_shadow_light_shadow.png</texture>
                 <visible>Skin.HasSetting(Glowbar_Home)</visible>
@@ -1303,7 +1315,7 @@
                     <animation effect="slide" time="400" tween="cubic" easing="inout" end="98" condition="!Skin.HasSetting(disablecdart)">Conditional</animation>
                 </control>
                 <control type="image" id="8308">
-                    <posx>535</posx>
+                    <posx>530</posx>
                     <posy>649</posy>
                     <width>309</width>
                     <height>108</height>
@@ -1333,10 +1345,12 @@
                     <animation effect="slide" time="400" tween="cubic" easing="inout" end="98" condition="!Skin.HasSetting(disablecdart)">Conditional</animation>
                 </control>
                 <control type="label">
-                    <width>735</width>
-                    <include>Furniture_HomeNowPlayingMetrics</include>
+                    <posx>444</posx>
+                    <width>650</width>
+                    <height>80</height>
                     <posy>975</posy>
                     <textcolor>abFFFFFF</textcolor>
+                    <wrapmultiline>true</wrapmultiline>
                     <label>[UPPERCASE]$INFO[MusicPlayer.Title][/UPPERCASE]</label>
                     <font>Font_Reg22_Caps</font>
                     <animation effect="slide" time="400" tween="cubic" easing="inout" end="82" condition="!Skin.HasSetting(disablecdart)">Conditional</animation>
@@ -1348,7 +1362,6 @@
         <posx>444</posx>
         <width>615</width>
         <height>38</height>
-        <aligny>left</aligny>
     </include>
     <include name="Furniture_HomeNowPlaying">
         <control type="group" id="8995">
@@ -1358,14 +1371,12 @@
             <width>1920</width>
             <animation type="Conditional" condition="Skin.HasSetting(rotationtimer) + Skin.HasSetting(rotatenowplayingpanel) + Skin.HasSetting(nowplayingpanel)" reversible="false">
                 <effect type="rotatey" center="960" start="0" end="-90" time="550" tween="cubic" easing="in" />
-                <!--<effect type="slide" start="0,0" end="0,-45" time="550" />-->
                 <effect type="rotatey" center="960" start="-90" end="90" time="0" delay="550" />
                 <effect type="fade" start="100" end="0" time="0" delay="550" />
                 <effect type="rotatey" center="960" start="90" end="0" time="550" delay="550" tween="cubic" easing="out" />
             </animation>
             <animation type="Conditional" condition="!Skin.HasSetting(rotationtimer) + Skin.HasSetting(rotatenowplayingpanel) + Skin.HasSetting(nowplayingpanel)" reversible="false">
                 <effect type="rotatey" center="960" start="0" end="90" time="550" tween="cubic" easing="in" />
-                <!--<effect type="slide" start="0,-45" end="0,0" delay="550" time="550" />-->
                 <effect type="rotatey" center="960" start="90" end="-90" time="0" delay="550" />
                 <effect type="fade" start="0" end="100" time="0" delay="550" />
                 <effect type="rotatey" center="960" start="-90" end="0" time="550" delay="550" tween="cubic" easing="out" />
@@ -1405,17 +1416,9 @@
                 </control>
             </control>
             <control type="group">
-                <animation type="WindowOpen" reversible="false">
-                    <effect type="slide" start="-1200,0" end="0,0" delay="500" time="500" easing="out" tween="quadratic" />
-                    <effect type="fade" start="0" end="100" delay="500" time="200" />
-                </animation>
-                <animation type="WindowOpen" reversible="false">
-                    <effect type="slide" start="0,-1200" end="0,0" delay="500" time="200" easing="out" tween="quadratic" />
-                    <effect type="fade" start="0" end="100" delay="500" time="200" />
-                </animation>
                 <control type="group">
-                    <animation effect="zoom" start="100" end="75" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
-                    <animation effect="slide" end="280,250" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
+                    <animation effect="zoom" start="100" end="80" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
+                    <animation effect="slide" end="230,190" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
                     <animation effect="zoom" start="100" end="90" time="400" easing="inout" tween="circle" condition="Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(nowplayingpanel)">Conditional</animation>
                     <animation effect="slide" end="0,70" time="400" easing="inout" tween="circle" condition="Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(nowplayingpanel)">Conditional</animation>
                     <include>Furniture_HomeNowPlayingAudio</include>
@@ -1434,11 +1437,56 @@
                         <include>HomeArtistSlideShow</include>
                     </control>
                 </control>
+                <control type="group">
+                    <visible>Player.HasVideo</visible>
+                    <include>Animation_VisibleChange400</include>
+                    <animation effect="zoom" start="100" end="75" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
+                    <animation effect="slide" end="370,245" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
+                    <animation effect="zoom" start="100" end="90" time="400" easing="inout" tween="circle" condition="Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(nowplayingpanel)">Conditional</animation>
+                    <animation effect="slide" end="200,70" time="400" easing="inout" tween="circle" condition="Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(nowplayingpanel)">Conditional</animation>
+                <control type="textbox">
+                    <description>Cast</description>
+                    <posx>400</posx>
+                    <posy>680</posy>
+                    <width>750</width>
+                    <height>260</height>
+                    <align>left</align>
+                    <font>Font_Reg19</font>
+                    <label fallback="312577">$INFO[VideoPlayer.CastAndRole]</label>
+                    <textcolor>FFececec</textcolor>
+                    <autoscroll>false</autoscroll>
+                </control>
+                <control type="textbox">
+                    <description>Cast</description>
+                    <posx>1000</posx>
+                    <posy>680</posy>
+                    <width>850</width>
+                    <height>408</height>
+                    <align>left</align>
+                    <font>Font_Reg19</font>
+                    <label fallback="312577">$INFO[VideoPlayer.Plot]</label>
+                    <textcolor>FFececec</textcolor>
+                    <autoscroll delay="5000" time="2000" repeat="10000">Skin.HasSetting(AutoScroll)</autoscroll>             
+                </control>
+                </control>
+            </control>
+            <control type="group">
+                <visible>Skin.HasSetting(nowplayingpanel)</visible>
+                <animation effect="zoom" start="100" end="95" time="800" easing="inout" tween="circle" center="960,500" condition="true">Conditional</animation>
+                <animation effect="fade" time="400">VisibleChange</animation>
+                <control type="image">
+                    <posx>141</posx>
+                    <posy>681</posy>
+                    <width>1608</width>
+                    <height>360</height>
+                    <texture border="50">featured/panel_featured_overlay.png</texture>
+                    <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                </control>
             </control>
         </control>
         <control type="group">
             <posx>22</posx>
-            <posy>-650</posy>
+            <posy>-680</posy>
             <visible>Skin.HasSetting(rotationtimer) + Skin.HasSetting(rotatenowplayingpanel) + Skin.HasSetting(nowplayingpanel)</visible>
             <visible>[!Skin.HasSetting(nohomepageMusicinfo) + Player.HasAudio] | [!Skin.HasSetting(homepageVideoinfo) + Player.HasVideo]</visible>
             <animation effect="fade" time="500">WindowOpen</animation>
@@ -1449,16 +1497,13 @@
                 <effect type="rotatey" center="960" start="-90" end="90" time="0" delay="550" />
                 <effect type="fade" start="0" end="100" time="0" delay="550" />
                 <effect type="rotatey" center="960" start="90" end="0" time="550" delay="550" tween="cubic" easing="out" />
-                <!--<effect type="slide" start="0,-45" end="0,0" delay="550" time="550" />-->
             </animation>
             <animation type="Hidden" reversible="false">
                 <effect type="rotatey" center="960" start="0" end="90" time="550" tween="cubic" easing="in" />
                 <effect type="rotatey" center="960" start="90" end="-90" time="0" delay="550" />
                 <effect type="fade" start="100" end="0" time="0" delay="550" />
                 <effect type="rotatey" center="960" start="-90" end="0" time="550" delay="550" tween="cubic" easing="out" />
-                <!--<effect type="slide" start="0,0" end="0,-45" time="550" />-->
             </animation>
-            <control type="group">
                 <control type="image">
                     <posx>120</posx>
                     <posy>660</posy>
@@ -1496,14 +1541,13 @@
                     <autoscroll delay="5000" time="5000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
                 </control>
                 <control type="image">
-                    <posx>21</posx>
-                    <posy>21</posy>
+                    <posx>141</posx>
+                    <posy>681</posy>
                     <width>1608</width>
                     <height>360</height>
                     <texture border="50">featured/panel_featured_overlay.png</texture>
                     <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
                 </control>
-            </control>
         </control>
     </include>
     <include name="Weather_Widget_Standard">
