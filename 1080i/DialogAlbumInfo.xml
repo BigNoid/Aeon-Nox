@@ -52,16 +52,25 @@
         <control type="group">
             <posx>0</posx>
             <posy>854</posy>
+            <control type="image">
+                <posy>-266</posy>
+                <posx>12</posx>
+                <width>475</width>
+                <height>438</height>
+                <texture>thumbs/boxes/cd_shadow_light_shadow.png</texture>
+                <visible>Container.Content(artists)</visible>
+                                                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                                <visible>Skin.HasSetting(Glowbar_Home)</visible>
+                                <animation effect="fade" start="100" end="80" time="2500" pulse="true" condition="true">conditional</animation>
+                                <include>Animation_VisibleChange400</include>
+            </control>
             <control type="image" id="3">
                 <posy>-248</posy>
                 <posx>30</posx>
                 <width>435</width>
                 <height>398</height>
-                <imagepath background="true" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[ListItem.Icon]</imagepath>
+                <texture background="true" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[ListItem.Icon]</texture>
                 <aspectratio scalediffuse="false">scale</aspectratio>
-                <timeperimage>5000</timeperimage>
-                <fadetime>750</fadetime>
-                <randomize>true</randomize>
                 <visible>Container.Content(artists)</visible>
                 <animation type="VisibleChange" reversible="true">
                     <effect type="rotatey" center="248" start="-180" end="0" time="1500" />
@@ -151,19 +160,6 @@
                     <visible>Container.Content(albums)</visible>
                     <control type="label">
                         <posx>500</posx>
-                        <posy>-270</posy>
-                        <width>1405</width>
-                        <height>38</height>
-                        <align>left</align>
-                        <aligny>-</aligny>
-                        <scroll>true</scroll>
-                        <font>Font_Condensed60</font>
-                        <label>$INFO[ListItem.Album][COLOR FF777777]$INFO[ListItem.Year, [,] ][/COLOR]</label>
-                        <textcolor>white2</textcolor>
-                        <shadowcolor>black</shadowcolor>
-                    </control>
-                    <control type="label">
-                        <posx>500</posx>
                         <posy>-210</posy>
                         <width>1405</width>
                         <height>38</height>
@@ -171,6 +167,32 @@
                         <aligny>-</aligny>
                         <scroll>true</scroll>
                         <font>Font_Condensed60</font>
+                        <label>[COLOR white2]$INFO[ListItem.Album][/COLOR]$INFO[ListItem.Year, [,] ]</label>
+                        <textcolor>$VAR[SubTitleColorVar]</textcolor>
+                        <shadowcolor>black</shadowcolor>
+                    </control>
+                    <control type="image" id="8308">
+                        <posx>500</posx>
+                        <posy>-400</posy>
+                        <width>500</width>
+                        <height>193</height>
+                        <aspectratio>stretch</aspectratio>
+                        <fadetime>400</fadetime>
+                        <animation effect="fade" start="100" end="0" time="0" condition="Substring(Control.GetLabel(8308),empty.png)">Conditional</animation>
+                        <texture background="true" fallback="empty.png">$INFO[Skin.String(ArtistsLogosPath)]$INFO[ListItem.Artist,,/logo.png]</texture>
+                        <visible>!IsEmpty(Skin.String(ArtistsLogosPath))</visible>
+                        <animation effect="slide" time="400" tween="cubic" easing="inout" end="-35" condition="!Skin.HasSetting(CDArtinVis) | Skin.HasSetting(ThumbOrSlide)">Conditional</animation>
+                    </control>
+                    <control type="label">
+                        <posx>500</posx>
+                        <posy>-270</posy>
+                        <width>1405</width>
+                        <height>38</height>
+                        <align>left</align>
+                        <aligny>-</aligny>
+                        <scroll>true</scroll>
+                        <font>Font_Condensed60</font>
+                         <visible>Substring(Control.GetLabel(8308),empty.png) | IsEmpty(Skin.String(ArtistsLogosPath))</visible>
                         <label>$INFO[ListItem.Artist]</label>
                         <textcolor>91FFFFFF</textcolor>
                         <shadowcolor>black</shadowcolor>
@@ -186,10 +208,23 @@
                         <align>left</align>
                         <aligny>-</aligny>
                         <scroll>true</scroll>
+                         <visible>Substring(Control.GetLabel(8309),empty.png) | IsEmpty(Skin.String(ArtistsLogosPath))</visible>
                         <font>Font_Condensed60</font>
                         <label>$INFO[ListItem.Artist]</label>
                         <textcolor>white2</textcolor>
                         <shadowcolor>black</shadowcolor>
+                    </control>
+                    <control type="image" id="8309">
+                        <posx>500</posx>
+                        <posy>-400</posy>
+                        <width>500</width>
+                        <height>193</height>
+                        <aspectratio>stretch</aspectratio>
+                        <fadetime>400</fadetime>
+                        <animation effect="fade" start="100" end="0" time="0" condition="Substring(Control.GetLabel(8308),empty.png)">Conditional</animation>
+                        <texture background="true" fallback="empty.png">$INFO[Skin.String(ArtistsLogosPath)]$INFO[ListItem.Artist,,/logo.png]</texture>
+                        <visible>!IsEmpty(Skin.String(ArtistsLogosPath))</visible>
+                        <animation effect="slide" time="400" tween="cubic" easing="inout" end="-35" condition="!Skin.HasSetting(CDArtinVis) | Skin.HasSetting(ThumbOrSlide)">Conditional</animation>
                     </control>
                     <control type="label">
                         <posx>500</posx>
@@ -249,7 +284,7 @@
                     </control>
                     <control type="grouplist">
                         <posx>500</posx>
-                        <posy>-32</posy>
+                        <posy>-40</posy>
                         <width>778</width>
                         <orientation>horizontal</orientation>
                         <control type="label">
@@ -275,7 +310,7 @@
                     </control>
                     <control type="grouplist">
                         <posx>500</posx>
-                        <posy>16</posy>
+                        <posy>0</posy>
                         <width>778</width>
                         <orientation>horizontal</orientation>
                         <control type="label">
@@ -301,7 +336,7 @@
                     </control>
                     <control type="grouplist">
                         <posx>500</posx>
-                        <posy>64</posy>
+                        <posy>40</posy>
                         <width>778</width>
                         <orientation>horizontal</orientation>
                         <control type="label">
@@ -327,7 +362,7 @@
                     </control>
                     <control type="grouplist">
                         <posx>500</posx>
-                        <posy>112</posy>
+                        <posy>80</posy>
                         <width>778</width>
                         <orientation>horizontal</orientation>
                         <control type="label">
@@ -382,7 +417,7 @@
                     </control>
                     <control type="grouplist">
                         <posx>500</posx>
-                        <posy>-32</posy>
+                        <posy>-40</posy>
                         <width>778</width>
                         <orientation>horizontal</orientation>
                         <control type="label">
@@ -408,7 +443,7 @@
                     </control>
                     <control type="grouplist">
                         <posx>500</posx>
-                        <posy>16</posy>
+                        <posy>0</posy>
                         <width>778</width>
                         <orientation>horizontal</orientation>
                         <control type="label">
@@ -434,7 +469,7 @@
                     </control>
                     <control type="grouplist">
                         <posx>500</posx>
-                        <posy>64</posy>
+                        <posy>40</posy>
                         <width>778</width>
                         <orientation>horizontal</orientation>
                         <control type="label">
@@ -460,7 +495,7 @@
                     </control>
                     <control type="grouplist">
                         <posx>500</posx>
-                        <posy>112</posy>
+                        <posy>80</posy>
                         <width>778</width>
                         <orientation>horizontal</orientation>
                         <visible>!IsEmpty(ListItem.Property(Artist_Died))</visible>
@@ -487,7 +522,7 @@
                     </control>
                     <control type="grouplist">
                         <posx>500</posx>
-                        <posy>112</posy>
+                        <posy>80</posy>
                         <width>778</width>
                         <orientation>horizontal</orientation>
                         <visible>!IsEmpty(ListItem.Property(Artist_Disbanded))</visible>
@@ -519,7 +554,7 @@
         <control type="grouplist">
             <posx>500</posx>
             <posy>727</posy>
-            <width>1290</width>
+            <width>850</width>
             <align>left</align>
             <itemgap>20</itemgap>
             <orientation>horizontal</orientation>
@@ -670,9 +705,9 @@
         <!-- Tracks / Discography -->
         <control type="list" id="50">
             <posx>500r</posx>
-            <posy>720</posy>
+            <posy>650</posy>
             <width>500</width>
-            <height>300</height>
+            <height>400</height>
             <onleft>5000</onleft>
             <onright>61</onright>
             <onup>50</onup>
@@ -682,33 +717,33 @@
             <scrolltime>200</scrolltime>
             <aligny>bottom</aligny>
             <orientation>vertical</orientation>
-            <itemlayout condition="Container.Content(Albums)" height="60" width="500">
+            <itemlayout condition="Container.Content(Albums)" height="50" width="500">
                 <control type="image">
                     <posx>0</posx>
                     <posy>0</posy>
                     <width>500</width>
-                    <height>60</height>
+                    <height>50</height>
                     <texture>osd/osd_settings_buttonnf.png</texture>
                 </control>
                 <control type="label">
                     <posx>10</posx>
                     <posy>0</posy>
                     <width>500</width>
-                    <height>60</height>
+                    <height>50</height>
                     <font>Font_Condensed22</font>
                     <align>left</align>
                     <aligny>center</aligny>
                     <textoffsetx>15</textoffsetx>
-                    <textcolor>grey2</textcolor>
+                    <textcolor>$VAR[TitleColorVar]</textcolor>
                     <selectedcolor>selected</selectedcolor>
                     <shadowcolor>black</shadowcolor>
-                    <label>$INFO[ListItem.TrackNumber]: $INFO[ListItem.Label]</label>
+                    <label>$INFO[ListItem.TrackNumber]: [COLOR grey2]$INFO[ListItem.Label][/COLOR]</label>
                 </control>
                 <control type="label">
                     <posx>500</posx>
                     <posy>0</posy>
                     <width>500</width>
-                    <height>60</height>
+                    <height>50</height>
                     <font>Font_Condensed22</font>
                     <align>right</align>
                     <aligny>center</aligny>
@@ -719,35 +754,35 @@
                     <label>$INFO[ListItem.Duration]</label>
                 </control>
             </itemlayout>
-            <focusedlayout condition="Container.Content(Albums)" height="60" width="500">
+            <focusedlayout condition="Container.Content(Albums)" height="50" width="500">
                 <control type="group">
                     <visible>!Control.HasFocus(50)</visible>
                     <control type="image">
                         <posx>0</posx>
                         <posy>0</posy>
                         <width>500</width>
-                        <height>60</height>
+                        <height>50</height>
                         <texture>osd/osd_settings_buttonnf.png</texture>
                     </control>
                     <control type="label">
                         <posx>10</posx>
                         <posy>0</posy>
                         <width>500</width>
-                        <height>60</height>
+                        <height>50</height>
                         <font>Font_Condensed22</font>
                         <align>left</align>
                         <aligny>center</aligny>
                         <textoffsetx>15</textoffsetx>
-                        <textcolor>grey2</textcolor>
+                        <textcolor>$VAR[TitleColorVar]</textcolor>
                         <selectedcolor>selected</selectedcolor>
                         <shadowcolor>black</shadowcolor>
-                        <label>$INFO[ListItem.TrackNumber]: $INFO[ListItem.Label]</label>
+                        <label>$INFO[ListItem.TrackNumber]: [COLOR grey2]$INFO[ListItem.Label][/COLOR]</label>
                     </control>
                     <control type="label">
                         <posx>500</posx>
                         <posy>0</posy>
                         <width>500</width>
-                        <height>60</height>
+                        <height>50</height>
                         <font>Font_Condensed22</font>
                         <align>right</align>
                         <aligny>center</aligny>
@@ -764,29 +799,29 @@
                         <posx>0</posx>
                         <posy>0</posy>
                         <width>500</width>
-                        <height>60</height>
+                        <height>50</height>
                         <texture>views/tripanel/listselect_fo.png</texture>
-                        <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+                        <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
                     </control>
                     <control type="label">
                         <posx>10</posx>
                         <posy>0</posy>
                         <width>500</width>
-                        <height>60</height>
+                        <height>50</height>
                         <font>Font_Condensed22</font>
                         <align>left</align>
                         <aligny>center</aligny>
                         <textoffsetx>15</textoffsetx>
-                        <textcolor>white2</textcolor>
+                        <textcolor>$VAR[TitleColorVar]</textcolor>
                         <selectedcolor>selected</selectedcolor>
                         <shadowcolor>black</shadowcolor>
-                        <label>$INFO[ListItem.TrackNumber]: $INFO[ListItem.Label]</label>
+                        <label>$INFO[ListItem.TrackNumber]: [COLOR white2]$INFO[ListItem.Label][/COLOR]</label>
                     </control>
                     <control type="label">
                         <posx>500</posx>
                         <posy>0</posy>
                         <width>500</width>
-                        <height>60</height>
+                        <height>50</height>
                         <font>Font_Condensed22</font>
                         <align>right</align>
                         <aligny>center</aligny>
@@ -798,19 +833,19 @@
                     </control>
                 </control>
             </focusedlayout>
-            <itemlayout condition="Container.Content(Artists)" height="60" width="500">
+            <itemlayout condition="Container.Content(Artists)" height="50" width="500">
                 <control type="image">
                     <posx>0</posx>
                     <posy>0</posy>
                     <width>500</width>
-                    <height>60</height>
+                    <height>50</height>
                     <texture>osd/osd_settings_buttonnf.png</texture>
                 </control>
                 <control type="label">
                     <posx>10</posx>
                     <posy>0</posy>
                     <width>500</width>
-                    <height>60</height>
+                    <height>50</height>
                     <font>Font_Condensed22</font>
                     <align>left</align>
                     <aligny>center</aligny>
@@ -821,21 +856,21 @@
                     <label>$INFO[ListItem.Label]</label>
                 </control>
             </itemlayout>
-            <focusedlayout condition="Container.Content(Artists)" height="60" width="500">
+            <focusedlayout condition="Container.Content(Artists)" height="50" width="500">
                 <control type="group">
                     <visible>!Control.HasFocus(50)</visible>
                     <control type="image">
                         <posx>0</posx>
                         <posy>0</posy>
                         <width>500</width>
-                        <height>60</height>
+                        <height>50</height>
                         <texture>osd/osd_settings_buttonnf.png</texture>
                     </control>
                     <control type="label">
                         <posx>10</posx>
                         <posy>0</posy>
                         <width>500</width>
-                        <height>60</height>
+                        <height>50</height>
                         <font>Font_Condensed22</font>
                         <align>left</align>
                         <aligny>center</aligny>
@@ -852,15 +887,15 @@
                         <posx>0</posx>
                         <posy>0</posy>
                         <width>500</width>
-                        <height>60</height>
+                        <height>50</height>
                         <texture>views/tripanel/listselect_fo.png</texture>
-                        <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+                        <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
                     </control>
                     <control type="label">
                         <posx>10</posx>
                         <posy>0</posy>
                         <width>500</width>
-                        <height>60</height>
+                        <height>50</height>
                         <font>Font_Condensed22</font>
                         <align>left</align>
                         <aligny>center</aligny>
