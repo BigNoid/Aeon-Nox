@@ -265,6 +265,18 @@
         <radioheight>98</radioheight>
         <radioposx>508</radioposx>
     </include>
+    <include name="ShutdownNoGlow">
+        <texturenofocus>dialogs/shutdown_nofocus.png</texturenofocus>
+        <texturefocus>dialogs/shutdown_focus.png</texturefocus>
+        <alttexturefocus>dialogs/shutdown_focus.png</alttexturefocus>
+        <alttexturenofocus>dialogs/shutdown_nofocus.png</alttexturenofocus>
+    </include>
+    <include name="ShutdownGlow">
+        <texturenofocus>dialogs/shutdown_nofocus_glow.png</texturenofocus>
+        <texturefocus>dialogs/shutdown_focus_glow.png</texturefocus>
+        <alttexturefocus>dialogs/shutdown_focus_glow.png</alttexturefocus>
+        <alttexturenofocus>dialogs/shutdown_nofocus_glow.png</alttexturenofocus>
+    </include>
     <include name="Objects_ContextMenuButton">
         <description>button template</description>
         <posx>0</posx>
@@ -275,15 +287,13 @@
         <focusedcolor>FFdfdfdf</focusedcolor>
         <disabledcolor>$VAR[SelectedColorVar]</disabledcolor>
         <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-        <texturenofocus>dialogs/shutdown_nofocus.png</texturenofocus>
-        <texturefocus>dialogs/shutdown_focus.png</texturefocus>
-        <alttexturefocus>dialogs/shutdown_focus.png</alttexturefocus>
-        <alttexturenofocus>dialogs/shutdown_nofocus.png</alttexturenofocus>
         <align>center</align>
         <aligny>top</aligny>
         <font>Font_Reg19_Caps</font>
         <textoffsety>8</textoffsety>
         <textoffsetx>30</textoffsetx>
+        <include condition="[Skin.HasSetting(Glowbar_Home) + [Window.IsActive(home) | Window.IsActive(startup)]] | [!Skin.HasSetting(DisableGlowbar) + ![Window.IsActive(home) | Window.IsActive(startup)]]">ShutdownGlow</include>
+        <include condition="![[Skin.HasSetting(Glowbar_Home) + [Window.IsActive(home) | Window.IsActive(startup)]] | [!Skin.HasSetting(DisableGlowbar) + ![Window.IsActive(home) | Window.IsActive(startup)]]]">ShutdownNoGlow</include>
     </include>
     <include name="HiddenObject">
         <posx>-300</posx>
@@ -1003,5 +1013,15 @@
         <textoffsety>4</textoffsety>
         <aligny>top</aligny>
         <font>Font_Reg19</font>
+    </include>
+
+    <include name="DialogBackFade">
+        <control type="image">
+            <include>FullscreenDimensions</include>
+            <colordiffuse>AAFFFFFF</colordiffuse>
+            <texture>common/black.png</texture>
+            <animation effect="fade" start="0" end="100" time="700">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" time="300">WindowClose</animation>
+        </control>
     </include>
 </includes>
