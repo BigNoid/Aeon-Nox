@@ -82,7 +82,7 @@
                         <preloaditems>2</preloaditems>
                         <pagecontrol>-</pagecontrol>
                         <scrolltime tween="quadratic" easing="out">400</scrolltime>
-                        <itemlayout width="228" height="340" condition="Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)">
+                        <itemlayout width="228" height="340" condition="Substring(Control.GetLabel(4321),panel,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)]">
                             <control type="image">
                                 <description>Main Icon</description>
                                 <posx>5</posx>
@@ -103,7 +103,7 @@
                                 <visible>Control.HasFocus(5010)</visible>
                             </control>
                         </itemlayout>
-                        <focusedlayout width="228" height="340" condition="Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)">
+                        <focusedlayout width="228" height="340" condition="Substring(Control.GetLabel(4321),panel,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)]">
                             <control type="image">
                                 <description>Main Icon</description>
                                 <posx>5</posx>
@@ -211,7 +211,7 @@
                                 <visible>Control.HasFocus(5010)</visible>
                             </control>
                         </focusedlayout>
-                        <itemlayout width="399" height="340" condition="Substring(Control.GetLabel(4321),tv)">
+                        <itemlayout width="399" height="340" condition="Substring(Control.GetLabel(4321),tv) | Substring(Control.GetLabel(4321),pics)">
                             <control type="group">
                                 <control type="image">
                                     <description>Main Icon</description>
@@ -269,7 +269,7 @@
                                 </control>
                             </control>
                         </itemlayout>
-                        <focusedlayout width="399" height="340" condition="Substring(Control.GetLabel(4321),tv)">
+                        <focusedlayout width="399" height="340" condition="Substring(Control.GetLabel(4321),tv) | Substring(Control.GetLabel(4321),pics)">
                             <control type="group">
                                 <control type="image">
                                     <description>Main Icon</description>
@@ -356,6 +356,56 @@
                                 <visible>Control.HasFocus(5010)</visible>
                             </control>
                         </focusedlayout>
+                        <itemlayout height="450" width="228" condition="Substring(Control.GetLabel(4321),panel2,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)]">
+                          <control type="image">
+                            <description>Main Icon</description>
+                            <posx>21</posx>
+                            <posy>12</posy>
+                              <width>183</width>
+                              <height>275</height>
+                            <fadetime>IconCrossfadeTime</fadetime>
+                            <texture diffuse="thumbs/movieposter_mask.png" background="true">DefaultVideoBigPoster.png</texture>
+                            <aspectratio scalediffuse="false">stretch</aspectratio>
+                            <info>ListItem.Icon</info>
+                          </control>
+                          <control type="image">
+                            <description>Main Icon Glass overlay</description>
+                            <posx>1.5</posx>
+                            <posy>-7.5</posy>
+                              <width>222</width>
+                              <height>313</height>
+                            <texture diffuse="thumbs/movieposter_mask.png">thumbs/thumb_glass_noreflect.png</texture>
+                            <bordertexture border="19.5">thumbs/poster_shadow.png</bordertexture>
+                            <bordersize>19.5</bordersize>
+                            <aspectratio scalediffuse="false">scale</aspectratio>
+                          </control>
+                        </itemlayout>
+                        <focusedlayout height="450" width="228" condition="Substring(Control.GetLabel(4321),panel2,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)] ">
+                          <control type="group">
+                            <animation effect="zoom" center="auto" start="100" end="130" time="300" tween="sine" easing="out" reversible="false">Focus</animation>
+                            <control type="image">
+                              <description>Main Icon</description>
+                              <posx>21</posx>
+                              <posy>12</posy>
+                              <width>183</width>
+                              <height>275</height>
+                              <fadetime>IconCrossfadeTime</fadetime>
+                              <texture diffuse="thumbs/movieposter_mask.png" background="true" fallback="DefaultVideoBigPoster.png">$INFO[ListItem.Icon]</texture>
+                              <aspectratio scalediffuse="false">stretch</aspectratio>
+                            </control>
+                            <control type="image">
+                              <posx>1.5</posx>
+                              <posy>-7.5</posy>
+                              <width>222</width>
+                              <height>313</height>
+                              <description>Main Icon Glass overlay</description>
+                              <texture background="true" diffuse="thumbs/movieposter_mask.png">thumbs/thumb_glass_noreflect.png</texture>
+                              <bordertexture border="19.5">thumbs/poster_shadow.png</bordertexture>
+                              <bordersize>19.5</bordersize>
+                              <aspectratio scalediffuse="false">stretch</aspectratio>
+                            </control>
+                          </control>
+                        </focusedlayout>
                         <content>
                         <include>LatestMoviesItems1124</include>
                         <include>RandomMoviesItems1124</include>
@@ -399,6 +449,8 @@
                         <include>Custom7WidgetEpisode1124</include>
                         <include>Custom8WidgetEpisode1124</include>
                         <include>Custom9WidgetEpisode1124</include>
+                        <include>RandomPicturesItems1124</include>
+                        <include>LatestPicturesItems1124</include>
                         </content>
                     </control>
                     <control type="label">
@@ -412,11 +464,26 @@
                         <align>center</align>
                         <aligny>center</aligny>
                         <textoffsetx>15</textoffsetx>
+                        <visible>!Substring(Control.Getlabel(4325),panel2,right)</visible>
                         <label>$VAR[PanelWidgetLabel1Var]</label>
+                    </control>
+                    <control type="label">
+                        <posx>0</posx>
+                        <posy>345</posy>
+                        <width>1650</width>
+                        <height>25</height>
+                        <font>Font_Condensed22_Caps</font>
+                        <textcolor>bbe5e5e5</textcolor>
+                        <shadowcolor>black</shadowcolor>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <textoffsetx>15</textoffsetx>
+                        <label>$VAR[WidgetTitleLabelVar]</label>
+                        <visible>Substring(Control.Getlabel(4321),panel2,right)</visible>
                     </control>
                 </control>
                 <control type="group">
-                    <visible>Substring(Control.GetLabel(4321),panel1)</visible>
+                    <visible>Stringcompare(Control.GetLabel(4321),IconPanel1)</visible>
                     <include>Animation_VisibleChange400</include>
                     <control type="panel" id="5019">
                         <posx>27</posx>
@@ -598,7 +665,7 @@
                     </control>
                 </control>
                 <control type="group">
-                    <visible>Substring(Control.GetLabel(4321),panel2)</visible>
+                    <visible>Stringcompare(Control.GetLabel(4321),IconPanel2)</visible>
                     <include>Animation_VisibleChange400</include>
                     <control type="panel" id="5020">
                         <posx>27</posx>
@@ -2291,7 +2358,7 @@
                                 <visible>Control.HasFocus(6010)</visible>
                             </control>
                         </focusedlayout>
-                        <itemlayout width="399" height="340" condition="Substring(Control.GetLabel(4325),tv)">
+                        <itemlayout width="399" height="340" condition="Substring(Control.GetLabel(4325),tv) | Substring(Control.GetLabel(4325),pics)">
                             <control type="group">
                                 <control type="image">
                                     <description>Main Icon</description>
@@ -2349,7 +2416,7 @@
                                 </control>
                             </control>
                         </itemlayout>
-                        <focusedlayout width="399" height="340" condition="Substring(Control.GetLabel(4325),tv)">
+                        <focusedlayout width="399" height="340" condition="Substring(Control.GetLabel(4325),tv) | Substring(Control.GetLabel(4325),pics)">
                             <control type="group">
                                 <control type="image">
                                     <description>Main Icon</description>
@@ -2479,6 +2546,8 @@
                             <include>Custom7Widget2Episode1124</include>
                             <include>Custom8Widget2Episode1124</include>
                             <include>Custom9Widget2Episode1124</include>
+                            <include>RandomPicturesItems2_1124</include>
+                            <include>LatestPicturesItems2_1124</include>
                         </content>
                     </control>
                     <control type="label">
@@ -2493,11 +2562,26 @@
                         <aligny>center</aligny>
                         <textoffsetx>15</textoffsetx>
                         <label>$VAR[PanelWidget2Label1Var]</label>
+                        <visible>!Substring(Control.Getlabel(4325),panel2,right)</visible>
                         <visible>!Stringcompare(Control.Getlabel(4321),Control.Getlabel(4325))</visible>
+                    </control>
+                    <control type="label">
+                        <posx>0</posx>
+                        <posy>345</posy>
+                        <width>1650</width>
+                        <height>25</height>
+                        <font>Font_Condensed22_Caps</font>
+                        <textcolor>bbe5e5e5</textcolor>
+                        <shadowcolor>black</shadowcolor>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <textoffsetx>15</textoffsetx>
+                        <label>$VAR[Widget2TitleLabelVar]</label>
+                        <visible>Substring(Control.Getlabel(4325),panel2,right)</visible>
                     </control>
                 </control>
                 <control type="group">
-                    <visible>Substring(Control.GetLabel(4325),panel1)</visible>
+                    <visible>Stringcompare(Control.GetLabel(4325),IconPanel1)</visible>
                     <include>Animation_VisibleChange400</include>
                     <control type="panel" id="6019">
                         <posx>27</posx>
@@ -2678,7 +2762,7 @@
                     </control>
                 </control>
                 <control type="group">
-                    <visible>Substring(Control.GetLabel(4325),panel2)</visible>
+                    <visible>Stringcompare(Control.GetLabel(4325),IconPanel2)</visible>
                     <include>Animation_VisibleChange400</include>
                     <control type="panel" id="6020">
                         <posx>27</posx>
@@ -4457,6 +4541,8 @@
                         <include>Custom7WidgetEpisode1124</include>
                         <include>Custom8WidgetEpisode1124</include>
                         <include>Custom9WidgetEpisode1124</include>
+                        <include>RandomPicturesItems1124</include>
+                        <include>LatestPicturesItems1124</include>
                     </content>
                 </control>
             </control>
@@ -4483,8 +4569,6 @@
             <!--Unfocused widget-->
             <control type="group">
                 <description>Recently Added Widget Movies</description>
-                <visible>!Control.HasFocus(7000)</visible>
-                <animation effect="slide" start="450" end="0" time="300" delay="300" tween="quadratic" easing="out">Visible</animation>
                 <control type="image">
                     <description>background</description>
                     <posx>-12</posx>
@@ -4551,9 +4635,9 @@
                 </control>
                 <control type="group">
                     <visible>!Substring(Control.GetLabel(4325),system)</visible>
-                    <control type="group" id="7030">
+<!--                     <control type="group" id="7030">
                         <posx>10</posx>
-                        <visible>[Substring(Control.GetLabel(4325),movie) | Stringcompare(Control.GetLabel(4325),musicvideo)]</visible>
+                        <visible>[Substring(Control.GetLabel(4325),movie) | Substring(Control.GetLabel(4325),musicvideo)] + StringCompare(Control.GetLabel(4322),widgetfanart)</visible>
                         <control type="group">
                             <posx>-16</posx>
                             <posy>56</posy>
@@ -4629,7 +4713,7 @@
                                 <bordersize>19</bordersize>
                             </control>
                         </control>
-                    </control>
+                    </control> -->
                     <control type="image">
                         <texture background="true" fallback="DefaultAlbumCover.png">$INFO[Container(7000).ListItem.Icon]</texture>
                         <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
@@ -4659,7 +4743,7 @@
                         <visible>Substring(Control.GetLabel(4325),tv)</visible>
                     </control>
                     <control type="image">
-                        <texture background="true" fallback="DefaultVideoCover.png">$INFO[Container(7000).ListItem.ActualIcon]</texture>
+                        <texture background="true" fallback="DefaultVideoCover.png">$INFO[Container(7000).ListItem.Property(Fanart)]</texture>
                         <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
                         <bordersize>7</bordersize>
                         <aspectratio aligny="top" align="center">scale</aspectratio>
@@ -4670,7 +4754,8 @@
                         <fadetime>800</fadetime>
                         <animation effect="fade" time="300">Visible</animation>
                         <animation effect="fade" time="50">Hidden</animation>
-                        <visible>[Substring(Control.GetLabel(4325),movie) | Substring(Control.GetLabel(4325),musicvideo)] + !StringCompare(Control.GetLabel(4322),widgetfanart)</visible>
+                        <visible>[Substring(Control.GetLabel(4325),movie) | Substring(Control.GetLabel(4325),musicvideo)]</visible>
+                       <!--  <visible>[Substring(Control.GetLabel(4325),movie) | Substring(Control.GetLabel(4325),musicvideo)] + !StringCompare(Control.GetLabel(4322),widgetfanart)</visible> -->
                     </control>
                 </control>
         <control type="group">
@@ -4762,6 +4847,8 @@
                         <include>Custom7Widget2Episode1124</include>
                         <include>Custom8Widget2Episode1124</include>
                         <include>Custom9Widget2Episode1124</include>
+                        <include>RandomPicturesItems2_1124</include>
+                        <include>LatestPicturesItems2_1124</include>
                     </content>
                 </control>
             </control>
@@ -6714,6 +6801,82 @@
             <visible>Substring(Control.GetLabel(4321),recenttv) + !SubString(Control.GetLabel(4321),custom)</visible>
         </item>
     </include>
+  <include name="RandomPicturesItems1124">
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBRandom.1.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBRandom.1.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Random'&current=1)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBRandom.1.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBRandom.1.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBRandom.1.Path)]</property>
+            <visible>Substring(Control.GetLabel(4321),randompics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBRandom.2.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBRandom.2.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Random'&current=2)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBRandom.2.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBRandom.2.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBRandom.2.Path)]</property>
+            <visible>Substring(Control.GetLabel(4321),randompics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBRandom.3.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBRandom.3.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Random'&current=3)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBRandom.3.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBRandom.3.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBRandom.3.Path)]</property>
+            <visible>Substring(Control.GetLabel(4321),randompics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBRandom.4.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBRandom.4.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Random'&current=4)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBRandom.4.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBRandom.4.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBRandom.4.Path)]</property>
+            <visible>Substring(Control.GetLabel(4321),randompics)</visible>
+        </item>
+    </include>
+    <include name="LatestPicturesItems1124">
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBLatest.1.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBLatest.1.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Latest'&current=1)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBLatest.1.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBLatest.1.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBLatest.1.Path)]</property>
+            <visible>Substring(Control.GetLabel(4321),recentpics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBLatest.2.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBLatest.2.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Latest'&current=2)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBLatest.2.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBLatest.2.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBLatest.2.Path)]</property>
+            <visible>Substring(Control.GetLabel(4321),recentpics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBLatest.3.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBLatest.3.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Latest'&current=3)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBLatest.3.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBLatest.3.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBLatest.3.Path)]</property>
+            <visible>Substring(Control.GetLabel(4321),recentpics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBLatest.4.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBLatest.4.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Latest'&current=4)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBLatest.4.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBLatest.4.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBLatest.4.Path)]</property>
+            <visible>Substring(Control.GetLabel(4321),recentpics)</visible>
+        </item>
+    </include>
     <include name="Custom1Widget2Poster1124">
         <item>
             <label>$INFO[Window(Home).Property(SecondCustomHomeItem1.1.Title)]</label>
@@ -8659,6 +8822,82 @@
             <property name="EpisodeNumber">$INFO[Window(Home).Property(LatestEpisode.4.EpisodeNo)]</property>
             <property name="Fanart">$INFO[Window(Home).Property(LatestEpisode.4.Fanart)]</property>
             <visible>Substring(Control.GetLabel(4325),recenttv) + !SubString(Control.GetLabel(4325),custom)</visible>
+        </item>
+    </include>
+    <include name="RandomPicturesItems2_1124">
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBRandom.1.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBRandom.1.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Random'&current=1)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBRandom.1.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBRandom.1.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBRandom.1.Path)]</property>
+            <visible>Substring(Control.GetLabel(4325),randompics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBRandom.2.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBRandom.2.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Random'&current=2)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBRandom.2.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBRandom.2.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBRandom.2.Path)]</property>
+            <visible>Substring(Control.GetLabel(4325),randompics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBRandom.3.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBRandom.3.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Random'&current=3)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBRandom.3.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBRandom.3.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBRandom.3.Path)]</property>
+            <visible>Substring(Control.GetLabel(4325),randompics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBRandom.4.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBRandom.4.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Random'&current=4)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBRandom.4.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBRandom.4.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBRandom.4.Path)]</property>
+            <visible>Substring(Control.GetLabel(4325),randompics)</visible>
+        </item>
+    </include>
+    <include name="LatestPicturesItems2_1124">
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBLatest.1.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBLatest.1.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Latest'&current=1)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBLatest.1.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBLatest.1.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBLatest.1.Path)]</property>
+            <visible>Substring(Control.GetLabel(4325),recentpics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBLatest.2.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBLatest.2.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Latest'&current=2)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBLatest.2.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBLatest.2.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBLatest.2.Path)]</property>
+            <visible>Substring(Control.GetLabel(4325),recentpics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBLatest.3.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBLatest.3.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Latest'&current=3)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBLatest.3.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBLatest.3.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBLatest.3.Path)]</property>
+            <visible>Substring(Control.GetLabel(4325),recentpics)</visible>
+        </item>
+        <item>
+            <label>$INFO[Window(Home).Property(MyPicsDBLatest.4.Name)]</label>
+            <label2>$INFO[Window(Home).Property(MyPicsDBLatest.4.Date)]</label2>
+			<onclick>XBMC.RunScript(plugin.image.mypicsdb,0,?action='slideshow'&method='Latest'&current=4)</onclick>
+            <thumb>$INFO[Window(Home).Property(MyPicsDBLatest.4.Path)]</thumb>
+            <property name="Fanart">$INFO[Window(Home).Property(MyPicsDBLatest.4.Path)]</property>
+            <property name="Path">$INFO[Window(Home).Property(MyPicsDBLatest.4.Path)]</property>
+            <visible>Substring(Control.GetLabel(4325),recentpics)</visible>
         </item>
     </include>
 </includes>
