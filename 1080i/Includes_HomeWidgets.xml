@@ -2308,7 +2308,7 @@
             </control>
         </control>
     </include>
-    <include name="HomeFeaturedWidget">
+    <include name="HomePanelWidget">
         <control type="group" id="5000">
             <posx>135</posx>
             <posy>668</posy>
@@ -2372,434 +2372,7 @@
                         <texture border="50">featured/panel_featured.png</texture>
                     </control>
                 </control>
-                <control type="group">
-                    <visible>Substring(Control.GetLabel(4321),panel) + !Substring(Control.GetLabel(4321),icon)</visible>
-                    <include>Animation_VisibleChange400</include>
-                    <control type="list" id="5010">
-                        <posx>27</posx>
-                        <posy>26</posy>
-                        <width>1596</width>
-                        <height>360</height>
-                        <include>Animation_VisibleChange400</include>
-                        <orientation>horizontal</orientation>
-                        <animation effect="fade" start="100" end="0" time="0" condition="!Substring(Control.GetLabel(4321),panel)">Conditional</animation>
-                        <onleft>5010</onleft>
-                        <onright>5010</onright>
-                        <onup condition="!IsEmpty(Control.GetLabel(4325)) + Skin.HasSetting(lowermainmenu)">SetFocus(6010)</onup>
-                        <onup condition="!Skin.HasSetting(lowermainmenu)">SetFocus(9000)</onup>
-                        <onup condition="IsEmpty(Control.GetLabel(4325)) + Skin.HasSetting(lowermainmenu) + IsEmpty(Window(Home).Property(PanelWidgetInfo))">SetProperty(PanelWidgetInfo,True,Home)</onup>
-                        <onup condition="IsEmpty(Control.GetLabel(4325)) + Skin.HasSetting(lowermainmenu) + IsEmpty(Window(Home).Property(PanelWidgetInfo))">SetFocus(5014)</onup>
-                        <onup condition="IsEmpty(Control.GetLabel(4325)) + Skin.HasSetting(lowermainmenu) + !IsEmpty(Window(Home).Property(PanelWidgetInfo))">ClearProperty(PanelWidgetInfo,Home)</onup>
-                        <ondown condition="Skin.HasSetting(lowermainmenu)">9000</ondown>
-                        <ondown condition="!Skin.HasSetting(lowermainmenu) + IsEmpty(Window(Home).Property(PanelWidgetInfo))">SetProperty(PanelWidgetInfo,True,Home)</ondown>
-                        <ondown condition="!Skin.HasSetting(lowermainmenu) + IsEmpty(Window(Home).Property(PanelWidgetInfo))">SetFocus(5014)</ondown>
-                        <ondown condition="!Skin.HasSetting(lowermainmenu) + !IsEmpty(Window(Home).Property(PanelWidgetInfo))">ClearProperty(PanelWidgetInfo,Home)</ondown>
-                        <onback>ClearProperty(PanelWidgetInfo,Home)</onback>
-                        <onback>9000</onback>
-                        <viewtype label="535">list</viewtype>
-                        <preloaditems>2</preloaditems>
-                        <pagecontrol>-</pagecontrol>
-                        <scrolltime tween="quadratic" easing="out">400</scrolltime>
-                        <itemlayout width="228" height="340" condition="Substring(Control.GetLabel(4321),panel,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)]">
-                            <control type="image">
-                                <description>Main Icon</description>
-                                <posx>5</posx>
-                                <posy>5</posy>
-                                <width>218</width>
-                                <height>340</height>
-                                <texture background="true" fallback="DefaultVideoBigPoster.png">$INFO[ListItem.Icon]</texture>
-                                <aspectratio>scale</aspectratio>
-                            </control>
-                            <control type="image">
-                                <posx>5</posx>
-                                <posy>5</posy>
-                                <width>218</width>
-                                <height>340</height>
-                                <colordiffuse>99FFFFFF</colordiffuse>
-                                <texture>common/black.png</texture>
-                                <include>Animation_VisibleChange400</include>
-                                <visible>Control.HasFocus(5010)</visible>
-                            </control>
-                        </itemlayout>
-                        <focusedlayout width="228" height="340" condition="Substring(Control.GetLabel(4321),panel,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)]">
-                            <control type="image">
-                                <description>Main Icon</description>
-                                <posx>5</posx>
-                                <posy>5</posy>
-                                <width>218</width>
-                                <height>340</height>
-                                <texture background="true" fallback="DefaultVideoBigPoster.png">$INFO[ListItem.Icon]</texture>
-                                <aspectratio>scale</aspectratio>
-                            </control>
-                            <control type="image">
-                                <posx>0</posx>
-                                <posy>0</posy>
-                                <width>228</width>
-                                <height>350</height>
-                                <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
-                                <texture border="5">views/addonwall_select.png</texture>
-                                <visible>Control.HasFocus(5010)</visible>
-                            </control>
-                        </focusedlayout>
-                        <itemlayout width="319" height="360" condition="Substring(Control.GetLabel(4321),addons) | Substring(Control.GetLabel(4321),albums) | Substring(Control.GetLabel(4321),songs) | Stringcompare(Control.GetLabel(4321),watchlistmusicpanel)">
-                            <control type="group">
-                                <control type="image">
-                                    <description>Main Icon</description>
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>309</width>
-                                    <height>309</height>
-                                    <texture background="true">DefaultAlbumCover.png</texture>
-                                    <aspectratio scalediffuse="false">scale</aspectratio>
-                                    <info>ListItem.Icon</info>
-                                </control>
-                                <control type="label">
-                                    <posx>159</posx>
-                                    <posy>309</posy>
-                                    <width>309</width>
-                                    <height>50</height>
-                                    <align>center</align>
-                                    <aligny>center</aligny>
-                                    <font>Font_Condensed20</font>
-                                    <textcolor>grey2</textcolor>
-                                    <shadowcolor>-</shadowcolor>
-                                    <label>$INFO[ListItem.Label]</label>
-                                    <textoffsetx>15</textoffsetx>
-                                </control>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>309</width>
-                                    <height>309</height>
-                                    <colordiffuse>99FFFFFF</colordiffuse>
-                                    <texture>common/black.png</texture>
-                                    <include>Animation_VisibleChange400</include>
-                                    <visible>Control.HasFocus(5010)</visible>
-                                </control>
-                            </control>
-                        </itemlayout>
-                        <focusedlayout width="319" height="360" condition="Substring(Control.GetLabel(4321),addons) | Substring(Control.GetLabel(4321),albums) | Substring(Control.GetLabel(4321),songs) | Stringcompare(Control.GetLabel(4321),watchlistmusicpanel)">
-                            <control type="group">
-                                <control type="image">
-                                    <description>Main Icon</description>
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>309</width>
-                                    <height>309</height>
-                                    <texture background="true">DefaultAlbumCover.png</texture>
-                                    <aspectratio scalediffuse="false">scale</aspectratio>
-                                    <info>ListItem.Icon</info>
-                                </control>
-                                <control type="label">
-                                    <posx>159</posx>
-                                    <posy>309</posy>
-                                    <width>309</width>
-                                    <height>50</height>
-                                    <align>center</align>
-                                    <aligny>center</aligny>
-                                    <font>Font_Condensed20</font>
-                                    <textcolor>grey2</textcolor>
-                                    <shadowcolor>-</shadowcolor>
-                                    <label>$INFO[ListItem.Label]</label>
-                                    <textoffsetx>15</textoffsetx>
-                                    <visible>!Control.HasFocus(5010)</visible>
-                                </control>
-                                <control type="label">
-                                    <posx>159</posx>
-                                    <posy>309</posy>
-                                    <width>309</width>
-                                    <height>50</height>
-                                    <align>center</align>
-                                    <aligny>center</aligny>
-                                    <font>Font_Condensed20</font>
-                                    <textcolor>$VAR[SelectedColorVar]</textcolor>
-                                    <shadowcolor>-</shadowcolor>
-                                    <label>$INFO[ListItem.Label]</label>
-                                    <textoffsetx>15</textoffsetx>
-                                    <visible>Control.HasFocus(5010)</visible>
-                                </control>
-                            </control>
-                            <control type="image">
-                                <posx>0</posx>
-                                <posy>0</posy>
-                                <width>319</width>
-                                <height>319</height>
-                                <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
-                                <texture border="5">views/addonwall_select.png</texture>
-                                <visible>Control.HasFocus(5010)</visible>
-                            </control>
-                        </focusedlayout>
-                        <itemlayout width="399" height="340" condition="Substring(Control.GetLabel(4321),tv) | Substring(Control.GetLabel(4321),pics)">
-                            <control type="group">
-                                <control type="image">
-                                    <description>Main Icon</description>
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>389</width>
-                                    <height>340</height>
-                                    <texture background="true" fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
-                                    <aspectratio>scale</aspectratio>
-                                </control>
-                                <control type="image">
-                                    <description>black</description>
-                                    <posx>5</posx>
-                                    <posy>275</posy>
-                                    <width>389</width>
-                                    <height>70</height>
-                                    <texture>common/black.png</texture>
-                                    <colordiffuse>BBFFFFFF</colordiffuse>
-                                </control>
-                                <control type="label">
-                                    <posx>5</posx>
-                                    <posy>275</posy>
-                                    <width>389</width>
-                                    <height>30</height>
-                                    <align>left</align>
-                                    <aligny>center</aligny>
-                                    <font>Font_Condensed22</font>
-                                    <textcolor>white2</textcolor>
-                                    <shadowcolor>-</shadowcolor>
-                                    <label>$INFO[ListItem.Label2]</label>
-                                    <textoffsetx>15</textoffsetx>
-                                </control>
-                                <control type="label">
-                                    <posx>5</posx>
-                                    <posy>305</posy>
-                                    <width>389</width>
-                                    <height>40</height>
-                                    <align>left</align>
-                                    <aligny>center</aligny>
-                                    <font>Font_Condensed18</font>
-                                    <textcolor>white2</textcolor>
-                                    <shadowcolor>-</shadowcolor>
-                                    <label>$INFO[ListItem.Property(EpisodeNumber),, - ]$INFO[ListItem.Label]</label>
-                                    <textoffsetx>15</textoffsetx>
-                                </control>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>389</width>
-                                    <height>340</height>
-                                    <colordiffuse>99FFFFFF</colordiffuse>
-                                    <texture>common/black.png</texture>
-                                    <include>Animation_VisibleChange400</include>
-                                    <visible>Control.HasFocus(5010)</visible>
-                                </control>
-                            </control>
-                        </itemlayout>
-                        <focusedlayout width="399" height="340" condition="Substring(Control.GetLabel(4321),tv) | Substring(Control.GetLabel(4321),pics)">
-                            <control type="group">
-                                <control type="image">
-                                    <description>Main Icon</description>
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>389</width>
-                                    <height>340</height>
-                                    <texture background="true" fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
-                                    <aspectratio>scale</aspectratio>
-                                </control>
-                                <control type="image">
-                                    <description>black</description>
-                                    <posx>5</posx>
-                                    <posy>275</posy>
-                                    <width>389</width>
-                                    <height>70</height>
-                                    <texture>common/black.png</texture>
-                                    <colordiffuse>BBFFFFFF</colordiffuse>
-                                </control>
-                                <control type="label">
-                                    <posx>5</posx>
-                                    <posy>275</posy>
-                                    <width>389</width>
-                                    <height>30</height>
-                                    <align>left</align>
-                                    <aligny>center</aligny>
-                                    <font>Font_Condensed22</font>
-                                    <textcolor>white2</textcolor>
-                                    <visible>!Control.HasFocus(5010)</visible>
-                                    <shadowcolor>-</shadowcolor>
-                                    <label>$INFO[ListItem.Label2]</label>
-                                    <textoffsetx>15</textoffsetx>
-                                </control>
-                                <control type="label">
-                                    <posx>5</posx>
-                                    <posy>305</posy>
-                                    <width>389</width>
-                                    <height>40</height>
-                                    <align>left</align>
-                                    <aligny>center</aligny>
-                                    <font>Font_Condensed18</font>
-                                    <textcolor>white2</textcolor>
-                                    <shadowcolor>-</shadowcolor>
-                                    <visible>!Control.HasFocus(5010)</visible>
-                                    <label>$INFO[ListItem.Property(EpisodeNumber),, - ]$INFO[ListItem.Label]</label>
-                                    <textoffsetx>15</textoffsetx>
-                                </control>
-                                <control type="label">
-                                    <posx>5</posx>
-                                    <posy>275</posy>
-                                    <width>389</width>
-                                    <height>30</height>
-                                    <align>left</align>
-                                    <aligny>center</aligny>
-                                    <font>Font_Condensed22</font>
-                                    <textcolor>$VAR[SelectedColorVar]</textcolor>
-                                    <shadowcolor>-</shadowcolor>
-                                    <label>$INFO[ListItem.Label2]</label>
-                                    <textoffsetx>15</textoffsetx>
-                                    <visible>Control.HasFocus(5010)</visible>
-                                </control>
-                                <control type="label">
-                                    <posx>5</posx>
-                                    <posy>305</posy>
-                                    <width>389</width>
-                                    <height>40</height>
-                                    <align>left</align>
-                                    <aligny>center</aligny>
-                                    <font>Font_Condensed18</font>
-                                    <textcolor>$VAR[SelectedColorVar]</textcolor>
-                                    <shadowcolor>-</shadowcolor>
-                                    <label>$INFO[ListItem.Property(EpisodeNumber),, - ]$INFO[ListItem.Label]</label>
-                                    <visible>Control.HasFocus(5010)</visible>
-                                    <textoffsetx>15</textoffsetx>
-                                </control>
-                            </control>
-                            <control type="image">
-                                <posx>0</posx>
-                                <posy>0</posy>
-                                <width>399</width>
-                                <height>350</height>
-                                <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
-                                <texture border="5">views/addonwall_select.png</texture>
-                                <visible>Control.HasFocus(5010)</visible>
-                            </control>
-                        </focusedlayout>
-                        <itemlayout height="450" width="228" condition="Substring(Control.GetLabel(4321),panel2,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)]">
-                            <control type="image">
-                                <description>Main Icon</description>
-                                <posx>21</posx>
-                                <posy>12</posy>
-                                <width>183</width>
-                                <height>275</height>
-                                <fadetime>IconCrossfadeTime</fadetime>
-                                <texture diffuse="thumbs/movieposter_mask.png" background="true">DefaultVideoBigPoster.png</texture>
-                                <aspectratio scalediffuse="false">stretch</aspectratio>
-                                <info>ListItem.Icon</info>
-                            </control>
-                            <control type="image">
-                                <description>Main Icon Glass overlay</description>
-                                <posx>1.5</posx>
-                                <posy>-7.5</posy>
-                                <width>222</width>
-                                <height>313</height>
-                                <texture diffuse="thumbs/movieposter_mask.png">thumbs/thumb_glass_noreflect.png</texture>
-                                <bordertexture border="19.5">thumbs/poster_shadow.png</bordertexture>
-                                <bordersize>19.5</bordersize>
-                                <aspectratio scalediffuse="false">scale</aspectratio>
-                            </control>
-                        </itemlayout>
-                        <focusedlayout height="450" width="228" condition="Substring(Control.GetLabel(4321),panel2,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)] ">
-                            <control type="group">
-                                <animation effect="zoom" center="102,80" start="100" end="120" time="300" tween="sine" easing="out" reversible="false">Focus</animation>
-                                <control type="image">
-                                    <description>Main Icon</description>
-                                    <posx>21</posx>
-                                    <posy>12</posy>
-                                    <width>183</width>
-                                    <height>275</height>
-                                    <fadetime>IconCrossfadeTime</fadetime>
-                                    <texture diffuse="thumbs/movieposter_mask.png" background="true" fallback="DefaultVideoBigPoster.png">$INFO[ListItem.Icon]</texture>
-                                    <aspectratio scalediffuse="false">stretch</aspectratio>
-                                </control>
-                                <control type="image">
-                                    <posx>1.5</posx>
-                                    <posy>-7.5</posy>
-                                    <width>222</width>
-                                    <height>313</height>
-                                    <description>Main Icon Glass overlay</description>
-                                    <texture background="true" diffuse="thumbs/movieposter_mask.png">thumbs/thumb_glass_noreflect.png</texture>
-                                    <bordertexture border="19.5">thumbs/poster_shadow.png</bordertexture>
-                                    <bordersize>19.5</bordersize>
-                                    <aspectratio scalediffuse="false">stretch</aspectratio>
-                                </control>
-                            </control>
-                        </focusedlayout>
-                        <content>
-                            <include condition="Substring(Skin.String(widgetlist),recentmoviespanel) | Window.IsActive(1124)">LatestMoviesItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),randommoviespanel) | Window.IsActive(1124)">RandomMoviesItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),recentmusicvideospanel) | Window.IsActive(1124)">MusicvideoLatestItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),randommusicvideospanel) | Window.IsActive(1124)">MusicvideoRandomItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),inprogressmoviespanel) | Window.IsActive(1124)">WatchlistMoviesItems</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem1.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem1.Enable)] | Window.IsActive(1124)">Custom1WidgetPoster</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem2.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem2.Enable)] | Window.IsActive(1124)">Custom2WidgetPoster</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem3.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem3.Enable)] | Window.IsActive(1124)">Custom3WidgetPoster</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem4.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem4.Enable)] | Window.IsActive(1124)">Custom4WidgetPoster</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem5.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem5.Enable)] | Window.IsActive(1124)">Custom5WidgetPoster</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem6.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem6.Enable)] | Window.IsActive(1124)">Custom6WidgetPoster</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem7.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem7.Enable)] | Window.IsActive(1124)">Custom7WidgetPoster</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem8.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem8.Enable)] | Window.IsActive(1124)">Custom8WidgetPoster</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem9.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem9.Enable)] | Window.IsActive(1124)">Custom9WidgetPoster</include>
-                            <include condition="Substring(Skin.String(widgetlist),randomsongspanel) | Window.IsActive(1124)">RandomSongsItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),recentsongspanel) | Window.IsActive(1124)">LatestSongsItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),randomalbumspanel) | Window.IsActive(1124)">RandomAlbumsItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),recentalbumspanel) | Window.IsActive(1124)">LatestAlbumsItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),watchlistmusicpanel) | Window.IsActive(1124)">WatchlistMusicItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),actorspanel) | Window.IsActive(1124)">BornActorsItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),randomaddonspanel) | Window.IsActive(1124)">RandomAddonsItems</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem1.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem1.Enable)] | Window.IsActive(1124)">Custom1WidgetSquare</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem2.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem2.Enable)] | Window.IsActive(1124)">Custom2WidgetSquare</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem3.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem3.Enable)] | Window.IsActive(1124)">Custom3WidgetSquare</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem4.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem4.Enable)] | Window.IsActive(1124)">Custom4WidgetSquare</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem5.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem5.Enable)] | Window.IsActive(1124)">Custom5WidgetSquare</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem6.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem6.Enable)] | Window.IsActive(1124)">Custom6WidgetSquare</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem7.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem7.Enable)] | Window.IsActive(1124)">Custom7WidgetSquare</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem8.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem8.Enable)] | Window.IsActive(1124)">Custom8WidgetSquare</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem9.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem9.Enable)] | Window.IsActive(1124)">Custom9WidgetSquare</include>
-                            <include condition="Substring(Skin.String(widgetlist),recenttvpanel) | Window.IsActive(1124)">LatestEpisodesItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),randomtvpanel) | Window.IsActive(1124)">RandomEpisodesItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),watchlisttvpanel) | Window.IsActive(1124)">WatchListTVItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),randompics) | Window.IsActive(1124)">RandomPicturesItems</include>
-                            <include condition="Substring(Skin.String(widgetlist),recentpics) | Window.IsActive(1124)">LatestPicturesItems</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem1.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem1.Enable)] | Window.IsActive(1124)">Custom1WidgetEpisode</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem2.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem2.Enable)] | Window.IsActive(1124)">Custom2WidgetEpisode</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem3.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem3.Enable)] | Window.IsActive(1124)">Custom3WidgetEpisode</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem4.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem4.Enable)] | Window.IsActive(1124)">Custom4WidgetEpisode</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem5.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem5.Enable)] | Window.IsActive(1124)">Custom5WidgetEpisode</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem6.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem6.Enable)] | Window.IsActive(1124)">Custom6WidgetEpisode</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem7.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem7.Enable)] | Window.IsActive(1124)">Custom7WidgetEpisode</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem8.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem8.Enable)] | Window.IsActive(1124)">Custom8WidgetEpisode</include>
-                            <include condition="[SubString(Skin.String(CustomHomeItem9.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem9.Enable)] | Window.IsActive(1124)">Custom9WidgetEpisode</include>
-                        </content>
-                    </control>
-                    <control type="label">
-                        <posx>0</posx>
-                        <posy>381</posy>
-                        <width>1650</width>
-                        <height>25</height>
-                        <font>Font_Condensed15_Caps</font>
-                        <textcolor>bbe5e5e5</textcolor>
-                        <shadowcolor>black</shadowcolor>
-                        <align>center</align>
-                        <aligny>center</aligny>
-                        <textoffsetx>15</textoffsetx>
-                        <visible>!Substring(Control.Getlabel(4321),panel2,right)</visible>
-                        <label>$VAR[PanelWidgetLabel1Var]</label>
-                    </control>
-                    <control type="label">
-                        <posx>0</posx>
-                        <posy>345</posy>
-                        <width>1650</width>
-                        <height>25</height>
-                        <font>Font_Condensed22_Caps</font>
-                        <textcolor>bbe5e5e5</textcolor>
-                        <shadowcolor>black</shadowcolor>
-                        <align>center</align>
-                        <aligny>center</aligny>
-                        <textoffsetx>15</textoffsetx>
-                        <label>$VAR[WidgetTitleLabelVar]</label>
-                        <visible>Substring(Control.Getlabel(4321),panel2,right)</visible>
-                    </control>
-                </control>
+				<include>5010List</include>
                 <control type="group">
                     <visible>Stringcompare(Control.GetLabel(4321),IconPanel1)</visible>
                     <include>Animation_VisibleChange400</include>
@@ -5195,4 +4768,434 @@
             </control>
         </control>
     </include>
+	<include name="5010List">
+                <control type="group">
+                    <visible>Substring(Control.GetLabel(4321),panel) + !Substring(Control.GetLabel(4321),icon)</visible>
+                    <include>Animation_VisibleChange400</include>
+                    <control type="list" id="5010">
+                        <posx>27</posx>
+                        <posy>26</posy>
+                        <width>1596</width>
+                        <height>360</height>
+                        <include>Animation_VisibleChange400</include>
+                        <orientation>horizontal</orientation>
+                        <animation effect="fade" start="100" end="0" time="0" condition="!Substring(Control.GetLabel(4321),panel)">Conditional</animation>
+                        <onleft>5010</onleft>
+                        <onright>5010</onright>
+                        <onup condition="!IsEmpty(Control.GetLabel(4325)) + Skin.HasSetting(lowermainmenu)">SetFocus(6010)</onup>
+                        <onup condition="!Skin.HasSetting(lowermainmenu)">SetFocus(9000)</onup>
+                        <onup condition="IsEmpty(Control.GetLabel(4325)) + Skin.HasSetting(lowermainmenu) + IsEmpty(Window(Home).Property(PanelWidgetInfo))">SetProperty(PanelWidgetInfo,True,Home)</onup>
+                        <onup condition="IsEmpty(Control.GetLabel(4325)) + Skin.HasSetting(lowermainmenu) + IsEmpty(Window(Home).Property(PanelWidgetInfo))">SetFocus(5014)</onup>
+                        <onup condition="IsEmpty(Control.GetLabel(4325)) + Skin.HasSetting(lowermainmenu) + !IsEmpty(Window(Home).Property(PanelWidgetInfo))">ClearProperty(PanelWidgetInfo,Home)</onup>
+                        <ondown condition="Skin.HasSetting(lowermainmenu)">9000</ondown>
+                        <ondown condition="!Skin.HasSetting(lowermainmenu) + IsEmpty(Window(Home).Property(PanelWidgetInfo))">SetProperty(PanelWidgetInfo,True,Home)</ondown>
+                        <ondown condition="!Skin.HasSetting(lowermainmenu) + IsEmpty(Window(Home).Property(PanelWidgetInfo))">SetFocus(5014)</ondown>
+                        <ondown condition="!Skin.HasSetting(lowermainmenu) + !IsEmpty(Window(Home).Property(PanelWidgetInfo))">ClearProperty(PanelWidgetInfo,Home)</ondown>
+                        <onback>ClearProperty(PanelWidgetInfo,Home)</onback>
+                        <onback>9000</onback>
+                        <viewtype label="535">list</viewtype>
+                        <preloaditems>2</preloaditems>
+                        <pagecontrol>-</pagecontrol>
+                        <scrolltime tween="quadratic" easing="out">400</scrolltime>
+                        <itemlayout width="228" height="340" condition="Substring(Control.GetLabel(4321),panel,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)]">
+                            <control type="image">
+                                <description>Main Icon</description>
+                                <posx>5</posx>
+                                <posy>5</posy>
+                                <width>218</width>
+                                <height>340</height>
+                                <texture background="true" fallback="DefaultVideoBigPoster.png">$INFO[ListItem.Icon]</texture>
+                                <aspectratio>scale</aspectratio>
+                            </control>
+                            <control type="image">
+                                <posx>5</posx>
+                                <posy>5</posy>
+                                <width>218</width>
+                                <height>340</height>
+                                <colordiffuse>99FFFFFF</colordiffuse>
+                                <texture>common/black.png</texture>
+                                <include>Animation_VisibleChange400</include>
+                                <visible>Control.HasFocus(5010)</visible>
+                            </control>
+                        </itemlayout>
+                        <focusedlayout width="228" height="340" condition="Substring(Control.GetLabel(4321),panel,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)]">
+                            <control type="image">
+                                <description>Main Icon</description>
+                                <posx>5</posx>
+                                <posy>5</posy>
+                                <width>218</width>
+                                <height>340</height>
+                                <texture background="true" fallback="DefaultVideoBigPoster.png">$INFO[ListItem.Icon]</texture>
+                                <aspectratio>scale</aspectratio>
+                            </control>
+                            <control type="image">
+                                <posx>0</posx>
+                                <posy>0</posy>
+                                <width>228</width>
+                                <height>350</height>
+                                <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
+                                <texture border="5">views/addonwall_select.png</texture>
+                                <visible>Control.HasFocus(5010)</visible>
+                            </control>
+                        </focusedlayout>
+                        <itemlayout width="319" height="360" condition="Substring(Control.GetLabel(4321),addons) | Substring(Control.GetLabel(4321),albums) | Substring(Control.GetLabel(4321),songs) | Stringcompare(Control.GetLabel(4321),watchlistmusicpanel)">
+                            <control type="group">
+                                <control type="image">
+                                    <description>Main Icon</description>
+                                    <posx>5</posx>
+                                    <posy>5</posy>
+                                    <width>309</width>
+                                    <height>309</height>
+                                    <texture background="true">DefaultAlbumCover.png</texture>
+                                    <aspectratio scalediffuse="false">scale</aspectratio>
+                                    <info>ListItem.Icon</info>
+                                </control>
+                                <control type="label">
+                                    <posx>159</posx>
+                                    <posy>309</posy>
+                                    <width>309</width>
+                                    <height>50</height>
+                                    <align>center</align>
+                                    <aligny>center</aligny>
+                                    <font>Font_Condensed20</font>
+                                    <textcolor>grey2</textcolor>
+                                    <shadowcolor>-</shadowcolor>
+                                    <label>$INFO[ListItem.Label]</label>
+                                    <textoffsetx>15</textoffsetx>
+                                </control>
+                                <control type="image">
+                                    <posx>5</posx>
+                                    <posy>5</posy>
+                                    <width>309</width>
+                                    <height>309</height>
+                                    <colordiffuse>99FFFFFF</colordiffuse>
+                                    <texture>common/black.png</texture>
+                                    <include>Animation_VisibleChange400</include>
+                                    <visible>Control.HasFocus(5010)</visible>
+                                </control>
+                            </control>
+                        </itemlayout>
+                        <focusedlayout width="319" height="360" condition="Substring(Control.GetLabel(4321),addons) | Substring(Control.GetLabel(4321),albums) | Substring(Control.GetLabel(4321),songs) | Stringcompare(Control.GetLabel(4321),watchlistmusicpanel)">
+                            <control type="group">
+                                <control type="image">
+                                    <description>Main Icon</description>
+                                    <posx>5</posx>
+                                    <posy>5</posy>
+                                    <width>309</width>
+                                    <height>309</height>
+                                    <texture background="true">DefaultAlbumCover.png</texture>
+                                    <aspectratio scalediffuse="false">scale</aspectratio>
+                                    <info>ListItem.Icon</info>
+                                </control>
+                                <control type="label">
+                                    <posx>159</posx>
+                                    <posy>309</posy>
+                                    <width>309</width>
+                                    <height>50</height>
+                                    <align>center</align>
+                                    <aligny>center</aligny>
+                                    <font>Font_Condensed20</font>
+                                    <textcolor>grey2</textcolor>
+                                    <shadowcolor>-</shadowcolor>
+                                    <label>$INFO[ListItem.Label]</label>
+                                    <textoffsetx>15</textoffsetx>
+                                    <visible>!Control.HasFocus(5010)</visible>
+                                </control>
+                                <control type="label">
+                                    <posx>159</posx>
+                                    <posy>309</posy>
+                                    <width>309</width>
+                                    <height>50</height>
+                                    <align>center</align>
+                                    <aligny>center</aligny>
+                                    <font>Font_Condensed20</font>
+                                    <textcolor>$VAR[SelectedColorVar]</textcolor>
+                                    <shadowcolor>-</shadowcolor>
+                                    <label>$INFO[ListItem.Label]</label>
+                                    <textoffsetx>15</textoffsetx>
+                                    <visible>Control.HasFocus(5010)</visible>
+                                </control>
+                            </control>
+                            <control type="image">
+                                <posx>0</posx>
+                                <posy>0</posy>
+                                <width>319</width>
+                                <height>319</height>
+                                <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
+                                <texture border="5">views/addonwall_select.png</texture>
+                                <visible>Control.HasFocus(5010)</visible>
+                            </control>
+                        </focusedlayout>
+                        <itemlayout width="399" height="340" condition="Substring(Control.GetLabel(4321),tv) | Substring(Control.GetLabel(4321),pics)">
+                            <control type="group">
+                                <control type="image">
+                                    <description>Main Icon</description>
+                                    <posx>5</posx>
+                                    <posy>5</posy>
+                                    <width>389</width>
+                                    <height>340</height>
+                                    <texture background="true" fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
+                                    <aspectratio>scale</aspectratio>
+                                </control>
+                                <control type="image">
+                                    <description>black</description>
+                                    <posx>5</posx>
+                                    <posy>275</posy>
+                                    <width>389</width>
+                                    <height>70</height>
+                                    <texture>common/black.png</texture>
+                                    <colordiffuse>BBFFFFFF</colordiffuse>
+                                </control>
+                                <control type="label">
+                                    <posx>5</posx>
+                                    <posy>275</posy>
+                                    <width>389</width>
+                                    <height>30</height>
+                                    <align>left</align>
+                                    <aligny>center</aligny>
+                                    <font>Font_Condensed22</font>
+                                    <textcolor>white2</textcolor>
+                                    <shadowcolor>-</shadowcolor>
+                                    <label>$INFO[ListItem.Label2]</label>
+                                    <textoffsetx>15</textoffsetx>
+                                </control>
+                                <control type="label">
+                                    <posx>5</posx>
+                                    <posy>305</posy>
+                                    <width>389</width>
+                                    <height>40</height>
+                                    <align>left</align>
+                                    <aligny>center</aligny>
+                                    <font>Font_Condensed18</font>
+                                    <textcolor>white2</textcolor>
+                                    <shadowcolor>-</shadowcolor>
+                                    <label>$INFO[ListItem.Property(EpisodeNumber),, - ]$INFO[ListItem.Label]</label>
+                                    <textoffsetx>15</textoffsetx>
+                                </control>
+                                <control type="image">
+                                    <posx>5</posx>
+                                    <posy>5</posy>
+                                    <width>389</width>
+                                    <height>340</height>
+                                    <colordiffuse>99FFFFFF</colordiffuse>
+                                    <texture>common/black.png</texture>
+                                    <include>Animation_VisibleChange400</include>
+                                    <visible>Control.HasFocus(5010)</visible>
+                                </control>
+                            </control>
+                        </itemlayout>
+                        <focusedlayout width="399" height="340" condition="Substring(Control.GetLabel(4321),tv) | Substring(Control.GetLabel(4321),pics)">
+                            <control type="group">
+                                <control type="image">
+                                    <description>Main Icon</description>
+                                    <posx>5</posx>
+                                    <posy>5</posy>
+                                    <width>389</width>
+                                    <height>340</height>
+                                    <texture background="true" fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
+                                    <aspectratio>scale</aspectratio>
+                                </control>
+                                <control type="image">
+                                    <description>black</description>
+                                    <posx>5</posx>
+                                    <posy>275</posy>
+                                    <width>389</width>
+                                    <height>70</height>
+                                    <texture>common/black.png</texture>
+                                    <colordiffuse>BBFFFFFF</colordiffuse>
+                                </control>
+                                <control type="label">
+                                    <posx>5</posx>
+                                    <posy>275</posy>
+                                    <width>389</width>
+                                    <height>30</height>
+                                    <align>left</align>
+                                    <aligny>center</aligny>
+                                    <font>Font_Condensed22</font>
+                                    <textcolor>white2</textcolor>
+                                    <visible>!Control.HasFocus(5010)</visible>
+                                    <shadowcolor>-</shadowcolor>
+                                    <label>$INFO[ListItem.Label2]</label>
+                                    <textoffsetx>15</textoffsetx>
+                                </control>
+                                <control type="label">
+                                    <posx>5</posx>
+                                    <posy>305</posy>
+                                    <width>389</width>
+                                    <height>40</height>
+                                    <align>left</align>
+                                    <aligny>center</aligny>
+                                    <font>Font_Condensed18</font>
+                                    <textcolor>white2</textcolor>
+                                    <shadowcolor>-</shadowcolor>
+                                    <visible>!Control.HasFocus(5010)</visible>
+                                    <label>$INFO[ListItem.Property(EpisodeNumber),, - ]$INFO[ListItem.Label]</label>
+                                    <textoffsetx>15</textoffsetx>
+                                </control>
+                                <control type="label">
+                                    <posx>5</posx>
+                                    <posy>275</posy>
+                                    <width>389</width>
+                                    <height>30</height>
+                                    <align>left</align>
+                                    <aligny>center</aligny>
+                                    <font>Font_Condensed22</font>
+                                    <textcolor>$VAR[SelectedColorVar]</textcolor>
+                                    <shadowcolor>-</shadowcolor>
+                                    <label>$INFO[ListItem.Label2]</label>
+                                    <textoffsetx>15</textoffsetx>
+                                    <visible>Control.HasFocus(5010)</visible>
+                                </control>
+                                <control type="label">
+                                    <posx>5</posx>
+                                    <posy>305</posy>
+                                    <width>389</width>
+                                    <height>40</height>
+                                    <align>left</align>
+                                    <aligny>center</aligny>
+                                    <font>Font_Condensed18</font>
+                                    <textcolor>$VAR[SelectedColorVar]</textcolor>
+                                    <shadowcolor>-</shadowcolor>
+                                    <label>$INFO[ListItem.Property(EpisodeNumber),, - ]$INFO[ListItem.Label]</label>
+                                    <visible>Control.HasFocus(5010)</visible>
+                                    <textoffsetx>15</textoffsetx>
+                                </control>
+                            </control>
+                            <control type="image">
+                                <posx>0</posx>
+                                <posy>0</posy>
+                                <width>399</width>
+                                <height>350</height>
+                                <colordiffuse>$VAR[SelectedColorVar]</colordiffuse>
+                                <texture border="5">views/addonwall_select.png</texture>
+                                <visible>Control.HasFocus(5010)</visible>
+                            </control>
+                        </focusedlayout>
+                        <itemlayout height="450" width="228" condition="Substring(Control.GetLabel(4321),panel2,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)]">
+                            <control type="image">
+                                <description>Main Icon</description>
+                                <posx>21</posx>
+                                <posy>12</posy>
+                                <width>183</width>
+                                <height>275</height>
+                                <fadetime>IconCrossfadeTime</fadetime>
+                                <texture diffuse="thumbs/movieposter_mask.png" background="true">DefaultVideoBigPoster.png</texture>
+                                <aspectratio scalediffuse="false">stretch</aspectratio>
+                                <info>ListItem.Icon</info>
+                            </control>
+                            <control type="image">
+                                <description>Main Icon Glass overlay</description>
+                                <posx>1.5</posx>
+                                <posy>-7.5</posy>
+                                <width>222</width>
+                                <height>313</height>
+                                <texture diffuse="thumbs/movieposter_mask.png">thumbs/thumb_glass_noreflect.png</texture>
+                                <bordertexture border="19.5">thumbs/poster_shadow.png</bordertexture>
+                                <bordersize>19.5</bordersize>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                            </control>
+                        </itemlayout>
+                        <focusedlayout height="450" width="228" condition="Substring(Control.GetLabel(4321),panel2,right) + [Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)] ">
+                            <control type="group">
+                                <animation effect="zoom" center="102,80" start="100" end="120" time="300" tween="sine" easing="out" reversible="false">Focus</animation>
+                                <control type="image">
+                                    <description>Main Icon</description>
+                                    <posx>21</posx>
+                                    <posy>12</posy>
+                                    <width>183</width>
+                                    <height>275</height>
+                                    <fadetime>IconCrossfadeTime</fadetime>
+                                    <texture diffuse="thumbs/movieposter_mask.png" background="true" fallback="DefaultVideoBigPoster.png">$INFO[ListItem.Icon]</texture>
+                                    <aspectratio scalediffuse="false">stretch</aspectratio>
+                                </control>
+                                <control type="image">
+                                    <posx>1.5</posx>
+                                    <posy>-7.5</posy>
+                                    <width>222</width>
+                                    <height>313</height>
+                                    <description>Main Icon Glass overlay</description>
+                                    <texture background="true" diffuse="thumbs/movieposter_mask.png">thumbs/thumb_glass_noreflect.png</texture>
+                                    <bordertexture border="19.5">thumbs/poster_shadow.png</bordertexture>
+                                    <bordersize>19.5</bordersize>
+                                    <aspectratio scalediffuse="false">stretch</aspectratio>
+                                </control>
+                            </control>
+                        </focusedlayout>
+                        <content>
+                            <include condition="Substring(Skin.String(widgetlist),recentmoviespanel) | Window.IsActive(1124)">LatestMoviesItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),randommoviespanel) | Window.IsActive(1124)">RandomMoviesItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),recentmusicvideospanel) | Window.IsActive(1124)">MusicvideoLatestItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),randommusicvideospanel) | Window.IsActive(1124)">MusicvideoRandomItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),inprogressmoviespanel) | Window.IsActive(1124)">WatchlistMoviesItems</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem1.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem1.Enable)] | Window.IsActive(1124)">Custom1WidgetPoster</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem2.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem2.Enable)] | Window.IsActive(1124)">Custom2WidgetPoster</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem3.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem3.Enable)] | Window.IsActive(1124)">Custom3WidgetPoster</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem4.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem4.Enable)] | Window.IsActive(1124)">Custom4WidgetPoster</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem5.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem5.Enable)] | Window.IsActive(1124)">Custom5WidgetPoster</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem6.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem6.Enable)] | Window.IsActive(1124)">Custom6WidgetPoster</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem7.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem7.Enable)] | Window.IsActive(1124)">Custom7WidgetPoster</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem8.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem8.Enable)] | Window.IsActive(1124)">Custom8WidgetPoster</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem9.Widget),moviescustompanel) + Skin.HasSetting(CustomHomeItem9.Enable)] | Window.IsActive(1124)">Custom9WidgetPoster</include>
+                            <include condition="Substring(Skin.String(widgetlist),randomsongspanel) | Window.IsActive(1124)">RandomSongsItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),recentsongspanel) | Window.IsActive(1124)">LatestSongsItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),randomalbumspanel) | Window.IsActive(1124)">RandomAlbumsItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),recentalbumspanel) | Window.IsActive(1124)">LatestAlbumsItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),watchlistmusicpanel) | Window.IsActive(1124)">WatchlistMusicItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),actorspanel) | Window.IsActive(1124)">BornActorsItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),randomaddonspanel) | Window.IsActive(1124)">RandomAddonsItems</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem1.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem1.Enable)] | Window.IsActive(1124)">Custom1WidgetSquare</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem2.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem2.Enable)] | Window.IsActive(1124)">Custom2WidgetSquare</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem3.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem3.Enable)] | Window.IsActive(1124)">Custom3WidgetSquare</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem4.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem4.Enable)] | Window.IsActive(1124)">Custom4WidgetSquare</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem5.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem5.Enable)] | Window.IsActive(1124)">Custom5WidgetSquare</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem6.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem6.Enable)] | Window.IsActive(1124)">Custom6WidgetSquare</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem7.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem7.Enable)] | Window.IsActive(1124)">Custom7WidgetSquare</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem8.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem8.Enable)] | Window.IsActive(1124)">Custom8WidgetSquare</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem9.Widget),albumscustompanel) + Skin.HasSetting(CustomHomeItem9.Enable)] | Window.IsActive(1124)">Custom9WidgetSquare</include>
+                            <include condition="Substring(Skin.String(widgetlist),recenttvpanel) | Window.IsActive(1124)">LatestEpisodesItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),randomtvpanel) | Window.IsActive(1124)">RandomEpisodesItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),watchlisttvpanel) | Window.IsActive(1124)">WatchListTVItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),randompics) | Window.IsActive(1124)">RandomPicturesItems</include>
+                            <include condition="Substring(Skin.String(widgetlist),recentpics) | Window.IsActive(1124)">LatestPicturesItems</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem1.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem1.Enable)] | Window.IsActive(1124)">Custom1WidgetEpisode</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem2.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem2.Enable)] | Window.IsActive(1124)">Custom2WidgetEpisode</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem3.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem3.Enable)] | Window.IsActive(1124)">Custom3WidgetEpisode</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem4.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem4.Enable)] | Window.IsActive(1124)">Custom4WidgetEpisode</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem5.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem5.Enable)] | Window.IsActive(1124)">Custom5WidgetEpisode</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem6.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem6.Enable)] | Window.IsActive(1124)">Custom6WidgetEpisode</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem7.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem7.Enable)] | Window.IsActive(1124)">Custom7WidgetEpisode</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem8.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem8.Enable)] | Window.IsActive(1124)">Custom8WidgetEpisode</include>
+                            <include condition="[SubString(Skin.String(CustomHomeItem9.Widget),tvcustompanel) + Skin.HasSetting(CustomHomeItem9.Enable)] | Window.IsActive(1124)">Custom9WidgetEpisode</include>
+                        </content>
+                    </control>
+                    <control type="label">
+                        <posx>0</posx>
+                        <posy>381</posy>
+                        <width>1650</width>
+                        <height>25</height>
+                        <font>Font_Condensed15_Caps</font>
+                        <textcolor>bbe5e5e5</textcolor>
+                        <shadowcolor>black</shadowcolor>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <textoffsetx>15</textoffsetx>
+                        <visible>!Substring(Control.Getlabel(4321),panel2,right)</visible>
+                        <label>$VAR[PanelWidgetLabel1Var]</label>
+                    </control>
+                    <control type="label">
+                        <posx>0</posx>
+                        <posy>345</posy>
+                        <width>1650</width>
+                        <height>25</height>
+                        <font>Font_Condensed22_Caps</font>
+                        <textcolor>bbe5e5e5</textcolor>
+                        <shadowcolor>black</shadowcolor>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <textoffsetx>15</textoffsetx>
+                        <label>$VAR[WidgetTitleLabelVar]</label>
+                        <visible>Substring(Control.Getlabel(4321),panel2,right)</visible>
+                    </control>
+                </control>
+	</include>
 </includes>
