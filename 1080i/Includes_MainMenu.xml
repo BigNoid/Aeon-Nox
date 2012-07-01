@@ -2087,12 +2087,13 @@
         <ondown condition="Control.IsVisible(9001)">9010</ondown>
         <pagecontrol>-</pagecontrol>
         <scrolltime tween="quadratic" easing="out">300</scrolltime>
-        <focusposition>2</focusposition>
+        <include condition="Skin.HasSetting(mainmenuicons)">FocusPosition4</include>
+        <include condition="!Skin.HasSetting(mainmenuicons)">FocusPosition2</include>
         <orientation>horizontal</orientation>
         <animation effect="slide" start="0,0" end="-302,0" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(biggergap)">Conditional</animation>
         <animation effect="fade" start="0" end="100" time="200">Visible</animation>
         <animation effect="fade" start="100" end="30" time="200" condition="Window.IsVisible(1113) | ControlGroup(9001).HasFocus">conditional</animation>
-        <itemlayout height="225" width="519" condition="!Skin.HasSetting(biggergap)">
+        <itemlayout height="225" width="519" condition="!Skin.HasSetting(biggergap) + !Skin.HasSetting(mainmenuicons)">
             <control type="label">
                 <posx>260</posx>
                 <posy>-2</posy>
@@ -2110,7 +2111,7 @@
                 <texture>$INFO[ListItem.Property(DisableIcon)]</texture>
             </control>
         </itemlayout>
-        <focusedlayout height="225" width="519" condition="!Skin.HasSetting(biggergap)">
+        <focusedlayout height="225" width="519" condition="!Skin.HasSetting(biggergap) + !Skin.HasSetting(mainmenuicons)">
             <control type="label">
                 <posx>260</posx>
                 <posy>-2</posy>
@@ -2139,7 +2140,7 @@
                 <texture>$INFO[ListItem.Property(DisableIcon)]</texture>
             </control>
         </focusedlayout>
-        <itemlayout height="225" width="639" condition="Skin.HasSetting(biggergap)">
+        <itemlayout height="225" width="639" condition="Skin.HasSetting(biggergap) + !Skin.HasSetting(mainmenuicons)">
             <control type="label">
                 <posx>260</posx>
                 <posy>-2</posy>
@@ -2157,7 +2158,7 @@
                 <texture>$INFO[ListItem.Property(DisableIcon)]</texture>
             </control>
         </itemlayout>
-        <focusedlayout height="225" width="639" condition="Skin.HasSetting(biggergap)">
+        <focusedlayout height="225" width="639" condition="Skin.HasSetting(biggergap) + !Skin.HasSetting(mainmenuicons)">
             <control type="label">
                 <posx>320</posx>
                 <posy>-2</posy>
@@ -2186,57 +2187,91 @@
                 <texture>$INFO[ListItem.Property(DisableIcon)]</texture>
             </control>
         </focusedlayout>
-<!--          <itemlayout height="225" width="250" condition="Skin.HasSetting(mainmenuicons)">
-                    <control type="image">
-                        <posx>247</posx>
-                        <posy>57</posy>
-                        <width>100</width>
-                        <height>100</height>
-                        <texture>$INFO[ListItem.Property(BigIcon)]</texture>
-                         <colordiffuse>66FFFFFF</colordiffuse>
-                    </control>
+        <itemlayout height="225" width="250" condition="Skin.HasSetting(mainmenuicons)">
+            <control type="image">
+                <posx>252</posx>
+                <posy>64</posy>
+                <width>88</width>
+                <height>88</height>
+                <texture>$INFO[ListItem.Property(BigIcon)]</texture>
+                <colordiffuse>55FFFFFF</colordiffuse>
+            </control>
             <control type="label">
                 <posx>297</posx>
-                <posy>30</posy>
+                <posy>29</posy>
                 <width>250</width>
-                <textcolor>white5</textcolor>
+                <textcolor>white4</textcolor>
                 <shadowcolor>-</shadowcolor>
-                <include>MainMenuLabels</include>
+                <height>225</height>
+                <align>center</align>
+                <aligny>center</aligny>
+                <label>[B][UPPERCASE]$INFO[ListItem.Label][/UPPERCASE][/B]</label>
                 <font>Font_Reg17_Caps</font>
             </control>
             <control type="image">
-                <posx>247</posx>
-                <posy>68</posy>
-                <width>90</width>
-                <height>90</height>
+                <posx>266</posx>
+                <posy>67</posy>
+                <width>60</width>
+                <height>60</height>
                 <texture>$INFO[ListItem.Property(DisableIcon)]</texture>
             </control>
         </itemlayout>
         <focusedlayout height="225" width="250" condition="Skin.HasSetting(mainmenuicons)">
-                    <control type="image">
-                        <posx>247</posx>
-                        <posy>57</posy>
-                        <width>100</width>
-                        <height>100</height>
-                        <texture>$INFO[ListItem.Property(BigIcon)]</texture>
-                    </control>
-            <control type="label">
-                <posx>297</posx>
-                <posy>30</posy>
-                <width>250</width>
-                <textcolor>white4</textcolor>
-                <shadowcolor>-</shadowcolor>
-                <include>MainMenuLabels</include>
-                <font>Font_Reg17_Caps</font>
+            <control type="group">
+                <visible>Control.HasFocus(9000)</visible>
+                <control type="image">
+                    <posx>252</posx>
+                    <posy>64</posy>
+                    <width>88</width>
+                    <height>88</height>
+                    <texture>$INFO[ListItem.Property(BigIcon)]</texture>
+                    <colordiffuse>$VAR[HomeMenuTextFocusVar]</colordiffuse>
+                    <visible>Control.HasFocus(9000)</visible>
+                </control>
+                <control type="label">
+                    <posx>297</posx>
+                    <posy>29</posy>
+                    <width>250</width>
+                    <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
+                    <shadowcolor>-</shadowcolor>
+                    <height>225</height>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <label>[B][UPPERCASE]$INFO[ListItem.Label][/UPPERCASE][/B]</label>
+                    <font>Font_Reg17_Caps</font>
+                </control>
+            </control>
+            <control type="group">
+                <visible>!Control.HasFocus(9000)</visible>
+                <control type="image">
+                    <posx>252</posx>
+                    <posy>64</posy>
+                    <width>88</width>
+                    <height>88</height>
+                    <texture>$INFO[ListItem.Property(BigIcon)]</texture>
+                    <colordiffuse>55FFFFFF</colordiffuse>
+                </control>
+                <control type="label">
+                    <posx>297</posx>
+                    <posy>29</posy>
+                    <width>250</width>
+                    <textcolor>white4</textcolor>
+                    <shadowcolor>-</shadowcolor>
+                    <height>225</height>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <label>[B][UPPERCASE]$INFO[ListItem.Label][/UPPERCASE][/B]</label>
+                    <font>Font_Reg17_Caps</font>
+                </control>
             </control>
             <control type="image">
-                <posx>247</posx>
-                <posy>68</posy>
-                <width>90</width>
-                <height>90</height>
+                <posx>266</posx>
+                <posy>67</posy>
+                <width>60</width>
+                <height>60</height>
                 <texture>$INFO[ListItem.Property(DisableIcon)]</texture>
             </control>
-        </focusedlayout> -->
+        </focusedlayout>
         <content>
             <item id="4">
                 <label fallback="31500">$INFO[Skin.String(PicturesHomeItem.Label)]</label>
@@ -2245,7 +2280,7 @@
                 <property name="Widget">$INFO[Skin.String(PicturesHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(PicturesHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(PicturesHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(PicturesHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Image.png">$INFO[Skin.String(PicturesHomeItem.Icon)]</property>
                 <icon fallback="special://skin/backgrounds/pictures.jpg">$INFO[Skin.String(PicturesHomeItem.MultiFanart)]</icon>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoPicturesButton)</visible>
@@ -2256,6 +2291,7 @@
                 <onclick>ActivateWindow(1123)</onclick>
                 <icon fallback="special://skin/backgrounds/pictures.jpg">$INFO[Skin.String(PicturesHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Image.png">$INFO[Skin.String(PicturesHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoPicturesButton)</visible>
             </item>
             <item id="7">
@@ -2265,7 +2301,7 @@
                 <property name="Widget">$INFO[Skin.String(LiveTVHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(LiveTVHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(LiveTVHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(LiveTVHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Monitor.png">$INFO[Skin.String(LiveTVHomeItem.Icon)]</property>
                 <icon fallback="special://skin/backgrounds/livetv.jpg">$INFO[Skin.String(LiveTVHomeItem.MultiFanart)]</icon>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoLiveTVButton)</visible>
@@ -2276,6 +2312,7 @@
                 <onclick>ActivateWindow(1123)</onclick>
                 <icon fallback="special://skin/backgrounds/livetv.jpg">$INFO[Skin.String(LiveTVHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Monitor.png">$INFO[Skin.String(LiveTVHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoLiveTVButton)</visible>
             </item>
             <item id="3">
@@ -2286,7 +2323,7 @@
                 <property name="Widget">$INFO[Skin.String(MusicHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(MusicHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(MusicHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(MusicHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Headphone.png">$INFO[Skin.String(MusicHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoMusicButton)</visible>
             </item>
@@ -2296,6 +2333,7 @@
                 <onclick>ActivateWindow(1123)</onclick>
                 <icon fallback="special://skin/backgrounds/music.jpg">$INFO[Skin.String(MusicHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Headphone.png">$INFO[Skin.String(MusicHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoMusicButton)</visible>
             </item>
             <item id="10">
@@ -2306,7 +2344,7 @@
                 <property name="Widget">$INFO[Skin.String(MovieHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(MovieHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(MovieHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(MovieHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Film.png">$INFO[Skin.String(MovieHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoMovieButton) + Library.HasContent(Movies)</visible>
             </item>
@@ -2316,6 +2354,7 @@
                 <onclick>ActivateWindow(1123)</onclick>
                 <icon fallback="special://skin/backgrounds/movies.jpg">$INFO[Skin.String(MovieHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Film.png">$INFO[Skin.String(MovieHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoMovieButton) + Library.HasContent(Movies)</visible>
             </item>
             <item id="33">
@@ -2326,7 +2365,7 @@
                 <property name="Widget">$INFO[Skin.String(MusicVideosHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(MusicVideosHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(MusicVideosHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(MusicVideosHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Media.png">$INFO[Skin.String(MusicVideosHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoMusicVideosButton) + Library.HasContent(musicvideos)</visible>
             </item>
@@ -2336,6 +2375,7 @@
                 <onclick>ActivateWindow(1123)</onclick>
                 <icon fallback="special://skin/backgrounds/music.jpg">$INFO[Skin.String(MusicVideosHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Media.png">$INFO[Skin.String(MusicVideosHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoMusicVideosButton) + Library.HasContent(musicvideos)</visible>
             </item>
             <item id="11">
@@ -2346,7 +2386,7 @@
                 <property name="Widget">$INFO[Skin.String(TVShowHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(TVShowHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(TVShowHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(TVShowHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Television.png">$INFO[Skin.String(TVShowHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoTVShowButton) + Library.HasContent(TVShows)</visible>
             </item>
@@ -2356,6 +2396,7 @@
                 <onclick>ActivateWindow(1123)</onclick>
                 <icon fallback="special://skin/backgrounds/tvshows.jpg">$INFO[Skin.String(TVShowHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Television.png">$INFO[Skin.String(TVShowHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoTVShowButton) + Library.HasContent(TVShows)</visible>
             </item>
             <item id="25">
@@ -2366,7 +2407,7 @@
                 <property name="Widget">$INFO[Skin.String(TVGuideHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(TVGuideHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(TVGuideHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(TVGuideHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Calendar.png">$INFO[Skin.String(TVGuideHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoTVGuideButton) + Library.HasContent(TVShows)</visible>
             </item>
@@ -2376,6 +2417,7 @@
                 <label fallback="31290">$INFO[Skin.String(TVGuideHomeItem.Label)]</label>
                 <icon fallback="special://skin/backgrounds/tvguide.jpg">$INFO[Skin.String(TVGuideHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Calendar.png">$INFO[Skin.String(TVGuideHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoTVGuideButton) + Library.HasContent(TVShows)</visible>
             </item>
             <item id="27">
@@ -2386,7 +2428,7 @@
                 <property name="Widget">$INFO[Skin.String(FeaturedHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(FeaturedHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(FeaturedHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(FeaturedHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Home.png">$INFO[Skin.String(FeaturedHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoFeaturedButton) + System.HasAddon(script.watchlist)</visible>
             </item>
@@ -2396,6 +2438,7 @@
                 <label fallback="31163">$INFO[Skin.String(FeaturedHomeItem.Label)]</label>
                 <icon fallback="special://skin/backgrounds/featured.jpg">$INFO[Skin.String(FeaturedHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Home.png">$INFO[Skin.String(FeaturedHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoFeaturedButton) + System.HasAddon(script.watchlist)</visible>
             </item>
             <item id="101">
@@ -2407,7 +2450,7 @@
                 <property name="Widget">$INFO[Skin.String(CustomHomeItem1.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(CustomHomeItem1.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(CustomHomeItem1.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(CustomHomeItem1.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem1.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>Skin.HasSetting(CustomHomeItem1.Enable)</visible>
             </item>
@@ -2417,6 +2460,7 @@
                 <onclick>ActivateWindow(1122)</onclick>
                 <icon fallback="special://skin/backgrounds/playlist.jpg">$INFO[Skin.String(CustomHomeItem1.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem1.Icon)]</property>
                 <visible>!Skin.HasSetting(CustomHomeItem1.Enable)</visible>
             </item>
             <item id="102">
@@ -2427,7 +2471,7 @@
                 <property name="Widget">$INFO[Skin.String(CustomHomeItem2.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(CustomHomeItem2.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(CustomHomeItem2.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(CustomHomeItem2.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem2.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>Skin.HasSetting(CustomHomeItem2.Enable)</visible>
             </item>
@@ -2438,6 +2482,7 @@
                 <onclick>ActivateWindow(1122)</onclick>
                 <icon fallback="special://skin/backgrounds/playlist.jpg">$INFO[Skin.String(CustomHomeItem2.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem2.Icon)]</property>
                 <visible>!Skin.HasSetting(CustomHomeItem2.Enable)</visible>
             </item>
             <item id="103">
@@ -2448,7 +2493,7 @@
                 <property name="Widget">$INFO[Skin.String(CustomHomeItem3.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(CustomHomeItem3.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(CustomHomeItem3.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(CustomHomeItem3.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem3.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>Skin.HasSetting(CustomHomeItem3.Enable)</visible>
             </item>
@@ -2459,6 +2504,7 @@
                 <onclick>ActivateWindow(1122)</onclick>
                 <icon fallback="special://skin/backgrounds/playlist.jpg">$INFO[Skin.String(CustomHomeItem3.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem3.Icon)]</property>
                 <visible>!Skin.HasSetting(CustomHomeItem3.Enable)</visible>
             </item>
             <item id="104">
@@ -2469,7 +2515,7 @@
                 <property name="Widget">$INFO[Skin.String(CustomHomeItem4.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(CustomHomeItem4.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(CustomHomeItem4.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(CustomHomeItem4.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem4.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>Skin.HasSetting(CustomHomeItem4.Enable)</visible>
             </item>
@@ -2480,6 +2526,7 @@
                 <onclick>ActivateWindow(1122)</onclick>
                 <icon fallback="special://skin/backgrounds/playlist.jpg">$INFO[Skin.String(CustomHomeItem4.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem4.Icon)]</property>
                 <visible>!Skin.HasSetting(CustomHomeItem4.Enable)</visible>
             </item>
             <item id="105">
@@ -2490,7 +2537,7 @@
                 <property name="Widget">$INFO[Skin.String(CustomHomeItem5.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(CustomHomeItem5.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(CustomHomeItem5.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(CustomHomeItem5.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem5.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>Skin.HasSetting(CustomHomeItem5.Enable)</visible>
             </item>
@@ -2501,6 +2548,7 @@
                 <onclick>ActivateWindow(1122)</onclick>
                 <icon fallback="special://skin/backgrounds/playlist.jpg">$INFO[Skin.String(CustomHomeItem5.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem5.Icon)]</property>
                 <visible>!Skin.HasSetting(CustomHomeItem5.Enable)</visible>
             </item>
             <item id="106">
@@ -2511,7 +2559,7 @@
                 <property name="Widget">$INFO[Skin.String(CustomHomeItem6.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(CustomHomeItem6.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(CustomHomeItem6.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(CustomHomeItem6.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem6.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>Skin.HasSetting(CustomHomeItem6.Enable)</visible>
             </item>
@@ -2522,6 +2570,7 @@
                 <onclick>ActivateWindow(1122)</onclick>
                 <icon fallback="special://skin/backgrounds/playlist.jpg">$INFO[Skin.String(CustomHomeItem6.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem6.Icon)]</property>
                 <visible>!Skin.HasSetting(CustomHomeItem6.Enable)</visible>
             </item>
             <item id="107">
@@ -2532,7 +2581,7 @@
                 <property name="Widget">$INFO[Skin.String(CustomHomeItem7.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(CustomHomeItem7.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(CustomHomeItem7.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(CustomHomeItem7.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem7.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>Skin.HasSetting(CustomHomeItem7.Enable)</visible>
             </item>
@@ -2543,6 +2592,7 @@
                 <onclick>ActivateWindow(1122)</onclick>
                 <icon fallback="special://skin/backgrounds/playlist.jpg">$INFO[Skin.String(CustomHomeItem7.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem7.Icon)]</property>
                 <visible>!Skin.HasSetting(CustomHomeItem7.Enable)</visible>
             </item>
             <item id="108">
@@ -2553,7 +2603,7 @@
                 <property name="Widget">$INFO[Skin.String(CustomHomeItem8.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(CustomHomeItem8.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(CustomHomeItem8.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(CustomHomeItem8.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem8.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>Skin.HasSetting(CustomHomeItem8.Enable)</visible>
             </item>
@@ -2564,6 +2614,7 @@
                 <onclick>ActivateWindow(1122)</onclick>
                 <icon fallback="special://skin/backgrounds/playlist.jpg">$INFO[Skin.String(CustomHomeItem8.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem8.Icon)]</property>
                 <visible>!Skin.HasSetting(CustomHomeItem8.Enable)</visible>
             </item>
             <item id="109">
@@ -2574,7 +2625,7 @@
                 <property name="Widget">$INFO[Skin.String(CustomHomeItem9.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(CustomHomeItem9.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(CustomHomeItem9.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(CustomHomeItem9.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem9.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>Skin.HasSetting(CustomHomeItem9.Enable)</visible>
             </item>
@@ -2585,6 +2636,7 @@
                 <onclick>ActivateWindow(1122)</onclick>
                 <icon fallback="special://skin/backgrounds/playlist.jpg">$INFO[Skin.String(CustomHomeItem9.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Question.png">$INFO[Skin.String(CustomHomeItem9.Icon)]</property>
                 <visible>!Skin.HasSetting(CustomHomeItem9.Enable)</visible>
             </item>
             <item id="2">
@@ -2595,7 +2647,7 @@
                 <property name="Widget">$INFO[Skin.String(VideosHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(VideosHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(VideosHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(VideosHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Camcorder.png">$INFO[Skin.String(VideosHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoVideosButton)</visible>
             </item>
@@ -2605,6 +2657,7 @@
                 <onclick>ActivateWindow(1123)</onclick>
                 <icon fallback="special://skin/backgrounds/videos.jpg">$INFO[Skin.String(VideosHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Camcorder.png">$INFO[Skin.String(VideosHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoVideosButton)</visible>
             </item>
             <item id="1">
@@ -2615,7 +2668,7 @@
                 <property name="Widget">$INFO[Skin.String(ProgramsHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(ProgramsHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(ProgramsHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(ProgramsHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Computer.png">$INFO[Skin.String(ProgramsHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoProgramsButton)</visible>
             </item>
@@ -2625,6 +2678,7 @@
                 <onclick>ActivateWindow(1123)</onclick>
                 <icon fallback="special://skin/backgrounds/programs.jpg">$INFO[Skin.String(ProgramsHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Computer.png">$INFO[Skin.String(ProgramsHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoProgramsButton)</visible>
             </item>
             <item id="5">
@@ -2635,7 +2689,7 @@
                 <property name="Widget">$INFO[Skin.String(SettingsHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(SettingsHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(SettingsHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(SettingsHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Controlpanel.png">$INFO[Skin.String(SettingsHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoSettingsButton)</visible>
             </item>
@@ -2645,6 +2699,7 @@
                 <label fallback="31506">$INFO[Skin.String(SettingsHomeItem.Label)]</label>
                 <icon fallback="special://skin/backgrounds/system.jpg">$INFO[Skin.String(SettingsHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Controlpanel.png">$INFO[Skin.String(SettingsHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoSettingsButton)</visible>
             </item>
             <item id="8">
@@ -2655,7 +2710,7 @@
                 <property name="Widget">$INFO[Skin.String(AddonsHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(AddonsHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(AddonsHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(AddonsHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Puzzle.png">$INFO[Skin.String(AddonsHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoAddonsButton)</visible>
             </item>
@@ -2665,6 +2720,7 @@
                 <label fallback="31507">$INFO[Skin.String(AddonsHomeItem.Label)]</label>
                 <icon fallback="special://skin/backgrounds/addons.jpg">$INFO[Skin.String(AddonsHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Puzzle.png">$INFO[Skin.String(AddonsHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoAddonsButton)</visible>
             </item>
             <item id="12">
@@ -2675,7 +2731,7 @@
                 <property name="Widget">$INFO[Skin.String(ShutdownHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(ShutdownHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(ShutdownHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(ShutdownHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Power.png">$INFO[Skin.String(ShutdownHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoShutdownButton)</visible>
             </item>
@@ -2685,6 +2741,7 @@
                 <label fallback="31508">$INFO[Skin.String(ShutdownHomeItem.Label)]</label>
                 <icon fallback="special://skin/backgrounds/shutdown.jpg">$INFO[Skin.String(ShutdownHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Power.png">$INFO[Skin.String(ShutdownHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoShutdownButton)</visible>
             </item>
             <item id="13">
@@ -2695,7 +2752,7 @@
                 <property name="Widget">$INFO[Skin.String(FavouritesHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(FavouritesHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(FavouritesHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(FavouritesHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Star.png">$INFO[Skin.String(FavouritesHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoFavouritesButton)</visible>
             </item>
@@ -2705,6 +2762,7 @@
                 <label fallback="31509">$INFO[Skin.String(FavouritesHomeItem.Label)]</label>
                 <icon fallback="special://skin/backgrounds/favourites.jpg">$INFO[Skin.String(FavouritesHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Star.png">$INFO[Skin.String(FavouritesHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoFavouritesButton)</visible>
             </item>
             <item id="14">
@@ -2715,7 +2773,7 @@
                 <property name="Widget">$INFO[Skin.String(PlayDiscHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(PlayDiscHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(PlayDiscHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(PlayDiscHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/CD-DVD.png">$INFO[Skin.String(PlayDiscHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoDiscButton)</visible>
             </item>
@@ -2725,6 +2783,7 @@
                 <label fallback="31511">$INFO[Skin.String(PlayDiscHomeItem.Label)]</label>
                 <icon fallback="special://skin/backgrounds/play_disc.jpg">$INFO[Skin.String(PlayDiscHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/CD-DVD.png">$INFO[Skin.String(PlayDiscHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoDiscButton)</visible>
             </item>
             <item id="6">
@@ -2735,7 +2794,7 @@
                 <property name="Widget">$INFO[Skin.String(WeatherHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(WeatherHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(WeatherHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(WeatherHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Weather.png">$INFO[Skin.String(WeatherHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoWeatherButton)</visible>
             </item>
@@ -2745,6 +2804,7 @@
                 <label fallback="31510">$INFO[Skin.String(WeatherHomeItem.Label)]</label>
                 <icon fallback="special://skin/backgrounds/weather.jpg">$INFO[Skin.String(WeatherHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Weather.png">$INFO[Skin.String(WeatherHomeItem.Icon)]</property>
                 <visible>Skin.HasSetting(HomeMenuNoWeatherButton)</visible>
             </item>
             <item id="26">
@@ -2755,7 +2815,7 @@
                 <property name="Widget">$INFO[Skin.String(ComicsHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(ComicsHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(ComicsHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(ComicsHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Book.png">$INFO[Skin.String(ComicsHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>Skin.HasSetting(HomeMenuNoComicsButton)</visible>
             </item>
@@ -2765,6 +2825,7 @@
                 <onclick>ActivateWindow(1123)</onclick>
                 <icon fallback="special://skin/backgrounds/comics.jpg">$INFO[Skin.String(ComicsHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Book.png">$INFO[Skin.String(ComicsHomeItem.Icon)]</property>
                 <visible>!Skin.HasSetting(HomeMenuNoComicsButton)</visible>
             </item>
             <item id="50">
@@ -2773,7 +2834,7 @@
                 <property name="Widget">$INFO[Skin.String(FullscreenHomeItem.Widget)]</property>
                 <property name="Widget2">$INFO[Skin.String(FullscreenHomeItem.Widget2)]</property>
                 <property name="Color">$INFO[Skin.String(FullscreenHomeItem.Color)]</property>
-                <property name="BigIcon">$INFO[Skin.String(FullscreenHomeItem.Icon)]</property>
+                <property name="BigIcon" fallback="BigIcons/Fullscreen.png">$INFO[Skin.String(FullscreenHomeItem.Icon)]</property>
                 <thumb>-</thumb>
                 <visible>!Skin.HasSetting(HomeMenuNoFullscreenButton)</visible>
                 <onclick>Skin.SetString(MenuItem,FullscreenHomeItem)</onclick>
@@ -2783,6 +2844,7 @@
                 <label fallback="31053">$INFO[Skin.String(FullscreenHomeItem.Label)]</label>
                 <icon fallback="special://skin/backgrounds/play_disc.jpg">$INFO[Skin.String(FullscreenHomeItem.MultiFanart)]</icon>
                 <property name="DisableIcon">close.png</property>
+                <property name="BigIcon" fallback="BigIcons/Fullscreen.png">$INFO[Skin.String(FullscreenHomeItem.Icon)]</property>
                 <onclick>Skin.SetString(MenuItem,FullscreenHomeItem)</onclick>
                 <onclick>ActivateWindow(1123)</onclick>
                 <visible>Skin.HasSetting(HomeMenuNoFullscreenButton)</visible>
