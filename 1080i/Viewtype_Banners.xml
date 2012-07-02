@@ -18,35 +18,61 @@
         <control type="group">
             <visible>Control.IsVisible(508)</visible>
             <include>Animation_OpenCloseZoom</include>
-            <control type="image">
-                <posx>10</posx>
-                <posy>806</posy>
-                <width>40</width>
-                <height>40</height>
-                <texture>common/arrowleft.png</texture>
-                <colordiffuse>white2</colordiffuse>
-                <animation effect="slide" start="-150" end="0" delay="800" time="400" easing="out" tween="cubic">WindowOpen</animation>
-                <animation effect="slide" start="50" end="0" time="400" easing="out" tween="cubic" condition="![!Skin.HasSetting(BannerPlexVertical) + !Container(508).Position(1) + !Container(508).Position(2) + !Container(508).Position(0)]">Conditional</animation>
-                <animation effect="rotate" center="auto" start="0" end="-90" time="100" condition="Skin.HasSetting(BannerPlexVertical)">Conditional</animation>
-                <visible>[IntegerGreaterThan(Container(508).NumItems,10) + !system.getbool(filelists.showparentdiritems)] | [IntegerGreaterThan(Container(508).NumItems,9) + system.getbool(filelists.showparentdiritems)]</visible>
+            <control type="group">
+                <include>Animation_VisibleChange400</include>
+                <visible>!Skin.HasSetting(AltBannerPlex)</visible>
+                <control type="image">
+                    <posx>10</posx>
+                    <posy>806</posy>
+                    <width>40</width>
+                    <height>40</height>
+                    <texture>common/arrowleft.png</texture>
+                    <colordiffuse>white2</colordiffuse>
+                    <animation effect="slide" start="-150" end="0" delay="800" time="400" easing="out" tween="cubic">WindowOpen</animation>
+                    <animation effect="slide" start="50" end="0" time="400" easing="out" tween="cubic" condition="![!Skin.HasSetting(BannerPlexVertical) + !Container(508).Position(1) + !Container(508).Position(2) + !Container(508).Position(0)]">Conditional</animation>
+                    <animation effect="rotate" center="auto" start="0" end="-90" time="100" condition="Skin.HasSetting(BannerPlexVertical)">Conditional</animation>
+                    <visible>[IntegerGreaterThan(Container(508).NumItems,10) + !system.getbool(filelists.showparentdiritems)] | [IntegerGreaterThan(Container(508).NumItems,9) + system.getbool(filelists.showparentdiritems)]</visible>
+                </control>
+                <control type="image">
+                    <posx>1860</posx>
+                    <posy>806</posy>
+                    <width>40</width>
+                    <height>40</height>
+                    <texture>common/arrowright.png</texture>
+                    <colordiffuse>white2</colordiffuse>
+                    <animation effect="slide" start="-50" end="0" time="400" easing="out" tween="cubic" condition="![!Skin.HasSetting(BannerPlexVertical) + !Container(508).Position(6) + !Container(508).Position(7) + !Container(508).Position(8)]">Conditional</animation>
+                    <animation effect="slide" start="150" end="0" delay="800" time="400" easing="out" tween="cubic">WindowOpen</animation>
+                    <animation effect="rotate" center="auto" start="0" end="-90" time="100" condition="Skin.HasSetting(BannerPlexVertical)">Conditional</animation>
+                    <visible>[IntegerGreaterThan(Container(508).NumItems,10) + !system.getbool(filelists.showparentdiritems)] | [IntegerGreaterThan(Container(508).NumItems,9) + system.getbool(filelists.showparentdiritems)]</visible>
+                </control>
             </control>
-            <control type="image">
-                <posx>1860</posx>
-                <posy>806</posy>
-                <width>40</width>
-                <height>40</height>
-                <texture>common/arrowright.png</texture>
-                <colordiffuse>white2</colordiffuse>
-                <animation effect="slide" start="-50" end="0" time="400" easing="out" tween="cubic" condition="![!Skin.HasSetting(BannerPlexVertical) + !Container(508).Position(6) + !Container(508).Position(7) + !Container(508).Position(8)]">Conditional</animation>
-                <animation effect="slide" start="150" end="0" delay="800" time="400" easing="out" tween="cubic">WindowOpen</animation>
-                <animation effect="rotate" center="auto" start="0" end="-90" time="100" condition="Skin.HasSetting(BannerPlexVertical)">Conditional</animation>
-                <visible>[IntegerGreaterThan(Container(508).NumItems,10) + !system.getbool(filelists.showparentdiritems)] | [IntegerGreaterThan(Container(508).NumItems,9) + system.getbool(filelists.showparentdiritems)]</visible>
+
+            <control type="group">
+                <visible>Skin.HasSetting(AltBannerPlex)</visible>
+                <include>Animation_VisibleChange400</include>
+                <control type="image">
+                    <posx>96</posx>
+                    <posy>601</posy>
+                    <width>1730</width>
+                    <height>389</height>
+                    <texture border="50">featured/panel_featured.png</texture>
+                    <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                </control>
+                <control type="image">
+                    <posx>117</posx>
+                    <posy>971</posy>
+                    <width>1688</width>
+                    <height>119</height>
+                    <texture border="50">featured/panel_featured_reflect.png</texture>
+                </control>
             </control>
+            
             <control type="panel" id="508">
                 <posx>117</posx>
                 <posy>622</posy>
                 <width>1688</width>
                 <height>367</height>
+                <animation effect="slide" start="0,0" end="0,16" reversible="true" condition="Skin.HasSetting(AltBannerPlex)">Conditional</animation>
                 <include condition="Skin.HasSetting(BannerPlexVertical)">BannerPlexVertical</include>
                 <include condition="!Skin.HasSetting(BannerPlexVertical)">BannerPlexHorizontal</include>
                 <viewtype label="$LOCALIZE[31236]">wide icon</viewtype>
@@ -55,14 +81,14 @@
                 <focusposition>2</focusposition>
                 <preloaditems>2</preloaditems>
                 <visible>Container.Content(TVShows)</visible>
-                <itemlayout width="562" height="120">
+                <itemlayout width="562" height="120" condition="!Skin.HasSetting(AltBannerPlex)">
                     <control type="image">
                         <posx>8</posx>
                         <posy>8</posy>
                         <width>548</width>
                         <height>105</height>
                         <aspectratio scalediffuse="false">stretch</aspectratio>
-                        <texture diffuse="thumbs/banner_wall_mask.png">common/black.png</texture>
+                        <texture diffuse="thumbs/banner_mask.png">common/black.png</texture>
                     </control>
                     <control type="label">
                         <posx>272</posx>
@@ -100,7 +126,7 @@
                         <include>OverlayVisibility0</include>
                     </control>
                 </itemlayout>
-                <focusedlayout width="562" height="120">
+                <focusedlayout width="562" height="120" condition="!Skin.HasSetting(AltBannerPlex)">
                     <control type="group">
                         <animation effect="zoom" center="auto" start="100" end="122" time="600" tween="back" easing="out" reversible="false">Focus</animation>
                         <control type="image">
@@ -144,11 +170,87 @@
                             <height>129</height>
                             <aspectratio>stretch</aspectratio>
                             <texture diffuse="thumbs/banner_mask.png">common/blank.png</texture>
+                            <bordersize>12</bordersize>
                             <bordertexture border="12">thumbs/banner_shadow.png</bordertexture>
                             <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
                         </control>
                     </control>
                 </focusedlayout>
+                <itemlayout width="562" height="104" condition="Skin.HasSetting(AltBannerPlex)">
+                    <control type="label">
+                        <posx>281</posx>
+                        <posy>0</posy>
+                        <width>562</width>
+                        <height>104</height>
+                        <aligny>center</aligny>
+                        <align>center</align>
+                        <textcolor>white</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <font>Font_Bold24</font>
+                    </control>
+                    <control type="image">
+                        <posx>0</posx>
+                        <posy>0</posy>
+                        <width>562</width>
+                        <height>104</height>
+                        <aspectratio>stretch</aspectratio>
+                        <texture background="true">$VAR[BannerVar]</texture>
+                    </control>
+                    <control type="image">
+                        <posx>472</posx>
+                        <posy>0</posy>
+                        <width>90</width>
+                        <height>90</height>
+                        <include>OverlayVisibility0</include>
+                    </control>
+                    <control type="image">
+                        <posx>0</posx>
+                        <posy>0</posy>
+                        <width>562</width>
+                        <height>104</height>
+                        <colordiffuse>99FFFFFF</colordiffuse>
+                        <aspectratio>stretch</aspectratio>
+                        <texture>common/black.png</texture>
+                    </control>
+                </itemlayout>
+                <focusedlayout width="562" height="104" condition="Skin.HasSetting(AltBannerPlex)">
+                    <control type="label">
+                        <posx>281</posx>
+                        <posy>0</posy>
+                        <width>562</width>
+                        <height>104</height>
+                        <aligny>center</aligny>
+                        <align>center</align>
+                        <textcolor>white</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <font>Font_Bold24</font>
+                    </control>
+                    <control type="image">
+                        <posx>0</posx>
+                        <posy>0</posy>
+                        <width>562</width>
+                        <height>104</height>
+                        <aspectratio>stretch</aspectratio>
+                        <texture background="true">$VAR[BannerVar]</texture>
+                    </control>
+                    <control type="image">
+                        <posx>472</posx>
+                        <posy>0</posy>
+                        <width>90</width>
+                        <height>90</height>
+                        <include>OverlayVisibility0</include>
+                    </control>
+                </focusedlayout>
+            </control>
+            <control type="image">
+                <posx>117</posx>
+                <posy>622</posy>
+                <width>1688</width>
+                <height>347</height>
+                <texture border="21">featured/panel_featured_overlay.png</texture>
+                <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                <include>Animation_VisibleChange400</include>
+                <visible>Skin.HasSetting(AltBannerPlex)</visible>
             </control>
         </control>
     </include>
