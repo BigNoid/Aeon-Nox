@@ -5,20 +5,23 @@
     <views>50,53,57,506,500,509,512,513</views>
     <include condition="!Skin.HasSetting(firstrun)">AutoConfig</include>
     <controls>
-        <include>CommonMusicBackground</include>
-        <control type="group">
-            <include>Animation_OpenCloseZoom</include>
-            <control type="image">
-                <texture background="true">$INFO[ListItem.Property(Fanart_Image)]</texture>
-                <include>CommonFanartVarsSingle</include>
-                <visible>!Skin.HasSetting(NoMusicLibraryFanart) + !IsEmpty(ListItem.Property(Fanart_Image))</visible>
-            </control>
-            <control type="image">
-                <texture background="true">$INFO[Fanart.Image]</texture>
-                <include>CommonFanartVarsSingle</include>
-                <visible>!Skin.HasSetting(NoMusicLibraryFanart) + !IsEmpty(Fanart.Image)</visible>
-            </control>
-        </control>
+                <control type="multiimage">
+                    <description>(extra)fanart</description>
+                    <fadetime>FanartCrossfadeTime</fadetime>
+                    <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+                    <animation effect="slide" start="-15,-15" end="15,15" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+                    <imagepath background="true" fallback="special://skin/backgrounds/fallback_music.jpg">$VAR[MusicFanartVar]</imagepath>
+                    <animation effect="fade" start="100" end="50" time="800">Hidden</animation>
+                    <visible>!Window.IsActive(musicinformation)</visible>
+                </control>
+                <control type="multiimage">
+                    <fadetime>FanartCrossfadeTime</fadetime>
+                    <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+                    <animation effect="slide" start="-15,-15" end="15,15" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+                    <imagepath background="true">$VAR[MusicExtraFanartVar]</imagepath>
+                    <visible>Substring(Container.FolderPath,musicdb://,left)</visible>
+                    <visible>[Skin.HasSetting(musicextrafanart) + !IsEmpty(Skin.String(ArtistsLogosPath))] | Container.Content(genres)</visible>
+                </control>
         <include>CommonMediaPlayingBackground</include>
         <include>Furniture_Showcase</include>
         <include>Furniture_Glow</include>
