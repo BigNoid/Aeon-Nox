@@ -49,45 +49,50 @@
     <controls>
         <include>MainMenuCommonContent</include>
         <!-- Fanart -->
-        <control type="multiimage">
-            <fadetime>600</fadetime>
-            <imagepath background="true">$VAR[HomeMainFanartVar]</imagepath>
-            <aspectratio align="center" aligny="top">scale</aspectratio>
-            <include>Animation_VisibleChange400</include>
-            <randomize>true</randomize>
-            <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" delay="600" reversible="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
-            <animation effect="slide" start="-15,-15" end="15,15" time="7500" tween="linear" pulse="true" delay="600" reversible="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
-            <visible>!Control.IsVisible(2355) + ![Substring(Control.GetLabel(4322),case) | Substring(Control.GetLabel(4322),dailybabe)]</visible>
+        <include condition="Skin.HasSetting(FadeHomeBG)">CommonMediaPlayingBackground</include>
+        <control type="group">
+             <visible>![Player.HasVideo + !Skin.HasSetting(ShowBackgroundVideo) + !Skin.HasSetting(FadeHomeBG)]</visible>
+            <animation effect="fade" start="100" end="30" time="0" condition="Player.HasVideo + !Skin.HasSetting(ShowBackgroundVideo) + Skin.HasSetting(FadeHomeBG)">Conditional</animation>
+             <control type="multiimage">
+                <fadetime>600</fadetime>
+                <imagepath background="true">$VAR[HomeMainFanartVar]</imagepath>
+                <aspectratio align="center" aligny="top">scale</aspectratio>
+                <include>Animation_VisibleChange400</include>
+                <randomize>true</randomize>
+                <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" delay="600" reversible="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
+                <animation effect="slide" start="-15,-15" end="15,15" time="7500" tween="linear" pulse="true" delay="600" reversible="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
+                <visible>!Control.IsVisible(2355) + ![Substring(Control.GetLabel(4322),case) | Substring(Control.GetLabel(4322),dailybabe)]</visible>
+            </control>
+            <include condition="SubString(Skin.String(backgroundlist),dailybabe)">DailyBabeBG</include>
+            <control type="image">
+                <fadetime>600</fadetime>
+                <include>FullscreenDimensions</include>
+                <include>Animation_WindowFade250</include>
+                <aspectratio align="center" aligny="top">scale</aspectratio>
+                <texture background="true" fallback="special://skin/backgrounds/speakergrill.jpg">$INFO[Skin.String(LiveBG)]</texture>
+                <animation effect="fade" time="500">Visible</animation>
+                <animation effect="fade" time="500">Hidden</animation>
+                <visible>!Control.IsVisible(2355) + Substring(Control.GetLabel(4322),case)</visible>
+            </control>
+            <include condition="SubString(Skin.String(backgroundlist),dvdcase)">InteractiveCasesBackground</include>
+            <include condition="SubString(Skin.String(backgroundlist), case)">LiveCDCasesbackground</include>
+            <include condition="SubString(Skin.String(backgroundlist), nocase)">LiveNoCasesbackground</include>
+            <include condition="Skin.HasSetting(homecdwall)">cdwall-musicvisualisation</include>
+            <control type="image">
+                <fadetime>600</fadetime>
+                <include>FullscreenDimensions</include>
+                <aspectratio align="center" aligny="top">scale</aspectratio>
+                <texture background="true">$VAR[HomeWidgetFanartVar]</texture>
+                <visible>[Control.HasFocus(8000) | Control.HasFocus(7000) | Control.HasFocus(5010) | Control.HasFocus(5012) | ControlGroup(5014).HasFocus | ControlGroup(5020).HasFocus | ControlGroup(5021).HasFocus | ControlGroup(5030).HasFocus | ControlGroup(5040).HasFocus | Control.HasFocus(6010) | Control.HasFocus(6012) | ControlGroup(6014).HasFocus | ControlGroup(6020).HasFocus | ControlGroup(6021).HasFocus | ControlGroup(6030).HasFocus | ControlGroup(6040).HasFocus] | [Player.HasAudio + Skin.HasSetting(musicfanarthome)]</visible>
+                <animation effect="fade" time="600">Visible</animation>
+                <animation effect="fade" time="600">Hidden</animation>
+                <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
+                <animation effect="slide" start="-15,-15" end="15,15" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
+            </control>
+            <!-- Music ExtraFanart -->
+            <include condition="!IsEmpty(Skin.String(ArtistsLogosPath))">MusicExtraFanartHome</include>
+            <include condition="Skin.HasSetting(artistslideshowhome)">MusicArtistSlideshowHome</include>
         </control>
-        <include condition="SubString(Skin.String(backgroundlist),dailybabe)">DailyBabeBG</include>
-        <control type="image">
-            <fadetime>600</fadetime>
-            <include>FullscreenDimensions</include>
-            <include>Animation_WindowFade250</include>
-            <aspectratio align="center" aligny="top">scale</aspectratio>
-            <texture background="true" fallback="special://skin/backgrounds/speakergrill.jpg">$INFO[Skin.String(LiveBG)]</texture>
-            <animation effect="fade" time="500">Visible</animation>
-            <animation effect="fade" time="500">Hidden</animation>
-            <visible>!Control.IsVisible(2355) + Substring(Control.GetLabel(4322),case)</visible>
-        </control>
-        <include condition="SubString(Skin.String(backgroundlist),dvdcase)">InteractiveCasesBackground</include>
-        <include condition="SubString(Skin.String(backgroundlist), case)">LiveCDCasesbackground</include>
-        <include condition="SubString(Skin.String(backgroundlist), nocase)">LiveNoCasesbackground</include>
-        <include condition="Skin.HasSetting(homecdwall)">cdwall-musicvisualisation</include>
-        <control type="image">
-            <fadetime>600</fadetime>
-            <include>FullscreenDimensions</include>
-            <aspectratio align="center" aligny="top">scale</aspectratio>
-            <texture background="true">$VAR[HomeWidgetFanartVar]</texture>
-            <visible>[Control.HasFocus(8000) | Control.HasFocus(7000) | Control.HasFocus(5010) | Control.HasFocus(5012) | ControlGroup(5014).HasFocus | ControlGroup(5020).HasFocus | ControlGroup(5021).HasFocus | ControlGroup(5030).HasFocus | ControlGroup(5040).HasFocus | Control.HasFocus(6010) | Control.HasFocus(6012) | ControlGroup(6014).HasFocus | ControlGroup(6020).HasFocus | ControlGroup(6021).HasFocus | ControlGroup(6030).HasFocus | ControlGroup(6040).HasFocus] | [Player.HasAudio + Skin.HasSetting(musicfanarthome)]</visible>
-            <animation effect="fade" time="600">Visible</animation>
-            <animation effect="fade" time="600">Hidden</animation>
-            <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
-            <animation effect="slide" start="-15,-15" end="15,15" time="7500" tween="linear" pulse="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
-        </control>
-        <!-- Music ExtraFanart -->
-        <include condition="!IsEmpty(Skin.String(ArtistsLogosPath))">MusicExtraFanartHome</include>
-        <include condition="Skin.HasSetting(artistslideshowhome)">MusicArtistSlideshowHome</include>
         <control type="image">
             <include>FullscreenDimensions</include>
             <colordiffuse>$INFO[Skin.String(ColorLevel)]</colordiffuse>
@@ -96,7 +101,7 @@
             <fadetime>600</fadetime>
         </control>
         <!-- Home Fullscreen Video -->
-        <include>CommonMediaPlayingBackground</include>
+        <include condition="!Skin.HasSetting(FadeHomeBG)">CommonMediaPlayingBackground</include>
         <include condition="Substring(Skin.String(backgroundlist),googleweather2) + System.HasAddon(script.widget.weatherworld)">WorldWeatherIcons</include>
         <control type="group">
             <visible>Skin.HasSetting(Glowbar_Home)</visible>
