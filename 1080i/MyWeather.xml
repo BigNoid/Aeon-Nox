@@ -4,6 +4,7 @@
     <allowoverlay>no</allowoverlay>
     <include condition="!Skin.HasSetting(firstrun)">AutoConfig</include>
     <include condition="!Skin.HasSetting(firstrun3.5)">AutoConfig3.5</include>
+    <onunload>ClearProperty(FSMap,weather)</onunload>
     <controls>
         <control type="multiimage">
             <include>FullscreenDimensions</include>
@@ -1631,7 +1632,7 @@
                             </content>
                         </control>
                         <control type="group" id="7508">
-                            <visible>StringCompare(Window.Property(Weather.CurrentView),maps)</visible>
+                            <visible>StringCompare(Window.Property(Weather.CurrentView),videos)</visible>
                             <include>VisibleFadeEffect</include>
                             <posx>892</posx>
                             <posy>30</posy>
@@ -2005,6 +2006,67 @@
                                 </content>
                             </control>
                         </control>
+
+                        
+                        
+                  <control type="group" id="7509">
+                            <visible>StringCompare(Window.Property(Weather.CurrentView),maps)</visible>
+                            <include>VisibleFadeEffect</include>
+                            <posx>892</posx>
+                            <posy>30</posy>
+                                <control type="label">
+                                    <posx>305</posx>
+                                    <posy>158</posy>
+                                    <width>310</width>
+                                    <height>34</height>
+                                    <font>Font_Bold22</font>
+                                    <textcolor>c0FFFFFF</textcolor>
+                                    <selectedcolor>$VAR[SelectedColorVar]</selectedcolor>
+                                    <align>center</align>
+                                    <aligny>center</aligny>
+                                    <label>31900</label>
+                                </control>
+                            <control type="image">
+                                <description>maps multiimage</description>
+                                <posx>77</posx>
+                                <posy>242</posy>
+                                <width>806</width>
+                                <height>462</height>
+                                <texture>common/black.png</texture>
+                                <bordertexture border="15">common/white.png</bordertexture>
+                                <bordersize>15</bordersize>
+                                <aspectratio>stretch</aspectratio>
+                                <colordiffuse>$VAR[FloorColorVar]</colordiffuse>
+                                <visible>Control.HasFocus(5)</visible>
+                            </control>
+                             <control type="multiimage">
+                                <description>maps multiimage</description>
+                                <posx>85</posx>
+                                <posy>205</posy>
+                                <width>790</width>
+                                <height>532</height>
+                                <imagepath>$INFO[Window.Property(MapPath)]</imagepath>
+                                <timeperimage>500</timeperimage>
+                                <pauseatend>1000</pauseatend>
+                                <fadetime>0</fadetime>
+                                <randomize>false</randomize>
+                                <loop>yes</loop>
+                                <animation effect="zoom" end="-892,0,1920,1080" time="800" tween="cubic" easing="out" reversible="true" condition="!IsEmpty(Window(weather).Property(FSMap))">Conditional</animation>
+                                <aspectratio>keep</aspectratio>
+                            </control>
+                            <control type="button" id="5">
+                                <include>HiddenObject</include>
+                                <onleft>ClearProperty(FSMap,weather)</onleft>
+                                <onleft>9000</onleft>
+                                <onright>ClearProperty(FSMap,weather)</onright>
+                                <onup>ClearProperty(FSMap,weather)</onup>
+                                <ondown>ClearProperty(FSMap,weather)</ondown>
+                                <onright>9000</onright>
+                                <onclick>SetProperty(FSMap,true,weather)</onclick>
+                            </control>
+                       </control>        
+                        
+                        
                         <control type="list" id="7501">
                             <posx>960</posx>
                             <posy>690</posy>
@@ -2016,7 +2078,7 @@
                             <scrolltime>200</scrolltime>
                             <onup>7500</onup>
                             <ondown>7500</ondown>
-                            <visible>![SubString(Window.Property(Weather.CurrentView),hourly) | SubString(Window.Property(Weather.CurrentView),maps) | SubString(Window.Property(Weather.CurrentView),video)]</visible>
+                            <visible>![SubString(Window.Property(Weather.CurrentView),hourly) | SubString(Window.Property(Weather.CurrentView),videos) | SubString(Window.Property(Weather.CurrentView),maps) | SubString(Window.Property(Weather.CurrentView),video)]</visible>
                             <include>VisibleFadeEffect</include>
                             <itemlayout width="210" height="195">
                                 <control type="label">
@@ -2860,11 +2922,12 @@
                         <label>5</label>
                         <onclick>ActivateWindow(MyWeatherSettings)</onclick>
                     </control>
-                    <control type="button" id="5">
+                    <control type="button" id="25">
                         <description>Around the world</description>
                         <include>Objects_MediaMenuButtonAlt</include>
                         <label>42246</label>
                         <onclick>ActivateWindow(1153)</onclick>
+                        <visible>System.HasAddon(script.widget.weatherworld)</visible>
                     </control>
                     <control type="button" id="301">
                         <description>Forecast options label</description>
@@ -2924,16 +2987,27 @@
                         <visible>Skin.HasSetting(ExtendedWeatherInfo)</visible>
                     </control>
                     <control type="radiobutton" id="306">
+                        <description>Videos button</description>
+                        <include>Objects_MediaMenuButtonAlt</include>
+                        <label>$LOCALIZE[31907]</label>
+                        <onclick>SetProperty(Weather.CurrentView,videos)</onclick>
+                        <selected>SubString(Window.Property(Weather.CurrentView),videos)</selected>
+                        <animation type="VisibleChange">
+                            <effect type="fade" start="0" end="100" delay="400" time="200" reversible="true" />
+                        </animation>
+                        <visible>Skin.HasSetting(ExtendedWeatherInfo)</visible>
+                    </control>
+                    <control type="radiobutton" id="308">
                         <description>Maps button</description>
                         <include>Objects_MediaMenuButtonAlt</include>
-                        <label>$LOCALIZE[31900] &amp; $LOCALIZE[31907]</label>
+                        <label>$LOCALIZE[31900]</label>
                         <onclick>SetProperty(Weather.CurrentView,maps)</onclick>
                         <selected>SubString(Window.Property(Weather.CurrentView),maps)</selected>
                         <animation type="VisibleChange">
                             <effect type="fade" start="0" end="100" delay="400" time="200" reversible="true" />
                         </animation>
                         <visible>Skin.HasSetting(ExtendedWeatherInfo)</visible>
-                    </control>
+                    </control>    
                     <control type="button" id="1601">
                         <description>Backdrop options label</description>
                         <textcolor>$VAR[SelectedColorVar]</textcolor>
