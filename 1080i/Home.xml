@@ -2,7 +2,7 @@
 <window id="0">
     <defaultcontrol always="true">9000</defaultcontrol>
     <include condition="!Skin.HasSetting(firstrun)">AutoConfig</include><include condition="!Skin.HasSetting(firstrun3.5)">AutoConfig3.5</include>
-    <onload condition="Window.Previous(startup) + Skin.HasSetting(customstartupfocus)">Control.Move(9000,$INFO[Skin.String(CustomFocusOffset)])</onload>
+    <onload condition="Window.Previous(startup) + !IsEmpty(Skin.String(CustomFocusOffset))">Control.Move(9000,$INFO[Skin.String(CustomFocusOffset)])</onload>
     <onload condition="!Window.Previous(startup) + Skin.HasSetting(randomizehome)">XBMC.RunScript(script.randomitems,limit=16&amp;unplayed=True)</onload>
     <onload condition="!Window.Previous(startup) + Skin.HasSetting(randomizehome) + [Substring(Skin.String(widgetlist),recentpics) | Substring(Skin.String(widget2list),recentpics) | Substring(Skin.String(backgroundlist),recentpics)]">XBMC.RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Latest'&amp;sort='Added'&amp;limit=10)</onload>
     <onload condition="!Window.Previous(startup) + Skin.HasSetting(randomizehome) + [Substring(Skin.String(widgetlist),randompics) | Substring(Skin.String(widget2list),randompics) | Substring(Skin.String(backgroundlist),randompics)]">XBMC.RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Random'&amp;sort='Added'&amp;limit=10)</onload>
@@ -49,11 +49,9 @@
     <controls>
         <include>MainMenuCommonContent</include>
         <!-- Fanart -->
-        <include condition="Skin.HasSetting(FadeHomeBG)">CommonMediaPlayingBackground</include>
         <control type="group">
-             <visible>![Player.HasMedia + !Skin.HasSetting(ShowBackgroundVideo) + !Skin.HasSetting(FadeHomeBG)]</visible>
-            <animation effect="fade" start="100" end="30" time="0" condition="Player.HasMedia + !Skin.HasSetting(ShowBackgroundVideo) + Skin.HasSetting(FadeHomeBG)">Conditional</animation>
-             <control type="multiimage">
+<!--              <visible>![[Player.HasVideo + !Skin.HasSetting(ShowBackgroundVideo)] | [Player.HasAudio + !Skin.HasSetting(ShowBackgroundVis)]]</visible>
+ -->             <control type="multiimage">
                 <fadetime>600</fadetime>
                 <imagepath background="true">$VAR[HomeMainFanartVar]</imagepath>
                 <aspectratio align="center" aligny="top">scale</aspectratio>
@@ -92,6 +90,7 @@
             <!-- Music ExtraFanart -->
             <include condition="!IsEmpty(Skin.String(ArtistsLogosPath))">MusicExtraFanartHome</include>
             <include condition="Skin.HasSetting(artistslideshowhome)">MusicArtistSlideshowHome</include>
+        <include>CommonMediaPlayingBackground</include>
         </control>
         <control type="image">
             <include>FullscreenDimensions</include>

@@ -47,31 +47,28 @@
         <control type="visualisation" id="2">
             <description>visualisation</description>
             <include>FullscreenDimensions</include>
-            <visible>Player.HasAudio + [StringCompare(Visualisation.Name,milkdrop) | StringCompare(Visualisation.Name,projectm)]</visible>
         </control>
         <control type="group">
-            <animation effect="fade" start="100" end="30" time="0" condition="[StringCompare(Visualisation.Name,milkdrop) | StringCompare(Visualisation.Name,projectm)] + Skin.HasSetting(FadeVizBG)">Conditional</animation>
-            <visible>![StringCompare(Visualisation.Name,milkdrop) | StringCompare(Visualisation.Name,projectm)] | [[StringCompare(Visualisation.Name,milkdrop) | StringCompare(Visualisation.Name,projectm)] + Skin.HasSetting(FadeVizBG)]</visible>
+            <animation effect="fade" start="100" end="40" time="0" condition="Skin.HasSetting(FadeVizBG)">Conditional</animation>
             <control type="multiimage">
                 <include>MusicVizBG</include>
                 <imagepath fallback="special://skin/backgrounds/music/" background="true">$VAR[MusicVizBackgroundVar]</imagepath>
+                <visible>!StringCompare(Skin.String(MusicViz.MultiFanart),artistfanart) + !Substring(Skin.String(MusicViz.MultiFanart),case) + !Substring(Skin.String(MusicViz.MultiFanart),artistslideshow) + !Substring(Skin.String(MusicViz.MultiFanart),wall) + !IsEmpty(Skin.String(MusicViz.MultiFanart))</visible>
             </control>
             <control type="group">
                 <include>Animation_VisibleChange400</include>
                 <include>Animation_WindowFade250</include>
-                <visible>StringCompare(Skin.String(MusicViz.MultiFanart),artistfanart)</visible>
+                    <visible>StringCompare(Skin.String(MusicViz.MultiFanart),artistfanart)</visible>
                 <control type="multiimage">
                     <include>MusicVizBG</include>
-                    <imagepath fallback="special://skin/backgrounds/music/">$INFO[MusicPlayer..Property(Fanart_Image)]</imagepath>
-                    <visible>StringCompare(Control.getLabel(8871),empty.png) + StringCompare(Control.getLabel(8872),empty.png) + !SubString(Control.getLabel(8870),extrafanart)</visible>
+                    <imagepath fallback="special://skin/backgrounds/music/">$INFO[MusicPlayer.Property(Fanart_Image)]</imagepath>
+                    <visible>!SubString(Control.getLabel(8870),extrafanart)</visible>
+                    <visible>StringCompare(Control.getLabel(8872),empty.png)</visible>
                 </control>
                 <control type="image" id="8872">
                     <include>MusicVizBG</include>
                     <texture fallback="empty.png">$INFO[Player.FolderPath,,fanart.jpg]</texture>
-                </control>
-                <control type="image" id="8871">
-                    <include>MusicVizBG</include>
-                    <texture fallback="empty.png">$INFO[Player.FolderPath,,../fanart.jpg]</texture>
+                    <visible>!SubString(Control.getLabel(8870),extrafanart)</visible>
                 </control>
                 <control type="multiimage" id="8870">
                     <description>extrafanart</description>
@@ -95,13 +92,23 @@
             <include>InteractiveCasesBackground</include>
             <include>LiveCDCasesbackground</include>
             <include>LiveNoCasesbackground</include>
-            <include>ArtistSlideshowBG</include>
+            <control type="group">
+                <visible>StringCompare(Skin.String(MusicViz.MultiFanart),artistslideshow)</visible>
+                <include>Animation_VisibleChange400</include>
+                <include>Animation_WindowFade250</include>
+                <control type="image">
+                    <include>FullscreenDimensions</include>
+                    <texture>common/black.png</texture>
+                </control>
+                <control type="multiimage">
+                    <timeperimage>5000</timeperimage>
+                    <aspectratio>keep</aspectratio>
+                    <include>MusicVizBG</include>
+                    <imagepath background="true">$INFO[Window.Property(ArtistSlideshow)]</imagepath>
+                    <visible>IsEmpty(Window.Property(ArtistSlideshowRefresh))</visible>
+                </control>
+            </control>
             <include>cdwall-musicvisualisation</include>
-        </control>
-        <control type="visualisation" id="2">
-            <description>visualisation</description>
-            <include>FullscreenDimensions</include>
-            <visible>Player.HasAudio + ![StringCompare(Visualisation.Name,milkdrop) | StringCompare(Visualisation.Name,projectm)]]</visible>
         </control>
         <control type="group">
             <visible>Skin.HasSetting(showtimeonviz) + !Window.IsVisible(1112) + !Window.IsVisible(script-XBMC_Lyrics-main.xml) + !Window.IsVisible(MusicOSD)</visible>
