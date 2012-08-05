@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <window id="2006">
     <defaultcontrol>-</defaultcontrol>
+    <backgroundcolor>black</backgroundcolor>
     <allowoverlay>no</allowoverlay>
     <onload>Skin.Reset(vispanelrotate)</onload>
     <onload>AlarmClock(Vis,Skin.ToggleSetting(vispanelrotate),00:15,silent,loop)</onload>
@@ -48,6 +49,7 @@
             <description>visualisation</description>
             <include>FullscreenDimensions</include>
             <visible>Skin.HasSetting(FadeVizBG)</visible>
+            <animation effect="fade" start="0" end="100" time="0" delay="3000" reversible="false">Visible</animation>
         </control>
         <control type="group">
             <animation effect="fade" start="100" end="40" time="0" condition="Skin.HasSetting(FadeVizBG)">Conditional</animation>
@@ -59,7 +61,7 @@
             <control type="group">
                 <include>Animation_VisibleChange400</include>
                 <include>Animation_WindowFade250</include>
-                    <visible>StringCompare(Skin.String(MusicViz.MultiFanart),artistfanart)</visible>
+                <visible>StringCompare(Skin.String(MusicViz.MultiFanart),artistfanart)</visible>
                 <control type="multiimage">
                     <include>MusicVizBG</include>
                     <imagepath fallback="special://skin/backgrounds/music/">$INFO[MusicPlayer.Property(Fanart_Image)]</imagepath>
@@ -75,7 +77,7 @@
                     <description>extrafanart</description>
                     <randomize>false</randomize>
                     <include>MusicVizBG</include>
-                    <imagepath background="true">$INFO[Skin.String(ArtistsLogosPath)]$INFO[MusicPlayer.Artist,,/extrafanart]</imagepath>
+                    <imagepath background="true">$INFO[Skin.String(ArtistsLogosPath)]$INFO[MusicPlayer.Artist,,/extrafanart/]</imagepath>
                     <visible>!IsEmpty(Skin.String(ArtistsLogosPath))</visible>
                 </control>
             </control>
@@ -99,7 +101,8 @@
                 <include>Animation_WindowFade250</include>
                 <control type="image">
                     <include>FullscreenDimensions</include>
-                    <texture>common/black.png</texture>
+                    <texture>common/white.png</texture>
+                    <colordiffuse>black</colordiffuse>
                 </control>
                 <control type="multiimage">
                     <timeperimage>5000</timeperimage>
@@ -115,6 +118,7 @@
             <description>visualisation</description>
             <include>FullscreenDimensions</include>
             <visible>!Skin.HasSetting(FadeVizBG)</visible>
+            <animation effect="fade" start="0" end="100" time="0" delay="3000" reversible="false">Visible</animation>
         </control>
         <control type="group">
             <visible>Skin.HasSetting(showtimeonviz) + !Window.IsVisible(1112) + !Window.IsVisible(script-XBMC_Lyrics-main.xml) + !Window.IsVisible(MusicOSD)</visible>
@@ -144,7 +148,7 @@
                     <font>Font_Condensed22_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                     <shadowcolor>bcshadow</shadowcolor>
-                    <label>[COLOR 88FFFFFF] $INFO[System.Date(DDD)], $INFO[System.Date(d)] $INFO[System.Date(mmm)] $INFO[System.Date(yyyy)][/COLOR]  •  $INFO[System.Time]       </label>
+                    <label>[COLOR grey2] $INFO[System.Date(DDD)], $INFO[System.Date(d)] $INFO[System.Date(mmm)] $INFO[System.Date(yyyy)][/COLOR]  •  $INFO[System.Time]       </label>
                 </control>
                 <control type="group">
                     <posx>0</posx>
@@ -223,7 +227,8 @@
                 <posy>-400</posy>
                 <width>1923</width>
                 <height>780</height>
-                <colordiffuse>88FFFFFF</colordiffuse>
+                <animation effect="fade" start="100" end="60" time="50" condition="true">Conditional</animation>
+                <colordiffuse>black</colordiffuse>
                 <texture>home/nowplaying_shadow.png</texture>
             </control>
             <control type="multiimage">
@@ -494,7 +499,7 @@
                         <font>Font_MainClassic</font>
                         <visible>Substring(Control.GetLabel(8308),empty.png) | IsEmpty(Skin.String(ArtistsLogosPath))</visible>
                         <label>[UPPERCASE]$INFO[MusicPlayer.Artist][/UPPERCASE]</label>
-                        <textcolor>91FFFFFF</textcolor>
+                        <textcolor>white3</textcolor>
                         <shadowcolor>black</shadowcolor>
                     </control>
                 </control>
@@ -514,15 +519,29 @@
                         <visible>!IsEmpty(Skin.String(ArtistsLogosPath))</visible>
                         <animation effect="slide" time="400" tween="cubic" easing="inout" end="-35" condition="!Skin.HasSetting(CDArtinVis) | Skin.HasSetting(ThumbOrSlide)">Conditional</animation>
                     </control>
-                    <control type="image">
+                    <control type="image" id="8309">
                         <description>Codec</description>
                         <posx>591</posx>
                         <posy>66</posy>
                         <width>150</width>
                         <height>99</height>
-                        <colordiffuse>91FFFFFF</colordiffuse>
-                        <texture>$INFO[MusicPlayer.Codec,flags/audio/,.png]</texture>
+                        <colordiffuse>white3</colordiffuse>
+                        <texture fallback="empty.png">$INFO[MusicPlayer.Codec,flags/audio/,.png]</texture>
                     </control>
+                       <control type="label">
+                            <posx>591</posx>
+                            <posy>69</posy>
+                            <width>210</width>
+                            <height>86</height>
+                            <align>left</align>
+                            <aligny>center</aligny>
+                            <scroll>false</scroll>
+                            <font>Font_Condensed22</font>
+                            <shadowcolor>black</shadowcolor>
+                            <wrapmultiline>true</wrapmultiline>
+                            <visible>StringCompare(Control.GetLabel(8309),empty.png)</visible>
+                            <label>[COLOR=white3]$INFO[MusicPlayer.Codec][/COLOR]</label>
+                        </control>
                     <control type="image">
                         <posx>756</posx>
                         <posy>66</posy>
@@ -536,7 +555,7 @@
                         <posy>66</posy>
                         <width>150</width>
                         <height>99</height>
-                        <colordiffuse>91FFFFFF</colordiffuse>
+                        <colordiffuse>white3</colordiffuse>
                         <texture fallback="empty.png">$INFO[MusicPlayer.Property(Album_Label),flags/music/recordlabel/,.png]</texture>
                     </control>
                     <control type="group">
@@ -561,7 +580,7 @@
                             <font>Font_Condensed22</font>
                             <shadowcolor>black</shadowcolor>
                             <wrapmultiline>true</wrapmultiline>
-                            <label>[COLOR=91FFFFFF]$INFO[MusicPlayer.Genre][/COLOR]</label>
+                            <label>[COLOR=white3]$INFO[MusicPlayer.Genre][/COLOR]</label>
                         </control>
                     </control>
                 </control>
@@ -579,7 +598,7 @@
                         <height>75</height>
                         <font>Font_MainClassic</font>
                         <label>$INFO[MusicPlayer.Time,, / ]$INFO[MusicPlayer.Duration]</label>
-                        <textcolor>91FFFFFF</textcolor>
+                        <textcolor>white3</textcolor>
                         <shadowcolor>black</shadowcolor>
                         <align>right</align>
                         <visible>Player.HasDuration</visible>
@@ -590,7 +609,7 @@
                         <height>75</height>
                         <font>Font_MainClassic</font>
                         <label>$INFO[MusicPlayer.Time,, / ]∞</label>
-                        <textcolor>91FFFFFF</textcolor>
+                        <textcolor>white3</textcolor>
                         <shadowcolor>black</shadowcolor>
                         <align>right</align>
                         <visible>!Player.HasDuration</visible>
@@ -638,7 +657,7 @@
                 <posy>55</posy>
                 <label>-</label>
                 <align>left</align>
-                <label>$INFO[Visualisation.Name] [I][COLOR=$VAR[SelectedColorVar]]($LOCALIZE[20166])[/COLOR][/I] • fps: $INFO[System.FPS]</label>
+                <label>$INFO[Visualisation.Name] [I][COLOR=$VAR[ColorDiffuseVar]]($LOCALIZE[20166])[/COLOR][/I] • fps: $INFO[System.FPS]</label>
                 <font>Font_Condensed22</font>
                 <visible>Visualisation.Locked</visible>
             </control>
@@ -742,6 +761,18 @@
                                 <texture background="true" fallback="DefaultArtist.png" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[MusicPlayer.Property(Fanart_Image)]</texture>
                                 <aspectratio scalediffuse="false">scale</aspectratio>
                             </control>
+                           <control type="multiimage">
+                                <posy>19</posy>
+                                <posx>22</posx>
+                                <width>380</width>
+                                <height>354</height>
+                                <imagepath background="true">$INFO[Skin.String(ArtistsLogosPath)]$INFO[MusicPlayer.Artist,,/extrafanart/]</imagepath>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <visible>!System.HasAddon(script.artistslideshow)</visible>
+                                <timeperimage>5000</timeperimage>
+                                <fadetime>750</fadetime>
+                                <randomize>true</randomize>
+                            </control>
                             <control type="multiimage">
                                 <posy>19</posy>
                                 <posx>22</posx>
@@ -749,6 +780,7 @@
                                 <height>354</height>
                                 <imagepath background="true" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[Window(Visualisation).Property(ArtistSlideshow)]</imagepath>
                                 <aspectratio scalediffuse="false">scale</aspectratio>
+                                <visible>System.HasAddon(script.artistslideshow)</visible>
                                 <timeperimage>5000</timeperimage>
                                 <fadetime>750</fadetime>
                                 <randomize>true</randomize>
@@ -789,7 +821,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]  1: [/COLOR]$INFO[MusicPlayer.Offset(1).Artist] - $INFO[MusicPlayer.Offset(1).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                         </control>
@@ -799,7 +831,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]  2: [/COLOR]$INFO[MusicPlayer.Offset(2).Artist] - $INFO[MusicPlayer.Offset(2).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(2).Title)</visible>
@@ -810,7 +842,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]  3: [/COLOR]$INFO[MusicPlayer.Offset(3).Artist] - $INFO[MusicPlayer.Offset(3).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(3).Title)</visible>
@@ -821,7 +853,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]  4: [/COLOR]$INFO[MusicPlayer.Offset(4).Artist] - $INFO[MusicPlayer.Offset(4).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(4).Title)</visible>
@@ -832,7 +864,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]  5: [/COLOR]$INFO[MusicPlayer.Offset(5).Artist] - $INFO[MusicPlayer.Offset(5).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(5).Title)</visible>
@@ -843,7 +875,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]  6: [/COLOR]$INFO[MusicPlayer.Offset(6).Artist] - $INFO[MusicPlayer.Offset(6).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(6).Title)</visible>
@@ -854,7 +886,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]  7: [/COLOR]$INFO[MusicPlayer.Offset(7).Artist] - $INFO[MusicPlayer.Offset(7).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(7).Title)</visible>
@@ -865,7 +897,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]  8: [/COLOR]$INFO[MusicPlayer.Offset(8).Artist] - $INFO[MusicPlayer.Offset(8).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(8).Title)</visible>
@@ -876,7 +908,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]  9: [/COLOR]$INFO[MusicPlayer.Offset(9).Artist] - $INFO[MusicPlayer.Offset(9).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(9).Title)</visible>
@@ -887,7 +919,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]10: [/COLOR]$INFO[MusicPlayer.Offset(10).Artist] - $INFO[MusicPlayer.Offset(10).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(10).Title)</visible>
@@ -898,7 +930,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]11: [/COLOR]$INFO[MusicPlayer.Offset(11).Artist] - $INFO[MusicPlayer.Offset(11).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(11).Title)</visible>
@@ -909,7 +941,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]12: [/COLOR]$INFO[MusicPlayer.Offset(12).Artist] - $INFO[MusicPlayer.Offset(12).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(12).Title)</visible>
@@ -920,7 +952,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]13: [/COLOR]$INFO[MusicPlayer.Offset(13).Artist] - $INFO[MusicPlayer.Offset(13).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(13).Title)</visible>
@@ -931,7 +963,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]14: [/COLOR]$INFO[MusicPlayer.Offset(14).Artist] - $INFO[MusicPlayer.Offset(14).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(14).Title)</visible>
@@ -942,7 +974,7 @@
                             <width>580</width>
                             <height>26</height>
                             <aligny>left</aligny>
-                            <textcolor>abFFFFFF</textcolor>
+                            <textcolor>white3</textcolor>
                             <label>[UPPERCASE][COLOR $VAR[TitleColorVar]]15: [/COLOR]$INFO[MusicPlayer.Offset(15).Artist] - $INFO[MusicPlayer.Offset(15).Title][/UPPERCASE]</label>
                             <font>Font_Reg14_Caps</font>
                             <visible>!IsEmpty(MusicPlayer.Offset(15).Title)</visible>
@@ -1073,7 +1105,7 @@
                                 <font>Font_Info_Caps</font>
                                 <textcolor>grey2</textcolor>
                                 <shadowcolor>-</shadowcolor>
-                                <selectedcolor>$VAR[SelectedColorVar]</selectedcolor>
+                                <selectedcolor>$VAR[ColorDiffuseVar]</selectedcolor>
                                 <align>left</align>
                                 <aligny>center</aligny>
                                 <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
@@ -1270,7 +1302,7 @@
                             <font>Font_Info_Caps</font>
                             <textcolor>grey2</textcolor>
                             <shadowcolor>-</shadowcolor>
-                            <selectedcolor>$VAR[SelectedColorVar]</selectedcolor>
+                            <selectedcolor>$VAR[ColorDiffuseVar]</selectedcolor>
                             <align>right</align>
                             <aligny>center</aligny>
                             <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
@@ -1285,7 +1317,7 @@
                             <font>Font_Info_Caps</font>
                             <textcolor>$VAR[TitleColorVar]</textcolor>
                             <shadowcolor>-</shadowcolor>
-                            <selectedcolor>$VAR[SelectedColorVar]</selectedcolor>
+                            <selectedcolor>$VAR[ColorDiffuseVar]</selectedcolor>
                             <align>right</align>
                             <aligny>center</aligny>
                             <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>

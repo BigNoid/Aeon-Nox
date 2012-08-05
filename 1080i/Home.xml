@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <window id="0">
     <defaultcontrol always="true">9000</defaultcontrol>
-    <include condition="!Skin.HasSetting(firstrun)">AutoConfig</include><include condition="!Skin.HasSetting(firstrun3.5)">AutoConfig3.5</include>
+    <backgroundcolor>black</backgroundcolor>
+    <include condition="!Skin.HasSetting(firstrun)">AutoConfig</include>
+    <include condition="!Skin.HasSetting(firstrun3.5)">AutoConfig3.5</include>
     <onload condition="Window.Previous(startup) + !IsEmpty(Skin.String(CustomFocusOffset))">Control.Move(9000,$INFO[Skin.String(CustomFocusOffset)])</onload>
     <onload condition="!Window.Previous(startup) + Skin.HasSetting(randomizehome)">XBMC.RunScript(script.randomitems,limit=16&amp;unplayed=True)</onload>
     <onload condition="!Window.Previous(startup) + Skin.HasSetting(randomizehome) + [Substring(Skin.String(widgetlist),recentpics) | Substring(Skin.String(widget2list),recentpics) | Substring(Skin.String(backgroundlist),recentpics)]">XBMC.RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Latest'&amp;sort='Added'&amp;limit=10)</onload>
@@ -50,12 +52,14 @@
         <include>MainMenuCommonContent</include>
         <!-- Fanart -->
         <control type="group">
-<!--              <visible>![[Player.HasVideo + !Skin.HasSetting(ShowBackgroundVideo)] | [Player.HasAudio + !Skin.HasSetting(ShowBackgroundVis)]]</visible>
- -->             <control type="multiimage">
+            <!--              <visible>![[Player.HasVideo + !Skin.HasSetting(ShowBackgroundVideo)] | [Player.HasAudio + !Skin.HasSetting(ShowBackgroundVis)]]</visible>
+ -->
+            <control type="multiimage">
                 <fadetime>600</fadetime>
                 <imagepath background="true">$VAR[HomeMainFanartVar]</imagepath>
                 <aspectratio align="center" aligny="top">scale</aspectratio>
-                <include>Animation_VisibleChange400</include>
+                <animation effect="fade" time="600">Visible</animation>
+                <animation effect="fade" time="600">Hidden</animation>
                 <randomize>true</randomize>
                 <animation effect="zoom" start="110" end="130" center="auto" time="15000" tween="linear" pulse="true" delay="600" reversible="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
                 <animation effect="slide" start="-15,-15" end="15,15" time="7500" tween="linear" pulse="true" delay="600" reversible="true" condition="Skin.HasSetting(animatedbghome)">Conditional</animation>
@@ -90,7 +94,7 @@
             <!-- Music ExtraFanart -->
             <include condition="!IsEmpty(Skin.String(ArtistsLogosPath))">MusicExtraFanartHome</include>
             <include condition="Skin.HasSetting(artistslideshowhome)">MusicArtistSlideshowHome</include>
-        <include>CommonMediaPlayingBackground</include>
+            <include>CommonMediaPlayingBackground</include>
         </control>
         <control type="image">
             <include>FullscreenDimensions</include>
@@ -110,6 +114,15 @@
                 <colordiffuse>$INFO[Skin.String(BackgroundDarkness)]</colordiffuse>
                 <texture>common/black.png</texture>
                 <include>Animation_VisibleChange400</include>
+                <visible>!Skin.HasTheme(Lite_Floor)</visible>
+                <visible>![Skin.HasSetting(DisableWidgets) + !Player.HasMedia]</visible>
+            </control>
+            <control type="image">
+                <include>FullscreenDimensions</include>
+                <colordiffuse>$INFO[Skin.String(BackgroundDarkness)]</colordiffuse>
+                <texture>common/white.png</texture>
+                <include>Animation_VisibleChange400</include>
+                <visible>Skin.HasTheme(Lite_Floor)</visible>
                 <visible>![Skin.HasSetting(DisableWidgets) + !Player.HasMedia]</visible>
             </control>
             <control type="image">
@@ -150,8 +163,7 @@
                 <width>1920</width>
                 <height>945</height>
                 <texture>home/nowplaying_shadow.png</texture>
-                <visible>!ControlGroup(5000).HasFocus</visible>
-                <visible>[[Control.HasFocus(8000) | Substring(Control.GetLabel(4321),featured) | Substring(Control.GetLabel(4321),weather) | Substring(Control.GetLabel(4321),panel)] + !Skin.HasSetting(DisableWidgets)]</visible>
+                <visible>[Control.HasFocus(8000) | Control.IsVisible(5000) | Substring(Control.GetLabel(4321),weather)] + !Skin.HasSetting(DisableWidgets)</visible>
                 <include>Animation_VisibleChangeDelayed</include>
                 <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
             </control>
@@ -163,7 +175,7 @@
                 <height>945</height>
                 <texture flipy="true">home/nowplaying_shadow.png</texture>
                 <include>Animation_VisibleChangeDelayed</include>
-                <visible>[Player.HasAudio + !Skin.HasSetting(nohomepageMusicinfo) + [IsEmpty(Control.GetLabel(4325)) | Skin.HasSetting(DisableWidgets)]] | [Player.HasVideo + !Skin.HasSetting(homepageVideoinfo)] | [[Control.HasFocus(7000) | Substring(Control.GetLabel(4325),featured) | Substring(Control.GetLabel(4325),weather) | Substring(Control.GetLabel(4325),panel)] + !Skin.HasSetting(DisableWidgets)]</visible>
+                <visible>Control.IsVisible(8995) | [[Control.HasFocus(7000) | Control.IsVisible(6000) | Substring(Control.GetLabel(4325),weather)] + !Skin.HasSetting(DisableWidgets)]</visible>
                 <animation effect="slide" time="400" tween="cubic" easing="inout" end="0,-225" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
             </control>
         </control>
@@ -178,8 +190,7 @@
                 <width>1920</width>
                 <height>694</height>
                 <texture>home/nowplaying_shadow.png</texture>
-                <visible>!ControlGroup(5000).HasFocus</visible>
-                <visible>[[Control.HasFocus(8000) | Substring(Control.GetLabel(4321),featured) | Substring(Control.GetLabel(4321),weather) | Substring(Control.GetLabel(4321),panel)] + !Skin.HasSetting(DisableWidgets)]</visible>
+                <visible>[Control.HasFocus(8000) | Control.IsVisible(5000) | Substring(Control.GetLabel(4321),weather)] + !Skin.HasSetting(DisableWidgets)</visible>
                 <include>Animation_VisibleChangeDelayed</include>
             </control>
             <control type="image">
@@ -190,7 +201,7 @@
                 <height>545</height>
                 <texture flipy="true">home/nowplaying_shadow.png</texture>
                 <include>Animation_VisibleChangeDelayed</include>
-                <visible>[Player.HasAudio + !Skin.HasSetting(nohomepageMusicinfo) + [IsEmpty(Control.GetLabel(4325)) | Skin.HasSetting(DisableWidgets)]] | [Player.HasVideo + !Skin.HasSetting(homepageVideoinfo)] | [[Control.HasFocus(7000) | Substring(Control.GetLabel(4325),featured) | Substring(Control.GetLabel(4325),weather) | Substring(Control.GetLabel(4325),panel)] + !Skin.HasSetting(DisableWidgets)]</visible>
+                <visible>Control.IsVisible(8995) | [[Control.HasFocus(7000) | Control.IsVisible(6000) | Substring(Control.GetLabel(4325),weather)] + !Skin.HasSetting(DisableWidgets)]</visible>
             </control>
         </control>
         <!-- Featured widget -->
@@ -228,7 +239,7 @@
                         <width>1300</width>
                         <height>87</height>
                         <texture>home/submenubar.png</texture>
-                        <colordiffuse>$VAR[ExtendedHomeColorVar]</colordiffuse>
+                        <colordiffuse>$VAR[ExtendedColorVar]</colordiffuse>
                     </control>
                     <include condition="Skin.HasSetting(submenufixedlist)">SubMenuFixedList</include>
                     <include condition="!Skin.HasSetting(submenufixedlist)">SubMenuWrapList</include>
@@ -319,8 +330,7 @@
                     <onfocus condition="Substring(Container(9000).ListItem.Property(Widget2),system)">ActivateWindow(settings)</onfocus>
                     <onfocus condition="[IsEmpty(Window(Home).Property(NextAired.1.Label)) + Substring(Control.GetLabel(4325),nextairedpanel)]">SetFocus(9000)</onfocus>
                     <onfocus condition="[IsEmpty(Window(Home).Property(WatchList_Movie.1.Label)) + Substring(Control.GetLabel(4325),inprogressmovies)]">SetFocus(9000)</onfocus>
-
-                    </control>
+                </control>
                 <include condition="Skin.HasSetting(mainmenufixedlist)">MainMenuFixedList</include>
                 <include condition="!Skin.HasSetting(mainmenufixedlist)">MainMenuWrapList</include>
                 <control type="group">
@@ -371,6 +381,7 @@
                 <posy>20</posy>
                 <width>35</width>
                 <height>35</height>
+                <colordiffuse>white</colordiffuse>
                 <texture>common/arrowback.png</texture>
                 <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
             </control>
@@ -391,10 +402,11 @@
         <control type="group">
             <control type="image">
                 <include>FullscreenDimensions</include>
-                <colordiffuse>CCFFFFFF</colordiffuse>
+                <colordiffuse>black</colordiffuse>
                 <visible>Control.HasFocus(22222) | Control.HasFocus(22223)</visible>
+                <animation effect="fade" start="100" end="70" time="50" condition="!Control.HasFocus(9000)">Conditional</animation>
                 <include>Animation_VisibleChange400</include>
-                <texture>common/black.png</texture>
+                <texture>common/white.png</texture>
             </control>
             <control type="image">
                 <fadetime>600</fadetime>
