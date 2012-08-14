@@ -400,7 +400,7 @@
             <control type="image">
                 <include>FullscreenDimensions</include>
                 <colordiffuse>black</colordiffuse>
-                <visible>Control.HasFocus(22222) | Control.HasFocus(22223)</visible>
+                <visible>Control.HasFocus(22222) | Control.HasFocus(22223) | !IsEmpty(Window(home).Property(weatherwidget))</visible>
                 <animation effect="fade" start="100" end="70" time="50" condition="!Control.HasFocus(9000)">Conditional</animation>
                 <include>Animation_VisibleChange400</include>
                 <texture>common/white.png</texture>
@@ -410,21 +410,49 @@
                 <include>FullscreenDimensions</include>
                 <include>Animation_WindowFade250</include>
                 <aspectratio align="center" aligny="top">keep</aspectratio>
-                <texture background="true">$INFO[Container(5010).ListItem.Thumb]</texture>
+                <texture background="true">$VAR[HomeFSImageVar]</texture>
                 <animation effect="fade" time="500">Visible</animation>
                 <animation effect="fade" time="500">Hidden</animation>
-                <visible>Control.HasFocus(22222)</visible>
+                <visible>Control.HasFocus(22222) | Control.HasFocus(22223)</visible>
             </control>
-            <control type="image">
-                <fadetime>600</fadetime>
-                <include>FullscreenDimensions</include>
-                <include>Animation_WindowFade250</include>
-                <aspectratio align="center" aligny="top">keep</aspectratio>
-                <texture background="true">$INFO[Container(6010).ListItem.Thumb]</texture>
-                <animation effect="fade" time="500">Visible</animation>
-                <animation effect="fade" time="500">Hidden</animation>
-                <visible>Control.HasFocus(22223)</visible>
-            </control>
+            <control type="group">
+                <visible>!IsEmpty(Window(home).Property(weatherwidget))</visible>
+                <control type="multiimage">
+                  <include>FullscreenDimensions</include>
+
+                    <imagepath>$INFO[Window(weather).Property(MapPath)]</imagepath>
+                    <timeperimage>500</timeperimage>
+                    <pauseatend>1000</pauseatend>
+                    <fadetime>0</fadetime>
+                    <randomize>false</randomize>
+                    <loop>yes</loop>
+                    <aspectratio>keep</aspectratio>
+                    <aligny>center</aligny>
+                </control>
+                              <control type="image">
+                    <posx>500</posx>
+                    <posy>990</posy>
+                    <width>920</width>
+                    <height>47</height>
+                    <texture>weather/whitepanel.png</texture>
+                </control>
+                                             <control type="image">
+                                <posx>480</posx>
+                                <posy>992</posy>
+                                <width>506</width>
+                                <height>42</height>
+                                <texture>weather/key1.png</texture>
+                                <aspectratio>keep</aspectratio>
+                            </control>
+                <control type="image">
+                    <posx>930</posx>
+                    <posy>992</posy>
+                    <width>506</width>
+                    <height>42</height>
+                    <texture>weather/key2.png</texture>
+                    <aspectratio>keep</aspectratio>
+                </control>
+                </control>
             <control type="button" id="22222">
                 <include>HiddenObject</include>
                 <onleft>Control.Move(5010,-1)</onleft>
