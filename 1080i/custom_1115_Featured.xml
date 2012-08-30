@@ -15,6 +15,7 @@
     <onload condition="ControlGroup(11000).HasFocus">AlarmClock(Tile,Control.Move(11002,1),00:04,silent,loop)</onload>
     <onload condition="ControlGroup(11000).HasFocus">AlarmClock(TileTwo,Control.Move(11003,1),00:07,silent,loop)</onload>
     <onload condition="Window.Previous(home)">SetFocus(5012)</onload>
+    <onunload>ClearProperty(InfoDialog,1115)</onunload>
     <onunload>CancelAlarm(Tile,true)</onunload>
     <onunload>CancelAlarm(TileTwo,true)</onunload>
     <coordinates>
@@ -24,10 +25,11 @@
     </coordinates>
     <controls>
         <!-- Fanart -->
-        <control type="multiimage">
+        <control type="image">
             <animation effect="fade" time="500" condition="!Window.Previous(weather)">WindowOpen</animation>
             <animation effect="fade" time="200" condition="!Window.Next(weather)">WindowClose</animation>
-            <imagepath background="true" fallback="special://skin/backgrounds/">$VAR[FeaturedFanartVar]</imagepath>
+            <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+            <texture background="true" fallback="special://skin/backgrounds/featured/featured.jpg">special://skin/backgrounds/featured/featured.jpg</texture>
         </control>
         <include>CommonMediaPlayingBackground</include>
         <control type="image">
@@ -260,7 +262,21 @@
                 <height>825</height>
                 <onfocus>AlarmClock(Tile,Control.Move(5002,1),00:04,silent,loop)</onfocus>
                 <onfocus>AlarmClock(TileTwo,Control.Move(5003,1),00:07,silent,loop)</onfocus>
-                <animation type="Conditional" condition="![ControlGroup(5000).HasFocus | Control.HasFocus(5012)]">
+                <animation type="Conditional" condition="SubString(Window(1115).Property(InfoDialog),50)" reversible="false">
+                    <effect type="rotatey" center="960" start="0" end="-90" time="550" tween="cubic" easing="in" />
+                    <effect type="slide" start="0,0" end="0,-45" time="550" />
+                    <effect type="rotatey" center="960" start="-90" end="90" time="0" delay="550" />
+                    <effect type="fade" start="100" end="0" time="0" delay="550" />
+                    <effect type="rotatey" center="960" start="90" end="0" time="550" delay="550" tween="cubic" easing="out" />
+                </animation>
+                <animation type="Conditional" condition="!SubString(Window(1115).Property(InfoDialog),50)" reversible="false">
+                    <effect type="rotatey" center="960" start="0" end="90" time="0" tween="cubic" easing="in" delay="550"/>
+                    <effect type="rotatey" center="960" start="90" end="-90" time="0" delay="550" />
+                    <effect type="fade" start="0" end="100" time="400" delay="550" />
+                    <effect type="rotatey" center="960" start="-90" end="0" time="550" delay="550" tween="cubic" easing="out" />
+                    <effect type="slide" start="0,-45" end="0,0" delay="550" time="550" />
+                </animation>
+                <animation type="Conditional" condition="![ControlGroup(5000).HasFocus | Control.HasFocus(5012) | SubString(Window(1115).Property(InfoDialog),50)]">
                     <effect type="fade" start="100" end="80" time="500" tween="cubic" easing="inout" />
                     <effect type="zoom" start="100" end="70" time="500" tween="cubic" easing="inout" center="auto" />
                 </animation>
@@ -275,7 +291,7 @@
                     <onfocus>AlarmClock(TileTwo,Control.Move(5003,1),00:07,silent,loop)</onfocus>
                     <onclick>ActivateWindow(settings)</onclick>
                 </control>
-                <control type="group">
+                <control type="group" id="5001">
                     <posx>450</posx>
                     <control type="image">
                         <posx>0</posx>
@@ -303,173 +319,24 @@
                         <height>119</height>
                         <texture>featured/panel_featured_reflect.png</texture>
                     </control>
-                    <control type="panel" id="5001">
-                        <posx>26</posx>
-                        <posy>26</posy>
-                        <width>280</width>
-                        <height>570</height>
-                        <onleft>AlarmClock(Tile,Control.Move(10002,1),00:04,silent,loop)</onleft>
-                        <onleft>3001</onleft>
-                        <onright>5010</onright>
-                        <onup>5012</onup>
-                        <ondown>60</ondown>
-                        <scrolltime>0</scrolltime>
-                        <itemlayout width="280" height="280">
-                            <control type="group">
-                                <animation effect="fade" end="90" time="0" condition="true">Conditional</animation>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>270</width>
-                                    <height>270</height>
-                                    <texture>common/white.png</texture>
-                                    <colordiffuse>6627292b</colordiffuse>
-                                </control>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>270</width>
-                                    <height>270</height>
-                                    <texture>$INFO[ListItem.Icon]</texture>
-                                </control>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <texture>common/black.png</texture>
-                                    <colordiffuse>BBFFFFFF</colordiffuse>
-                                </control>
-                                <control type="label">
-                                    <posx>5</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <label>$INFO[ListItem.Label]</label>
-                                    <font>Font_Reg19</font>
-                                    <textcolor>white2</textcolor>
-                                    <aligny>center</aligny>
-                                    <textoffsetx>10</textoffsetx>
-                                </control>
-                                <control type="label">
-                                    <posx>275</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <label>[B]$INFO[ListItem.Label2][/B]</label>
-                                    <font>Font_Reg19</font>
-                                    <textcolor>grey2</textcolor>
-                                    <align>right</align>
-                                    <aligny>center</aligny>
-                                    <textoffsetx>10</textoffsetx>
-                                </control>
-                            </control>
-                        </itemlayout>
-                        <focusedlayout width="280" height="280">
-                            <control type="group">
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>270</width>
-                                    <height>270</height>
-                                    <texture>common/white.png</texture>
-                                    <colordiffuse>6627292b</colordiffuse>
-                                </control>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>270</width>
-                                    <height>270</height>
-                                    <texture>$INFO[ListItem.Icon]</texture>
-                                </control>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <texture>common/black.png</texture>
-                                    <colordiffuse>BBFFFFFF</colordiffuse>
-                                </control>
-                                <control type="label">
-                                    <posx>5</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <label>$INFO[ListItem.Label]</label>
-                                    <font>Font_Reg19</font>
-                                    <textcolor>white2</textcolor>
-                                    <aligny>center</aligny>
-                                    <textoffsetx>10</textoffsetx>
-                                </control>
-                                <control type="label">
-                                    <posx>275</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <label>[B]$INFO[ListItem.Label2][/B]</label>
-                                    <font>Font_Reg19</font>
-                                    <textcolor>grey2</textcolor>
-                                    <align>right</align>
-                                    <aligny>center</aligny>
-                                    <textoffsetx>10</textoffsetx>
-                                </control>
-                                <control type="image">
-                                    <posx>0</posx>
-                                    <posy>0</posy>
-                                    <width>280</width>
-                                    <height>280</height>
-                                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                                    <texture border="5">views/addonwall_select.png</texture>
-                                    <include>Animation_VisibleChange200</include>
-                                    <visible>Control.HasFocus(5001)</visible>
-                                </control>
-                            </control>
-                        </focusedlayout>
-                        <content>
-                            <item id="0">
-                                <label>$LOCALIZE[31323]</label>
-                                <icon>DefaultRecentlyAddedMovies.png</icon>
-                                <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.1.Fanart)]</property>
-                                <onclick>ActivateWindow(videos,RecentlyAddedMovies,return)</onclick>
-                            </item>
-                            <item id="1">
-                                <label>$LOCALIZE[31324]</label>
-                                <icon>DefaultRecentlyAddedEpisodes.png</icon>
-                                <property name="Fanart">$INFO[Window(Home).Property(LatestEpisode.1.Fanart)]</property>
-                                <onclick>ActivateWindow(videos,RecentlyAddedEpisodes,return)</onclick>
-                            </item>
-                        </content>
-                    </control>
                     <control type="group">
-                        <posx>311</posx>
+                        <posx>31</posx>
                         <posy>31</posy>
                         <control type="button" id="5010">
                             <include>HiddenObject</include>
                             <onup>5012</onup>
-                            <onleft>AlarmClock(Tile,Control.Move(5002,1),00:04,silent,loop)</onleft>
-                            <onleft>5001</onleft>
+                            <onleft>3001</onleft>
                             <onright>AlarmClock(Tile,Control.Move(5002,1),00:04,silent,loop)</onright>
                             <onright>5011</onright>
                             <ondown>Control.Move(5002,1)</ondown>
-                            <onclick>PlayMedia("$INFO[Container(5002).ListItem.Property(Path)]")</onclick>
+                            <onclick>SetProperty(InfoDialog,5002,1115)</onclick>
+                            <onclick>SetFocus(5005)</onclick>
                             <onfocus>CancelAlarm(Tile,true)</onfocus>
-                        </control>
-                        <control type="label">
-                            <posx>0</posx>
-                            <posy>564</posy>
-                            <width>607</width>
-                            <height>25</height>
-                            <font>Font_Reg14_Caps</font>
-                            <textcolor>floor</textcolor>
-                            <shadowcolor>floorshadow</shadowcolor>
-                            <aligny>center</aligny>
-                            <textoffsetx>15</textoffsetx>
-                            <label>[UPPERCASE]$LOCALIZE[31163][/UPPERCASE]</label>
                         </control>
                         <control type="wraplist" id="5002">
                             <posx>0</posx>
                             <posy>0</posy>
-                            <width>614</width>
+                            <width>894</width>
                             <height>550</height>
                             <onleft>SetFocus(5002)</onleft>
                             <onright>5000</onright>
@@ -479,43 +346,43 @@
                             <orientation>horizontal</orientation>
                             <pagecontrol>60</pagecontrol>
                             <focusposition>0</focusposition>
-                            <scrolltime tween="quadratic" easing="out">800</scrolltime>
+                            <scrolltime tween="quadratic" easing="out">1200</scrolltime>
                             <preloaditems>2</preloaditems>
-                            <itemlayout width="614" height="550">
+                            <itemlayout width="894" height="550">
                                 <control type="image">
                                     <posx>0</posx>
                                     <posy>0</posy>
-                                    <width>614</width>
+                                    <width>894</width>
                                     <height>550</height>
                                     <animation effect="fade" time="600">Focus</animation>
                                     <texture background="true">DefaultTVShows.png</texture>
                                     <aspectratio align="center">scale</aspectratio>
-                                    <info>ListItem.ActualIcon</info>
+                                    <info>ListItem.Property(Fanart)</info>
                                 </control>
                                 <control type="image">
                                     <posx>0</posx>
                                     <posy>510</posy>
-                                    <width>614</width>
+                                    <width>894</width>
                                     <height>40</height>
                                     <texture>common/black.png</texture>
                                     <colordiffuse>BBFFFFFF</colordiffuse>
                                 </control>
                             </itemlayout>
-                            <focusedlayout width="614" height="550">
+                            <focusedlayout width="894" height="550">
                                 <control type="image">
                                     <posx>0</posx>
                                     <posy>0</posy>
-                                    <width>614</width>
+                                    <width>894</width>
                                     <height>550</height>
                                     <animation effect="fade" time="600">Focus</animation>
                                     <texture background="true">DefaultTVShows.png</texture>
                                     <aspectratio align="center">scale</aspectratio>
-                                    <info>ListItem.ActualIcon</info>
+                                    <info>ListItem.Property(Fanart)</info>
                                 </control>
                                 <control type="image">
                                     <posx>0</posx>
                                     <posy>510</posy>
-                                    <width>614</width>
+                                    <width>894</width>
                                     <height>40</height>
                                     <texture>common/black.png</texture>
                                     <colordiffuse>BBFFFFFF</colordiffuse>
@@ -523,220 +390,7 @@
                             </focusedlayout>
                             <content>
                                 <item id="1">
-                                    <label>$INFO[Window(Home).Property(RandomMovie.1.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(RandomMovie.1.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.1.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(RandomMovie.1.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(RandomMovie.1.Thumb)]</thumb>
-                                    <property name="NavItem">item1.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.1.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.1.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.1.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.1.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.1.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                                <item id="2">
-                                    <label>$INFO[Window(Home).Property(RandomMovie.2.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(RandomMovie.2.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.2.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(RandomMovie.2.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(RandomMovie.2.Thumb)]</thumb>
-                                    <property name="NavItem">item2.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.2.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.2.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.2.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.2.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.2.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                                <item id="3">
-                                    <label>$INFO[Window(Home).Property(RandomMovie.3.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(RandomMovie.3.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.3.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(RandomMovie.3.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(RandomMovie.3.Thumb)]</thumb>
-                                    <property name="NavItem">item3.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.3.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.3.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.3.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.3.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.3.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                                <item id="4">
-                                    <label>$INFO[Window(Home).Property(RandomMovie.4.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(RandomMovie.4.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.4.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(RandomMovie.4.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(RandomMovie.4.Thumb)]</thumb>
-                                    <property name="NavItem">item4.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.4.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.4.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.4.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.4.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.4.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                                <item id="5">
-                                    <label>$INFO[Window(Home).Property(RandomMovie.5.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(RandomMovie.5.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.5.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(RandomMovie.5.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(RandomMovie.5.Thumb)]</thumb>
-                                    <property name="NavItem">item5.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.5.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.5.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.5.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.5.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.5.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                                <item id="6">
-                                    <label>$INFO[Window(Home).Property(RandomMovie.6.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(RandomMovie.6.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.6.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(RandomMovie.6.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(RandomMovie.6.Thumb)]</thumb>
-                                    <property name="NavItem">item6.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.6.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.6.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.6.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.6.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.6.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                                <item id="7">
-                                    <label>$INFO[Window(Home).Property(RandomMovie.7.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(RandomMovie.7.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.7.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(RandomMovie.7.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(RandomMovie.7.Thumb)]</thumb>
-                                    <property name="NavItem">item7.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.7.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.7.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.7.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.7.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.7.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                                <item id="8">
-                                    <label>$INFO[Window(Home).Property(RandomMovie.8.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(RandomMovie.8.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.8.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(RandomMovie.8.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(RandomMovie.8.Thumb)]</thumb>
-                                    <property name="NavItem">item8.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.8.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.8.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.8.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.8.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.8.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                            </content>
-                        </control>
-                        <control type="label">
-                            <posx>0</posx>
-                            <posy>510</posy>
-                            <width>466</width>
-                            <height>40</height>
-                            <aligny>center</aligny>
-                            <font>Font_Reg15</font>
-                            <textcolor>white2</textcolor>
-                            <shadowcolor>-</shadowcolor>
-                            <label>$INFO[Container(5002).ListItem.Label]</label>
-                            <textoffsetx>15</textoffsetx>
-                        </control>
-                        <control type="image">
-                            <posx>466</posx>
-                            <posy>525</posy>
-                            <width>138</width>
-                            <height>12</height>
-                            <texture>$INFO[Container(5002).ListItem.Property(NavItem),featured/panel_mid/]</texture>
-                        </control>
-                    </control>
-                    <control type="group">
-                        <posy>31</posy>
-                        <posx>935</posx>
-                        <control type="button" id="5011">
-                            <include>HiddenObject</include>
-                            <onup>5012</onup>
-                            <onleft>AlarmClock(TileTwo,Control.Move(5003,1),00:07,silent,loop)</onleft>
-                            <onleft>5010</onleft>
-                            <onright>AlarmClock(Tile,Control.Move(6002,1),00:04,silent,loop)</onright>
-                            <onright>AlarmClock(TileTwo,Control.Move(6003,1),00:07,silent,loop)</onright>
-                            <onright>6001</onright>
-                            <ondown>Control.Move(5003,1)</ondown>
-                            <onclick>PlayMedia("$INFO[Container(5003).ListItem.Property(Path)]")</onclick>
-                            <onfocus>CancelAlarm(TileTwo,true)</onfocus>
-                        </control>
-                        <control type="label">
-                            <posx>0</posx>
-                            <posy>564</posy>
-                            <width>607</width>
-                            <height>25</height>
-                            <font>Font_Reg14_Caps</font>
-                            <textcolor>floor</textcolor>
-                            <shadowcolor>floorshadow</shadowcolor>
-                            <aligny>center</aligny>
-                            <textoffsetx>15</textoffsetx>
-                            <label>[UPPERCASE]$LOCALIZE[31464][/UPPERCASE]</label>
-                        </control>
-                        <control type="wraplist" id="5003">
-                            <posx>0</posx>
-                            <posy>0</posy>
-                            <width>366</width>
-                            <height>550</height>
-                            <viewtype label="21371">list</viewtype>
-                            <orientation>horizontal</orientation>
-                            <pagecontrol>60</pagecontrol>
-                            <focusposition>0</focusposition>
-                            <scrolltime tween="quadratic" easing="out">800</scrolltime>
-                            <preloaditems>2</preloaditems>
-                            <itemlayout width="366" height="550">
-                                <control type="image">
-                                    <posx>0</posx>
-                                    <posy>0</posy>
-                                    <width>366</width>
-                                    <height>550</height>
-                                    <animation effect="fade" time="600">Focus</animation>
-                                    <texture background="true">DefaultVideoBigPoster.png</texture>
-                                    <aspectratio scalediffuse="false">stretch</aspectratio>
-                                    <info>ListItem.Icon</info>
-                                </control>
-                                <control type="image">
-                                    <posx>0</posx>
-                                    <posy>510</posy>
-                                    <width>366</width>
-                                    <height>40</height>
-                                    <texture>common/black.png</texture>
-                                    <colordiffuse>BBFFFFFF</colordiffuse>
-                                </control>
-                            </itemlayout>
-                            <focusedlayout width="366" height="550">
-                                <control type="image">
-                                    <posx>0</posx>
-                                    <posy>0</posy>
-                                    <width>366</width>
-                                    <height>550</height>
-                                    <animation effect="fade" time="600">Focus</animation>
-                                    <texture background="true">DefaultVideoBigPoster.png</texture>
-                                    <aspectratio scalediffuse="false">stretch</aspectratio>
-                                    <info>ListItem.Icon</info>
-                                </control>
-                                <control type="image">
-                                    <posx>0</posx>
-                                    <posy>510</posy>
-                                    <width>366</width>
-                                    <height>40</height>
-                                    <texture>common/black.png</texture>
-                                    <colordiffuse>BBFFFFFF</colordiffuse>
-                                </control>
-                            </focusedlayout>
-                            <content>
-                                <item id="1">
-                                    <icon>$INFO[Window(Home).Property(WatchList_Episode.1.TvshowThumb)]</icon>
+                                    <icon>$INFO[Window(Home).Property(WatchList_Episode.1.Thumb)]</icon>
                                     <thumb>$INFO[Window(Home).Property(WatchList_Episode.1.SeasonThumb)]</thumb>
                                     <label>$INFO[Window(Home).Property(WatchList_Episode.1.Label)]</label>
                                     <label2>$INFO[Window(Home).Property(WatchList_Episode.1.TvShowTitle)]</label2>
@@ -820,436 +474,55 @@
                                     <property name="Path">$INFO[Window(Home).Property(WatchList_Episode.5.Path)]</property>
                                     <onclick>-</onclick>
                                 </item>
-                            </content>
-                        </control>
-                        <control type="label">
-                            <posx>0</posx>
-                            <posy>510</posy>
-                            <width>272</width>
-                            <height>40</height>
-                            <aligny>center</aligny>
-                            <font>Font_Reg15</font>
-                            <textcolor>white2</textcolor>
-                            <shadowcolor>-</shadowcolor>
-                            <label>$INFO[Container(5003).ListItem.Label]</label>
-                            <textoffsetx>15</textoffsetx>
-                        </control>
-                        <control type="image">
-                            <posx>272</posx>
-                            <posy>525</posy>
-                            <width>84</width>
-                            <height>12</height>
-                            <texture>$INFO[Container(5003).ListItem.Property(NavItem),featured/panel_right/]</texture>
-                        </control>
-                    </control>
-                    <control type="image">
-                        <posx>306</posx>
-                        <posy>26</posy>
-                        <width>624</width>
-                        <height>560</height>
-                        <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                        <texture border="5">views/addonwall_select.png</texture>
-                        <include>Animation_VisibleChange200</include>
-                        <visible>Control.HasFocus(5010)</visible>
-                    </control>
-                    <control type="image">
-                        <posy>26</posy>
-                        <posx>930</posx>
-                        <width>376</width>
-                        <height>560</height>
-                        <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                        <texture border="5">views/addonwall_select.png</texture>
-                        <include>Animation_VisibleChange200</include>
-                        <visible>Control.HasFocus(5011)</visible>
-                    </control>
-                    <control type="image">
-                        <posx>21</posx>
-                        <posy>21</posy>
-                        <width>1290</width>
-                        <height>570</height>
-                        <texture>featured/panel_featured_overlay.png</texture>
-                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
-                    </control>
-                </control>
-            </control>
-            <!-- Movies -->
-            <control type="group" id="6000">
-                <width>2325</width>
-                <height>825</height>
-                <animation type="Conditional" condition="![ControlGroup(6000).HasFocus | Control.HasFocus(6012)]">
-                    <effect type="fade" start="100" end="80" time="500" tween="cubic" easing="inout" />
-                    <effect type="zoom" start="100" end="70" time="500" tween="cubic" easing="inout" center="auto" />
-                </animation>
-                <control type="button" id="6012">
-                    <include>HiddenObject</include>
-                    <onup>ActivateWindow(1121)</onup>
-                    <ondown>6001</ondown>
-                    <onright>7012</onright>
-                    <onleft>5012</onleft>
-                    <ondown>6001</ondown>
-                    <onfocus>AlarmClock(Tile,Control.Move(6002,1),00:04,silent,loop)</onfocus>
-                    <onfocus>AlarmClock(TileTwo,Control.Move(6003,1),00:07,silent,loop)</onfocus>
-                    <onclick>ActivateWindow(Videos,MovieTitles,return)</onclick>
-                </control>
-                <control type="group">
-                    <posx>450</posx>
-                    <control type="image">
-                        <posx>0</posx>
-                        <posy>0</posy>
-                        <width>1332</width>
-                        <height>612</height>
-                        <texture border="50">featured/panel_featured_shadow.png</texture>
-                        <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                        <visible>!Skin.HasSetting(DisableGlowbar)</visible>
-                        <include>PanelGlowFade</include>
-                        <include>Animation_VisibleChange400</include>
-                    </control>
-                    <control type="image">
-                        <posx>0</posx>
-                        <posy>0</posy>
-                        <width>1332</width>
-                        <height>612</height>
-                        <texture>featured/panel_featured.png</texture>
-                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
-                    </control>
-                    <control type="image">
-                        <posx>21</posx>
-                        <posy>593</posy>
-                        <width>1290</width>
-                        <height>119</height>
-                        <texture>featured/panel_featured_reflect.png</texture>
-                    </control>
-                    <control type="panel" id="6001">
-                        <posx>26</posx>
-                        <posy>26</posy>
-                        <width>280</width>
-                        <height>570</height>
-                        <onleft>AlarmClock(Tile,Control.Move(5002,1),00:04,silent,loop)</onleft>
-                        <onleft>5011</onleft>
-                        <onright>6010</onright>
-                        <onup>6012</onup>
-                        <ondown>-</ondown>
-                        <scrolltime>0</scrolltime>
-                        <itemlayout width="280" height="280">
-                            <control type="group">
-                                <animation effect="fade" end="90" time="0" condition="true">Conditional</animation>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>270</width>
-                                    <height>270</height>
-                                    <texture>common/white.png</texture>
-                                    <colordiffuse>6627292b</colordiffuse>
-                                </control>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>270</width>
-                                    <height>270</height>
-                                    <texture>$INFO[ListItem.Icon]</texture>
-                                </control>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <texture>common/black.png</texture>
-                                    <colordiffuse>BBFFFFFF</colordiffuse>
-                                </control>
-                                <control type="label">
-                                    <posx>5</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <label>$INFO[ListItem.Label]</label>
-                                    <font>Font_Reg19</font>
-                                    <textcolor>white2</textcolor>
-                                    <aligny>center</aligny>
-                                    <textoffsetx>10</textoffsetx>
-                                </control>
-                                <control type="label">
-                                    <posx>275</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <label>[B]$INFO[ListItem.Label2][/B]</label>
-                                    <font>Font_Reg19</font>
-                                    <textcolor>grey2</textcolor>
-                                    <align>right</align>
-                                    <aligny>center</aligny>
-                                    <textoffsetx>10</textoffsetx>
-                                </control>
-                            </control>
-                        </itemlayout>
-                        <focusedlayout width="280" height="280">
-                            <control type="group">
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>270</width>
-                                    <height>270</height>
-                                    <texture>common/white.png</texture>
-                                    <colordiffuse>6627292b</colordiffuse>
-                                </control>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>5</posy>
-                                    <width>270</width>
-                                    <height>270</height>
-                                    <texture>$INFO[ListItem.Icon]</texture>
-                                </control>
-                                <control type="image">
-                                    <posx>5</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <texture>common/black.png</texture>
-                                    <colordiffuse>BBFFFFFF</colordiffuse>
-                                </control>
-                                <control type="label">
-                                    <posx>5</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <label>$INFO[ListItem.Label]</label>
-                                    <font>Font_Reg19</font>
-                                    <textcolor>white2</textcolor>
-                                    <aligny>center</aligny>
-                                    <textoffsetx>10</textoffsetx>
-                                </control>
-                                <control type="label">
-                                    <posx>275</posx>
-                                    <posy>220</posy>
-                                    <width>270</width>
-                                    <height>60</height>
-                                    <label>[B]$INFO[ListItem.Label2][/B]</label>
-                                    <font>Font_Reg19</font>
-                                    <textcolor>grey2</textcolor>
-                                    <align>right</align>
-                                    <aligny>center</aligny>
-                                    <textoffsetx>10</textoffsetx>
-                                </control>
-                                <control type="image">
-                                    <posx>0</posx>
-                                    <posy>0</posy>
-                                    <width>280</width>
-                                    <height>280</height>
-                                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                                    <texture border="5">views/addonwall_select.png</texture>
-                                    <include>Animation_VisibleChange200</include>
-                                    <visible>Control.HasFocus(6001)</visible>
-                                </control>
-                            </control>
-                        </focusedlayout>
-                        <content>
-                            <item id="0">
-                                <label>$LOCALIZE[342]</label>
-                                <label2>$INFO[Window(Home).Property(Movies.Count)]</label2>
-                                <icon>DefaultMovies.png</icon>
-                                <property name="Fanart" fallback="special://skin/backgrounds/movies/movies.jpg">$INFO[Skin.String(MovieHomeItem.MultiFanart)]</property>
-                                <onclick>ActivateWindow(videos,movietitles,return)</onclick>
-                            </item>
-                            <item id="1">
-                                <label fallback="31162">$INFO[system.addontitle(Skin.String(HomeMenuSubMoviesTrailer))]</label>
-                                <icon fallback="featured/icons/DefaultTrailers.png">$INFO[system.addonicon(Skin.String(HomeMenuSubMoviesTrailer))]</icon>
-                                <property name="Fanart">special://skin/backgrounds/curtains.jpg</property>
-                                <onclick condition="!IsEmpty(Skin.String(HomeMenuSubMoviesTrailer))">XBMC.RunAddon($INFO[Skin.String(HomeMenuSubMoviesTrailer)])</onclick>
-                                <onclick condition="IsEmpty(Skin.String(HomeMenuSubMoviesTrailer))">Skin.SetAddon(HomeMenuSubMoviesTrailer,xbmc.addon.video)</onclick>
-                            </item>
-                        </content>
-                    </control>
-                    <control type="group">
-                        <posx>311</posx>
-                        <posy>31</posy>
-                        <control type="button" id="6010">
-                            <include>HiddenObject</include>
-                            <onup>6012</onup>
-                            <onleft>AlarmClock(Tile,Control.Move(6002,1),00:04,silent,loop)</onleft>
-                            <onleft>6001</onleft>
-                            <onright>AlarmClock(Tile,Control.Move(6002,1),00:04,silent,loop)</onright>
-                            <onright>6011</onright>
-                            <ondown>Control.Move(6002,1)</ondown>
-                            <onclick>PlayMedia("$INFO[Container(6002).ListItem.Property(Path)]")</onclick>
-                            <onfocus>CancelAlarm(Tile,true)</onfocus>
-                        </control>
-                        <control type="label">
-                            <posx>0</posx>
-                            <posy>564</posy>
-                            <width>607</width>
-                            <height>25</height>
-                            <font>Font_Reg14_Caps</font>
-                            <textcolor>floor</textcolor>
-                            <shadowcolor>floorshadow</shadowcolor>
-                            <aligny>center</aligny>
-                            <textoffsetx>15</textoffsetx>
-                            <label>[UPPERCASE]$LOCALIZE[31323][/UPPERCASE]</label>
-                        </control>
-                        <control type="wraplist" id="6002">
-                            <posx>0</posx>
-                            <posy>0</posy>
-                            <width>614</width>
-                            <height>550</height>
-                            <onleft>SetFocus(6002)</onleft>
-                            <onright>5000</onright>
-                            <onup>5000</onup>
-                            <ondown>Control.Move(6003,1)</ondown>
-                            <viewtype label="21371">list</viewtype>
-                            <orientation>horizontal</orientation>
-                            <pagecontrol>60</pagecontrol>
-                            <focusposition>0</focusposition>
-                            <scrolltime tween="quadratic" easing="out">800</scrolltime>
-                            <preloaditems>2</preloaditems>
-                            <itemlayout width="614" height="550">
-                                <control type="image">
-                                    <posx>0</posx>
-                                    <posy>0</posy>
-                                    <width>614</width>
-                                    <height>550</height>
-                                    <animation effect="fade" time="600">Focus</animation>
-                                    <texture background="true">DefaultTVShows.png</texture>
-                                    <aspectratio align="center">scale</aspectratio>
-                                    <info>ListItem.ActualIcon</info>
-                                </control>
-                                <control type="image">
-                                    <posx>0</posx>
-                                    <posy>510</posy>
-                                    <width>614</width>
-                                    <height>40</height>
-                                    <texture>common/black.png</texture>
-                                    <colordiffuse>BBFFFFFF</colordiffuse>
-                                </control>
-                            </itemlayout>
-                            <focusedlayout width="614" height="550">
-                                <control type="image">
-                                    <posx>0</posx>
-                                    <posy>0</posy>
-                                    <width>614</width>
-                                    <height>550</height>
-                                    <animation effect="fade" time="600">Focus</animation>
-                                    <texture background="true">DefaultTVShows.png</texture>
-                                    <aspectratio align="center">scale</aspectratio>
-                                    <info>ListItem.ActualIcon</info>
-                                </control>
-                                <control type="image">
-                                    <posx>0</posx>
-                                    <posy>510</posy>
-                                    <width>614</width>
-                                    <height>40</height>
-                                    <texture>common/black.png</texture>
-                                    <colordiffuse>BBFFFFFF</colordiffuse>
-                                </control>
-                            </focusedlayout>
-                            <content>
-                                <item id="1">
-                                    <label>$INFO[Window(Home).Property(LatestMovie.1.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(LatestMovie.1.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.1.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(LatestMovie.1.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(LatestMovie.1.Thumb)]</thumb>
-                                    <property name="NavItem">item1.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.1.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.1.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.1.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.1.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.1.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                                <item id="2">
-                                    <label>$INFO[Window(Home).Property(LatestMovie.2.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(LatestMovie.2.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.2.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(LatestMovie.2.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(LatestMovie.2.Thumb)]</thumb>
-                                    <property name="NavItem">item2.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.2.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.2.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.2.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.2.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.2.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                                <item id="3">
-                                    <label>$INFO[Window(Home).Property(LatestMovie.3.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(LatestMovie.3.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.3.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(LatestMovie.3.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(LatestMovie.3.Thumb)]</thumb>
-                                    <property name="NavItem">item3.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.3.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.3.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.3.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.3.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.3.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                                <item id="4">
-                                    <label>$INFO[Window(Home).Property(LatestMovie.4.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(LatestMovie.4.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.4.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(LatestMovie.4.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(LatestMovie.4.Thumb)]</thumb>
-                                    <property name="NavItem">item4.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.4.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.4.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.4.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.4.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.4.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
-                                <item id="5">
-                                    <label>$INFO[Window(Home).Property(LatestMovie.5.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(LatestMovie.5.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.5.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(LatestMovie.5.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(LatestMovie.5.Thumb)]</thumb>
-                                    <property name="NavItem">item5.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.5.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.5.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.5.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.5.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.5.Trailer)]</property>
-                                    <onclick>-</onclick>
-                                </item>
                                 <item id="6">
-                                    <label>$INFO[Window(Home).Property(LatestMovie.6.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(LatestMovie.6.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.6.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(LatestMovie.6.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(LatestMovie.6.Thumb)]</thumb>
+                                    <icon>$INFO[Window(Home).Property(WatchList_Episode.6.TvshowThumb)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(WatchList_Episode.6.SeasonThumb)]</thumb>
+                                    <label>$INFO[Window(Home).Property(WatchList_Episode.6.Label)]</label>
+                                    <label2>$INFO[Window(Home).Property(WatchList_Episode.6.TvShowTitle)]</label2>
                                     <property name="NavItem">item6.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.6.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.6.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.6.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.6.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.6.Trailer)]</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(WatchList_Episode.6.Rating)]</property>
+                                    <property name="Plot">$INFO[Window(Home).Property(WatchList_Episode.6.Plot)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(WatchList_Episode.6.Fanart)]</property>
+                                    <property name="EpisodeNo">$INFO[Window(Home).Property(WatchList_Episode.6.EpisodeNo)]</property>
+                                    <property name="EpThumb">$INFO[Window(Home).Property(WatchList_Episode.6.Thumb)]</property>
+                                    <property name="IsResumable">$INFO[Window(Home).Property(WatchList_Episode.6.IsResumable)]</property>
+                                    <property name="Episode">$INFO[Window(Home).Property(WatchList_Episode.6.Episode)]</property>
+                                    <property name="Season">$INFO[Window(Home).Property(WatchList_Episode.6.Season)]</property>
+                                    <property name="Path">$INFO[Window(Home).Property(WatchList_Episode.6.Path)]</property>
                                     <onclick>-</onclick>
                                 </item>
                                 <item id="7">
-                                    <label>$INFO[Window(Home).Property(LatestMovie.7.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(LatestMovie.7.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.7.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(LatestMovie.7.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(LatestMovie.7.Thumb)]</thumb>
+                                    <icon>$INFO[Window(Home).Property(WatchList_Episode.7.TvshowThumb)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(WatchList_Episode.7.SeasonThumb)]</thumb>
+                                    <label>$INFO[Window(Home).Property(WatchList_Episode.7.Label)]</label>
+                                    <label2>$INFO[Window(Home).Property(WatchList_Episode.7.TvShowTitle)]</label2>
                                     <property name="NavItem">item7.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.7.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.7.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.7.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.7.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.7.Trailer)]</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(WatchList_Episode.7.Rating)]</property>
+                                    <property name="Plot">$INFO[Window(Home).Property(WatchList_Episode.7.Plot)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(WatchList_Episode.7.Fanart)]</property>
+                                    <property name="EpisodeNo">$INFO[Window(Home).Property(WatchList_Episode.7.EpisodeNo)]</property>
+                                    <property name="EpThumb">$INFO[Window(Home).Property(WatchList_Episode.7.Thumb)]</property>
+                                    <property name="IsResumable">$INFO[Window(Home).Property(WatchList_Episode.7.IsResumable)]</property>
+                                    <property name="Episode">$INFO[Window(Home).Property(WatchList_Episode.7.Episode)]</property>
+                                    <property name="Season">$INFO[Window(Home).Property(WatchList_Episode.7.Season)]</property>
+                                    <property name="Path">$INFO[Window(Home).Property(WatchList_Episode.7.Path)]</property>
                                     <onclick>-</onclick>
                                 </item>
                                 <item id="8">
-                                    <label>$INFO[Window(Home).Property(LatestMovie.8.Title)]</label>
-                                    <label2>$INFO[Window(Home).Property(LatestMovie.8.Plot)]</label2>
-                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.8.Path)]</property>
-                                    <icon>$INFO[Window(Home).Property(LatestMovie.8.Fanart)]</icon>
-                                    <thumb>$INFO[Window(Home).Property(LatestMovie.8.Thumb)]</thumb>
+                                    <icon>$INFO[Window(Home).Property(WatchList_Episode.8.TvshowThumb)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(WatchList_Episode.8.SeasonThumb)]</thumb>
+                                    <label>$INFO[Window(Home).Property(WatchList_Episode.8.Label)]</label>
+                                    <label2>$INFO[Window(Home).Property(WatchList_Episode.8.TvShowTitle)]</label2>
                                     <property name="NavItem">item8.png</property>
-                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.8.Rating)]</property>
-                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.8.Year)]</property>
-                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.8.RunningTime)]</property>
-                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.8.Fanart)]</property>
-                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.8.Trailer)]</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(WatchList_Episode.8.Rating)]</property>
+                                    <property name="Plot">$INFO[Window(Home).Property(WatchList_Episode.8.Plot)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(WatchList_Episode.8.Fanart)]</property>
+                                    <property name="EpisodeNo">$INFO[Window(Home).Property(WatchList_Episode.8.EpisodeNo)]</property>
+                                    <property name="EpThumb">$INFO[Window(Home).Property(WatchList_Episode.8.Thumb)]</property>
+                                    <property name="IsResumable">$INFO[Window(Home).Property(WatchList_Episode.8.IsResumable)]</property>
+                                    <property name="Episode">$INFO[Window(Home).Property(WatchList_Episode.8.Episode)]</property>
+                                    <property name="Season">$INFO[Window(Home).Property(WatchList_Episode.8.Season)]</property>
+                                    <property name="Path">$INFO[Window(Home).Property(WatchList_Episode.8.Path)]</property>
                                     <onclick>-</onclick>
                                 </item>
                             </content>
@@ -1257,50 +530,40 @@
                         <control type="label">
                             <posx>0</posx>
                             <posy>510</posy>
-                            <width>466</width>
+                            <width>746</width>
                             <height>40</height>
                             <aligny>center</aligny>
                             <font>Font_Reg15</font>
                             <textcolor>white2</textcolor>
                             <shadowcolor>-</shadowcolor>
-                            <label>$INFO[Container(6002).ListItem.Label]</label>
+                            <label>$INFO[Container(5002).ListItem.Label2,,: ]$INFO[Container(5002).ListItem.Property(EpisodeNo),, - ]$INFO[Container(5002).ListItem.Label]</label>
                             <textoffsetx>15</textoffsetx>
                         </control>
                         <control type="image">
-                            <posx>466</posx>
+                            <posx>746</posx>
                             <posy>525</posy>
                             <width>138</width>
                             <height>12</height>
-                            <texture>$INFO[Container(6002).ListItem.Property(NavItem),featured/panel_mid/]</texture>
+                            <texture>$INFO[Container(5002).ListItem.Property(NavItem),featured/panel_mid/]</texture>
                         </control>
                     </control>
                     <control type="group">
                         <posy>31</posy>
                         <posx>935</posx>
-                        <control type="button" id="6011">
+                        <control type="button" id="5011">
                             <include>HiddenObject</include>
-                            <onup>6012</onup>
-                            <onleft>AlarmClock(TileTwo,Control.Move(6003,1),00:07,silent,loop)</onleft>
-                            <onleft>6010</onleft>
-                            <onright>AlarmClock(Tile,Control.Move(7002,1),00:04,silent,loop)</onright>
-                            <onright>7001</onright>
-                            <ondown>Control.Move(6003,1)</ondown>
-                            <onclick>PlayMedia("$INFO[Container(6003).ListItem.Property(Path)]")</onclick>
+                            <onup>5012</onup>
+                            <onleft>AlarmClock(TileTwo,Control.Move(5003,1),00:07,silent,loop)</onleft>
+                            <onleft>5010</onleft>
+                            <onright>AlarmClock(Tile,Control.Move(6002,1),00:04,silent,loop)</onright>
+                            <onright>AlarmClock(TileTwo,Control.Move(6003,1),00:07,silent,loop)</onright>
+                            <onright>6010</onright>
+                            <ondown>Control.Move(5003,1)</ondown>
+                            <onclick>SetProperty(InfoDialog,5003,1115)</onclick>
+                            <onclick>SetFocus(5005)</onclick>
                             <onfocus>CancelAlarm(TileTwo,true)</onfocus>
                         </control>
-                        <control type="label">
-                            <posx>0</posx>
-                            <posy>564</posy>
-                            <width>607</width>
-                            <height>25</height>
-                            <font>Font_Reg14_Caps</font>
-                            <textcolor>floor</textcolor>
-                            <shadowcolor>floorshadow</shadowcolor>
-                            <aligny>center</aligny>
-                            <textoffsetx>15</textoffsetx>
-                            <label>[UPPERCASE]$LOCALIZE[31335][/UPPERCASE]</label>
-                        </control>
-                        <control type="wraplist" id="6003">
+                        <control type="wraplist" id="5003">
                             <posx>0</posx>
                             <posy>0</posy>
                             <width>366</width>
@@ -1443,6 +706,460 @@
                             <font>Font_Reg15</font>
                             <textcolor>white2</textcolor>
                             <shadowcolor>-</shadowcolor>
+                            <label>$INFO[Container(5003).ListItem.Label]</label>
+                            <textoffsetx>15</textoffsetx>
+                        </control>
+                        <control type="image">
+                            <posx>272</posx>
+                            <posy>525</posy>
+                            <width>84</width>
+                            <height>12</height>
+                            <texture>$INFO[Container(5003).ListItem.Property(NavItem),featured/panel_right/]</texture>
+                        </control>
+                    </control>
+                    <control type="image">
+                        <posx>26</posx>
+                        <posy>26</posy>
+                        <width>904</width>
+                        <height>560</height>
+                        <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+                        <texture border="5">views/addonwall_select.png</texture>
+                        <include>Animation_VisibleChange200</include>
+                        <visible>Control.HasFocus(5010)</visible>
+                    </control>
+                    <control type="image">
+                        <posy>26</posy>
+                        <posx>930</posx>
+                        <width>376</width>
+                        <height>560</height>
+                        <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+                        <texture border="5">views/addonwall_select.png</texture>
+                        <include>Animation_VisibleChange200</include>
+                        <visible>Control.HasFocus(5011)</visible>
+                    </control>
+                    <control type="image">
+                        <posx>21</posx>
+                        <posy>21</posy>
+                        <width>1290</width>
+                        <height>570</height>
+                        <texture>featured/panel_featured_overlay.png</texture>
+                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                    </control>
+                </control>
+            </control>
+            <!-- Movies -->
+            <control type="group" id="6000">
+                <width>2325</width>
+                <height>825</height>
+                <animation type="Conditional" condition="SubString(Window(1115).Property(InfoDialog),60)" reversible="false">
+                    <effect type="rotatey" center="960" start="0" end="-90" time="550" tween="cubic" easing="in" />
+                    <effect type="slide" start="0,0" end="0,-45" time="550" />
+                    <effect type="rotatey" center="960" start="-90" end="90" time="0" delay="550" />
+                    <effect type="fade" start="100" end="0" time="0" delay="550" />
+                    <effect type="rotatey" center="960" start="90" end="0" time="550" delay="550" tween="cubic" easing="out" />
+                </animation>
+                <animation type="Conditional" condition="!SubString(Window(1115).Property(InfoDialog),60)" reversible="false">
+                    <effect type="rotatey" center="960" start="0" end="90" time="0" tween="cubic" easing="in" delay="550"/>
+                    <effect type="rotatey" center="960" start="90" end="-90" time="0" delay="550" />
+                    <effect type="fade" start="0" end="100" time="400" delay="550" />
+                    <effect type="rotatey" center="960" start="-90" end="0" time="550" delay="550" tween="cubic" easing="out" />
+                    <effect type="slide" start="0,-45" end="0,0" delay="550" time="550" />
+                </animation>
+                <animation type="Conditional" condition="![ControlGroup(6000).HasFocus | Control.HasFocus(6012) | SubString(Window(1115).Property(InfoDialog),60)]">
+                    <effect type="fade" start="100" end="80" time="500" tween="cubic" easing="inout" />
+                    <effect type="zoom" start="100" end="70" time="500" tween="cubic" easing="inout" center="auto" />
+                </animation>
+                <control type="button" id="6012">
+                    <include>HiddenObject</include>
+                    <onup>ActivateWindow(1121)</onup>
+                    <ondown>6001</ondown>
+                    <onright>7012</onright>
+                    <onleft>5012</onleft>
+                    <ondown>6001</ondown>
+                    <onfocus>AlarmClock(Tile,Control.Move(6002,1),00:04,silent,loop)</onfocus>
+                    <onfocus>AlarmClock(TileTwo,Control.Move(6003,1),00:07,silent,loop)</onfocus>
+                    <onclick>ActivateWindow(Videos,MovieTitles,return)</onclick>
+                </control>
+                <control type="group">
+                    <posx>450</posx>
+                    <control type="image">
+                        <posx>0</posx>
+                        <posy>0</posy>
+                        <width>1332</width>
+                        <height>612</height>
+                        <texture border="50">featured/panel_featured_shadow.png</texture>
+                        <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                        <visible>!Skin.HasSetting(DisableGlowbar)</visible>
+                        <include>PanelGlowFade</include>
+                        <include>Animation_VisibleChange400</include>
+                    </control>
+                    <control type="image">
+                        <posx>0</posx>
+                        <posy>0</posy>
+                        <width>1332</width>
+                        <height>612</height>
+                        <texture>featured/panel_featured.png</texture>
+                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                    </control>
+                    <control type="image">
+                        <posx>21</posx>
+                        <posy>593</posy>
+                        <width>1290</width>
+                        <height>119</height>
+                        <texture>featured/panel_featured_reflect.png</texture>
+                    </control>
+                    <control type="group" id="6001">
+                        <posx>31</posx>
+                        <posy>31</posy>
+                        <control type="button" id="6010">
+                            <include>HiddenObject</include>
+                            <onup>6012</onup>
+                            <onleft>5011</onleft>
+                            <onright>AlarmClock(Tile,Control.Move(6002,1),00:04,silent,loop)</onright>
+                            <onright>6011</onright>
+                            <ondown>Control.Move(6002,1)</ondown>
+                            <onclick>SetProperty(InfoDialog,6002,1115)</onclick>
+                            <onclick>SetFocus(5005)</onclick>
+                            <onfocus>CancelAlarm(Tile,true)</onfocus>
+                        </control>
+                        <control type="wraplist" id="6002">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>894</width>
+                            <height>550</height>
+                            <onleft>SetFocus(6002)</onleft>
+                            <onright>5000</onright>
+                            <onup>5000</onup>
+                            <ondown>Control.Move(6003,1)</ondown>
+                            <viewtype label="21371">list</viewtype>
+                            <orientation>horizontal</orientation>
+                            <pagecontrol>60</pagecontrol>
+                            <focusposition>0</focusposition>
+                            <scrolltime tween="quadratic" easing="out">800</scrolltime>
+                            <preloaditems>2</preloaditems>
+                            <itemlayout width="894" height="550">
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>0</posy>
+                                    <width>894</width>
+                                    <height>550</height>
+                                    <animation effect="fade" time="600">Focus</animation>
+                                    <texture background="true">DefaultTVShows.png</texture>
+                                    <aspectratio align="center">scale</aspectratio>
+                                    <info>ListItem.ActualIcon</info>
+                                </control>
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>510</posy>
+                                    <width>894</width>
+                                    <height>40</height>
+                                    <texture>common/black.png</texture>
+                                    <colordiffuse>BBFFFFFF</colordiffuse>
+                                </control>
+                            </itemlayout>
+                            <focusedlayout width="894" height="550">
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>0</posy>
+                                    <width>894</width>
+                                    <height>550</height>
+                                    <animation effect="fade" time="600">Focus</animation>
+                                    <texture background="true">DefaultTVShows.png</texture>
+                                    <aspectratio align="center">scale</aspectratio>
+                                    <info>ListItem.ActualIcon</info>
+                                </control>
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>510</posy>
+                                    <width>894</width>
+                                    <height>40</height>
+                                    <texture>common/black.png</texture>
+                                    <colordiffuse>BBFFFFFF</colordiffuse>
+                                </control>
+                            </focusedlayout>
+                            <content>
+                                <item id="1">
+                                    <label>$INFO[Window(Home).Property(LatestMovie.1.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(LatestMovie.1.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.1.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(LatestMovie.1.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(LatestMovie.1.Thumb)]</thumb>
+                                    <property name="NavItem">item1.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.1.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.1.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.1.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.1.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.1.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                                <item id="2">
+                                    <label>$INFO[Window(Home).Property(LatestMovie.2.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(LatestMovie.2.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.2.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(LatestMovie.2.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(LatestMovie.2.Thumb)]</thumb>
+                                    <property name="NavItem">item2.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.2.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.2.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.2.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.2.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.2.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                                <item id="3">
+                                    <label>$INFO[Window(Home).Property(LatestMovie.3.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(LatestMovie.3.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.3.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(LatestMovie.3.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(LatestMovie.3.Thumb)]</thumb>
+                                    <property name="NavItem">item3.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.3.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.3.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.3.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.3.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.3.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                                <item id="4">
+                                    <label>$INFO[Window(Home).Property(LatestMovie.4.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(LatestMovie.4.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.4.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(LatestMovie.4.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(LatestMovie.4.Thumb)]</thumb>
+                                    <property name="NavItem">item4.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.4.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.4.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.4.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.4.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.4.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                                <item id="5">
+                                    <label>$INFO[Window(Home).Property(LatestMovie.5.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(LatestMovie.5.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.5.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(LatestMovie.5.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(LatestMovie.5.Thumb)]</thumb>
+                                    <property name="NavItem">item5.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.5.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.5.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.5.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.5.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.5.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                                <item id="6">
+                                    <label>$INFO[Window(Home).Property(LatestMovie.6.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(LatestMovie.6.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.6.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(LatestMovie.6.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(LatestMovie.6.Thumb)]</thumb>
+                                    <property name="NavItem">item6.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.6.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.6.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.6.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.6.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.6.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                                <item id="7">
+                                    <label>$INFO[Window(Home).Property(LatestMovie.7.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(LatestMovie.7.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.7.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(LatestMovie.7.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(LatestMovie.7.Thumb)]</thumb>
+                                    <property name="NavItem">item7.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.7.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.7.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.7.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.7.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.7.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                                <item id="8">
+                                    <label>$INFO[Window(Home).Property(LatestMovie.8.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(LatestMovie.8.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(LatestMovie.8.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(LatestMovie.8.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(LatestMovie.8.Thumb)]</thumb>
+                                    <property name="NavItem">item8.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(LatestMovie.8.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(LatestMovie.8.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(LatestMovie.8.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(LatestMovie.8.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(LatestMovie.8.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                            </content>
+                        </control>
+                        <control type="label">
+                            <posx>0</posx>
+                            <posy>510</posy>
+                            <width>746</width>
+                            <height>40</height>
+                            <aligny>center</aligny>
+                            <font>Font_Reg15</font>
+                            <textcolor>white2</textcolor>
+                            <shadowcolor>-</shadowcolor>
+                            <label>$INFO[Container(6002).ListItem.Label]</label>
+                            <textoffsetx>15</textoffsetx>
+                        </control>
+                        <control type="image">
+                            <posx>746</posx>
+                            <posy>525</posy>
+                            <width>138</width>
+                            <height>12</height>
+                            <texture>$INFO[Container(6002).ListItem.Property(NavItem),featured/panel_mid/]</texture>
+                        </control>
+                    </control>
+                    <control type="group">
+                        <posy>31</posy>
+                        <posx>935</posx>
+                        <control type="button" id="6011">
+                            <include>HiddenObject</include>
+                            <onup>6012</onup>
+                            <onleft>AlarmClock(TileTwo,Control.Move(6003,1),00:07,silent,loop)</onleft>
+                            <onleft>6010</onleft>
+                            <onright>AlarmClock(Tile,Control.Move(7002,1),00:04,silent,loop)</onright>
+                            <onright>7001</onright>
+                            <ondown>Control.Move(6003,1)</ondown>
+                            <onclick>SetProperty(InfoDialog,6003,1115)</onclick>
+                            <onclick>SetFocus(5005)</onclick>
+                            <onfocus>CancelAlarm(TileTwo,true)</onfocus>
+                        </control>
+                        <control type="wraplist" id="6003">
+                            <posx>0</posx>
+                            <posy>0</posy>
+                            <width>366</width>
+                            <height>550</height>
+                            <viewtype label="21371">list</viewtype>
+                            <orientation>horizontal</orientation>
+                            <pagecontrol>60</pagecontrol>
+                            <focusposition>0</focusposition>
+                            <scrolltime tween="quadratic" easing="out">800</scrolltime>
+                            <preloaditems>2</preloaditems>
+                            <itemlayout width="366" height="550">
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>0</posy>
+                                    <width>366</width>
+                                    <height>550</height>
+                                    <animation effect="fade" time="600">Focus</animation>
+                                    <texture background="true">DefaultVideoBigPoster.png</texture>
+                                    <aspectratio scalediffuse="false">stretch</aspectratio>
+                                    <info>ListItem.Icon</info>
+                                </control>
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>510</posy>
+                                    <width>366</width>
+                                    <height>40</height>
+                                    <texture>common/black.png</texture>
+                                    <colordiffuse>BBFFFFFF</colordiffuse>
+                                </control>
+                            </itemlayout>
+                            <focusedlayout width="366" height="550">
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>0</posy>
+                                    <width>366</width>
+                                    <height>550</height>
+                                    <animation effect="fade" time="600">Focus</animation>
+                                    <texture background="true">DefaultVideoBigPoster.png</texture>
+                                    <aspectratio scalediffuse="false">stretch</aspectratio>
+                                    <info>ListItem.Icon</info>
+                                </control>
+                                <control type="image">
+                                    <posx>0</posx>
+                                    <posy>510</posy>
+                                    <width>366</width>
+                                    <height>40</height>
+                                    <texture>common/black.png</texture>
+                                    <colordiffuse>BBFFFFFF</colordiffuse>
+                                </control>
+                            </focusedlayout>
+                            <content>
+                                <item id="1">
+                                    <label>$INFO[Window(Home).Property(RandomMovie.1.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(RandomMovie.1.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.1.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(RandomMovie.1.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(RandomMovie.1.Thumb)]</thumb>
+                                    <property name="NavItem">item1.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.1.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.1.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.1.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.1.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.1.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                                <item id="2">
+                                    <label>$INFO[Window(Home).Property(RandomMovie.2.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(RandomMovie.2.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.2.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(RandomMovie.2.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(RandomMovie.2.Thumb)]</thumb>
+                                    <property name="NavItem">item2.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.2.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.2.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.2.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.2.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.2.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                                <item id="3">
+                                    <label>$INFO[Window(Home).Property(RandomMovie.3.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(RandomMovie.3.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.3.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(RandomMovie.3.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(RandomMovie.3.Thumb)]</thumb>
+                                    <property name="NavItem">item3.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.3.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.3.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.3.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.3.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.3.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                                <item id="4">
+                                    <label>$INFO[Window(Home).Property(RandomMovie.4.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(RandomMovie.4.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.4.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(RandomMovie.4.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(RandomMovie.4.Thumb)]</thumb>
+                                    <property name="NavItem">item4.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.4.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.4.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.4.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.4.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.4.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                                <item id="5">
+                                    <label>$INFO[Window(Home).Property(RandomMovie.5.Title)]</label>
+                                    <label2>$INFO[Window(Home).Property(RandomMovie.5.Plot)]</label2>
+                                    <property name="Path">$INFO[Window(Home).Property(RandomMovie.5.Path)]</property>
+                                    <icon>$INFO[Window(Home).Property(RandomMovie.5.Fanart)]</icon>
+                                    <thumb>$INFO[Window(Home).Property(RandomMovie.5.Thumb)]</thumb>
+                                    <property name="NavItem">item5.png</property>
+                                    <property name="Rating">$INFO[Window(Home).Property(RandomMovie.5.Rating)]</property>
+                                    <property name="Year">$INFO[Window(Home).Property(RandomMovie.5.Year)]</property>
+                                    <property name="RunningTime">$INFO[Window(Home).Property(RandomMovie.5.RunningTime)]</property>
+                                    <property name="Fanart">$INFO[Window(Home).Property(RandomMovie.5.Fanart)]</property>
+                                    <property name="Trailer">$INFO[Window(Home).Property(RandomMovie.5.Trailer)]</property>
+                                    <onclick>-</onclick>
+                                </item>
+                            </content>
+                        </control>
+                        <control type="label">
+                            <posx>0</posx>
+                            <posy>510</posy>
+                            <width>272</width>
+                            <height>40</height>
+                            <aligny>center</aligny>
+                            <font>Font_Reg15</font>
+                            <textcolor>white2</textcolor>
+                            <shadowcolor>-</shadowcolor>
                             <label>$INFO[Container(6003).ListItem.Label]</label>
                             <textoffsetx>15</textoffsetx>
                         </control>
@@ -1455,9 +1172,9 @@
                         </control>
                     </control>
                     <control type="image">
-                        <posx>306</posx>
+                        <posx>26</posx>
                         <posy>26</posy>
-                        <width>624</width>
+                        <width>904</width>
                         <height>560</height>
                         <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
                         <texture border="5">views/addonwall_select.png</texture>
@@ -5116,6 +4833,162 @@
                 </control>
             </control>
         </control>
+
+        <control type="group">
+            <posx>315</posx>
+            <posy>405</posy>
+            <animation type="Conditional" condition="!IsEmpty(Window(1115).Property(InfoDialog)" reversible="false">
+                <effect type="rotatey" center="960" start="0" end="-90" time="550" tween="cubic" easing="in" />
+                <effect type="rotatey" center="960" start="-90" end="90" time="0" delay="550" />
+                <effect type="fade" start="0" end="100" time="0" delay="550" />
+                <effect type="rotatey" center="960" start="90" end="0" time="550" delay="550" tween="cubic" easing="out" />
+                <effect type="slide" start="0,-45" end="0,0" delay="550" time="550" />
+            </animation>
+            <animation type="Conditional" condition="IsEmpty(Window(1115).Property(InfoDialog)" reversible="false">
+                <effect type="rotatey" center="960" start="0" end="90" time="550" tween="cubic" easing="in" />
+                <effect type="slide" start="0,0" end="0,-45" time="550" />
+                <effect type="rotatey" center="960" start="90" end="-90" time="0" delay="550" />
+                <effect type="fade" start="100" end="0" time="0" delay="550" />
+                <effect type="rotatey" center="960" start="-90" end="0" time="0" delay="550" tween="cubic" easing="out" />
+            </animation>
+            <control type="image">
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>1332</width>
+                <height>612</height>
+                <texture>featured/panel_featured.png</texture>
+            </control>
+            <control type="image">
+                <posx>21</posx>
+                <posy>592</posy>
+                <width>1290</width>
+                <height>118</height>
+                <texture>featured/panel_featured_reflect.png</texture>
+            </control>
+            <control type="image">
+                <posx>31</posx>
+                <posy>31</posy>
+                <width>366</width>
+                <height>550</height>
+                <fadetime>200</fadetime>
+                <texture>$VAR[FeaturedInfoDialogIconVar]</texture>
+            </control>
+            <control type="group" id="110">
+                <posx>396</posx>
+                <posy>31</posy>
+                <width>894</width>
+                <height>540</height>
+                <control type="label">
+                    <posx>0</posx>
+                    <posy>0</posy>
+                    <width>894</width>
+                    <height>45</height>
+                    <font>Font_Reg24_Caps</font>
+                    <align>left</align>
+                    <aligny>center</aligny>
+                    <textcolor>white2</textcolor>
+                    <shadowcolor>-</shadowcolor>
+                    <textoffsetx>30</textoffsetx>
+                    <label>$VAR[FeaturedInfoDialogLabel1Var]</label>
+                </control>
+                <control type="label">
+                    <description>Title label</description>
+                    <posx>0</posx>
+                    <posy>45</posy>
+                    <height>45</height>
+                    <width>894</width>
+                    <label>$VAR[FeaturedInfoDialogLabel2Var]</label>
+                    <align>left</align>
+                    <aligny>center</aligny>
+                    <font>Font_Reg19</font>
+                    <textcolor>grey2</textcolor>
+                    <shadowcolor>-</shadowcolor>
+                    <scroll>true</scroll>
+                    <textoffsetx>30</textoffsetx>
+                </control>
+                <control type="label">
+                    <description>Title label</description>
+                    <posx>0</posx>
+                    <posy>90</posy>
+                    <height>45</height>
+                    <width>894</width>
+                    <label>$VAR[FeaturedInfoDialogLabel3Var]</label>
+                    <align>left</align>
+                    <aligny>center</aligny>
+                    <font>Font_Reg19</font>
+                    <textcolor>white2</textcolor>
+                    <shadowcolor>-</shadowcolor>
+                    <scroll>true</scroll>
+                    <textoffsetx>30</textoffsetx>
+                </control>
+                <control type="textbox">
+                    <posx>30</posx>
+                    <posy>225</posy>
+                    <width>834</width>
+                    <height>313</height>
+                    <font>Font_Reg19</font>
+                    <align>justify</align>
+                    <textcolor>white2</textcolor>
+                    <pagecontrol>-</pagecontrol>
+                    <label>$VAR[FeaturedInfoDialogPlotVar]</label>
+                    <autoscroll delay="8000" time="5000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+                </control>
+            </control>
+            <control type="grouplist" id="5005">
+                <posx>426</posx>
+                <posy>194</posy>
+                <width>894</width>
+                <height>45</height>
+                <itemgap>0</itemgap>
+                <align>left</align>
+                <orientation>horizontal</orientation>
+                <onleft>190</onleft>
+                <onright>190</onright>
+                <onup>190</onup>
+                <ondown>190</ondown>
+                <control type="button" id="1">
+                    <include>WidgetMenuLabel</include>
+                    <label>$LOCALIZE[208]</label>
+                    <onclick condition="StringCompare(Window(1115).Property(InfoDialog),5002)">PlayMedia($ESCINFO[Container(5002).ListItem.Property(Path)])</onclick>
+                    <onclick condition="StringCompare(Window(1115).Property(InfoDialog),5003)">PlayMedia($ESCINFO[Container(5003).ListItem.Property(Path)])</onclick>
+                    <onclick condition="StringCompare(Window(1115).Property(InfoDialog),6002)">PlayMedia($ESCINFO[Container(6002).ListItem.Property(Path)])</onclick>
+                    <onclick condition="StringCompare(Window(1115).Property(InfoDialog),6003)">PlayMedia($ESCINFO[Container(6003).ListItem.Property(Path)])</onclick>
+                    <onclick>SetFocus(40)</onclick>
+                    <onback>ClearProperty(InfoDialog,1115)</onback>
+                    <onback>SetFocus(40)</onback>
+                </control>
+                <control type="button" id="2">
+                    <include>WidgetMenuLabel</include>
+                    <label>$LOCALIZE[31066]</label>
+                    <onclick>ClearProperty(InfoDialog,1115)</onclick>
+                    <onclick>SetFocus(40)</onclick>
+                    <onback>ClearProperty(InfoDialog,1115)</onback>
+                    <onback>SetFocus(40)</onback>
+                </control>
+                <control type="button" id="3">
+                    <include>WidgetMenuLabel</include>
+                    <label>$LOCALIZE[20410]</label>
+                    <onclick condition="StringCompare(Window(1115).Property(InfoDialog),6002)">PlayMedia($ESCINFO[Container(6002).ListItem.Property(Trailer)])</onclick>
+                    <onclick condition="StringCompare(Window(1115).Property(InfoDialog),6003)">PlayMedia($ESCINFO[Container(6003).ListItem.Property(Trailer)])</onclick>
+                    <onclick>SetFocus(40)</onclick>
+                    <onback>ClearProperty(InfoDialog,1115)</onback>
+                    <onback>SetFocus(40)</onback>
+                    <visible>
+                        [StringCompare(Window(1115).Property(InfoDialog),6002) + !IsEmpty(Container(6002).ListItem.Property(Trailer))] | 
+                        [StringCompare(Window(1115).Property(InfoDialog),6003) + !IsEmpty(Container(6003).ListItem.Property(Trailer))]
+                    </visible>
+                </control>
+            </control>
+            <control type="image">
+                <posx>21</posx>
+                <posy>21</posy>
+                <width>1290</width>
+                <height>570</height>
+                <texture>featured/panel_featured_overlay.png</texture>
+                <colordiffuse>$INFO[Skin.String(diffuse_color)]</colordiffuse>
+            </control> 
+        </control>
+        
         <control type="group">
             <include>Animation_HideBreadCrumbs</include>
             <control type="image">
@@ -5168,7 +5041,7 @@
                         <textcolor>white2</textcolor>
                         <font>Font_Reg19_Caps</font>
                         <include>BreadcrumbsLabel</include>
-                        <label>$LOCALIZE[31504]</label>
+                        <label>$LOCALIZE[31464]</label>
                         <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!ControlGroup(5000).HasFocus">Conditional</animation>
                     </control>
                     <control type="label">
@@ -5199,58 +5072,7 @@
                         <label>$LOCALIZE[31501]</label>
                         <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!ControlGroup(9000).HasFocus">Conditional</animation>
                     </control>
-                    <control type="label">
-                        <textcolor>white2</textcolor>
-                        <font>Font_Reg19_Caps</font>
-                        <include>BreadcrumbsLabel</include>
-                        <label>$LOCALIZE[31505]</label>
-                        <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!ControlGroup(10000).HasFocus">Conditional</animation>
-                    </control>
-                    <control type="label">
-                        <textcolor>white2</textcolor>
-                        <font>Font_Reg19_Caps</font>
-                        <include>BreadcrumbsLabel</include>
-                        <label>$LOCALIZE[8]</label>
-                        <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!ControlGroup(4000).HasFocus">Conditional</animation>
-                    </control>
-                    <!--<control type="label">
-            <include>BreadcrumbsLabel</include>
-            <label>$LOCALIZE[31163] [LOWERCASE]$LOCALIZE[31025][/LOWERCASE]</label>
-          </control>-->
                 </control>
-            </control>
-            <control type="grouplist">
-                <posx>0</posx>
-                <posy>0</posy>
-                <width>1920</width>
-                <align>center</align>
-                <itemgap>10</itemgap>
-                <orientation>horizontal</orientation>
-                <!--<control type="fadelabel">
-          <width>1280</width>
-          <align>center</align>
-          <include>BreadcrumbsLabel</include>
-          <scroll>true</scroll>
-          <scrollout>false</scrollout>
-          <scrollspeed>100</scrollspeed>
-          <pauseatend>5000</pauseatend>
-          <label>$INFO[Window(Home).Property(Movies.Count),, $LOCALIZE[20342]]</label>
-          <label>$INFO[Window(Home).Property(Movies.Watched),, $LOCALIZE[16102]]</label>
-          <label>$INFO[Window(Home).Property(Movies.UnWatched),, $LOCALIZE[16101]]</label>
-          <label>$INFO[Window(Home).Property(TVShows.Count),, $LOCALIZE[20343]]</label>
-          <label>$INFO[Window(Home).Property(TVShows.Watched),, $LOCALIZE[16102]]</label>
-          <label>$INFO[Window(Home).Property(TVShows.UnWatched),, $LOCALIZE[16101]]</label>
-          <label>$INFO[Window(Home).Property(Episodes.Count),, $LOCALIZE[20360]]</label>
-          <label>$INFO[Window(Home).Property(Episodes.Watched),, $LOCALIZE[16102]]</label>
-          <label>$INFO[Window(Home).Property(Episodes.UnWatched),, $LOCALIZE[16101]]</label>
-          <label>$INFO[Window(Home).Property(Music.AlbumsCount),, $LOCALIZE[132]]</label>
-          <label>$INFO[Window(Home).Property(Music.SongsCount),, $LOCALIZE[134]]</label>
-          <label>$INFO[Window(Home).Property(Music.ArtistsCount),, $LOCALIZE[133]]</label>
-          <label>$INFO[Window(Home).Property(MusicVideos.Count),, $LOCALIZE[20389]]</label>
-          <label>$INFO[Window(Home).Property(MusicVideos.Watched),, $LOCALIZE[16102]]</label>
-          <label>$INFO[Window(Home).Property(MusicVideos.UnWatched),, $LOCALIZE[16101]]</label>
-          <label>$INFO[Window(Home).Property(RandomAddon.Count),, $LOCALIZE[24001]]</label>
-        </control>-->
             </control>
             <control type="group">
                 <posx>60</posx>
