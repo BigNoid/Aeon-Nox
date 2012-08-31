@@ -26,8 +26,6 @@
     <controls>
         <!-- Fanart -->
         <control type="image">
-            <animation effect="fade" time="500" condition="!Window.Previous(weather)">WindowOpen</animation>
-            <animation effect="fade" time="200" condition="!Window.Next(weather)">WindowClose</animation>
             <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
             <texture background="true" fallback="special://skin/backgrounds/featured/featured.jpg">special://skin/backgrounds/featured/featured.jpg</texture>
         </control>
@@ -2103,7 +2101,21 @@
             <control type="group" id="8000">
                 <width>2325</width>
                 <height>825</height>
-                <animation type="Conditional" condition="![ControlGroup(8000).HasFocus | Control.HasFocus(8012)]">
+                <animation type="Conditional" condition="SubString(Window(1115).Property(InfoDialog),80)" reversible="false">
+                    <effect type="rotatey" center="960" start="0" end="-90" time="550" tween="cubic" easing="in" />
+                    <effect type="slide" start="0,0" end="0,-45" time="550" />
+                    <effect type="rotatey" center="960" start="-90" end="90" time="0" delay="550" />
+                    <effect type="fade" start="100" end="0" time="0" delay="550" />
+                    <effect type="rotatey" center="960" start="90" end="0" time="550" delay="550" tween="cubic" easing="out" />
+                </animation>
+                <animation type="Conditional" condition="!SubString(Window(1115).Property(InfoDialog),80)" reversible="false">
+                    <effect type="rotatey" center="960" start="0" end="90" time="0" tween="cubic" easing="in" delay="550"/>
+                    <effect type="rotatey" center="960" start="90" end="-90" time="0" delay="550" />
+                    <effect type="fade" start="0" end="100" time="400" delay="550" />
+                    <effect type="rotatey" center="960" start="-90" end="0" time="550" delay="550" tween="cubic" easing="out" />
+                    <effect type="slide" start="0,-45" end="0,0" delay="550" time="550" />
+                </animation>
+                <animation type="Conditional" condition="![ControlGroup(8000).HasFocus | Control.HasFocus(8012) | SubString(Window(1115).Property(InfoDialog),80)]">
                     <effect type="fade" start="100" end="80" time="500" tween="cubic" easing="inout" />
                     <effect type="zoom" start="100" end="70" time="500" tween="cubic" easing="inout" center="1160,412" />
                 </animation>
@@ -3228,6 +3240,7 @@
                 <posy>31</posy>
                 <width>894</width>
                 <height>540</height>
+                <animation effect="slide" start="0" end="190" reversible="true" condition="SubString(Window(1115).Property(InfoDialog),80)">Conditional</animation>
                 <control type="label">
                     <posx>0</posx>
                     <posy>0</posy>
@@ -3298,6 +3311,7 @@
                 <ondown>190</ondown>
                 <onback>ClearProperty(InfoDialog,1115)</onback>
                 <onback>SetFocus(40)</onback>
+                <animation effect="slide" start="0" end="190" reversible="true" condition="SubString(Window(1115).Property(InfoDialog),80)">Conditional</animation>
                 <control type="button" id="1">
                     <include>WidgetMenuLabel</include>
                     <label>$LOCALIZE[208]</label>
@@ -3473,7 +3487,6 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Window.isActive(videos) + system.hasaddon(script.tvtunes)">TvTunesVisibleCondition</include>
             <visible>Player.HasMedia</visible>
             <animation effect="slide" end="0,150" time="800" easing="inout" tween="circle" condition="[Window.IsVisible(videoscan) | Window.IsVisible(musicscan)]">Conditional</animation>
             <animation type="Visible" reversible="false">
