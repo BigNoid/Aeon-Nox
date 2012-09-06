@@ -27,9 +27,7 @@
                     <visible>[Skin.HasSetting(musicextrafanart) + !IsEmpty(Skin.String(ArtistsLogosPath))] | Container.Content(genres)</visible>
                 </control>
                 <control type="image">
-                    <posy>-207</posy>
-                    <width>1920</width>
-                    <height>1080</height>
+                    <include>FullscreenDimensions</include>
                     <texture>common/white.png</texture>
                     <colordiffuse>black</colordiffuse>
                     <animation effect="fade" start="100" end="80" time="50" condition="true">Conditional</animation>
@@ -39,7 +37,7 @@
                     <animation effect="fade" start="100" end="0" time="400">Hidden</animation>
                     <visible>!Control.IsVisible(514) + !Control.IsVisible(516) + !Control.IsVisible(506)</visible>
                     <visible>!Control.IsVisible(5999)</visible>
-                    <visible>[[Skin.HasSetting(darkinfopane) | !Skin.HasSetting(DisableGlowbar)] + [Control.IsVisible(7550) | Control.IsVisible(510) | Control.IsVisible(50) | [Control.IsVisible(500) + !Skin.HasSetting(wallfullscreen)] | Control.IsVisible(7679) | Control.IsVisible(512)]]</visible>
+                    <visible>[[Skin.HasSetting(darkinfopane) | !Skin.HasSetting(DisableGlowbar)] + [Control.IsVisible(50) | [Control.IsVisible(500) + !Skin.HasSetting(wallfullscreen)] | Control.IsVisible(7679) | Control.IsVisible(512)]]</visible>
                 </control>
                 <control type="image" id="5999">
                     <include>FullscreenDimensions</include>
@@ -62,66 +60,69 @@
                 <height>0</height>
                 <texture>-</texture>
                 <visible>[!Container.OnNext + !Container.OnPrevious + Skin.HasSetting(infopaneautomusic)] | !Skin.HasSetting(infopaneautomusic)</visible>
+                <visible>Control.IsVisible(513) | Control.IsVisible(509) | Control.IsVisible(503)</visible>
                 <include>DelayAnimations</include>
             </control>
            <control type="group">
-                <visible>Control.IsVisible(513) | Control.IsVisible(509) | Control.IsVisible(503)</visible>
                 <include>ShowcaseInfoPaneMusic</include>
             </control>
             <include>Furniture_Showcase</include>
             <include>WallPanel</include>
             <control type="group">
                     <animation effect="slide" start="0,0" end="0,550" time="700" easing="out" tween="quadratic" condition="Control.HasFocus(109)">Conditional</animation>
+            <control type="group">
 
-                <include>CommonRootView</include>
-                <!-- view id = 50 -->
-                <include>Viewtype_Wall</include>
-                <!-- view id = 53 -->
-                <include>TriPanelSquare</include>
-                <!-- view id = 500 -->
-                <include>LowListMusic</include>
-                <!-- view id = 506 -->
-                <include>ShowcaseQuadrate</include>
-                <!-- view id = 509 -->
-                <include>ShowcaseCD</include>
-                <!-- view id = 513 -->
-                <include>AddonWall</include>
-                <!-- view id=57 -->
-                <include>ShiftView</include>
-                <include>MediaListView3</include>
-                <include>Viewtype_Episode</include>
+                    <include>CommonRootView</include>
+                    <!-- view id = 50 -->
+                    <include>Viewtype_Wall</include>
+                    <!-- view id = 53 -->
+                    <include>TriPanelSquare</include>
+                    <!-- view id = 500 -->
+                    <include>LowListMusic</include>
+                    <!-- view id = 506 -->
+                    <include>ShowcaseQuadrate</include>
+                    <!-- view id = 509 -->
+                    <include>ShowcaseCD</include>
+                    <!-- view id = 513 -->
+                    <include>AddonWall</include>
+                    <!-- view id=57 -->
+                    <include>ShiftView</include>
+                    <include>MediaListView3</include>
+                    <include>Viewtype_Episode</include>
+                </control>
+                <control type="button" id="7002">
+                    <include>HiddenObject</include>
+                    <onup>Control.Move(506,-1)</onup>
+                    <onleft>506</onleft>
+                    <onright>60</onright>
+                    <ondown>Control.Move(506,1)</ondown>
+                    <onback>50</onback>
+                    <onclick>PlayMedia($ESCINFO[ListItem.FileNameAndPath])</onclick>
+                    <visible>Control.IsVisible(506)</visible>
+                </control>
+                <control type="button" id="7000">
+                    <include>HiddenObject</include>
+                    <onfocus condition="Skin.HasSetting(infopanelmusic)">SetFocus(9000)</onfocus>
+                    <onup>9000</onup>
+                    <onleft condition="Control.IsVisible(509)">Control.Move(509,-1)</onleft>
+                    <onleft condition="Control.IsVisible(513)">Control.Move(513,-1)</onleft>
+                    <onright condition="Control.IsVisible(509)">Control.Move(509,1)</onright>
+                    <onright condition="Control.IsVisible(513)">Control.Move(513,1)</onright>
+                    <onleft>50</onleft>
+                    <onright>50</onright>
+                    <ondown>50</ondown>
+                    <onback>50</onback>
+                    <onclick condition="Container.Content(artists) | Container.Content(albums)">SetFocus(50)</onclick>
+                    <onclick condition="Container.Content(artists) | Container.Content(albums)">Select</onclick>
+                    <onclick>PlayMedia($ESCINFO[ListItem.FileNameAndPath])</onclick>
+                    <visible>!StringCompare(ListItem.Label,..)</visible>
+                </control>
+                <include>MusicMediaFlags</include>
+                <include>TriPanelMusicFlags</include>
+                <include>FloorLabels</include>
+                <include>Furniture_DarkGradient</include>
             </control>
-            <control type="button" id="7002">
-                <include>HiddenObject</include>
-                <onup>Control.Move(506,-1)</onup>
-                <onleft>506</onleft>
-                <onright>60</onright>
-                <ondown>Control.Move(506,1)</ondown>
-                <onback>50</onback>
-                <onclick>PlayMedia($ESCINFO[ListItem.FileNameAndPath])</onclick>
-                <visible>Control.IsVisible(506)</visible>
-            </control>
-            <control type="button" id="7000">
-                <include>HiddenObject</include>
-                <onfocus condition="Skin.HasSetting(infopanelmusic)">SetFocus(9000)</onfocus>
-                <onup>9000</onup>
-                <onleft condition="Control.IsVisible(509)">Control.Move(509,-1)</onleft>
-                <onleft condition="Control.IsVisible(513)">Control.Move(513,-1)</onleft>
-                <onright condition="Control.IsVisible(509)">Control.Move(509,1)</onright>
-                <onright condition="Control.IsVisible(513)">Control.Move(513,1)</onright>
-                <onleft>50</onleft>
-                <onright>50</onright>
-                <ondown>50</ondown>
-                <onback>50</onback>
-                <onclick condition="Container.Content(artists) | Container.Content(albums)">SetFocus(50)</onclick>
-                <onclick condition="Container.Content(artists) | Container.Content(albums)">Select</onclick>
-                <onclick>PlayMedia($ESCINFO[ListItem.FileNameAndPath])</onclick>
-                <visible>!StringCompare(ListItem.Label,..)</visible>
-            </control>
-            <include>MusicMediaFlags</include>
-            <include>TriPanelMusicFlags</include>
-            <include>FloorLabels</include>
-            <include>Furniture_DarkGradient</include>
+            
             <control type="image" id="8822">
                 <posx>817.5</posx>
                 <posy>958</posy>
