@@ -31,7 +31,9 @@
     <onload condition="!IsEmpty(Skin.String(SmartPlaylist11.Call))">$INFO[Skin.String(SmartPlaylist11.Call)]</onload>
     <onload condition="!IsEmpty(Skin.String(SmartPlaylist12.Call))">$INFO[Skin.String(SmartPlaylist12.Call)]</onload>
     <onload condition="System.HasAddon(script.xbmc.intro.movie)">RunScript(script.xbmc.intro.movie)</onload>
+        <onload>AlarmClock(GotToHome,SetFocus(9000),00:10,silent)</onload>
     <onload>ClearProperty(FocusOnSubmenu,home)</onload>
+    <onunload>CancelAlarm(GotToHome,true)</onunload>
     <onunload>Skin.SetString(widgetlist,$INFO[Control.GetLabel(11111)])</onunload>
     <onunload>Skin.SetString(widget2list,$INFO[Control.GetLabel(11112)])</onunload>
     <onunload>Skin.SetString(backgroundlist,$INFO[Control.GetLabel(11113)])</onunload>
@@ -69,6 +71,15 @@
             <include>HiddenObject</include>
             <visible>!Skin.HasSetting(Use_Startup_Playlist)</visible>
         </control>
+        <control type="button" id="9000">
+            <onfocus>ReplaceWindow(Home)</onfocus>
+            <onleft>ReplaceWindow(Home)</onleft>
+            <onup>ReplaceWindow(Home)</onup>
+            <ondown>ReplaceWindow(Home)</ondown>
+            <onright>ReplaceWindow(Home)</onright>
+            <onclick>ReplaceWindow(Home)</onclick>
+            <include>HiddenObject</include>
+        </control>
         <control type="button" id="10">
             <onfocus>XBMC.PlayMedia($ESCINFO[Skin.String(Startup_Playlist_Path)])</onfocus>
             <onfocus condition="!System.HasAddon(script.xbmc.intro.movie)">SetFocus(11)</onfocus>
@@ -83,7 +94,7 @@
         <control type="button" id="11">
             <onfocus condition="!System.HasAddon(script.watchlist)">SetFocus(12)</onfocus>
             <onfocus condition="System.HasAddon(script.watchlist)">SetFocus(11)</onfocus>
-            <visible>IsEmpty(Window(Home).Property(WatchList_Running)) + !System.IdleTime(6)</visible>
+            <visible>IsEmpty(Window(Home).Property(WatchList_Running))</visible>
             <onleft>ReplaceWindow(Home)</onleft>
             <onup>ReplaceWindow(Home)</onup>
             <ondown>ReplaceWindow(Home)</ondown>
@@ -100,7 +111,7 @@
             <ondown>ReplaceWindow(Home)</ondown>
             <onright>ReplaceWindow(Home)</onright>
             <onclick>ReplaceWindow(Home)</onclick>
-            <visible>!IsEmpty(Window(Home).Property(WatchList_Running)) | System.IdleTime(6)</visible>
+            <visible>!IsEmpty(Window(Home).Property(WatchList_Running))</visible>
             <animation effect="fade" start="0" end="100" time="0" delay="1000">Focus</animation>
         </control>
         <control type="button" id="12">
