@@ -3,7 +3,7 @@
     <include name="Viewtype_FullscreenPanel">
         <control type="group">
             <visible>Control.IsVisible(518)</visible>
-            <include>Animation_CommonFade</include>
+            <include>Animation_Widgets</include>
             <control type="image">
                 <include>FullscreenDimensions</include>
                 <texture>common/white.png</texture>
@@ -52,9 +52,9 @@
             </control>
             <control type="group">
                 <animation effect="zoom" start="96" end="87" center="960,150" time="400" tween="cubic" easing="inout" condition="!Skin.HasSetting(fspanelbackground)">Conditional</animation>
-                <include>Animation_ListSlideRight</include>
+                <include>Animation_Widgets</include>
                 <control type="panel" id="518">
-                    <visible>Container.Content(episodes)|Container.Content(tvshows)|Container.Content(addons)|Container.Content(movies)</visible>
+                    <visible>Container.Content(episodes)|Container.Content(tvshows)|Container.Content(artists)|Container.Content(albums)|Container.Content(addons)|Container.Content(movies)</visible>
                     <posy>36</posy>
                     <width>1920</width>
                     <height>1080</height>
@@ -73,11 +73,151 @@
                     <focusedlayout height="360" widthe="960" condition="Container.Content(movies) + Skin.HasSetting(fspanel2columns)">
                         <include>FSPanelMoviesFocusedLayout</include>
                     </focusedlayout>
+                    <itemlayout height="360" width="960" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + Skin.HasSetting(fspanel2columns)">
+                        <include condition="!Window.IsActive(videos)">FSPanelMusicItemlayout</include>
+                    </itemlayout>
+                    <focusedlayout height="360" widthe="960" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + Skin.HasSetting(fspanel2columns)">
+                        <include condition="!Window.IsActive(videos)">FSPanelMusicFocusedlayout</include>
+                    </focusedlayout>
+                    <itemlayout height="360" width="1920" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + Skin.HasSetting(fspanelfanart)">
+                        <include condition="!Window.IsActive(videos)">FSPanelMusicItemlayout</include>
+                    </itemlayout>
+                    <focusedlayout height="360" widthe="1920" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + Skin.HasSetting(fspanelfanart)">
+                        <include condition="!Window.IsActive(videos)">FSPanelMusicFocusedlayout</include>
+                    </focusedlayout>
+                    <itemlayout height="360" width="1920" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + !Skin.HasSetting(fspanel2columns) + !Skin.HasSetting(fspanelfanart)">
+                        <control type="group">
+                            <animation effect="zoom" center="100,150" start="95" end="100" time="600" tween="back" easing="out" reversible="false">Focus</animation>
+                            <control type="image">
+                                <posx>22</posx>
+                                <posy>22</posy>
+                                <height>333</height>
+                                <width>333</width>
+                                <aspectratio scalediffuse="false" align="top">scale</aspectratio>
+                                <texture fallback="DefaultAlbumCover.png" diffuse="thumbs/cdcover_mask.png">$INFO[ListItem.Icon]</texture>
+                            </control>
+                            <control type="image">
+                                <posx>2</posx>
+                                <posy>2</posy>
+                                <height>373</height>
+                                <width>373</width>
+                                <aspectratio scalediffuse="false" align="right">scale</aspectratio>
+                                <texture diffuse="thumbs/cdcover_mask.png">thumbs/cdcover_glass_noreflect.png</texture>
+                                <bordertexture border="20">thumbs/cd_shadow.png</bordertexture>
+                                <bordersize>20</bordersize>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <animation effect="fade" end="70" time="0" condition="true">Conditional</animation>
+                            <control type="label">
+                                <posx>370</posx>
+                                <posy>30</posy>
+                                <width>1550</width>
+                                <height>50</height>
+                                <aligny>center</aligny>
+                                <font>Font_Reg38_Caps</font>
+                                <textcolor>white2</textcolor>
+                                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
+                                <textoffsetx>15</textoffsetx>
+                            </control>
+                            <control type="label">
+                                <posx>370</posx>
+                                <posy>84</posy>
+                                <width>1495</width>
+                                <height>30</height>
+                                <aligny>center</aligny>
+                                <font>Font_Reg19</font>
+                                <textcolor>grey2</textcolor>
+                                <label>$VAR[InfoWallSubTitleVar]</label>
+                                <textoffsetx>15</textoffsetx>
+                            </control>
+                            <control type="textbox">
+                                <posx>380</posx>
+                                <posy>122</posy>
+                                <width>1495</width>
+                                <height>195</height>
+                                <align>justify</align>
+                                <aligny>top</aligny>
+                                <font>Font_Reg20</font>
+                                <textcolor>white6</textcolor>
+                                <label>$VAR[InfoWallTextboxVar]</label>
+                                <autoscroll>false</autoscroll>
+                            </control>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="360" width="1920" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + !Skin.HasSetting(fspanel2columns) + !Skin.HasSetting(fspanelfanart)">
+                        <control type="image">
+                            <posy>9</posy>
+                            <width>1920</width>
+                            <height>360</height>
+                            <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+                            <bordersize>5</bordersize>
+                            <texture>views/tripanel/listselect_fo.png</texture>
+                        </control>
+                        <control type="group">
+                            <animation effect="zoom" center="100,150" start="95" end="100" time="600" tween="back" easing="out" reversible="false">Focus</animation>
+                            <control type="image">
+                                <posx>22</posx>
+                                <posy>22</posy>
+                                <height>333</height>
+                                <aspectratio scalediffuse="false" align="top">scale</aspectratio>
+                                <width>333</width>
+                                <texture fallback="DefaultAlbumCover.png" diffuse="thumbs/cdcover_mask.png">$INFO[ListItem.Icon]</texture>
+                            </control>
+                            <control type="image">
+                                <posx>2</posx>
+                                <posy>2</posy>
+                                <height>373</height>
+                                <width>373</width>
+                                <aspectratio scalediffuse="false" align="right">scale</aspectratio>
+                                <texture diffuse="thumbs/cdcover_mask.png">thumbs/cdcover_glass_noreflect.png</texture>
+                                <bordertexture border="20">thumbs/cd_shadow.png</bordertexture>
+                                <bordersize>20</bordersize>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <animation effect="fade" end="70" time="0" condition="true">Conditional</animation>
+                            <control type="label">
+                                <posx>370</posx>
+                                <posy>30</posy>
+                                <width>1550</width>
+                                <height>50</height>
+                                <aligny>center</aligny>
+                                <font>Font_Reg38_Caps</font>
+                                <textcolor>white2</textcolor>
+                                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
+                                <textoffsetx>15</textoffsetx>
+                            </control>
+                            <control type="label">
+                                <posx>370</posx>
+                                <posy>84</posy>
+                                <width>1495</width>
+                                <height>30</height>
+                                <aligny>center</aligny>
+                                <font>Font_Reg19</font>
+                                <textcolor>grey2</textcolor>
+                                <label>$VAR[InfoWallSubTitleVar]</label>
+                                <textoffsetx>15</textoffsetx>
+                            </control>
+                            <control type="textbox">
+                                <posx>380</posx>
+                                <posy>122</posy>
+                                <width>1495</width>
+                                <height>195</height>
+                                <align>justify</align>
+                                <aligny>top</aligny>
+                                <font>Font_Reg20</font>
+                                <textcolor>white6</textcolor>
+                                <label>$VAR[InfoWallTextboxVar]</label>
+                                <autoscroll>false</autoscroll>
+                            </control>
+                        </control>
+                    </focusedlayout>
                     <itemlayout height="360" width="1920" condition="Container.Content(movies) + Skin.HasSetting(fspanelfanart)">
-                        <include>FSPanelMoviesItemLayout</include>
+                        <include condition="Window.IsActive(videos)">FSPanelMoviesItemLayout</include>
                     </itemlayout>
                     <focusedlayout height="360" widthe="1920" condition="Container.Content(movies) + Skin.HasSetting(fspanelfanart)">
-                        <include>FSPanelMoviesFocusedLayout</include>
+                        <include condition="Window.IsActive(videos)">FSPanelMoviesFocusedLayout</include>
                     </focusedlayout>
                     <itemlayout height="360" width="1920" condition="Container.Content(movies) + !Skin.HasSetting(fspanelfanart) + !Skin.HasSetting(fspanel2columns)">
                         <control type="image">
@@ -163,7 +303,6 @@
                                 <aligny>center</aligny>
                                 <font>Font_Reg38_Caps</font>
                                 <textcolor>white2</textcolor>
-                                <shadowcolor>-</shadowcolor>
                                 <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
                                 <textoffsetx>15</textoffsetx>
                             </control>
@@ -182,9 +321,8 @@
                                 <width>1500</width>
                                 <height>30</height>
                                 <aligny>center</aligny>
-                                <font>Font_Reg19</font>
+                                <font>Font_Reg20</font>
                                 <textcolor>grey2</textcolor>
-                                <shadowcolor>-</shadowcolor>
                                 <label>$INFO[ListItem.Year, • ]$INFO[ListItem.Duration, • , $LOCALIZE[12391]]</label>
                                 <textoffsetx>15</textoffsetx>
                             </control>
@@ -192,10 +330,10 @@
                                 <posx>430</posx>
                                 <posy>152</posy>
                                 <width>1440</width>
-                                <height>155</height>
+                                <height>153</height>
                                 <align>justify</align>
                                 <aligny>top</aligny>
-                                <font>Font_Reg19</font>
+                                <font>Font_Reg20</font>
                                 <textcolor>white6</textcolor>
                                 <label>$VAR[GlobalPlotVar]</label>
                                 <autoscroll>false</autoscroll>
@@ -212,7 +350,6 @@
                                 <aligny>center</aligny>
                                 <font>Font_Reg38_Caps</font>
                                 <textcolor>white2</textcolor>
-                                <shadowcolor>-</shadowcolor>
                                 <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
                                 <textoffsetx>15</textoffsetx>
                             </control>
@@ -233,7 +370,6 @@
                                 <aligny>center</aligny>
                                 <font>Font_Reg19</font>
                                 <textcolor>grey2</textcolor>
-                                <shadowcolor>-</shadowcolor>
                                 <label>$INFO[ListItem.Year, • ]$INFO[ListItem.Duration, • , $LOCALIZE[12391]]</label>
                                 <textoffsetx>15</textoffsetx>
                             </control>
@@ -241,10 +377,10 @@
                                 <posx>275</posx>
                                 <posy>152</posy>
                                 <width>1595</width>
-                                <height>155</height>
+                                <height>153</height>
                                 <align>justify</align>
                                 <aligny>top</aligny>
-                                <font>Font_Reg19</font>
+                                <font>Font_Reg20</font>
                                 <textcolor>white6</textcolor>
                                 <label>$VAR[GlobalPlotVar]</label>
                                 <autoscroll>false</autoscroll>
@@ -349,7 +485,6 @@
                                 <aligny>center</aligny>
                                 <font>Font_Reg38_Caps</font>
                                 <textcolor>white2</textcolor>
-                                <shadowcolor>-</shadowcolor>
                                 <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
                                 <textoffsetx>15</textoffsetx>
                             </control>
@@ -370,7 +505,6 @@
                                 <aligny>center</aligny>
                                 <font>Font_Reg19</font>
                                 <textcolor>grey2</textcolor>
-                                <shadowcolor>-</shadowcolor>
                                 <label>$INFO[ListItem.Year, • ]$INFO[ListItem.Duration, • , $LOCALIZE[12391]]</label>
                                 <textoffsetx>15</textoffsetx>
                             </control>
@@ -378,10 +512,10 @@
                                 <posx>430</posx>
                                 <posy>152</posy>
                                 <width>1440</width>
-                                <height>155</height>
+                                <height>153</height>
                                 <align>justify</align>
                                 <aligny>top</aligny>
-                                <font>Font_Reg19</font>
+                                <font>Font_Reg20</font>
                                 <textcolor>white6</textcolor>
                                 <label>$VAR[GlobalPlotVar]</label>
                                 <autoscroll>false</autoscroll>
@@ -398,7 +532,6 @@
                                 <aligny>center</aligny>
                                 <font>Font_Reg38_Caps</font>
                                 <textcolor>white2</textcolor>
-                                <shadowcolor>-</shadowcolor>
                                 <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
                                 <textoffsetx>15</textoffsetx>
                             </control>
@@ -419,7 +552,6 @@
                                 <aligny>center</aligny>
                                 <font>Font_Reg19</font>
                                 <textcolor>grey2</textcolor>
-                                <shadowcolor>-</shadowcolor>
                                 <label>$INFO[ListItem.Year, • ]$INFO[ListItem.Duration, • , $LOCALIZE[12391]]</label>
                                 <textoffsetx>15</textoffsetx>
                             </control>
@@ -427,10 +559,10 @@
                                 <posx>275</posx>
                                 <posy>152</posy>
                                 <width>1595</width>
-                                <height>155</height>
+                                <height>153</height>
                                 <align>justify</align>
                                 <aligny>top</aligny>
-                                <font>Font_Reg19</font>
+                                <font>Font_Reg20</font>
                                 <textcolor>white6</textcolor>
                                 <label>$VAR[GlobalPlotVar]</label>
                                 <autoscroll>false</autoscroll>
@@ -503,7 +635,6 @@
                             <aligny>center</aligny>
                             <font>Font_Bold24</font>
                             <textcolor>grey2</textcolor>
-                            <shadowcolor>-</shadowcolor>
                             <textoffsetx>10</textoffsetx>
                         </control>
                         <control type="label">
@@ -516,7 +647,6 @@
                             <font>Font_Reg20</font>
                             <textcolor>grey2</textcolor>
                             <visible>Container.Content(tvshows)</visible>
-                            <shadowcolor>-</shadowcolor>
                             <textoffsetx>10</textoffsetx>
                         </control>
                         <control type="image">
@@ -613,7 +743,6 @@
                             <aligny>center</aligny>
                             <font>Font_Bold24</font>
                             <textcolor>white2</textcolor>
-                            <shadowcolor>-</shadowcolor>
                             <textoffsetx>10</textoffsetx>
                         </control>
                         <control type="label">
@@ -625,7 +754,6 @@
                             <aligny>center</aligny>
                             <font>Font_Reg20</font>
                             <textcolor>white2</textcolor>
-                            <shadowcolor>-</shadowcolor>
                             <visible>Container.Content(tvshows)</visible>
                             <textoffsetx>10</textoffsetx>
                         </control>
@@ -661,16 +789,16 @@
                         </control>
                     </focusedlayout>
                     <itemlayout width="960" height="220" condition="[Container.Content(episodes) | Container.Content(tvshows)] + Skin.HasSetting(fspanel2columns)">
-                        <include>FSPanelTVItemLayout</include>
+                        <include condition="Window.IsActive(videos)">FSPanelTVItemLayout</include>
                     </itemlayout>
                     <focusedlayout width="960" height="220" condition="[Container.Content(episodes) | Container.Content(tvshows)] + Skin.HasSetting(fspanel2columns)">
-                        <include>FSPanelTVFocusedLayout</include>
+                        <include condition="Window.IsActive(videos)">FSPanelTVFocusedLayout</include>
                     </focusedlayout>
                     <itemlayout width="1920" height="220" condition="[Container.Content(episodes) | Container.Content(tvshows)] + Skin.HasSetting(fspanelfanart)">
-                        <include>FSPanelTVItemLayout</include>
+                        <include condition="Window.IsActive(videos)">FSPanelTVItemLayout</include>
                     </itemlayout>
                     <focusedlayout width="1920" height="220" condition="[Container.Content(episodes) | Container.Content(tvshows)] + Skin.HasSetting(fspanelfanart)">
-                        <include>FSPanelTVFocusedLayout</include>
+                        <include condition="Window.IsActive(videos)">FSPanelTVFocusedLayout</include>
                     </focusedlayout>
                 </control>
             </control>
@@ -802,7 +930,6 @@
                 <aligny>center</aligny>
                 <font>Font_Reg24</font>
                 <textcolor>white2</textcolor>
-                <shadowcolor>-</shadowcolor>
                 <label>$INFO[ListItem.Label]</label>
                 <textoffsetx>15</textoffsetx>
             </control>
@@ -815,7 +942,6 @@
                 <aligny>center</aligny>
                 <font>Font_Reg19</font>
                 <textcolor>grey2</textcolor>
-                <shadowcolor>-</shadowcolor>
                 <label>$INFO[ListItem.Year,, • ]</label>
                 <textoffsetx>15</textoffsetx>
             </control>
@@ -836,7 +962,6 @@
                 <aligny>center</aligny>
                 <font>Font_Reg19</font>
                 <textcolor>grey2</textcolor>
-                <shadowcolor>-</shadowcolor>
                 <label>$INFO[ListItem.Duration, • , $LOCALIZE[12391]]</label>
                 <textoffsetx>15</textoffsetx>
             </control>
@@ -847,7 +972,7 @@
                 <height>195</height>
                 <align>justify</align>
                 <aligny>top</aligny>
-                <font>Font_Reg19</font>
+                <font>Font_Reg20</font>
                 <textcolor>white6</textcolor>
                 <label>$VAR[GlobalPlotOutlineVar]</label>
                 <autoscroll>false</autoscroll>
@@ -864,7 +989,6 @@
                 <aligny>center</aligny>
                 <font>Font_Reg38_Caps</font>
                 <textcolor>white2</textcolor>
-                <shadowcolor>-</shadowcolor>
                 <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
                 <textoffsetx>15</textoffsetx>
             </control>
@@ -885,7 +1009,6 @@
                 <aligny>center</aligny>
                 <font>Font_Reg19</font>
                 <textcolor>grey2</textcolor>
-                <shadowcolor>-</shadowcolor>
                 <label>$INFO[ListItem.Year, • ]$INFO[ListItem.Duration, • , $LOCALIZE[12391]]</label>
                 <textoffsetx>15</textoffsetx>
             </control>
@@ -893,10 +1016,10 @@
                 <posx>275</posx>
                 <posy>152</posy>
                 <width>660</width>
-                <height>155</height>
+                <height>153</height>
                 <align>justify</align>
                 <aligny>top</aligny>
-                <font>Font_Reg19</font>
+                <font>Font_Reg20</font>
                 <textcolor>white6</textcolor>
                 <label>$VAR[GlobalPlotVar]</label>
                 <autoscroll>false</autoscroll>
@@ -988,7 +1111,6 @@
                 <aligny>center</aligny>
                 <font>Font_Reg24</font>
                 <textcolor>white2</textcolor>
-                <shadowcolor>-</shadowcolor>
                 <label>$INFO[ListItem.Label]</label>
                 <textoffsetx>15</textoffsetx>
             </control>
@@ -1001,7 +1123,6 @@
                 <aligny>center</aligny>
                 <font>Font_Reg19</font>
                 <textcolor>grey2</textcolor>
-                <shadowcolor>-</shadowcolor>
                 <label>$INFO[ListItem.Year,, • ]</label>
                 <textoffsetx>15</textoffsetx>
             </control>
@@ -1022,7 +1143,6 @@
                 <aligny>center</aligny>
                 <font>Font_Reg19</font>
                 <textcolor>grey2</textcolor>
-                <shadowcolor>-</shadowcolor>
                 <label>$INFO[ListItem.Duration, • , $LOCALIZE[12391]]</label>
                 <textoffsetx>15</textoffsetx>
             </control>
@@ -1033,7 +1153,7 @@
                 <height>195</height>
                 <align>justify</align>
                 <aligny>top</aligny>
-                <font>Font_Reg19</font>
+                <font>Font_Reg20</font>
                 <textcolor>white6</textcolor>
                 <label>$VAR[GlobalPlotOutlineVar]</label>
                 <autoscroll>false</autoscroll>
@@ -1050,7 +1170,6 @@
                 <aligny>center</aligny>
                 <font>Font_Reg38_Caps</font>
                 <textcolor>white2</textcolor>
-                <shadowcolor>-</shadowcolor>
                 <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
                 <textoffsetx>15</textoffsetx>
             </control>
@@ -1071,7 +1190,6 @@
                 <aligny>center</aligny>
                 <font>Font_Reg19</font>
                 <textcolor>grey2</textcolor>
-                <shadowcolor>-</shadowcolor>
                 <label>$INFO[ListItem.Year, • ]$INFO[ListItem.Duration, • , $LOCALIZE[12391]]</label>
                 <textoffsetx>15</textoffsetx>
             </control>
@@ -1079,12 +1197,140 @@
                 <posx>275</posx>
                 <posy>152</posy>
                 <width>660</width>
-                <height>155</height>
+                <height>153</height>
                 <align>justify</align>
                 <aligny>top</aligny>
-                <font>Font_Reg19</font>
+                <font>Font_Reg20</font>
                 <textcolor>white6</textcolor>
                 <label>$VAR[GlobalPlotVar]</label>
+                <autoscroll>false</autoscroll>
+            </control>
+        </control>
+    </include>
+    <include name="FSPanelMusicFocusedlayout">
+        <control type="image">
+            <posy>9</posy>
+            <width>970</width>
+            <height>360</height>
+            <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+            <bordersize>5</bordersize>
+            <texture>views/tripanel/listselect_fo.png</texture>
+        </control>
+        <control type="group">
+            <animation effect="zoom" center="100,150" start="95" end="100" time="600" tween="back" easing="out" reversible="false">Focus</animation>
+            <control type="image">
+                <posx>22</posx>
+                <posy>22</posy>
+                <height>333</height>
+                <aspectratio scalediffuse="false" align="top">scale</aspectratio>
+                <width>333</width>
+                <texture fallback="DefaultAlbumCover.png" diffuse="thumbs/cdcover_mask.png">$INFO[ListItem.Icon]</texture>
+            </control>
+            <control type="image">
+                <posx>2</posx>
+                <posy>2</posy>
+                <height>373</height>
+                <width>373</width>
+                <aspectratio scalediffuse="false" align="right">scale</aspectratio>
+                <texture diffuse="thumbs/cdcover_mask.png">thumbs/cdcover_glass_noreflect.png</texture>
+                <bordertexture border="20">thumbs/cd_shadow.png</bordertexture>
+                <bordersize>20</bordersize>
+            </control>
+        </control>
+        <control type="group">
+            <animation effect="fade" end="70" time="0" condition="true">Conditional</animation>
+            <control type="label">
+                <posx>370</posx>
+                <posy>30</posy>
+                <width>590</width>
+                <height>50</height>
+                <aligny>center</aligny>
+                <font>Font_Reg38_Caps</font>
+                <textcolor>white2</textcolor>
+                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
+                <textoffsetx>15</textoffsetx>
+            </control>
+            <control type="label">
+                <posx>370</posx>
+                <posy>84</posy>
+                <width>555</width>
+                <height>30</height>
+                <aligny>center</aligny>
+                <font>Font_Reg19</font>
+                <textcolor>grey2</textcolor>
+                <label>$VAR[InfoWallSubTitleVar]</label>
+                <textoffsetx>15</textoffsetx>
+            </control>
+            <control type="textbox">
+                <posx>380</posx>
+                <posy>122</posy>
+                <width>555</width>
+                <height>195</height>
+                <align>justify</align>
+                <aligny>top</aligny>
+                <font>Font_Reg20</font>
+                <textcolor>white6</textcolor>
+                <label>$VAR[InfoWallTextboxVar]</label>
+                <autoscroll>false</autoscroll>
+            </control>
+        </control>
+    </include>
+    <include name="FSPanelMusicItemlayout">
+        <control type="group">
+            <animation effect="zoom" center="100,150" start="95" end="100" time="600" tween="back" easing="out" reversible="false">Focus</animation>
+            <control type="image">
+                <posx>22</posx>
+                <posy>22</posy>
+                <height>333</height>
+                <width>333</width>
+                <aspectratio scalediffuse="false" align="top">scale</aspectratio>
+                <texture fallback="DefaultAlbumCover.png" diffuse="thumbs/cdcover_mask.png">$INFO[ListItem.Icon]</texture>
+            </control>
+            <control type="image">
+                <posx>2</posx>
+                <posy>2</posy>
+                <height>373</height>
+                <width>373</width>
+                <aspectratio scalediffuse="false" align="right">scale</aspectratio>
+                <texture diffuse="thumbs/cdcover_mask.png">thumbs/cdcover_glass_noreflect.png</texture>
+                <bordertexture border="20">thumbs/cd_shadow.png</bordertexture>
+                <bordersize>20</bordersize>
+            </control>
+        </control>
+        <control type="group">
+            <animation effect="fade" end="70" time="0" condition="true">Conditional</animation>
+            <control type="label">
+                <posx>370</posx>
+                <posy>30</posy>
+                <width>590</width>
+                <height>50</height>
+                <aligny>center</aligny>
+                <font>Font_Reg38_Caps</font>
+                <textcolor>white2</textcolor>
+                <label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
+                <textoffsetx>15</textoffsetx>
+            </control>
+            <control type="label">
+                <posx>370</posx>
+                <posy>84</posy>
+                <width>570</width>
+                <height>30</height>
+                <aligny>center</aligny>
+                <font>Font_Reg19</font>
+                <textcolor>grey2</textcolor>
+                <label>$VAR[InfoWallSubTitleVar]</label>
+                <textoffsetx>15</textoffsetx>
+            </control>
+            <control type="textbox">
+                <posx>380</posx>
+                <posy>122</posy>
+                <width>555</width>
+                <height>195</height>
+                <align>justify</align>
+                <aligny>top</aligny>
+                <font>Font_Reg20</font>
+                <textcolor>white6</textcolor>
+                <label>$VAR[InfoWallTextboxVar]</label>
                 <autoscroll>false</autoscroll>
             </control>
         </control>
@@ -1154,7 +1400,6 @@
             <aligny>center</aligny>
             <font>Font_Bold24</font>
             <textcolor>white2</textcolor>
-            <shadowcolor>-</shadowcolor>
             <textoffsetx>10</textoffsetx>
         </control>
         <control type="label">
@@ -1166,7 +1411,6 @@
             <aligny>center</aligny>
             <font>Font_Reg20</font>
             <textcolor>white2</textcolor>
-            <shadowcolor>-</shadowcolor>
             <textoffsetx>10</textoffsetx>
             <visible>Container.Content(tvshows)</visible>
         </control>
@@ -1257,7 +1501,6 @@
             <aligny>center</aligny>
             <font>Font_Bold24</font>
             <textcolor>grey2</textcolor>
-            <shadowcolor>-</shadowcolor>
             <textoffsetx>10</textoffsetx>
         </control>
         <control type="label">
@@ -1269,7 +1512,6 @@
             <aligny>center</aligny>
             <font>Font_Reg20</font>
             <textcolor>grey2</textcolor>
-            <shadowcolor>-</shadowcolor>
             <textoffsetx>10</textoffsetx>
             <visible>Container.Content(tvshows)</visible>
         </control>
