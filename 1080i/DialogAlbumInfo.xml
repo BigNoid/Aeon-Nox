@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <window id="2001">
     <defaultcontrol>5000</defaultcontrol>
-    <onload codition="!Player.HasAudio + System.HasAddon(script.artistslideshow)">SetProperty(CURRENTARTIST,$INFO[ListItem.Artist])</onload>
-    <onload codition="!Player.HasAudio + System.HasAddon(script.artistslideshow)">SetProperty(ArtistSlideshow.ExternalCall,True)</onload>
-    <onload codition="!Player.HasAudio + System.HasAddon(script.artistslideshow)">XBMC.RunScript(script.artistslideshow,windowid=12001&amp;artistfield=CURRENTARTIST)</onload>
-    <onunload codition="System.HasAddon(script.artistslideshow)">clearProperty(ArtistSlideshow.ExternalCall)</onunload>
+     <onload codition="!Player.HasAudio + System.HasAddon(script.artistslideshow) + Skin.HasSetting(usescriptalbumlist)">SetProperty(CURRENTARTIST,$INFO[ListItem.Artist])</onload>
+    <onload codition="!Player.HasAudio + System.HasAddon(script.artistslideshow) + Skin.HasSetting(usescriptalbumlist)">SetProperty(ArtistSlideshow.ExternalCall,True)</onload>
+    <onload codition="!Player.HasAudio + System.HasAddon(script.artistslideshow) + Skin.HasSetting(usescriptalbumlist)">XBMC.RunScript(script.artistslideshow,windowid=12001&amp;artistfield=CURRENTARTIST)</onload>
+    <onunload codition="System.HasAddon(script.artistslideshow) + Skin.HasSetting(usescriptalbumlist)">clearProperty(ArtistSlideshow.ExternalCall)</onunload>
     <animation type="WindowOpen" reversible="false">
         <effect type="zoom" start="150" end="100" center="960,540" time="500" tween="cubic" easing="out" />
         <effect type="fade" start="0" end="100" time="250" />
@@ -627,7 +627,7 @@
             <posx>500r</posx>
             <posy>770</posy>
             <width>500</width>
-                    <visible>![Container.Content(artists) + !Player.HasAudio + !IsEmpty(Window.Property(ArtistSlideshow.1.AlbumName))]</visible>
+                    <visible>![Container.Content(artists) + !Player.HasAudio + !IsEmpty(Window.Property(ArtistSlideshow.1.AlbumName)) + Skin.HasSetting(usescriptalbumlist)]</visible>
             <height>280</height>
             <onleft>5000</onleft>
             <onright>61</onright>
@@ -800,7 +800,7 @@
                 <control type="group">
                     <posx>1970</posx>
                     <posy>500</posy>
-                    <visible>!IsEmpty(Container(5223).ListItem.Icon)</visible>
+                    <visible>!IsEmpty(Container(5223).ListItem.Icon) + Skin.HasSetting(usescriptalbumlist)</visible>
                     <animation effect="zoom" start="100" end="65" time="800" easing="inout" tween="circle" center="960,500" condition="true">Conditional</animation>
                     <control type="image">
                         
@@ -844,7 +844,7 @@
                     <ondown>5223</ondown>
                     <onback>5000</onback>
                     <onleft>50</onleft>
-                    <visible>Container.Content(artists) + !Player.HasAudio + !IsEmpty(Window.Property(ArtistSlideshow.1.AlbumName))</visible>
+                    <visible>Container.Content(artists) + !Player.HasAudio + !IsEmpty(Window.Property(ArtistSlideshow.1.AlbumName)) + Skin.HasSetting(usescriptalbumlist)</visible>
                     <orientation>vertical</orientation>
                     <pagecontrol>60</pagecontrol>
                     <focusposition>0</focusposition>
@@ -1449,6 +1449,12 @@
                 <onclick>RunAddon(script.artistslideshow)</onclick>
                  <visible>System.HasAddon(script.cdartmanager)</visible>
            </control>
+            <control type="radiobutton" id="121">
+                <label>Script features</label>
+                <include>Objects_MediaMenuButtonIcons</include>
+                <onclick>Skin.ToggleSetting(usescriptalbumlist)</onclick>
+                 <visible>System.HasAddon(script.artistslideshow)</visible>
+           </control>
                 </control>
                 <control type="group">
                     <posy>-5</posy>
@@ -1488,6 +1494,16 @@
                                 <include>MediaMenuIcons</include>
                                 <texture>special://skin/extras/BigIcons/CD-DVD.png</texture>
                                 <visible>Control.IsVisible(120)</visible>
+                            </control>
+                            <control type="image">
+                                <animation effect="slide" start="0" end="0,-100" time="0" condition="!Control.IsVisible(11)">Conditional</animation>
+                                <animation effect="slide" start="0" end="0,-100" time="0" condition="!Control.IsVisible(12)">Conditional</animation>
+                                <animation effect="slide" start="0" end="0,-100" time="0" condition="!Control.IsVisible(120)">Conditional</animation>
+                                <posy>515</posy>
+                                <animation effect="fade" start="100" end="55" time="0" condition="!Control.HasFocus(121)">Conditional</animation>
+                                <include>MediaMenuIcons</include>
+                                <texture>special://skin/extras/BigIcons/Gears.png</texture>
+                                <visible>Control.IsVisible(121)</visible>
                             </control>
                 </control>
                 <include>QuickNavLabel</include>
