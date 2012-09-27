@@ -468,38 +468,34 @@
                     </control>
                 </control>
                 <control type="group">
-                    <visible>VideoPlayer.Content(files)</visible>
-                    <animation effect="zoom" end="130" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
-                    <animation effect="slide" end="-20,-250" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
+                    <visible>VideoPlayer.Content(files) | VideoPlayer.Content(livetv)</visible>
+                    <animation effect="slide" end="0" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(nowplayingpanel)">Conditional</animation>
                     <include>Animation_CommonFade</include>
                     <control type="image">
-                        <texture background="true" diffuse="thumbs/multiplex_tvmask.png">$INFO[VideoPlayer.Cover]</texture>
-                        <aspectratio scalediffuse="false">scale</aspectratio>
-                        <bordertexture border="9">thumbs/multiplex_tvborder.png</bordertexture>
-                        <bordersize>9</bordersize>
-                        <posx>35</posx>
-                        <posy>783</posy>
-                        <width>498</width>
-                        <height>287</height>
+                        <posx>24</posx>
+                        <posy>733</posy>
+                        <width>480</width>
+                        <height>300</height>
+                        <texture fallback="DefaultVideo.png">$INFO[VideoPlayer.Cover]</texture>
                         <fadetime>IconCrossfadeTime</fadetime>
+                        <visible>!IsEmpty(VideoPlayer.Cover)</visible>
                     </control>
                     <control type="image">
-                        <posx>35</posx>
-                        <posy>783</posy>
+                        <posx>15</posx>
+                        <posy>693</posy>
                         <width>498</width>
-                        <height>287</height>
+                        <height>390</height>
                         <fadetime>IconCrossfadeTime2</fadetime>
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture diffuse="thumbs/multiplex_tvmask.png">thumbs/multiplex_tv_glass.png</texture>
-                        <visible>!IsEmpty(VideoPlayer.Cover)</visible>
                         <bordersize>9</bordersize>
                     </control>
                 </control>
             </control>
             <control type="group">
                 <posx>-370</posx>
-                <animation effect="slide" time="400" tween="cubic" easing="inout" start="0" end="265" condition="!Skin.HasSetting(ShowBackgroundVideo) + [VideoPlayer.Content(files)]">Conditional</animation>
-                <animation effect="slide" end="350" time="800" easing="inout" tween="circle" condition="Skin.HasSetting(ShowBackgroundVideo)">Conditional</animation>
+                <animation effect="slide" time="400" tween="cubic" easing="inout" start="0" end="218,-20" condition="!Skin.HasSetting(ShowBackgroundVideo) + [VideoPlayer.Content(files) | VideoPlayer.Content(livetv)]">Conditional</animation>
+                <animation effect="slide" time="800" tween="circle" easing="inout" end="354" condition="Skin.HasSetting(ShowBackgroundVideo)">Conditional</animation>
                 <control type="image">
                     <posx>660</posx>
                     <posy>990</posy>
@@ -536,8 +532,8 @@
                     <posx>720</posx>
                     <posy>1005</posy>
                     <textcolor>white3</textcolor>
-                    <label>$INFO[VideoPlayer.TVShowTitle,, - ]$INFO[VideoPlayer.Title]$INFO[VideoPlayer.Year, (,)]</label>
-                    <width>600</width>
+                    <label>$INFO[VideoPlayer.TVShowTitle,, - ]$INFO[VideoPlayer.ChannelName,, - ]$INFO[VideoPlayer.Title]$INFO[VideoPlayer.Year, (,)]</label>
+                    <width>800</width>
                     <wrapmultiline>true</wrapmultiline>
                     <font>Font_Reg22_Caps</font>
                 </control>
@@ -804,14 +800,10 @@
     <include name="Furniture_HomeNowPlaying">
         <control type="group">
             <posy>14</posy>
-            <visible>[IsEmpty(Control.GetLabel(4325)) + !Skin.HasSetting(movenowplayingwidget)] | [IsEmpty(Control.GetLabel(4321)) + Skin.HasSetting(movenowplayingwidget)] | !IsEmpty(Window(home).Property(DisableWidgets))</visible>
-            <visible>!VideoPlayer.Content(livetv)</visible>
-            <animation effect="slide" start="0,0" end="0,35" time="400" tween="cubic" easing="inout" condition="!Skin.HasSetting(movenowplayingwidget) + !Skin.HasSetting(lowermainmenu)">Conditional</animation>
-            <animation effect="slide" start="0,0" end="0,-235" time="400" tween="cubic" easing="inout" condition="Window.IsActive(home) + Skin.HasSetting(movenowplayingwidget) + Skin.HasSetting(lowermainmenu)">Conditional</animation>
+            <visible>IsEmpty(Control.GetLabel(4325)) | !IsEmpty(Window(home).Property(DisableWidgets))</visible>
+            <animation effect="slide" start="0,0" end="0,35" time="400" tween="cubic" easing="inout" condition="!Skin.HasSetting(lowermainmenu)">Conditional</animation>
             <include>Animation_Widgets</include>
-                        <animation effect="slide" start="0,0" end="0,635" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(movenowplayingwidget)">Conditional</animation>
-
-            <animation effect="slide" start="0,0" end="0,11" time="400" tween="cubic" easing="inout" condition="!Skin.HasSetting(movenowplayingwidget) + [[Skin.HasSetting(highnavhelp) + !Skin.HasSetting(DisableNavHelp)] | [Skin.HasSetting(totalshomehigh) + !Skin.HasSetting(DisableLibraryStats)] | [Skin.HasSetting(timehomehigh) + !Skin.HasSetting(DisableTimePanel)]] + Window.IsActive(home)">Conditional</animation>
+            <animation effect="slide" start="0,0" end="0,11" time="400" tween="cubic" easing="inout" condition="[[Skin.HasSetting(highnavhelp) + !Skin.HasSetting(DisableNavHelp)] | [Skin.HasSetting(totalshomehigh) + !Skin.HasSetting(DisableLibraryStats)] | [Skin.HasSetting(timehomehigh) + !Skin.HasSetting(DisableTimePanel)]] + Window.IsActive(home)">Conditional</animation>
             <control type="group" id="8995">
                 <posx>22</posx>
                 <posy>-650</posy>
@@ -901,7 +893,7 @@
                             <textcolor>white2</textcolor>
                             <autoscroll>false</autoscroll>
                             <animation effect="slide" time="400" tween="cubic" easing="inout" start="0" end="160" condition="Skin.HasSetting(ShowBackgroundVideo)">Conditional</animation>
-                            <visible>Skin.HasSetting(nowplayingpanel) + !VideoPlayer.Content(episodes)</visible>
+                            <visible>Skin.HasSetting(nowplayingpanel) + !VideoPlayer.Content(episodes) + !VideoPlayer.Content(livetv)</visible>
                         </control>
                         <control type="textbox">
                             <posx>630</posx>
