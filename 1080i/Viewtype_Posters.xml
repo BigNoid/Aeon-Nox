@@ -1404,6 +1404,18 @@
                         <effect type="rotatey" start="0" end="90" delay="1000" time="400" />
                         <effect type="fade" delay="1000" time="200" />
                     </animation>
+                <animation type="Conditional" condition="Control.HasFocus(5101)" reversible="false">
+                    <effect type="rotatey" center="200" start="0" end="-90" time="450" tween="cubic" easing="in" />
+                    <effect type="rotatey" center="200" start="-90" end="90" time="0" delay="450" />
+                    <effect type="fade" start="100" end="0" time="0" delay="450" />
+                    <effect type="rotatey" center="200" start="90" end="0" time="450" delay="450" tween="cubic" easing="out" />
+                </animation>
+                <animation type="Conditional" condition="!Control.HasFocus(5101)" reversible="false">
+                    <effect type="rotatey" center="200" start="0" end="90" time="0" tween="cubic" easing="in" delay="450" />
+                    <effect type="rotatey" center="200" start="90" end="-90" time="0" delay="450" />
+                    <effect type="fade" start="0" end="100" time="400" delay="450" />
+                    <effect type="rotatey" center="200" start="-90" end="0" time="450" delay="450" tween="cubic" easing="out" />
+                </animation>
                     <posx>-26</posx>
                     <posy>246</posy>
                     <width>570</width>
@@ -1443,7 +1455,7 @@
                     </control>
                 </control>
             </control>
-        </control>
+        </control>        
     </include>
     <include name="contents510list">
         <posx>250</posx>
@@ -1453,8 +1465,7 @@
         <visible>!IsEmpty(Container.FolderPath) + !Container.Content(years)</visible>
         <onleft condition="!Skin.HasSetting(posterwrap)">8400</onleft>
         <onright condition="!Skin.HasSetting(posterwrap)">8401</onright>
-        <onup condition="!IsEmpty(ListItem.Trailer) + !Skin.HasSetting(trailerincontextmenu)">SetFocus(1801)</onup>
-        <onup condition="IsEmpty(ListItem.Trailer) | Skin.HasSetting(trailerincontextmenu)">9000</onup>
+        <onup>5101</onup>
         <ondown condition="Control.IsVisible(61)">61</ondown>
         <ondown condition="!Control.IsVisible(61)">109</ondown>
         <orientation>horizontal</orientation>
@@ -1502,6 +1513,98 @@
                 <effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" delay="1400" />
             </animation>
             <include>PosterSlideWrap</include>
+            <control type="group" id="4551">
+            <animation type="Visible" reversible="false">
+                <effect type="rotatey" center="200" start="0" end="-90" time="450" tween="cubic" easing="in" />
+                <effect type="rotatey" center="200" start="-90" end="90" time="0" delay="450" />
+                <effect type="fade" start="0" end="100" time="0" delay="450" />
+                <effect type="rotatey" center="200" start="90" end="0" time="450" delay="450" tween="cubic" easing="out" />
+            </animation>
+            <animation type="Hidden" reversible="false">
+                <effect type="rotatey" center="200" start="0" end="90" time="450" tween="cubic" easing="in" />
+                <effect type="rotatey" center="200" start="90" end="-90" time="0" delay="450" />
+                <effect type="fade" start="100" end="0" time="0" delay="450" />
+                <effect type="rotatey" center="200" start="-90" end="0" time="0" delay="450" tween="cubic" easing="out" />
+            </animation>
+            <posx>-20</posx>
+            <posy>320</posy>
+            <visible>Control.HasFocus(5101)</visible>
+                <control type="image">
+                    <texture>views/tripanel/info_panel_alt_glow.png</texture>
+                    <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                    <width>540</width>
+                    <height>930</height>
+                    <visible>!Skin.HasSetting(DisableGlowbar)</visible>
+                </control>
+                <control type="image">
+                    <posy>18</posy>
+                    <texture>dialogs/panel.png</texture>
+                    <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                    <width>573</width>
+                    <height>784</height>
+                </control>
+            
+               <control type="image" id="8827">
+                        <posx>122</posx>
+                        <posy>110</posy>
+                        <width>360</width>
+                        <height>120</height>
+                        <texture background="true" fallback="empty.png">$INFO[ListItem.Path,,logo.png]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <animation effect="fade" delay="300" time="300" reversible="false">Hidden</animation>
+                        <animation effect="fade" start="0" delay="100" end="100" time="300" reversible="true" condition="!Stringcompare(Control.GetLabel(8827),empty.png)">Conditional</animation>
+                    </control>
+                    <control type="label">
+                        <posx>100</posx>
+                        <posy>115</posy>
+                        <height>80</height>
+                        <width>370</width>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <font>Font_Bold25_Caps</font>
+                        <textcolor>white2</textcolor>
+                        <scroll>true</scroll>
+                        <wrapmultiline>true</wrapmultiline>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>![[[Skin.HasSetting(movielogosfloor) + Container.Content(movies)] | [[Skin.HasSetting(tvshowlogosfloor) | Skin.HasSetting(tvshowbannersfloor)]+ Container.Content(tvshows)]] + !Stringcompare(Control.GetLabel(8827),empty.png)]</visible>
+                        <animation effect="fade" start="0" end="100" time="100" delay="100" reversible="false">Visible</animation>
+                        <animation effect="fade" start="100" end="0" time="0" delay="0" reversible="false">Hidden</animation>
+                        <visible>[Control.IsVisible(8827)  + !Container.OnNext + !Container.OnPrevious + Stringcompare(Control.GetLabel(8827),empty.png)] | !Control.IsVisible(8827)</visible>
+                    </control>
+                    
+<!--                     <control type="image">
+                        <posx>100</posx>
+                        <posy>150</posy>
+                        <height>60</height>
+                        <width>400</width>
+                        <texture>osd/osd_settings_buttonnf.png</texture>
+                        <visible>![[[Skin.HasSetting(movielogosfloor) + Container.Content(movies)] | [[Skin.HasSetting(tvshowlogosfloor) | Skin.HasSetting(tvshowbannersfloor)]+ Container.Content(tvshows)]] + !Stringcompare(Control.GetLabel(8827),empty.png)]</visible>
+                    </control> -->
+                        <control type="textbox">
+                            <posx>123</posx>
+                            <posy>240</posy>
+                            <width>355</width>
+                            <height>442</height>
+                            <font>Font_Reg18</font>
+                            <align>justify</align>
+                            <label fallback="312577">$VAR[InfoWallTextboxVar]</label>
+                            <textcolor>white6</textcolor>
+                            <autoscroll delay="8000" time="5000" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+                        </control>
+            </control>
+                   <control type="button" id="5101">
+                    <include>HiddenObject</include>
+                    <onup condition="IsEmpty(ListItem.Trailer) | Skin.HasSetting(trailerincontextmenu)">9000</onup>
+                    <onup condition="!IsEmpty(ListItem.Trailer) + !Skin.HasSetting(trailerincontextmenu)">1801</onup>
+                    <onleft>50</onleft>
+                    <onright>50</onright>
+                    <ondown>50</ondown>
+                    <onback>50</onback>
+                    <onclick condition="!IsEmpty(ListItem.Trailer)">PlayMedia($ESCINFO[ListItem.Trailer])</onclick>
+                    <onclick condition="IsEmpty(ListItem.Trailer)">PlayMedia($ESCINFO[ListItem.FileNameAndPath])</onclick>
+                    <onclick condition="Container.Content(tvshows) | Container.Content(seasons)">SetFocus(50)</onclick>
+                    <visible>!StringCompare(ListItem.Label,..) + Skin.HasSetting(posterviewinfopane)</visible>
+                </control>
             <include condition="Skin.HasSetting(posterwrap)">posterwraplist</include>
             <include condition="!Skin.HasSetting(posterwrap)">posterfixedlist</include>
         </control>
