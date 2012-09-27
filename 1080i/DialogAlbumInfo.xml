@@ -229,10 +229,12 @@
                     <autoscroll delay="15000" time="5000" repeat="10000">Skin.HasSetting(AutoScroll)</autoscroll>
                     <textcolor>white3</textcolor>
                     <shadowcolor>black</shadowcolor>
-                    <visible>!Skin.HasSetting(ShowMusicInformation)</visible>
+                    <animation effect="fade" time="400">VisibleChange</animation>
+                    <visible>ControlGroup(5000).HasFocus(13) | ControlGroup(5000).HasFocus(14)</visible>
                 </control>
                 <control type="group">
-                    <visible>Skin.HasSetting(ShowMusicInformation) + Container.Content(albums)</visible>
+                    <animation effect="fade" time="400">VisibleChange</animation>
+                    <visible>ControlGroup(5000).HasFocus(24) + Container.Content(albums)</visible>
                     <control type="grouplist">
                         <posx>500</posx>
                         <posy>-80</posy>
@@ -349,7 +351,8 @@
                     </control>
                 </control>
                 <control type="group">
-                    <visible>Skin.HasSetting(ShowMusicInformation) + Container.Content(artists)</visible>
+                    <visible>ControlGroup(5000).HasFocus(24) + Container.Content(artists)</visible>
+                    <animation effect="fade" time="400">VisibleChange</animation>
                     <control type="grouplist">
                         <posx>500</posx>
                         <posy>-80</posy>
@@ -513,6 +516,15 @@
                 <font>Font_Reg19_Caps</font>
                 <shadowcolor>black</shadowcolor>
                 <include>BreadcrumbsLabel</include>
+                <label>$INFO[Control.GetLabel(24)]</label>
+                <animation effect="fade" start="100" end="50" time="200" tween="cubic" easing="inout" condition="!Control.HasFocus(24)">Conditional</animation>
+                <visible>Control.IsEnabled(24) + Control.IsVisible(24)</visible>
+            </control>
+            <control type="label">
+                <textcolor>white2</textcolor>
+                <font>Font_Reg19_Caps</font>
+                <shadowcolor>black</shadowcolor>
+                <include>BreadcrumbsLabel</include>
                 <label>$INFO[Control.GetLabel(13)]</label>
                 <animation effect="fade" start="100" end="50" time="200" tween="cubic" easing="inout" condition="!Control.HasFocus(13)">Conditional</animation>
                 <visible>Control.IsEnabled(13) + Control.IsVisible(13)</visible>
@@ -544,6 +556,16 @@
                 <animation effect="fade" start="100" end="50" time="200" tween="cubic" easing="inout" condition="!Control.HasFocus(22) + !Control.HasFocus(23)">Conditional</animation>
                 <visible>Control.IsVisible(22) | Control.IsVisible(23)</visible>
             </control>
+            <control type="label">
+                <textcolor>white2</textcolor>
+                <font>Font_Reg19_Caps</font>
+                <shadowcolor>black</shadowcolor>
+                <include>BreadcrumbsLabel</include>
+                <label>$INFO[Control.GetLabel(25)]</label>
+                <animation effect="fade" start="100" end="50" time="200" tween="cubic" easing="inout" condition="!Control.HasFocus(25)">Conditional</animation>
+                <visible>Control.IsVisible(25)</visible>
+            </control>
+            
         </control>
         <control type="grouplist" id="5000">
             <posx>-100</posx>
@@ -554,8 +576,7 @@
             <onleft>5000</onleft>
             <onright condition="Control.IsVisible(50)">50</onright>
             <onright condition="Control.IsVisible(5223)">5223</onright>
-            <ondown condition="Control.IsVisible(50)">50</ondown>
-            <ondown condition="Control.IsVisible(5223)">5223</ondown>
+            <ondown condition="ControlGroup(5000).HasFocus(25)">5222</ondown>
             <orientation>horizontal</orientation>
             <itemgap>50</itemgap>
             <control type="button" id="20">
@@ -564,19 +585,17 @@
                 <onclick>RunScript(script.playalbum,artist=$ESCINFO[ListItem.Artist]&amp;album=$ESCINFO[ListItem.Album])</onclick>
                 <visible>System.HasAddon(script.playalbum) + Container.Content(albums)</visible>
             </control>
-            <control type="togglebutton" id="13">
+            <control type="button" id="24">
                 <label>$LOCALIZE[31172]</label>
-                <altlabel>$LOCALIZE[183]</altlabel>
-                <onclick>Skin.ToggleSetting(ShowMusicInformation)</onclick>
-                <usealttexture>Skin.HasSetting(ShowMusicInformation)</usealttexture>
+                <include>HiddenObject</include>
+            </control>
+            <control type="togglebutton" id="13">
+                <label>$LOCALIZE[183]</label>
                 <include>HiddenObject</include>
                 <visible>Container.Content(albums)</visible>
             </control>
             <control type="togglebutton" id="14">
-                <label>$LOCALIZE[31172]</label>
-                <altlabel>$LOCALIZE[21887]</altlabel>
-                <onclick>Skin.ToggleSetting(ShowMusicInformation)</onclick>
-                <usealttexture>Skin.HasSetting(ShowMusicInformation)</usealttexture>
+                <label>$LOCALIZE[21887]</label>
                 <include>HiddenObject</include>
                 <visible>Container.Content(artists)</visible>
             </control>
@@ -599,6 +618,11 @@
                 <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[ListItem.Artist] $INFO[ListItem.Album],return)</onclick>
                 <onclick>Dialog.Close(all,true)</onclick>
                 <visible>Container.Content(albums)</visible>
+            </control>
+            <control type="button" id="25">
+                <label>$LOCALIZE[31635]</label>
+                <include>HiddenObject</include>
+                <visible>!IsEmpty(Container(5223).ListItem.Icon) + Skin.HasSetting(usescriptalbumlist)</visible>
             </control>
         </control>
         <!-- Artist Logo / Record Label flag-->
@@ -800,7 +824,7 @@
                 <control type="group">
                     <posx>1970</posx>
                     <posy>500</posy>
-                    <visible>!IsEmpty(Container(5223).ListItem.Icon) + Skin.HasSetting(usescriptalbumlist)</visible>
+                    <visible>!IsEmpty(Container(5223).ListItem.Icon) + Skin.HasSetting(usescriptalbumlist) + Container.Content(artists)</visible>
                     <animation effect="zoom" start="100" end="65" time="800" easing="inout" tween="circle" center="960,500" condition="true">Conditional</animation>
                     <control type="image">
                         
@@ -1216,28 +1240,19 @@
                 </control>
         
         
-            <!--    <control type="group">
-                    <posx>150</posx>
-                    <posy>32</posy>
-                    <control type="label">
-                        <posx>20</posx>
-                        <posy>-43</posy>
-                        <width>375</width>
-                        <height>34</height>
-                        <font>Font_Reg22_Caps</font>
-                        
-                        <textcolor>$VAR[TitleColorVar]</textcolor>
-                        
-                        <aligny>center</aligny>
-                        <label>$LOCALIZE[31635]</label>
-                    </control>
+               <control type="group">
+                    <visible>ControlGroup(5000).HasFocus(25)</visible>
+                    <posx>450</posx>
+                    <posy>875</posy>
                     <animation effect="slide" start="575" end="0" time="700" tween="cubic" easing="out" delay="400">WindowOpen</animation>
                     <visible>IsEmpty(Window.Property(ArtistSlideshowRefresh))</visible>
+               <control type="group">
+                     <posx>-400</posx>
+                    <posy>-400</posy>
+                    <animation effect="zoom" start="100" end="67" time="800" easing="inout" tween="circle" center="960,500" condition="true">Conditional</animation>
+
                     <animation effect="fade" time="400">VisibleChange</animation>
-                    <control type="image">
-                        
-                        
-                        
+                    <control type="image">             
                         <width>425</width>
                         <height>400</height>
                         <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
@@ -1257,48 +1272,55 @@
                         <fadetime>750</fadetime>
                         <randomize>true</randomize>
                     </control>
-                    <control type="list" id="5222">
+                                        <control type="image">
+                        
+                        
+                        
+                        <width>425</width>
+                        <height>400</height>
+                        <texture>thumbs/boxes/cd_shadow_light.png</texture>
+                    </control>
+                                    </control>
+
+                    <control type="panel" id="5222">
                         <include>Animation_VisibleChange400</include>
                         <posx>323</posx>
-                        <posy>-85</posy>
-                        <width>340</width>
+                        <posy>-100</posy>
+                        <width>700</width>
                         <height>460</height>
-                        <onup>5011</onup>
-                        <ondown>5011</ondown>
+                        <onup>5000</onup>
+                        <ondown>5000</ondown>
+            <onright condition="Control.IsVisible(50)">50</onright>
+            <onright condition="Control.IsVisible(5223)">5223</onright>
                         <onback>5011</onback>
-                        <animation effect="zoom" start="100" end="85" time="800" easing="inout" tween="circle" center="960,500" condition="true">Conditional</animation>
                         
                         <orientation>vertical</orientation>
                         <pagecontrol>60</pagecontrol>
                         <focusposition>0</focusposition>
                         <scrolltime tween="cubic" easing="inout">1200</scrolltime>
                         <preloaditems>2</preloaditems>
-                        <itemlayout width="614" height="30">
+                        <itemlayout width="350" height="30">
                             <control type="label">
-                                <posx>15</posx>
+                                <posx>175</posx>
                                 
-                                <width>375</width>
+                                <width>350</width>
                                 <height>34</height>
                                 <font>Font_Info_Caps</font>
                                 <textcolor>grey2</textcolor>
-                                
-                                
-                                
+                                <align>center</align>
                                 <aligny>center</aligny>
                                 <label>$INFO[ListItem.Label]</label>
                             </control>
                         </itemlayout>
                         <focusedlayout width="614" height="30">
                             <control type="label">
-                                <posx>15</posx>
+                                <posx>175</posx>
                                 
-                                <width>368</width>
+                                <width>350</width>
                                 <height>34</height>
                                 <font>Font_Info_Caps</font>
-                                <textcolor>$VAR[TitleColorVar]</textcolor>
-                                
-                                
-                                
+                                <textcolor>$VAR[TitleColorVar]</textcolor>  
+                                <align>center</align>
                                 <aligny>center</aligny>
                                 <label>$INFO[ListItem.Label]</label>
                             </control>
@@ -1393,17 +1415,17 @@
             <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window.Property(ArtistSlideshow.15.SimilarName)],return)</onclick><onclick>Dialog.Close(all,true)</onclick>
             <icon>$INFO[Window.Property(ArtistSlideshow.15.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window.Property(ArtistSlideshow.15.SimilarThumb))</visible>
-        </item>                        </content>
+        </item>
+        <item id="16">
+            <label>$INFO[Window.Property(ArtistSlideshow.16.SimilarName)]</label>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window.Property(ArtistSlideshow.16.SimilarName)],return)</onclick><onclick>Dialog.Close(all,true)</onclick>
+            <icon>$INFO[Window.Property(ArtistSlideshow.16.SimilarThumb)]</icon>
+            <visible>!IsEmpty(Window.Property(ArtistSlideshow.16.SimilarThumb))</visible>
+        </item>
+        </content>
                     </control>
-                    <control type="image">
-                        
-                        
-                        
-                        <width>425</width>
-                        <height>400</height>
-                        <texture>thumbs/boxes/cd_shadow_light.png</texture>
-                    </control>
-                </control> -->
+
+                </control>
         
      <control type="group">
      
@@ -1453,6 +1475,7 @@
                 <label>Script features</label>
                 <include>Objects_MediaMenuButtonIcons</include>
                 <onclick>Skin.ToggleSetting(usescriptalbumlist)</onclick>
+                <selected>Skin.HasSetting(usescriptalbumlist)</selected>
                  <visible>System.HasAddon(script.artistslideshow)</visible>
            </control>
                 </control>
