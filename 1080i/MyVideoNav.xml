@@ -20,7 +20,13 @@
 				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | Container.Content(musicvideos)</visible>
 				<visible>Control.IsVisible(501) | Control.IsVisible(503) | Control.IsVisible(504) | Control.IsVisible(508)</visible>
             </control>
-
+                     <control type="label" id="4421">
+                <label>$VAR[InfoPanelVar]</label>
+                <posy>100</posy>
+                <include>HiddenObject</include>
+				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | Container.Content(musicvideos)</visible>
+				<visible>Control.IsVisible(501) | Control.IsVisible(503) | Control.IsVisible(504) | Control.IsVisible(508)</visible>
+            </control>
         <control type="group">
             <visible>!Control.IsVisible(516)</visible>
             <control type="multiimage">
@@ -46,12 +52,7 @@
         <include condition="!Skin.HasSetting(DisableBigFanVL)">BigFanFurniture</include>
         <control type="button" id="197">
             <include>HiddenObject</include>
-            <visible>[!Container.OnNext + !Container.OnPrevious + Skin.HasSetting(infopaneauto) + [Container.Content(movies) | Container.Content(musicvideos)]] | [!Skin.HasSetting(infopaneauto) + [Container.Content(movies) | Container.Content(musicvideos)]]</visible>
-            <include>DelayAnimations</include>
-        </control>
-        <control type="button" id="198">
-            <include>HiddenObject</include>
-            <visible>[!Skin.HasSetting(infopaneautoep)+Container.Content(episodes)] | [!Skin.HasSetting(infopaneautotv)+[Container.Content(tvshows) | Container.Content(seasons)]] | [!Container.OnNext + !Container.OnPrevious+Skin.HasSetting(infopaneautotv)+[Container.Content(tvshows) | Container.Content(seasons)]] | [!Container.OnNext + !Container.OnPrevious+Skin.HasSetting(infopaneautoep)+Container.Content(episodes)]</visible>
+            <visible>!Container.OnNext + !Container.OnPrevious + StringCompare(Control.GetLabel(4421),infopanelonauto)</visible>
             <include>DelayAnimations</include>
         </control>
         <control type="image">
@@ -124,9 +125,9 @@
             <control type="group">
                 <control type="button" id="7000">
                     <include>HiddenObject</include>
-                    <onfocus condition="[[Skin.HasSetting(showcaseinfoon) + Container.Content(movies) + IsEmpty(ListItem.Trailer)] | [Skin.HasSetting(showcaseinfoonep) + Container.Content(episodes)] | [Skin.HasSetting(showcaseinfoontv)+[Container.Content(tvshows) | Container.Content(seasons)]] | Control.IsVisible(508)] + [Control.IsVisible(501) | Control.IsVisible(504) | Control.IsVisible(503) | Control.IsVisible(508)]">SetFocus(9000)</onfocus>
-                    <onfocus condition="[Skin.HasSetting(showcaseinfoon) + Container.Content(movies) + !IsEmpty(ListItem.Trailer)] + [Control.IsVisible(501) | Control.IsVisible(504) | Control.IsVisible(503)] + !Skin.HasSetting(trailerincontextmenu)">SetFocus(1801)</onfocus>
-                    <onfocus condition="[Skin.HasSetting(showcaseinfoon) + Container.Content(movies) + !IsEmpty(ListItem.Trailer)] + [Control.IsVisible(501) | Control.IsVisible(504) | Control.IsVisible(503)] + Skin.HasSetting(trailerincontextmenu)">SetFocus(9000)</onfocus>
+                    <onfocus condition="[Stringcompare(Control.GetLabel(4421),infopanelon) | Control.IsVisible(508)] + [Control.IsVisible(501) | Control.IsVisible(504) | Control.IsVisible(503) | Control.IsVisible(508)]">SetFocus(9000)</onfocus>
+                    <onfocus condition="[Stringcompare(Control.GetLabel(4421),infopanelon) + Container.Content(movies) + !IsEmpty(ListItem.Trailer)] + [Control.IsVisible(501) | Control.IsVisible(504) | Control.IsVisible(503)] + !Skin.HasSetting(trailerincontextmenu)">SetFocus(1801)</onfocus>
+                    <onfocus condition="[Stringcompare(Control.GetLabel(4421),infopanelon) + Container.Content(movies) + !IsEmpty(ListItem.Trailer)] + [Control.IsVisible(501) | Control.IsVisible(504) | Control.IsVisible(503)] + Skin.HasSetting(trailerincontextmenu)">SetFocus(9000)</onfocus>
                     <onup condition="IsEmpty(ListItem.Trailer) | Skin.HasSetting(trailerincontextmenu)">9000</onup>
                     <onup condition="!IsEmpty(ListItem.Trailer) + !Skin.HasSetting(trailerincontextmenu)">1801</onup>
                     <onleft condition="Control.IsVisible(501)">Control.Move(501,-1)</onleft>
@@ -145,7 +146,7 @@
                     <onclick condition="IsEmpty(ListItem.Trailer)">PlayMedia($ESCINFO[ListItem.FileNameAndPath])</onclick>
                     <onclick condition="Container.Content(tvshows) | Container.Content(seasons)">SetFocus(50)</onclick>
                     <onclick condition="Container.Content(tvshows) | Container.Content(seasons)">Select</onclick>
-                    <visible>!StringCompare(ListItem.Label,..) + ![[Container.Content(movies) | Container.Content(musicvideos)] + Skin.HasSetting(infopaneoff)] + ![[Container.Content(tvshows) | Container.Content(seasons)] + Skin.HasSetting(infopaneofftv)]</visible>
+                    <visible>!StringCompare(ListItem.Label,..) + !Stringcompare(Control.GetLabel(4421),infopaneloff)</visible>
                 </control>
                 <control type="button" id="7002">
                     <include>HiddenObject</include>
