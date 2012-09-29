@@ -7,6 +7,13 @@
     <include condition="!Skin.HasSetting(firstrun)">AutoConfig</include>
     <onload condition="System.HasAddon(script.song-to-musicvideo)">RunScript(script.song-to-musicvideo)</onload>
     <controls>
+                         <control type="label" id="4421">
+                <label>$VAR[InfoPanelVar]</label>
+                <posy>100</posy>
+                <include>HiddenObject</include>
+				<visible>Container.Content(artists) | Container.Content(albums)</visible>
+				<visible>Control.IsVisible(501) | Control.IsVisible(503) | Control.IsVisible(504) | Control.IsVisible(508)</visible>
+            </control>
         <control type="group">
             <control type="group">
                 <control type="multiimage">
@@ -56,7 +63,7 @@
                 <width>0</width>
                 <height>0</height>
                 <texture>-</texture>
-                <visible>[!Container.OnNext + !Container.OnPrevious + Skin.HasSetting(infopaneautomusic)] | !Skin.HasSetting(infopaneautomusic)</visible>
+                <visible>!Container.OnNext + !Container.OnPrevious + StringCompare(Control.GetLabel(4421),infopanelonauto)</visible>
                 <visible>Control.IsVisible(513) | Control.IsVisible(509) | Control.IsVisible(503) | Control.IsVisible(57)</visible>
                 <include>DelayAnimations</include>
             </control>
@@ -99,7 +106,7 @@
                 </control>
                 <control type="button" id="7000">
                     <include>HiddenObject</include>
-                    <onfocus condition="Skin.HasSetting(infopanelmusic)">SetFocus(9000)</onfocus>
+                    <onfocus condition="Substring(Control.GetFocus(4421),infopanelon)">SetFocus(9000)</onfocus>
                     <onup>9000</onup>
                     <onleft condition="Control.IsVisible(509)">Control.Move(509,-1)</onleft>
                     <onleft condition="Control.IsVisible(513)">Control.Move(513,-1)</onleft>
