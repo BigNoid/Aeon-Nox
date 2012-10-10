@@ -1,6 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <includes>
-    <include name="PosterSlideWrap">
+    <include name="contents510list">
+        <posx>250</posx>
+        <posy>460</posy>
+        <width>960</width>
+        <height>560</height>
+        <onleft condition="!Skin.HasSetting(posterwrap)">8400</onleft>
+        <onright condition="!Skin.HasSetting(posterwrap)">8401</onright>
+        <onup>5101</onup>
+        <ondown condition="Control.IsVisible(61)">61</ondown>
+        <ondown condition="!Control.IsVisible(61)">109</ondown>
+        <orientation>horizontal</orientation>
+        <viewtype label="31271">Wraplist of Posters</viewtype>
+        <pagecontrol>61</pagecontrol>
+        <focusposition>1</focusposition>
+        <visible>!IsEmpty(Container.FolderPath) + !Container.Content(years)</visible>
+        <visible>!Container.Content(addons) + [!Container.Content(episodes) | SubString(Container.FolderPath,videodb://5/)]</visible>
+        <itemlayout width="315" height="750"></itemlayout>
+        <focusedlayout width="315" height="750"></focusedlayout>
+    </include>
+    <include name="posterwraplist">
+        <control type="wraplist" id="510">
+            <include>contents510list</include>
+        </control>
+    </include>
+    <include name="posterfixedlist">
+        <control type="fixedlist" id="510">
+            <include>contents510list</include>
+        </control>
+        <!-- Invisible buttons for list end animation -->
+        <control type="button" id="8400">
+            <include>HiddenObject</include>
+            <onfocus>SetFocus(510)</onfocus>
+            <visible allowhiddenfocus="true">Control.HasFocus(8400)</visible>
+            <animation effect="fade" time="200">Hidden</animation>
+        </control>
+        <control type="button" id="8401">
+            <include>HiddenObject</include>
+            <onfocus>SetFocus(510)</onfocus>
+            <visible allowhiddenfocus="true">Control.HasFocus(8401)</visible>
+            <animation effect="fade" time="200">Hidden</animation>
+        </control>
+    </include>
+    <include name="PostersView">
+        <control type="group">
+        <animation effect="slide" time="1100" start="1900,0" end="0,0" tween="cubic" easing="out">VisibleChange</animation>
+            <visible>Control.IsVisible(510)</visible>
+            <animation type="WindowOpen" reversible="false">
+                <effect type="zoom" start="150" end="100" center="960,540" time="300" tween="cubic" easing="out" />
+                <effect type="fade" start="0" end="100" time="300" />
+            </animation>
+            <animation type="WindowClose" reversible="false">
+                <effect type="fade" start="100" end="0" time="300" delay="1400" />
+                <effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" delay="1400" />
+            </animation>
         <control type="group">
             <posx>8</posx>
             <posy>112</posy>
@@ -1463,64 +1516,6 @@
                 </control>
             </control>
         </control>
-    </include>
-    <include name="contents510list">
-        <posx>250</posx>
-        <posy>460</posy>
-        <width>960</width>
-        <height>560</height>
-        <visible>!IsEmpty(Container.FolderPath) + !Container.Content(years)</visible>
-        <onleft condition="!Skin.HasSetting(posterwrap)">8400</onleft>
-        <onright condition="!Skin.HasSetting(posterwrap)">8401</onright>
-        <onup>5101</onup>
-        <ondown condition="Control.IsVisible(61)">61</ondown>
-        <ondown condition="!Control.IsVisible(61)">109</ondown>
-        <orientation>horizontal</orientation>
-        <viewtype label="31271">Wraplist of Posters</viewtype>
-        <pagecontrol>61</pagecontrol>
-        <scrolltime tween="quadratic" easing="out">200</scrolltime>
-        <focusposition>1</focusposition>
-        <visible>!Container.Content(addons) + [!Container.Content(episodes) | SubString(Container.FolderPath,videodb://5/)]</visible>
-        <include>Animation_OpenCloseZoom_New</include>
-        <itemlayout width="315" height="750"></itemlayout>
-        <focusedlayout width="315" height="750"></focusedlayout>
-    </include>
-    <include name="posterwraplist">
-        <control type="wraplist" id="510">
-            <include>contents510list</include>
-        </control>
-    </include>
-    <include name="posterfixedlist">
-        <control type="fixedlist" id="510">
-            <include>contents510list</include>
-        </control>
-        <!-- Invisible buttons for list end animation -->
-        <control type="button" id="8400">
-            <include>HiddenObject</include>
-            <onfocus>SetFocus(510)</onfocus>
-            <visible allowhiddenfocus="true">Control.HasFocus(8400)</visible>
-            <animation effect="fade" time="200">Hidden</animation>
-        </control>
-        <control type="button" id="8401">
-            <include>HiddenObject</include>
-            <onfocus>SetFocus(510)</onfocus>
-            <visible allowhiddenfocus="true">Control.HasFocus(8401)</visible>
-            <animation effect="fade" time="200">Hidden</animation>
-        </control>
-    </include>
-    <include name="PostersView">
-        <control type="group">
-            <visible>Control.IsVisible(510)</visible>
-            <include>Animation_ListSlideRight</include>
-            <animation type="WindowOpen" reversible="false">
-                <effect type="zoom" start="150" end="100" center="960,540" time="300" tween="cubic" easing="out" />
-                <effect type="fade" start="0" end="100" time="300" />
-            </animation>
-            <animation type="WindowClose" reversible="false">
-                <effect type="fade" start="100" end="0" time="300" delay="1400" />
-                <effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" delay="1400" />
-            </animation>
-            <include>PosterSlideWrap</include>
             <control type="group" id="4551">
                 <animation type="Visible" reversible="false">
                     <effect type="rotatey" center="200" start="0" end="-90" time="450" tween="cubic" easing="in" />
