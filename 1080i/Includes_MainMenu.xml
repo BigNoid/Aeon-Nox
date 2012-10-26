@@ -1105,7 +1105,12 @@
     <include name="TVMainMenu">
         <item id="21">
             <label fallback="52502">$INFO[Skin.String(LiveTVHomeItem.Label)]</label>
-            <onclick>ActivateWindowAndFocus(PVR, 32,0, 11,0)</onclick>
+            <onclick condition="IsEmpty(Skin.String(MusicVideosHomeItem.Type)) + System.GetBool(pvrmanager.enabled)">ActivateWindowAndFocus(PVR, 32,0, 11,0)</onclick>
+            <onclick condition="IsEmpty(Skin.String(MusicVideosHomeItem.Type)) + !System.GetBool(pvrmanager.enabled)">Notification($LOCALIZE[257],$LOCALIZE[42295])</onclick>
+            <onclick condition="stringcompare(Skin.String(LiveTVHomeItem.Type),0) | stringcompare(Skin.String(LiveTVHomeItem.Type),1) | stringcompare(Skin.String(LiveTVHomeItem.Type),2) | stringcompare(Skin.String(LiveTVHomeItem.Type),3)">RunAddon($INFO[Skin.String(LiveTVHomeItem.Path)])</onclick>
+            <onclick condition="stringcompare(Skin.String(LiveTVHomeItem.Type),4)">ActivateWindow(Videos,$INFO[Skin.String(LiveTVHomeItem.Path)],return)</onclick>
+            <onclick condition="stringcompare(Skin.String(LiveTVHomeItem.Type),5)">ActivateWindow(MusicLibrary,$INFO[Skin.String(LiveTVHomeItem.Path)],return)</onclick>
+            <onclick condition="stringcompare(Skin.String(LiveTVHomeItem.Type),6) | Stringcompare(Skin.String(LiveTVHomeItem.Type),7)">$INFO[Skin.String(LiveTVHomeItem.Path)]</onclick>
             <property name="Widget">$INFO[Skin.String(LiveTVHomeItem.Widget)]</property>
             <property name="Widget2">$INFO[Skin.String(LiveTVHomeItem.Widget2)]</property>
             <property name="BigIcon" fallback="special://skin/extras/BigIcons/Monitor.png">$INFO[Skin.String(LiveTVHomeItem.Icon)]</property>
