@@ -1239,14 +1239,15 @@
     </variable>
     <variable name="PosterVar">
         <value condition="Stringcompare(ListItem.label,..)">DefaultFolderBack.png</value>
-        <value condition="Container.Content(tvshows) + !IsEmpty(ListItem.Art(poster))">$INFO[ListItem.Art(poster)]</value>
-        <value condition="Container.Content(episodes) + !IsEmpty(Container.SeasonThumb)">$INFO[Container.SeasonThumb]</value>
-        <value condition="Container.Content(episodes)">$INFO[ListItem.Art(tvshowthumb)]</value>
-        <value>$INFO[ListItem.Icon]</value>
+        <value condition="!IsEmpty(Container.Art(season.poster))">$INFO[Container.Art(season.poster)]</value>
+        <value condition="!IsEmpty(Container.Art(tvshow.poster))">$INFO[Container.Art(tvshow.poster)]</value>
+        <value>$INFO[ListItem.Art(poster)]</value>
     </variable>
-    <variable name="BannerVar">
-        <value condition="Container.Content(movies)">$INFO[ListItem.Path,,banner.jpg]</value>
-        <value condition="!IsEmpty(ListItem.Art(banner))">$INFO[ListItem.Art(banner)]</value>
+    <variable name="LibraryStructureVar">
+        <value condition="Stringcompare(Skin.String(LibraryStructure),1)">ARTIST/ALBUMNAME/</value>
+        <value condition="Stringcompare(Skin.String(LibraryStructure),2)">ARTIST/YEAR - ALBUMNAME/</value>
+        <value condition="Stringcompare(Skin.String(LibraryStructure),3)">ARTIST/ALBUMNAME (YEAR)/</value>
+    
     </variable>
     <variable name="PosterVar2">
         <value condition="Stringcompare(ListItem.label,..)">DefaultFolderBack.png</value>
@@ -1263,6 +1264,16 @@
         <value condition="Container.Content(episodes) + !IsEmpty(Container.SeasonThumb)">$INFO[Container.SeasonThumb]</value>
         <value condition="Container.Content(episodes)">$INFO[ListItem.Art(tvshowthumb)]</value>
         <value>$INFO[ListItem.Icon]</value>
+    </variable>
+    <variable name="EpisodePosterVar">
+        <value condition="Skin.HasSetting(EpisodeMoviePoster) + Container.Content(movies)">$VAR[PosterVar2]</value>
+        <value condition="Skin.HasSetting(EpisodeViewIcon) + !Skin.HasSetting(disableepisodeposter)">$VAR[PosterVar2]</value>
+        <value condition="!Skin.HasSetting(EpisodeViewIcon) + !Skin.HasSetting(disableepisodeposter)">$INFO[Container.SeasonThumb]</value>
+        <value></value>
+    </variable>
+    <variable name="BannerVar">
+        <value condition="Container.Content(movies)">$INFO[ListItem.Path,,banner.jpg]</value>
+        <value condition="!IsEmpty(ListItem.Art(banner))">$INFO[ListItem.Art(banner)]</value>
     </variable>
     <variable name="ListAlbumVar">
         <value condition="Container.Content(genres)">$INFO[ListItem.Label,special://skin/extras/genre/music/icons/,.jpg]</value>
@@ -1770,7 +1781,9 @@
     <variable name="cdARTVar">
         <value condition="Stringcompare(ListItem.Artist,Musicplayer.Artist) + Stringcompare(ListItem.Album,MusicPlayer.Album)">$INFO[Player.FolderPath]cdart.png</value>
         <value condition="[Window.IsActive(musicfiles) + IsEmpty(ListItem.FileExtension)]">$INFO[ListItem.Path]$INFO[ListItem.Label,,/cdart.png]</value>
-        <value condition="Container.Content(albums)">$INFO[Skin.String(ArtistsLogosPath)]$INFO[ListItem.Artist]\$INFO[ListItem.Year] - $INFO[ListItem.Album,,\cdart.png]</value>
+        <value condition="Container.Content(albums) + Stringcompare(Skin.String(LibraryStructure),2)">$INFO[Skin.String(ArtistsLogosPath)]$INFO[ListItem.Artist]\$INFO[ListItem.Year] - $INFO[ListItem.Album,,\cdart.png]</value>
+        <value condition="Container.Content(albums) + Stringcompare(Skin.String(LibraryStructure),3)">$INFO[Skin.String(ArtistsLogosPath)]$INFO[ListItem.Artist]\$INFO[ListItem.Album] $INFO[ListItem.Year,(,)\cdart.png]</value>
+        <value condition="Container.Content(albums)">$INFO[Skin.String(ArtistsLogosPath)]$INFO[ListItem.Artist]\$INFO[ListItem.Album,,\cdart.png]</value>
         <value condition="Window.IsActive(musicinformation)">$INFO[ListItem.FileNameAndPath,,/cdart.png]</value>
         <value>$INFO[ListItem.Path,,cdart.png]</value>
     </variable>
@@ -1809,12 +1822,6 @@
         <value condition="Container.Content(movies) + Skin.HasSetting(FloorLabelTagline)">$INFO[Listitem.Genre]</value>
         <value condition="Container.Content(tvshows) + Control.IsVisible(8858)">$INFO[Listitem.TvShowTitle]</value>
         <value>$INFO[Listitem.TagLine]</value>
-    </variable>
-    <variable name="EpisodePosterVar">
-        <value condition="Skin.HasSetting(EpisodeMoviePoster) + Container.Content(movies)">$VAR[PosterVar2]</value>
-        <value condition="Skin.HasSetting(EpisodeViewIcon) + !Skin.HasSetting(disableepisodeposter)">$VAR[PosterVar2]</value>
-        <value condition="!Skin.HasSetting(EpisodeViewIcon) + !Skin.HasSetting(disableepisodeposter)">$INFO[Container.SeasonThumb]</value>
-        <value></value>
     </variable>
     <variable name="Widget2TextboxVar">
         <value condition="Substring(Control.GetLabel(4325),addons)">$INFO[Container(6010).ListItem.Property(Summary)]</value>
