@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <window type="dialog" id="142">
     <defaultcontrol always="true">9000</defaultcontrol>
+    <onload>Skin.Reset(LiveTVShowEpgNext)</onload>
     <controls>
         <control type="group" id="9001">
             <visible>!Window.IsActive(infodialog)</visible>
@@ -711,7 +712,7 @@
             <animation effect="slide" start="1192,0" end="0,0" time="400" easing="out" tween="quadratic">WindowOpen</animation>
             <animation effect="slide" start="0,0" end="1192,0" time="400" easing="out" tween="quadratic">WindowClose</animation>
             <animation effect="slide" start="1192,0" end="0,0" time="400" easing="out" tween="quadratic">VisibleChange</animation>
-            <visible>VideoPlayer.Content(LiveTV) + Skin.HasSetting(MoreFullscreenInfo) + !Window.IsActive(infodialog) + !Control.IsVisible(9001) + !Control.IsVisible(9002)</visible>
+            <visible>VideoPlayer.Content(LiveTV) + !Window.IsActive(infodialog) + !Control.IsVisible(9001) + !Control.IsVisible(9002)</visible>
             <control type="image">
                 <posx>729</posx>
                 <width>1192</width>
@@ -736,6 +737,16 @@
                     <width>1050</width>
                     <font>Font_Reg38_Caps</font>
                     <label>$INFO[VideoPlayer.Title]</label>
+                    <scroll>true</scroll>
+                    <visible>!Skin.HasSetting(LiveTVShowEpgNext)</visible>
+                </control>
+                <control type="label">
+                    <posy>10</posy>
+                    <width>1050</width>
+                    <font>Font_Reg38_Caps</font>
+                    <label>$LOCALIZE[19031]: $INFO[VideoPlayer.NextTitle]</label>
+                    <scroll>true</scroll>
+                    <visible>Skin.HasSetting(LiveTVShowEpgNext)</visible>
                 </control>
                 <control type="label">
                     <posy>60</posy>
@@ -743,15 +754,24 @@
                     <font>Font_Reg22</font>
                     <label>$INFO[VideoPlayer.ChannelName]</label>
                     <textcolor>$VAR[FontColorVar]</textcolor>
-                    <visible>VideoPlayer.Content(LiveTV)</visible>
                 </control>
                 <control type="label">
                     <posy>85</posy>
-                    <width>555</width>
+                    <width>900</width>
                     <font>Font_Reg20_Caps</font>
                     <label fallback="312577">$INFO[VideoPlayer.Genre]</label>
                     <textcolor>grey</textcolor>
                     <height>85</height>
+                    <visible>!Skin.HasSetting(LiveTVShowEpgNext)</visible>
+                </control>
+                <control type="label">
+                    <posy>85</posy>
+                    <width>900</width>
+                    <font>Font_Reg20_Caps</font>
+                    <label fallback="312577">$INFO[VideoPlayer.NextGenre]</label>
+                    <textcolor>grey</textcolor>
+                    <height>85</height>
+                    <visible>Skin.HasSetting(LiveTVShowEpgNext)</visible>
                 </control>
                 <control type="label">
                     <posy>167</posy>
@@ -760,7 +780,25 @@
                     <height>44</height>
                     <font>Font_Reg32</font>
                     <textcolor>grey</textcolor>
-                    <label>$LOCALIZE[19031]:</label>
+                    <label>$LOCALIZE[555]:</label>
+                </control>
+                <control type="label">
+                    <posy>167</posy>
+                    <posx>180</posx>
+                    <width>750</width>
+                    <height>44</height>
+                    <font>Font_Reg32</font>
+                    <label>$INFO[VideoPlayer.StartTime,, - ]$INFO[VideoPlayer.FinishTime]</label>
+                    <visible>!Skin.HasSetting(LiveTVShowEpgNext)</visible>
+                </control>
+                <control type="label">
+                    <posy>167</posy>
+                    <posx>180</posx>
+                    <width>750</width>
+                    <height>44</height>
+                    <font>Font_Reg32</font>
+                    <label>$INFO[VideoPlayer.NextStartTime,, - ]$INFO[VideoPlayer.NextEndTime]</label>
+                    <visible>Skin.HasSetting(LiveTVShowEpgNext)</visible>
                 </control>
                 <control type="label">
                     <posy>210</posy>
@@ -770,14 +808,7 @@
                     <font>Font_Reg32</font>
                     <textcolor>grey</textcolor>
                     <label>$LOCALIZE[2050]:</label>
-                </control>
-                <control type="label">
-                    <posy>167</posy>
-                    <posx>180</posx>
-                    <width>750</width>
-                    <height>44</height>
-                    <font>Font_Reg32</font>
-                    <label fallback="312577">$INFO[VideoPlayer.NextTitle] ($INFO[VideoPlayer.NextStartTime,, - ]$INFO[VideoPlayer.NextEndTime])</label>
+                    <visible>!Skin.HasSetting(LiveTVShowEpgNext)</visible>
                 </control>
                 <control type="label">
                     <posy>210</posy>
@@ -785,18 +816,62 @@
                     <width>750</width>
                     <height>44</height>
                     <font>Font_Reg32</font>
-                    <label>$INFO[VideoPlayer.time,, / ]$INFO[VideoPlayer.duration]</label>
+                    <label>$INFO[VideoPlayer.Time,, / ]$INFO[VideoPlayer.Duration]</label>
+                    <visible>!Skin.HasSetting(PreferRemaining)</visible>
+                    <visible>!Skin.HasSetting(LiveTVShowEpgNext)</visible>
+                </control>
+                <control type="label">
+                    <posy>253</posy>
+                    <posx>4</posx>
+                    <width>165</width>
+                    <height>44</height>
+                    <font>Font_Reg32</font>
+                    <textcolor>grey</textcolor>
+                    <label>$LOCALIZE[19031]:</label>
+                    <visible>!Skin.HasSetting(LiveTVShowEpgNext)</visible>
+                </control>
+                <control type="label">
+                    <posy>210</posy>
+                    <posx>180</posx>
+                    <width>750</width>
+                    <height>44</height>
+                    <font>Font_Reg32</font>
+                    <label>$INFO[VideoPlayer.Time,, / ]$INFO[VideoPlayer.TimeRemaining,- ]</label>
+                    <visible>Skin.HasSetting(PreferRemaining)</visible>
+                    <visible>!Skin.HasSetting(LiveTVShowEpgNext)</visible>
+                </control>
+                <control type="label">
+                    <posy>253</posy>
+                    <posx>180</posx>
+                    <width>750</width>
+                    <height>44</height>
+                    <font>Font_Reg32</font>
+                    <label fallback="312577">$INFO[VideoPlayer.NextTitle] ($INFO[VideoPlayer.NextStartTime,, - ]$INFO[VideoPlayer.NextEndTime])</label>
+                    <visible>!Skin.HasSetting(LiveTVShowEpgNext)</visible>
                 </control>
                 <control type="textbox">
                     <posx>4</posx>
-                    <posy>290</posy>
+                    <posy>310</posy>
                     <width>1016</width>
                     <height>530</height>
-                    <font>Font_Reg22</font>
+                    <font>Font_Reg21</font>
                     <pagecontrol>60</pagecontrol>
                     <label fallback="312577">$INFO[VideoPlayer.Plot]</label>
                     <autoscroll delay="15000" time="5000" repeat="10000">Skin.HasSetting(AutoScroll) + !Control.HasFocus(60)</autoscroll>
                     <visible>!Control.IsVisible(50)</visible>
+                    <visible>!Skin.HasSetting(LiveTVShowEpgNext)</visible>
+                </control>
+                <control type="textbox">
+                    <posx>4</posx>
+                    <posy>310</posy>
+                    <width>1016</width>
+                    <height>530</height>
+                    <font>Font_Reg21</font>
+                    <pagecontrol>60</pagecontrol>
+                    <label fallback="312577">$INFO[VideoPlayer.NextPlot]</label>
+                    <autoscroll delay="15000" time="5000" repeat="10000">Skin.HasSetting(AutoScroll) + !Control.HasFocus(60)</autoscroll>
+                    <visible>!Control.IsVisible(50)</visible>
+                    <visible>Skin.HasSetting(LiveTVShowEpgNext)</visible>
                 </control>
                 <control type="grouplist">
                     <posx>6</posx>
@@ -909,14 +984,14 @@
                 <textoffsety>4</textoffsety>
                 <aligny>top</aligny>
                 <font>Font_Reg19</font>
-                <label>$LOCALIZE[31064]</label>
-                <altlabel>$LOCALIZE[31064]</altlabel>
-                <onclick>Skin.ToggleSetting(MoreFullscreenInfo)</onclick>
+                <label>$LOCALIZE[31075]</label>
+                <altlabel>$LOCALIZE[31075]</altlabel>
+                <onclick>Skin.ToggleSetting(LiveTVShowEpgNext)</onclick>
                 <onleft>StepBack</onleft>
                 <onright>StepForward</onright>
                 <onup>BigStepForward</onup>
                 <ondown>BigStepBack</ondown>
-                <selected>Skin.HasSetting(MoreFullscreenInfo)</selected>
+                <selected>Skin.HasSetting(LiveTVShowEpgNext)</selected>
             </control>
             <control type="label">
                 <posx>825</posx>
