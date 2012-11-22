@@ -13,7 +13,7 @@
     <include>Animation_DialogPopup</include>
     <controls>
         <control type="label" id="12112">
-            <label>$INFO[Window(1124).Property(CustomYesNoDialog)]$INFO[Window(1124).Property(WidgetType)] </label>
+            <label>$INFO[Window(1124).Property(CustomYesNoDialog)]$INFO[Window(1124).Property(Transparency)]$$INFO[Window(1124).Property(WidgetType)] </label>
             <animation effect="fade" start="100" end="0" time="0" condition="true">conditional</animation>
         </control>
         <control type="image">
@@ -29,12 +29,7 @@
             <control type="group">
                 <posx>570</posx>
                 <posy>375</posy>
-                <control type="image">
-                    <width>780</width>
-                    <height>330</height>
-                    <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
-                    <texture>dialogs/dialog_back.png</texture>
-                </control>
+                <control type="group">
                 <control type="image">
                     <width>780</width>
                     <height>330</height>
@@ -44,6 +39,13 @@
                     <include>PanelGlowFade</include>
                     <include>Animation_VisibleChange400</include>
                 </control>
+                <control type="image">
+                    <width>780</width>
+                    <height>330</height>
+                    <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                    <texture>dialogs/dialog_back.png</texture>
+                </control>
+            </control>
                 <control type="image">
                     <posx>15</posx>
                     <width>750</width>
@@ -147,20 +149,6 @@
                         <onfocus>Skin.SetString(ItemToEdit.$INFO[Window(1124).Property(WidgetSelection)],$INFO[Control.GetLabel(12112)])</onfocus>
                         <onclick>Dialog.Close(1137)</onclick>
                     </control>
-                    <control type="button" id="120">
-                        <width>175</width>
-                        <height>45</height>
-                        <label>31065</label>
-                        <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                        <textcolor>grey2</textcolor>
-                        <focusedcolor>white3</focusedcolor>
-                        <align>center</align>
-                        <textoffsetx>30</textoffsetx>
-                        <!-- widget style -->
-                        <onfocus>SetProperty(WidgetType,transparentpanel2,1124)</onfocus>
-                        <onfocus>Skin.SetString(ItemToEdit.$INFO[Window(1124).Property(WidgetSelection)],$INFO[Control.GetLabel(12112)])</onfocus>
-                        <onclick>Dialog.Close(1137)</onclick>
-                    </control>
                 </control>
                 <control type="grouplist" id="5401">
                     <onleft>5401</onleft>
@@ -203,36 +191,7 @@
                         <onclick>Dialog.Close(1137)</onclick>
                         <visible>SubString(Window(1124).Property(CustomYesNoDialog),tv)</visible>
                     </control>
-                    <control type="button" id="15">
-                        <width>175</width>
-                        <height>45</height>
-                        <label>Logo (No Panel)</label>
-                        <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                        <textcolor>grey2</textcolor>
-                        <focusedcolor>white3</focusedcolor>
-                        <align>center</align>
-                        <textoffsetx>30</textoffsetx>
-                        <!-- widget style -->
-                        <onfocus>SetProperty(WidgetType,paneltransparentlogo,1124)</onfocus>
-                        <onfocus>Skin.SetString(ItemToEdit.$INFO[Window(1124).Property(WidgetSelection)],$INFO[Control.GetLabel(12112)])</onfocus>
-                        <onclick>Dialog.Close(1137)</onclick>
-                        <visible>SubString(Window(1124).Property(CustomYesNoDialog),movie) | SubString(Window(1124).Property(CustomYesNoDialog),tv)</visible>
-                    </control>
-                    <control type="button" id="16">
-                        <width>175</width>
-                        <height>45</height>
-                        <label>ClearArt (No Panel)</label>
-                        <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                        <textcolor>grey2</textcolor>
-                        <focusedcolor>white3</focusedcolor>
-                        <align>center</align>
-                        <textoffsetx>30</textoffsetx>
-                        <!-- widget style -->
-                        <onfocus>SetProperty(WidgetType,paneltransparentclearart,1124)</onfocus>
-                        <onfocus>Skin.SetString(ItemToEdit.$INFO[Window(1124).Property(WidgetSelection)],$INFO[Control.GetLabel(12112)])</onfocus>
-                        <onclick>Dialog.Close(1137)</onclick>
-                        <visible>SubString(Window(1124).Property(CustomYesNoDialog),movie) | SubString(Window(1124).Property(CustomYesNoDialog),tv)</visible>
-                    </control>
+
                     <control type="button" id="17">
                         <width>175</width>
                         <height>45</height>
@@ -248,22 +207,24 @@
                         <onclick>Dialog.Close(1137)</onclick>
                         <visible>SubString(Window(1124).Property(CustomYesNoDialog),movie) | SubString(Window(1124).Property(CustomYesNoDialog),tv)</visible>
                     </control>
-                    <control type="button" id="18">
-                        <width>175</width>
+
+                </control>
+                    <control type="radiobutton" id="18">
+                        <width>710</width>
                         <height>45</height>
-                        <label>Banner (No Panel)</label>
+                        <label>Show Background Panel</label>
+                        <posy>340</posy>
                         <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
                         <textcolor>grey2</textcolor>
                         <focusedcolor>white3</focusedcolor>
-                        <align>center</align>
+                        <align>left</align>
                         <textoffsetx>30</textoffsetx>
+                        <onclick condition="IsEmpty(Window(1124).Property(Transparency))">SetProperty(Transparency,transparent,1124)</onclick>
+                        <onclick condition="!IsEmpty(Window(1124).Property(Transparency))">ClearProperty(Transparency,1124)</onclick>
+                        <onclick>Skin.SetString(ItemToEdit.$INFO[Window(1124).Property(WidgetSelection)],$INFO[Control.GetLabel(12112)])</onclick>
+                        <selected>!IsEmpty(Window(1124).Property(Transparency))</selected>
                         <!-- widget style -->
-                        <onfocus>SetProperty(WidgetType,paneltransparentbanner,1124)</onfocus>
-                        <onfocus>Skin.SetString(ItemToEdit.$INFO[Window(1124).Property(WidgetSelection)],$INFO[Control.GetLabel(12112)])</onfocus>
-                        <onclick>Dialog.Close(1137)</onclick>
-                        <visible>SubString(Window(1124).Property(CustomYesNoDialog),movie) | SubString(Window(1124).Property(CustomYesNoDialog),tv)</visible>
                     </control>
-                </control>
             </control>
         </control>
     </controls>
