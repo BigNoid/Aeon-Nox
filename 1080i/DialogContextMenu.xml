@@ -65,6 +65,7 @@
                 <visible>Container.Content(albums) | Container.Content(songs)</visible>
                 <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[ListItem.Artist] $INFO[ListItem.Label],return)</onclick>
             </control>
+
             <control type="button" id="2011">
                 <height>58</height>
                 <width>462</width>
@@ -76,9 +77,11 @@
                 <align>center</align>
                 <font>Font_Reg19</font>
                 <textoffsety>12</textoffsety>
-                <label>31033</label>
-                <visible>Window.IsActive(musiclibrary)</visible>
-                <onclick>Skin.SetString(Startup_Playlist_Path,$INFO[ListItem.FolderPath])</onclick>
+                <label>Play item on startup</label>
+                <visible>Container.Content(albums) | Container.Content(songs) | Substring(ListItem.FolderPath,.xsp,right) | Substring(ListItem.FolderPath,.m3u,right)</visible>
+                <onclick condition="Container.Content(albums)">Skin.SetString(Startup_Playlist_Path,RunScript(script.playalbum,albumid=$INFO[ListItem.DBID]))</onclick>
+                <onclick condition="Container.Content(songs)">Skin.SetString(Startup_Playlist_Path,RunScript(script.playalbum,songid=$INFO[ListItem.DBID]))</onclick>
+                <onclick condition="Substring(ListItem.FolderPath,.xsp,right) | Substring(ListItem.FolderPath,.m3u,right)">Skin.SetString(Startup_Playlist_Path,$INFO[ListItem.FolderPath])</onclick>
                 <onclick>Skin.SetBool(Use_Startup_Playlist)</onclick>
             </control>
             <control type="button" id="2017">
