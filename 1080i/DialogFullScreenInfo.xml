@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <window type="dialog" id="142">
     <defaultcontrol always="true">9000</defaultcontrol>
-    <onload>Skin.Reset(LiveTVShowEpgNext)</onload>
+    <onunload>ClearProperty(morefullscreeninfo,home)</onunload>
+    <onunload>ClearProperty(LiveTVShowEpgNext,home)</onunload>
     <controls>
         <control type="group" id="9001">
             <visible>!Window.IsActive(infodialog)</visible>
-            <visible>!Skin.HasSetting(MoreFullscreenInfo) + !Control.IsVisible(9004) + !Control.IsVisible(9005)</visible>
+            <visible>IsEmpty(Window(home).Property(morefullscreeninfo)) + !Control.IsVisible(9004) + !Control.IsVisible(9005)</visible>
             <animation type="Visible">
                 <effect type="fade" time="400" start="0" end="100" />
                 <effect type="slide" time="400" start="0,-135" end="0,0" easing="out" tween="cubic" />
@@ -113,7 +114,7 @@
             </control>
         </control>
         <control type="group" id="9002">
-            <visible>!Skin.HasSetting(MoreFullscreenInfo) + !Control.IsVisible(9004) + !Control.IsVisible(9005)</visible>
+            <visible>IsEmpty(Window(home).Property(morefullscreeninfo)) + !Control.IsVisible(9004) + !Control.IsVisible(9005)</visible>
             <animation type="Visible">
                 <effect type="fade" time="400" start="0" end="100" />
                 <effect type="slide" time="400" start="0,135" end="0,0" easing="out" tween="cubic" />
@@ -138,7 +139,7 @@
             <animation effect="slide" start="-729,0" end="0,0" time="400" easing="out" tween="quadratic">WindowOpen</animation>
             <animation effect="slide" start="0,0" end="-729,0" time="400" easing="out" tween="quadratic">WindowClose</animation>
             <animation effect="slide" start="-729,0" end="0,0" time="400" easing="out" tween="quadratic">VisibleChange</animation>
-            <visible>Skin.HasSetting(MoreFullscreenInfo) + !Control.IsVisible(9001) + !Control.IsVisible(9002) + !VideoPlayer.Content(LiveTV)</visible>
+            <visible>!IsEmpty(Window(home).Property(morefullscreeninfo)) + !Control.IsVisible(9001) + !Control.IsVisible(9002) + !VideoPlayer.Content(LiveTV)</visible>
             <control type="image">
                 <width>729</width>
                 <height>1080</height>
@@ -164,7 +165,7 @@
             <animation effect="slide" start="1192,0" end="0,0" time="400" easing="out" tween="quadratic">WindowOpen</animation>
             <animation effect="slide" start="0,0" end="1192,0" time="400" easing="out" tween="quadratic">WindowClose</animation>
             <animation effect="slide" start="1192,0" end="0,0" time="400" easing="out" tween="quadratic">VisibleChange</animation>
-            <visible>!VideoPlayer.Content(LiveTV) + Skin.HasSetting(MoreFullscreenInfo) + !Window.IsActive(infodialog) + !Control.IsVisible(9001) + !Control.IsVisible(9002)</visible>
+            <visible>!VideoPlayer.Content(LiveTV) + !IsEmpty(Window(home).Property(morefullscreeninfo)) + !Window.IsActive(infodialog) + !Control.IsVisible(9001) + !Control.IsVisible(9002)</visible>
             <control type="image">
                 <posx>729</posx>
                 <width>1192</width>
@@ -510,7 +511,7 @@
                     </control>
                 </control>
             </control>
-            <control type="togglebutton" id="9000">
+            <control type="button" id="9000">
                 <posx>827</posx>
                 <posy>546</posy>
                 <width>1016</width>
@@ -520,21 +521,18 @@
                 <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
                 <texturenofocus>dialogs/context_nofocus.png</texturenofocus>
                 <texturefocus>views/tripanel/listselect_fo.png</texturefocus>
-                <alttexturefocus>views/tripanel/listselect_fo.png</alttexturefocus>
-                <alttexturenofocus>dialogs/context_nofocus.png</alttexturenofocus>
                 <align>center</align>
                 <textoffsetx>0</textoffsetx>
                 <textoffsety>4</textoffsety>
                 <aligny>top</aligny>
                 <font>Font_Reg19</font>
                 <label>$LOCALIZE[31064]</label>
-                <altlabel>$LOCALIZE[31064]</altlabel>
-                <onclick>Skin.ToggleSetting(MoreFullscreenInfo)</onclick>
+                <onclick condition="IsEmpty(Window(home).Property(morefullscreeninfo)">SetProperty(morefullscreeninfo,1,home)</onclick>
+                <onclick condition="!IsEmpty(Window(home).Property(morefullscreeninfo)">ClearProperty(morefullscreeninfo,home)</onclick>
                 <onleft>StepBack</onleft>
                 <onright>StepForward</onright>
                 <onup>BigStepForward</onup>
                 <ondown>BigStepBack</ondown>
-                <selected>Skin.HasSetting(MoreFullscreenInfo)</selected>
             </control>
             <control type="label">
                 <posx>825</posx>
@@ -598,7 +596,7 @@
                     <texture>$INFO[VideoPlayer.Cover]</texture>
                 </control>
                 <control type="group">
-                    <visible>!Skin.HasSetting(LiveTVShowEpgNext)</visible>
+                    <visible>IsEmpty(Window(home).Property(LiveTVShowEpgNext))</visible>
                     <control type="label">
                         <posy>15</posy>
                         <width>1320</width>
@@ -679,7 +677,7 @@
                     </control>
                 </control>
                 <control type="group">
-                    <visible>Skin.HasSetting(LiveTVShowEpgNext)</visible>
+                    <visible>!IsEmpty(Window(home).Property(LiveTVShowEpgNext))</visible>
                     <control type="label">
                         <posy>15</posy>
                         <width>1320</width>
@@ -751,8 +749,9 @@
                     <onright>StepForward</onright>
                     <onup>BigStepForward</onup>
                     <ondown>BigStepBack</ondown>
-                    <onclick>Skin.ToggleSetting(LiveTVShowEpgNext)</onclick>
-                    <selected>Skin.HasSetting(LiveTVShowEpgNext)</selected>
+                <onclick condition="IsEmpty(Window(home).Property(LiveTVShowEpgNext)">SetProperty(LiveTVShowEpgNext,1,home)</onclick>
+                <onclick condition="!IsEmpty(Window(home).Property(LiveTVShowEpgNext)">ClearProperty(LiveTVShowEpgNext,home)</onclick>
+                    <selected>!IsEmpty(Window(home).Property(LiveTVShowEpgNext))</selected>
                     <visible>!IsEmpty(VideoPlayer.NextTitle)</visible>
                 </control>
                 <control type="grouplist">
