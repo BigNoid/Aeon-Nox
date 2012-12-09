@@ -208,14 +208,37 @@
             </control>
         </control>
         <!-- Featured widget -->
-        <include condition="Substring(Skin.String(widgetlist),featured) | Substring(Skin.String(widgetlist),panel)">HomePanelWidget</include>
-        <include condition="Substring(Skin.String(widget2list),featured) | Substring(Skin.String(widget2list),panel)">HomePanelWidget2</include>
-        <!-- Latest/Random Items -->
         <control type="group">
-            <include>Animation_OpenCloseZoom</include>
-            <include>RecentWidget</include>
+        <visible>IsEmpty(Window(home).Property(PanelWidget2Info))</visible>
+                <animation type="Visible">
+            <effect type="zoom" delay="500" start="150" end="100" center="960,540" time="500" tween="cubic" />
+            <effect type="fade" delay="500" end="100" time="300" />
+        </animation>
+        <animation type="Hidden">
+            <effect type="fade" start="100" end="0" time="300" />
+            <effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" />
+        </animation>
+        <include condition="Substring(Skin.String(widgetlist),featured) | Substring(Skin.String(widgetlist),panel)">HomePanelWidget</include>
+        <include condition="!IsEmpty(Weather.Plugin) + SubString(Skin.String(widgetlist),weather)">Weather_Widget</include>
+        <include>RecentWidget</include>
+       </control>
+        <control type="group">
+        <visible>IsEmpty(Window(home).Property(PanelWidgetInfo))</visible>
+                <animation type="Visible">
+            <effect type="zoom" delay="500" start="150" end="100" center="960,540" time="500" tween="cubic" />
+            <effect type="fade" delay="500" end="100" time="300" />
+        </animation>
+        <animation type="Hidden">
+            <effect type="fade" start="100" end="0" time="300" />
+            <effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" />
+        </animation>
+        <include condition="Substring(Skin.String(widget2list),featured) | Substring(Skin.String(widget2list),panel)">HomePanelWidget2</include>
+        <include condition="!IsEmpty(Weather.Plugin) + SubString(Skin.String(widget2list),weather)">Weather_Widget2</include>
             <include>RecentWidget2</include>
         </control>
+        <control type="group">
+        <animation effect="slide" end="0,330" time="700" tween="cubic" delay="200" condition="!Skin.HasSetting(lowermainmenu) + !IsEmpty(Window(home).Property(PanelWidget2Info))">Conditional</animation>
+        <animation effect="slide" end="0,-330" time="700" tween="cubic" delay="200" condition="!Skin.HasSetting(lowermainmenu) + !IsEmpty(Window(home).Property(PanelWidgetInfo))">Conditional</animation>
         <!-- Library Totals -->
         <include>LibraryStats</include>
         <!-- Time Panel-->
@@ -349,10 +372,8 @@
             </control>
         </control>
         <!--Weather info-->
-        <include condition="!IsEmpty(Weather.Plugin) + SubString(Skin.String(widgetlist),weather)">Weather_Widget</include>
-        <include condition="!IsEmpty(Weather.Plugin) + SubString(Skin.String(widget2list),weather)">Weather_Widget2</include>
-        <include>ExtraInfoPanels</include>
         <!-- Music Info -->
+        </control>
         <include condition="!Skin.HasSetting(nohomepageMusicinfo) | !Skin.HasSetting(homepageVideoinfo)">Furniture_HomeNowPlaying</include>
         <control type="group">
             <visible>!IsEmpty(Window(home).Property(DisableWidgets)) + !Player.HasMedia</visible>
