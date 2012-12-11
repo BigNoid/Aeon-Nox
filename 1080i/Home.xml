@@ -81,6 +81,13 @@
             <onfocus condition="stringcompare(Container(6010).ListItem.Property(Type),6) | Stringcompare(Container(6010).ListItem.Property(Type),7)  | Stringcompare(Container(6010).ListItem.Property(Type),custom)">$INFO[Container(6010).ListItem.Property(Path)]</onfocus>
             <onfocus condition="IsEmpty(Container(6010).ListItem.Property(Type))">ActivateWindow(1135)</onfocus>
         </control>
+        <control type="button" id="9009">
+            <include>HiddenObject</include>
+            <onfocus>AlarmClock(WidgetMove,Control.Move(8000,1),00:07,silent,loop)</onfocus>
+            <onfocus>AlarmClock(Widget2Move,Control.Move(7000,1),00:07,silent,loop)</onfocus>
+            <onfocus>SetFocus(9000)</onfocus>
+            <onfocus>ActivateWindow(1115)</onfocus>
+        </control>
         <include>MainMenuCommonContent</include>
         <!-- Fanart -->
         <control type="group">
@@ -354,6 +361,7 @@
                     <onfocus condition="Control.IsVisible(8998)">SetFocus(8000,0)</onfocus>
                     <onfocus condition="Control.IsVisible(8998)">SetFocus(8000)</onfocus>
                     <visible>Control.IsVisible(5000) | Control.IsVisible(8998)</visible>
+                    <visible>IsEmpty(Window(home).Property(DisableWidgets))</visible>
                 </control>
                 <!--focus second widget-->
                 <control type="button" id="4445">
@@ -363,6 +371,7 @@
                     <onfocus condition="Control.IsVisible(7998)">SetFocus(7000,0)</onfocus>
                     <onfocus condition="Control.IsVisible(7998)">SetFocus(7000)</onfocus>
                     <visible>Control.IsVisible(6000) | Control.IsVisible(7998)</visible>
+                    <visible>IsEmpty(Window(home).Property(DisableWidgets))</visible>
                 </control>
                 <include condition="Skin.HasSetting(mainmenufixedlist)">MainMenuFixedList</include>
                 <include condition="!Skin.HasSetting(mainmenufixedlist)">MainMenuWrapList</include>
@@ -378,7 +387,7 @@
         </control>
         <include condition="!Skin.HasSetting(nohomepageMusicinfo) | !Skin.HasSetting(homepageVideoinfo)">Furniture_HomeNowPlaying</include>
         <control type="group">
-            <visible>!IsEmpty(Window(home).Property(DisableWidgets)) + !Player.HasMedia</visible>
+            <visible>!IsEmpty(Window(home).Property(DisableWidgets)) + !Player.HasMedia + !Window.IsActive(1115)</visible>
             <include>Animation_WindowFade200</include>
             <animation type="Visible">
                 <effect type="zoom" start="150" end="100" center="960,540" time="500" tween="cubic" />

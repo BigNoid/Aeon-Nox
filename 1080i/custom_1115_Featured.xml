@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<window id="1115" type="window">
+<window id="1115" type="dialog">
     <defaultcontrol>40</defaultcontrol>
     <backgroundcolor>backgroundcolor</backgroundcolor>
     <onload condition="ControlGroup(5000).HasFocus">AlarmClock(Tile,Control.Move(5002,1),00:04,silent,loop)</onload>
@@ -14,93 +14,21 @@
     <onload condition="ControlGroup(11000).HasFocus">AlarmClock(TileTwo,Control.Move(11003,1),00:07,silent,loop)</onload>
     <onload condition="Window.Previous(home)">SetFocus(5012)</onload>
     <onunload>ClearProperty(InfoDialog,1115)</onunload>
+    <onload>SetFocus(9000)</onload>
     <onunload>CancelAlarm(Tile,true)</onunload>
     <onunload>CancelAlarm(TileTwo,true)</onunload>
+    <onload>SetProperty(DisableWidgets,true,home)</onload>
+    <onunload>ClearProperty(DisableWidgets,home)</onunload>
     <coordinates>
         <system>1</system>
         <posx>0</posx>
         <posy>0</posy>
     </coordinates>
     <controls>
-        <!-- Fanart -->
-        <control type="multiimage">
-            <animation effect="zoom" start="110" end="130" center="auto" time="15000" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
-            <animation effect="slide" start="-15,-15" end="15,15" time="7500" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
-            <imagepath background="true">$VAR[FeaturedFanartVar]</imagepath>
-            <aspectratio align="center" aligny="top">scale</aspectratio>
-        </control>
-        <include>CommonMediaPlayingBackground</include>
-        <control type="image">
-            <include>FullscreenDimensions</include>
-            <colordiffuse>$INFO[Skin.String(BackgroundDarkness)]</colordiffuse>
-            <texture>common/bgcolor.png</texture>
-            <animation effect="fade" start="100" end="80" time="50" condition="true">Conditional</animation>
-            <visible>!Skin.HasSetting(DisableGlowbar)</visible>
-            <include>Animation_VisibleChange400</include>
-        </control>
-        <control type="image">
-            <posy>-150</posy>
-            <width>1920</width>
-            <height>608</height>
-            <texture flipy="true">views/showcase_glow.png</texture>
-            <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-            <visible>!Skin.HasSetting(DisableGlowbar)</visible>
-            <include>Animation_VisibleChange400</include>
-            <include>Animation_WindowFade200</include>
-            <animation effect="fade" start="100" end="80" time="5000" pulse="true" condition="true">conditional</animation>
-        </control>
-        <include condition="Skin.HasSetting(effect_bg)">BG_Effect_Home</include>
-        <!-- Furniture -->
-        <control type="group">
-            <include>Animation_OpenClose_Furniture</include>
-            <control type="image">
-                <posy>472</posy>
-                <width>1920</width>
-                <height>608</height>
-                <texture>views/showcase_floor.png</texture>
-                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-            </control>
-            <control type="image">
-                <posx>-340</posx>
-                <posy>874</posy>
-                <width>2490</width>
-                <height>226</height>
-                <texture>views/showcase_spot.png</texture>
-                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-            </control>
-            <control type="image">
-                <posy>1012</posy>
-                <width>1920</width>
-                <height>72</height>
-                <texture>views/showcase_gradient.png</texture>
-                <include>Animation_CommonFade</include>
-            </control>
-            <control type="image">
-                <width>696</width>
-                <height>1080</height>
-                <texture>views/showcase_vignette.png</texture>
-                <colordiffuse>vignette</colordiffuse>
-            </control>
-            <control type="image">
-                <posx>1224</posx>
-                <width>696</width>
-                <height>1080</height>
-                <colordiffuse>vignette</colordiffuse>
-                <texture flipx="true">views/showcase_vignette.png</texture>
-            </control>
-            <control type="image">
-                <width>2020</width>
-                <height>206</height>
-                <posy>874</posy>
-                <texture>views/panel_spot.png</texture>
-                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-            </control>
-            <include>Neon_Floor</include>
-        </control>
         <!-- Main Group -->
         <control type="grouplist" id="40">
             <posx>-135</posx>
-            <posy>405</posy>
+            <posy>105</posy>
             <width>2325</width>
             <height>780</height>
             <scrolltime tween="cubic" easing="inout">500</scrolltime>
@@ -209,9 +137,8 @@
                         <ondown>3012</ondown>
                         <onright>5001</onright>
                         <onleft>4003</onleft>
-                        <onright>ClearProperty(HomeSearch,Home)</onright>
+                        <onunfocus>ClearProperty(HomeSearch,Home)</onunfocus>
                         <onfocus>SetProperty(HomeSearch,1)</onfocus>
-                        <onfocus>RunScript(script.globalsearch)</onfocus>
                         <onclick>RunScript(script.globalsearch)</onclick>
                     </control>
                     <control type="image">
@@ -2953,7 +2880,7 @@
         </control>
         <control type="group">
             <posx>315</posx>
-            <posy>405</posy>
+            <posy>105</posy>
             <animation type="Conditional" condition="!IsEmpty(Window(1115).Property(InfoDialog))" reversible="false">
                 <effect type="rotatey" center="960" end="-90" time="550" tween="cubic" easing="in" />
                 <effect type="rotatey" center="960" start="-90" end="90" time="0" delay="550" />
@@ -3110,8 +3037,6 @@
                     <onclick condition="StringCompare(Window(1115).Property(InfoDialog),9003)">$INFO[Container(9003).ListItem.Property(Path)]</onclick>
                     <onclick>ClearProperty(InfoDialog,1115)</onclick>
                     <onclick>SetFocus(40)</onclick>
-                    <onback>ClearProperty(InfoDialog,1115)</onback>
-                    <onback>SetFocus(40)</onback>
                     <visible>!StringCompare(Window(1115).Property(InfoDialog),9002)</visible>
                 </control>
                 <control type="button" id="2">
@@ -3119,8 +3044,6 @@
                     <label>$LOCALIZE[31066]</label>
                     <onclick>ClearProperty(InfoDialog,1115)</onclick>
                     <onclick>SetFocus(40)</onclick>
-                    <onback>ClearProperty(InfoDialog,1115)</onback>
-                    <onback>SetFocus(40)</onback>
                 </control>
                 <control type="button" id="3">
                     <include>WidgetMenuLabel</include>
@@ -3128,8 +3051,6 @@
                     <onclick condition="StringCompare(Window(1115).Property(InfoDialog),6002)">PlayMedia($ESCINFO[Container(6002).ListItem.Property(Trailer)])</onclick>
                     <onclick condition="StringCompare(Window(1115).Property(InfoDialog),6003)">PlayMedia($ESCINFO[Container(6003).ListItem.Property(Trailer)])</onclick>
                     <onclick>SetFocus(40)</onclick>
-                    <onback>ClearProperty(InfoDialog,1115)</onback>
-                    <onback>SetFocus(40)</onback>
                     <visible>
                         [StringCompare(Window(1115).Property(InfoDialog),6002) + !IsEmpty(Container(6002).ListItem.Property(Trailer))] | 
                         [StringCompare(Window(1115).Property(InfoDialog),6003) + !IsEmpty(Container(6003).ListItem.Property(Trailer))]
