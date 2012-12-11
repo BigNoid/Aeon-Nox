@@ -55,8 +55,9 @@
             <include>HiddenObject</include>
             <onfocus>SetFocus(9000)</onfocus>
             <onfocus condition="Stringcompare(Container(9000).ListItem.Property(Path),ActivateWindow(Videos,MovieTitles,return)) | Stringcompare(Container(9000).ListItem.Property(Path),ActivateWindow(Videos,MusicVideoTitles,return)) | Substring(Container(9000).ListItem.Property(Path),videodb://1/)">SetProperty(DontRunTVShowScripts,True,Home)</onfocus>
-<!--             <onclick condition="IsEmpty(Skin.String(TVShowHomeItem.Type)) + !Library.HasContent(TVShows)">Notification($LOCALIZE[257],$LOCALIZE[42295])</onclick>
- -->            <onfocus condition="stringcompare(Container(9000).ListItem.Property(Type),0) | stringcompare(Container(9000).ListItem.Property(Type),1) | stringcompare(Container(9000).ListItem.Property(Type),2) | stringcompare(Container(9000).ListItem.Property(Type),3)">RunAddon($INFO[Container(9000).ListItem.Property(Path)])</onfocus>
+            <!--             <onclick condition="IsEmpty(Skin.String(TVShowHomeItem.Type)) + !Library.HasContent(TVShows)">Notification($LOCALIZE[257],$LOCALIZE[42295])</onclick>
+ -->
+            <onfocus condition="stringcompare(Container(9000).ListItem.Property(Type),0) | stringcompare(Container(9000).ListItem.Property(Type),1) | stringcompare(Container(9000).ListItem.Property(Type),2) | stringcompare(Container(9000).ListItem.Property(Type),3)">RunAddon($INFO[Container(9000).ListItem.Property(Path)])</onfocus>
             <onfocus condition="stringcompare(Container(9000).ListItem.Property(Type),4)">ActivateWindow(Videos,$INFO[Container(9000).ListItem.Property(Path)],return)</onfocus>
             <onfocus condition="stringcompare(Container(9000).ListItem.Property(Type),5)">ActivateWindow(MusicLibrary,$INFO[Container(9000).ListItem.Property(Path)],return)</onfocus>
             <onfocus condition="stringcompare(Container(9000).ListItem.Property(Type),6) | Stringcompare(Container(9000).ListItem.Property(Type),7)  | Stringcompare(Container(9000).ListItem.Property(Type),custom)">$INFO[Container(9000).ListItem.Property(Path)]</onfocus>
@@ -87,6 +88,11 @@
             <onfocus>AlarmClock(Widget2Move,Control.Move(7000,1),00:07,silent,loop)</onfocus>
             <onfocus>SetFocus(9000)</onfocus>
             <onfocus>ActivateWindow(1115)</onfocus>
+        </control>
+        <control type="button" id="9011">
+            <include>HiddenObject</include>
+            <onfocus condition="Control.IsVisible(2020)">SetFocus(2020)</onfocus>
+            <onfocus condition="!Control.IsVisible(2020)">SetFocus(9000)</onfocus>
         </control>
         <include>MainMenuCommonContent</include>
         <!-- Fanart -->
@@ -214,177 +220,179 @@
                 <visible>Control.IsVisible(8995) | [[Control.HasFocus(7000) | Control.IsVisible(6000) | Substring(Control.GetLabel(4325),weather)] + IsEmpty(Window(home).Property(DisableWidgets))]</visible>
             </control>
         </control>
-        <!-- Featured widget -->
-        <control type="group">
-        <visible>IsEmpty(Window(home).Property(PanelWidget2Info))</visible>
-                <animation type="Visible">
-            <effect type="zoom" delay="500" start="150" end="100" center="960,540" time="500" tween="cubic" />
-            <effect type="fade" delay="500" end="100" time="300" />
-        </animation>
-        <animation type="Hidden">
-            <effect type="fade" start="100" end="0" time="300" />
-            <effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" />
-        </animation>
-        <include condition="Substring(Skin.String(widgetlist),featured) | Substring(Skin.String(widgetlist),panel)">HomePanelWidget</include>
-        <include condition="!IsEmpty(Weather.Plugin) + SubString(Skin.String(widgetlist),weather)">Weather_Widget</include>
-        <include>RecentWidget</include>
-       </control>
-        <control type="group">
-        <visible>IsEmpty(Window(home).Property(PanelWidgetInfo))</visible>
-                <animation type="Visible">
-            <effect type="zoom" delay="500" start="150" end="100" center="960,540" time="500" tween="cubic" />
-            <effect type="fade" delay="500" end="100" time="300" />
-        </animation>
-        <animation type="Hidden">
-            <effect type="fade" start="100" end="0" time="300" />
-            <effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" />
-        </animation>
-        <include condition="Substring(Skin.String(widget2list),featured) | Substring(Skin.String(widget2list),panel)">HomePanelWidget2</include>
-        <include condition="!IsEmpty(Weather.Plugin) + SubString(Skin.String(widget2list),weather)">Weather_Widget2</include>
-            <include>RecentWidget2</include>
-        </control>
         <include>RSSPanel</include>
+        <include>MainMenuBottomBar</include>
         <control type="group">
-        <animation effect="slide" end="0,330" time="700" tween="cubic" delay="200" condition="!Skin.HasSetting(lowermainmenu) + !IsEmpty(Window(home).Property(PanelWidget2Info))">Conditional</animation>
-        <animation effect="slide" end="0,-330" time="700" tween="cubic" delay="200" condition="!Skin.HasSetting(lowermainmenu) + !IsEmpty(Window(home).Property(PanelWidgetInfo))">Conditional</animation>
-        <animation effect="slide" end="0,330" time="700" tween="cubic" delay="200" condition="!Skin.HasSetting(lowermainmenu) + Window.IsActive(1115)">Conditional</animation>
-        <!-- Library Totals -->
-        <include>LibraryStats</include>
-        <!-- Time Panel-->
-        <include>TimePanel</include>
-        <!-- RSS -->
-        <control type="group">
-            <include>FullscreenDimensions</include>
-            <animation effect="slide" end="0,338" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
-            <include>Animation_OpenCloseZoom</include>
+            <animation effect="slide" end="0,330" time="700" tween="cubic" delay="200" condition="!Skin.HasSetting(lowermainmenu) + !IsEmpty(Window(home).Property(PanelWidget2Info))">Conditional</animation>
+            <animation effect="slide" end="0,-330" time="700" tween="cubic" delay="200" condition="!Skin.HasSetting(lowermainmenu) + !IsEmpty(Window(home).Property(PanelWidgetInfo))">Conditional</animation>
+            <animation effect="slide" end="0,330" time="700" tween="cubic" delay="200" condition="!Skin.HasSetting(lowermainmenu) + Window.IsActive(1115)">Conditional</animation>
+            <!-- Library Totals -->
+            <include>LibraryStats</include>
+            <!-- Time Panel-->
+            <include>TimePanel</include>
+            <!-- RSS -->
             <control type="group">
-                <animation effect="zoom" end="80" center="960,520" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
-                <!-- Submenu -->
-                               <control type="image">
-                    <posx>935</posx>
-                    <posy>613</posy>
-                    <width>50</width>
-                    <height>15</height>
-                    <colordiffuse>white</colordiffuse>
-                    <texture>arrowdown.png</texture>
-<!--                     <animation effect="slide" end="0,40" time="0" condition="[!Skin.HasSetting(rsshomelow) + !Skin.HasSetting(DisableRSS)]">Conditional</animation>
- -->                    <visible>Control.HasFocus(9000)</visible>
-                    <visible>!Skin.HasSetting(showsubmenu)</visible>
-                    <visible>!IsEmpty(Container(9000).ListItem.Property(SubMenu))</visible>
-                     <animation effect="zoom" start="100,0" end="100,100" time="500" delay="200" tween="cubic" center="0,613" easing="inout">VisibleChange</animation>
-                 </control>
-                <control type="group" id="9001">
-                    <posx>240</posx>
-                    <posy>609</posy>
-                    <animation effect="zoom" end="120" center="960,610" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
-                    <animation effect="fade" start="100" end="0" time="300" condition="!Control.HasFocus(9010) + ![IntegerGreaterThan(Container(9010).NumItems,0) + Skin.HasSetting(showsubmenu)]">conditional</animation>
-                    <animation effect="slide" end="0,-60" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(9010) + ![IntegerGreaterThan(Container(9010).NumItems,0) + Skin.HasSetting(showsubmenu)]">conditional</animation>
+                <include>FullscreenDimensions</include>
+                <animation effect="slide" end="0,338" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+                <include>Animation_OpenCloseZoom</include>
+                <control type="group">
+                    <animation effect="zoom" end="80" center="960,520" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
+                    <!-- Submenu -->
                     <control type="image">
-                        <posx>70</posx>
-                        <posy>3</posy>
-                        <width>1300</width>
-                        <height>87</height>
-                        <texture>$VAR[SubMenuImageVar]</texture>
-                        <colordiffuse>$VAR[ExtendedColorVar]</colordiffuse>
+                        <posx>935</posx>
+                        <posy>613</posy>
+                        <width>50</width>
+                        <height>15</height>
+                        <colordiffuse>white</colordiffuse>
+                        <texture>arrowdown.png</texture>
+                        <!--                     <animation effect="slide" end="0,40" time="0" condition="[!Skin.HasSetting(rsshomelow) + !Skin.HasSetting(DisableRSS)]">Conditional</animation>
+ -->
+                        <visible>Control.HasFocus(9000)</visible>
+                        <visible>!Skin.HasSetting(showsubmenu)</visible>
+                        <visible>!IsEmpty(Container(9000).ListItem.Property(SubMenu))</visible>
+                        <animation effect="zoom" start="100,0" end="100,100" time="500" delay="200" tween="cubic" center="0,613" easing="inout">VisibleChange</animation>
                     </control>
-                    <include condition="Skin.HasSetting(submenufixedlist)">SubMenuFixedList</include>
-                    <include condition="!Skin.HasSetting(submenufixedlist)">SubMenuWrapList</include>
-                </control>
-                <!-- Home OSD -->
-                <control type="group">
-                    <visible>Player.HasMedia + System.IdleTime(8)</visible>
-                    <animation effect="zoom" end="125,100" center="960,500" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
-                    <posy>62</posy>
-                    <width>1920</width>
-                    <height>1080</height>
-                    <animation effect="fade" end="100" time="750" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
-                    <control type="progress">
-                        <posy>452</posy>
+                    <control type="group" id="9001">
+                        <posx>240</posx>
+                        <posy>609</posy>
+                        <animation effect="zoom" end="120" center="960,610" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
+                        <animation effect="fade" start="100" end="0" time="300" condition="!Control.HasFocus(9010) + ![IntegerGreaterThan(Container(9010).NumItems,0) + Skin.HasSetting(showsubmenu)]">conditional</animation>
+                        <animation effect="slide" end="0,-60" time="300" tween="cubic" easing="inout" condition="!Control.HasFocus(9010) + ![IntegerGreaterThan(Container(9010).NumItems,0) + Skin.HasSetting(showsubmenu)]">conditional</animation>
+                        <control type="image">
+                            <posx>70</posx>
+                            <posy>3</posy>
+                            <width>1300</width>
+                            <height>87</height>
+                            <texture>$VAR[SubMenuImageVar]</texture>
+                            <colordiffuse>$VAR[ExtendedColorVar]</colordiffuse>
+                        </control>
+                        <include condition="Skin.HasSetting(submenufixedlist)">SubMenuFixedList</include>
+                        <include condition="!Skin.HasSetting(submenufixedlist)">SubMenuWrapList</include>
+                    </control>
+                    <!-- Home OSD -->
+                    <control type="group">
+                        <visible>Player.HasMedia + System.IdleTime(8)</visible>
+                        <animation effect="zoom" end="125,100" center="960,500" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
+                        <posy>62</posy>
                         <width>1920</width>
-                        <height>96</height>
-                        <info>Player.Progress</info>
-                        <texturebg>osd/osd_progress_clear.png</texturebg>
-                        <lefttexture>-</lefttexture>
-                        <midtexture>osd/osd_progressmid.png</midtexture>
-                        <righttexture>-</righttexture>
+                        <height>1080</height>
+                        <animation effect="fade" end="100" time="750" condition="Player.HasAudio + System.IdleTime(8)">Conditional</animation>
+                        <control type="progress">
+                            <posy>452</posy>
+                            <width>1920</width>
+                            <height>96</height>
+                            <info>Player.Progress</info>
+                            <texturebg>osd/osd_progress_clear.png</texturebg>
+                            <lefttexture>-</lefttexture>
+                            <midtexture>osd/osd_progressmid.png</midtexture>
+                            <righttexture>-</righttexture>
+                        </control>
                     </control>
-                </control>
-                <!-- Home Menu Bar -->
-                <control type="image">
-                    <posy>453</posy>
-                    <width>1920</width>
-                    <height>225</height>
-                    <texture>$VAR[HomeMenuBackVar]</texture>
-                    <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
-                    <animation effect="zoom" end="125,100" center="960,500" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
-                    <animation effect="fade" start="100" end="90" time="50" condition="Skin.HasSetting(glasshome) + ![Player.HasMedia + System.IdleTime(8)]">Conditional</animation>
-                </control>
-                <control type="image">
-                    <posy>453</posy>
-                    <width>1920</width>
-                    <height>225</height>
-                    <texture>home/homemenu_back_glow.png</texture>
-                    <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                    <animation effect="zoom" end="125,100" center="960,500" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
-                    <include>PanelGlowFade</include>
-                    <include>Animation_VisibleChange400</include>
-                    <visible>!Skin.HasSetting(DisableGlowbar) | [Skin.HasSetting(ExtendedGlowMode) + Skin.HasSetting(glasshome)] | Skin.HasSetting(classichome)</visible>
-                </control>
-                <!-- Home OSD -->
-                <control type="label">
-                    <posy>445</posy>
-                    <width>1920</width>
-                    <height>225</height>
-                    <align>center</align>
-                    <font>Font_MainClassic</font>
-                    <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
-                    <label>$VAR[HomeOSDLabelVar]</label>
-                    <visible>Player.HasMedia + System.IdleTime(8)</visible>
-                    <animation effect="fade" end="100" time="1050">Visible</animation>
-                </control>
-                <!-- Home Menu -->
-                <control type="button" id="8993">
-                    <include>HiddenObject</include>
-                    <onfocus>AlarmClock(WidgetMove,Control.Move(8000,1),00:07,silent,loop)</onfocus>
-                    <onfocus>ClearProperty(PanelWidgetInfo,Home)</onfocus>
-                    <onfocus>SetFocus(9000)</onfocus>
-                </control>
-                <control type="button" id="7993">
-                    <include>HiddenObject</include>
-                    <onfocus>AlarmClock(Widget2Move,Control.Move(7000,1),00:07,silent,loop)</onfocus>
-                    <onfocus>SetFocus(9000)</onfocus>
-                </control>
-                <!--focus first widget-->
-                <control type="button" id="4444">
-                    <include>HiddenObject</include>
-                    <onfocus condition="Control.IsVisible(5000)">SetFocus(5000)</onfocus>
-                    <onfocus condition="Control.IsVisible(8998)">CancelAlarm(WidgetMove,true)</onfocus>
-                    <onfocus condition="Control.IsVisible(8998)">SetFocus(8000,0)</onfocus>
-                    <onfocus condition="Control.IsVisible(8998)">SetFocus(8000)</onfocus>
-                    <visible>Control.IsVisible(5000) | Control.IsVisible(8998)</visible>
-                    <visible>IsEmpty(Window(home).Property(DisableWidgets))</visible>
-                </control>
-                <!--focus second widget-->
-                <control type="button" id="4445">
-                    <include>HiddenObject</include>
-                    <onfocus condition="Control.IsVisible(6000)">SetFocus(6000)</onfocus>
-                    <onfocus condition="Control.IsVisible(7998)">CancelAlarm(Widget2Move,true)</onfocus>
-                    <onfocus condition="Control.IsVisible(7998)">SetFocus(7000,0)</onfocus>
-                    <onfocus condition="Control.IsVisible(7998)">SetFocus(7000)</onfocus>
-                    <visible>Control.IsVisible(6000) | Control.IsVisible(7998)</visible>
-                    <visible>IsEmpty(Window(home).Property(DisableWidgets))</visible>
-                </control>
-                <include condition="Skin.HasSetting(mainmenufixedlist)">MainMenuFixedList</include>
-                <include condition="!Skin.HasSetting(mainmenufixedlist)">MainMenuWrapList</include>
-                <control type="group">
-                    <animation effect="zoom" end="125,99" center="960,500" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
-                    <include>Furniture_ClassicHomeGradient</include>
-                    <include>Neon_Home</include>
+                    <!-- Home Menu Bar -->
+                    <control type="image">
+                        <posy>453</posy>
+                        <width>1920</width>
+                        <height>225</height>
+                        <texture>$VAR[HomeMenuBackVar]</texture>
+                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                        <animation effect="zoom" end="125,100" center="960,500" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
+                        <animation effect="fade" start="100" end="90" time="50" condition="Skin.HasSetting(glasshome) + ![Player.HasMedia + System.IdleTime(8)]">Conditional</animation>
+                    </control>
+                    <control type="image">
+                        <posy>453</posy>
+                        <width>1920</width>
+                        <height>225</height>
+                        <texture>home/homemenu_back_glow.png</texture>
+                        <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                        <animation effect="zoom" end="125,100" center="960,500" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
+                        <include>PanelGlowFade</include>
+                        <include>Animation_VisibleChange400</include>
+                        <visible>!Skin.HasSetting(DisableGlowbar) | [Skin.HasSetting(ExtendedGlowMode) + Skin.HasSetting(glasshome)] | Skin.HasSetting(classichome)</visible>
+                    </control>
+                    <!-- Home OSD -->
+                    <control type="label">
+                        <posy>445</posy>
+                        <width>1920</width>
+                        <height>225</height>
+                        <align>center</align>
+                        <font>Font_MainClassic</font>
+                        <textcolor>$VAR[HomeMenuTextFocusVar]</textcolor>
+                        <label>$VAR[HomeOSDLabelVar]</label>
+                        <visible>Player.HasMedia + System.IdleTime(8)</visible>
+                        <animation effect="fade" end="100" time="1050">Visible</animation>
+                    </control>
+                    <!-- Home Menu -->
+                    <control type="button" id="8993">
+                        <include>HiddenObject</include>
+                        <onfocus>AlarmClock(WidgetMove,Control.Move(8000,1),00:07,silent,loop)</onfocus>
+                        <onfocus>ClearProperty(PanelWidgetInfo,Home)</onfocus>
+                        <onfocus>SetFocus(9000)</onfocus>
+                    </control>
+                    <control type="button" id="7993">
+                        <include>HiddenObject</include>
+                        <onfocus>AlarmClock(Widget2Move,Control.Move(7000,1),00:07,silent,loop)</onfocus>
+                        <onfocus>SetFocus(9000)</onfocus>
+                    </control>
+                    <!--focus first widget-->
+                    <control type="button" id="4444">
+                        <include>HiddenObject</include>
+                        <onfocus condition="Control.IsVisible(5000)">SetFocus(5000)</onfocus>
+                        <onfocus condition="Control.IsVisible(8998)">CancelAlarm(WidgetMove,true)</onfocus>
+                        <onfocus condition="Control.IsVisible(8998)">SetFocus(8000,0)</onfocus>
+                        <onfocus condition="Control.IsVisible(8998)">SetFocus(8000)</onfocus>
+                        <visible>Control.IsVisible(5000) | Control.IsVisible(8998)</visible>
+                        <visible>IsEmpty(Window(home).Property(DisableWidgets))</visible>
+                    </control>
+                    <!--focus second widget-->
+                    <control type="button" id="4445">
+                        <include>HiddenObject</include>
+                        <onfocus condition="Control.IsVisible(6000)">SetFocus(6000)</onfocus>
+                        <onfocus condition="Control.IsVisible(7998)">CancelAlarm(Widget2Move,true)</onfocus>
+                        <onfocus condition="Control.IsVisible(7998)">SetFocus(7000,0)</onfocus>
+                        <onfocus condition="Control.IsVisible(7998)">SetFocus(7000)</onfocus>
+                        <visible>Control.IsVisible(6000) | Control.IsVisible(7998)</visible>
+                        <visible>IsEmpty(Window(home).Property(DisableWidgets))</visible>
+                    </control>
+                    <include condition="Skin.HasSetting(mainmenufixedlist)">MainMenuFixedList</include>
+                    <include condition="!Skin.HasSetting(mainmenufixedlist)">MainMenuWrapList</include>
+                    <control type="group">
+                        <animation effect="zoom" end="125,99" center="960,500" time="400" tween="cubic" easing="inout" condition="Skin.HasSetting(smallermainmenu)">Conditional</animation>
+                        <include>Furniture_ClassicHomeGradient</include>
+                        <include>Neon_Home</include>
+                    </control>
                 </control>
             </control>
+            <!--Weather info-->
+            <!-- Music Info -->
         </control>
-        <!--Weather info-->
-        <!-- Music Info -->
+        <!-- Featured widget -->
+        <control type="group">
+            <visible>IsEmpty(Window(home).Property(PanelWidget2Info))</visible>
+            <animation type="Visible">
+                <effect type="zoom" delay="500" start="150" end="100" center="960,540" time="500" tween="cubic" />
+                <effect type="fade" delay="500" end="100" time="300" />
+            </animation>
+            <animation type="Hidden">
+                <effect type="fade" start="100" end="0" time="300" />
+                <effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" />
+            </animation>
+            <include condition="Substring(Skin.String(widgetlist),featured) | Substring(Skin.String(widgetlist),panel)">HomePanelWidget</include>
+            <include condition="!IsEmpty(Weather.Plugin) + SubString(Skin.String(widgetlist),weather)">Weather_Widget</include>
+            <include>RecentWidget</include>
+        </control>
+        <control type="group">
+            <visible>IsEmpty(Window(home).Property(PanelWidgetInfo))</visible>
+            <animation type="Visible">
+                <effect type="zoom" delay="500" start="150" end="100" center="960,540" time="500" tween="cubic" />
+                <effect type="fade" delay="500" end="100" time="300" />
+            </animation>
+            <animation type="Hidden">
+                <effect type="fade" start="100" end="0" time="300" />
+                <effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" />
+            </animation>
+            <include condition="Substring(Skin.String(widget2list),featured) | Substring(Skin.String(widget2list),panel)">HomePanelWidget2</include>
+            <include condition="!IsEmpty(Weather.Plugin) + SubString(Skin.String(widget2list),weather)">Weather_Widget2</include>
+            <include>RecentWidget2</include>
         </control>
         <include condition="!Skin.HasSetting(nohomepageMusicinfo) | !Skin.HasSetting(homepageVideoinfo)">Furniture_HomeNowPlaying</include>
         <control type="group">

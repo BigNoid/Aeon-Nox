@@ -201,7 +201,6 @@
         <item>
             <label>$INFO[Skin.String(CustomSub5_2.Label)]</label>
             <thumb>$INFO[Skin.String(CustomSub5_2.MultiFanart)]</thumb>
-
             <onclick condition="stringcompare(Skin.String(CustomSub5_2.Type),0) | Stringcompare(Skin.String(CustomSub5_2.Type),1) | Stringcompare(Skin.String(CustomSub5_2.Type),2) | Stringcompare(Skin.String(CustomSub5_2.Type),3)">RunAddon($INFO[Skin.String(CustomSub5_2.Path)])</onclick>
             <onclick condition="stringcompare(Skin.String(CustomSub5_2.Type),4)">ActivateWindow(Videos,$INFO[Skin.String(CustomSub5_2.Path)],return)</onclick>
             <onclick condition="stringcompare(Skin.String(CustomSub5_2.Type),5)">ActivateWindow(MusicLibrary,$INFO[Skin.String(CustomSub5_2.Path)],return)</onclick>
@@ -1351,9 +1350,9 @@
         <scrolltime tween="quadratic">300</scrolltime>
         <onup>9000</onup>
         <onback>SetFocus(9000)</onback>
-        <ondown condition="IsEmpty(Window(home).Property(DisableWidgets)) + !Skin.HasSetting(lowermainmenu) + Control.IsVisible(4444)">4444</ondown>
-        <ondown condition="!Skin.HasSetting(lowermainmenu) + !Control.IsVisible(4444)">9000</ondown>
-        <ondown condition="Skin.HasSetting(lowermainmenu)">9000</ondown>
+        <ondown condition="!Skin.HasSetting(lowermainmenu) + Control.IsVisible(4444)">4444</ondown>
+        <ondown condition="!Skin.HasSetting(lowermainmenu) + !Control.IsVisible(4444)">SetFocus(9011)</ondown>
+        <ondown condition="Skin.HasSetting(lowermainmenu)">SetFocus(9011)</ondown>
         <itemlayout width="230" height="50">
             <control type="label">
                 <posx>115</posx>
@@ -1470,8 +1469,8 @@
                 <orientation>vertical</orientation>
                 <focusposition>0</focusposition>
                 <scrolltime tween="cubic" easing="inout">1200</scrolltime>
-                <itemlayout width="614" height="30"/>
-                <focusedlayout width="614" height="30"/>
+                <itemlayout width="614" height="30" />
+                <focusedlayout width="614" height="30" />
                 <content>
                     <include>1124Backgrounds</include>
                     <include condition="Substring(Skin.String(backgroundlist),randommovies)">RandomMoviesBackgrounds</include>
@@ -2566,62 +2565,47 @@
         </control>
     </include>
     <include name="MainMenuBottomBar">
-        <control type="grouplist" id="6020">
-            <posy>806</posy>
+        <control type="grouplist" id="2020">
+            <posy>1030</posy>
             <width>1920</width>
             <onleft>6020</onleft>
             <onright>6020</onright>
-            <align>center</align>
-            <onback>ClearProperty(PanelWidget2Info,Home)</onback>
-            <onback>SetFocus(6010)</onback>
-            <onup>ClearProperty(PanelWidget2Info,Home)</onup>
-            <onup>SetFocus(6010)</onup>
-            <ondown>ClearProperty(PanelWidget2Info,Home)</ondown>
-            <ondown>SetFocus(6010)</ondown>
+            <align>left</align>
+            <onback>SetFocus(9000)</onback>
+            <onup condition="!Skin.HasSetting(lowermainmenu) + Control.IsVisible(4444)">SetFocus(4444)</onup>
+            <onup condition="!Skin.HasSetting(lowermainmenu) + !Control.IsVisible(4444)">SetFocus(9000)</onup>
+            <onup condition="Skin.HasSetting(lowermainmenu)">SetFocus(9000)</onup>
+            <ondown>SetFocus(9000)</ondown>
+            <itemgap>7</itemgap>
             <orientation>horizontal</orientation>
-            <control type="radiobutton" id="6015">
-                <label>Show Widgets</label>
-                <include>BottomMenuButton</include>
-                <radiowidth>106</radiowidth>
-                <radioheight>74</radioheight>
-                <textureradiofocus>settings/settings_radiobuttononfocus.png</textureradiofocus>
-                <textureradionofocus>settings/settings_radiobuttonon.png</textureradionofocus>
-                <selected>IsEmpty(Window(home).Property(DisableWidgets))</selected>
-                <texturefocus>special://skin/extras/BigIcons/Information.png</texturefocus>
-                <texturenofocus>special://skin/extras/BigIcons/Information.png</texturenofocus>
-                <onclick condition="IsEmpty(Window(home).Property(DisableWidgets))">SetProperty(DisableWidgets,1,home)</onclick>
-                <onclick condition="!IsEmpty(Window(home).Property(DisableWidgets))">ClearProperty(DisableWidgets,home)</onclick>
-                <visible>Player.HasMedia</visible>
-            </control>
-            <control type="button" id="6017">
+            <control type="button" id="2017">
                 <label>Play DVD</label>
                 <include>BottomMenuButton</include>
-                <texturefocus>special://skin/extras/BigIcons/CD-DVD.png</texturefocus>
-                <texturenofocus>special://skin/extras/BigIcons/CD-DVD.png</texturenofocus>
-                <visible>!IsEmpty(System.DVDLabel)</visible>
+                <texturefocus>common/logo_music.png</texturefocus>
+                <texturenofocus>common/logo_music.png</texturenofocus>
+                <!--                 <visible>!IsEmpty(System.DVDLabel)</visible>
+ -->
                 <onclick>PlayDVD()</onclick>
             </control>
-            <control type="button" id="6016">
+            <control type="button" id="2016">
                 <label>FullScreen</label>
                 <include>BottomMenuButton</include>
-                <texturefocus>special://skin/extras/BigIcons/Fullscreen2.png</texturefocus>
-                <texturenofocus>special://skin/extras/BigIcons/Fullscreen2.png</texturenofocus>
-                <visible>Player.HasMedia</visible>
-                <onclick>FullScreen</onclick>
+                <texturefocus>common/logo_pics.png</texturefocus>
+                <texturenofocus>common/logo_pics.png</texturenofocus>
+                <onclick condition="IsEmpty(Window(home).Property(DisableWidgets))">SetProperty(DisableWidgets,1,home)</onclick>
+                <onclick condition="!IsEmpty(Window(home).Property(DisableWidgets))">ClearProperty(DisableWidgets,home)</onclick>
             </control>
         </control>
-
     </include>
     <include name="BottomMenuButton">
-        <height>50</height>
+        <width>66</width>
+        <height>44</height>
         <aligny>top</aligny>
         <align>center</align>
-        <width>50</width>
         <aspectratio align="center" aligny="top">scale</aspectratio>
         <font>Font_Reg19_Caps</font>
         <focusedcolor>00000000</focusedcolor>
         <textcolor>00000000</textcolor>
-        <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
         <scroll>false</scroll>
     </include>
 </includes>
