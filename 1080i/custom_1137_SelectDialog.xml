@@ -3,8 +3,6 @@
     <defaultcontrol>5400</defaultcontrol>
     <onunload>ClearProperty(CustomYesNoDialog,home)</onunload>
     <onunload>ClearProperty(CustomYesNoDialog,1124)</onunload>
-    <onunload>ClearProperty(WidgetStyle,1124)</onunload>
-    <onunload>ClearProperty(WeatherWidgetStyle,1124)</onunload>
     <onload>SetProperty(Transparency,default,1124)</onload>
     <onload>Dialog.Close(1133)</onload>
     <zorder>4</zorder>
@@ -111,7 +109,7 @@
                     <height>200</height>
                     <align>center</align>
                     <orientation>horizontal</orientation>
-                    <visible>Window.IsActive(1124) + IsEmpty(Window(1124).Property(WidgetStyle))</visible>
+                    <visible>Window.IsActive(1124)</visible>
                     <control type="button" id="10">
                         <width>175</width>
                         <height>45</height>
@@ -139,8 +137,7 @@
                         <textoffsetx>15</textoffsetx>
                         <onfocus>SetProperty(WidgetType,classic,1124)</onfocus>
                         <onfocus>Skin.SetString(ItemToEdit.$INFO[Window(1124).Property(WidgetSelection)],$INFO[Control.GetLabel(12112)])</onfocus>
-                        <onclick>SetProperty(WidgetStyle,True,1124)</onclick>
-                        <onclick>SetFocus(1101)</onclick>
+                        <onclick>Dialog.Close(1137)</onclick>
                     </control>
                     <control type="button" id="12">
                         <width>175</width>
@@ -232,13 +229,14 @@
                         <visible>SubString(Window(1124).Property(CustomYesNoDialog),movie) | SubString(Window(1124).Property(CustomYesNoDialog),tv)</visible>
                     </control>
                 </control>
-                <control type="radiobutton" id="18">
+                <control type="button" id="18">
                     <width>740</width>
                     <posx>20</posx>
                     <height>45</height>
                     <onup>5401</onup>
                     <ondown>5400</ondown>
                     <label>31195</label>
+                    <label2>[COLOR $VAR[FontColorVar]]$VAR[WidgetStyleLabelVar][/COLOR]</label2>
                     <posy>240</posy>
                     <animation effect="slide" end="0,60" time="0" condition="SubString(Window(1124).Property(CustomYesNoDialog),movie) | SubString(Window(1124).Property(CustomYesNoDialog),tv)">Conditional</animation>
                     <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
@@ -247,51 +245,12 @@
                     <align>left</align>
                     <textoffsetx>30</textoffsetx>
                     <onclick condition="IsEmpty(Window(1124).Property(Transparency))">SetProperty(Transparency,default,1124)</onclick>
-                    <onclick condition="!IsEmpty(Window(1124).Property(Transparency))">ClearProperty(Transparency,1124)</onclick>
+                    <onclick condition="Stringcompare(Window(1124).Property(Transparency),glass)">ClearProperty(Transparency,1124)</onclick>
+                    <onclick condition="Stringcompare(Window(1124).Property(Transparency),default)">SetProperty(Transparency,glass,1124)</onclick>
+                    <onclick condition="IsEmpty(Window(1124).Property(Transparency))">SetProperty(Transparency,default,1124)</onclick>
                     <onclick>Skin.SetString(ItemToEdit.$INFO[Window(1124).Property(WidgetSelection)],$INFO[Control.GetLabel(12112)])</onclick>
                     <selected>IsEmpty(Window(1124).Property(Transparency))</selected>
-					<visible>IsEmpty(Window(1124).Property(WidgetStyle))</visible> 
                </control>
-                <control type="grouplist" id="5400">
-                    <onleft>5400</onleft>
-                    <onright>5400</onright>
-                    <posy>180</posy>
-                    <ondown>5401</ondown>
-                    <onup>5401</onup>
-                    <width>740</width>
-                    <height>200</height>
-                    <align>center</align>
-                    <orientation>horizontal</orientation>
-                    <visible>Window.IsActive(1124) + !IsEmpty(Window(1124).Property(WidgetStyle))</visible>
-                    <control type="button" id="1101">
-                        <width>175</width>
-                        <height>45</height>
-                        <label>31685</label>
-                        <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                        <textcolor>grey2</textcolor>
-                        <focusedcolor>white3</focusedcolor>
-                        <align>center</align>
-                        <textoffsetx>15</textoffsetx>
-                        <onfocus condition="IsEmpty(Window(1124).Property(WeatherWidgetStyle)) + IsEmpty(Window(1124).Property(WidgetStyle))">SetFocus(10)</onfocus>
-                        <onfocus condition="IsEmpty(Window(1124).Property(WeatherWidgetStyle))">Skin.SetString(WidgetStyle,classic)</onfocus>
-                        <onfocus condition="!IsEmpty(Window(1124).Property(WeatherWidgetStyle))">Skin.SetString(WeatherWidgetStyle,classic)</onfocus>
-                        <onclick>Dialog.Close(1137)</onclick>
-                    </control>
-                    <control type="button" id="1201">
-                        <width>175</width>
-                        <height>45</height>
-                        <label>31684</label>
-                        <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                        <textcolor>grey2</textcolor>
-                        <focusedcolor>white3</focusedcolor>
-                        <align>center</align>
-                        <textoffsetx>15</textoffsetx>
-                        <onfocus condition="IsEmpty(Window(1124).Property(WeatherWidgetStyle)) + IsEmpty(Window(1124).Property(WidgetStyle))">SetFocus(10)</onfocus>
-                        <onfocus condition="IsEmpty(Window(1124).Property(WeatherWidgetStyle))">Skin.SetString(WidgetStyle,glass)</onfocus>
-                        <onfocus condition="!IsEmpty(Window(1124).Property(WeatherWidgetStyle))">Skin.SetString(WeatherWidgetStyle,glass)</onfocus>
-                        <onclick>Dialog.Close(1137)</onclick>
-                    </control>
-                </control>
             </control>
         </control>
     </controls>
