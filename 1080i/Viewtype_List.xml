@@ -25,9 +25,36 @@
         <control type="group" id="40002">
             <posx>1296</posx>
             <posy>165</posy>
+            <animation effect="slide" end="90,0" time="300" tween="cubic" easing="inout" condition="Skin.HasSetting(listcdart) + Container.Content(movies)">Conditional</animation>
+                        <animation type="Conditional" condition="Control.HasFocus(5001)" reversible="false">
+                            <effect type="rotatey" center="1530" end="-90" time="450" tween="cubic" easing="in" />
+                            <effect type="rotatey" center="1530" start="-90" end="90" time="0" delay="450" />
+                            <effect type="fade" start="100" end="0" time="0" delay="450" />
+                            <effect type="rotatey" center="1530" start="90" end="0" time="450" delay="450" tween="cubic" />
+                        </animation>
+                        <animation type="Conditional" condition="!Control.HasFocus(5001)" reversible="false">
+                            <effect type="rotatey" center="1530" end="90" time="0" tween="cubic" easing="in" delay="450" />
+                            <effect type="rotatey" center="1530" start="90" end="-90" time="0" delay="450" />
+                            <effect type="fade" end="100" time="200" delay="450" />
+                            <effect type="rotatey" center="1530" start="-90" end="0" time="450" delay="450" tween="cubic" />
+                        </animation>
             <include>Animation_ListSlideRight</include>
             <visible>!Skin.HasSetting(roundedcovers)</visible>
             <visible>[Container.Content(movies) |Container.Content(episodes) | Container.Content(tvshows) | Container.Content(sets) | Container.Content(seasons) | Container.Content(genres) | Container.Content(musicvideos) | [Window.IsActive(programs) + !Container.Content(addons)]]</visible>
+                            <control type="image">
+                            <visible>Skin.HasSetting(listcdart) + Container.Content(movies) + !SubString(ListItem.Path,videodb://1/7/) + !Control.HasFocus(5001)</visible>
+                            <animation effect="slide" end="0,0" start="160,0" time="300" tween="cubic" easing="inout">VisibleChange</animation>
+                            <posx>-211</posx>
+                            <posy>135</posy>
+                            <width>500</width>
+                            <height>500</height>
+<!--                             <animation effect="rotate" end="-360" center="auto" time="8000" delay="1000" loop="true" reversible="false" tween="cubic" easing="inout" condition="true">Conditional</animation>
+ -->                            <aspectratio align="right">keep</aspectratio>
+                            <texture background="true">$VAR[cdArtVar]</texture>
+                            <animation effect="rotate" end="-360" center="auto" time="8000" delay="2000" reversible="false" tween="cubic" easing="inout" condition="!Container.OnNext + !Container.OnPrevious">Conditional</animation>
+                            <bordersize>7</bordersize>
+<!--                             <visible>!Skin.HasSetting(infopanelcdart)</visible>
+ -->                        </control>
             <control type="image">
                 <posx>-39</posx>
                 <posy>-53</posy>
@@ -40,6 +67,16 @@
                 <visible>!Skin.HasSetting(DisableGlowbar)</visible>
                 <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
                 <texture background="true">thumbs/thumb_glass_shadow.png</texture>
+            </control>
+            <control type="image">
+                <posx>1</posx>
+                <posy>1</posy>
+                <width>509</width>
+                <height>764</height>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <fadetime>IconCrossfadeTime2</fadetime>
+                <texture diffuse="thumbs/movieposter_mask.png">common/bgcolor.png</texture>
+
             </control>
             <control type="image">
                 <posx>-19</posx>
@@ -68,10 +105,223 @@
                 <texture>thumbs/thumb_glass.png</texture>
             </control>
         </control>
+                    <control type="button" id="5001">
+                <include>HiddenObject</include>
+                <onup>50</onup>
+                <onleft>50</onleft>
+                <onright>50</onright>
+                <ondown>50</ondown>
+                <onback>50</onback>
+                <onclick condition="!IsEmpty(ListItem.Trailer)">PlayMedia($ESCINFO[ListItem.Trailer])</onclick>
+                <onclick condition="IsEmpty(ListItem.Trailer)">PlayMedia($ESCINFO[ListItem.FileNameAndPath])</onclick>
+                <onclick condition="Container.Content(tvshows) | Container.Content(seasons)">SetFocus(50)</onclick>
+                <visible>Container.Content(movies) | Container.Content(tvshows)</visible>
+                <visible>Control.IsVisible(40002)</visible>
+            </control>
+           <control type="group" id="5002">
+                <animation type="Visible" reversible="false">
+                    <effect type="rotatey" center="1548" end="-90" time="450" tween="cubic" easing="in" />
+                    <effect type="rotatey" center="1548" start="-90" end="90" time="0" delay="450" />
+                    <effect type="fade" end="100" time="0" delay="450" />
+                    <effect type="rotatey" center="1548" start="90" end="0" time="450" delay="450" tween="cubic" />
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="rotatey" center="1548" end="90" time="450" tween="cubic" easing="in" />
+                    <effect type="rotatey" center="1548" start="90" end="-90" time="0" delay="450" />
+                    <effect type="fade" start="100" end="0" time="0" delay="450" />
+                    <effect type="rotatey" center="1548" start="-90" end="0" time="0" delay="450" tween="cubic" />
+                </animation>
+                <posx>1370</posx>
+                <posy>220</posy>
+                <animation effect="slide" end="90,0" time="300" tween="cubic" easing="inout" condition="Skin.HasSetting(listcdart) + Container.Content(movies)">Conditional</animation>
+                <include>Animation_ListSlideRight</include>
+                <visible>Control.HasFocus(5001)</visible>
+        <control type="image">
+                   <posx>-78</posx>
+                    <posy>-64</posy>
+                    <width>512</width>
+                    <height>885</height>
+            <texture>wall/wall_bg_glow.png</texture>
+            <visible>!Skin.HasSetting(DisableGlowbar)</visible>
+            <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+            <include>Animation_VisibleChange400</include>
+            <include>PanelGlowFade</include>
+        </control>
+                <control type="image">
+                    <posx>-78</posx>
+                    <posy>-64</posy>
+                    <width>512</width>
+                    <height>885</height>
+                    <texture>wall/wall_bg.png</texture>
+                    <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                </control>
+        <control type="image">
+                     <posx>-78</posx>
+                    <posy>-64</posy>
+                    <width>512</width>
+                    <height>885</height>
+            <texture>wall/wall_bg_reflection.png</texture>
+        </control>
+                <control type="image">
+                    <posx>-58</posx>
+                    <posy>-10</posy>
+                    <width>480</width>
+                    <height>220</height>
+                    <texture background="true">$VAR[TVShowLogoVar]</texture>
+                    <aspectratio aligny="top">keep</aspectratio>
+                </control>
+                <control type="label">
+                    <posx>-100</posx>
+                    <posy>15</posy>
+                    <height>80</height>
+                    <width>480</width>
+                    <align>center</align>
+                    <font>Font_Bold30_Caps</font>
+                    <scroll>true</scroll>
+                    <wrapmultiline>true</wrapmultiline>
+                    <label>$INFO[ListItem.Label]</label>
+                    <animation effect="fade" end="100" time="100" delay="100" reversible="false">Visible</animation>
+                    <animation effect="fade" start="100" end="0" time="0" reversible="false">Hidden</animation>
+                    <visible>IsEmpty(ListItem.Art(clearlogo))</visible>
+                </control>
+                            <control type="grouplist">
+                                <orientation>horizontal</orientation>
+                                <posx>-46</posx>
+                                <posy>200</posy>
+								<width>1400</width>
+							<control type="label">
+								<width min="0" max="1000">auto</width>
+								<height>40</height>
+								<label>$INFO[ListItem.RatingAndVotes,$LOCALIZE[31095]: [COLOR white4],[/COLOR]]$INFO[ListItem.Top250,$LOCALIZE[13409][COLOR white4],[/COLOR] # ]</label>
+								<font>Font_Reg20</font>
+								<textcolor>$VAR[FontColorVar]</textcolor>
+							</control>
+                         </control>
+                            <control type="grouplist">
+                                <orientation>horizontal</orientation>
+                                <posx>-46</posx>
+                                <posy>235</posy>
+								<width>1400</width>
+							<control type="label">
+								<width min="0" max="1000">auto</width>
+								<height>40</height>
+								<label>[COLOR $VAR[FontColorVar]]$LOCALIZE[180]:[/COLOR] $INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
+								<font>Font_Reg20</font>
+								<textcolor>white4</textcolor>
+							</control>
+                         </control>
+                <control type="textbox">
+                    <posx>-46</posx>
+                    <posy>275</posy>
+                    <width>455</width>
+                    <height>396</height>
+                    <font>Font_Reg18</font>
+                    <label fallback="31006">$VAR[InfoWallTextboxVar]</label>
+                    <textcolor>white6</textcolor>
+                    <autoscroll delay="8000" time="AutoScrollTime" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+                </control>
+            </control>
     </include>
     <include name="CommonRootView">
+       <control type="group">
+            <visible>Control.IsVisible(50)</visible>
+            <include>Animation_ListSlideRight</include>
+            <include condition="Window.IsActive(musiclibrary) | Window.IsActive(musicplaylist)">CDArtFlip</include>
+            <include condition="Window.IsActive(videolibrary) | Window.IsActive(programs)">ListIconPoster</include>
+            <control type="group" id="40003">
+                <posx>1296</posx>
+                <posy>165</posy>
+                <include>Animation_ListSlideRight</include>
+                <visible>Skin.HasSetting(roundedcovers)</visible>
+                <control type="image">
+                    <posx>-7</posx>
+                    <posy>-7</posy>
+                    <width>525</width>
+                    <height>780</height>
+                    <colordiffuse>FF000000</colordiffuse>
+                    <fadetime>0</fadetime>
+                    <aspectratio aligny="bottom">keep</aspectratio>
+                    <texture background="true">$INFO[ListItem.Icon]</texture>
+                    <bordersize>7</bordersize>
+                </control>
+                <control type="image">
+                    <posx>-7</posx>
+                    <posy>-7</posy>
+                    <width>525</width>
+                    <height>780</height>
+                    <aspectratio aligny="bottom">keep</aspectratio>
+                    <texture background="true">$INFO[ListItem.Icon]</texture>
+                    <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
+                    <bordersize>7</bordersize>
+                </control>
+                <control type="image">
+                    <posy>766</posy>
+                    <width>510</width>
+                    <height>765</height>
+                    <aspectratio aligny="top">keep</aspectratio>
+                    <fadetime>IconCrossfadeTime2</fadetime>
+                    <texture diffuse="thumbs/diffuse_mirror3.png" flipy="true" background="true">$INFO[ListItem.Icon]</texture>
+                </control>
+            </control>
+            <control type="group">
+                <posx>1296</posx>
+                <posy>165</posy>
+                <include>Animation_ListSlideRight</include>
+                <visible>![Control.IsVisible(40002) | Control.IsVisible(40003)] + !Container.Content(years)</visible>
+                <control type="image">
+                    <posx>-36</posx>
+                    <posy>225</posy>
+                    <width>582</width>
+                    <height>578</height>
+                    <align>center</align>
+                    <bordersize>18</bordersize>
+                    <include>PanelGlowFade</include>
+                    <include>Animation_VisibleChange400</include>
+                    <visible>!Skin.HasSetting(DisableGlowbar)</visible>
+                    <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                    <texture background="true">thumbs/boxes/cd_shadow_light_shadow.png</texture>
+                </control>
+                <control type="image">
+                    <posy>255</posy>
+                    <width>510</width>
+                    <height>510</height>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <fadetime>0</fadetime>
+                    <texture background="true" diffuse="thumbs/cdcover_mask.png">common/bgcolor.png</texture>
+                </control>
+                <control type="image">
+                    <posy>255</posy>
+                    <width>510</width>
+                    <height>510</height>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <fadetime>IconCrossfadeTime2</fadetime>
+                    <texture background="true" diffuse="thumbs/cdcover_mask.png" fallback="DefaultAlbumCover.png">$VAR[ListAlbumVar]</texture>
+                </control>
+                <control type="image">
+                    <posy>766</posy>
+                    <width>510</width>
+                    <height>510</height>
+                    <aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
+                    <fadetime>IconCrossfadeTime2</fadetime>
+                    <colordiffuse>d0FFFFFF</colordiffuse>
+                    <texture diffuse="thumbs/cdcover_mask_reflect.png" flipy="true" background="true" fallback="DefaultAlbumCover.png">$VAR[ListAlbumVar]</texture>
+                </control>
+                <control type="image">
+                    <posx>-20</posx>
+                    <posy>235</posy>
+                    <width>550</width>
+                    <height>550</height>
+                    <aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
+                    <texture diffuse="thumbs/cdcover_mask.png">thumbs/cdcover_glass_aa.png</texture>
+                    <bordertexture border="20">thumbs/cd_shadow.png</bordertexture>
+                    <bordersize>20</bordersize>
+                </control>
+            </control>
+            <include condition="Window.IsActive(videos)">FloorFlagsList</include>
+        </control>
         <control type="group">
             <posy>-20</posy>
+            <animation effect="slide" end="-40,0" time="300" tween="cubic" easing="inout" condition="Skin.HasSetting(listcdart) + Container.Content(movies)">Conditional</animation>
             <visible>Control.IsVisible(50)</visible>
             <include>Animation_ListSlideLeft</include>
             <include>ListPanel</include>
@@ -144,10 +394,10 @@
                 <posy>164</posy>
                 <width>1140</width>
                 <height>800</height>
-                <onleft>9000</onleft>
+                <onleft>62</onleft>
                 <onup>50</onup>
                 <ondown>50</ondown>
-                <onright>62</onright>
+                <onright>5001</onright>
                 <viewtype label="535">list</viewtype>
                 <pagecontrol>62</pagecontrol>
                 <scrolltime tween="quadratic">200</scrolltime>
@@ -506,14 +756,14 @@
                 </focusedlayout>
             </control>
             <control type="scrollbar" id="62">
-                <posx>1195</posx>
+                <posx>78</posx>
                 <posy>158</posy>
                 <width>46</width>
                 <height>780</height>
                 <onup>62</onup>
                 <ondown>62</ondown>
-                <onleft>50</onleft>
-                <onright>9000</onright>
+                <onleft>9000</onleft>
+                <onright>50</onright>
             </control>
             <control type="label" id="161">
                 <posx>158</posx>
@@ -535,102 +785,6 @@
                 <label>$INFO[Container(50).CurrentPage,$LOCALIZE[31024] ]/$INFO[Container(50).NumPages]</label>
                 <visible>Skin.HasSetting(ClassicTopBar)</visible>
             </control>
-        </control>
-        <control type="group">
-            <visible>Control.IsVisible(50)</visible>
-            <include>Animation_ListSlideRight</include>
-            <include condition="Window.IsActive(musiclibrary) | Window.IsActive(musicplaylist)">CDArtFlip</include>
-            <include condition="Window.IsActive(videolibrary) | Window.IsActive(programs)">ListIconPoster</include>
-            <control type="group" id="40003">
-                <posx>1296</posx>
-                <posy>165</posy>
-                <include>Animation_ListSlideRight</include>
-                <visible>Skin.HasSetting(roundedcovers)</visible>
-                <control type="image">
-                    <posx>-7</posx>
-                    <posy>-7</posy>
-                    <width>525</width>
-                    <height>780</height>
-                    <colordiffuse>FF000000</colordiffuse>
-                    <fadetime>0</fadetime>
-                    <aspectratio aligny="bottom">keep</aspectratio>
-                    <texture background="true">$INFO[ListItem.Icon]</texture>
-                    <bordersize>7</bordersize>
-                </control>
-                <control type="image">
-                    <posx>-7</posx>
-                    <posy>-7</posy>
-                    <width>525</width>
-                    <height>780</height>
-                    <aspectratio aligny="bottom">keep</aspectratio>
-                    <texture background="true">$INFO[ListItem.Icon]</texture>
-                    <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-                    <bordersize>7</bordersize>
-                </control>
-                <control type="image">
-                    <posy>766</posy>
-                    <width>510</width>
-                    <height>765</height>
-                    <aspectratio aligny="top">keep</aspectratio>
-                    <fadetime>IconCrossfadeTime2</fadetime>
-                    <texture diffuse="thumbs/diffuse_mirror3.png" flipy="true" background="true">$INFO[ListItem.Icon]</texture>
-                </control>
-            </control>
-            <control type="group">
-                <posx>1296</posx>
-                <posy>165</posy>
-                <include>Animation_ListSlideRight</include>
-                <visible>![Control.IsVisible(40002) | Control.IsVisible(40003)] + !Container.Content(years)</visible>
-                <control type="image">
-                    <posx>-36</posx>
-                    <posy>225</posy>
-                    <width>582</width>
-                    <height>578</height>
-                    <align>center</align>
-                    <bordersize>18</bordersize>
-                    <include>PanelGlowFade</include>
-                    <include>Animation_VisibleChange400</include>
-                    <visible>!Skin.HasSetting(DisableGlowbar)</visible>
-                    <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                    <texture background="true">thumbs/boxes/cd_shadow_light_shadow.png</texture>
-                </control>
-                <control type="image">
-                    <posy>255</posy>
-                    <width>510</width>
-                    <height>510</height>
-                    <aspectratio scalediffuse="false">scale</aspectratio>
-                    <fadetime>0</fadetime>
-                    <texture background="true" diffuse="thumbs/cdcover_mask.png">common/bgcolor.png</texture>
-                </control>
-                <control type="image">
-                    <posy>255</posy>
-                    <width>510</width>
-                    <height>510</height>
-                    <aspectratio scalediffuse="false">scale</aspectratio>
-                    <fadetime>IconCrossfadeTime2</fadetime>
-                    <texture background="true" diffuse="thumbs/cdcover_mask.png" fallback="DefaultAlbumCover.png">$VAR[ListAlbumVar]</texture>
-                </control>
-                <control type="image">
-                    <posy>766</posy>
-                    <width>510</width>
-                    <height>510</height>
-                    <aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
-                    <fadetime>IconCrossfadeTime2</fadetime>
-                    <colordiffuse>d0FFFFFF</colordiffuse>
-                    <texture diffuse="thumbs/cdcover_mask_reflect.png" flipy="true" background="true" fallback="DefaultAlbumCover.png">$VAR[ListAlbumVar]</texture>
-                </control>
-                <control type="image">
-                    <posx>-20</posx>
-                    <posy>235</posy>
-                    <width>550</width>
-                    <height>550</height>
-                    <aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
-                    <texture diffuse="thumbs/cdcover_mask.png">thumbs/cdcover_glass_aa.png</texture>
-                    <bordertexture border="20">thumbs/cd_shadow.png</bordertexture>
-                    <bordersize>20</bordersize>
-                </control>
-            </control>
-            <include condition="Window.IsActive(videos)">FloorFlagsList</include>
         </control>
     </include>
     <include name="ListPanel">
