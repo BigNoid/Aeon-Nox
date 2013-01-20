@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window id="1154" type="dialog">
+    <defaultcontrol>40</defaultcontrol>
+    <backgroundcolor>backgroundcolor</backgroundcolor>
+    <onunload condition="IsEmpty(Window(home).Property(musicvisswitch)">Fullscreen</onunload>
+    <onunload>ClearProperty(musicvisswitch,home)</onunload>
+    <coordinates>
+        <system>1</system>
+        <posx>0</posx>
+        <posy>0</posy>
+    </coordinates>
+    <controls>
+        <!-- Main Group -->
+        <control type="grouplist" id="40">
+            <posx>-135</posx>
+            <posy>5</posy>
+            <visible>!IsEmpty(Window(visualisation).Property(ArtistSlideshow.ArtistBiography))</visible>
+            <visible>!IsEmpty(Player.FolderPath)</visible>
+            <animation effect="slide" end="0,300" time="0" condition="Window.IsActive(1147)">Conditional</animation>
+            <width>2325</width>
+            <height>780</height>
+            <scrolltime tween="cubic" easing="inout">500</scrolltime>
+            <orientation>horizontal</orientation>
+            <itemgap>-1060</itemgap>
+            <animation type="WindowOpen" reversible="false">
+                <effect type="zoom" start="150" end="100" center="960,540" time="1200" tween="cubic" />
+                <effect type="fade" end="100" time="1200" />
+            </animation>
+            <animation type="WindowClose" reversible="false">
+                <effect type="fade" start="100" end="0" time="300" />
+                <effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" />
+            </animation>
+
+            <!-- Video overview -->
+            <control type="group" id="5000">
+                <width>2325</width>
+                <height>825</height>
+                <animation type="Conditional" condition="![ControlGroup(5000).HasFocus | Control.HasFocus(5012)]">
+                    <effect type="fade" start="100" end="80" time="500" tween="cubic" easing="inout" />
+                    <effect type="zoom" start="100" end="70" time="500" tween="cubic" easing="inout" center="auto" />
+                </animation>
+                <control type="button" id="5012">
+                    <include>HiddenObject</include>
+                    <onup>SetProperty(musicvisswitch,true,home)</onup>
+                    <onup>Dialog.Close(1154)</onup>
+                    <onup>ActivateWindow(musicosd)</onup>
+                    <ondown>5001</ondown>
+                    <onright>6012</onright>
+                    <onleft>8012</onleft>
+                    <ondown>5001</ondown>
+                    <onclick>SetFocus(5001)</onclick>
+                </control>
+                <control type="group" id="5001">
+                    <posx>450</posx>
+                    <include>FeaturedPanel</include>
+                    <control type="group">
+                        <posx>131</posx>
+                        <posy>91</posy>
+                        <control type="label">
+                            <posx>-100</posx>
+                            <posy>-15</posy>
+                            <width>445</width>
+                            <height>34</height>
+                            <align>center</align>
+                            <font>Font_Reg22_Caps</font>
+                            <textcolor>$VAR[TitleColorVar]</textcolor>
+                            <label>$LOCALIZE[31635]</label>
+                        </control>
+                        <control type="group">
+                            <posx>-90</posx>
+                            <posy>27</posy>
+                            <control type="image">
+                                <posx>-20</posx>
+                                <posy>-8</posy>
+                                <width>465</width>
+                                <height>465</height>
+                                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                                <texture>thumbs/boxes/cd_shadow_light_shadow.png</texture>
+                                <visible>!Skin.HasSetting(DisableGlowbar)</visible>
+                                <animation effect="fade" start="100" end="80" time="2500" pulse="true" condition="true">conditional</animation>
+                                <include>Animation_VisibleChange400</include>
+                            </control>
+                            <control type="multiimage">
+                                <posy>11</posy>
+                                <posx>2</posx>
+                                <width>420</width>
+                                <height>420</height>
+                                <imagepath background="true" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[Container(5010).ListItem.Icon]</imagepath>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <timeperimage>5000</timeperimage>
+                                <fadetime>750</fadetime>
+                            </control>
+                            <control type="image">
+                                <posx>-20</posx>
+                                <posy>-8</posy>
+                                <width>465</width>
+                                <height>465</height>
+                                <texture>thumbs/boxes/cd_shadow_light.png</texture>
+                            </control>
+                        </control>
+                        <control type="panel" id="5010">
+                            <posx>379</posx>
+                            <posy>-22</posy>
+                            <width>800</width>
+                            <height>480</height>
+                            <onup>5010</onup>
+                            <ondown>5010</ondown>
+                            <onback>Dialog.Close(1112)</onback>
+                            <onright>6001</onright>
+                            <onleft>8001</onleft>
+                            <orientation>vertical</orientation>
+                            <pagecontrol>60</pagecontrol>
+                            <focusposition>0</focusposition>
+                            <scrolltime tween="cubic" easing="inout">400</scrolltime>
+                            <preloaditems>2</preloaditems>
+                     <itemlayout height="120" width="400">
+                        <include>MusicVisPanelLayout</include>
+                    </itemlayout>
+                    <focusedlayout height="120" width="400">
+                        <control type="image">
+                            <width>400</width>
+                            <height>120</height>
+                            <visible>Control.HasFocus(5010)</visible>
+                            <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+                            <texture>views/tripanel/listselect_fo.png</texture>
+                        </control>
+                        <include>MusicVisPanelLayout</include>
+                    </focusedlayout>
+                            <content>
+                                <include>SimilarArtistsItems</include>
+                            </content>
+                        </control>
+                        <!--content-->
+                    </control>
+                    <control type="image">
+                        <posx>21</posx>
+                        <posy>59</posy>
+                        <width>1290</width>
+                        <height>516</height>
+                        <texture>featured/panel_featured_overlay.png</texture>
+                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                    </control>
+                </control>
+            </control>
+            <!-- Movies -->
+            <control type="group" id="6000">
+                <width>2325</width>
+                <height>825</height>
+                <animation type="Conditional" condition="![ControlGroup(6000).HasFocus | Control.HasFocus(6012)]">
+                    <effect type="fade" start="100" end="80" time="500" tween="cubic" easing="inout" />
+                    <effect type="zoom" start="100" end="70" time="500" tween="cubic" easing="inout" center="auto" />
+                </animation>
+                <control type="button" id="6012">
+                    <include>HiddenObject</include>
+                    <onup>SetProperty(musicvisswitch,true,home)</onup>
+                    <onup>Dialog.Close(1154)</onup>
+                    <onup>ActivateWindow(musicosd)</onup>
+                    <ondown>6001</ondown>
+                    <onright>7012</onright>
+                    <onleft>5012</onleft>
+                    <ondown>6001</ondown>
+                    <onclick>Action(Close)</onclick>
+                    <onclick>ActivateWindow(Videos,MovieTitles,return)</onclick>
+                </control>
+                <control type="group">
+                    <posx>450</posx>
+                    <include>FeaturedPanel</include>
+                    <control type="group" id="6001">
+
+                        <control type="group">
+                            <posx>131</posx>
+                            <posy>91</posy>
+                            <control type="label">
+                                <posx>-100</posx>
+                                <posy>-15</posy>
+                                <width>445</width>
+                                <height>34</height>
+                                <align>center</align>
+                                <font>Font_Reg22_Caps</font>
+                                <textcolor>$VAR[TitleColorVar]</textcolor>
+                                <label>$LOCALIZE[21888]</label>
+                            </control>
+                            <control type="group">
+                                <posx>-90</posx>
+                                <posy>27</posy>
+                                <control type="image">
+                                    <posx>-20</posx>
+                                    <posy>-8</posy>
+                                    <width>465</width>
+                                    <height>465</height>
+                                    <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                                    <texture>thumbs/boxes/cd_shadow_light_shadow.png</texture>
+                                    <visible>!Skin.HasSetting(DisableGlowbar)</visible>
+                                    <animation effect="fade" start="100" end="80" time="2500" pulse="true" condition="true">conditional</animation>
+                                    <include>Animation_VisibleChange400</include>
+                                </control>
+                                <control type="multiimage">
+                                    <posy>11</posy>
+                                    <posx>2</posx>
+                                    <width>420</width>
+                                    <height>420</height>
+                                    <imagepath background="true" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[Container(6010).ListItem.Icon]</imagepath>
+                                    <aspectratio scalediffuse="false">scale</aspectratio>
+                                    <timeperimage>5000</timeperimage>
+                                    <fadetime>750</fadetime>
+                                </control>
+                                <control type="image">
+                                    <posx>-20</posx>
+                                    <posy>-8</posy>
+                                    <width>465</width>
+                                    <height>465</height>
+                                    <texture>thumbs/boxes/cd_shadow_light.png</texture>
+                                </control>
+                            </control>
+                            <control type="panel" id="6010">
+                                <posx>379</posx>
+                                <posy>-22</posy>
+                                <width>800</width>
+                                <height>480</height>
+                                <onup>5010</onup>
+                                <ondown>5010</ondown>
+                                <onback>Dialog.Close(1112)</onback>
+                                <onright>7001</onright>
+                                <onleft>5001</onleft>
+                                <orientation>vertical</orientation>
+                                <pagecontrol>60</pagecontrol>
+                                <focusposition>0</focusposition>
+                                <scrolltime tween="cubic" easing="inout">400</scrolltime>
+                                <preloaditems>2</preloaditems>
+                         <itemlayout height="120" width="400">
+                            <include>MusicVisPanelLayout</include>
+                        </itemlayout>
+                        <focusedlayout height="120" width="400">
+                            <control type="image">
+                                <width>400</width>
+                                <height>120</height>
+                                <visible>Control.HasFocus(6010)</visible>
+                                <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+                                <texture>views/tripanel/listselect_fo.png</texture>
+                            </control>
+                            <include>MusicVisPanelLayout</include>
+                        </focusedlayout>
+                                <content>
+                                    <include>DiscographyItems</include>
+                                </content>
+                            </control>
+                            <!--content-->
+                        </control>
+                    </control>
+                    <control type="image">
+                        <posx>21</posx>
+                        <posy>59</posy>
+                        <width>1290</width>
+                        <height>516</height>
+                        <texture>featured/panel_featured_overlay.png</texture>
+                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                    </control>
+                </control>
+            </control>
+            <!-- TV Shows -->
+            <control type="group" id="7000">
+                <width>2325</width>
+                <height>825</height>
+                <animation type="Conditional" condition="![ControlGroup(7000).HasFocus | Control.HasFocus(7012)]">
+                    <effect type="fade" start="100" end="80" time="500" tween="cubic" easing="inout" />
+                    <effect type="zoom" start="100" end="70" time="500" tween="cubic" easing="inout" center="auto" />
+                </animation>
+                <control type="button" id="7012">
+                    <include>HiddenObject</include>
+                    <onup>SetProperty(musicvisswitch,true,home)</onup>
+                    <onup>Dialog.Close(1154)</onup>
+                    <onup>ActivateWindow(musicosd)</onup>
+                    <ondown>7001</ondown>
+                    <onright>8012</onright>
+                    <onleft>6012</onleft>
+                    <ondown>7001</ondown>
+                    <onclick>Action(Close)</onclick>
+                </control>
+                <control type="group">
+                    <posx>450</posx>
+                    <include>FeaturedPanel</include>
+                    <control type="group" id="7001">
+                            <posx>131</posx>
+                            <posy>91</posy>
+                            <control type="label">
+                                <posx>-100</posx>
+                                <posy>-15</posy>
+                                <width>445</width>
+                                <height>34</height>
+                                <align>center</align>
+                                <font>Font_Reg22_Caps</font>
+                                <textcolor>$VAR[TitleColorVar]</textcolor>
+                                <label>$LOCALIZE[24017]</label>
+                            </control>
+                            <control type="group">
+                                <posx>-90</posx>
+                                <posy>27</posy>
+                                <control type="image">
+                                    <posx>-20</posx>
+                                    <posy>-8</posy>
+                                    <width>465</width>
+                                    <height>465</height>
+                                    <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                                    <texture>thumbs/boxes/cd_shadow_light_shadow.png</texture>
+                                    <visible>!Skin.HasSetting(DisableGlowbar)</visible>
+                                    <animation effect="fade" start="100" end="80" time="2500" pulse="true" condition="true">conditional</animation>
+                                    <include>Animation_VisibleChange400</include>
+                                </control>
+                                <control type="multiimage">
+                                    <posy>11</posy>
+                                    <posx>2</posx>
+                                    <width>420</width>
+                                    <height>420</height>
+                                    <imagepath background="true" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[Window(Visualisation).Property(ArtistSlideshow)]</imagepath>
+                                    <aspectratio scalediffuse="false">scale</aspectratio>
+                                    <timeperimage>5000</timeperimage>
+                                    <fadetime>750</fadetime>
+                                </control>
+                                <control type="image">
+                                    <posx>-20</posx>
+                                    <posy>-8</posy>
+                                    <width>465</width>
+                                    <height>465</height>
+                                    <texture>thumbs/boxes/cd_shadow_light.png</texture>
+                                </control>
+                            </control>
+                        <control type="textbox">
+                            <posx>360</posx>
+                            <posy>-10</posy>
+                            <width>674</width>
+                            <pagecontrol>7010</pagecontrol>
+                            <height>474</height>
+                            <font>Font_Reg19</font>
+                            <label>$INFO[Window(visualisation).Property(ArtistSlideshow.ArtistBiography)]</label>
+                            <autoscroll delay="8000" time="AutoScrollTime" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+                        </control>
+                        <control type="spincontrol" id="7010">
+                            <posx>1050</posx>
+                            <posy>-30</posy>
+                            <onup>7012</onup>
+                            <onleft>6010</onleft>
+                            <onright>8010</onright>
+                            <posy>-20</posy>
+                            <width>50</width>
+                            <height>88</height>
+                        </control>
+                    </control>
+                    <control type="image">
+                        <posx>21</posx>
+                        <posy>59</posy>
+                        <width>1290</width>
+                        <height>516</height>
+                        <texture>featured/panel_featured_overlay.png</texture>
+                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                    </control>
+                </control>
+            </control>
+            <!-- Albums -->
+            <control type="group" id="8000">
+                <width>2325</width>
+                <height>825</height>
+                <animation type="Conditional" condition="![ControlGroup(8000).HasFocus | Control.HasFocus(8012)]">
+                    <effect type="fade" start="100" end="80" time="500" tween="cubic" easing="inout" />
+                    <effect type="zoom" start="100" end="70" time="500" tween="cubic" easing="inout" center="1160,412" />
+                </animation>
+                <control type="button" id="8012">
+                    <include>HiddenObject</include>
+                    <onup>SetProperty(musicvisswitch,true,home)</onup>
+                    <onup>Dialog.Close(1154)</onup>
+                    <onup>ActivateWindow(musicosd)</onup>
+                    <ondown>8001</ondown>
+                    <onright>5012</onright>
+                    <onleft>7012</onleft>
+                    <onclick>SetFocus(8001)</onclick>
+                </control>
+                <control type="group" id="8001">
+                    <posx>450</posx>
+                    <include>FeaturedPanel</include>
+                    <control type="group">
+                            <posx>131</posx>
+                            <posy>91</posy>
+                            <control type="label">
+                                <posx>-100</posx>
+                                <posy>-15</posy>
+                                <width>445</width>
+                                <height>34</height>
+                                <align>center</align>
+                                <font>Font_Reg22_Caps</font>
+                                <textcolor>$VAR[TitleColorVar]</textcolor>
+                                <label>$LOCALIZE[559]</label>
+                            </control>
+                          <control type="group">
+                                <posx>-90</posx>
+                                <posy>27</posy>
+                                <control type="image">
+                                    <posx>-20</posx>
+                                    <posy>-8</posy>
+                                    <width>465</width>
+                                    <height>465</height>
+                                    <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                                    <texture>thumbs/boxes/cd_shadow_light_shadow.png</texture>
+                                    <visible>!Skin.HasSetting(DisableGlowbar)</visible>
+                                    <animation effect="fade" start="100" end="80" time="2500" pulse="true" condition="true">conditional</animation>
+                                    <include>Animation_VisibleChange400</include>
+                                </control>
+                                <control type="multiimage">
+                                    <posy>11</posy>
+                                    <posx>2</posx>
+                                    <width>420</width>
+                                    <height>420</height>
+                                    <imagepath background="true" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[Container(8010).ListItem.Thumb]</imagepath>
+                                    <aspectratio scalediffuse="false">scale</aspectratio>
+                                    <timeperimage>5000</timeperimage>
+                                    <fadetime>750</fadetime>
+                                </control>
+                                <control type="image">
+                                    <posx>-20</posx>
+                                    <posy>-8</posy>
+                                    <width>465</width>
+                                    <height>465</height>
+                                    <texture>thumbs/boxes/cd_shadow_light.png</texture>
+                                </control>
+                            </control>
+                           <control type="panel" id="8010">
+                                <posx>379</posx>
+                                <posy>-18</posy>
+                                <width>800</width>
+                                <height>480</height>
+                                 <onup>8012</onup>
+                            <onleft>7010</onleft>
+                            <onright>5001</onright>
+                                <orientation>vertical</orientation>
+                                <pagecontrol>60</pagecontrol>
+                                <focusposition>0</focusposition>
+                                <scrolltime tween="cubic" easing="inout">400</scrolltime>
+                                <preloaditems>2</preloaditems>
+                         <itemlayout height="48" width="800">
+                        <control type="image">
+                    <posx>15</posx>
+                    <posy>0</posy>
+                    <width>770</width>
+                    <height>48</height>
+                    <texture>osd/osd_settings_buttonnf.png</texture>
+                </control>
+                <control type="label">
+                    <posy>0</posy>
+                    <posx>35</posx>
+                    <width>60</width>
+                    <height>48</height>
+                    <textcolor>$VAR[TitleColorVar]</textcolor>
+                    <align>right</align>
+                    <font>Font_Reg18</font>
+                    <label>$INFO[ListItem.Property(Number)]</label>
+                </control>
+                <control type="label">
+                    <posy>0</posy>
+                    <posx>45</posx>
+                    <width>765</width>
+                    <height>48</height>
+                    <textcolor>grey2</textcolor>
+                    <align>left</align>
+                    <font>Font_Reg18</font>
+                    <label>[COLOR white2]$INFO[ListItem.Property(Artist)]: [/COLOR]$INFO[ListItem.Label]</label>
+                </control>
+<!--                 <control type="label">
+                    <posy>10</posy>
+                    <posx>235</posx>
+                    <width>660</width>
+                    <height>60</height>
+                    <textcolor>grey2</textcolor>
+                    <align>right</align>
+                    <number>yes</number>
+                    <font>Font_Reg18</font>
+                    <label>$INFO[ListItem.Property(Number)]</label>
+                </control> -->
+                        </itemlayout>
+                        <focusedlayout height="48" width="800">
+                            <control type="image">
+                                <width>800</width>
+                                <height>48</height>
+                                <visible>Control.HasFocus(8010)</visible>
+                                <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+                                <texture>views/tripanel/listselect_fo.png</texture>
+                            </control>
+                        <control type="image">
+                    <posx>15</posx>
+                    <posy>0</posy>
+                    <width>370</width>
+                    <height>48</height>
+                    <texture>osd/osd_settings_buttonnf.png</texture>
+                </control>
+                <control type="label">
+                    <posy>0</posy>
+                    <posx>35</posx>
+                    <width>60</width>
+                    <height>48</height>
+                    <textcolor>$VAR[TitleColorVar]</textcolor>
+                    <align>right</align>
+                    <font>Font_Reg18</font>
+                    <label>$INFO[ListItem.Property(Number)]</label>
+                </control>
+                <control type="label">
+                    <posy>0</posy>
+                    <posx>45</posx>
+                    <width>765</width>
+                    <height>48</height>
+                    <textcolor>grey2</textcolor>
+                    <align>left</align>
+                    <font>Font_Reg18</font>
+                    <label>[COLOR white2]$INFO[ListItem.Property(Artist)]: [/COLOR]$INFO[ListItem.Label]</label>
+                </control>
+                        </focusedlayout>
+                                <content>
+                                    <item>
+                                        <label>$INFO[MusicPlayer.Offset(1).Title]</label>
+                                        <thumb>$INFO[MusicPlayer.Offset(1).Cover]</thumb>
+                                        <property name="Number">1:</property>
+                                        <property name="Artist">$INFO[MusicPlayer.Offset(1).Artist]</property>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <visible>!IsEmpty(MusicPlayer.Offset(1).Title)</visible>
+                                    </item>
+                                    <item>
+                                        <label>$INFO[MusicPlayer.Offset(2).Title]</label>
+                                        <thumb>$INFO[MusicPlayer.Offset(2).Cover]</thumb>
+                                        <property name="Number">2:</property>
+                                        <property name="Artist">$INFO[MusicPlayer.Offset(2).Artist]</property>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <visible>!IsEmpty(MusicPlayer.Offset(2).Title)</visible>
+                                    </item>
+                                    <item>
+                                        <label>$INFO[MusicPlayer.Offset(3).Title]</label>
+                                        <thumb>$INFO[MusicPlayer.Offset(3).Cover]</thumb>
+                                        <property name="Number">3:</property>
+                                        <property name="Artist">$INFO[MusicPlayer.Offset(3).Artist]</property>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <visible>!IsEmpty(MusicPlayer.Offset(3).Title)</visible>
+                                    </item>
+                                    <item>
+                                        <label>$INFO[MusicPlayer.Offset(4).Title]</label>
+                                        <thumb>$INFO[MusicPlayer.Offset(4).Cover]</thumb>
+                                        <property name="Number">4:</property>
+                                        <property name="Artist">$INFO[MusicPlayer.Offset(4).Artist]</property>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <visible>!IsEmpty(MusicPlayer.Offset(4).Title)</visible>
+                                    </item>
+                                    <item>
+                                        <label>$INFO[MusicPlayer.Offset(5).Title]</label>
+                                        <thumb>$INFO[MusicPlayer.Offset(5).Cover]</thumb>
+                                        <property name="Number">5:</property>
+                                        <property name="Artist">$INFO[MusicPlayer.Offset(5).Artist]</property>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <visible>!IsEmpty(MusicPlayer.Offset(5).Title)</visible>
+                                    </item>
+                                    <item>
+                                        <label>$INFO[MusicPlayer.Offset(6).Title]</label>
+                                        <thumb>$INFO[MusicPlayer.Offset(6).Cover]</thumb>
+                                        <property name="Number">6:</property>
+                                        <property name="Artist">$INFO[MusicPlayer.Offset(6).Artist]</property>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <visible>!IsEmpty(MusicPlayer.Offset(6).Title)</visible>
+                                    </item>
+                                    <item>
+                                        <label>$INFO[MusicPlayer.Offset(7).Title]</label>
+                                        <thumb>$INFO[MusicPlayer.Offset(7).Cover]</thumb>
+                                        <property name="Number">7:</property>
+                                        <property name="Artist">$INFO[MusicPlayer.Offset(7).Artist]</property>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <visible>!IsEmpty(MusicPlayer.Offset(7).Title)</visible>
+                                    </item>
+                                    <item>
+                                        <label>$INFO[MusicPlayer.Offset(8).Title]</label>
+                                        <thumb>$INFO[MusicPlayer.Offset(8).Cover]</thumb>
+                                        <property name="Number">8:</property>
+                                        <property name="Artist">$INFO[MusicPlayer.Offset(8).Artist]</property>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <visible>!IsEmpty(MusicPlayer.Offset(8).Title)</visible>
+                                    </item>
+                                    <item>
+                                        <label>$INFO[MusicPlayer.Offset(9).Title]</label>
+                                        <thumb>$INFO[MusicPlayer.Offset(9).Cover]</thumb>
+                                        <property name="Number">9:</property>
+                                        <property name="Artist">$INFO[MusicPlayer.Offset(9).Artist]</property>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <visible>!IsEmpty(MusicPlayer.Offset(9).Title)</visible>
+                                    </item>
+                                    <item>
+                                        <label>$INFO[MusicPlayer.Offset(10).Title]</label>
+                                        <thumb>$INFO[MusicPlayer.Offset(10).Cover]</thumb>
+                                        <property name="Number">10:</property>
+                                        <property name="Artist">$INFO[MusicPlayer.Offset(10).Artist]</property>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <onclick>PlayerControl(Next)</onclick>
+                                        <visible>!IsEmpty(MusicPlayer.Offset(10).Title)</visible>
+                                    </item>
+                                </content>
+                            </control>
+                    </control>
+                    <control type="image">
+                        <posx>21</posx>
+                        <posy>59</posy>
+                        <width>1290</width>
+                        <height>516</height>
+                        <texture>featured/panel_featured_overlay.png</texture>
+                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                    </control>
+                </control>
+            </control>
+            <!-- Songs -->
+<!--             <control type="group" id="9000">
+                <width>2325</width>
+                <height>825</height>
+                <animation type="Conditional" condition="![ControlGroup(9000).HasFocus | Control.HasFocus(9012)]">
+                    <effect type="fade" start="100" end="80" time="500" tween="cubic" easing="inout" />
+                    <effect type="zoom" start="100" end="70" time="500" tween="cubic" easing="inout" center="auto" />
+                </animation>
+                <control type="button" id="9012">
+                    <include>HiddenObject</include>
+                    <onup>Dialog.Close(1154)</onup>
+                    <ondown>9001</ondown>
+                    <onright>5012</onright>
+                    <onleft>8012</onleft>
+                    <ondown>9001</ondown>
+                    <onclick>Action(Close)</onclick>
+                    <onclick>ActivateWindow(musiclibrary,root,return)</onclick>
+                </control>
+                <control type="group" id="9001">
+                    <posx>450</posx>
+                    <include>FeaturedPanel</include>
+                    <control type="group">
+                        <posx>31</posx>
+                        <posy>31</posy>
+                        <control type="button" id="9010">
+                            <include>HiddenObject</include>
+                            <onup>9012</onup>
+                            <onleft>8010</onleft>
+                            <onright>3001</onright>
+                            <ondown>Control.Move(9002,1)</ondown>
+                            <onclick>SetProperty(InfoDialog,9002,1154)</onclick>
+                            <onclick>SetFocus(5005)</onclick>
+                            <onfocus>CancelAlarm(Tile,true)</onfocus>
+                        </control>
+                    </control>
+                    <control type="image">
+                        <posx>21</posx>
+                        <posy>59</posy>
+                        <width>1290</width>
+                        <height>516</height>
+                        <texture>featured/panel_featured_overlay.png</texture>
+                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
+                    </control>
+                </control>
+            </control> -->
+        </control>
+        <control type="group">
+            <visible>!IsEmpty(Window(visualisation).Property(ArtistSlideshow.ArtistBiography))</visible>
+            <visible>!IsEmpty(Player.FolderPath)</visible>
+            <include>Animation_HideBreadCrumbs</include>
+            <control type="image">
+                <width>1920</width>
+                <height>87</height>
+                <texture flipy="true">home/nav_back_shadow.png</texture>
+                <colordiffuse>$VAR[ExtendedColorVar]</colordiffuse>
+            </control>
+            <control type="group">
+                <control type="grouplist">
+                    <posx></posx>
+                    <width>1920</width>
+                    <align>center</align>
+                    <itemgap>50</itemgap>
+                    <orientation>horizontal</orientation>
+                    <usecontrolcoords>true</usecontrolcoords>
+                    <control type="image">
+                        <width>38</width>
+                        <height>30</height>
+                        <texture>common/featured_icon.png</texture>
+                        <aspectratio>keep</aspectratio>
+                        <colordiffuse>$VAR[BreadCrumbsContentColorVar]</colordiffuse>
+                        <posy>6</posy>
+                    </control>
+                    <control type="label">
+                        <include>FeaturedTopLabel</include>
+                        <label>$LOCALIZE[31635]</label>
+                        <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!ControlGroup(5000).HasFocus">Conditional</animation>
+                        <animation effect="zoom" start="100" end="120" time="300" center="auto" tween="cubic" easing="inout" condition="ControlGroup(5000).HasFocus">Conditional</animation>
+                    </control>
+                    <control type="label">
+                        <include>FeaturedTopLabel</include>
+                        <label>$LOCALIZE[21888]</label>
+                        <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!ControlGroup(6000).HasFocus">Conditional</animation>
+                        <animation effect="zoom" start="100" end="120" time="300" center="auto" tween="cubic" easing="inout" condition="ControlGroup(6000).HasFocus">Conditional</animation>
+                    </control>
+                    <control type="label">
+                        <include>FeaturedTopLabel</include>
+                        <label>$LOCALIZE[24017]</label>
+                        <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!ControlGroup(7000).HasFocus">Conditional</animation>
+                        <animation effect="zoom" start="100" end="120" time="300" center="auto" tween="cubic" easing="inout" condition="ControlGroup(7000).HasFocus">Conditional</animation>
+                    </control>
+                    <control type="label">
+                        <include>FeaturedTopLabel</include>
+                        <label>$LOCALIZE[559]</label>
+                        <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!ControlGroup(8000).HasFocus">Conditional</animation>
+                        <animation effect="zoom" start="100" end="120" time="300" center="auto" tween="cubic" easing="inout" condition="ControlGroup(8000).HasFocus">Conditional</animation>
+                    </control>
+<!--                     <control type="label">
+                        <include>FeaturedTopLabel</include>
+                        <label>$LOCALIZE[31501]</label>
+                        <animation effect="fade" start="100" end="50" time="300" tween="cubic" easing="inout" condition="!ControlGroup(9000).HasFocus">Conditional</animation>
+                        <animation effect="zoom" start="100" end="120" time="300" center="auto" tween="cubic" easing="inout" condition="ControlGroup(9000).HasFocus">Conditional</animation>
+                    </control> -->
+                </control>
+            </control>
+        </control>
+    </controls>
+</window>
