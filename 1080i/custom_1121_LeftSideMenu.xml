@@ -213,8 +213,30 @@
                 </item>
             </content>
         </control>
+                            <control type="button" id="810">
+            <include>HiddenObject</include>
+            <onfocus>SetFocus(9011)</onfocus>
+            <onfocus>Action(Close)</onfocus>
+            <onfocus condition="Stringcompare(Container(9011).ListItem.Property(Path),ActivateWindow(Videos,MovieTitles,return)) | Stringcompare(Container(9011).ListItem.Property(Path),ActivateWindow(Videos,MusicVideoTitles,return)) | Substring(Container(9011).ListItem.Property(Path),videodb://1/)">SetProperty(DontRunTVShowScripts,True,Home)</onfocus>
+            <onfocus condition="stringcompare(Container(9011).ListItem.Property(Type),0) | stringcompare(Container(9011).ListItem.Property(Type),1) | stringcompare(Container(9011).ListItem.Property(Type),2) | stringcompare(Container(9011).ListItem.Property(Type),3)">RunAddon($INFO[Container(9011).ListItem.Property(Path)])</onfocus>
+            <onfocus condition="stringcompare(Container(9011).ListItem.Property(Type),4)">ActivateWindow(Videos,$INFO[Container(9011).ListItem.Property(Path)],return)</onfocus>
+            <onfocus condition="stringcompare(Container(9011).ListItem.Property(Type),5)">ActivateWindow(MusicLibrary,$INFO[Container(9011).ListItem.Property(Path)],return)</onfocus>
+            <onfocus condition="stringcompare(Container(9011).ListItem.Property(Type),6) | Stringcompare(Container(9011).ListItem.Property(Type),7)  | Stringcompare(Container(9011).ListItem.Property(Type),custom)">$INFO[Container(9011).ListItem.Property(Path)]</onfocus>
+            <visible>IsEmpty(Window(home).Property(quicknavsetup))</visible>
+            </control>
+        <control type="button" id="810">
+            <include>HiddenObject</include>
+            <onfocus>SetFocus(9011)</onfocus>
+            <onfocus>Skin.Setstring(ItemToEdit.Label,$INFO[Container(9011).ListItem.Label])</onfocus>
+            <onfocus>Skin.Setstring(ItemToEdit.MultiFanart,$INFO[Container(9011).ListItem.Thumb])</onfocus>
+            <onfocus>Skin.Setstring(ItemToEdit.Disable,$INFO[Container(9011).ListItem.Property(DisableIcon)])</onfocus>
+            <onfocus>Skin.Setstring(ItemToEdit.Type,$INFO[Container(9011).ListItem.Property(Type)])</onfocus>
+            <onfocus>Skin.Setstring(ItemToEdit.Path,$INFO[Container(9011).ListItem.Property(Path)])</onfocus>
+            <onfocus>ActivateWindow(1136)</onfocus>
+            <visible>!IsEmpty(Window(home).Property(quicknavsetup))</visible>
+        </control>
         <control type="list" id="9011">
-            <visible>IsEmpty(Window(home).Property(viewtypeselect)) + IsEmpty(Window(home).Property(quicknavsetup))</visible>
+            <visible>IsEmpty(Window(home).Property(viewtypeselect))</visible>
             <visible>!Window.IsVisible(script-globalsearch-main.xml)</visible>
             <width>450</width>
             <height>1080</height>
@@ -284,157 +306,6 @@
             </focusedlayout>
             <content>
                 <include>QuickNavContent</include>
-            </content>
-        </control>
-        <control type="list" id="9011">
-            <visible>IsEmpty(Window(home).Property(viewtypeselect)) + !IsEmpty(Window(home).Property(quicknavsetup))</visible>
-            <visible>!Window.IsVisible(script-globalsearch-main.xml)</visible>
-            <width>450</width>
-            <height>1080</height>
-            <orientation>vertical</orientation>
-            <onleft>Dialog.CLose(1121)</onleft>
-            <onup>9011</onup>
-            <ondown>9012</ondown>
-            <onright>Dialog.Close(1121)</onright>
-            <itemlayout width="219" height="115">
-                <control type="image">
-                    <width>219</width>
-                    <height>115</height>
-                    <texture border="0,0,0,4">settings/listselect_nf.png</texture>
-                </control>
-                <control type="image">
-                    <posx>72</posx>
-                    <posy>1</posy>
-                    <width>75</width>
-                    <height>75</height>
-                    <aspectratio align="center">keep</aspectratio>
-                    <texture>$INFO[ListItem.Thumb]</texture>
-                    <colordiffuse>white3</colordiffuse>
-                </control>
-                <control type="label">
-                    <posx>110</posx>
-                    <posy>57</posy>
-                    <height>60</height>
-                    <width>219</width>
-                    <align>center</align>
-                    <font>Font_Reg17_Caps</font>
-                    <textcolor>white3</textcolor>
-                    <info>ListItem.Label</info>
-                </control>
-                <control type="image">
-                    <posx>60</posx>
-                    <posy>7</posy>
-                    <width>100</width>
-                    <height>100</height>
-                    <texture>close.png</texture>
-                    <visible>stringcompare(ListItem.Property(DisableIcon),1)</visible>
-                </control>
-            </itemlayout>
-            <focusedlayout width="219" height="115">
-                <control type="image">
-                    <width>219</width>
-                    <height>115</height>
-                    <texture border="0,0,0,4">settings/listselect_nf.png</texture>
-                </control>
-                <control type="image">
-                    <width>219</width>
-                    <height>115</height>
-                    <texture>views/tripanel/listselect_fo.png</texture>
-                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                    <include>PanelGlowFade</include>
-                    <visible>Control.HasFocus(9011)</visible>
-                </control>
-                <control type="image">
-                    <posx>72</posx>
-                    <posy>1</posy>
-                    <width>75</width>
-                    <height>75</height>
-                    <aspectratio align="center">keep</aspectratio>
-                    <texture>$INFO[ListItem.Thumb]</texture>
-                    <colordiffuse>white2</colordiffuse>
-                </control>
-                <control type="label">
-                    <posx>110</posx>
-                    <posy>57</posy>
-                    <height>60</height>
-                    <width>219</width>
-                    <align>center</align>
-                    <font>Font_Reg17_Caps</font>
-                    <info>ListItem.Label</info>
-                </control>
-                <control type="image">
-                    <posx>60</posx>
-                    <posy>7</posy>
-                    <width>100</width>
-                    <height>100</height>
-                    <texture>close.png</texture>
-                    <visible>stringcompare(ListItem.Property(DisableIcon),1)</visible>
-                </control>
-            </focusedlayout>
-            <content>
-                <item>
-                    <label fallback="31502">$INFO[Skin.String(QuickNavItem1.Label)]</label>
-                    <thumb fallback="special://skin/extras/BigIcons/Film.png">$INFO[Skin.String(QuickNavItem1.MultiFanart)]</thumb>
-                    <property name="DisableIcon">$INFO[Skin.String(QuickNavItem1.Disable)]</property>
-                    <onclick>SetProperty(MenuItem,QuickNavItem1,home)</onclick>
-                    <onclick>ActivateWindow(1136)</onclick>
-                </item>
-                <item>
-                    <label fallback="31503">$INFO[Skin.String(QuickNavItem2.Label)]</label>
-                    <thumb fallback="special://skin/extras/BigIcons/Television.png">$INFO[Skin.String(QuickNavItem2.MultiFanart)]</thumb>
-                    <property name="DisableIcon">$INFO[Skin.String(QuickNavItem2.Disable)]</property>
-                    <onclick>SetProperty(MenuItem,QuickNavItem2,home)</onclick>
-                    <onclick>ActivateWindow(1136)</onclick>
-                </item>
-                <item>
-                    <label fallback="31501">$INFO[Skin.String(QuickNavItem3.Label)]</label>
-                    <thumb fallback="special://skin/extras/BigIcons/Headphone.png">$INFO[Skin.String(QuickNavItem3.MultiFanart)]</thumb>
-                    <property name="DisableIcon">$INFO[Skin.String(QuickNavItem3.Disable)]</property>
-                    <onclick>SetProperty(MenuItem,QuickNavItem3,home)</onclick>
-                    <onclick>ActivateWindow(1136)</onclick>
-                </item>
-                <item>
-                    <label fallback="20389">$INFO[Skin.String(QuickNavItem4.Label)]</label>
-                    <thumb fallback="special://skin/extras/BigIcons/Media.png">$INFO[Skin.String(QuickNavItem4.MultiFanart)]</thumb>
-                    <property name="DisableIcon">$INFO[Skin.String(QuickNavItem4.Disable)]</property>
-                    <onclick>SetProperty(MenuItem,QuickNavItem4,home)</onclick>
-                    <onclick>ActivateWindow(1136)</onclick>
-                </item>
-                <item>
-                    <label fallback="1036">$INFO[Skin.String(QuickNavItem5.Label)]</label>
-                    <thumb fallback="special://skin/extras/BigIcons/Star.png">$INFO[Skin.String(QuickNavItem5.MultiFanart)]</thumb>
-                    <property name="DisableIcon">$INFO[Skin.String(QuickNavItem5.Disable)]</property>
-                    <onclick>SetProperty(MenuItem,QuickNavItem5,home)</onclick>
-                    <onclick>ActivateWindow(1136)</onclick>
-                </item>
-                <item>
-                    <label fallback="1037">$INFO[Skin.String(QuickNavItem6.Label)]</label>
-                    <thumb fallback="special://skin/extras/BigIcons/Monitor.png">$INFO[Skin.String(QuickNavItem6.MultiFanart)]</thumb>
-                    <property name="DisableIcon">$INFO[Skin.String(QuickNavItem6.Disable)]</property>
-                    <onclick>SetProperty(MenuItem,QuickNavItem6,home)</onclick>
-                    <onclick>ActivateWindow(1136)</onclick>
-                </item>
-                <item>
-                    <label fallback="31507">$INFO[Skin.String(QuickNavItem7.Label)]</label>
-                    <thumb fallback="special://skin/extras/BigIcons/Puzzle.png">$INFO[Skin.String(QuickNavItem7.MultiFanart)]</thumb>
-                    <property name="DisableIcon">$INFO[Skin.String(QuickNavItem7.Disable)]</property>
-                    <onclick>SetProperty(MenuItem,QuickNavItem7,home)</onclick>
-                    <onclick>ActivateWindow(1136)</onclick>
-                </item>
-                <item>
-                    <label fallback="137">$INFO[Skin.String(QuickNavItem8.Label)]</label>
-                    <thumb fallback="special://skin/extras/BigIcons/Search.png">$INFO[Skin.String(QuickNavItem8.MultiFanart)]</thumb>
-                    <property name="DisableIcon">$INFO[Skin.String(QuickNavItem8.Disable)]</property>
-                    <onclick>SetProperty(MenuItem,QuickNavItem8,home)</onclick>
-                    <onclick>ActivateWindow(1136)</onclick>
-                </item>
-                <item>
-                    <label fallback="559">$INFO[Skin.String(QuickNavItem9.Label)]</label>
-                    <property name="DisableIcon">$INFO[Skin.String(QuickNavItem9.Disable)]</property>
-                    <thumb fallback="special://skin/extras/BigIcons/Format.png">$INFO[Skin.String(QuickNavItem9.MultiFanart)]</thumb>
-                    <onclick>SetProperty(MenuItem,QuickNavItem9,home)</onclick>
-                    <onclick>ActivateWindow(1136)</onclick>
-                </item>
             </content>
         </control>
         <control type="button" id="9012">
