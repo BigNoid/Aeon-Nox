@@ -33,19 +33,19 @@
                     <itemlayout height="346" width="960" condition="Container.Content(movies) + Skin.HasSetting(infopanel2columns)">
                         <include>FSPanelMoviesItemLayout</include>
                     </itemlayout>
-                    <focusedlayout height="346" widthe="960" condition="Container.Content(movies) + Skin.HasSetting(infopanel2columns)">
+                    <focusedlayout height="346" width="960" condition="Container.Content(movies) + Skin.HasSetting(infopanel2columns)">
                         <include>FSPanelMoviesFocusedLayout</include>
                     </focusedlayout>
                     <itemlayout height="346" width="960" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + Skin.HasSetting(infopanel2columns)">
                         <include>FSPanelMusicItemlayout</include>
                     </itemlayout>
-                    <focusedlayout height="346" widthe="960" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + Skin.HasSetting(infopanel2columns)">
+                    <focusedlayout height="346" width="960" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + Skin.HasSetting(infopanel2columns)">
                         <include>FSPanelMusicFocusedlayout</include>
                     </focusedlayout>
                     <itemlayout height="346" width="1920" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + Skin.HasSetting(infopanelfanart)">
                         <include condition="!Window.IsActive(videos)">FSPanelMusicItemlayout</include>
                     </itemlayout>
-                    <focusedlayout height="346" widthe="1920" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + Skin.HasSetting(infopanelfanart)">
+                    <focusedlayout height="346" width="1920" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + Skin.HasSetting(infopanelfanart)">
                         <include condition="!Window.IsActive(videos)">FSPanelMusicFocusedlayout</include>
                     </focusedlayout>
                     <itemlayout height="346" width="1920" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + !Skin.HasSetting(infopanel2columns) + !Skin.HasSetting(infopanelfanart)">
@@ -175,10 +175,10 @@
                     <itemlayout height="346" width="1920" condition="Container.Content(movies) + Skin.HasSetting(infopanelfanart)">
                         <include condition="Window.IsActive(videos)">FSPanelMoviesItemLayout</include>
                     </itemlayout>
-                    <focusedlayout height="346" widthe="1920" condition="Container.Content(movies) + Skin.HasSetting(infopanelfanart)">
+                    <focusedlayout height="346" width="1920" condition="Container.Content(movies) + Skin.HasSetting(infopanelfanart)">
                         <include condition="Window.IsActive(videos)">FSPanelMoviesFocusedLayout</include>
                     </focusedlayout>
-                    <itemlayout height="346" width="1920" condition="Container.Content(movies) + !Skin.HasSetting(infopanelfanart) + !Skin.HasSetting(infopanel2columns)">
+                    <itemlayout height="346" width="1920" condition="[Container.Content(movies) | Container.Content(tvshows)] + !Skin.HasSetting(infopanelfanart) + !Skin.HasSetting(infopanel2columns)">
                         <control type="image">
                             <posx>691</posx>
                             <posy>61</posy>
@@ -190,7 +190,7 @@
                             <animation effect="slide" end="-60" time="0" condition="!Skin.HasSetting(infopanelcdart)">Conditional</animation>
                         </control>
                         <control type="image">
-                            <posx>100</posx>
+                            <posx>96</posx>
                             <posy>16</posy>
                             <width>300</width>
                             <height>300</height>
@@ -198,8 +198,15 @@
                             <texture background="true">$VAR[cdArtVar]</texture>
                             <!--                         <animation effect="rotate" end="-360" center="auto" time="26000" loop="true" reversible="false" condition="!Player.Paused">Conditional</animation>
  -->
-                            <bordersize>7</bordersize>
-                            <visible>Skin.HasSetting(infopanelcdart)</visible>
+                            <bordersize>3</bordersize>
+                            <visible>Skin.HasSetting(infopanelcdart) + !SubString(ListItem.Path,videodb://1/7/) + [!IsEmpty(ListItem.Art(discart)) | !Skin.HasSetting(customcdart) | [Skin.HasSetting(customcdart) + IsEmpty(ListItem.Art(fanart))]]</visible>
+                        </control>
+                        <control type="group">
+                            <posx>-23</posx>
+                            <posy>20</posy>
+                            <include>Custom_cdART</include>
+                            <include>Custom_cdART_IPtitle</include>
+                            <visible>IsEmpty(ListItem.Art(discart)) + !SubString(ListItem.Path,videodb://1/7/) + Skin.HasSetting(infopanelcdart) + [Skin.HasSetting(customcdart) | Container.Content(tvshows)]</visible>
                         </control>
                         <control type="image">
                             <posx>21</posx>
@@ -308,7 +315,7 @@
                             </control>
                         </control>
                     </itemlayout>
-                    <focusedlayout height="346" widthe="1920" condition="Container.Content(movies) + !Skin.HasSetting(infopanelfanart) + !Skin.HasSetting(infopanel2columns)">
+                    <focusedlayout height="346" width="1920" condition="[Container.Content(movies) | Container.Content(tvshows)] + !Skin.HasSetting(infopanelfanart) + !Skin.HasSetting(infopanel2columns)">
                         <control type="image">
                             <posy>0</posy>
                             <width>1940</width>
@@ -328,15 +335,23 @@
                             <animation effect="slide" end="-60" time="0" condition="!Skin.HasSetting(infopanelcdart)">Conditional</animation>
                         </control>
                         <control type="image">
-                            <posx>100</posx>
+                            <posx>96</posx>
                             <posy>16</posy>
                             <width>300</width>
                             <height>300</height>
                             <aspectratio align="right">keep</aspectratio>
                             <texture background="true">$VAR[cdArtVar]</texture>
                             <animation effect="rotate" end="-360" center="auto" time="6400" delay="800" reversible="false" tween="cubic" easing="inout">Focus</animation>
-                            <bordersize>7</bordersize>
-                            <visible>Skin.HasSetting(infopanelcdart)</visible>
+                            <bordersize>3</bordersize>
+                            <visible>Skin.HasSetting(infopanelcdart) + !SubString(ListItem.Path,videodb://1/7/) + [!IsEmpty(ListItem.Art(discart)) | !Skin.HasSetting(customcdart) | [Skin.HasSetting(customcdart) + IsEmpty(ListItem.Art(fanart))]]</visible>
+                        </control>
+                        <control type="group">
+                            <posx>-23</posx>
+                            <posy>20</posy>
+                            <animation effect="rotate" end="-360" center="244,170" time="6400" delay="800" reversible="false" tween="cubic" easing="inout">Focus</animation>
+                            <include>Custom_cdART</include>
+                            <include>Custom_cdART_IPtitle</include>
+                            <visible>IsEmpty(ListItem.Art(discart)) + !SubString(ListItem.Path,videodb://1/7/) + Skin.HasSetting(infopanelcdart) + [Skin.HasSetting(customcdart) | Container.Content(tvshows)]</visible>
                         </control>
                         <control type="group">
                             <posy>-9</posy>
@@ -716,15 +731,23 @@
             <animation effect="slide" end="-60" time="0" condition="!Skin.HasSetting(infopanelcdart)">Conditional</animation>
         </control>
         <control type="image">
-            <posx>100</posx>
+            <posx>96</posx>
             <posy>16</posy>
             <width>300</width>
             <height>300</height>
             <aspectratio align="right">keep</aspectratio>
             <texture background="true">$VAR[cdArtVar]</texture>
             <animation effect="rotate" end="-360" center="auto" time="6400" delay="800" reversible="false" tween="cubic" easing="inout">Focus</animation>
-            <bordersize>7</bordersize>
-            <visible>Skin.HasSetting(infopanelcdart)</visible>
+            <bordersize>3</bordersize>
+            <visible>Skin.HasSetting(infopanelcdart) + !SubString(ListItem.Path,videodb://1/7/) + [!IsEmpty(ListItem.Art(discart)) | !Skin.HasSetting(customcdart) | [Skin.HasSetting(customcdart) + IsEmpty(ListItem.Art(fanart))]]</visible>
+        </control>
+        <control type="group">
+            <posx>-23</posx>
+            <posy>20</posy>
+            <animation effect="rotate" end="-360" center="244,170" time="6400" delay="800" reversible="false" tween="cubic" easing="inout">Focus</animation>
+            <include>Custom_cdART</include>
+            <include>Custom_cdART_IPtitle</include>
+            <visible>IsEmpty(ListItem.Art(discart)) + !SubString(ListItem.Path,videodb://1/7/) + Skin.HasSetting(infopanelcdart) + [Skin.HasSetting(customcdart) | Container.Content(tvshows)]</visible>
         </control>
         <control type="group">
             <posy>-9</posy>
@@ -860,14 +883,21 @@
             <animation effect="slide" end="-60" time="0" condition="!Skin.HasSetting(infopanelcdart)">Conditional</animation>
         </control>
         <control type="image">
-            <posx>100</posx>
+            <posx>96</posx>
             <posy>16</posy>
             <width>300</width>
             <height>300</height>
             <aspectratio align="right">keep</aspectratio>
             <texture background="true">$VAR[cdArtVar]</texture>
-            <bordersize>7</bordersize>
-            <visible>Skin.HasSetting(infopanelcdart)</visible>
+            <bordersize>3</bordersize>
+            <visible>Skin.HasSetting(infopanelcdart) + !SubString(ListItem.Path,videodb://1/7/) + [!IsEmpty(ListItem.Art(discart)) | !Skin.HasSetting(customcdart) | [Skin.HasSetting(customcdart) + IsEmpty(ListItem.Art(fanart))]]</visible>
+        </control>
+        <control type="group">
+            <posx>-23</posx>
+            <posy>20</posy>
+            <include>Custom_cdART</include>
+            <include>Custom_cdART_IPtitle</include>
+            <visible>IsEmpty(ListItem.Art(discart)) + !SubString(ListItem.Path,videodb://1/7/) + Skin.HasSetting(infopanelcdart) + [Skin.HasSetting(customcdart) | Container.Content(tvshows)]</visible>
         </control>
         <control type="image">
             <posx>21</posx>

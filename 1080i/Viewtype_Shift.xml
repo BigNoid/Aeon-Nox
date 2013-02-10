@@ -222,12 +222,26 @@
                         <width>390</width>
                         <height>400</height>
                         <aspectratio>keep</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(discart)]</texture>
+                        <texture background="true">$VAR[cdArtVar]</texture>
                         <animation effect="slide" delay="1600" end="0,-260" time="320" tween="quadratic">Focus</animation>
                         <animation effect="slide" start="0,-260" end="0" time="160" tween="quadratic" easing="in">Unfocus</animation>
                         <animation effect="zoom" start="100" end="70" center="auto" time="160" condition="!Control.HasFocus(57)">Conditional</animation>
-                        <visible>Container.Content(movies)</visible>
+                        <visible>Container.Content(movies) + [!IsEmpty(ListItem.Art(discart)) | [Skin.HasSetting(customcdart) + IsEmpty(ListItem.Art(fanart))]]</visible>
                         <bordersize>7</bordersize>
+                    </control>
+                    <control type="group">
+                        <posx>-176</posx>
+                        <posy>153</posy>
+                        <include>Custom_cdART</include>
+                        <control type="group">
+                            <include>Custom_cdART_title</include>
+                            <animation effect="slide" start="0,0" end="0,-150" condition="true">Conditional</animation>
+                        </control>
+                        <animation effect="slide" delay="1600" end="0,-260" time="320" tween="quadratic">Focus</animation>
+                        <animation effect="slide" start="0,-260" end="0" time="160" tween="quadratic" easing="in">Unfocus</animation>
+                        <animation effect="zoom" end="126" condition="true">Conditional</animation>
+                        <animation effect="zoom" start="100" end="70" center="auto" time="160" condition="!Control.HasFocus(57)">Conditional</animation>
+                        <visible>[Container.Content(movies) | Container.Content(tvshows)] + IsEmpty(ListItem.Art(discart)) + Skin.HasSetting(customcdart) + !SubString(ListItem.Path,videodb://1/7/)</visible>
                     </control>
                     <control type="group">
                         <include condition="!Window.IsActive(programs)">ShiftThumbs</include>
