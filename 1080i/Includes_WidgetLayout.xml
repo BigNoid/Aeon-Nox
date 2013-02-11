@@ -1383,7 +1383,7 @@
             <animation effect="slide" time="160" end="0,-38" condition="!Skin.HasSetting(lowermainmenu) + Skin.HasSetting(rsshomelow)">Conditional</animation>
             <!--Unfocused widget-->
             <control type="group">
-                <visible>!Control.HasFocus(8000)</visible>
+                <visible>![Control.HasFocus(8000) | Control.HasFocus(8020)]</visible>
                 <animation effect="slide" start="450" end="0" time="240" delay="240" tween="quadratic">Visible</animation>
                 <control type="group">
                     <visible>Substring(Control.GetLabel(4321),default) | Substring(Control.GetLabel(4321),glass)</visible>
@@ -1489,16 +1489,26 @@
                     <visible>!Substring(Control.GetLabel(4321),panel)</visible>
                 </control>
             </control>
+            <!-- Button to set focus to classic widget with mouse 
+            <control type="button" id="5026">
+                    <posx>-12</posx>
+                    <posy>-5</posy>
+                    <width>385</width>
+                    <height>370</height>
+                    <include>HiddenObject</include>
+                    <onfocus>SetFocus(8000)</onfocus>
+                    <visible allowhiddenfocus="true">System.GetBool(input.enablemouse) + Control.HasFocus(5026)</visible>
+            </control>-->
             <!--Focused Random/Latest Movies-->
             <control type="group">
                 <posx>-3050</posx>
                 <posy>-13</posy>
-                <visible>Control.HasFocus(8000)</visible>
+                <visible>Control.HasFocus(8000) | Control.HasFocus(8020)</visible>
                 <visible>Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)</visible>
                 <animation type="Conditional" condition="true">
                     <effect type="zoom" start="100" end="97" center="960,540" time="240" tween="cubic" />
                 </animation>
-                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic" condition="Control.HasFocus(8000)">Conditional</animation>
+                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic">VisibleChange</animation>
                 <control type="group">
                     <posx>238</posx>
                     <control type="image">
@@ -1608,9 +1618,9 @@
             <control type="group">
                 <posx>-3050</posx>
                 <posy>-16</posy>
-                <visible>Control.HasFocus(8000)</visible>
+                <visible>Control.HasFocus(8000) | Control.HasFocus(8020)</visible>
                 <visible>Substring(Control.GetLabel(4321),tv) | Substring(Control.GetLabel(4321),rss) | Substring(Control.GetLabel(4321),roms)</visible>
-                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic" condition="Control.HasFocus(8000)">Conditional</animation>
+                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic">VisibleChange</animation>
                 <control type="group">
                     <posx>463</posx>
                     <posy>75</posy>
@@ -1716,9 +1726,9 @@
             <control type="group">
                 <posx>-3050</posx>
                 <posy>-10</posy>
-                <visible>Control.HasFocus(8000)</visible>
+                <visible>Control.HasFocus(8000) | Control.HasFocus(8020)</visible>
                 <visible>Substring(Control.GetLabel(4321),artists) | Substring(Control.GetLabel(4321),album) | Substring(Control.GetLabel(4321),addons) | Substring(Control.GetLabel(4321),pics) | Substring(Control.GetLabel(4321),Icon)</visible>
-                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic" condition="Control.HasFocus(8000)">Conditional</animation>
+                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic">VisibleChange</animation>
                 <control type="image">
                     <posx>29</posx>
                     <posy>12</posy>
@@ -1798,7 +1808,7 @@
             <control type="group">
                 <posx>513</posx>
                 <posy>-20</posy>
-                <animation effect="slide" end="-570,0" time="400" easing="inout" tween="cubic" condition="Control.HasFocus(8000)">Conditional</animation>
+                <animation effect="slide" end="-570,0" time="400" easing="inout" tween="cubic" condition="Control.HasFocus(8000) | Control.HasFocus(8020)">Conditional</animation>
                 <animation type="Conditional" condition="true">
                     <effect type="zoom" start="100" end="97" center="960,540" time="240" tween="cubic" />
                 </animation>
@@ -1880,6 +1890,7 @@
                     <include>NavigationWidget1</include>
                     <preloaditems>2</preloaditems>
                     <scrolltime tween="quadratic">200</scrolltime>
+                    <animation effect="fade" time="160" start="100" end="0" condition="Control.HasFocus(8020)">Conditional</animation>
                     <itemlayout height="34" width="450">
                         <control type="image">
                             <posx>-15</posx>
@@ -1963,6 +1974,89 @@
                         <include condition="Substring(Skin.String(widgetlist),favouriteIconclassic)">FavouritesItems</include>
                     </content>
                 </control>
+                <control type="list" id="8020">
+                    <posx>8</posx>
+                    <posy>64</posy>
+                    <width>450</width>
+                    <height>280</height>
+                    <onup>8020</onup>
+                    <ondown>8020</ondown>
+                    <onback>SetFocus(8000)</onback>
+                    <onleft>SetFocus(8000)</onleft>
+                    <onright>SetFocus(8000)</onright>
+                    <preloaditems>2</preloaditems>
+                    <scrolltime tween="quadratic">200</scrolltime>
+                    <visible allowhiddenfocus="true">Control.HasFocus(8020)</visible>
+                    <animation type="VisibleChange">
+                        <effect type="fade" delay="160" end="100" time="160" />
+                    </animation>
+                    <itemlayout height="68" width="450">
+                        <control type="image">
+                            <posx>-15</posx>
+                            <width>424</width>
+                            <height>68</height>
+                            <texture>dialogs/context_nofocus.png</texture>
+                        </control>
+                        <control type="label">
+                            <posx>15</posx>
+                            <width>375</width>
+                            <height>68</height>
+                            <label>$INFO[ListItem.Label]</label>
+                            <font>Font_Reg19_Caps</font>
+                            <textcolor>grey2</textcolor>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="68" width="450">
+                        <control type="image">
+                            <posx>1</posx>
+                            <width>390</width>
+                            <height>68</height>
+                            <texture>views/tripanel/listselect_fo.png</texture>
+                            <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+                        </control>
+                        <control type="label">
+                            <posx>15</posx>
+                            <width>368</width>
+                            <height>68</height>
+                            <label>$INFO[ListItem.Label]</label>
+                            <font>Font_Reg19_Caps</font>
+                        </control>
+                    </focusedlayout>
+                    <content>
+                        <item>
+                            <label>$LOCALIZE[208]</label>
+                            <onclick condition="Substring(Control.GetLabel(4321),artist)">ActivateWindow(musiclibrary,$ESCINFO[Container(8000).ListItem.Property(Path)],return)</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4321),album)">Playlist.Clear</onclick>
+                            <onclick condition="!Substring(Control.GetLabel(4321),artist) + !Substring(Control.GetLabel(4321),addons) + !Substring(Control.GetLabel(4321),artists) + !Substring(Control.GetLabel(4321),rss) + !Substring(Control.GetLabel(4321),roms)">$INFO[Container(8000).ListItem.Property(Path)]</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4321),addons)">RunAddon($INFO[Container(8000).ListItem.Property(Path)])</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4321),rss)">PlayMedia($ESCINFO[Container(8000).ListItem.Property(Media)])</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4321),actor)">RunScript(script.metadata.actors,$INFO[Container(8000).ListItem.Label])</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4321),roms)">RunScript(script.games.rom.collection.browser,launchid=$INFO[Container(8000).ListItem.Property(Id)])</onclick>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[20410]</label>
+                            <onclick>PlayMedia($ESCINFO[Container(8000).ListItem.Property(Trailer)])</onclick>
+                            <visible>!IsEmpty(Container(8000).ListItem.Property(Trailer))</visible>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[31087]</label>
+                            <onclick condition="SubString(Control.GetLabel(4321),1custom)">$INFO[Skin.String(SmartPlaylist1.Call)]</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4321),2custom)">$INFO[Skin.String(SmartPlaylist2.Call)]</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4321),3custom)">$INFO[Skin.String(SmartPlaylist3.Call)]</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4321),4custom)">$INFO[Skin.String(SmartPlaylist4.Call)]</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4321),5custom)">$INFO[Skin.String(SmartPlaylist5.Call)]</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4321),6custom)">$INFO[Skin.String(SmartPlaylist6.Call)]</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4321),actors)">RunScript(script.metadata.actors,borntoday,10,random)</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4321),pics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Random'&amp;sort='Added'&amp;limit=10)</onclick>
+                            <onclick condition="!Substring(Control.GetLabel(4321),custom) + !Substring(Control.GetLabel(4321),pics)">SetProperty(SkinWidgets_RandomItems_Update,true)</onclick>
+                            <visible>Substring(Control.GetLabel(4321),random) | Substring(Control.GetLabel(4321),actors)</visible>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[31066]</label>
+                            <onclick>SetFocus(8000)</onclick>
+                        </item>
+                    </content>
+                </control>
             </control>
             <control type="button" id="5014">
                 <include>HiddenObject</include>
@@ -1985,74 +2079,6 @@
                 <onfocus condition="Substring(Control.GetLabel(4321),recentpics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Latest'&amp;sort='Added'&amp;limit=10)</onfocus>
             </control>
  -->
-            <control type="grouplist" id="8020">
-                <posx>-830</posx>
-                <posy>28</posy>
-                <width>1373</width>
-                <onup>8020</onup>
-                <ondown>8020</ondown>
-                <animation type="Visible" reversible="false">
-                    <effect type="zoom" start="150" end="100" center="-545,0" time="720" tween="cubic" />
-                    <effect type="fade" end="100" time="720" />
-                </animation>
-                <animation type="Hidden" reversible="false">
-                    <effect type="fade" start="100" end="0" time="240" />
-                    <effect type="zoom" start="100" end="130" center="-545,0" time="240" tween="cubic" easing="in" />
-                </animation>
-                <visible allowhiddenfocus="true">ControlGroup(8020).HasFocus</visible>
-                <onback>SetFocus(8000)</onback>
-                <onleft>SetFocus(8000)</onleft>
-                <onright>SetFocus(8000)</onright>
-                <orientation>vertical</orientation>
-                <control type="image" id="1">
-                    <posy>-39</posy>
-                    <width>462</width>
-                    <height>39</height>
-                    <texture>dialogs/context_top_shutdown.png</texture>
-                </control>
-                <control type="button" id="8032">
-                    <label>$LOCALIZE[208]</label>
-                    <include>Objects_ContextMenuButton</include>
-                    <onclick condition="Substring(Control.GetLabel(4321),artist)">ActivateWindow(musiclibrary,$ESCINFO[Container(8000).ListItem.Property(Path)],return)</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4321),album)">Playlist.Clear</onclick>
-                    <onclick condition="!Substring(Control.GetLabel(4321),artist) + !Substring(Control.GetLabel(4321),addons) + !Substring(Control.GetLabel(4321),artists) + !Substring(Control.GetLabel(4321),rss) + !Substring(Control.GetLabel(4321),roms)">$INFO[Container(8000).ListItem.Property(Path)]</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4321),addons)">RunAddon($INFO[Container(8000).ListItem.Property(Path)])</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4321),rss)">PlayMedia($ESCINFO[Container(8000).ListItem.Property(Media)])</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4321),actor)">RunScript(script.metadata.actors,$INFO[Container(8000).ListItem.Label])</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4321),roms)">RunScript(script.games.rom.collection.browser,launchid=$INFO[Container(8000).ListItem.Property(Id)])</onclick>
-                </control>
-                <control type="button" id="8016">
-                    <label>$LOCALIZE[20410]</label>
-                    <onclick>PlayMedia($ESCINFO[Container(8000).ListItem.Property(Trailer)])</onclick>
-                    <include>Objects_ContextMenuButton</include>
-                    <visible>!IsEmpty(Container(8000).ListItem.Property(Trailer))</visible>
-                </control>
-                <control type="button" id="8035">
-                    <label>$LOCALIZE[31087]</label>
-                    <onclick condition="SubString(Control.GetLabel(4321),1custom)">$INFO[Skin.String(SmartPlaylist1.Call)]</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4321),2custom)">$INFO[Skin.String(SmartPlaylist2.Call)]</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4321),3custom)">$INFO[Skin.String(SmartPlaylist3.Call)]</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4321),4custom)">$INFO[Skin.String(SmartPlaylist4.Call)]</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4321),5custom)">$INFO[Skin.String(SmartPlaylist5.Call)]</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4321),6custom)">$INFO[Skin.String(SmartPlaylist6.Call)]</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4321),actors)">RunScript(script.metadata.actors,borntoday,10,random)</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4321),pics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Random'&amp;sort='Added'&amp;limit=10)</onclick>
-                    <onclick condition="!Substring(Control.GetLabel(4321),custom) + !Substring(Control.GetLabel(4321),pics)">SetProperty(SkinWidgets_RandomItems_Update,true)</onclick>
-                    <include>Objects_ContextMenuButton</include>
-                    <visible>Substring(Control.GetLabel(4321),random) | Substring(Control.GetLabel(4321),actors)</visible>
-                </control>
-                <control type="button" id="8023">
-                    <label>$LOCALIZE[31066]</label>
-                    <onclick>SetFocus(8000)</onclick>
-                    <include>Objects_ContextMenuButton</include>
-                </control>
-                <control type="image" id="2">
-                    <posy>699</posy>
-                    <width>462</width>
-                    <height>40</height>
-                    <texture>dialogs/context_bottom.png</texture>
-                </control>
-            </control>
         </control>
     </include>
     <include name="HomePanelWidget">
@@ -3081,7 +3107,7 @@
             <include>Animation_Widgets</include>
             <!--Unfocused widget-->
             <control type="group">
-                <visible>!Control.HasFocus(7000)</visible>
+                <visible>![Control.HasFocus(7000) | Control.HasFocus(7020)]</visible>
                 <animation effect="slide" start="450" end="0" time="240" delay="240" tween="quadratic">Visible</animation>
                 <control type="group">
                     <visible>Substring(Control.GetLabel(4325),default) | Substring(Control.GetLabel(4325),glass)</visible>
@@ -3187,16 +3213,26 @@
                     <visible>!Substring(Control.GetLabel(4325),panel)</visible>
                 </control>
             </control>
+            <!-- Button to set focus to classic widget with mouse 
+            <control type="button" id="6026">
+                    <posx>-12</posx>
+                    <posy>-5</posy>
+                    <width>385</width>
+                    <height>370</height>
+                    <include>HiddenObject</include>
+                    <onfocus>SetFocus(7000)</onfocus>
+                    <visible allowhiddenfocus="true">System.GetBool(input.enablemouse) + Control.HasFocus(6026)</visible>
+            </control>-->
             <!--Focused Random/Latest Movies-->
             <control type="group">
                 <posx>-3050</posx>
                 <posy>-13</posy>
-                <visible>Control.HasFocus(7000)</visible>
+                <visible>Control.HasFocus(7000) | Control.HasFocus(7020)</visible>
                 <visible>Substring(Control.GetLabel(4325),movie) | Substring(Control.GetLabel(4325),musicvideo) | Substring(Control.GetLabel(4325),actors)</visible>
                 <animation type="Conditional" condition="true">
                     <effect type="zoom" start="100" end="97" center="960,540" time="240" tween="cubic" />
                 </animation>
-                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic" condition="Control.HasFocus(7000)">Conditional</animation>
+                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic">VisibleChange</animation>
                 <control type="group">
                     <posx>238</posx>
                     <control type="image">
@@ -3306,9 +3342,9 @@
             <control type="group">
                 <posx>-3050</posx>
                 <posy>-16</posy>
-                <visible>Control.HasFocus(7000)</visible>
+                <visible>Control.HasFocus(7000) | Control.HasFocus(7020)</visible>
                 <visible>Substring(Control.GetLabel(4325),tv) | Substring(Control.GetLabel(4325),rss) | Substring(Control.GetLabel(4325),roms)</visible>
-                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic" condition="Control.HasFocus(7000)">Conditional</animation>
+                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic">VisibleChange</animation>
                 <control type="group">
                     <posx>463</posx>
                     <posy>75</posy>
@@ -3415,9 +3451,9 @@
             <control type="group">
                 <posx>-3050</posx>
                 <posy>-16</posy>
-                <visible>Control.HasFocus(7000)</visible>
+                <visible>Control.HasFocus(7000) | Control.HasFocus(7020)</visible>
                 <visible>Substring(Control.GetLabel(4325),artists) | Substring(Control.GetLabel(4325),album) | Substring(Control.GetLabel(4325),addons) | Substring(Control.GetLabel(4325),pics) | Substring(Control.GetLabel(4325),Icon)</visible>
-                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic" condition="Control.HasFocus(7000)">Conditional</animation>
+                <animation effect="slide" end="1530,0" time="400" easing="inout" tween="cubic">VisibleChange</animation>
                 <control type="image">
                     <posx>29</posx>
                     <posy>12</posy>
@@ -3660,96 +3696,97 @@
                         <include condition="Substring(Skin.String(widget2list),favouriteIconclassic)">FavouritesItems2</include>
                     </content>
                 </control>
+                <control type="list" id="7020">
+                    <posx>8</posx>
+                    <posy>64</posy>
+                    <width>450</width>
+                    <height>280</height>
+                    <onup>7020</onup>
+                    <ondown>7020</ondown>
+                    <onback>SetFocus(7000)</onback>
+                    <onleft>SetFocus(7000)</onleft>
+                    <onright>SetFocus(7000)</onright>
+                    <preloaditems>2</preloaditems>
+                    <scrolltime tween="quadratic">200</scrolltime>
+                    <visible allowhiddenfocus="true">Control.HasFocus(7020)</visible>
+                    <animation type="VisibleChange">
+                        <effect type="fade" delay="160" end="100" time="160" />
+                    </animation>
+                    <itemlayout height="68" width="450">
+                        <control type="image">
+                            <posx>-15</posx>
+                            <width>424</width>
+                            <height>68</height>
+                            <texture>dialogs/context_nofocus.png</texture>
+                        </control>
+                        <control type="label">
+                            <posx>15</posx>
+                            <width>375</width>
+                            <height>68</height>
+                            <label>$INFO[ListItem.Label]</label>
+                            <font>Font_Reg19_Caps</font>
+                            <textcolor>grey2</textcolor>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="68" width="450">
+                        <control type="image">
+                            <posx>1</posx>
+                            <width>390</width>
+                            <height>68</height>
+                            <texture>views/tripanel/listselect_fo.png</texture>
+                            <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+                        </control>
+                        <control type="label">
+                            <posx>15</posx>
+                            <width>368</width>
+                            <height>68</height>
+                            <label>$INFO[ListItem.Label]</label>
+                            <font>Font_Reg19_Caps</font>
+                        </control>
+                    </focusedlayout>
+                    <content>
+                        <item>
+                            <label>$LOCALIZE[208]</label>
+                            <onclick condition="Substring(Control.GetLabel(4325),artist)">ActivateWindow(musiclibrary,$ESCINFO[Container(7000).ListItem.Property(Path)],return)</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4325),album)">Playlist.Clear</onclick>
+                            <onclick condition="!Substring(Control.GetLabel(4325),artist) + !Substring(Control.GetLabel(4325),addons) + !Substring(Control.GetLabel(4325),artists) + !Substring(Control.GetLabel(4325),rss) + !Substring(Control.GetLabel(4325),roms)">$INFO[Container(7000).ListItem.Property(Path)]</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4325),addons)">RunAddon($INFO[Container(7000).ListItem.Property(Path)])</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4325),rss)">PlayMedia($ESCINFO[Container(7000).ListItem.Property(Media)])</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4325),actor)">RunScript(script.metadata.actors,$INFO[Container(7000).ListItem.Label])</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4325),roms)">RunScript(script.games.rom.collection.browser,launchid=$INFO[Container(7000).ListItem.Property(Id)])</onclick>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[20410]</label>
+                            <onclick>PlayMedia($ESCINFO[Container(7000).ListItem.Property(Trailer)])</onclick>
+                            <visible>!IsEmpty(Container(7000).ListItem.Property(Trailer))</visible>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[31087]</label>
+                            <onclick condition="SubString(Control.GetLabel(4325),1custom)">$INFO[Skin.String(SmartPlaylist1.Call)]</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4325),2custom)">$INFO[Skin.String(SmartPlaylist2.Call)]</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4325),3custom)">$INFO[Skin.String(SmartPlaylist3.Call)]</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4325),4custom)">$INFO[Skin.String(SmartPlaylist4.Call)]</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4325),5custom)">$INFO[Skin.String(SmartPlaylist5.Call)]</onclick>
+                            <onclick condition="SubString(Control.GetLabel(4325),6custom)">$INFO[Skin.String(SmartPlaylist6.Call)]</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4325),actors)">RunScript(script.metadata.actors,borntoday,10,random)</onclick>
+                            <onclick condition="Substring(Control.GetLabel(4325),pics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Random'&amp;sort='Added'&amp;limit=10)</onclick>
+                            <onclick condition="!Substring(Control.GetLabel(4325),custom) + !Substring(Control.GetLabel(4325),pics)">SetProperty(SkinWidgets_RandomItems_Update,true)</onclick>
+                            <visible>Substring(Control.GetLabel(4325),random) | Substring(Control.GetLabel(4325),actors)</visible>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[31066]</label>
+                            <onclick>SetFocus(7000)</onclick>
+                        </item>
+
+                    </content>
+                </control>
             </control>
-            <!--             <control type="button" id="6014">
-                <include>HiddenObject</include>
-                <onfocus condition="Substring(Control.GetLabel(4325),movie) | Substring(Control.GetLabel(4325),musicvideo) | Substring(Control.GetLabel(4325),actors)">$INFO[Container(6010).ListItem.Property(Path)]</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4325),tv)">$INFO[Container(6010).ListItem.Property(Path)]</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4325),rss)">PlayMedia($ESCINFO[Container(6010).ListItem.Property(Media)])</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4325),roms)">System.Exec($ESCINFO[Container(6010).ListItem.Property(Path)])</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4325),babe)">SetFocus(22222)</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4325),artist)">ActivateWindow(musiclibrary,$ESCINFO[Container(6010).ListItem.Property(Path)],return)</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4325),album)">Playlist.Clear</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4325),album)">$INFO[Container(6010).ListItem.Property(Path)]</onfocus>
-                <onfocus condition="!Substring(Control.GetLabel(4325),artist) + !Substring(Control.GetLabel(4325),addons)">$INFO[Container(6010).ListItem.Property(Path)]</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4325),addons)">RunAddon($INFO[Container(6010).ListItem.Property(Path)])</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4325),randompics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Random'&amp;sort='Added'&amp;limit=10)</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4325),recentpics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Latest'&amp;sort='Added'&amp;limit=10)</onfocus>
-            </control> -->
             <control type="button" id="6014">
                 <include>HiddenObject</include>
                 <onfocus condition="Substring(Control.GetLabel(4325),babe)">SetFocus(22223)</onfocus>
                 <onfocus condition="!Substring(Control.GetLabel(4325),babe)">SetFocus(7020)</onfocus>
             </control>
-            <control type="grouplist" id="7020">
-                <posx>-830</posx>
-                <posy>28</posy>
-                <width>1373</width>
-                <onup>7020</onup>
-                <ondown>7020</ondown>
-                <animation type="Visible" reversible="false">
-                    <effect type="zoom" start="150" end="100" center="-545,0" time="720" tween="cubic" />
-                    <effect type="fade" end="100" time="720" />
-                </animation>
-                <animation type="Hidden" reversible="false">
-                    <effect type="fade" start="100" end="0" time="240" />
-                    <effect type="zoom" start="100" end="130" center="-545,0" time="240" tween="cubic" easing="in" />
-                </animation>
-                <visible allowhiddenfocus="true">ControlGroup(7020).HasFocus</visible>
-                <onback>SetFocus(7000)</onback>
-                <onleft>SetFocus(7000)</onleft>
-                <onright>SetFocus(7000)</onright>
-                <orientation>vertical</orientation>
-                <control type="image" id="1">
-                    <posy>-39</posy>
-                    <width>462</width>
-                    <height>39</height>
-                    <texture>dialogs/context_top_shutdown.png</texture>
-                </control>
-                <control type="button" id="7032">
-                    <label>$LOCALIZE[208]</label>
-                    <include>Objects_ContextMenuButton</include>
-                    <onclick condition="Substring(Control.GetLabel(4325),artist)">ActivateWindow(musiclibrary,$ESCINFO[Container(7000).ListItem.Property(Path)],return)</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4325),album)">Playlist.Clear</onclick>
-                    <onclick condition="!Substring(Control.GetLabel(4325),artist) + !Substring(Control.GetLabel(4325),addons) + !Substring(Control.GetLabel(4325),artists) + !Substring(Control.GetLabel(4325),rss) + !Substring(Control.GetLabel(4325),roms)">$INFO[Container(7000).ListItem.Property(Path)]</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4325),addons)">RunAddon($INFO[Container(7000).ListItem.Property(Path)])</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4325),rss)">PlayMedia($ESCINFO[Container(7000).ListItem.Property(Media)])</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4325),actor)">RunScript(script.metadata.actors,$INFO[Container(7000).ListItem.Label])</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4325),roms)">RunScript(script.games.rom.collection.browser,launchid=$INFO[Container(7000).ListItem.Property(Id)])</onclick>
-                </control>
-                <control type="button" id="7016">
-                    <label>$LOCALIZE[20410]</label>
-                    <onclick>PlayMedia($ESCINFO[Container(7000).ListItem.Property(Trailer)])</onclick>
-                    <include>Objects_ContextMenuButton</include>
-                    <visible>!IsEmpty(Container(7000).ListItem.Property(Trailer))</visible>
-                </control>
-                <control type="button" id="7035">
-                    <label>$LOCALIZE[31087]</label>
-                    <onclick condition="SubString(Control.GetLabel(4325),1custom)">$INFO[Skin.String(SmartPlaylist1.Call)]</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4325),2custom)">$INFO[Skin.String(SmartPlaylist2.Call)]</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4325),3custom)">$INFO[Skin.String(SmartPlaylist3.Call)]</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4325),4custom)">$INFO[Skin.String(SmartPlaylist4.Call)]</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4325),5custom)">$INFO[Skin.String(SmartPlaylist5.Call)]</onclick>
-                    <onclick condition="SubString(Control.GetLabel(4325),6custom)">$INFO[Skin.String(SmartPlaylist6.Call)]</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4325),actors)">RunScript(script.metadata.actors,borntoday,10,random)</onclick>
-                    <onclick condition="Substring(Control.GetLabel(4325),pics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Random'&amp;sort='Added'&amp;limit=10)</onclick>
-                    <onclick condition="!Substring(Control.GetLabel(4325),custom) + !Substring(Control.GetLabel(4325),pics)">SetProperty(SkinWidgets_RandomItems_Update,true)</onclick>
-                    <include>Objects_ContextMenuButton</include>
-                    <visible>Substring(Control.GetLabel(4325),random) | Substring(Control.GetLabel(4325),actors)</visible>
-                </control>
-                <control type="button" id="7023">
-                    <label>$LOCALIZE[31066]</label>
-                    <onclick>SetFocus(7000)</onclick>
-                    <include>Objects_ContextMenuButton</include>
-                </control>
-                <control type="image" id="2">
-                    <posy>699</posy>
-                    <width>462</width>
-                    <height>40</height>
-                    <texture>dialogs/context_bottom.png</texture>
-                </control>
-            </control>
-        </control>
+        </control>    
     </include>
     <include name="HomePanelWidget2">
         <control type="group" id="6000">
