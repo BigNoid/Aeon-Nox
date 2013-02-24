@@ -2,6 +2,7 @@
 <window>
     <defaultcontrol always="true">5000</defaultcontrol>
     <onload>AlarmClock(ActorIconMove,Control.Move(50,3),00:07,silent,loop)</onload>
+    <onload condition="System.HasAddon(script.videolanguage)">RunScript(script.videolanguage,movieid=$INFO[ListItem.DBID])</onload>
     <onunload>CancelAlarm(ActorIconMove,true)</onunload>
     <onunload>ClearProperty(FanartZoom,movieinformation)</onunload>
     <allowoverlay>no</allowoverlay>
@@ -597,18 +598,19 @@
                     <visible>![ControlGroup(5000).HasFocus(10) | ControlGroup(5000).HasFocus(12) | ControlGroup(5000).HasFocus(21) | ControlGroup(5000).HasFocus(22) | ControlGroup(5000).HasFocus(24)]</visible>
                 </control>
                 <control type="grouplist">
-                    <posx>2</posx>
+                    <posx>-16</posx>
                     <posy>872</posy>
                     <width>1045</width>
                     <height>90</height>
                     <orientation>horizontal</orientation>
-                    <itemgap>15</itemgap>
+                    <itemgap>8</itemgap>
                     <visible>Container.Content(movies) | Container.Content(episodes) | Container.Content(MusicVideos)</visible>
                     <control type="image" id="900011">
-                        <width>140</width>
-                        <height>70</height>
-                        <aspectratio aligny="center" align="center">keep</aspectratio>
+                        <width>130</width>
+                        <height>90</height>
+                        <aspectratio aligny="center" align="right">keep</aspectratio>
                         <texture>$VAR[SourceFlagVar,flags/info/,.png]</texture>
+                        <animation effect="slide" end="0,-10" condition="true">Conditional</animation>
                         <colordiffuse>FF7c7c7c</colordiffuse>
                         <visible>!IsEmpty(Control.GetLabel(900011))</visible>
                     </control>
@@ -678,8 +680,9 @@
                         <visible>!IsEmpty(Control.GetLabel(900015))</visible>
                     </control>
                     <control type="image">
-                        <width>58</width>
-                        <height>70</height>
+                        <width>100</width>
+                        <height>85</height>
+                        <animation effect="slide" end="0,-7" condition="true">Conditional</animation>
                         <aspectratio aligny="center" align="center">keep</aspectratio>
                         <texture>flags/cc.png</texture>
                         <colordiffuse>FF7c7c7c</colordiffuse>
@@ -791,6 +794,96 @@
                     </control>
                 </control>
             </control>
+           <!-- Language flags -->
+                <control type="grouplist">
+                    <posx>415</posx>
+                    <posy>593</posy>
+                    <width>290</width>
+                    <height>48</height>
+                    <align>right</align>
+                    <itemgap>10</itemgap>
+                    <orientation>horizontal</orientation>
+                    <visible>false</visible>
+                    <control type="image">
+                        <width>48</width>
+                        <height>48</height>
+                        <aspectratio>center</aspectratio>
+                        <texture>$INFO[Window.Property(AudioLanguage.1),flags/language/,.png]</texture>
+                        <visible>!IsEmpty(Window.Property(AudioLanguage.1))</visible>
+                    </control>
+                    <control type="image">
+                        <width>48</width>
+                        <height>48</height>
+                        <aspectratio>center</aspectratio>
+                        <texture>$INFO[Window.Property(AudioLanguage.2),flags/language/,.png]</texture>
+                        <visible>!IsEmpty(Window.Property(AudioLanguage.2))</visible>
+                    </control>
+                    <control type="image">
+                        <width>48</width>
+                        <height>48</height>
+                        <aspectratio>center</aspectratio>
+                        <texture>$INFO[Window.Property(AudioLanguage.3),flags/language/,.png]</texture>
+                        <visible>!IsEmpty(Window.Property(AudioLanguage.3))</visible>
+                    </control>
+                    <control type="image">
+                        <width>48</width>
+                        <height>48</height>
+                        <aspectratio>center</aspectratio>
+                        <texture>$INFO[Window.Property(AudioLanguage.4),flags/language/,.png]</texture>
+                        <visible>!IsEmpty(Window.Property(AudioLanguage.4))</visible>
+                    </control>
+                    <control type="image">
+                        <width>48</width>
+                        <height>48</height>
+                        <aspectratio>center</aspectratio>
+                        <texture>$INFO[Window.Property(AudioLanguage.5),flags/language/,.png]</texture>
+                        <visible>!IsEmpty(Window.Property(AudioLanguage.5))</visible>
+                    </control>
+                </control>
+          <!-- Subtitle flags -->
+                <control type="grouplist" id="12000">
+                    <posx>1355</posx>
+                    <posy>947</posy>
+                    <animation effect="fade" start="100" end="80" time="40" condition="true">Conditional</animation>
+                    <width>290</width>
+                    <height>48</height>
+                    <align>center</align>
+                    <itemgap>0</itemgap>
+                    <orientation>horizontal</orientation>
+                    <control type="image">
+                        <width>22</width>
+                        <height>22</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture>$INFO[Window.Property(SubtitleLanguage.1),flags/language/,.png]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <visible>!IsEmpty(Window.Property(SubtitleLanguage.1))</visible>
+                    </control>
+                    <control type="image">
+                        <width>22</width>
+                        <height>22</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture>$INFO[Window.Property(SubtitleLanguage.2),flags/language/,.png]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <visible>!IsEmpty(Window.Property(SubtitleLanguage.2))</visible>
+                        <visible>!Stringcompare(Window.Property(SubtitleLanguage.1),Window.Property(SubtitleLanguage.2))</visible>
+                    </control>
+                    <control type="image">
+                        <width>22</width>
+                        <height>22</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture>$INFO[Window.Property(SubtitleLanguage.3),flags/language/,.png]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <visible>!IsEmpty(Window.Property(SubtitleLanguage.3))</visible>
+                    </control>
+                    <control type="image">
+                        <width>22</width>
+                        <height>22</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture>$INFO[Window.Property(SubtitleLanguage.4),flags/language/,.png]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <visible>!IsEmpty(Window.Property(SubtitleLanguage.4))</visible>
+                    </control>
+                </control>
             <control type="spincontrol" id="60">
                 <posx>1820</posx>
                 <posy>584</posy>
