@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window type="dialog" id="120">
     <defaultcontrol always="true">602</defaultcontrol>
+    <onload>AlarmClock(MusicInfoRotation,ActivateWindow(1156),00:15,silent,loop)</onload>
+    <onunload>CancelAlarm(MusicInfoRotation,true)</onunload>
     <controls>
         <control type="group">
             <animation effect="slide" start="0,-218" end="0,0" time="240" tween="quadratic">WindowOpen</animation>
             <animation effect="slide" end="0,-218" time="240" delay="120" tween="quadratic">WindowClose</animation>
             <animation effect="slide" end="0,-218" time="240" tween="quadratic" condition="Window.IsVisible(VisualisationSettings) | Window.IsVisible(VisualisationPresetList) | Window.IsVisible(1100)">Conditional</animation>
-            <control type="group">
-                <control type="image">
+            <control type="group" id="5800">
+                <animation effect="slide" end="0,-200" time="400" tween="cubic" condition="!ControlGroup(650).HasFocus + !ControlGroup(651).HasFocus+ !ControlGroup(652).HasFocus">Conditional</animation>
+               <control type="image">
                     <posx>623</posx>
                     <posy>127</posy>
                     <width>673</width>
@@ -26,15 +29,16 @@
                     <shadowcolor>88e5e5e5</shadowcolor>
                     <textcolor>FF363636</textcolor>
                 </control>
-            </control>
             <control type="image">
                 <width>1920</width>
                 <height>135</height>
                 <texture flipy="true">osd/osd_back.png</texture>
                 <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
             </control>
-            <include condition="Skin.HasSetting(ClassicOSD)">ClassicMusicOSD</include>
-            <include condition="!Skin.HasSetting(ClassicOSD)">DefaultMusicOSD</include>
+
+                <include condition="Skin.HasSetting(ClassicOSD)">ClassicMusicOSD</include>
+                <include condition="!Skin.HasSetting(ClassicOSD)">DefaultMusicOSD</include>
+            </control>
             <control type="label">
                 <posx>440</posx>
                 <width>200</width>
@@ -57,6 +61,9 @@
                 <visible>ControlGroup(651).HasFocus</visible>
                 <animation effect="slide" end="-30" condition="Skin.HasSetting(ClassicOSD)">Conditional</animation>
             </control>
+        </control>
+        <control type="group">
+            <include>MusicInfoModePanels</include>
         </control>
         <include>BottomProgressBar</include>
     </controls>
