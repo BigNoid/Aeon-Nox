@@ -8,33 +8,6 @@
     <allowoverlay>no</allowoverlay>
     <controls>
         <control type="group">
-            <animation effect="slide" start="-729,0" end="0,0" time="320" tween="quadratic">WindowOpen</animation>
-            <animation effect="slide" end="-729,0" time="320" tween="quadratic">WindowClose</animation>
-            <animation effect="slide" start="-729,0" end="0,0" time="320" tween="quadratic" condition="!Window.IsVisible(script-Actors-DialogVideoInfo.xml)|!Window.IsVisible(script-Actors-DialogInfo.xml)">Conditional</animation>
-            <animation effect="slide" end="-729,0" time="320" tween="quadratic" condition="Window.IsVisible(script-Actors-DialogVideoInfo.xml)|Window.IsVisible(script-Actors-DialogInfo.xml)">Conditional</animation>
-            <control type="image">
-                <width>729</width>
-                <height>1080</height>
-                <texture>info/movieinfogradient.png</texture>
-            </control>
-            <control type="image">
-                <width>729</width>
-                <height>1080</height>
-                <texture background="true">$VAR[PosterVar]</texture>
-            </control>
-            <control type="image">
-                <posx>709</posx>
-                <width>40</width>
-                <height>1080</height>
-                <texture>common/topbar_down.png</texture>
-                <animation effect="fade" time="320" delay="408">Visible</animation>
-                <animation effect="fade" time="80">Hidden</animation>
-                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                <include>TopbarPulseAnimationRight</include>
-                <visible>!Skin.HasSetting(DisableGlowbar) + IsEmpty(Window(movieinformation).Property(FanartZoom))</visible>
-            </control>
-        </control>
-        <control type="group">
             <animation effect="slide" start="1192,0" end="0,0" time="320" tween="quadratic">WindowOpen</animation>
             <animation effect="slide" end="1192,0" time="320" tween="quadratic">WindowClose</animation>
             <animation effect="slide" start="1192,0" end="0,0" time="320" tween="quadratic" condition="!Window.IsVisible(script-Actors-DialogVideoInfo.xml)|!Window.IsVisible(script-Actors-DialogInfo.xml)">Conditional</animation>
@@ -599,6 +572,8 @@
                     <font>Font_Reg32</font>
                     <textcolor>grey</textcolor>
                 </control>
+                <control type="group">
+                    <visible>![ControlGroup(5000).HasFocus(10) | ControlGroup(5000).HasFocus(12) | ControlGroup(5000).HasFocus(21) | ControlGroup(5000).HasFocus(22) | ControlGroup(5000).HasFocus(24)]</visible>
                 <control type="textbox">
                     <posx>4</posx>
                     <posy>536</posy>
@@ -609,8 +584,21 @@
                     <font>Font_Reg32</font>
                     <pagecontrol>60</pagecontrol>
                     <autoscroll delay="15000" time="AutoScrollTime" repeat="10000">Skin.HasSetting(AutoScroll) + !Control.HasFocus(60)</autoscroll>
-                    <visible>![ControlGroup(5000).HasFocus(10) | ControlGroup(5000).HasFocus(12) | ControlGroup(5000).HasFocus(21) | ControlGroup(5000).HasFocus(22) | ControlGroup(5000).HasFocus(24)]</visible>
+                    <visible>IsEmpty(ListItem.Art(discart))</visible>
                 </control>
+                <control type="textbox">
+                    <posx>4</posx>
+                    <posy>536</posy>
+                    <width>746</width>
+                    <height>320</height>
+                    <align>left</align>
+                    <label fallback="31006">$INFO[ListItem.Plot]</label>
+                    <font>Font_Reg32</font>
+                    <pagecontrol>60</pagecontrol>
+                    <autoscroll delay="15000" time="AutoScrollTime" repeat="10000">Skin.HasSetting(AutoScroll) + !Control.HasFocus(60)</autoscroll>
+                    <visible>!IsEmpty(ListItem.Art(discart))</visible>
+                </control>
+</control>
                 <control type="grouplist">
                     <posx>-16</posx>
                     <posy>872</posy>
@@ -1062,6 +1050,7 @@
             </control>
             <control type="spincontrol" id="60">
                 <posx>1820</posx>
+                <animation effect="slide" start="0,0" end="-260,0" time="0" condition="!IsEmpty(ListItem.Art(discart))">Conditional</animation>
                 <posy>584</posy>
                 <width>50</width>
                 <height>88</height>
@@ -1451,18 +1440,52 @@
                 <animation effect="slide" start="150" end="0" delay="640" time="320" tween="cubic">WindowOpen</animation>
                 <visible>Container(5000).HasNext+ ControlGroup(5000).HasFocus</visible>
             </control>
+        </control>
+        <control type="group">
+            <animation effect="slide" start="-729,0" end="0,0" time="320" tween="quadratic">WindowOpen</animation>
+            <animation effect="slide" end="-729,0" time="320" tween="quadratic">WindowClose</animation>
+            <animation effect="slide" start="-729,0" end="0,0" time="320" tween="quadratic" condition="!Window.IsVisible(script-Actors-DialogVideoInfo.xml)|!Window.IsVisible(script-Actors-DialogInfo.xml)">Conditional</animation>
+            <animation effect="slide" end="-729,0" time="320" tween="quadratic" condition="Window.IsVisible(script-Actors-DialogVideoInfo.xml)|Window.IsVisible(script-Actors-DialogInfo.xml)">Conditional</animation>
             <control type="image">
-                <posx>1650</posx>
-                <posy>920</posy>
+                <width>729</width>
+                <height>1080</height>
+                <texture>info/movieinfogradient.png</texture>
+            </control>
+            <control type="image">
+                <posx>1600</posx>
+                <posy>620</posy>
                 <width>300</width>
                 <height>300</height>
                 <texture background="true">$INFO[ListItem.Art(discart)]</texture>
                 <include>Animation_VisibleChange200</include>
-                <animation type="WindowOpen">
-                <effect type="rotate" end="-360" center="auto" time="6400" delay="1600" reversible="false" tween="cubic" easing="inout" />
-                <effect type="slide" start="150" end="0" delay="640" time="320" tween="cubic" />
-                </animation>
+                                    <visible>![ControlGroup(5000).HasFocus(10) | ControlGroup(5000).HasFocus(12) | ControlGroup(5000).HasFocus(21) | ControlGroup(5000).HasFocus(22) | ControlGroup(5000).HasFocus(24)]</visible>
+
+                    <animation type="WindowOpen" reversible="false">
+                        <effect type="slide" start="-1600,0" end="0" delay="1200" time="1120" tween="quadratic" easing="out" />
+                        <effect type="rotate" start="0" center="1750,770" end="-720" delay="1200" time="1120" tween="quadratic" easing="out" />
+                    </animation>
+                    <animation type="WindowClose" reversible="false">
+                        <effect type="slide" start="0,0" end="4600" time="700" tween="quadratic" easing="out" />
+                        <effect type="rotate" start="0" center="1750,770" end="-720" time="700" tween="quadratic" easing="out" />
+                    </animation>
+            </control>
+            <control type="image">
+                <width>729</width>
+                <height>1080</height>
+                <texture background="true">$VAR[PosterVar]</texture>
+            </control>
+            <control type="image">
+                <posx>709</posx>
+                <width>40</width>
+                <height>1080</height>
+                <texture>common/topbar_down.png</texture>
+                <animation effect="fade" time="320" delay="408">Visible</animation>
+                <animation effect="fade" time="80">Hidden</animation>
+                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
+                <include>TopbarPulseAnimationRight</include>
+                <visible>!Skin.HasSetting(DisableGlowbar) + IsEmpty(Window(movieinformation).Property(FanartZoom))</visible>
             </control>
         </control>
-    </controls>
+
+        </controls>
 </window>
