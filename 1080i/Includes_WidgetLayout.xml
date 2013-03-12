@@ -2054,63 +2054,73 @@
                         </control>
                     </focusedlayout>
                     <content>
-                        <item>
-                            <label>$LOCALIZE[208]</label>
-                            <onclick condition="Substring(Control.GetLabel(4321),artist)">ActivateWindow(musiclibrary,$ESCINFO[Container(8000).ListItem.Property(Path)],return)</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4321),album)">Playlist.Clear</onclick>
-                            <onclick condition="!Substring(Control.GetLabel(4321),artist) + !Substring(Control.GetLabel(4321),addons) + !Substring(Control.GetLabel(4321),artists) + !Substring(Control.GetLabel(4321),rss) + !Substring(Control.GetLabel(4321),roms)">$INFO[Container(8000).ListItem.Property(Path)]</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4321),addons)">RunAddon($INFO[Container(8000).ListItem.Property(Path)])</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4321),rss)">PlayMedia($ESCINFO[Container(8000).ListItem.Property(Media)])</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4321),actor)">RunScript(script.metadata.actors,$INFO[Container(8000).ListItem.Label])</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4321),roms)">RunScript(script.games.rom.collection.browser,launchid=$INFO[Container(8000).ListItem.Property(Id)])</onclick>
-                        </item>
-                        <item>
-                            <label>$LOCALIZE[20410]</label>
-                            <onclick>PlayMedia($ESCINFO[Container(8000).ListItem.Property(Trailer)])</onclick>
-                            <visible>!IsEmpty(Container(8000).ListItem.Property(Trailer))</visible>
-                        </item>
-                        <item>
-                            <label>$LOCALIZE[31087]</label>
-                            <onclick condition="SubString(Control.GetLabel(4321),1custom)">$INFO[Skin.String(SmartPlaylist1.Call)]</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4321),2custom)">$INFO[Skin.String(SmartPlaylist2.Call)]</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4321),3custom)">$INFO[Skin.String(SmartPlaylist3.Call)]</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4321),4custom)">$INFO[Skin.String(SmartPlaylist4.Call)]</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4321),5custom)">$INFO[Skin.String(SmartPlaylist5.Call)]</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4321),6custom)">$INFO[Skin.String(SmartPlaylist6.Call)]</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4321),actors)">RunScript(script.metadata.actors,borntoday,10,random)</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4321),pics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Random'&amp;sort='Added'&amp;limit=10)</onclick>
-                            <onclick condition="!Substring(Control.GetLabel(4321),custom) + !Substring(Control.GetLabel(4321),pics)">SetProperty(SkinWidgets_RandomItems_Update,true)</onclick>
-                            <visible>Substring(Control.GetLabel(4321),random) | Substring(Control.GetLabel(4321),actors)</visible>
-                        </item>
-                        <item>
-                            <label>$LOCALIZE[31066]</label>
-                            <onclick>SetFocus(8000)</onclick>
-                        </item>
+                        <include>ClassicWidgetPlayItems</include>
                     </content>
                 </control>
             </control>
             <control type="button" id="5014">
                 <include>HiddenObject</include>
+                <onfocus>SetProperty(Label,$ESCINFO[Container(8000).ListItem.Label])</onfocus>
+                <onfocus>SetProperty(Path,$ESCINFO[Container(8000).ListItem.Property(Path)])</onfocus>
+                <onfocus>SetProperty(PercentPlayed,$ESCINFO[Container(8000).ListItem.Property(PercentPlayed)])</onfocus>
+                <onfocus>SetProperty(Id,$ESCINFO[Container(8000).ListItem.Property(Id)])</onfocus>
+                <onfocus>SetProperty(Media,$ESCINFO[Container(8000).ListItem.Property(Media)])</onfocus>
+                <onfocus>SetProperty(DBID,$ESCINFO[Container(8000).ListItem.Property(DBID)])</onfocus>
+                <onfocus>SetProperty(Trailer,$ESCINFO[Container(8000).ListItem.Property(Trailer)])</onfocus>
                 <onfocus condition="Substring(Control.GetLabel(4321),babe)">SetFocus(22222)</onfocus>
                 <onfocus condition="!Substring(Control.GetLabel(4321),babe)">SetFocus(8020)</onfocus>
             </control>
-            <!--         <control type="button" id="5014">
-                <include>HiddenObject</include>
-                <onfocus condition="Substring(Control.GetLabel(4321),movie) | Substring(Control.GetLabel(4321),musicvideo) | Substring(Control.GetLabel(4321),actors)">$INFO[Container(5010).ListItem.Property(Path)]</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4321),tv)">$INFO[Container(5010).ListItem.Property(Path)]</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4321),rss)">PlayMedia($ESCINFO[Container(5010).ListItem.Property(Media)])</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4321),roms)">System.Exec($ESCINFO[Container(5010).ListItem.Property(Path)])</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4321),babe)">SetFocus(22222)</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4321),artist)">ActivateWindow(musiclibrary,$ESCINFO[Container(5010).ListItem.Property(Path)],return)</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4321),album)">Playlist.Clear</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4321),album)">$INFO[Container(5010).ListItem.Property(Path)]</onfocus>
-                <onfocus condition="!Substring(Control.GetLabel(4321),artist) + !Substring(Control.GetLabel(4321),addons)">$INFO[Container(5010).ListItem.Property(Path)]</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4321),addons)">RunAddon($INFO[Container(5010).ListItem.Property(Path)])</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4321),randompics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Random'&amp;sort='Added'&amp;limit=10)</onfocus>
-                <onfocus condition="Substring(Control.GetLabel(4321),recentpics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Latest'&amp;sort='Added'&amp;limit=10)</onfocus>
-            </control>
- -->
         </control>
+    </include>
+    <include name="ClassicWidgetPlayItems">
+                        <item>
+                            <label>$LOCALIZE[208]</label>
+                            <onclick condition="Substring(Window(home).Property(WidgetType),artist)">ActivateWindow(musiclibrary,$ESCINFO[Window(home).Property(Path)],return)</onclick>
+                            <onclick condition="Substring(Window(home).Property(WidgetType),album)">Playlist.Clear</onclick>
+                            <onclick condition="Substring(Window(home).Property(WidgetType),movies)">Runscript(service.skin.widgets,movieid=$INFO[Window(home).Property(DBID)],resume=false)</onclick>
+                            <onclick condition="Substring(Window(home).Property(WidgetType),tv)">Runscript(service.skin.widgets,episodeid=$INFO[Window(home).Property(DBID)],resume=false)</onclick>
+                            <onclick condition="Substring(Window(home).Property(WidgetType),musicvideo)">Runscript(service.skin.widgets,musicvideoid=$INFO[Window(home).Property(DBID)],resume=false)</onclick>
+                            <onclick condition="!Substring(Window(home).Property(WidgetType),artist) + !Substring(Window(home).Property(WidgetType),addons) + !Substring(Window(home).Property(WidgetType),artists) + !Substring(Window(home).Property(WidgetType),rss) + !Substring(Window(home).Property(WidgetType),roms) + !Substring(Window(home).Property(WidgetType),musicvideo) + !Substring(Window(home).Property(WidgetType),tv) + !Substring(Window(home).Property(WidgetType),movie)">$INFO[Window(home).Property(Path)]</onclick>
+                            <onclick condition="Substring(Window(home).Property(WidgetType),addons)">RunAddon($INFO[Window(home).Property(Path)])</onclick>
+                            <onclick condition="Substring(Window(home).Property(WidgetType),rss)">PlayMedia($ESCINFO[Window(home).Property(Media)])</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),actor)">RunScript(script.metadata.actors,$INFO[Window(home).Label])</onclick>
+                            <onclick condition="Substring(Window(home).Property(WidgetType),roms)">RunScript(script.games.rom.collection.browser,launchid=$INFO[Window(home).Property(Id)])</onclick>
+                        </item>
+                        <item>
+                            <label>Resume $INFO[Window(home).Property(PercentPlayed),(,)]</label>
+                            <onclick>$INFO[Window(home).Property(Path)]</onclick>
+                            <visible>!IsEmpty(Window(home).Property(DBID)) + !Stringcompare(Window(home).Property(PercentPlayed),0%)</visible>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[20410]</label>
+                            <onclick>PlayMedia($ESCINFO[Window(home).Property(Trailer)])</onclick>
+                            <visible>!IsEmpty(Window(home).Property(Trailer))</visible>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[31087]</label>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),1custom)">$INFO[Skin.String(SmartPlaylist1.Call)]</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),2custom)">$INFO[Skin.String(SmartPlaylist2.Call)]</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),3custom)">$INFO[Skin.String(SmartPlaylist3.Call)]</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),4custom)">$INFO[Skin.String(SmartPlaylist4.Call)]</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),5custom)">$INFO[Skin.String(SmartPlaylist5.Call)]</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),6custom)">$INFO[Skin.String(SmartPlaylist6.Call)]</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),7custom)">$INFO[Skin.String(SmartPlaylist7.Call)]</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),8custom)">$INFO[Skin.String(SmartPlaylist8.Call)]</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),9custom)">$INFO[Skin.String(SmartPlaylist9.Call)]</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),10custom)">$INFO[Skin.String(SmartPlaylist10.Call)]</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),11custom)">$INFO[Skin.String(SmartPlaylist11.Call)]</onclick>
+                            <onclick condition="SubString(Window(home).Property(WidgetType),12custom)">$INFO[Skin.String(SmartPlaylist12.Call)]</onclick>
+                            <onclick condition="Substring(Window(home).Property(WidgetType),actors)">RunScript(script.metadata.actors,borntoday,10,random)</onclick>
+                            <onclick condition="Substring(Window(home).Property(WidgetType),pics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Random'&amp;sort='Added'&amp;limit=10)</onclick>
+                            <onclick condition="!Substring(Window(home).Property(WidgetType),custom) + !Substring(Window(home).Property(WidgetType),pics)">SetProperty(SkinWidgets_RandomItems_Update,true)</onclick>
+                            <visible>Substring(Window(home).Property(WidgetType),random) | Substring(Window(home).Property(WidgetType),actors)</visible>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[31066]</label>
+                            <onclick condition="Stringcompare(Window(home).Property(WidgetPosition),Widget1)">SetFocus(8000)</onclick>
+                            <onclick condition="Stringcompare(Window(home).Property(WidgetPosition),Widget2)">SetFocus(7000)</onclick>
+                        </item>
+    
     </include>
     <include name="HomePanelWidget">
         <control type="group" id="5000">
@@ -3920,43 +3930,19 @@
                         </control>
                     </focusedlayout>
                     <content>
-                        <item>
-                            <label>$LOCALIZE[208]</label>
-                            <onclick condition="Substring(Control.GetLabel(4325),artist)">ActivateWindow(musiclibrary,$ESCINFO[Container(7000).ListItem.Property(Path)],return)</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4325),album)">Playlist.Clear</onclick>
-                            <onclick condition="!Substring(Control.GetLabel(4325),artist) + !Substring(Control.GetLabel(4325),addons) + !Substring(Control.GetLabel(4325),artists) + !Substring(Control.GetLabel(4325),rss) + !Substring(Control.GetLabel(4325),roms)">$INFO[Container(7000).ListItem.Property(Path)]</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4325),addons)">RunAddon($INFO[Container(7000).ListItem.Property(Path)])</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4325),rss)">PlayMedia($ESCINFO[Container(7000).ListItem.Property(Media)])</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4325),actor)">RunScript(script.metadata.actors,$INFO[Container(7000).ListItem.Label])</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4325),roms)">RunScript(script.games.rom.collection.browser,launchid=$INFO[Container(7000).ListItem.Property(Id)])</onclick>
-                        </item>
-                        <item>
-                            <label>$LOCALIZE[20410]</label>
-                            <onclick>PlayMedia($ESCINFO[Container(7000).ListItem.Property(Trailer)])</onclick>
-                            <visible>!IsEmpty(Container(7000).ListItem.Property(Trailer))</visible>
-                        </item>
-                        <item>
-                            <label>$LOCALIZE[31087]</label>
-                            <onclick condition="SubString(Control.GetLabel(4325),1custom)">$INFO[Skin.String(SmartPlaylist1.Call)]</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4325),2custom)">$INFO[Skin.String(SmartPlaylist2.Call)]</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4325),3custom)">$INFO[Skin.String(SmartPlaylist3.Call)]</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4325),4custom)">$INFO[Skin.String(SmartPlaylist4.Call)]</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4325),5custom)">$INFO[Skin.String(SmartPlaylist5.Call)]</onclick>
-                            <onclick condition="SubString(Control.GetLabel(4325),6custom)">$INFO[Skin.String(SmartPlaylist6.Call)]</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4325),actors)">RunScript(script.metadata.actors,borntoday,10,random)</onclick>
-                            <onclick condition="Substring(Control.GetLabel(4325),pics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Random'&amp;sort='Added'&amp;limit=10)</onclick>
-                            <onclick condition="!Substring(Control.GetLabel(4325),custom) + !Substring(Control.GetLabel(4325),pics)">SetProperty(SkinWidgets_RandomItems_Update,true)</onclick>
-                            <visible>Substring(Control.GetLabel(4325),random) | Substring(Control.GetLabel(4325),actors)</visible>
-                        </item>
-                        <item>
-                            <label>$LOCALIZE[31066]</label>
-                            <onclick>SetFocus(7000)</onclick>
-                        </item>
+                            <include>ClassicWidgetPlayItems</include>
                     </content>
                 </control>
             </control>
             <control type="button" id="6014">
                 <include>HiddenObject</include>
+                <onfocus>SetProperty(Label,$ESCINFO[Container(7000).ListItem.Label])</onfocus>
+                <onfocus>SetProperty(Path,$ESCINFO[Container(7000).ListItem.Property(Path)])</onfocus>
+                <onfocus>SetProperty(PercentPlayed,$ESCINFO[Container(7000).ListItem.Property(PercentPlayed)])</onfocus>
+                <onfocus>SetProperty(Id,$ESCINFO[Container(7000).ListItem.Property(Id)])</onfocus>
+                <onfocus>SetProperty(Media,$ESCINFO[Container(7000).ListItem.Property(Media)])</onfocus>
+                <onfocus>SetProperty(DBID,$ESCINFO[Container(7000).ListItem.Property(DBID)])</onfocus>
+                <onfocus>SetProperty(Trailer,$ESCINFO[Container(7000).ListItem.Property(Trailer)])</onfocus>
                 <onfocus condition="Substring(Control.GetLabel(4325),babe)">SetFocus(22222)</onfocus>
                 <onfocus condition="!Substring(Control.GetLabel(4325),babe)">SetFocus(7020)</onfocus>
             </control>
