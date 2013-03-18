@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window>
     <defaultcontrol always="true">5000</defaultcontrol>
-    <onload>AlarmClock(ActorIconMove,Control.Move(50,3),00:07,silent,loop)</onload>
+    <onload>AlarmClock(ActorIconMove,Control.Move(600,3),00:07,silent,loop)</onload>
     <onload condition="System.HasAddon(script.videolanguage) + [Container.Content(movies) | Container.Content(episodes)]">RunScript(script.videolanguage,movieid=$INFO[ListItem.DBID])</onload>
     <onload condition="System.HasAddon(script.dvdextras) + Container.Content(movies)">XBMC.RunScript(script.dvdextras,$INFO[ListItem.FilenameAndPath],start_theme)</onload>
     <onunload condition="System.HasAddon(script.dvdextras) + Container.Content(movies)">XBMC.RunScript(script.dvdextras,stop_theme)</onunload>
@@ -46,7 +46,7 @@
                 <texturenofocus>-</texturenofocus>
                 <label>-</label>
                 <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                <ondown>50</ondown>
+                <ondown>600</ondown>
                 <visible>!IsEmpty(ListItem.Director)</visible>
             </control>
             <control type="button" id="130">
@@ -72,7 +72,7 @@
                 <label>-</label>
                 <onclick>RunScript(script.metadata.actors,$INFO[ListItem.Writer])</onclick>
                 <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                <ondown>50</ondown>
+                <ondown>600</ondown>
                 <onup>130</onup>
                 <enable>!IsEmpty(ListItem.Writer)</enable>
             </control>
@@ -1056,14 +1056,7 @@
                 <posy>366</posy>
                 <width>705</width>
                 <height>177</height>
-                <onleft>AlarmClock(ActorIconMove,Control.Move(50,3),00:07,silent,loop)</onleft>
-                <onleft>5000</onleft>
-                <onright condition="System.HasAddon(script.metadata.actors)">5054</onright>
-                <onright condition="!System.HasAddon(script.metadata.actors)">AlarmClock(ActorIconMove,Control.Move(50,3),00:07,silent,loop)</onright>
-                <onright condition="!System.HasAddon(script.metadata.actors)">5000</onright>
-                <onup condition="!System.HasAddon(script.metadata.actors)">13</onup>
-                <onup condition="System.HasAddon(script.metadata.actors)">131</onup>
-                <ondown>50</ondown>
+                <animation effect="fade" start="100" end="0" delay="2000" time="50">WindowOpen</animation>
                 <scrolltime>200</scrolltime>
                 <orientation>vertical</orientation>
                 <itemlayout height="35" width="555">
@@ -1092,27 +1085,172 @@
                     </control>
                 </focusedlayout>
             </control>
-            <control type="group">
-                <visible>Control.HasFocus(50) + System.HasAddon(script.metadata.actors)</visible>
-                <include>Animation_VisibleChange200</include>
-                <control type="label">
-                    <posx>1521</posx>
-                    <posy>439</posy>
-                    <width>100</width>
-                    <height>30</height>
-                    <textoffsetx>15</textoffsetx>
-                    <align>center</align>
-                    <label>INFO</label>
-                    <font>Font_Reg12</font>
-                </control>
-                <control type="image">
-                    <posx>1551</posx>
-                    <posy>436</posy>
-                    <width>40</width>
-                    <height>40</height>
-                    <texture>arrowright.png</texture>
-                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                </control>
+            <control type="panel" id="600">
+                <posx>991</posx>
+                <posy>366</posy>
+                <width>705</width>
+                <height>177</height>
+                <onleft>AlarmClock(ActorIconMove,Control.Move(600,3),00:07,silent,loop)</onleft>
+                <onleft>5000</onleft>
+                <animation effect="fade" start="100" end="0" time="40" condition="Control.HasFocus(601)">Conditional</animation>
+                <onright>AlarmClock(ActorIconMove,Control.Move(600,3),00:07,silent,loop)</onright>
+                <onright>5000</onright>
+                <onup condition="!System.HasAddon(script.metadata.actors)">13</onup>
+                <onup condition="System.HasAddon(script.metadata.actors)">131</onup>
+                <ondown>600</ondown>
+                <scrolltime>200</scrolltime>
+                <orientation>vertical</orientation>
+                <itemlayout height="35" width="555">
+                    <control type="label">
+                        <width>555</width>
+                        <height>30</height>
+                        <textoffsetx>15</textoffsetx>
+                        <font>Font_Reg17_2</font>
+                        <info>ListItem.Label</info>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="35" width="555">
+                    <control type="image">
+                        <width>555</width>
+                        <height>37</height>
+                        <texture border="8">views/tripanel/listselect_fo.png</texture>
+                        <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+                        <visible>Control.HasFocus(600)</visible>
+                    </control>
+                    <control type="label">
+                        <width>555</width>
+                        <height>30</height>
+                        <textoffsetx>15</textoffsetx>
+                        <font>Font_Reg17_2</font>
+                        <info>ListItem.Label</info>
+                    </control>
+                </focusedlayout>
+                <content>
+                <item>
+                    <label>$INFO[Container(50).ListItem(0).Label]</label>
+                    <thumb>$INFO[Container(50).ListItem(0).Thumb]</thumb>
+                    <visible>!IsEmpty(Container(50).ListItem(0).Label)</visible>
+                    <onclick>SetProperty(Position,0)</onclick>
+                    <onclick>SetFocus(601)</onclick>
+                </item>
+                <item>
+                    <label>$INFO[Container(50).ListItem(1).Label]</label>
+                    <thumb>$INFO[Container(50).ListItem(1).Thumb]</thumb>
+                    <visible>!IsEmpty(Container(50).ListItem(1).Label)</visible>
+                    <onclick>SetProperty(Position,1)</onclick>
+                    <onclick>SetFocus(601)</onclick>
+                </item>
+                <item>
+                    <label>$INFO[Container(50).ListItem(2).Label]</label>
+                    <thumb>$INFO[Container(50).ListItem(2).Thumb]</thumb>
+                    <visible>!IsEmpty(Container(50).ListItem(2).Label)</visible>
+                    <onclick>SetProperty(Position,2)</onclick>
+                    <onclick>SetFocus(601)</onclick>
+                </item>
+                <item>
+                    <label>$INFO[Container(50).ListItem(3).Label]</label>
+                    <thumb>$INFO[Container(50).ListItem(3).Thumb]</thumb>
+                    <visible>!IsEmpty(Container(50).ListItem(3).Label)</visible>
+                    <onclick>SetProperty(Position,3)</onclick>
+                    <onclick>SetFocus(601)</onclick>
+                </item>
+                <item>
+                    <label>$INFO[Container(50).ListItem(4).Label]</label>
+                    <thumb>$INFO[Container(50).ListItem(4).Thumb]</thumb>
+                    <visible>!IsEmpty(Container(50).ListItem(4).Label)</visible>
+                    <onclick>SetProperty(Position,4)</onclick>
+                    <onclick>SetFocus(601)</onclick>
+                </item>
+                <item>
+                    <label>$INFO[Container(50).ListItem(5).Label]</label>
+                    <thumb>$INFO[Container(50).ListItem(5).Thumb]</thumb>
+                    <visible>!IsEmpty(Container(50).ListItem(5).Label)</visible>
+                    <onclick>SetProperty(Position,5)</onclick>
+                    <onclick>SetFocus(601)</onclick>
+                </item>
+                <item>
+                    <label>$INFO[Container(50).ListItem(6).Label]</label>
+                    <thumb>$INFO[Container(50).ListItem(6).Thumb]</thumb>
+                    <visible>!IsEmpty(Container(50).ListItem(6).Label)</visible>
+                    <onclick>SetProperty(Position,6)</onclick>
+                    <onclick>SetFocus(601)</onclick>
+                </item>
+                <item>
+                    <label>$INFO[Container(50).ListItem(7).Label]</label>
+                    <thumb>$INFO[Container(50).ListItem(7).Thumb]</thumb>
+                    <visible>!IsEmpty(Container(50).ListItem(7).Label)</visible>
+                    <onclick>SetProperty(Position,7)</onclick>
+                    <onclick>SetFocus(601)</onclick>
+                </item>
+                <item>
+                    <label>$INFO[Container(50).ListItem(8).Label]</label>
+                    <thumb>$INFO[Container(50).ListItem(8).Thumb]</thumb>
+                    <visible>!IsEmpty(Container(50).ListItem(8).Label)</visible>
+                    <onclick>SetProperty(Position,8)</onclick>
+                    <onclick>SetFocus(601)</onclick>
+                </item>
+                </content>
+            </control>
+            <control type="panel" id="601">
+                <posx>991</posx>
+                <posy>366</posy>
+                <width>705</width>
+                <height>177</height>
+                <onleft>AlarmClock(ActorIconMove,Control.Move(600,3),00:07,silent,loop)</onleft>
+                <onleft>5000</onleft>
+                <visible allowhiddenfocus="true">Control.HasFocus(601)</visible>
+                <onright>AlarmClock(ActorIconMove,Control.Move(600,3),00:07,silent,loop)</onright>
+                <onright>5000</onright>
+                <onup condition="!System.HasAddon(script.metadata.actors)">13</onup>
+                <onup condition="System.HasAddon(script.metadata.actors)">131</onup>
+                <ondown>600</ondown>
+                <scrolltime>200</scrolltime>
+                <orientation>vertical</orientation>
+                <itemlayout height="35" width="555">
+                    <control type="label">
+                        <width>555</width>
+                        <height>30</height>
+                        <textoffsetx>15</textoffsetx>
+                        <font>Font_Reg17_2</font>
+                        <info>ListItem.Label</info>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="35" width="555">
+                    <control type="image">
+                        <width>555</width>
+                        <height>37</height>
+                        <texture border="8">views/tripanel/listselect_fo.png</texture>
+                        <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+                        <visible>Control.HasFocus(601)</visible>
+                    </control>
+                    <control type="label">
+                        <width>555</width>
+                        <height>30</height>
+                        <textoffsetx>15</textoffsetx>
+                        <font>Font_Reg17_2</font>
+                        <info>ListItem.Label</info>
+                    </control>
+                </focusedlayout>
+                <content>
+                <item>
+                    <label>Show Movies with this Actor</label>
+                    <onclick>Control.Move(50,$INFO[Window.Property(Position)])</onclick>
+                    <onclick>SetFocus(50)</onclick>
+                    <onclick>Action(Select)</onclick>
+                    <onclick>SetFocus(600)</onclick>
+                </item>
+                <item>
+                    <label>Show Extended Actor Info</label>
+                    <onclick>RunScript(script.metadata.actors,$INFO[Container(600).Listitem.Label])</onclick>
+                    <onclick>SetFocus(600)</onclick>
+                </item>
+                <item>
+                    <label>Search Actor on Youtube</label>
+                    <onclick>Action(Close)</onclick>
+                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Container(600).Listitem.Label],return)</onclick>
+                    <onclick>SetFocus(601)</onclick>
+                </item>
+                </content>
             </control>
             <control type="grouplist" id="5000">
                 <posx>827</posx>
@@ -1121,7 +1259,7 @@
                 <height>60</height>
                 <onleft>5000</onleft>
                 <onright>5000</onright>
-                <onup>50</onup>
+                <onup>600</onup>
                 <ondown>5055</ondown>
                 <orientation>horizontal</orientation>
                 <scrolltime tween="quadratic">200</scrolltime>
@@ -1240,46 +1378,10 @@
                 <width>176</width>
                 <height>176</height>
                 <aspectratio>keep</aspectratio>
-                <texture background="true">$INFO[Container(50).Listitem.Icon]</texture>
+                <texture background="true">$INFO[Container(600).Listitem.Icon]</texture>
                 <fadetime>400</fadetime>
                 <bordertexture border="7">thumbs/multiplex_tvborder.png</bordertexture>
                 <bordersize>7</bordersize>
-                <visible>!Control.HasFocus(5054)</visible>
-            </control>
-            <control type="group">
-                <visible>Control.HasFocus(5054)</visible>
-                <control type="image">
-                    <posx>1602</posx>
-                    <posy>366</posy>
-                    <width>176</width>
-                    <height>176</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture background="true">$INFO[Container(50).Listitem.Icon]</texture>
-                    <fadetime>400</fadetime>
-                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                    <bordertexture border="5">views/addonwall_select.png</bordertexture>
-                    <bordersize>5</bordersize>
-                </control>
-                <control type="image">
-                    <posx>1602</posx>
-                    <posy>366</posy>
-                    <width>176</width>
-                    <height>176</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture background="true">$INFO[Container(50).Listitem.Icon]</texture>
-                    <fadetime>400</fadetime>
-                    <bordersize>5</bordersize>
-                </control>
-            </control>
-            <control type="button" id="5054">
-                <include>HiddenObject</include>
-                <onfocus condition="!System.HasAddon(script.metadata.actors)">SetFocus(5000)</onfocus>
-                <onclick>RunScript(script.metadata.actors,$INFO[Container(50).Listitem.Label])</onclick>
-                <onleft>50</onleft>
-                <onright>AlarmClock(ActorIconMove,Control.Move(50,3),00:07,silent,loop)</onright>
-                <onright>5000</onright>
-                <onup>Control.Move(50,-1)</onup>
-                <ondown>Control.Move(50,1)</ondown>
             </control>
             <control type="button" id="5055">
                 <include>HiddenObject</include>
