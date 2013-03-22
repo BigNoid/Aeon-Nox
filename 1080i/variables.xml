@@ -553,17 +553,15 @@
     </variable>
     <variable name="FanartPanelValue1Var">
         <value condition="Container.Content(episodes) | IsEmpty(ListItem.TvShowTitle)">$INFO[ListItem.Director]</value>
-        <value condition="Container.Content(tvshows)">$INFO[ListItem.Premiered] $INFO[ListItem.Studio,@ ]</value>
+        <value condition="Container.Content(tvshows)">$INFO[ListItem.Premiered]</value>
         <value condition="Container.Content(seasons)">$INFO[ListItem.TVShowTitle]</value>
     </variable>
     <variable name="FanartPanelDetail2Var">
         <value condition="Container.Content(episodes) | IsEmpty(ListItem.TvShowTitle)">$LOCALIZE[20417]:</value>
-        <value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !Skin.HasSetting(DisableNextAiredInfo)">$LOCALIZE[31188]:</value>
         <value condition="Container.Content(tvshows) | Container.Content(seasons)">$LOCALIZE[13279]:</value>
     </variable>
     <variable name="FanartPanelValue2Var">
         <value condition="Container.Content(episodes) | IsEmpty(ListItem.TvShowTitle)">$INFO[ListItem.Writer]</value>
-        <value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !Skin.HasSetting(DisableNextAiredInfo)">$VAR[ShowStatusVar]</value>
         <value condition="Container.Content(tvshows) | Container.Content(seasons)">$INFO[ListItem.Studio]</value>
     </variable>
     <variable name="FanartPanelDetail3Var">
@@ -648,7 +646,7 @@
     </variable>
     <variable name="PosterPanelValue4Var">
         <value condition="IsEmpty(ListItem.TvShowTitle)">$INFO[ListItem.RatingAndVotes]$INFO[ListItem.Top250, / $LOCALIZE[13409] #]</value>
-        <value condition="[Container.Content(tvshows) | Container.Content(seasons)]">$INFO[ListItem.Genre]</value>
+        <value condition="[Container.Content(tvshows) | Container.Content(seasons)]">$INFO[Window(Home).Property(NextAired.AirTime)]</value>
     </variable>
     <variable name="PosterPanelDetail5Var">
         <value condition="IsEmpty(ListItem.TvShowTitle)">$LOCALIZE[2050]:</value>
@@ -712,6 +710,10 @@
         <value condition="!IsEmpty(ListItem.Top250)">common/imdbwatched.png</value>
         <value condition="!IsEmpty(ListItem.Property(Addon.Broken))">common/wrench.png</value>
         <value>$INFO[ListItem.Overlay]</value>
+    </variable>
+    <variable name="CountryFlagVar">
+        <value condition="!IsEmpty(ListItem.Country)">$INFO[ListItem.Country,flags/language/,.png]</value>
+        <value condition="Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)">$INFO[Window(home).Property(NextAired.Country),flags/language/,.png]</value>
     </variable>
     <variable name="VolumeColorVar">
         <value condition="Stringcompare(Control.GetLabel(20),100)">FFFF2409</value>
@@ -1683,7 +1685,6 @@
     <!-- TriPanel -->
     <variable name="TriPanelDetail1Var">
         <value condition="System.HasAddon(script.metadata.actors) + [Container.Content(actors) | Container.Content(directors)]">$ADDON[script.metadata.actors 32012]</value>
-        <value condition="Container.Content(tvshows) + !IsEmpty(ListItem.TvShowTitle) + Skin.HasSetting(DisableNextAiredInfo)">$LOCALIZE[563]:</value>
         <value condition="Container.Content(seasons)">$LOCALIZE[20360]:</value>
         <value condition="Window.IsActive(programs)">$LOCALIZE[572]:</value>
         <value>$LOCALIZE[2050]:</value>
@@ -1692,8 +1693,7 @@
         <value condition="System.HasAddon(script.metadata.actors) + [Container.Content(actors) | Container.Content(directors)]">$INFO[Window.Property(current.actor.age)]</value>
         <value condition="[Container.Content(episodes) | IsEmpty(ListItem.TvShowTitle)] + !ListItem.IsResumable">$INFO[ListItem.Duration,, $LOCALIZE[12391]]</value>
         <value condition="[Container.Content(episodes) | IsEmpty(ListItem.TvShowTitle)]">$INFO[ListItem.Duration,, $LOCALIZE[12391]][COLOR grey]$INFO[ListItem.PercentPlayed, (,%)][/COLOR]</value>
-        <value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !Skin.HasSetting(DisableNextAiredInfo)">$INFO[Window(Home).Property(NextAired.Runtime),, $LOCALIZE[12391]]</value>
-        <value condition="Container.Content(tvshows)">$INFO[ListItem.Rating]</value>
+        <value condition="Container.Content(tvshows) | Container.Content(seasons)">$INFO[Window(Home).Property(NextAired.Runtime),, $LOCALIZE[12391]]</value>
         <value condition="Container.Content(seasons)">$INFO[ListItem.Property(TotalEpisodes)]</value>
         <value condition="Window.IsActive(programs)">$INFO[ListItem.Studio]</value>
     </variable>
