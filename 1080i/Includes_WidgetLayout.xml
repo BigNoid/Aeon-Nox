@@ -2620,6 +2620,9 @@
 
         <control type="button" id="5055">
             <include>HiddenObject</include>
+            <onfocus condition="Substring(Window(home).Property(WidgetType),movie) + System.HasAddon(script.videolanguage)">RunScript(script.videolanguage,type=movie&amp;movieid=$INFO[Window(home).Property(DBID)])</onfocus>
+            <onfocus condition="Substring(Window(home).Property(WidgetType),musicvideo) + System.HasAddon(script.videolanguage)">RunScript(script.videolanguage,type=musicvideo&amp;movieid=$INFO[Window(home).Property(DBID)])</onfocus>
+            <onfocus condition="Substring(Window(home).Property(WidgetType),tv) + !Substring(Window(home).Property(WidgetType),nextaired) + System.HasAddon(script.videolanguage)">RunScript(script.videolanguage,type=episode&amp;movieid=$INFO[Window(home).Property(DBID)])</onfocus>
             <onfocus condition="Substring(Window(home).Property(WidgetType),movie) | Substring(Window(home).Property(WidgetType),musicvideo) | Substring(Window(home).Property(WidgetType),actors) | Substring(Window(home).Property(WidgetType),tv) | Substring(Window(home).Property(WidgetType),roms)">SetFocus(5020)</onfocus>
             <onfocus condition="Substring(Window(home).Property(WidgetType),babe)">ClearProperty(PanelWidget2Info,home)</onfocus>
             <onfocus condition="Substring(Window(home).Property(WidgetType),babe)">ClearProperty(PanelWidgetInfo,home)</onfocus>
@@ -2998,6 +3001,7 @@
                         <effect type="fade" start="0" end="100" delay="2520" time="560" tween="cubic" />
                     </animation>
                 </control>
+
                 <control type="grouplist">
                     <posx>495</posx>
                     <posy>270</posy>
@@ -3009,63 +3013,117 @@
                         <effect type="fade" start="0" end="100" delay="960" time="960" tween="cubic" />
                         <effect type="zoom" start="100,0" end="100,100" delay="960" time="960" center="auto" tween="cubic" />
                     </animation>
-                    <itemgap>40</itemgap>
+                    <itemgap>0</itemgap>
+                   <control type="grouplist" id="12100">
+                    <animation effect="fade" start="100" end="80" time="0" condition="true">Conditional</animation>
+                        <width>30</width>
+                        <height>70</height>
+                        <orientation>vertical</orientation>
+                        <control type="image">
+                            <width>26</width>
+                            <height>22</height>
+                            <aspectratio>scale</aspectratio>
+                            <texture>$INFO[Window(movieinformation).Property(AudioLanguage.1),flags/language/,.png]</texture>
+                            <visible>!IsEmpty(Window(movieinformation).Property(AudioLanguage.1))</visible>
+                            <include>Animation_VisibleChange200</include>
+                            <fadetime>400</fadetime>
+                        </control>
+                        <control type="image">
+                            <width>26</width>
+                            <height>22</height>
+                            <aspectratio>scale</aspectratio>
+                            <texture>$INFO[Window(movieinformation).Property(AudioLanguage.2),flags/language/,.png]</texture>
+                            <visible>!IsEmpty(Window(movieinformation).Property(AudioLanguage.2))</visible>
+                            <visible>!Stringcompare(Window(movieinformation).Property(AudioLanguage.1),Window(movieinformation).Property(AudioLanguage.2))</visible>
+                            <include>Animation_VisibleChange200</include>
+                            <fadetime>400</fadetime>
+                        </control>
+                        <control type="image">
+                            <width>26</width>
+                            <height>22</height>
+                            <aspectratio>scale</aspectratio>
+                            <texture>$INFO[Window(movieinformation).Property(AudioLanguage.3),flags/language/,.png]</texture>
+                            <visible>!IsEmpty(Window(movieinformation).Property(AudioLanguage.3))</visible>
+                            <visible>!Stringcompare(Window(movieinformation).Property(AudioLanguage.1),Window(movieinformation).Property(AudioLanguage.3))</visible>
+                            <visible>!Stringcompare(Window(movieinformation).Property(AudioLanguage.2),Window(movieinformation).Property(AudioLanguage.3))</visible>
+                            <include>Animation_VisibleChange200</include>
+                            <fadetime>400</fadetime>
+                        </control>
+                    </control>
                     <control type="image">
                         <texture>$INFO[Window(home).Property(AudioCodec),flags/audio/]$INFO[Window(home).Property(AudioChannels),,.png]</texture>
-                        <include>OSDFlagVars</include>
+                    <height>64</height>
+                    <width>170</width>
+                    <aspectratio align="left">keep</aspectratio>
+                    <fadetime>IconCrossfadeTime2</fadetime>
+                    <colordiffuse>white2</colordiffuse>
+                    <animation effect="fade" time="200">VisibleChange</animation>
                     </control>
                     <control type="image">
                         <texture>$INFO[Window(home).Property(VideoResolution),flags/resolution/,.png]</texture>
-                        <include>OSDFlagVars</include>
+                        <include>WidgetFlagVars</include>
                         <visible>!IsEmpty(Window(home).Property(VideoAspect))</visible>
                     </control>
                     <control type="image">
                         <texture>$INFO[Window(home).Property(VideoCodec),flags/source/,.png]</texture>
-                        <include>OSDFlagVars</include>
+                        <include>WidgetFlagVars</include>
                     </control>
                     <control type="image">
                         <texture>$INFO[Window(home).Property(VideoAspect),flags/aspectratio/,.png]</texture>
-                        <include>OSDFlagVars</include>
+                        <include>WidgetFlagVars</include>
                     </control>
                     <control type="image">
                         <texture fallback="flags/rating/MPAA_NR_Certificate_US.png">$VAR[WidgetRatingFlagVar,flags/rating/,.png]</texture>
-                        <include>OSDFlagVars</include>
+                        <include>WidgetFlagVars</include>
                         <visible>!IsEmpty(Window(home).Property(mpaa))</visible>
                     </control>
                     <control type="group">
-                            <width>150</width>
-        <height>64</height>
-        <visible>IsEmpty(Window(home).Property(NextTitle))</visible>
+                    <width>180</width>
+                    <height>64</height>
+                    <visible>IsEmpty(Window(home).Property(NextTitle))</visible>
                     <control type="image">
                         <texture>flags/imdb.png</texture>
-                        <include>OSDFlagVars</include>
+                        <include>WidgetFlagVars</include>
                     </control>
                     <control type="label">
                         <posy>21</posy>
-                        <width>150</width>
+                        <width>180</width>
                         <height>38</height>
                         <align>center</align>
                         <label fallback="?">$INFO[Window(home).Property(Rating)]</label>
-                        <font>Font_Bold22</font>
+                        <font>Font_Bold20</font>
                         <textcolor>floor</textcolor>
                     </control>
         
                     </control>
 <!--                     <control type="image">
                         <texture>$INFO[Window(home).Property(Rating),stars/,.png]</texture>
-                        <include>OSDFlagVars</include>
+                        <include>WidgetFlagVars</include>
                     </control> -->
-                    <control type="image">
+                    <control type="image" id="13300">
                         <texture>$INFO[Window(home).Property(Studio),flags/studios/,.png]</texture>
-                        <width>150</width>
+                        <width>183</width>
                         <height>90</height>
                         <posy>-11</posy>
                         <aspectratio>keep</aspectratio>
                         <fadetime>IconCrossfadeTime2</fadetime>
                         <colordiffuse>white2</colordiffuse>
                         <animation effect="fade" time="200">VisibleChange</animation>
-                        <visible>!IsEmpty(Window(home).Property(Studio))</visible>
+                        <visible>!IsEmpty(Window(home).Property(Studio)) + !IsEmpty(Control.GetLabel(13300))</visible>
                     </control>
+                        <control type="label">
+                            <posx>-5</posx>
+                            <posy>-4</posy>
+                            <width>203</width>
+                            <height>70</height>
+                            <align>center</align>
+                            <label>$INFO[Window(home).Property(Studio)]</label>
+                            <font>Font_Reg14_Caps</font>
+                            <textcolor>grey</textcolor>
+                            <textcolor>BBa4a4a4</textcolor>
+                            <wrapmultiline>true</wrapmultiline>
+                            <visible>!IsEmpty(Window(home).Property(Studio)) + IsEmpty(Control.GetLabel(13300))</visible>
+                        </control>
                 </control>
             </control>
             <control type="group">
