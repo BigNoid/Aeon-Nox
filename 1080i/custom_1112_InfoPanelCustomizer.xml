@@ -12,11 +12,11 @@
             <control type="label" id="4421">
                 <posy>100</posy>
                 <label>$VAR[InfoPanelVar]</label>
-                <include>BreadcrumbsLabel</include>
+                <include>HiddenObject</include>
                 <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | Container.Content(musicvideos)</visible>
-                <visible>Control.IsVisible(501) | Control.IsVisible(503) | Control.IsVisible(508)</visible>
             </control>
         <control type="group">
+            <posy>50</posy>
             <control type="image">
                 <posx>210</posx>
                 <posy>530</posy>
@@ -44,10 +44,11 @@
                 <texture border="1">osd/osd_settings_buttonnf.png</texture>
             </control>
             <control type="label">
-                <posx>420</posx>
-                <posy>225</posy>
+                <posx>750</posx>
+                <posy>425</posy>
                 <width>600</width>
                 <height>60</height>
+                <align>center</align>
                 <label>$LOCALIZE[31708]</label>
                 <font>Font_Bold19</font>
                 <textcolor>$VAR[TitleColorVar]</textcolor>
@@ -69,19 +70,7 @@
                     <visible>Control.IsVisible(1614) | Control.IsVisible(1667) | Control.IsVisible(1697)</visible>
                     <enable>no</enable>
                 </control>
-                <control type="button" id="901">
-                    <label>$LOCALIZE[31166]:</label>
-                    <label2>[COLOR $VAR[FontColorVar]]$VAR[InfoPanelToggleLabelVar][/COLOR]</label2>
-                    <include>Objects_MediaMenuButtonAlt2</include>
-                    <onclick condition="Stringcompare(Control.GetLabel(4421),infopanelonauto) | IsEmpty(Control.GetLabel(4421))">Skin.SetString(InfoPanel$INFO[Window(home).Property(Area)],infopanelon)</onclick>
-                    <onclick condition="Stringcompare(Control.GetLabel(4421),infopanelonmanual)">Skin.SetString(InfoPanel$INFO[Window(home).Property(Area)],infopanelonauto)</onclick>
-                    <onclick condition="Stringcompare(Control.GetLabel(4421),infopaneloff)">Skin.SetString(InfoPanel$INFO[Window(home).Property(Area)],infopanelonmanual)</onclick>
-                    <onclick condition="Stringcompare(Control.GetLabel(4421),infopanelon)">Skin.SetString(InfoPanel$INFO[Window(home).Property(Area)],infopaneloff)</onclick>
-                    <onclick condition="Stringcompare(Control.GetLabel(4421),infopanelonauto)">Skin.SetString(InfoPanel$INFO[Window(home).Property(Area)],infopanelon)</onclick>
-                    <visible>[Stringcompare(Window(home).Property(actualViewtype),ShowcaseMovies) + !Skin.HasSetting(showcasezoom)] | [Stringcompare(Window(home).Property(actualViewtype),ShowcaseSquare) + !Skin.HasSetting(showcasesquarezoom)] | Stringcompare(Window(home).Property(actualViewtype),Shift) | Stringcompare(Window(home).Property(actualViewtype),Landscape) | Stringcompare(Window(home).Property(actualViewtype),Banners)</visible>
-                    <visible>![Stringcompare(Window(home).Property(actualViewtype),Shift) + !Skin.HasSetting(smallshiftview) + Window.IsActive(videos)]</visible>
-                    <visible>!Container.Content(sets)</visible>
-                </control>
+
                 <control type="button" id="902">
                     <label>31709</label>
                     <label2>[COLOR $VAR[FontColorVar]]$INFO[Skin.String(InfopanelDelay)] $LOCALIZE[31007][/COLOR]</label2>
@@ -97,6 +86,7 @@
                     <visible>Control.IsVisible(1614)</visible>
                     <enable>!Stringcompare(Control.GetLabel(4421),infopaneloff)</enable>
                 </control>
+
                 <control type="button" id="904">
                     <label>$LOCALIZE[31272]:</label>
                     <label2>[COLOR $VAR[FontColorVar]]$VAR[LandscapeThumbSettingsVar][/COLOR]</label2>
@@ -113,10 +103,37 @@
                     <visible>[Stringcompare(Window(home).Property(actualViewtype),Landscape) | Stringcompare(Window(home).Property(actualViewtype),ShowcaseMovies) | Stringcompare(Window(home).Property(actualViewtype),Banners)] + [[Container.Content(tvshows) + ![Skin.HasSetting(tvposterinfopane) | Skin.HasSetting(tvthumbsinfopane)]] | Container.Content(seasons)]</visible>
                     <enable>!Stringcompare(Control.GetLabel(4421),infopaneloff)</enable>
                 </control>
+                <control type="radiobutton" id="1625">
+                    <posy>1020</posy>
+                    <width>278</width>
+                    <height>60</height>
+                    <textoffsetx>10</textoffsetx>
+                    <textoffsety>2</textoffsety>
+                    <texturefocus border="8">views/tripanel/listselect_fo.png</texturefocus>
+                    <texturenofocus border="3">settings/listselect_nf.png</texturenofocus>
+                    <label>31696</label>
+                    <font>Font_Reg19</font>
+                    <textcolor>grey2</textcolor>
+                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
+                    <focusedcolor>white6</focusedcolor>
+                    <onup>451</onup>
+                    <ondown>451</ondown>
+                    <onright>Dialog.Close(1119)</onright>
+                    <onright>ActivateWindow(1126)</onright>
+                    <onleft>Dialog.Close(1119)</onleft>
+                    <onleft>ActivateWindow(1126)</onleft>
+                    <onback>Dialog.Close(1119)</onback>
+                    <onback>ActivateWindow(1126)</onback>
+                    <include>Animation_CommonFade</include>
+                    <radiowidth>98</radiowidth>
+                    <radioposx>198</radioposx>
+                    <onclick>Skin.ToggleSetting(no_infopane_panel)</onclick>
+                    <selected>Skin.HasSetting(no_infopane_panel)</selected>
+                </control>
             </control>
         <control type="panel" id="451">
             <posx>200</posx>
-            <posy>500</posy>
+            <posy>550</posy>
             <width>600</width>
             <height>520</height>
             <orientation>vertical</orientation>
@@ -138,7 +155,7 @@
                 </control>
                 <control type="label">
                     <posx>140</posx>
-                    <posy>180</posy>
+                    <posy>150</posy>
                     <width>279</width>
                     <height>30</height>
                     <align>center</align>
@@ -156,7 +173,7 @@
                 </control>
                 <control type="label">
                     <posx>140</posx>
-                    <posy>180</posy>
+                    <posy>150</posy>
                     <width>279</width>
                     <height>30</height>
                     <align>center</align>
@@ -192,33 +209,6 @@
                 </item>
             </content>
         </control>
-        <control type="radiobutton" id="1625">
-            <posy>1020</posy>
-            <width>278</width>
-            <height>60</height>
-            <textoffsetx>10</textoffsetx>
-            <textoffsety>2</textoffsety>
-            <texturefocus border="8">views/tripanel/listselect_fo.png</texturefocus>
-            <texturenofocus border="3">settings/listselect_nf.png</texturenofocus>
-            <label>31696</label>
-            <font>Font_Reg19</font>
-            <textcolor>grey2</textcolor>
-            <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-            <focusedcolor>white6</focusedcolor>
-            <onup>451</onup>
-            <ondown>451</ondown>
-            <onright>Dialog.Close(1119)</onright>
-            <onright>ActivateWindow(1126)</onright>
-            <onleft>Dialog.Close(1119)</onleft>
-            <onleft>ActivateWindow(1126)</onleft>
-            <onback>Dialog.Close(1119)</onback>
-            <onback>ActivateWindow(1126)</onback>
-            <include>Animation_CommonFade</include>
-            <radiowidth>98</radiowidth>
-            <radioposx>198</radioposx>
-            <onclick>Skin.ToggleSetting(no_infopane_panel)</onclick>
-            <selected>Skin.HasSetting(no_infopane_panel)</selected>
-        </control>
                     <control type="label">
                 <posy>18</posy>
                 <label>31187</label>
@@ -226,18 +216,39 @@
             </control>
             <control type="grouplist">
             <orientation>vertical</orientation>
+            <posx>800</posx>
+            <posy>600</posy>
             <height>1080</height>
-            <control type="ratiobutton" id="10">
-                <posx>330</posx>
-                <posy>75</posy>
-                <width>147</width>
-                <align>center</align>
-                <texturefocus border="8">views/tripanel/listselect_fo.png</texturefocus>
-                <texturenofocus border="3">settings/listselect_nf.png</texturenofocus>
-                <label>2 sec</label>
-                <textcolor>white3</textcolor>
-                <onclick>Skin.SetString(InfopanelDelay,2)</onclick>
-            </control>
+                <control type="radiobutton" id="1200">
+                    <label>1 $LOCALIZE[31007]</label>
+                    <include>Objects_MediaMenuButtonAround</include>
+                    <onclick>Skin.SetString(InfopanelDelay,1)</onclick>
+                    <selected>Stringcompare(Skin.String(InfopanelDelay),1)</selected>
+                </control>
+                <control type="radiobutton" id="1201">
+                    <label>2 $LOCALIZE[31007]</label>
+                    <include>Objects_MediaMenuButtonAround</include>
+                    <onclick>Skin.SetString(InfopanelDelay,2)</onclick>
+                    <selected>Stringcompare(Skin.String(InfopanelDelay),2)</selected>
+                </control>
+                <control type="radiobutton" id="1202">
+                    <label>3 $LOCALIZE[31007]</label>
+                    <include>Objects_MediaMenuButtonAround</include>
+                    <onclick>Skin.SetString(InfopanelDelay,3)</onclick>
+                    <selected>Stringcompare(Skin.String(InfopanelDelay),3)</selected>
+                </control>
+                <control type="radiobutton" id="1203">
+                    <label>4 $LOCALIZE[31007]</label>
+                    <include>Objects_MediaMenuButtonAround</include>
+                    <onclick>Skin.SetString(InfopanelDelay,4)</onclick>
+                    <selected>Stringcompare(Skin.String(InfopanelDelay),4)</selected>
+                </control>
+                <control type="radiobutton" id="1204">
+                    <label>5 $LOCALIZE[31007]</label>
+                    <include>Objects_MediaMenuButtonAround</include>
+                    <onclick>Skin.SetString(InfopanelDelay,5)</onclick>
+                    <selected>Stringcompare(Skin.String(InfopanelDelay),5)</selected>
+                </control>
             </control>
         </control>
     </controls>

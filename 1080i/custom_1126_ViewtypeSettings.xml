@@ -10,6 +10,12 @@
         <system>1</system>
     </coordinates>
     <controls>
+                <control type="label" id="4421">
+                <posy>100</posy>
+                <label>$VAR[InfoPanelVar]</label>
+                <include>HiddenObject</include>
+                <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | Container.Content(musicvideos)</visible>
+            </control>
         <control type="group">
             <animation type="Conditional" condition="Window.IsActive(1128) | Window.IsActive(1127) | Window.IsActive(1112)">
                 <effect type="slide" end="-600" time="320" easing="in" tween="cubic" />
@@ -54,13 +60,24 @@
                     <enable>no</enable>
                     <visible>Control.IsVisible(1614)</visible>
                 </control>
+                <control type="button" id="901">
+                    <label>$LOCALIZE[31166]:</label>
+                    <label2>[COLOR $VAR[FontColorVar]]$VAR[InfoPanelToggleLabelVar][/COLOR]</label2>
+                    <include>Objects_MediaMenuButtonAlt2</include>
+                    <onclick condition="Stringcompare(Control.GetLabel(4421),infopanelonauto) | IsEmpty(Control.GetLabel(4421))">Skin.SetString(InfoPanel$INFO[Window(home).Property(Area)],infopanelon)</onclick>
+                    <onclick condition="Stringcompare(Control.GetLabel(4421),infopanelonmanual)">Skin.SetString(InfoPanel$INFO[Window(home).Property(Area)],infopanelonauto)</onclick>
+                    <onclick condition="Stringcompare(Control.GetLabel(4421),infopaneloff)">Skin.SetString(InfoPanel$INFO[Window(home).Property(Area)],infopanelonmanual)</onclick>
+                    <onclick condition="Stringcompare(Control.GetLabel(4421),infopanelon)">Skin.SetString(InfoPanel$INFO[Window(home).Property(Area)],infopaneloff)</onclick>
+                    <onclick condition="Stringcompare(Control.GetLabel(4421),infopanelonauto)">Skin.SetString(InfoPanel$INFO[Window(home).Property(Area)],infopanelon)</onclick>
+                    <visible>[Stringcompare(Window(home).Property(actualViewtype),ShowcaseMovies) + !Skin.HasSetting(showcasezoom)] | [Stringcompare(Window(home).Property(actualViewtype),ShowcaseSquare) + !Skin.HasSetting(showcasesquarezoom)] | Stringcompare(Window(home).Property(actualViewtype),Shift) | Stringcompare(Window(home).Property(actualViewtype),Landscape) | Stringcompare(Window(home).Property(actualViewtype),Banners)</visible>
+                    <visible>![Stringcompare(Window(home).Property(actualViewtype),Shift) + !Skin.HasSetting(smallshiftview) + Window.IsActive(videos)]</visible>
+                    <visible>!Container.Content(sets)</visible>
+                </control>
                 <control type="button" id="1614">
                     <label>$LOCALIZE[31166]</label>
                     <include>Objects_MediaMenuButtonAlt2</include>
                     <onclick>ActivateWindow(1112)</onclick>
-                    <visible>[Stringcompare(Window(home).Property(actualViewtype),ShowcaseMovies) + !Skin.HasSetting(showcasezoom)] | [Stringcompare(Window(home).Property(actualViewtype),ShowcaseSquare) + !Skin.HasSetting(showcasesquarezoom)] | Stringcompare(Window(home).Property(actualViewtype),Shift) | Stringcompare(Window(home).Property(actualViewtype),Landscape) | Stringcompare(Window(home).Property(actualViewtype),Banners)</visible>
-                    <visible>![Stringcompare(Window(home).Property(actualViewtype),Shift) + !Skin.HasSetting(smallshiftview) + Window.IsActive(videos)]</visible>
-                    <visible>!Container.Content(sets)</visible>
+                    <visible>Control.IsVisible(901)</visible>
                 </control>
                 <control type="button" id="1607">
                     <label>$LOCALIZE[31185]</label>
