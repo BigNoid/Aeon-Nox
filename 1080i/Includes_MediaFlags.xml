@@ -518,8 +518,77 @@
     <include name="MusicMediaFlags">
         <control type="group">
             <posy>988</posy>
-            <visible>[Control.IsVisible(509) | Control.IsVisible(500) | Control.IsVisible(512) | Control.IsVisible(57)] + [Container.Content(Albums) | Container.Content(Songs)]</visible>
-            <include>Animation_WindowFade200</include>
+            <visible>[Container.Content(Albums) | Container.Content(Artists) | Container.Content(Songs)]</visible>
+            <include>Animation_FlagSlideDown</include>
+            <control type="group">
+                <visible>Container.Content(artists)</visible>
+                <control type="group"><!--totals-->
+                            <posx>150</posx>
+                        <control type="label">
+                            <width>135</width>
+                            <height>60</height>
+                            <align>center</align>
+                            <label>$VAR[MusicFlagTotalsVar]</label>
+                            <font>Font_Bold24</font>
+                            <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                        </control>
+                        <control type="label">
+                            <posy>42</posy>
+                            <width>135</width>
+                            <height>30</height>
+                            <align>center</align>
+                            <label>$VAR[MusicFlagTotalsLabelVar]</label>
+                            <font>Font_Reg10_Caps</font>
+                            <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                        </control>
+                </control>
+            <control type="group">
+            <!--playcount-->
+                <visible>!Container.Content(albums)</visible>
+                    <posx>15</posx>
+                        <control type="label">
+                            <width>135</width>
+                            <height>60</height>
+                            <align>center</align>
+                            <label>$INFO[Window(home).Property(Artist.Albums.Playcount)]</label>
+                            <font>Font_Bold24</font>
+                            <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                        </control>
+                        <control type="label">
+                            <posy>42</posy>
+                            <width>135</width>
+                            <height>30</height>
+                            <align>center</align>
+                            <label>567</label>
+                            <font>Font_Reg10_Caps</font>
+                            <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                        </control>
+                </control>
+            
+            </control>
+            <control type="group">
+                <visible>Container.Content(albums)</visible>
+                <control type="group"><!--totals-->
+                            <posx>150</posx>
+                        <control type="label">
+                            <width>135</width>
+                            <height>60</height>
+                            <align>center</align>
+                            <label>$VAR[MusicFlagTotalsVar]</label>
+                            <font>Font_Bold24</font>
+                            <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                        </control>
+                        <control type="label">
+                            <posy>42</posy>
+                            <width>135</width>
+                            <height>30</height>
+                            <align>center</align>
+                            <label>$VAR[MusicFlagTotalsLabelVar]</label>
+                            <font>Font_Reg10_Caps</font>
+                            <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                        </control>
+                </control>
+                
             <!-- Rating -->
             <control type="image">
                 <posx>120</posx>
@@ -532,31 +601,59 @@
                 <animation effect="slide" end="1500" time="0" condition="Control.IsVisible(57)">Conditional</animation>
                 <visible>!Control.IsVisible(512)</visible>
             </control>
+                </control>
+            <control type="group">
+                <visible>Container.Content(songs)</visible>
+            <!-- Rating -->
+            <control type="image">
+                <posx>120</posx>
+                <width>135</width>
+                <height>88</height>
+                <texture fallback="flags/music/rating/rating0.png">$INFO[ListItem.StarRating,flags/music/rating/]</texture>
+                <fadetime>IconCrossfadeTime2</fadetime>
+                <include>Animation_VisibleChange200</include>
+                <colordiffuse>floor</colordiffuse>
+                <animation effect="slide" end="1500" time="0" condition="Control.IsVisible(57)">Conditional</animation>
+                <visible>!Control.IsVisible(512)</visible>
+            </control>
+            </control>
+
             <control type="group">
                 <!-- Genre -->
-                <visible>![Control.IsVisible(512) | Control.IsVisible(57)]</visible>
                 <visible>!IsEmpty(ListItem.Genre)</visible>
                 <include>Animation_VisibleChange200</include>
                 <control type="image">
-                    <posx>1665</posx>
-                    <width>135</width>
+                    <posx>1795</posx>
+                    <width>175</width>
                     <height>88</height>
                     <texture>flags/music/genre/genre.png</texture>
                     <colordiffuse>floor</colordiffuse>
+                    <animation effect="fade" start="100" end="30" time="40" condition="true">Conditional</animation>
                 </control>
                 <control type="label">
-                    <posx>1718</posx>
-                    <posy>24</posy>
-                    <width>195</width>
+                    <posx>1768</posx>
+                    <posy>0</posy>
+                    <width>135</width>
                     <height>88</height>
-                    <aligny>bottom</aligny>
+                    <aligny>center</aligny>
+                    <align>center</align>
+                    <wrapmultiline>true</wrapmultiline>
                     <label>$INFO[ListItem.Genre]</label>
-                    <font>Font_Bold15_Caps</font>
+                    <font>Font_Reg10_Caps</font>
                     <textcolor>floor</textcolor>
                 </control>
             </control>
-            <control type="group">
-                <!-- Year -->
+            <control type="image">
+                <posx>1630</posx>
+                <posy>10</posy>
+                <texture>$INFO[Window(home).Property(Album.Song.1.FileExtension),flags/audio/,.png]</texture>
+                <include>AudioFlagsVars</include>
+                <visible>Container.Content(albums)</visible>
+                <animation effect="slide" end="-1448" time="0" condition="Control.IsVisible(512)">Conditional</animation>
+                <animation effect="slide" end="-30" time="0" condition="Control.IsVisible(57)">Conditional</animation>
+            </control>
+            <control type="group"><!-- Year -->
+                
                 <animation effect="slide" end="1485" time="0" condition="Control.IsVisible(57)">Conditional</animation>
                 <visible>!Control.IsVisible(512)</visible>
                 <include>Animation_VisibleChange200</include>
@@ -583,22 +680,22 @@
             </control>
             <!-- Label -->
             <control type="group">
-                <animation effect="slide" end="-1448" time="0" condition="Control.IsVisible(512)">Conditional</animation>
-                <animation effect="slide" end="-30" time="0" condition="Control.IsVisible(57)">Conditional</animation>
-                <visible>Container.Content(albums)</visible>
+                <animation effect="slide" end="-1428" time="0" condition="Control.IsVisible(512)">Conditional</animation>
+                <animation effect="slide" end="-10" time="0" condition="Control.IsVisible(57)">Conditional</animation>
+                <visible>Container.Content(albums) + !Control.IsVisible(57)</visible>
+                <posx>1480</posx>
+                <posy>11</posy>
                 <control type="image" id="76">
-                    <posx>1500</posx>
                     <texture>$INFO[ListItem.Property(Album_Label),flags/music/recordlabel/,.png]</texture>
                     <include>AudioFlagsVars</include>
                 </control>
                 <control type="image">
-                    <posx>1500</posx>
                     <texture>flags/studios/default-studio.png</texture>
                     <include>AudioFlagsVars</include>
                     <visible>IsEmpty(ListItem.Property(Album_Label))</visible>
                 </control>
                 <control type="label">
-                    <posx>1495</posx>
+                    <posx>-5</posx>
                     <posy>7</posy>
                     <width>155</width>
                     <height>70</height>
@@ -621,6 +718,49 @@
                 <animation effect="slide" end="-1448" time="0" condition="Control.IsVisible(512)">Conditional</animation>
                 <animation effect="slide" end="-30" time="0" condition="Control.IsVisible(57)">Conditional</animation>
             </control>
+                    <control type="group"><!--artist newest/oldest-->
+                        <posy>-5</posy>
+                        <posx>1500</posx>
+                        <visible>Container.Content(artists)</visible>
+                        <animation effect="slide" time="560" start="0,300" end="0,0" tween="cubic">Visible</animation>
+                        <animation effect="slide" time="250" end="0,400" tween="cubic" easing="in">Hidden</animation>
+                        <control type="label">
+                            <posx>200</posx>
+                            <width>135</width>
+                            <height>60</height>
+                            <align>center</align>
+                            <label>$INFO[Window(home).Property(Artist.Albums.Newest)]</label>
+                            <font>Font_Bold24</font>
+                            <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                        </control>
+                        <control type="label">
+                            <posx>200</posx>
+                            <posy>42</posy>
+                            <width>135</width>
+                            <height>30</height>
+                            <align>center</align>
+                            <label>31224</label>
+                            <font>Font_Reg10_Caps</font>
+                            <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                        </control>
+                        <control type="label">
+                            <width>135</width>
+                            <height>60</height>
+                            <align>center</align>
+                            <label>$INFO[Window(home).Property(Artist.Albums.Oldest)]</label>
+                            <font>Font_Bold24</font>
+                            <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                        </control>
+                        <control type="label">
+                            <posy>42</posy>
+                            <width>135</width>
+                            <height>30</height>
+                            <align>center</align>
+                            <label>31225</label>
+                            <font>Font_Reg10_Caps</font>
+                            <textcolor>$VAR[FlagDiffuseVar]</textcolor>
+                        </control>
+                    </control>
         </control>
     </include>
     <include name="FloorFlagsList">     
@@ -823,87 +963,6 @@
                 <textcolor>floor</textcolor>
                 <include>Animation_FlagSlideDown</include>
                 <visible>[Container.Content(seasons) + !IsEmpty(ListItem.TVShowTitle)] + !Control.isVisible(52)</visible>
-            </control>
-        </control>
-    </include>
-    <include name="TriPanelMusicFlags">
-        <control type="group">
-            <posx>-60</posx>
-            <posy>982</posy>
-            <visible>[Control.IsVisible(50) | Control.IsVisible(53)] + [Container.Content(albums) | Container.Content(songs)]</visible>
-            <include>Animation_OpenClose_Furniture</include>
-            <control type="image">
-                <posx>1470</posx>
-                <texture fallback="flags/music/rating/rating0.png">$INFO[ListItem.StarRating,flags/music/rating/]</texture>
-                <width>135</width>
-                <posy>0</posy>
-                <height>85</height>
-                <aspectratio>keep</aspectratio>
-                <fadetime>IconCrossfadeTime2</fadetime>
-                <colordiffuse>$VAR[FlagDiffuseVar]</colordiffuse>
-            </control>
-            <control type="image">
-                <posx>1620</posx>
-                <texture>$INFO[ListItem.FileExtension,flags/audio/,.png]</texture>
-                <include>AudioFlagsVars</include>
-            </control>
-            <control type="group">
-                <visible>Container.Content(albums)</visible>
-                <animation effect="fade" time="200">VisibleChange</animation>
-                <posx>1610</posx>
-                <control type="image" id="78">
-                    <texture>$INFO[ListItem.Property(Album_Label),flags/music/recordlabel/,.png]</texture>
-                    <width>135</width>
-                    <posy>0</posy>
-                    <height>80</height>
-                    <aspectratio>keep</aspectratio>
-                    <fadetime>IconCrossfadeTime2</fadetime>
-                    <colordiffuse>$VAR[FlagDiffuseVar]</colordiffuse>
-                </control>
-                <control type="image">
-                    <texture>flags/studios/default-studio.png</texture>
-                    <width>135</width>
-                    <posy>0</posy>
-                    <height>80</height>
-                    <aspectratio>keep</aspectratio>
-                    <visible>IsEmpty(ListItem.Property(Album_Label))</visible>
-                </control>
-                <control type="label">
-                    <posx>-5</posx>
-                    <posy>7</posy>
-                    <width>155</width>
-                    <height>70</height>
-                    <align>center</align>
-                    <label>$INFO[ListItem.Property(Album_Label)]</label>
-                    <font>Font_Reg14_Caps</font>
-                    <textcolor>grey</textcolor>
-                    <textcolor>BBa4a4a4</textcolor>
-                    <wrapmultiline>true</wrapmultiline>
-                    <visible>IsEmpty(Control.GetLabel(78))</visible>
-                </control>
-            </control>
-            <control type="group">
-                <posx>1770</posx>
-                <!-- Year -->
-                <visible>!IsEmpty(ListItem.Year)</visible>
-                <control type="image">
-                    <width>135</width>
-                    <height>88</height>
-                    <texture>flags/music/year/year.png</texture>
-                    <include>Animation_CommonFade</include>
-                    <colordiffuse>floor</colordiffuse>
-                </control>
-                <control type="label">
-                    <posy>24</posy>
-                    <width>135</width>
-                    <height>88</height>
-                    <align>center</align>
-                    <aligny>bottom</aligny>
-                    <label>[B]$INFO[ListItem.Year][/B]</label>
-                    <font>Font_Reg19</font>
-                    <textcolor>floor</textcolor>
-                    <include>Animation_CommonFade</include>
-                </control>
             </control>
         </control>
     </include>
