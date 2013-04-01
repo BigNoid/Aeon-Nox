@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window>
-    <defaultcontrol always="true">5000</defaultcontrol>
+    <defaultcontrol always="true">8</defaultcontrol>
     <onload>ClearProperty(ActorFade)</onload>
     <onload>AlarmClock(ActorFade,SetProperty(ActorFade,true),00:02,silent)</onload>
     <onload condition="System.HasAddon(script.videolanguage) + [Container.Content(movies) | Container.Content(episodes)]">RunScript(script.videolanguage,movieid=$INFO[ListItem.DBID])</onload>
@@ -538,8 +538,8 @@
                     </control>
 
                     <control type="group">
-                        <visible>![ControlGroup(5000).HasFocus(10) | ControlGroup(5000).HasFocus(12) | ControlGroup(5000).HasFocus(21) | ControlGroup(5000).HasFocus(22) | ControlGroup(5000).HasFocus(24)]</visible>
-                        <control type="grouplist">
+<!--                         <visible>!ControlGroup(6000).HasFocus</visible>
+ -->                        <control type="grouplist">
                             <orientation>vertical</orientation>
                             <posx>4</posx>
                             <posy>556</posy>
@@ -578,18 +578,9 @@
                             <width>315</width>
                             <height>315</height>
                             <aspectratio>keep</aspectratio>
-                            <texture background="true">$INFO[ListItem.Art(tvshow.characterart)]</texture>
-                        </control>
-                        <control type="image">
-                            <posx>780</posx>
-                            <posy>536</posy>
-                            <width>315</width>
-                            <height>315</height>
-                            <aspectratio>keep</aspectratio>
-                            <texture background="true">$INFO[ListItem.Art(characterart)]</texture>
+                            <texture background="true">$VAR[CharacterArtVar]</texture>
                         </control>
                     </control>
-
                     <control type="group">
                         <animation type="WindowOpen" reversible="false">
                             <effect type="fade" start="0" end="100" delay="460" time="960" tween="cubic" />
@@ -881,7 +872,7 @@
                     <onleft>5000</onleft>
                     <onright>5000</onright>
                     <ondown>5000</ondown>
-                    <visible>![ControlGroup(5000).HasFocus(10) | ControlGroup(5000).HasFocus(12) | ControlGroup(5000).HasFocus(21) | ControlGroup(5000).HasFocus(22) | ControlGroup(5000).HasFocus(24)]</visible>
+                    <visible>!ControlGroup(6000).HasFocus</visible>
                 </control>
                 <control type="list" id="50">
                     <posx>875</posx>
@@ -1521,7 +1512,7 @@
                     <posx>827</posx>
                     <posy>560</posy>
                     <width>1018</width>
-                    <height>60</height>
+                    <height>400</height>
                     <onleft>5000</onleft>
                     <onright>5000</onright>
                     <onup>600</onup>
@@ -1529,8 +1520,15 @@
                     <orientation>horizontal</orientation>
                     <scrolltime tween="quadratic">200</scrolltime>
                     <control type="button" id="8">
-                        <label>$LOCALIZE[208]</label>
+                        <label>$VAR[DialogVideoInfoButtonLabelVar]</label>
                         <include>DialogVideoInfoButton</include>
+                    </control>
+                    <control type="button" id="101">
+                        <description>Extras</description>
+                        <include>DialogVideoInfoButton</include>
+                        <label>Play Theme</label>
+                        <onclick>PlayMedia()</onclick>
+                        <visible>Container.Content(tvshows)</visible>
                     </control>
                     <control type="button" id="9">
                         <label>$LOCALIZE[13404]</label>
@@ -1559,51 +1557,6 @@
                         <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[ListItem.Label] Trailer,return)</onclick>
                         <visible>Container.Content(movies) + ![substring(Container.FolderPath,plugin://) + substring(Container.FolderPath,trailer)]</visible>
                     </control>
-                    <control type="button" id="6">
-                        <label>$LOCALIZE[184]</label>
-                        <include>DialogVideoInfoButton</include>
-                        <visible>!Skin.HasSetting(kioskmode) + !substring(Container.FolderPath,plugin://)</visible>
-                    </control>
-                    <control type="button" id="10">
-                        <label>$LOCALIZE[13511]</label>
-                        <include>DialogVideoInfoButton</include>
-                        <visible>!Skin.HasSetting(kioskmode) + !substring(Container.FolderPath,plugin://)</visible>
-                    </control>
-                    <control type="button" id="441">
-                        <label>31030</label>
-                        <include>DialogVideoInfoButton</include>
-                        <onclick>RunScript(script.libraryeditor,DBID=$INFO[ListItem.DBID])</onclick>
-                        <visible>System.HasAddon(script.libraryeditor) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)]</visible>
-                    </control>
-                    <control type="button" id="21">
-                        <label>$LOCALIZE[31467]</label>
-                        <include>DialogVideoInfoButton</include>
-                        <onclick condition="Container.Content(movies)">RunScript(script.artwork.downloader,mode=custom,mediatype=movie,dbid=$INFO[ListItem.DBID],extrafanart)</onclick>
-                        <onclick condition="Container.Content(tvshows)">RunScript(script.artwork.downloader,mode=custom,mediatype=tvshow,dbid=$INFO[ListItem.DBID],extrafanart)</onclick>
-                        <visible>!Skin.HasSetting(kioskmode)</visible>
-                        <visible>[Container.Content(movies) | Container.Content(tvshows)] + system.hasaddon(script.artwork.downloader) + !substring(Container.FolderPath,plugin://)</visible>
-                    </control>
-                    <control type="button" id="22">
-                        <label>$LOCALIZE[31316]</label>
-                        <include>DialogVideoInfoButton</include>
-                        <onclick>ActivateWindow(1163)</onclick>
-                        <visible>!Skin.HasSetting(kioskmode)</visible>
-                        <visible>[Container.Content(tvshows) | Container.Content(movies)] + system.hasaddon(script.artwork.downloader) + !substring(Container.FolderPath,plugin://)</visible>
-                    </control>
-                    <control type="button" id="23">
-                        <label>$LOCALIZE[31365]</label>
-                        <include>DialogVideoInfoButton</include>
-                        <onclick>RunScript(script.tvtunes,mode=solo&amp;tvpath=$ESCINFO[ListItem.FilenameAndPath]&amp;tvname=$INFO[ListItem.TVShowTitle])</onclick>
-                        <visible>!Skin.HasSetting(kioskmode)</visible>
-                        <visible>Container.Content(tvshows) + system.hasaddon(script.tvtunes)</visible>
-                    </control>
-                    <control type="button" id="24">
-                        <label>$LOCALIZE[31468]</label>
-                        <include>DialogVideoInfoButton</include>
-                        <onclick>RunScript(script.artwork.downloader,mode=custom,mediatype=movie,dbid=$INFO[ListItem.DBID],extrathumbs)</onclick>
-                        <visible>!Skin.HasSetting(kioskmode)</visible>
-                        <visible>Container.Content(movies) + system.hasaddon(script.artwork.downloader)+ !substring(Container.FolderPath,plugin://)</visible>
-                    </control>
                     <control type="button" id="100">
                         <description>Extras</description>
                         <include>DialogVideoInfoButton</include>
@@ -1611,99 +1564,64 @@
                         <onclick>XBMC.RunScript(script.dvdextras,$ESCINFO[ListItem.FilenameAndPath])</onclick>
                         <visible>[Container.Content(movies) | Container.Content(episodes)] + System.HasAddon(script.dvdextras)</visible>
                     </control>
-                </control>
-                <control type="group">
-                    <posx>825</posx>
-                    <posy>606</posy>
-                    <visible>ControlGroup(5000).HasFocus(22) + Container.Content(movies)</visible>
-                    <control type="image">
-                        <width>315</width>
-                        <height>315</height>
-                        <aspectratio>keep</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+                    <control type="grouplist" id="6100">
+                    <width>254.5</width>
+                    <orientation>vertical</orientation>
+                    <viaible>!Skin.HasSetting(kioskmode)</viaible>
+                    <control type="button" id="6">
+                        <label>$LOCALIZE[184]</label>
+                        <include>DialogVideoInfoButton</include>
+                        <onright>6000</onright>
+                        <visible>!substring(Container.FolderPath,plugin://)</visible>
                     </control>
-                    <control type="image">
-                        <posx>341</posx>
-                        <width>315</width>
-                        <height>315</height>
-                        <aspectratio>keep</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(clearart)]</texture>
+                    <control type="button" id="441">
+                        <label>31030</label>
+                        <onright>6000</onright>
+                        <include>DialogVideoInfoButtonSolid</include>
+                        <visible>ControlGroup(6100).HasFocus</visible>
+                        <onclick>RunScript(script.libraryeditor,DBID=$INFO[ListItem.DBID])</onclick>
+                        <visible>System.HasAddon(script.libraryeditor) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)]</visible>
                     </control>
-                    <control type="image">
-                        <posx>682</posx>
-                        <width>315</width>
-                        <height>315</height>
-                        <aspectratio>keep</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(discart)]</texture>
                     </control>
-                </control>
-                <control type="button" id="5055">
-                    <include>HiddenObject</include>
-                    <onclick condition="IsEmpty(Window(movieinformation).Property(FanartZoom))">SetProperty(FanartZoom,True,movieinformation)</onclick>
-                    <onclick condition="!IsEmpty(Window(movieinformation).Property(FanartZoom))">ClearProperty(FanartZoom,movieinformation)</onclick>
-                    <onback condition="!IsEmpty(Window(movieinformation).Property(FanartZoom))">ClearProperty(FanartZoom,movieinformation)</onback>
-                    <onback condition="IsEmpty(Window(movieinformation).Property(FanartZoom))">Dialog.Close(movieinformation)</onback>
-                    <onleft>5000</onleft>
-                    <onright>5000</onright>
-                    <onup>5000</onup>
-                    <ondown>5000</ondown>
-                    <visible>ControlGroup(5000).HasFocus(10) | ControlGroup(5000).HasFocus(21) | ControlGroup(5000).HasFocus(24)</visible>
-                </control>
-                <control type="button" id="5055">
-                    <include>HiddenObject</include>
-                    <onfocus condition="Control.IsVisible(60)">SetFocus(60)</onfocus>
-                    <onfocus condition="!Control.IsVisible(60)">SetFocus(5000)</onfocus>
-                    <visible>![ControlGroup(5000).HasFocus(10) | ControlGroup(5000).HasFocus(21) | ControlGroup(5000).HasFocus(24)]</visible>
-                </control>
-                <control type="group">
-                    <visible>ControlGroup(5000).HasFocus(22) + Container.Content(tvshows)</visible>
-                    <control type="image">
-                        <posx>817</posx>
-                        <posy>678</posy>
-                        <width>315</width>
-                        <height>315</height>
-                        <aspectratio align="center">keep</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(landscape)]</texture>
-                        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-                        <bordersize>7</bordersize>
+                    <control type="grouplist" id="6000">
+                    <width>254.5</width>
+                    <orientation>vertical</orientation>
+                    <viaible>!Skin.HasSetting(kioskmode)</viaible>
+                    <control type="button" id="10">
+                        <label>$LOCALIZE[13511]</label>
+                        <include>DialogVideoInfoButton</include>
+                        <visible>!substring(Container.FolderPath,plugin://)</visible>
                     </control>
-                    <control type="image">
-                        <posx>817</posx>
-                        <posy>513</posy>
-                        <width>615</width>
-                        <height>315</height>
-                        <aspectratio>keep</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(banner)]</texture>
-                        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-                        <bordersize>7</bordersize>
+                    <control type="button" id="21">
+                        <label>$LOCALIZE[31467]</label>
+                        <include>DialogVideoInfoButtonSolid</include>
+                        <onclick condition="Container.Content(movies)">RunScript(script.artwork.downloader,mode=custom,mediatype=movie,dbid=$INFO[ListItem.DBID],extrafanart)</onclick>
+                        <onclick condition="Container.Content(tvshows)">RunScript(script.artwork.downloader,mode=custom,mediatype=tvshow,dbid=$INFO[ListItem.DBID],extrafanart)</onclick>
+                        <visible>ControlGroup(6000).HasFocus</visible>
+                        <visible>[Container.Content(movies) | Container.Content(tvshows)] + system.hasaddon(script.artwork.downloader) + !substring(Container.FolderPath,plugin://)</visible>
                     </control>
-                    <control type="image">
-                        <posx>1193</posx>
-                        <posy>678</posy>
-                        <width>315</width>
-                        <height>315</height>
-                        <aspectratio>keep</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
-                        <bordersize>7</bordersize>
+                    <control type="button" id="22">
+                        <label>$LOCALIZE[31316]</label>
+                        <include>DialogVideoInfoButtonSolid</include>
+                        <onclick>ActivateWindow(1163)</onclick>
+                        <visible>ControlGroup(6000).HasFocus</visible>
+                        <visible>[Container.Content(tvshows) | Container.Content(movies)] + system.hasaddon(script.artwork.downloader) + !substring(Container.FolderPath,plugin://)</visible>
                     </control>
-                    <control type="image">
-                        <posx>1567</posx>
-                        <posy>573</posy>
-                        <width>230</width>
-                        <height>230</height>
-                        <aspectratio>keep</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(characterart)]</texture>
-                        <bordersize>7</bordersize>
+                    <control type="button" id="23">
+                        <label>$LOCALIZE[31365]</label>
+                        <include>DialogVideoInfoButtonSolid</include>
+                        <onclick>RunScript(script.tvtunes,mode=solo&amp;tvpath=$ESCINFO[ListItem.FilenameAndPath]&amp;tvname=$INFO[ListItem.TVShowTitle])</onclick>
+                        <visible>ControlGroup(6000).HasFocus</visible>
+                        <visible>Container.Content(tvshows) + system.hasaddon(script.tvtunes)</visible>
                     </control>
-                    <control type="image">
-                        <posx>1567</posx>
-                        <posy>678</posy>
-                        <width>315</width>
-                        <height>315</height>
-                        <aspectratio>keep</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(clearart)]</texture>
-                        <bordersize>7</bordersize>
+                    <control type="button" id="24">
+                        <label>$LOCALIZE[31468]</label>
+                        <include>DialogVideoInfoButtonSolid</include>
+                        <onclick>RunScript(script.artwork.downloader,mode=custom,mediatype=movie,dbid=$INFO[ListItem.DBID],extrathumbs)</onclick>
+                        <visible>ControlGroup(6000).HasFocus</visible>
+                        <visible>Container.Content(movies) + system.hasaddon(script.artwork.downloader)+ !substring(Container.FolderPath,plugin://)</visible>
                     </control>
+</control>
                 </control>
                 <control type="label">
                     <posx>825</posx>
@@ -1714,7 +1632,7 @@
                     <textcolor>white5</textcolor>
                     <scroll>true</scroll>
                     <haspath>true</haspath>
-                    <visible>ControlGroup(5000).HasFocus(6)</visible>
+                    <visible>ControlGroup(6100).HasFocus</visible>
                 </control>
                 <control type="image">
                     <posx>709</posx>
@@ -1725,60 +1643,7 @@
                     <include>TopbarPulseAnimationLeft</include>
                     <visible>!Skin.HasSetting(DisableGlowbar)</visible>
                 </control>
-                <control type="group">
-                    <control type="image">
-                        <posx>750</posx>
-                        <posy>608</posy>
-                        <width>450</width>
-                        <height>318</height>
-                        <aspectratio align="center">keep</aspectratio>
-                        <texture background="true">$VAR[VideoInfoThumbPreviewVar]</texture>
-                        <fadetime>500</fadetime>
-                        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-                        <bordersize>7</bordersize>
-                        <visible>ControlGroup(5000).HasFocus(10)</visible>
-                    </control>
-                    <control type="multiimage">
-                        <posx>1072</posx>
-                        <posy>615</posy>
-                        <width>540</width>
-                        <height>304</height>
-                        <aspectratio align="center">scale</aspectratio>
-                        <imagepath background="true">$VAR[ExtraFanartPreviewVar]</imagepath>
-                        <fadetime>500</fadetime>
-                        <timeperimage>4000</timeperimage>
-                        <animation effect="zoom" start="1072,615,540,304" end="0,0,1920,1080" time="640" tween="cubic" condition="!IsEmpty(Window(movieinformation).Property(FanartZoom))">Conditional</animation>
-                        <visible>ControlGroup(5000).HasFocus(21) | ControlGroup(5000).HasFocus(24)</visible>
-                    </control>
-                    <control type="image">
-                        <posx>1265</posx>
-                        <posy>608</posy>
-                        <width>554</width>
-                        <height>318</height>
-                        <aspectratio align="center">scale</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(fanart)]</texture>
-                        <fadetime>500</fadetime>
-                        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-                        <bordersize>7</bordersize>
-                        <animation effect="zoom" start="1265,608,554,318" end="-25,-25,1970,1130" time="640" tween="cubic" condition="!IsEmpty(Window(movieinformation).Property(FanartZoom))">Conditional</animation>
-                        <visible>!IsEmpty(ListItem.Art(fanart)) + ControlGroup(5000).HasFocus(10)</visible>
-                    </control>
-                    <control type="image">
-                        <posx>1267</posx>
-                        <posy>610</posy>
-                        <width>550</width>
-                        <height>314</height>
-                        <texture border="6">views/addonwall_select.png</texture>
-                        <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                        <visible>Control.HasFocus(5055)</visible>
-                        <animation effect="fade" time="160">VisibleChange</animation>
-                        <animation effect="slide" end="-200" condition="ControlGroup(5000).HasFocus(21) | ControlGroup(5000).HasFocus(24)">Conditional</animation>
-                        <animation type="Conditional" condition="!IsEmpty(Window(movieinformation).Property(FanartZoom))">
-                            <effect type="zoom" start="1267,610,550,314" end="-5,-5,1930,1090" time="640" tween="cubic" />
-                            <effect type="fade" start="100" end="0" time="160" />
-                        </animation>
-                    </control>
-                </control>
+
                 <control type="image">
                     <posx>780</posx>
                     <posy>571</posy>
@@ -1809,8 +1674,8 @@
                 <height>300</height>
                 <texture background="true">$INFO[ListItem.Art(discart)]</texture>
                 <include>Animation_VisibleChange200</include>
-                <visible>![ControlGroup(5000).HasFocus(10) | ControlGroup(5000).HasFocus(12) | ControlGroup(5000).HasFocus(21) | ControlGroup(5000).HasFocus(22) | ControlGroup(5000).HasFocus(24)]</visible>
-                <animation type="WindowOpen" reversible="false">
+<!--                 <visible>!ControlGroup(6000).HasFocus</visible>
+ -->                <animation type="WindowOpen" reversible="false">
                     <effect type="slide" start="-1570,0" end="0" delay="800" time="1120" tween="quadratic" easing="out" />
                     <effect type="rotate" start="0" center="1720,810" end="-720" delay="800" time="1120" tween="quadratic" easing="out" />
                     <effect type="zoom" start="104" center="1720,810" end="100" delay="2120" time="140" tween="quadratic" easing="out" />
