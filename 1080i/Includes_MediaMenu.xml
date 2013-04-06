@@ -222,6 +222,7 @@
             <onclick condition="Control.IsVisible(550)">SetProperty(actualViewtype,Panel,home)</onclick>
             <onclick condition="Container.Content(episodes)">SetProperty(Area,Episodes,home)</onclick>
             <onclick condition="Container.Content(movies)">SetProperty(Area,Movies,home)</onclick>
+            <onclick condition="Container.Content(sets)">SetProperty(Area,Sets,home)</onclick>
             <onclick condition="Container.Content(TVShows)">SetProperty(Area,TVShows,home)</onclick>
             <onclick condition="Container.Content(seasons)">SetProperty(Area,Seasons,home)</onclick>
             <onclick condition="Container.Content(musicvideos)">SetProperty(Area,MusicVideos,home)</onclick>
@@ -239,7 +240,6 @@
             <include>Animation_VisibleChange200</include>
             <animation effect="slide" end="-80" time="240" condition="[IsEmpty(ListItem.Trailer) + Skin.HasSetting(kioskmode)] |Control.HasFocus(109)">Conditional</animation>
             <animation effect="slide" end="-181" time="320" easing="in" tween="cubic" condition="Window.IsActive(1121)">Conditional</animation>
-            <animation effect="slide" end="-188" time="320" easing="in" tween="cubic" condition="Window.IsActive(1119)">Conditional</animation>
             <animation effect="slide" end="20" time="320" easing="in" tween="cubic" condition="!ControlGroup(9000).HasFocus">Conditional</animation>
             <control type="image">
                 <posx>404</posx>
@@ -294,10 +294,22 @@
     </include>
     <include name="Media_Menu_Furniture">
         <control type="group">
-            <include>Animation_MediaMenuSlide</include>
-            <control type="group">
-                <include>Media_Menu_Tooltip</include>
-            </control>
+            <animation type="Conditional" condition="!ControlGroup(9000).HasFocus">
+                <effect type="slide" end="-420" time="320" easing="in" tween="cubic" />
+            </animation>
+            <animation type="Conditional" condition="Window.IsActive(1126)">
+                <effect type="slide" end="75" time="320" easing="in" tween="cubic" />
+            </animation>
+            <animation type="Conditional" condition="Window.IsActive(1128) | Window.IsActive(1127) | Window.IsActive(1112)">
+                <effect type="slide" end="-600" time="320" easing="in" tween="cubic" />
+            </animation>
+            <animation type="WindowClose">
+                <effect type="slide" end="-450" time="320" easing="in" tween="cubic" />
+            </animation>
+            <animation type="WindowOpen">
+                <effect type="slide" start="-450" end="0" time="320" delay="800" tween="cubic" />
+            </animation>
+            <include>Media_Menu_Tooltip</include>
             <control type="image">
                 <posx>-42</posx>
                 <width>462</width>
@@ -312,18 +324,11 @@
                     <effect type="zoom" end="66,100" time="320" easing="in" tween="cubic" />
                     <effect type="slide" end="-49" time="320" easing="in" tween="cubic" />
                 </animation>
-                <animation type="Conditional" condition="Window.IsActive(1119)">
-                    <effect type="zoom" end="57,100" time="320" easing="in" tween="cubic" />
-                    <effect type="slide" end="43" time="320" easing="in" tween="cubic" />
-                </animation>
             </control>
             <control type="group">
                 <posx>380</posx>
                 <animation type="Conditional" condition="Window.IsActive(1121)">
                     <effect type="slide" end="-180" time="320" easing="in" tween="cubic" />
-                </animation>
-                <animation type="Conditional" condition="Window.IsActive(1119)">
-                    <effect type="slide" end="-197" time="320" easing="in" tween="cubic" />
                 </animation>
                 <include>Neon_VerticalBar</include>
             </control>
@@ -334,16 +339,6 @@
         <control type="group">
             <visible>!Skin.HasSetting(kioskmode)</visible>
             <include>Animation_MediaMenuSlide2</include>
-            <animation type="Conditional" condition="Window.IsActive(1121) | Window.IsActive(1119) | Window.IsActive(1126)">
-                <effect type="fade" start="100" end="0" time="400" />
-            </animation>
-            <animation type="Conditional" condition="Window.IsActive(1126)">
-                <effect type="zoom" end="115,100" time="320" easing="in" tween="cubic" />
-            </animation>
-            <animation type="Conditional" condition="Window.IsActive(1121) | Window.IsActive(1119)">
-                <effect type="zoom" end="66,100" time="320" easing="in" tween="cubic" />
-                <effect type="slide" end="-49" time="320" easing="in" tween="cubic" />
-            </animation>
             <control type="grouplist" id="9000">
                 <width>400</width>
                 <height>1080</height>
@@ -351,7 +346,7 @@
                 <scroll>true</scroll>
                 <onright>50</onright>
                 <onup>9000</onup>
-                <ondown>3000</ondown>
+                <ondown>9000</ondown>
                 <onback>50</onback>
                 <visible allowhiddenfocus="true">ControlGroup(9000).HasFocus</visible>
                 <animation effect="fade" time="160" delay="1000">Hidden</animation>
@@ -364,9 +359,8 @@
                 </control>
                 <control type="button" id="3">
                     <label>103</label>
-                    <include>Objects_MediaMenuButtonIcons</include>
                     <onleft>ClearProperty(viewtypeselect,home)</onleft>
-                    <onleft>ActivateWindow(1121)</onleft>
+                    <include>Objects_MediaMenuButtonIcons</include>
                     <visible>Control.IsEnabled(3)</visible>
                 </control>
                 <control type="togglebutton" id="4">
@@ -375,22 +369,7 @@
                     <include>Objects_MediaMenuButtonIcons</include>
                     <visible>Control.IsEnabled(4)</visible>
                 </control>
-                <control type="edit" id="19">
-                    <label>587</label>
-                    <visible>Container.CanFilter + !Container.CanFilterAdvanced</visible>
-                    <hinttext></hinttext>
-                    <visible>!Container.Content()</visible>
-                    <include>Objects_MediaMenuButtonIcons</include>
-                </control>
-                <control type="radiobutton" id="20">
-                    <label>587</label>
-                    <visible>Container.CanFilterAdvanced</visible>
-                    <selected>Container.Filtered</selected>
-                    <onclick>SetFocus(50)</onclick>
-                    <onclick>Filter</onclick>
-                    <include>Objects_MediaMenuButtonIcons</include>
-                    <visible>!Container.Content()</visible>
-                </control>
+                <include condition="!Window.IsActive(videoplaylist) + !Window.IsActive(musicplaylist)">FilterButtons</include>
                 <include condition="Window.IsActive(videolibrary)">VideoLibraryAltButtons_Left</include>
                 <include condition="Window.IsActive(AddonBrowser)">AddonBrowserButtons</include>
                 <include condition="Window.IsActive(MusicLibrary)">MusicLibraryButtons_Left</include>
@@ -410,9 +389,9 @@
                 <include condition="!Skin.HasSetting(hideoptions)">ViewtypeSettingsButton</include>
             </control>
             <control type="grouplist">
-                <posx>3</posx>
+                <posx>2</posx>
                 <posy>15</posy>
-                <itemgap>15</itemgap>
+                <itemgap>20</itemgap>
                 <visible>ControlGroup(9000).HasFocus</visible>
                 <animation effect="fade" time="220">Visible</animation>
                 <animation effect="fade" time="160" delay="1000">Hidden</animation>
@@ -438,7 +417,7 @@
                     <texture>special://skin/extras/BigIcons/Magicwand.png</texture>
                     <animation effect="fade" start="100" end="55" time="0" condition="!Control.HasFocus(19) + !Control.HasFocus(20)">Conditional</animation>
                     <include>MediaMenuIcons</include>
-                    <visible>Control.IsVisible(19) | [Control.IsVisible(20) + !Window.IsActive(musicplaylist)]</visible>
+                    <visible>Control.IsVisible(19) | [Control.IsVisible(20) + !Window.IsActive(musicplaylist) + !Window.IsActive(videoplaylist)]</visible>
                 </control>
                 <control type="image">
                     <texture>special://skin/extras/BigIcons/Format.png</texture>
@@ -629,50 +608,6 @@
                 </control>
             </control>
             <include>QuickNavLabel</include>
-            <control type="group">
-                <visible>Container.Content(movies)</visible>
-<!--                 <posx>20</posx>
-                <posy>720</posy> -->
-                <include condition="Window.IsActive(videos)">Media_Menu_NowPlaying</include>
- <!--        <control type="image">
-            <width>369</width>
-            <height>204</height>
-            <texture background="true">$INFO[Window(Home).Property(RecommendedMovie.1.Art(landscape))]</texture>
-            <aspectratio align="center">scale</aspectratio>
-        </control>
-        <control type="group">
-        <visible>IsEmpty(Window(Home).Property(RecommendedMovie.1.Art(landscape)))</visible>
-        <control type="image">
-            <width>369</width>
-            <height>204</height>
-            <aspectratio align="center">scale</aspectratio>
-            <texture background="true" fallback="DefaultAddon.png">$INFO[Window(Home).Property(RecommendedMovie.1.Art(fanart))]</texture>
-        </control>
-        <control type="image">
-            <posx>20</posx>
-            <posy>20</posy>
-            <width>329</width>
-            <height>166</height>
-            <aspectratio align="center">keep</aspectratio>
-            <texture background="true">$INFO[Window(Home).Property(RecommendedMovie.1.Art(clearlogo))]</texture>
-        </control>
-        </control>
-        <control type="label">
-            <label>$INFO[Window(Home).Property(RecommendedMovie.1.Title)]</label>
-            <align>center</align>
-            <width>400</width>
-            <posy>190</posy>
-            <visible>IsEmpty(Window(Home).Property(RecommendedMovie.1.Art(clearlogo))) + IsEmpty(Window(Home).Property(RecommendedMovie.1.Art(landscape)))</visible>
-        </control>
-        <control type="image">
-            <posx>20</posx>
-            <posy>200</posy>
-            <width>60</width>
-            <height>60</height>
-            <aspectratio align="center">keep</aspectratio>
-            <texture background="true">dialogs/circle/$INFO[Window(Home).Property(RecommendedMovie.1.PercentPlayed)].png</texture>
-        </control> -->
-            </control>
         </control>
         <control type="button" id="9000">
             <include>HiddenObject</include>
@@ -693,196 +628,29 @@
             <onfocus>ActivateWindow(playercontrols)</onfocus>
         </control>
     </include>
+    <include name="FilterButtons">
+        <control type="edit" id="19">
+            <label>587</label>
+            <visible>Container.CanFilter + !Container.CanFilterAdvanced</visible>
+            <hinttext></hinttext>
+            <visible>!Container.Content()</visible>
+            <include>Objects_MediaMenuButtonIcons</include>
+        </control>
+        <control type="radiobutton" id="20">
+            <label>587</label>
+            <visible>Container.CanFilterAdvanced</visible>
+            <selected>Container.Filtered</selected>
+            <onclick>SetFocus(50)</onclick>
+            <onclick>Filter</onclick>
+            <include>Objects_MediaMenuButtonIcons</include>
+            <visible>!Container.Content()</visible>
+        </control>
+    </include>
     <include name="MediaMenuIcons">
         <posx>10</posx>
-        <width>80</width>
-        <height>80</height>
+        <width>75</width>
+        <height>75</height>
         <colordiffuse>white</colordiffuse>
-    </include>
-    <include name="Media_Menu_NowPlaying">
-        <control type="group">
-            <include>Animation_VisibleChange200</include>
-            <visible>Player.HasAudio</visible>
-            <control type="group" id="4000">
-                <posy>760</posy>
-                <!--Infos-->
-                <include condition="Window.isActive(videos) + system.hasaddon(script.tvtunes)">TvTunesVisibleCondition</include>
-                <control type="group">
-                    <visible>!ControlGroup(3000).HasFocus</visible>
-                    <include>Animation_VisibleChange200</include>
-                    <control type="label">
-                        <posx>15</posx>
-                        <posy>-110</posy>
-                        <width>376</width>
-                        <height>74</height>
-                        <label>[COLOR white3]$INFO[MusicPlayer.Artist][/COLOR]</label>
-                        <font>Font_Reg15_Caps</font>
-                    </control>
-                    <control type="label">
-                        <posx>15</posx>
-                        <posy>-85</posy>
-                        <width>376</width>
-                        <height>74</height>
-                        <label>[COLOR AA777777]$INFO[MusicPlayer.Album][/COLOR]</label>
-                        <font>Font_Reg15_Caps</font>
-                    </control>
-                    <control type="label">
-                        <posx>15</posx>
-                        <posy>-60</posy>
-                        <width>376</width>
-                        <height>74</height>
-                        <label>[COLOR AA777777]$INFO[MusicPlayer.Title][/COLOR]</label>
-                        <font>Font_Reg15_Caps</font>
-                    </control>
-                </control>
-                <control type="image">
-                    <posx>118</posx>
-                    <width>260</width>
-                    <height>260</height>
-                    <aligny>top</aligny>
-                    <aspectratio>keep</aspectratio>
-                    <fadetime>300</fadetime>
-                    <animation effect="rotate" end="-360" center="auto" time="4800" loop="true" reversible="false" condition="!Player.Paused">Conditional</animation>
-                    <include condition="!Skin.HasSetting(vinylart) + !Skin.HasSetting(blurayart)">cdart</include>
-                    <include condition="Skin.HasSetting(vinylart)">vinylart</include>
-                    <include condition="Skin.HasSetting(blurayart)">blurayart</include>
-                </control>
-                <control type="image">
-                    <posx>20</posx>
-                    <width>260</width>
-                    <height>260</height>
-                    <texture fallback="DefaultAlbumCover.png" diffuse="thumbs/cdcover_mask.png">$INFO[MusicPlayer.Cover]</texture>
-                </control>
-                <control type="image">
-                    <posy>-20</posy>
-                    <width>300</width>
-                    <height>300</height>
-                    <aspectratio scalediffuse="false" align="center">scale</aspectratio>
-                    <texture diffuse="thumbs/cdcover_mask.png">thumbs/cdcover_glass_noreflect.png</texture>
-                    <bordertexture border="20">thumbs/cd_shadow.png</bordertexture>
-                    <bordersize>20</bordersize>
-                </control>
-            </control>
-            <control type="grouplist">
-                <posx>10</posx>
-                <posy>680</posy>
-                <orientation>horizontal</orientation>
-                <include condition="Window.isActive(videos) + system.hasaddon(script.tvtunes)">TvTunesVisibleCondition</include>
-                <animation effect="fade" start="100" end="0" time="80" condition="!ControlGroup(3000).HasFocus">Conditional</animation>
-                <itemgap>-17</itemgap>
-                <animation effect="fade" end="50" time="0" condition="true">Conditional</animation>
-                <control type="button">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturenofocus>special://skin/extras/BigIcons/ButtonFirst.png</texturenofocus>
-                </control>
-                <control type="button">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturenofocus>special://skin/extras/BigIcons/ButtonFRW.png</texturenofocus>
-                </control>
-                <control type="togglebutton">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturenofocus>special://skin/extras/BigIcons/ButtonPause.png</texturenofocus>
-                    <alttexturenofocus>special://skin/extras/BigIcons/ButtonPlay.png</alttexturenofocus>
-                    <usealttexture>Player.Paused | Player.Forwarding | Player.Rewinding</usealttexture>
-                </control>
-                <control type="button">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturenofocus>special://skin/extras/BigIcons/ButtonStop.png</texturenofocus>
-                </control>
-                <control type="button">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturenofocus>special://skin/extras/BigIcons/ButtonFFW.png</texturenofocus>
-                </control>
-                <control type="button">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturenofocus>special://skin/extras/BigIcons/ButtonEnd.png</texturenofocus>
-                </control>
-            </control>
-            <control type="grouplist" id="3000">
-                <posx>10</posx>
-                <posy>680</posy>
-                <orientation>horizontal</orientation>
-                <include condition="Window.isActive(videos) + system.hasaddon(script.tvtunes)">TvTunesVisibleCondition</include>
-                <animation effect="fade" start="100" end="0" time="80" condition="!ControlGroup(3000).HasFocus">Conditional</animation>
-                <onup condition="Control.IsVisible(1665)">1665</onup>
-                <onup condition="!Control.IsVisible(1665)">9000</onup>
-                <itemgap>-17</itemgap>
-                <ondown>1802</ondown>
-                <onleft>50</onleft>
-                <onright>50</onright>
-                <control type="button" id="600">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturefocus>special://skin/extras/BigIcons/ButtonFirst.png</texturefocus>
-                    <texturenofocus>-</texturenofocus>
-                    <label>210</label>
-                    <font>-</font>
-                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                    <onclick>PlayerControl(Previous)</onclick>
-                </control>
-                <control type="button" id="601">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturefocus>special://skin/extras/BigIcons/ButtonFRW.png</texturefocus>
-                    <texturenofocus>-</texturenofocus>
-                    <label>31354</label>
-                    <font>-</font>
-                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                    <onclick>PlayerControl(Rewind)</onclick>
-                </control>
-                <control type="togglebutton" id="602">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturefocus>special://skin/extras/BigIcons/ButtonPause.png</texturefocus>
-                    <texturenofocus>-</texturenofocus>
-                    <alttexturefocus>special://skin/extras/BigIcons/ButtonPlay.png</alttexturefocus>
-                    <alttexturenofocus>special://skin/extras/BigIcons/ButtonPlay.png</alttexturenofocus>
-                    <label>31351</label>
-                    <altlabel>208</altlabel>
-                    <font>-</font>
-                    <usealttexture>Player.Paused | Player.Forwarding | Player.Rewinding</usealttexture>
-                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                    <onclick>PlayerControl(Play)</onclick>
-                </control>
-                <control type="button" id="603">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturefocus>special://skin/extras/BigIcons/ButtonStop.png</texturefocus>
-                    <texturenofocus>-</texturenofocus>
-                    <label>31352</label>
-                    <font>-</font>
-                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                    <onclick>down</onclick>
-                    <onclick>PlayerControl(Stop)</onclick>
-                </control>
-                <control type="button" id="604">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturefocus>special://skin/extras/BigIcons/ButtonFFW.png</texturefocus>
-                    <texturenofocus>-</texturenofocus>
-                    <label>31353</label>
-                    <font>-</font>
-                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                    <onclick>PlayerControl(Forward)</onclick>
-                </control>
-                <control type="button" id="605">
-                    <width>75</width>
-                    <height>75</height>
-                    <texturefocus>special://skin/extras/BigIcons/ButtonEnd.png</texturefocus>
-                    <texturenofocus>-</texturenofocus>
-                    <label>209</label>
-                    <font>-</font>
-                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                    <onclick>PlayerControl(Next)</onclick>
-                </control>
-            </control>
-        </control>
     </include>
     <include name="QuickNavLabel">
         <control type="radiobutton" id="99999">
@@ -892,10 +660,10 @@
             <textoffsetx>0</textoffsetx>
             <textoffsety>2</textoffsety>
             <align>center</align>
-            <texturefocus>views/tripanel/listselect_fo.png</texturefocus>
-            <texturenofocus>settings/listselect_nf.png</texturenofocus>
+            <texturefocus border="8">views/tripanel/listselect_fo.png</texturefocus>
+            <texturenofocus border="3">settings/listselect_nf.png</texturenofocus>
             <label>$LOCALIZE[31633]</label>
-            <font>Font_Reg15_Caps</font>
+            <font>Font_Reg26_Caps</font>
             <textcolor>$VAR[SubTitleColorVar]</textcolor>
             <disabledcolor>$VAR[FontColorVar]</disabledcolor>
             <enable>false</enable>

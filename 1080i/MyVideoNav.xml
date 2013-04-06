@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window>
     <defaultcontrol always="true">50</defaultcontrol>
+    <onload condition="Skin.HasSetting(languageflag)">RunScript(script.videolanguage,backend=true)</onload>
     <onload condition="System.HasAddon(script.metadata.actors) + !IsEmpty(Window(home).Property(BrowseActors))">RunScript(script.metadata.actors,backend)</onload>
     <onload condition="System.HasAddon(script.tvtunes) + IsEmpty(Window(Home).Property(DontRunTVShowScripts))">RunScript(script.tvtunes,backend=True)</onload>
     <backgroundcolor>backgroundcolor</backgroundcolor>
@@ -11,11 +12,49 @@
     <allowoverlay>no</allowoverlay>
     <views>50,52,53,57,500,501,503,550,508,509,510,511,512,514,516,518</views>
     <controls>
+        <control type="fadelabel" id="4325">
+            <posy>-10000</posy>
+            <pauseatend>7500</pauseatend>
+            <width>11479</width>
+            <height>118</height>
+            <font>Font_Reg57</font>
+            <textcolor>black</textcolor>
+            <label>$INFO[ListItem.Art(extrafanart1)]</label>
+            <label>$INFO[ListItem.Art(extrafanart2)]</label>
+            <label>$INFO[ListItem.Art(extrafanart3)]</label>
+            <label>$INFO[ListItem.Art(extrafanart4)]</label>
+            <label>$INFO[ListItem.Art(extrafanart5)]</label>
+            <label>$INFO[ListItem.Art(extrafanart6)]</label>
+            <label>$INFO[ListItem.Art(extrafanart7)]</label>
+            <label>$INFO[ListItem.Art(extrafanart8)]</label>
+            <label>$INFO[ListItem.Art(extrafanart9)]</label>
+            <label>$INFO[ListItem.Art(extrafanart10)]</label>
+        </control>
+        <control type="fadelabel" id="4211">
+            <pauseatend>7500</pauseatend>
+            <width>11479</width>
+            <height>118</height>
+            <font>Font_Reg57</font>
+            <textcolor>black</textcolor>
+            <label>$INFO[Window(home).Property(Set.Movie.1.Art(clearlogo))]</label>
+            <label>$INFO[Window(home).Property(Set.Movie.2.Art(clearlogo))]</label>
+            <label>$INFO[Window(home).Property(Set.Movie.3.Art(clearlogo))]</label>
+            <label>$INFO[Window(home).Property(Set.Movie.4.Art(clearlogo))]</label>
+            <label>$INFO[Window(home).Property(Set.Movie.5.Art(clearlogo))]</label>
+            <label>$INFO[Window(home).Property(Set.Movie.6.Art(clearlogo))]</label>
+            <label>$INFO[Window(home).Property(Set.Movie.7.Art(clearlogo))]</label>
+            <label>$INFO[Window(home).Property(Set.Movie.8.Art(clearlogo))]</label>
+            <label>$INFO[Window(home).Property(Set.Movie.9.Art(clearlogo))]</label>
+            <label>$INFO[Window(home).Property(Set.Movie.10.Art(clearlogo))]</label>
+        </control>
+    
         <control type="button" id="9900">
             <!-- no info-->
             <include>HiddenObject</include>
             <visible>!Container.Content()</visible>
-            <visible>!SubString(ListItem.Path,videodb://1/7/,left)</visible>
+            <!--             <visible>!SubString(ListItem.Path,videodb://1/7/,left)</visible>
+ -->
+            <visible>!SubString(ListItem.Path,videodb://1/7/,left) | skin.hassetting(backendmode)</visible>
             <!--             <visible>!SubString(Container.FolderPath,library://,left)</visible> -->
             <visible>!Stringcompare(ListItem.Label,..)</visible>
             <visible>!Container.Content(years)</visible>
@@ -32,23 +71,43 @@
             <include>HiddenObject</include>
         </control>
         <control type="group">
-            <visible>!Control.IsVisible(516)</visible>
+            <visible>!Control.IsVisible(516) + !Window.IsActive(movieinformation)</visible>
             <control type="multiimage">
                 <imagepath background="true" fallback="special://skin/backgrounds/videos/">$VAR[VideoFanartVar]</imagepath>
                 <fadetime>FanartCrossfadeTime</fadetime>
                 <animation effect="zoom" start="110" end="130" center="auto" time="12000" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
                 <animation effect="slide" start="-15,-15" end="15,15" time="6000" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
                 <animation effect="fade" start="100" end="50" time="640">Hidden</animation>
-                <visible>!Window.IsActive(movieinformation)</visible>
+                <visible>!Container.Content(movies) + !Control.IsVisible(4200)</visible>
+            </control>
+            <control type="multiimage">
+                <imagepath background="true" fallback="special://skin/backgrounds/movies/">$VAR[MovieFanartVar]</imagepath>
+                <fadetime>FanartCrossfadeTime</fadetime>
+                <animation effect="zoom" start="110" end="130" center="auto" time="12000" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+                <animation effect="slide" start="-15,-15" end="15,15" time="6000" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+                <animation effect="fade" start="100" end="50" time="640">Hidden</animation>
+                <visible>Container.Content(movies)</visible>
+            </control>
+             <control type="multiimage" id="4200">
+                <imagepath background="true" fallback="special://skin/backgrounds/tvshows/">$VAR[TVShowFanartVar]</imagepath>
+                <fadetime>FanartCrossfadeTime</fadetime>
+                <animation effect="zoom" start="110" end="130" center="auto" time="12000" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+                <animation effect="slide" start="-15,-15" end="15,15" time="6000" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
+                <animation effect="fade" start="100" end="50" time="640">Hidden</animation>
+                <visible>Container.Content(TVShows) | Container.Content(Seasons) | Container.Content(Episodes)</visible>
             </control>
             <control type="multiimage">
                 <imagepath background="true">$VAR[VideoExtraFanartVar]</imagepath>
                 <fadetime>FanartCrossfadeTime</fadetime>
                 <animation effect="zoom" start="110" end="130" center="auto" time="12000" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
                 <animation effect="slide" start="-15,-15" end="15,15" time="6000" pulse="true" condition="Skin.HasSetting(animatedbg)">Conditional</animation>
-                <visible>[Container.Content(movies) + Skin.HasSetting(extrafanartmovies)] | [Container.Content(tvshows) + Skin.HasSetting(extrafanartseries)] | [Container.Content(seasons) + Skin.HasSetting(extrafanartseasons)] | [Container.Content(episodes) + Skin.HasSetting(extrafanartepisodes)]</visible>
+                <visible>[Container.Content(musicvideos) + Skin.HasSetting(extrafanartmusicvideos)] | [Container.Content(seasons) + Skin.HasSetting(extrafanartseasons)] | [Container.Content(episodes) + Skin.HasSetting(extrafanartepisodes)]</visible>
                 <visible>!SubString(ListItem.Label,*,left) + [Substring(Container.FolderPath,videodb://,left) | Substring(Container.FolderPath,special://profile/playlist,left)]</visible>
             </control>
+            
+         <include condition="skin.hassetting(backendmode)">InteractiveNodeCases</include>
+         <include condition="skin.hassetting(backendmode)">NodeFadeLabels</include>
+
         </control>
         <!-- view id = 516-->
         <include condition="!Skin.HasSetting(DisableBigFanVL)">BigFan</include>
@@ -85,34 +144,81 @@
                 <!-- view id = 50 -->
                 <include>CommonRootView</include>
                 <!-- view id = 510 -->
-                <include condition="!Skin.HasSetting(DisablePostersVL)">PostersViewList</include>
-                <include condition="!Skin.HasSetting(DisablePostersVL) | !Skin.HasSetting(DisableTriPanelVL)">PostersView</include>
+                <include condition="IsEmpty(Skin.String(DisablePostersVL))">PostersViewList</include>
+                <include condition="IsEmpty(Skin.String(DisablePostersVL)) | IsEmpty(Skin.String(DisableTriPanelVL))">PostersView</include>
                 <!--view id = 52-->
-                <include condition="!Skin.HasSetting(DisableTriPanelVL)">TriPanel</include>
+                <include condition="IsEmpty(Skin.String(DisableTriPanelVL))">TriPanel</include>
                 <!-- view id = 53 -->
-                <include condition="!Skin.HasSetting(DisableTriPanelVL)">TriPanelSquare</include>
+                <include condition="IsEmpty(Skin.String(DisableTriPanelVL))">TriPanelSquare</include>
                 <!-- view id = 500 -->
-                <include condition="!Skin.HasSetting(DisableWallVL)">Viewtype_Wall</include>
+                <include condition="IsEmpty(Skin.String(DisableWallVL))">Viewtype_Wall</include>
                 <!-- view id = 501 Showcase-->
-                <include condition="!Skin.HasSetting(DisableShowCaseVL)">Showcase</include>
+                <include condition="IsEmpty(Skin.String(DisableShowCaseVL))">Showcase</include>
                 <!-- view id = 508 Bannerview-->
-                <include condition="!Skin.HasSetting(DisableBannersVL)">Banners</include>
+                <include condition="IsEmpty(Skin.String(DisableBannersVL))">Banners</include>
                 <!-- view id = 503 Landscape-->
-                <include condition="!Skin.HasSetting(DisableLandscapeVL)">MediaListView3</include>
+                <include condition="IsEmpty(Skin.String(DisableLandscapeVL))">MediaListView3</include>
                 <!-- view id = 504 Showcase DVD-->
                 <!-- view id = 511 -->
-                <include condition="!Skin.HasSetting(DisableLowListVL)">LowList</include>
+                <include condition="IsEmpty(Skin.String(DisableLowListVL))">LowList</include>
                 <!-- view id = 57-->
-                <include condition="!Skin.HasSetting(DisableShiftVL)">ShiftView</include>
+                <include condition="IsEmpty(Skin.String(DisableShiftVL))">ShiftView</include>
                 <!-- view id = 509-->
-                <include condition="!Skin.HasSetting(DisableShowCaseSquareVL)">ShowcaseQuadrate</include>
+                <include condition="IsEmpty(Skin.String(DisableShowCaseSquareVL))">ShowcaseQuadrate</include>
                 <!-- view id = 512-->
-                <include condition="!Skin.HasSetting(DisableInfoWallVL)">AddonWall</include>
+                <include condition="IsEmpty(Skin.String(DisableInfoWallVL))">AddonWall</include>
                 <!--view id = 514-->
-                <include condition="!Skin.HasSetting(DisableEpisodeVL)">Viewtype_Episode</include>
-                <include condition="!Skin.HasSetting(DisablePanelVL)">Panel</include>
-                <include condition="!Skin.HasSetting(DisableInfoPanelVL)">Viewtype_FullscreenPanel</include>
+                <include condition="IsEmpty(Skin.String(DisableEpisodeVL))">Viewtype_Episode</include>
+                <include condition="IsEmpty(Skin.String(DisablePanelVL))">Panel</include>
+                <include condition="IsEmpty(Skin.String(DisableInfoPanelVL))">Viewtype_FullscreenPanel</include>
             </control>
+            <control type="button" id="1970">
+                <include>HiddenObject</include>
+                <visible>!Window.IsActive(DialogVideoInfo.xml)</visible>
+                <visible>Control.IsVisible(501) | [Control.IsVisible(52) + !Stringcompare(Skin.String(TriPanelPosition),3)]</visible>
+                <visible>!Container.OnNext + !Container.OnPrevious + Skin.HasSetting(showcasecdart)</visible>
+                <animation effect="fade" end="100" time="120" delay="1600">Visible</animation>
+                <animation effect="fade" end="100" time="120" delay="1600">WindowOpen</animation>
+            </control>
+            <control type="group">
+                <animation effect="zoom" start="100" end="195" time="640" easing="inout" tween="circle" center="960,970" condition="Control.IsVisible(501) + Skin.HasSetting(showcasezoom)">Conditional</animation>
+                <animation effect="zoom" start="100" end="170" time="640" easing="inout" tween="circle" center="160,970" condition="Control.IsVisible(52) + Stringcompare(Skin.String(TriPanelPosition),2)">Conditional</animation>
+                <animation effect="zoom" start="100" end="170" time="640" easing="inout" tween="circle" center="960,970" condition="Control.IsVisible(52) + Stringcompare(Skin.String(TriPanelPosition),1)">Conditional</animation>
+                <!--             <animation effect="zoom" start="100" end="170" time="640" easing="inout" tween="circle" center="160,970" condition="Control.IsVisible(50)">Conditional</animation>-->
+                <animation effect="zoom" start="100" end="195" time="640" easing="inout" tween="circle" center="460,985" condition="Control.IsVisible(52) + Stringcompare(Skin.String(TriPanelPosition),4)">Conditional</animation>
+                <animation type="WindowClose" reversible="false">
+                    <effect type="fade" start="100" end="0" time="240" />
+                    <effect type="zoom" start="100" end="130" center="960,540" time="240" tween="cubic" easing="in" />
+                </animation>
+                <control type="image">
+                    <posx>2530</posx>
+                    <posy>704</posy>
+                    <width>280</width>
+                    <height>280</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture background="true">$INFO[Container.ListItem.Art(discart)]</texture>
+                    <fadetime>4000</fadetime>
+                    <animation type="Conditional" condition="Control.IsVisible(1970) + !IsEmpty(Container.ListItem.Art(discart))" reversible="true">
+                        <effect type="slide" start="0,0" end="-1600,0" delay="1200" time="1120" tween="quadratic" easing="out" />
+                        <effect type="rotate" start="0" center="2670,844" end="720" delay="1200" time="1120" tween="quadratic" easing="out" />
+                    </animation>
+                </control>
+                <control type="image">
+                    <posx>2530</posx>
+                    <posy>984</posy>
+                    <width>280</width>
+                    <height>280</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture background="true" flipy="true">$INFO[Container.ListItem.Art(discart)]</texture>
+                    <fadetime>4000</fadetime>
+                    <colordiffuse>22FFFFFF</colordiffuse>
+                    <animation type="Conditional" condition="Control.IsVisible(1970) + !IsEmpty(Container.ListItem.Art(discart))" reversible="true">
+                        <effect type="slide" start="0,0" end="-1600,0" delay="1200" time="1120" tween="quadratic" easing="out" />
+                        <effect type="rotate" start="0" center="2670,1124" end="-720" delay="1200" time="1120" tween="quadratic" easing="out" />
+                    </animation>
+                </control>
+            </control>
+                <include condition="skin.hassetting(backendmode)">FloorSetDiscArt</include>
             <control type="group">
                 <control type="button" id="7000">
                     <include>HiddenObject</include>
@@ -142,11 +248,7 @@
                     <onfocus condition="Skin.HasSetting(fstrailer) | Control.IsVisible(57) | Control.IsVisible(510) | Control.IsVisible(52) | Control.IsVisible(50) | Control.IsVisible(500)">PlayMedia($ESCINFO[ListItem.Trailer])</onfocus>
                 </control>
             </control>
-            <control type="group">
-                <visible>Control.IsVisible(550) | Control.IsVisible(508) | Control.IsVisible(503) | Control.IsVisible(501) | Control.IsVisible(500) | Control.IsVisible(512) | Control.IsVisible(516) | Control.IsVisible(514)</visible>
-                <animation effect="slide" end="705" time="0" easing="inout" tween="cubic" condition="Control.IsVisible(514)">Conditional</animation>
-                <include>FloorFlags</include>
-            </control>
+            <include>FloorFlags</include>
             <include>FloorLabels</include>
             <include condition="!Skin.HasSetting(DisablePostersVL) | !Skin.HasSetting(DisableShiftVL) |!Skin.HasSetting(DisableTriPanelVL)">Posters_Furniture</include>
             <control type="group">

@@ -5,7 +5,7 @@
             <posy>75</posy>
             <width>1920</width>
             <height>750</height>
-            <visible>Control.IsVisible(199) | Control.HasFocus(7000) | Stringcompare(Control.GetLabel(4421),infopanelon)</visible>
+            <visible>Window.IsActive(1112) | Control.IsVisible(199) | Control.HasFocus(7000) | Stringcompare(Control.GetLabel(4421),infopanelon)</visible>
             <visible>!Stringcompare(ListItem.Label,..)</visible>
             <visible>Control.IsVisible(57) | Control.isVisible(509) | Control.IsVisible(503)</visible>
             <animation effect="slide" start="0,-1200" end="0,0" time="560" tween="cubic">VisibleChange</animation>
@@ -36,7 +36,7 @@
                     <posy>7</posy>
                     <width>1695</width>
                     <height>700</height>
-                    <texture border="12">views/music_layout.png</texture>
+                    <texture border="12">$VAR[MusicShowcaseLayoutVar]</texture>
                 </control>
                 <control type="image">
                     <posx>154</posx>
@@ -44,103 +44,176 @@
                     <width>240</width>
                     <height>75</height>
                     <aspectratio aligny="bottom">keep</aspectratio>
-                    <texture background="true">$VAR[TVShowLogoVar]</texture>
+                    <texture background="true">$VAR[LogoVar]</texture>
                     <fadetime>400</fadetime>
                     <visible>!IsEmpty(Skin.String(ArtistsLogosPath))</visible>
                     <visible>![Control.IsVisible(503) + Skin.HasSetting(landscapeonelogo)]</visible>
                     <visible>[Container.Content(artists) + !Skin.HasSetting(artistslogosfloor)]| Container.Content(albums)</visible>
                 </control>
-                <include condition="Skin.HasSetting(effect_bg)">BG_Effect_Showcase_Panel</include>
                 <control type="group">
-                    <posx>832</posx>
-                    <posy>47</posy>
-                    <!--fanart-->
-                    <control type="image">
-                        <posx>127</posx>
-                        <posy>15</posy>
-                        <width>776</width>
-                        <height>435</height>
-                        <aspectratio>scale</aspectratio>
-                        <texture background="true" fallback="special://skin/backgrounds/fallback_music.jpg">$INFO[ListItem.Art(fanart)]</texture>
-                        <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
-                        <bordersize>7</bordersize>
+                    <animation effect="slide" end="460,20" time="0" condition="!Stringcompare(Control.GetLabel(4420),fanart)">Conditional</animation>
+                    <animation effect="zoom" end="95" time="0" condition="!Stringcompare(Control.GetLabel(4420),fanart)">Conditional</animation>
+                    <control type="group">
+                        <posx>832</posx>
+                        <posy>47</posy>
+                        <!--fanart-->
+                        <control type="image">
+                            <posx>127</posx>
+                            <posy>15</posy>
+                            <width>776</width>
+                            <height>435</height>
+                            <aspectratio>scale</aspectratio>
+                            <texture background="true" fallback="special://skin/backgrounds/fallback_music.jpg">$INFO[ListItem.Art(fanart)]</texture>
+                            <bordertexture border="7">thumbs/thumbshadow.png</bordertexture>
+                            <bordersize>7</bordersize>
+                            <visible>Stringcompare(Control.GetLabel(4420),fanart)</visible>
+                        </control>
+                        <control type="image">
+                            <posx>127</posx>
+                            <posy>15</posy>
+                            <width>776</width>
+                            <height>435</height>
+                            <texture>common/black.png</texture>
+                            <visible>Player.HasVideo</visible>
+                        </control>
+                        <control type="videowindow" id="2">
+                            <posx>127</posx>
+                            <posy>15</posy>
+                            <width>776</width>
+                            <height>435</height>
+                            <animation effect="fade" end="100" time="0" delay="880">Visible</animation>
+                            <visible>Player.Hasvideo</visible>
+                        </control>
                     </control>
-                    <control type="image">
-                        <posx>127</posx>
-                        <posy>15</posy>
-                        <width>776</width>
-                        <height>435</height>
-                        <texture>common/black.png</texture>
-                        <visible>Player.HasVideo</visible>
-                    </control>
-                    <control type="videowindow" id="2">
-                        <posx>127</posx>
-                        <posy>15</posy>
-                        <width>776</width>
-                        <height>435</height>
-                        <animation effect="fade" end="100" time="0" delay="880">Visible</animation>
-                        <visible>Player.Hasvideo</visible>
+                    <control type="group">
+                        <posx>158</posx>
+                        <posy>65</posy>
+                        <control type="label">
+                            <posy>-9</posy>
+                            <width>600</width>
+                            <height>20</height>
+                            <aligny>bottom</aligny>
+                            <label>$VAR[MusicPanelDetailLabel1Var]</label>
+                            <textcolor>white3</textcolor>
+                        </control>
+                        <control type="label">
+                            <posy>24</posy>
+                            <width>735</width>
+                            <height>20</height>
+                            <aligny>bottom</aligny>
+                            <label fallback="31006">$VAR[MusicPanelValueLabel1Var]</label>
+                            <scroll>true</scroll>
+                        </control>
+                        <control type="label">
+                            <posy>61</posy>
+                            <width>420</width>
+                            <height>20</height>
+                            <aligny>bottom</aligny>
+                            <label>$VAR[MusicPanelDetailLabel2Var]</label>
+                            <textcolor>white3</textcolor>
+                        </control>
+                        <control type="label">
+                            <posy>94</posy>
+                            <width>735</width>
+                            <height>20</height>
+                            <aligny>bottom</aligny>
+                            <label fallback="31006">$VAR[MusicPanelValueLabel2Var]</label>
+                            <scroll>true</scroll>
+                        </control>
+                        <control type="label">
+                            <posy>131</posy>
+                            <width>420</width>
+                            <height>20</height>
+                            <aligny>bottom</aligny>
+                            <label>$VAR[MusicPanelDetailLabel3Var]</label>
+                            <textcolor>white3</textcolor>
+                        </control>
+                        <control type="label">
+                            <posy>162</posy>
+                            <width>735</width>
+                            <height>20</height>
+                            <aligny>bottom</aligny>
+                            <label fallback="31006">$VAR[MusicPanelValueLabel3Var]</label>
+                            <scroll>true</scroll>
+                        </control>
+                        <control type="textbox">
+                            <posx>0</posx>
+                            <posy>209</posy>
+                            <width>729</width>
+                            <height>220</height>
+                            <label fallback="31006">$VAR[InfoWallTextboxVar]</label>
+                            <textcolor>white6</textcolor>
+                            <autoscroll delay="8000" time="AutoScrollTime" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+                        </control>
                     </control>
                 </control>
                 <control type="group">
-                    <posx>158</posx>
-                    <posy>65</posy>
-                    <control type="label">
-                        <posy>-9</posy>
-                        <width>600</width>
-                        <height>20</height>
-                        <aligny>bottom</aligny>
-                        <label>$VAR[MusicPanelDetailLabel1Var]</label>
-                        <textcolor>white3</textcolor>
+                    <visible>Stringcompare(Control.GetLabel(4420),fourthumbs)</visible>
+                    <control type="group">
+                        <!-- left side-->
+                        <control type="image">
+                            <posx>154</posx>
+                            <animation effect="zoom" end="200" center="154,70" time="320" tween="cubic" easing="inout" condition="IsEmpty(Window(home).Property(Artist.Album.3.Thumb)) + !IsEmpty(Window(home).Property(Artist.Album.1.Thumb)) + IsEmpty(Window(home).Property(Artist.Album.5.Thumb)) + IsEmpty(Window(home).Property(Artist.Album.7.Thumb))">Conditional</animation>
+                            <posy>70</posy>
+                            <width>200</width>
+                            <height>200</height>
+                            <texture>$INFO[Window(home).Property(Artist.Album.1.Thumb)]</texture>
+                        </control>
+                        <control type="image">
+                            <posx>360</posx>
+                            <animation effect="zoom" end="200" center="560,70" time="320" tween="cubic" easing="inout" condition="!IsEmpty(Window(home).Property(Artist.Album.3.Thumb)) + IsEmpty(Window(home).Property(Artist.Album.1.Thumb)) + IsEmpty(Window(home).Property(Artist.Album.5.Thumb)) + IsEmpty(Window(home).Property(Artist.Album.7.Thumb))">Conditional</animation>
+                            <posy>70</posy>
+                            <width>200</width>
+                            <height>200</height>
+                            <texture>$INFO[Window(home).Property(Artist.Album.3.Thumb)]</texture>
+                        </control>
+                        <control type="image">
+                            <posx>154</posx>
+                            <posy>285</posy>
+                            <width>200</width>
+                            <height>200</height>
+                            <texture>$INFO[Window(home).Property(Artist.Album.5.Thumb)]</texture>
+                        </control>
+                        <control type="image">
+                            <posx>360</posx>
+                            <posy>285</posy>
+                            <width>200</width>
+                            <height>200</height>
+                            <texture>$INFO[Window(home).Property(Artist.Album.7.Thumb)]</texture>
+                        </control>
                     </control>
-                    <control type="label">
-                        <posy>24</posy>
-                        <width>735</width>
-                        <height>20</height>
-                        <aligny>bottom</aligny>
-                        <label fallback="31006">$VAR[MusicPanelValueLabel1Var]</label>
-                        <scroll>true</scroll>
-                    </control>
-                    <control type="label">
-                        <posy>61</posy>
-                        <width>420</width>
-                        <height>20</height>
-                        <aligny>bottom</aligny>
-                        <label>$VAR[MusicPanelDetailLabel2Var]</label>
-                        <textcolor>white3</textcolor>
-                    </control>
-                    <control type="label">
-                        <posy>94</posy>
-                        <width>735</width>
-                        <height>20</height>
-                        <aligny>bottom</aligny>
-                        <label fallback="31006">$VAR[MusicPanelValueLabel2Var]</label>
-                        <scroll>true</scroll>
-                    </control>
-                    <control type="label">
-                        <posy>131</posy>
-                        <width>420</width>
-                        <height>20</height>
-                        <aligny>bottom</aligny>
-                        <label>$VAR[MusicPanelDetailLabel3Var]</label>
-                        <textcolor>white3</textcolor>
-                    </control>
-                    <control type="label">
-                        <posy>162</posy>
-                        <width>735</width>
-                        <height>20</height>
-                        <aligny>bottom</aligny>
-                        <label fallback="31006">$VAR[MusicPanelValueLabel3Var]</label>
-                        <scroll>true</scroll>
-                    </control>
-                    <control type="textbox">
-                        <posx>0</posx>
-                        <posy>209</posy>
-                        <width>729</width>
-                        <height>228</height>
-                        <label fallback="31006">$VAR[InfoWallTextboxVar]</label>
-                        <textcolor>white6</textcolor>
-                        <autoscroll delay="8000" time="AutoScrollTime" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
+                    <control type="group">
+                        <!-- right side-->
+                        <control type="image">
+                            <posx>1570</posx>
+                            <posy>70</posy>
+                            <width>200</width>
+                            <height>200</height>
+                            <animation effect="zoom" end="200" center="1780,70" time="320" tween="cubic" easing="inout" condition="IsEmpty(Window(home).Property(Artist.Album.4.Thumb)) + IsEmpty(Window(home).Property(Artist.Album.6.Thumb)) + IsEmpty(Window(home).Property(Artist.Album.8.Thumb)) + !IsEmpty(Window(home).Property(Artist.Album.2.Thumb))">Conditional</animation>
+                            <texture>$INFO[Window(home).Property(Artist.Album.2.Thumb)]</texture>
+                        </control>
+                        <control type="image">
+                            <posx>1364</posx>
+                            <animation effect="zoom" end="200" center="1364,70" time="320" tween="cubic" easing="inout" condition="!IsEmpty(Window(home).Property(Artist.Album.4.Thumb)) + IsEmpty(Window(home).Property(Artist.Album.6.Thumb)) + IsEmpty(Window(home).Property(Artist.Album.8.Thumb)) + IsEmpty(Window(home).Property(Artist.Album.2.Thumb))">Conditional</animation>
+                            <posy>70</posy>
+                            <width>200</width>
+                            <height>200</height>
+                            <texture>$INFO[Window(home).Property(Artist.Album.4.Thumb)]</texture>
+                        </control>
+                        <control type="image">
+                            <posx>1570</posx>
+                            <posy>285</posy>
+                            <width>200</width>
+                            <height>200</height>
+                            <texture>$INFO[Window(home).Property(Artist.Album.6.Thumb)]</texture>
+                        </control>
+                        <control type="image">
+                            <posx>1364</posx>
+                            <posy>285</posy>
+                            <width>200</width>
+                            <height>200</height>
+                            <texture>$INFO[Window(home).Property(Artist.Album.8.Thumb)]</texture>
+                        </control>
                     </control>
                 </control>
             </control>
@@ -151,47 +224,47 @@
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.1.SimilarName)]</label>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.1.SimilarThumb)]</icon>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.1.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.1.SimilarName)],return)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.1.SimilarThumb))</visible>
         </item>
         <item id="2">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.2.SimilarName)]</label>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.2.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.2.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.2.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.2.SimilarThumb))</visible>
         </item>
         <item id="3">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.3.SimilarName)]</label>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.3.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.3.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.3.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.3.SimilarThumb))</visible>
         </item>
         <item id="4">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.4.SimilarName)]</label>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.4.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.4.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.4.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.4.SimilarThumb))</visible>
         </item>
         <item id="5">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.5.SimilarName)]</label>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.5.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.5.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.5.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.5.SimilarThumb))</visible>
         </item>
         <item id="6">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.6.SimilarName)]</label>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.6.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.6.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.6.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.6.SimilarThumb))</visible>
         </item>
         <item id="7">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.7.SimilarName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.7.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.7.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.7.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.7.SimilarThumb))</visible>
         </item>
@@ -199,54 +272,54 @@
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.8.SimilarName)]</label>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.8.SimilarThumb)]</icon>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.8.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.8.SimilarName)],return)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.8.SimilarThumb))</visible>
         </item>
         <item id="9">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.9.SimilarName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.9.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.9.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.9.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.9.SimilarThumb))</visible>
         </item>
         <item id="10">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.10.SimilarName)]</label>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.10.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.10.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.10.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.10.SimilarThumb))</visible>
         </item>
         <item id="11">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.11.SimilarName)]</label>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.11.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.11.SimilarName)],return)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.11.SimilarThumb))</visible>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.11.SimilarThumb)]</icon>
         </item>
         <item id="12">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.12.SimilarName)]</label>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.12.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.12.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.12.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.12.SimilarThumb))</visible>
         </item>
         <item id="13">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.13.SimilarName)]</label>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.13.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.13.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.13.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.13.SimilarThumb))</visible>
         </item>
         <item id="14">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.14.SimilarName)]</label>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.14.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.14.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.14.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.14.SimilarThumb))</visible>
         </item>
         <item id="15">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.15.SimilarName)]</label>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[Window(Visualisation).Property(ArtistSlideshow.15.SimilarName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Visualisation).Property(ArtistSlideshow.15.SimilarName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.15.SimilarThumb)]</icon>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.15.SimilarThumb))</visible>
         </item>
@@ -256,47 +329,47 @@
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.1.AlbumName)]</label>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.1.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.1.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.1.AlbumName)],return)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.1.AlbumThumb))</visible>
         </item>
         <item id="2">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.2.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.2.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.2.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.2.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.2.AlbumThumb))</visible>
         </item>
         <item id="3">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.3.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.3.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.3.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.3.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.3.AlbumThumb))</visible>
         </item>
         <item id="4">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.4.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.4.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.4.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.4.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.4.AlbumThumb))</visible>
         </item>
         <item id="5">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.5.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.5.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.5.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.5.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.5.AlbumThumb))</visible>
         </item>
         <item id="6">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.6.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.6.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.6.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.6.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.6.AlbumThumb))</visible>
         </item>
         <item id="7">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.7.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.7.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.7.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.7.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.7.AlbumThumb))</visible>
@@ -305,299 +378,299 @@
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.8.AlbumName)]</label>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.8.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.8.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.8.AlbumName)],return)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.8.AlbumThumb))</visible>
         </item>
         <item id="9">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.9.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.9.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.9.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.9.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.9.AlbumThumb))</visible>
         </item>
         <item id="10">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.10.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.10.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.10.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.10.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.10.AlbumThumb))</visible>
         </item>
         <item id="11">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.11.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.11.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.11.AlbumName)],return)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.11.AlbumThumb))</visible>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.11.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
         </item>
         <item id="12">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.12.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.12.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.12.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.12.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.12.AlbumThumb))</visible>
         </item>
         <item id="13">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.13.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.13.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.13.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.13.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.13.AlbumThumb))</visible>
         </item>
         <item id="14">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.14.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.14.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.14.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.14.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.14.AlbumThumb))</visible>
         </item>
         <item id="15">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.15.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.15.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.15.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.15.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.15.AlbumThumb))</visible>
         </item>
         <item id="16">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.16.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.16.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.16.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.16.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.16.AlbumThumb))</visible>
         </item>
         <item id="17">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.17.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.17.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.17.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.17.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.17.AlbumThumb))</visible>
         </item>
         <item id="18">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.18.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.18.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.18.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.18.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.18.AlbumThumb))</visible>
         </item>
         <item id="19">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.19.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.19.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.19.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.19.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.19.AlbumThumb))</visible>
         </item>
         <item id="20">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.20.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.20.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.20.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.20.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.20.AlbumThumb))</visible>
         </item>
         <item id="21">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.21.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.21.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.21.AlbumName)],return)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.21.AlbumThumb))</visible>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.21.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
         </item>
         <item id="22">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.22.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.22.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.22.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.22.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.22.AlbumThumb))</visible>
         </item>
         <item id="23">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.23.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.23.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.23.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.23.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.23.AlbumThumb))</visible>
         </item>
         <item id="24">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.24.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.24.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.24.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.24.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.24.AlbumThumb))</visible>
         </item>
         <item id="25">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.25.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.25.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.25.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.25.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.25.AlbumThumb))</visible>
         </item>
         <item id="26">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.26.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.26.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.26.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.26.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.26.AlbumThumb))</visible>
         </item>
         <item id="27">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.27.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.27.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.27.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.27.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.27.AlbumThumb))</visible>
         </item>
         <item id="28">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.28.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.28.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.28.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.28.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.28.AlbumThumb))</visible>
         </item>
         <item id="29">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.29.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.29.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.29.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.29.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.29.AlbumThumb))</visible>
         </item>
         <item id="30">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.30.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.30.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.30.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.30.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.30.AlbumThumb))</visible>
         </item>
         <item id="31">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.31.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.31.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.31.AlbumName)],return)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.31.AlbumThumb))</visible>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.31.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
         </item>
         <item id="32">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.32.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.32.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.32.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.32.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.32.AlbumThumb))</visible>
         </item>
         <item id="33">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.33.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.33.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.33.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.33.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.33.AlbumThumb))</visible>
         </item>
         <item id="34">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.34.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.34.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.34.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.34.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.34.AlbumThumb))</visible>
         </item>
         <item id="35">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.35.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.35.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.35.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.35.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.35.AlbumThumb))</visible>
         </item>
         <item id="36">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.36.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.36.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.36.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.36.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.36.AlbumThumb))</visible>
         </item>
         <item id="37">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.37.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.37.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.37.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.37.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.37.AlbumThumb))</visible>
         </item>
         <item id="38">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.38.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.38.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.38.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.38.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.38.AlbumThumb))</visible>
         </item>
         <item id="39">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.39.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.39.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.39.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.39.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.39.AlbumThumb))</visible>
         </item>
         <item id="40">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.40.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.40.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.40.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.40.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.40.AlbumThumb))</visible>
         </item>
         <item id="41">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.41.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.41.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.41.AlbumName)],return)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.41.AlbumThumb))</visible>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.41.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
         </item>
         <item id="42">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.42.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.42.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.42.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.42.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.42.AlbumThumb))</visible>
         </item>
         <item id="43">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.43.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.43.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.43.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.43.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.43.AlbumThumb))</visible>
         </item>
         <item id="44">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.44.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.44.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.44.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.44.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.44.AlbumThumb))</visible>
         </item>
         <item id="45">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.45.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.45.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.45.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.45.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.45.AlbumThumb))</visible>
         </item>
         <item id="46">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.46.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.46.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.46.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.46.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.46.AlbumThumb))</visible>
         </item>
         <item id="47">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.47.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.47.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.47.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.47.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.47.AlbumThumb))</visible>
         </item>
         <item id="48">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.48.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.48.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.48.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.48.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.48.AlbumThumb))</visible>
         </item>
         <item id="49">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.49.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.49.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.49.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.49.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.49.AlbumThumb))</visible>
         </item>
         <item id="50">
             <label>$INFO[Window(Visualisation).Property(ArtistSlideshow.50.AlbumName)]</label>
-            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$INFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.50.AlbumName)],return)</onclick>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[MusicPlayer.Artist] $INFO[Window(Visualisation).Property(ArtistSlideshow.50.AlbumName)],return)</onclick>
             <icon>$INFO[Window(Visualisation).Property(ArtistSlideshow.50.AlbumThumb)]</icon>
             <onclick>Action(Close)</onclick>
             <visible>!IsEmpty(Window(Visualisation).Property(ArtistSlideshow.50.AlbumThumb))</visible>
@@ -616,7 +689,7 @@
                 <width>900</width>
                 <height>45</height>
                 <label>$LOCALIZE[31889]</label>
-                <font>Font_Reg22_Caps</font>
+                <font>Font_Reg37_Caps</font>
                 <textcolor>$VAR[TitleColorVar]</textcolor>
                 <visible>!IsEmpty(MusicPlayer.Offset(1).Title)</visible>
             </control>
@@ -631,21 +704,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>1:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(1).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(1).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -659,21 +732,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>2:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(2).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(2).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -687,21 +760,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>3:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(3).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(3).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -715,21 +788,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>4:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(4).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(4).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -743,21 +816,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>5:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(5).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(5).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -772,21 +845,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>6:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(6).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(6).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -801,21 +874,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>7:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(7).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(7).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -830,21 +903,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>8:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(8).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(8).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -859,21 +932,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>9:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(9).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(9).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -888,21 +961,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>10:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(10).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(10).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -917,21 +990,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>11:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(11).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(11).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -946,21 +1019,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>12:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(12).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(12).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
             <control type="grouplist">
@@ -975,21 +1048,21 @@
                     <width min="30" max="60">auto</width>
                     <height>26</height>
                     <label>13:</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>$VAR[TitleColorVar]</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="380">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(13).Artist,,:]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                     <textcolor>white3</textcolor>
                 </control>
                 <control type="label">
                     <width min="50" max="610">auto</width>
                     <height>26</height>
                     <label>$INFO[MusicPlayer.Offset(13).Title]</label>
-                    <font>Font_Reg15_Caps</font>
+                    <font>Font_Reg26_Caps</font>
                 </control>
             </control>
         </control>
@@ -1015,27 +1088,35 @@
     <include name="MusicVisPanelLayout">
         <control type="image">
             <posx>15</posx>
-            <posy>62</posy>
-            <width>370</width>
-            <height>60</height>
-            <texture border="1">osd/osd_settings_buttonnf.png</texture>
+            <posy>10</posy>
+            <width>180</width>
+            <height>230</height>
+            <texture border="4">osd/osd_settings_buttonnf.png</texture>
         </control>
         <control type="image">
             <posx>0</posx>
-            <width>400</width>
-            <height>120</height>
+            <posy>10</posy>
+            <width>235</width>
+            <height>235</height>
             <aspectratio>scale</aspectratio>
             <texture>$INFO[Listitem.Icon]</texture>
-            <colordiffuse>55FFFFFF</colordiffuse>
+            <colordiffuse>FFFFFFFF</colordiffuse>
+        </control>
+        <control type="image">
+            <posy>190</posy>
+            <width>235</width>
+            <height>60</height>
+            <texture>common/bgcolor.png</texture>
+            <animation effect="fade" start="100" end="80" time="0" condition="true">Conditional</animation>
         </control>
         <control type="textbox">
-            <posx>15</posx>
-            <posy>20</posy>
-            <width>370</width>
+            <posx>5</posx>
+            <posy>191</posy>
+            <width>230</width>
             <height>108</height>
-            <align>left</align>
-            <font>Font_Reg18</font>
-            <textcolor>grey2</textcolor>
+            <align>center</align>
+            <font>Font_Reg22_Caps</font>
+            <textcolor>white2</textcolor>
             <info>ListItem.Label</info>
         </control>
     </include>
@@ -1535,7 +1616,8 @@
             <control type="image" id="708">
                 <width>100</width>
                 <height>100</height>
-                <texture>$VAR[MusicOSDRepeatButtonVar2]</texture>
+                <texture>$VAR[MusicOSDRepeatButtonVar]</texture>
+                <animation effect="fade" start="100" end="0" time="0" condition="!Control.HasFocus(704)">Conditional</animation>
                 <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
             </control>
             <control type="togglebutton" id="705">
@@ -1565,7 +1647,7 @@
         </control>
     </include>
     <include name="MusicInfoModePanels">
-           <!-- Main Group -->
+        <!-- Main Group -->
         <control type="grouplist" id="40">
             <posx>-135</posx>
             <posy>5</posy>
@@ -1615,7 +1697,7 @@
                             <height>34</height>
                             <align>center</align>
                             <label>$LOCALIZE[31635]</label>
-                            <font>Font_Reg22_Caps</font>
+                            <font>Font_Reg37_Caps</font>
                             <textcolor>$VAR[TitleColorVar]</textcolor>
                         </control>
                         <control type="group">
@@ -1654,7 +1736,7 @@
                             <posx>379</posx>
                             <posy>-22</posy>
                             <width>800</width>
-                            <height>480</height>
+                            <height>490</height>
                             <onup>5012</onup>
                             <ondown>5012</ondown>
                             <onback>Dialog.Close(1154)</onback>
@@ -1665,18 +1747,28 @@
                             <focusposition>0</focusposition>
                             <scrolltime tween="cubic" easing="inout">400</scrolltime>
                             <preloaditems>2</preloaditems>
-                            <itemlayout height="120" width="400">
+                            <itemlayout height="240" width="266">
                                 <include>MusicVisPanelLayout</include>
-                            </itemlayout>
-                            <focusedlayout height="120" width="400">
                                 <control type="image">
-                                    <width>400</width>
-                                    <height>120</height>
-                                    <texture>views/tripanel/listselect_fo.png</texture>
+                                    <posy>10</posy>
+                                    <width>240</width>
+                                    <height>240</height>
+                                    <texture border="6">common/bgcolor.png</texture>
+                                    <visible>Control.HasFocus(5010)</visible>
+                                    <include>Animation_VisibleChange400</include>
+                                    <colordiffuse>55FFFFFF</colordiffuse>
+                                </control>
+                            </itemlayout>
+                            <focusedlayout height="240" width="266">
+                                <include>MusicVisPanelLayout</include>
+                                <control type="image">
+                                    <posy>10</posy>
+                                    <width>240</width>
+                                    <height>240</height>
+                                    <texture border="6">views/addonwall_select.png</texture>
                                     <visible>Control.HasFocus(5010)</visible>
                                     <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
                                 </control>
-                                <include>MusicVisPanelLayout</include>
                             </focusedlayout>
                             <content>
                                 <include>SimilarArtistsItems</include>
@@ -1726,7 +1818,7 @@
                             <height>34</height>
                             <align>center</align>
                             <label>$LOCALIZE[21888]</label>
-                            <font>Font_Reg22_Caps</font>
+                            <font>Font_Reg37_Caps</font>
                             <textcolor>$VAR[TitleColorVar]</textcolor>
                         </control>
                         <control type="group">
@@ -1765,7 +1857,7 @@
                             <posx>379</posx>
                             <posy>-22</posy>
                             <width>800</width>
-                            <height>480</height>
+                            <height>490</height>
                             <onup>6012</onup>
                             <ondown>6012</ondown>
                             <onback>Dialog.Close(1154)</onback>
@@ -1776,18 +1868,28 @@
                             <focusposition>0</focusposition>
                             <scrolltime tween="cubic" easing="inout">400</scrolltime>
                             <preloaditems>2</preloaditems>
-                            <itemlayout height="120" width="400">
+                            <itemlayout height="240" width="266">
                                 <include>MusicVisPanelLayout</include>
-                            </itemlayout>
-                            <focusedlayout height="120" width="400">
                                 <control type="image">
-                                    <width>400</width>
-                                    <height>120</height>
-                                    <texture>views/tripanel/listselect_fo.png</texture>
+                                    <posy>10</posy>
+                                    <width>240</width>
+                                    <height>240</height>
+                                    <texture border="6">common/bgcolor.png</texture>
+                                    <visible>Control.HasFocus(6010)</visible>
+                                    <include>Animation_VisibleChange400</include>
+                                    <colordiffuse>55FFFFFF</colordiffuse>
+                                </control>
+                            </itemlayout>
+                            <focusedlayout height="240" width="266">
+                                <include>MusicVisPanelLayout</include>
+                                <control type="image">
+                                    <posy>10</posy>
+                                    <width>240</width>
+                                    <height>240</height>
+                                    <texture border="6">views/addonwall_select.png</texture>
                                     <visible>Control.HasFocus(6010)</visible>
                                     <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
                                 </control>
-                                <include>MusicVisPanelLayout</include>
                             </focusedlayout>
                             <content>
                                 <include>DiscographyItems</include>
@@ -1845,7 +1947,7 @@
                             <height>34</height>
                             <align>center</align>
                             <label>$LOCALIZE[21887]</label>
-                            <font>Font_Reg22_Caps</font>
+                            <font>Font_Reg37_Caps</font>
                             <textcolor>$VAR[TitleColorVar]</textcolor>
                         </control>
                         <control type="group">
@@ -1886,7 +1988,7 @@
                             <width>724</width>
                             <height>474</height>
                             <label>$INFO[Window(visualisation).Property(ArtistSlideshow.ArtistBiography)]</label>
-                            <font>Font_Reg19</font>
+                            <font>Font_Reg30_2</font>
                             <pagecontrol>7010</pagecontrol>
                             <autoscroll delay="8000" time="AutoScrollTime" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
                         </control>
@@ -1951,7 +2053,7 @@
                             <height>34</height>
                             <align>center</align>
                             <label>$LOCALIZE[559]</label>
-                            <font>Font_Reg22_Caps</font>
+                            <font>Font_Reg37_Caps</font>
                             <textcolor>$VAR[TitleColorVar]</textcolor>
                         </control>
                         <control type="group">
@@ -2006,7 +2108,7 @@
                                     <posy>0</posy>
                                     <width>770</width>
                                     <height>48</height>
-                                    <texture>osd/osd_settings_buttonnf.png</texture>
+                                    <texture border="3">osd/osd_settings_buttonnf.png</texture>
                                 </control>
                                 <control type="label">
                                     <posx>35</posx>
@@ -2015,7 +2117,7 @@
                                     <height>48</height>
                                     <align>right</align>
                                     <label>$INFO[ListItem.Property(Number)]</label>
-                                    <font>Font_Reg18</font>
+                                    <font>Font_Reg29</font>
                                     <textcolor>$VAR[TitleColorVar]</textcolor>
                                 </control>
                                 <control type="label">
@@ -2025,7 +2127,7 @@
                                     <height>48</height>
                                     <align>left</align>
                                     <label>[COLOR white2]$INFO[ListItem.Property(Artist)]: [/COLOR]$INFO[ListItem.Label]</label>
-                                    <font>Font_Reg18</font>
+                                    <font>Font_Reg29</font>
                                     <textcolor>grey2</textcolor>
                                 </control>
                                 <!--                 <control type="label">
@@ -2036,7 +2138,7 @@
                     <textcolor>grey2</textcolor>
                     <align>right</align>
                     <number>yes</number>
-                    <font>Font_Reg18</font>
+                    <font>Font_Reg29</font>
                     <label>$INFO[ListItem.Property(Number)]</label>
                 </control> -->
                             </itemlayout>
@@ -2044,7 +2146,7 @@
                                 <control type="image">
                                     <width>800</width>
                                     <height>48</height>
-                                    <texture>views/tripanel/listselect_fo.png</texture>
+                                    <texture border="8">views/tripanel/listselect_fo.png</texture>
                                     <visible>Control.HasFocus(8010)</visible>
                                     <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
                                 </control>
@@ -2053,7 +2155,7 @@
                                     <posy>0</posy>
                                     <width>370</width>
                                     <height>48</height>
-                                    <texture>osd/osd_settings_buttonnf.png</texture>
+                                    <texture border="3">osd/osd_settings_buttonnf.png</texture>
                                 </control>
                                 <control type="label">
                                     <posx>35</posx>
@@ -2062,7 +2164,7 @@
                                     <height>48</height>
                                     <align>right</align>
                                     <label>$INFO[ListItem.Property(Number)]</label>
-                                    <font>Font_Reg18</font>
+                                    <font>Font_Reg29</font>
                                     <textcolor>$VAR[TitleColorVar]</textcolor>
                                 </control>
                                 <control type="label">
@@ -2072,7 +2174,7 @@
                                     <height>48</height>
                                     <align>left</align>
                                     <label>[COLOR white2]$INFO[ListItem.Property(Artist)]: [/COLOR]$INFO[ListItem.Label]</label>
-                                    <font>Font_Reg18</font>
+                                    <font>Font_Reg29</font>
                                     <textcolor>grey2</textcolor>
                                 </control>
                             </focusedlayout>
@@ -2082,7 +2184,7 @@
                                     <property name="Artist">$INFO[MusicPlayer.Offset(1).Artist]</property>
                                     <property name="Number">1:</property>
                                     <thumb>$INFO[MusicPlayer.Offset(1).Cover]</thumb>
-                                    <onclick>PlayerControl(Next)</onclick>
+                                    <onclick>Playlist.PlayOffset(1)</onclick>
                                     <visible>!IsEmpty(MusicPlayer.Offset(1).Title)</visible>
                                 </item>
                                 <item>
@@ -2090,8 +2192,7 @@
                                     <property name="Artist">$INFO[MusicPlayer.Offset(2).Artist]</property>
                                     <property name="Number">2:</property>
                                     <thumb>$INFO[MusicPlayer.Offset(2).Cover]</thumb>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
+                                    <onclick>Playlist.PlayOffset(2)</onclick>
                                     <visible>!IsEmpty(MusicPlayer.Offset(2).Title)</visible>
                                 </item>
                                 <item>
@@ -2099,9 +2200,7 @@
                                     <property name="Artist">$INFO[MusicPlayer.Offset(3).Artist]</property>
                                     <property name="Number">3:</property>
                                     <thumb>$INFO[MusicPlayer.Offset(3).Cover]</thumb>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
+                                    <onclick>Playlist.PlayOffset(3)</onclick>
                                     <visible>!IsEmpty(MusicPlayer.Offset(3).Title)</visible>
                                 </item>
                                 <item>
@@ -2109,10 +2208,7 @@
                                     <property name="Artist">$INFO[MusicPlayer.Offset(4).Artist]</property>
                                     <property name="Number">4:</property>
                                     <thumb>$INFO[MusicPlayer.Offset(4).Cover]</thumb>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
+                                    <onclick>Playlist.PlayOffset(4)</onclick>
                                     <visible>!IsEmpty(MusicPlayer.Offset(4).Title)</visible>
                                 </item>
                                 <item>
@@ -2120,11 +2216,7 @@
                                     <property name="Artist">$INFO[MusicPlayer.Offset(5).Artist]</property>
                                     <property name="Number">5:</property>
                                     <thumb>$INFO[MusicPlayer.Offset(5).Cover]</thumb>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
+                                    <onclick>Playlist.PlayOffset(5)</onclick>
                                     <visible>!IsEmpty(MusicPlayer.Offset(5).Title)</visible>
                                 </item>
                                 <item>
@@ -2132,12 +2224,7 @@
                                     <property name="Artist">$INFO[MusicPlayer.Offset(6).Artist]</property>
                                     <property name="Number">6:</property>
                                     <thumb>$INFO[MusicPlayer.Offset(6).Cover]</thumb>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
+                                    <onclick>Playlist.PlayOffset(6)</onclick>
                                     <visible>!IsEmpty(MusicPlayer.Offset(6).Title)</visible>
                                 </item>
                                 <item>
@@ -2145,13 +2232,7 @@
                                     <property name="Artist">$INFO[MusicPlayer.Offset(7).Artist]</property>
                                     <property name="Number">7:</property>
                                     <thumb>$INFO[MusicPlayer.Offset(7).Cover]</thumb>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
+                                    <onclick>Playlist.PlayOffset(7)</onclick>
                                     <visible>!IsEmpty(MusicPlayer.Offset(7).Title)</visible>
                                 </item>
                                 <item>
@@ -2159,14 +2240,7 @@
                                     <property name="Artist">$INFO[MusicPlayer.Offset(8).Artist]</property>
                                     <property name="Number">8:</property>
                                     <thumb>$INFO[MusicPlayer.Offset(8).Cover]</thumb>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
+                                    <onclick>Playlist.PlayOffset(8)</onclick>
                                     <visible>!IsEmpty(MusicPlayer.Offset(8).Title)</visible>
                                 </item>
                                 <item>
@@ -2174,15 +2248,7 @@
                                     <property name="Artist">$INFO[MusicPlayer.Offset(9).Artist]</property>
                                     <property name="Number">9:</property>
                                     <thumb>$INFO[MusicPlayer.Offset(9).Cover]</thumb>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
+                                    <onclick>Playlist.PlayOffset(9)</onclick>
                                     <visible>!IsEmpty(MusicPlayer.Offset(9).Title)</visible>
                                 </item>
                                 <item>
@@ -2190,16 +2256,7 @@
                                     <property name="Artist">$INFO[MusicPlayer.Offset(10).Artist]</property>
                                     <property name="Number">10:</property>
                                     <thumb>$INFO[MusicPlayer.Offset(10).Cover]</thumb>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
-                                    <onclick>PlayerControl(Next)</onclick>
+                                    <onclick>Playlist.PlayOffset(10)</onclick>
                                     <visible>!IsEmpty(MusicPlayer.Offset(10).Title)</visible>
                                 </item>
                             </content>
@@ -2286,7 +2343,7 @@
                                 <width min="50" max="800">auto</width>
                                 <aligny>bottom</aligny>
                                 <label>$LOCALIZE[21893]: [COLOR white3]$INFO[MusicPlayer.Property(Artist_Born)][/COLOR]</label>
-                                <font>Font_Reg18</font>
+                                <font>Font_Reg29</font>
                                 <shadowcolor>black</shadowcolor>
                                 <textcolor>$VAR[SubTitleColorVar]</textcolor>
                                 <visible>!IsEmpty(MusicPlayer.Property(Artist_Born))</visible>
@@ -2295,7 +2352,7 @@
                                 <width min="50" max="800">auto</width>
                                 <aligny>bottom</aligny>
                                 <label>$LOCALIZE[21894]: [COLOR white3]$INFO[MusicPlayer.Property(Artist_Formed)][/COLOR]</label>
-                                <font>Font_Reg18</font>
+                                <font>Font_Reg29</font>
                                 <shadowcolor>black</shadowcolor>
                                 <textcolor>$VAR[SubTitleColorVar]</textcolor>
                                 <visible>!IsEmpty(MusicPlayer.Property(Artist_Formed))</visible>
@@ -2304,7 +2361,7 @@
                                 <width min="50" max="800">auto</width>
                                 <aligny>bottom</aligny>
                                 <label>$LOCALIZE[21897]: [COLOR white3]$INFO[MusicPlayer.Property(Artist_Died)][/COLOR]</label>
-                                <font>Font_Reg18</font>
+                                <font>Font_Reg29</font>
                                 <shadowcolor>black</shadowcolor>
                                 <textcolor>$VAR[SubTitleColorVar]</textcolor>
                                 <visible>!IsEmpty(MusicPlayer.Property(Artist_Died))</visible>
@@ -2313,7 +2370,7 @@
                                 <width min="50" max="800">auto</width>
                                 <aligny>bottom</aligny>
                                 <label>$LOCALIZE[21896]: [COLOR white3]$INFO[MusicPlayer.Property(Artist_Disbanded)][/COLOR]</label>
-                                <font>Font_Reg18</font>
+                                <font>Font_Reg29</font>
                                 <shadowcolor>black</shadowcolor>
                                 <textcolor>$VAR[SubTitleColorVar]</textcolor>
                                 <visible>!IsEmpty(MusicPlayer.Property(Artist_Disbanded))</visible>
@@ -2334,7 +2391,7 @@
         <control type="group">
             <visible>!IsEmpty(Player.FolderPath)</visible>
             <include>Animation_HideBreadCrumbs</include>
-                <visible>!ControlGroup(650).HasFocus + !ControlGroup(651).HasFocus+ !ControlGroup(652).HasFocus</visible>
+            <visible>!ControlGroup(650).HasFocus + !ControlGroup(651).HasFocus+ !ControlGroup(652).HasFocus</visible>
             <control type="image">
                 <width>1920</width>
                 <height>87</height>
@@ -2360,24 +2417,24 @@
                 <control type="group">
                     <width>68</width>
                     <visible>Window.IsActive(visualisation)</visible>
-                <control type="image">
-                    <posy>6</posy>
-                    <width>38</width>
-                    <height>30</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture>common/wrench.png</texture>
-                    <colordiffuse>$VAR[BreadCrumbsContentColorVar]</colordiffuse>
-                </control>
-                <control type="image">
-                    <posy>6</posy>
-                    <posx>-30</posx>
-                    <width>38</width>
-                    <height>30</height>
-                    <animation effect="rotate" end="-90" center="auto" time="0" condition="true">Conditional</animation>
-                    <aspectratio>keep</aspectratio>
-                    <texture>defaulticons/DefaultFolderBack.png</texture>
-                    <colordiffuse>$VAR[BreadCrumbsContentColorVar]</colordiffuse>
-                </control>
+                    <control type="image">
+                        <posy>6</posy>
+                        <width>38</width>
+                        <height>30</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture>common/wrench.png</texture>
+                        <colordiffuse>$VAR[BreadCrumbsContentColorVar]</colordiffuse>
+                    </control>
+                    <control type="image">
+                        <posy>6</posy>
+                        <posx>-30</posx>
+                        <width>38</width>
+                        <height>30</height>
+                        <animation effect="rotate" end="-90" center="auto" time="0" condition="true">Conditional</animation>
+                        <aspectratio>keep</aspectratio>
+                        <texture>defaulticons/DefaultFolderBack.png</texture>
+                        <colordiffuse>$VAR[BreadCrumbsContentColorVar]</colordiffuse>
+                    </control>
                 </control>
                 <control type="label">
                     <label>$LOCALIZE[31635]</label>
