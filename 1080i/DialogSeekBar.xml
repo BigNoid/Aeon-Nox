@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window>
     <defaultcontrol>1</defaultcontrol>
-    <visible>[Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding] + ![VideoPlayer.Content(livetv) | Window.IsVisible(videoosd) | Window.IsVisible(fullscreeninfo) | Window.IsActive(script-XBMC-Subtitles-main.xml)] + Window.IsVisible(fullscreenvideo)</visible>
+    <visible>[Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding] + ![Window.IsVisible(videoosd) | Window.IsVisible(fullscreeninfo) | Window.IsActive(script-XBMC-Subtitles-main.xml)] + Window.IsVisible(fullscreenvideo)</visible>
     <coordinates>
         <posx>0</posx>
         <posy>0</posy>
@@ -535,6 +535,66 @@
                     <effect type="slide" time="320" end="0,135" easing="in" tween="cubic" />
                 </animation>
                 <include>FullScreenInfoBar</include>
+            </control>
+        </control>
+        <control type="group">
+            <visible>Skin.HasSetting(Show_Info_Paused) + VideoPlayer.Content(LiveTV)</visible>
+            <control type="group">
+                <animation type="WindowOpen">
+                    <effect type="fade" time="160" end="100" />
+                    <effect type="slide" time="160" start="0,-98" end="0,0" tween="cubic" />
+                </animation>
+                <animation type="WindowClose">
+                    <effect type="fade" time="160" start="100" end="0" />
+                    <effect type="slide" time="160" end="0,-98" easing="in" tween="cubic" />
+                </animation>
+                <animation type="Visible">
+                    <effect type="fade" time="160" end="100" />
+                    <effect type="slide" time="160" start="0,-98" end="0,0" tween="cubic" />
+                </animation>
+                <animation type="Hidden">
+                    <effect type="fade" time="160" start="100" end="0" />
+                    <effect type="slide" time="160" end="0,-98" easing="in" tween="cubic" />
+                </animation>
+                <visible>![Player.Forwarding|Player.Seeking]</visible>
+                <control type="image">
+                    <posx>704</posx>
+                    <width>513</width>
+                    <height>87</height>
+                    <texture flipy="true">osd/osd_top_bar.png</texture>
+                    <visible>[[Player.Paused + !Player.Caching] + !Player.Seeking + !Player.DisplayAfterSeek] | [[Player.Paused + Player.Caching] + !Player.Seeking] | Player.Seeking|[Player.DisplayAfterSeek + ![player.forwarding | player.rewinding] + !IsEmpty(Player.SeekOffset)]</visible>
+                </control>
+                <control type="label">
+                    <posx>750</posx>
+                    <width>420</width>
+                    <height>42</height>
+                    <align>center</align>
+                    <label>$VAR[VideoPlayerSeekVar]</label>
+                    <font>Font_Reg33_Caps</font>
+                    <shadowcolor>88e5e5e5</shadowcolor>
+                    <textcolor>FF363636</textcolor>
+                </control>
+            </control>
+            <control type="group" id="4001">
+            	<decscription>bottom bar</decscription>
+            	<visible>[Player.ShowInfo | [Player.Paused + !Player.Caching]] + ![Window.IsVisible(osdvideosettings) | Window.IsVisible(osdaudiosettings) | Window.IsVisible(videobookmarks) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(PVROSDGuide)]</visible>
+            	<animation type="Visible">
+	                <effect type="fade" time="320" end="100" />
+	                <effect type="slide" time="320" start="0,135" end="0,0" tween="cubic" />
+	            </animation>
+	            <animation type="Hidden">
+	                <effect type="fade" time="320" start="100" end="0" />
+	                <effect type="slide" time="320" end="0,135" easing="in" tween="cubic" />
+	            </animation>
+	            <animation type="WindowOpen">
+	                <effect type="fade" time="320" end="100" />
+	                <effect type="slide" time="320" start="0,135" end="0,0" tween="cubic" />
+	            </animation>
+	            <animation type="WindowClose">
+	                <effect type="fade" time="320" start="100" end="0" />
+	                <effect type="slide" time="320" end="0,135" easing="in" tween="cubic" />
+	            </animation>
+	            <include>FullScreenInfoBarLiveTV</include>
             </control>
         </control>
         <include>AlaskaPausedLabel</include>
