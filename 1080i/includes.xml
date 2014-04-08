@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+	<include file="defaults.xml" />
+	<include file="ViewsPVR.xml" />
+	<include file="Includes_CommonValues.xml" />
+	<include file="Includes_Animations.xml" />
+	<include file="Includes_Home.xml" />
+	<include file="Includes_LiveBG.xml" />
+	<include file="IncludesHomeRecentlyAdded.xml" />
+	<include file="IncludesBackgroundBuilding.xml" />
+	<include file="View_50_List.xml" />
+	<include file="View_51_InfoWall.xml" />
+	<include file="View_52_Landscape.xml" />
+	<include file="View_53_ShowCase.xml" />
+	<include file="View_54_ShowCase.xml" />
+	<include file="View_55_TriPanel.xml" />
+	<include file="View_56_Posters.xml" />
+	<include file="View_57_Shift.xml" />
+	<include file="View_58_BannerWall.xml" />
+	<include file="View_59_Logo.xml" />
+	<include file="View_500_Wall.xml" />
+	<include file="variables.xml" />
+	<include file="script-skinshortcuts-includes.xml" />
+	<constant name="FanartCrossfadeTime">500</constant>
+	<constant name="IconCrossfadeTime">400</constant>
+	<variable name="BannerThumb">
+		<value condition="!IsEmpty(ListItem.Art(banner))">$INFO[ListItem.Art(banner)]</value>
+		<value>$INFO[ListItem.Icon]</value>
+	</variable>
+	<variable name="PosterThumb">
+		<value condition="!IsEmpty(ListItem.Art(poster))">$INFO[ListItem.Art(poster)]</value>
+		<value>$INFO[ListItem.Icon]</value>
+	</variable>
+	<variable name="PlayList">
+		<value condition="Player.HasVideo">ActivateWindow(videoplaylist)</value>
+		<value condition="Player.HasAudio">ActivateWindow(musicplaylist)</value>
+	</variable>
+
+	<!-- Media Menu -->
+	<include name="SideBladeLeft">
+		<animation effect="slide" start="440,0" end="0,0" time="400" tween="quadratic" easing="out" condition="IsEmpty(Window(home).Property(MediaMenu))">Conditional</animation>
+		<animation effect="slide" start="0,0" end="-440,0" time="400" tween="quadratic" easing="out">WindowClose</animation>
+		<!--<posy>44</posy>-->
+		<control type="image">
+			<posx>0</posx>
+			<posy>0</posy>
+			<width>432</width>
+			<height>1080</height>
+			<texture border="40">mediamenu_back.png</texture>
+		</control>
+		<control type="button" id="8999">
+			<description>Close Window button</description>
+			<posx>350</posx>
+			<posy>0</posy>
+			<width>64</width>
+			<height>48</height>
+			<label></label>
+			<font>CloseButton</font>
+			<textcolor>grey</textcolor>
+			<focusedcolor>themecolor</focusedcolor>
+			<onclick>ClearProperty(MediaMenu,Home)</onclick>
+			<onclick>SetFocus(50)</onclick>
+			<texturefocus>-</texturefocus>
+			<texturenofocus>-</texturenofocus>
+			<onleft>2</onleft>
+			<onright>13</onright>
+			<onup>13</onup>
+			<ondown>2</ondown>
+			<align>center</align>
+			<aligny>center</aligny>
+			<visible>system.getbool(input.enablemouse)</visible>
+		</control>
+		<control type="image">
+			<description>LOGO</description>
+			<posx>0</posx>
+			<posy>0</posy>
+			<width>400</width>
+			<height>120</height>
+			<aspectratio>keep</aspectratio>
+			<texture>aeon-nox-logo.png</texture>
+		</control>
+	</include>
+
+	<include name="KioskModeButton">
+		<control type="button">
+			<description>Kiosk Mode button</description>
+			<include>ButtonCommonValues</include>
+			<label>-</label>
+			<onfocus>ClearProperty(MediaMenu,Home)</onfocus>
+			<onfocus>SetFocus(50)</onfocus>
+		</control>
+	</include>
+	<include name="MediaMenuTop">
+		<posx>0</posx>
+		<posy>100</posy>
+		<width>400</width>
+		<height>1080</height>
+		<onleft>9050</onleft>
+		<onright>ClearProperty(MediaMenu,Home)</onright>
+		<onright>50</onright>
+		<onup>9050</onup>
+		<ondown>9050</ondown>
+		<onback>ClearProperty(MediaMenu,Home)</onback>
+		<onback>50</onback>
+		<itemgap>0</itemgap>
+		<include condition="Skin.HasSetting(KioskMode.Enabled)">KioskModeButton</include>
+		<control type="label" id="200">
+			<width>400</width>
+			<height>52</height>
+			<textoffsetx>15</textoffsetx>
+			<font>font13_title</font>
+			<label>31006</label>
+			<textcolor>themecolor</textcolor>
+			<aligny>center</aligny>
+		</control>
+		<control type="button" id="2">
+			<description>View As button</description>
+			<textwidth>352</textwidth>
+			<include>ButtonCommonValues</include>
+			<label>-</label>
+		</control>
+		<control type="button" id="3">
+			<description>Sort by button</description>
+			<include>ButtonCommonValues</include>
+			<label>103</label>
+		</control>
+		<control type="togglebutton" id="4">
+			<description>Sort asc</description>
+			<include>ButtonCommonValues</include>
+			<label>31051</label>
+			<altlabel>31050</altlabel>
+			<usealttexture>Container.SortDirection(Ascending)</usealttexture>
+		</control>
+	</include>
+	<!-- Scroll Label -->
+	<include name="ScrollOffsetLabel">
+		<control type="group">
+			<visible>Container.Scrolling + [StringCompare(Container.SortMethod,$LOCALIZE[551]) | StringCompare(Container.SortMethod,$LOCALIZE[561]) | StringCompare(Container.SortMethod,$LOCALIZE[558]) | StringCompare(Container.SortMethod,$LOCALIZE[557]) | StringCompare(Container.SortMethod,$LOCALIZE[556])]</visible>
+			<include>dialogeffect</include>
+			<posx>1794</posx>
+			<posy>36</posy>
+			<control type="image">
+				<posx>0</posx>
+				<posy>0</posy>
+				<width>160</width>
+				<height>160</height>
+				<texture border="35">listpanel_back.png</texture>
+			</control>
+			<control type="label">
+				<posx>0</posx>
+				<posy>15</posy>
+				<width>160</width>
+				<height>120</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<label>$INFO[ListItem.SortLetter]</label>
+				<textcolor>white</textcolor>
+				<font>font_MainMenu</font>
+			</control>
+		</control>
+	</include>
+	<!-- Navigation Bar -->
+	<include name="Topbar">
+		<control type="group">
+			<animation effect="slide" start="0,-90" end="0,0" delay="800" time="480" condition="Window.Previous(home)">WindowOpen</animation>
+			<animation effect="slide" end="0,-90" start="0,0" time="480" condition="Window.Next(home)">WindowClose</animation>
+			<control type="image">
+				<posx>0</posx>
+				<posy>0</posy>
+				<width>1920</width>
+				<height>66</height>
+				<texture border="1">topbar.png</texture>
+			</control>
+			<control type="label">
+				<width>900</width>
+				<height>90</height>
+				<font>font13_title</font>
+				<textoffsetx>15</textoffsetx>
+				<textcolor>grey2</textcolor>
+				<align>left</align>
+				<aligny>top</aligny>
+				<textoffsety>-2</textoffsety>
+				<label>$VAR[BreadcrumbsVar]</label>
+			</control>
+			<control type="label">
+				<posx>1920</posx>
+				<width>900</width>
+				<height>90</height>
+				<font>font13_title</font>
+				<textoffsetx>15</textoffsetx>
+				<textcolor>grey2</textcolor>
+				<align>right</align>
+				<aligny>top</aligny>
+				<textoffsety>-2</textoffsety>
+				<label>$INFO[Container.NumItems,, $LOCALIZE[31025]]$INFO[Container.CurrentPage,[COLOR grey3] | ,]$INFO[Container.NumPages,/,[/COLOR]]</label>
+			</control>
+			<control type="label">
+				<posx>0</posx>
+				<width>1920</width>
+				<height>90</height>
+				<font>font13_title</font>
+				<textoffsetx>15</textoffsetx>
+				<textcolor>grey2</textcolor>
+				<align>center</align>
+				<aligny>top</aligny>
+				<textoffsety>-2</textoffsety>
+				<label>$INFO[System.Time]</label>
+			</control>
+			<control type="button" id="90022">
+				<label>-</label>
+				<posx>-30</posx>
+				<onclick condition="IsEmpty(Window(home).Property(MediaMenu))">SetProperty(MediaMenu,True,home)</onclick>
+				<onclick condition="!IsEmpty(Window(home).Property(MediaMenu))">ClearProperty(MediaMenu,Home)</onclick>
+				<texturenofocus>mediamenu_indicator.png</texturenofocus>
+				<texturefocus>mediamenu_indicator.png</texturefocus>
+				<height>32</height>
+				<include>ButtonTopbarCommonvalues</include>
+				<visible>!IsEmpty(Window(home).Property(Window.HasSettings))</visible>
+			</control>
+			<control type="group">
+				<visible>Player.HasMedia + ![Window.IsActive(volumebar)]</visible>
+				<animation effect="slide" start="0,-60" end="0,0" time="200">Visible</animation>
+				<animation effect="slide" start="0,0" end="0,-60" time="200">Hidden</animation>
+				<posx>1080</posx>
+				<control type="progress">
+					<posx>0</posx>
+					<posy>0</posy>
+					<width>500</width>
+					<height>37</height>
+					<texturebg border="2">osd/texturebg.png</texturebg>
+					<lefttexture>-</lefttexture>
+					<midtexture border="2">osd/midtexture_cache.png</midtexture>
+					<righttexture>-</righttexture>
+					<overlaytexture>-</overlaytexture>
+					<info>Player.ProgressCache</info>
+				</control>
+				<control type="progress">
+					<posx>0</posx>
+					<posy>0</posy>
+					<width>500</width>
+					<height>35</height>
+					<texturebg border="1">osd/texturebg_cache.png</texturebg>
+					<lefttexture>-</lefttexture>
+					<midtexture border="2">osd/midtexture.png</midtexture>
+					<righttexture>-</righttexture>
+					<overlaytexture>-</overlaytexture>
+					<info>Player.Progress</info>
+				</control>
+				<control type="label">
+					<posx>0</posx>
+					<posy>0</posy>
+					<width>500</width>
+					<height>90</height>
+					<font>font13_title</font>
+					<textoffsetx>10</textoffsetx>
+					<textcolor>grey</textcolor>
+					<shadowcolor>AA000000</shadowcolor>
+					<align>left</align>
+					<aligny>top</aligny>
+					<textoffsety>-2</textoffsety>
+					<scroll>true</scroll>
+					<label>$INFO[Player.Title]</label>
+				</control>
+			</control>
+		</control>
+	</include>
+	<!-- Context menu -->
+	<include name="AdvancedLauncherTrailerButton">
+		<control type="button" id="994">
+			<label>$LOCALIZE[20410]</label>
+			<width>450</width>
+			<height>60</height>
+			<font>font14</font>
+			<align>left</align>
+			<textoffsetx>15</textoffsetx>
+			<textcolor>grey2</textcolor>
+			<focusedcolor>white</focusedcolor>
+			<texturefocus border="5">button_middle_focus.png</texturefocus>
+			<texturenofocus border="5">button_middle3.png</texturenofocus>
+			<onclick>PlayMedia($ESCINFO[ListItem.Trailer])</onclick>
+			<visible>!IsEmpty(ListItem.Trailer)</visible>
+		</control>
+	</include>
+	<!--<include name="TrailerButton">
+		<control type="button" id="995">
+			<label>$LOCALIZE[20410]</label>
+			<width>450</width>
+			<height>60</height>
+			<font>font14</font>
+			<align>left</align>
+			<textoffsetx>15</textoffsetx>
+			<textcolor>grey2</textcolor>
+			<focusedcolor>white</focusedcolor>
+			<texturefocus border="5">button_middle_focus.png</texturefocus>
+			<texturenofocus border="5">button_middle3.png</texturenofocus>
+			<onclick condition="!IsEmpty(ListItem.Trailer)">PlayMedia($ESCINFO[ListItem.Trailer])</onclick>
+			<onclick condition="IsEmpty(ListItem.Trailer)">ActivateWindow(videos,$ESCINFO[ListItem.Label,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=, Trailer],return)</onclick>
+			<visible>Container.Content(movies)</visible>
+		</control>
+	</include>-->
+
+	<!-- System windows -->
+	<include name="SystemLeftPanel">
+		<control type="image">
+			<posx>50</posx>
+			<posy>874</posy>
+			<width>420</width>
+			<height>904</height>
+			<texture border="40">panel_reflect.png</texture>
+		</control>
+		<control type="image">
+			<posx>50</posx>
+			<posy>0</posy>
+			<width>420</width>
+			<height>904</height>
+			<texture border="40">listpanel_back.png</texture>
+		</control>
+	</include>
+	<include name="SystemRightPanel">
+		<control type="image">
+			<posx>490</posx>
+			<posy>874</posy>
+			<width>1380</width>
+			<height>904</height>
+			<texture border="40">panel_reflect.png</texture>
+		</control>
+		<control type="image">
+			<posx>490</posx>
+			<posy>0</posy>
+			<width>1380</width>
+			<height>904</height>
+			<texture border="40">listpanel_back.png</texture>
+		</control>
+	</include>
+
+	<!-- Extras -->
+	<include name="LoadTvTunes">
+		<onload condition="System.HasAddon(script.tvtunes) + !SubString(Window(10025).Property(CinemaExperienceRunning),True)">RunScript(script.tvtunes,backend=True)</onload>
+	</include>
+</includes>
