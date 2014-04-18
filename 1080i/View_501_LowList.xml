@@ -916,10 +916,463 @@
 		</control>
 	</include>
 
+	<!-- Music LowList -->
+	<include name="MusicLowList">
+		<control type="group">
+			<visible>Control.IsVisible(501) + !Window.IsActive(addoninformation)</visible>
+			<include>ViewAnimation</include>
+
+			<control type="image">
+				<posy>630</posy>
+				<width>1920</width>
+				<height>450</height>
+				<texture border="1,32,1,1">bottombar.png</texture>
+			</control>
+
+			<control type="group">
+				<posx>5</posx>
+				<posy>442</posy>
+				<control type="image">
+					<width>440</width>
+					<height>640</height>
+					<aspectratio aligny="bottom">keep</aspectratio>
+					<texture background="true">$INFO[ListItem.Icon]</texture>
+					<fadetime>IconCrossfadeTime</fadetime>
+					<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+					<bordersize>20</bordersize>
+				</control>
+			</control>
+
+			<control type="grouplist">
+				<posx>1270</posx>
+				<posy>652</posy>
+				<width>650</width>
+				<height>360</height>
+				<usecontrolcoords>true</usecontrolcoords>
+				<control type="button">
+					<label>[COLOR labelheader]$LOCALIZE[557]:[/COLOR][CR]$INFO[ListItem.Artist]</label>
+					<width>650</width>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<visible>!IsEmpty(ListItem.Artist)</visible>
+				</control>
+				<control type="button">
+					<label>[COLOR labelheader]$LOCALIZE[515]:[/COLOR][CR]$INFO[ListItem.Genre]</label>
+					<width>650</width>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<visible>!IsEmpty(ListItem.Genre)</visible>
+				</control>
+				<control type="button">
+					<label>[COLOR labelheader]$LOCALIZE[180]:[/COLOR][CR]$INFO[ListItem.Duration]</label>
+					<width>650</width>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<visible>!IsEmpty(ListItem.Duration)</visible>
+				</control>
+				<control type="button">
+					<label>[COLOR labelheader]$LOCALIZE[21894]:[/COLOR][CR]$INFO[ListItem.Property(Artist_Formed)]</label>
+					<width>650</width>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<visible>!IsEmpty(ListItem.Property(Artist_Formed)) + IsEmpty(ListItem.Property(Artist_Genre))</visible>
+				</control>
+				<control type="button">
+					<label>[COLOR labelheader]$LOCALIZE[21893]:[/COLOR][CR]$INFO[ListItem.Property(Artist_Born)]</label>
+					<width>650</width>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<visible>!IsEmpty(ListItem.Property(Artist_Born)) + IsEmpty(ListItem.Property(Artist_Genre))</visible>
+				</control>
+				<control type="button">
+					<label>[COLOR labelheader]$LOCALIZE[515]:[/COLOR][CR]$INFO[ListItem.Property(Artist_Genre)]</label>
+					<width>650</width>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<visible>!IsEmpty(ListItem.Property(Artist_Genre))</visible>
+				</control>
+				<control type="textbox">
+					<label>[COLOR labelheader]$LOCALIZE[569]:[/COLOR][CR]$INFO[ListItem.Comment]</label>
+					<posx>15</posx>
+					<posy>0</posy>
+					<posx>152</posx>
+					<width>615</width>
+					<height>180</height>
+					<font>font14_textbox</font>
+					<pagecontrol>62</pagecontrol>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(62)</autoscroll>
+					<visible>!IsEmpty(ListItem.Comment)</visible>
+				</control>
+			</control>
+
+
+			<control type="group">
+				<posx>1270</posx>
+				<posy>834</posy>
+				<control type="textbox" id="70">
+					<label>$VAR[OtherPlotVar]</label>
+					<posx>15</posx>
+					<posy>0</posy>
+					<posx>152</posx>
+					<width>615</width>
+					<height>245</height>
+					<font>font14_textbox</font>
+					<pagecontrol>62</pagecontrol>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(62)</autoscroll>
+				</control>
+				<control type="scrollbar" id="62">
+					<posx>636</posx>
+					<posy>0</posy>
+					<width>14</width>
+					<height>245</height>
+					<onup>PageUp(70)</onup>
+					<ondown>PageUp(70)</ondown>
+					<onleft>50</onleft>
+					<onright>SetProperty(MediaMenu,True,home)</onright>
+					<onright>SetFocus(9050)</onright>
+					<texturesliderbackground>scrollbar/texturesliderbackground3.png</texturesliderbackground>
+					<texturesliderbar colordiffuse="55ffffff" border="1">scrollbar/texturesliderbar3.png</texturesliderbar>
+					<texturesliderbarfocus border="1">scrollbar/texturesliderbar3.png</texturesliderbarfocus>
+					<showonepage>false</showonepage>
+					<orientation>vertical</orientation>
+				</control>
+				<control type="image">
+					<posy>206</posy>
+					<width>636</width>
+					<height>40</height>
+					<texture flipy="true" border="1">bottom_shadow.png</texture>
+				</control>
+			</control>
+
+
+
+			<control type="fixedlist" id="501">
+				<posx>450</posx>
+				<posy>652</posy>
+				<width>976</width>
+				<height>427</height>
+				<onleft>SetProperty(MediaMenu,True,home)</onleft>
+				<onleft>SetFocus(9050)</onleft>
+				<onright>60</onright>
+				<onup>501</onup>
+				<ondown>501</ondown>
+				<pagecontrol>60</pagecontrol>
+				<viewtype label="LowList">list</viewtype>
+				<visible>Container.Content(albums) | Container.Content(artists) | Container.Content(songs)</visible>
+				<scrolltime tween="quadratic" easing="out">200</scrolltime>
+				<itemlayout height="68" width="806" condition="Container.Content(albums)">
+					<control type="image">
+						<posy>8</posy>
+						<width>806</width>
+						<height>60</height>
+						<texture border="1">separator2.png</texture>
+					</control>
+					<control type="label">
+						<posx>15</posx>
+						<width>90</width>
+						<height>68</height>
+						<font>font15</font>
+						<textcolor>labelheader</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label fallback="• • • •">$INFO[ListItem.Year]</label>
+						<visible>!IsEmpty(ListItem.Album)</visible>
+					</control>
+					<control type="label">
+						<posx>110</posx>
+						<posy>0</posy>
+						<width>620</width>
+						<height>68</height>
+						<font>font15</font>
+						<textcolor>grey2</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+					<control type="label">
+						<posx>790</posx>
+						<posy>0</posy>
+						<width>680</width>
+						<height>68</height>
+						<font>font15</font>
+						<align>right</align>
+						<textcolor>grey2</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label2]</label>
+						<visible>StringCompare(Container.SortMethod,$LOCALIZE[557])</visible>
+					</control>
+					<control type="image">
+						<posx>610</posx>
+						<posy>17</posy>
+						<width>180</width>
+						<height>34</height>
+						<aspectratio>keep</aspectratio>
+						<texture fallback="rating0.png">$INFO[ListItem.StarRating]</texture>
+						<colordiffuse>grey2</colordiffuse>
+						<visible>!IsEmpty(ListItem.Title)</visible>
+					</control>
+				</itemlayout>
+				<focusedlayout height="68" width="806" condition="Container.Content(albums)">
+					<control type="image">
+						<posy>8</posy>
+						<width>806</width>
+						<height>60</height>
+						<texture border="1">separator2.png</texture>
+					</control>
+					<control type="image">
+						<width>806</width>
+						<height>68</height>
+						<texture border="4">listselect_fo.png</texture>
+						<visible>Control.HasFocus(501)</visible>
+						<include>VisibleFadeEffect</include>
+					</control>
+					<control type="label">
+						<posx>15</posx>
+						<width>90</width>
+						<height>68</height>
+						<font>font15</font>
+						<selectedcolor>selected</selectedcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label fallback="• • • •">$INFO[ListItem.Year]</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(501)">Conditional</animation>
+						<visible>!IsEmpty(ListItem.Album)</visible>
+					</control>
+					<control type="label">
+						<posx>110</posx>
+						<posy>0</posy>
+						<width>620</width>
+						<height>68</height>
+						<font>font15</font>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(501)">Conditional</animation>
+					</control>
+					<control type="label">
+						<posx>790</posx>
+						<posy>0</posy>
+						<width>680</width>
+						<height>68</height>
+						<font>font15</font>
+						<align>right</align>
+						<selectedcolor>selected</selectedcolor>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.label2]</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(55)">Conditional</animation>
+						<visible>StringCompare(Container.SortMethod,$LOCALIZE[557])</visible>
+					</control>
+					<control type="image">
+						<posx>610</posx>
+						<posy>17</posy>
+						<width>180</width>
+						<height>34</height>
+						<aspectratio>keep</aspectratio>
+						<texture fallback="rating0.png">$INFO[ListItem.StarRating]</texture>
+						<visible>!IsEmpty(ListItem.Title)</visible>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(55)">Conditional</animation>
+					</control>
+				</focusedlayout>
+				<itemlayout height="68" width="806" condition="Container.Content(songs)">
+					<control type="image">
+						<posy>8</posy>
+						<width>806</width>
+						<height>60</height>
+						<texture border="1">separator2.png</texture>
+					</control>
+					<control type="label">
+						<posx>15</posx>
+						<width>60</width>
+						<height>68</height>
+						<font>font15</font>
+						<textcolor>labelheader</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label fallback="• •">$INFO[ListItem.TrackNumber]</label>
+						<visible>!IsEmpty(ListItem.Title)</visible>
+					</control>
+					<control type="label">
+						<posx>65</posx>
+						<posy>0</posy>
+						<width>545</width>
+						<height>68</height>
+						<font>font15</font>
+						<textcolor>grey2</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Title]</label>
+						<visible>!IsEmpty(ListItem.Title)</visible>
+					</control>
+					<control type="label">
+						<posx>65</posx>
+						<posy>0</posy>
+						<width>545</width>
+						<height>68</height>
+						<font>font15</font>
+						<textcolor>grey2</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<visible>IsEmpty(ListItem.Title)</visible>
+					</control>
+					<control type="image">
+						<posx>610</posx>
+						<posy>17</posy>
+						<width>180</width>
+						<height>34</height>
+						<aspectratio>keep</aspectratio>
+						<texture fallback="rating0.png">$INFO[ListItem.StarRating]</texture>
+						<colordiffuse>grey2</colordiffuse>
+						<visible>!IsEmpty(ListItem.Title)</visible>
+					</control>
+				</itemlayout>
+				<focusedlayout height="68" width="806" condition="Container.Content(songs)">
+					<control type="image">
+						<posy>8</posy>
+						<width>806</width>
+						<height>60</height>
+						<texture border="1">separator2.png</texture>
+					</control>
+					<control type="image">
+						<width>806</width>
+						<height>68</height>
+						<texture border="4">listselect_fo.png</texture>
+						<visible>Control.HasFocus(501)</visible>
+						<include>VisibleFadeEffect</include>
+					</control>
+					<control type="label">
+						<posx>15</posx>
+						<width>60</width>
+						<height>68</height>
+						<font>font15</font>
+						<selectedcolor>selected</selectedcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label fallback="• •">$INFO[ListItem.TrackNumber]</label>
+						<visible>!IsEmpty(ListItem.Title)</visible>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(501)">Conditional</animation>
+					</control>
+					<control type="label">
+						<posx>65</posx>
+						<posy>0</posy>
+						<width>545</width>
+						<height>68</height>
+						<font>font15</font>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Title]</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(501)">Conditional</animation>
+						<visible>!IsEmpty(ListItem.Title)</visible>
+					</control>
+					<control type="label">
+						<posx>65</posx>
+						<posy>0</posy>
+						<width>545</width>
+						<height>68</height>
+						<font>font15</font>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(501)">Conditional</animation>
+						<visible>IsEmpty(ListItem.Title)</visible>
+					</control>
+					<control type="image">
+						<posx>610</posx>
+						<posy>17</posy>
+						<width>180</width>
+						<height>34</height>
+						<aspectratio>keep</aspectratio>
+						<texture fallback="rating0.png">$INFO[ListItem.StarRating]</texture>
+						<visible>!IsEmpty(ListItem.Title)</visible>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(55)">Conditional</animation>
+					</control>
+				</focusedlayout>
+				<itemlayout height="68" width="806" condition="![Container.Content(albums) | Container.Content(songs)]">
+					<control type="image">
+						<posy>8</posy>
+						<width>806</width>
+						<height>60</height>
+						<texture border="1">separator2.png</texture>
+					</control>
+					<control type="label">
+						<posx>15</posx>
+						<posy>0</posy>
+						<width>775</width>
+						<height>68</height>
+						<font>font15</font>
+						<textcolor>grey2</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+					<control type="label">
+						<posx>790</posx>
+						<posy>0</posy>
+						<width>680</width>
+						<height>68</height>
+						<font>font15</font>
+						<align>right</align>
+						<textcolor>grey2</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label2]</label>
+					</control>
+				</itemlayout>
+				<focusedlayout height="68" width="806" condition="![Container.Content(albums) | Container.Content(songs)]">
+					<control type="image">
+						<posy>8</posy>
+						<width>806</width>
+						<height>60</height>
+						<texture border="1">separator2.png</texture>
+					</control>
+					<control type="image">
+						<width>806</width>
+						<height>68</height>
+						<texture border="4">listselect_fo.png</texture>
+						<visible>Control.HasFocus(501)</visible>
+						<include>VisibleFadeEffect</include>
+					</control>
+					<control type="label">
+						<posx>15</posx>
+						<posy>0</posy>
+						<width>775</width>
+						<height>68</height>
+						<font>font15</font>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(501)">Conditional</animation>
+					</control>
+					<control type="label">
+						<posx>790</posx>
+						<posy>0</posy>
+						<width>680</width>
+						<height>68</height>
+						<font>font15</font>
+						<align>right</align>
+						<selectedcolor>selected</selectedcolor>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.label2]</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(501)">Conditional</animation>
+					</control>
+				</focusedlayout>
+			</control>
+			<control type="scrollbar" id="60">
+				<posx>1256</posx>
+				<posy>652</posy>
+				<width>14</width>
+				<height>427</height>
+				<height>517</height>
+				<onup>60</onup>
+				<ondown>60</ondown>
+				<onleft>50</onleft>
+				<onright>62</onright>
+				<texturesliderbackground>scrollbar/texturesliderbackground3.png</texturesliderbackground>
+				<texturesliderbar colordiffuse="55ffffff" border="1">scrollbar/texturesliderbar3.png</texturesliderbar>
+				<texturesliderbarfocus border="1">scrollbar/texturesliderbar3.png</texturesliderbarfocus>
+				<showonepage>false</showonepage>
+				<orientation>vertical</orientation>
+			</control>
+		</control>
+	</include>
+
+
 	<include name="LowListHeightHigh">
 		<height>517</height>
 	</include>
 	<include name="LowListHeightLow">
 		<height>347</height>
 	</include>
+
 </includes>
