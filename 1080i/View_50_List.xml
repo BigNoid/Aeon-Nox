@@ -1082,8 +1082,9 @@
 					<onup>60</onup>
 					<ondown>60</ondown>
 					<onleft>50</onleft>
-					<onright>SetProperty(MediaMenu,True,home)</onright>
-					<onright>SetFocus(9050)</onright>
+					<onright condition="!Control.IsVisible(62)">SetProperty(MediaMenu,True,home)</onright>
+					<onright condition="!Control.IsVisible(62)">SetFocus(9050)</onright>
+					<onright condition="Control.IsVisible(62)">62</onright>
 					<texturesliderbackground>-</texturesliderbackground>
 					<texturesliderbar colordiffuse="55ffffff" border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
 					<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
@@ -1095,7 +1096,8 @@
 			<control type="group">
 				<posx>1296</posx>
 				<posy>155</posy>
-				<visible>!Container.Content(genres)</visible>
+				<visible>![Container.Content(genres) | Container.Content(episodes)]</visible>
+				<include>ViewAnimation</include>
 				<control type="image">
 					<width>570</width>
 					<height>835</height>
@@ -1119,6 +1121,7 @@
 				<posx>1296</posx>
 				<posy>155</posy>
 				<visible>Container.Content(genres)</visible>
+				<include>ViewAnimation</include>
 				<control type="image">
 					<width>570</width>
 					<height>835</height>
@@ -1136,6 +1139,100 @@
 					<fadetime>IconCrossfadeTime</fadetime>
 					<texture diffuse="thumbs/thumb_reflect.png" flipy="true" background="true" fallback="special://skin/extras/moviegenres/Default.jpg">$INFO[ListItem.Label,special://skin/extras/moviegenres/,.jpg]</texture>
 					<bordersize>20</bordersize>
+				</control>
+			</control>
+			<control type="group">
+				<posx>1280</posx>
+				<posy>-40</posy>
+				<visible>Container.Content(episodes)</visible>
+				<include>ViewAnimation</include>
+				<control type="image">
+					<description>background image</description>
+					<posy>1020</posy>
+					<width>570</width>
+					<height>904</height>
+					<texture border="40">panel_reflect.png</texture>
+				</control>
+				<control type="image">
+					<description>background image</description>
+					<posy>148</posy>
+					<width>570</width>
+					<height>904</height>
+					<texture border="40">listpanel_back.png</texture>
+				</control>
+				<control type="image">
+					<posy>148</posy>
+					<width>570</width>
+					<height>348</height>
+					<aspectratio>scale</aspectratio>
+					<texture background="true">$INFO[ListItem.Icon]</texture>
+					<fadetime>IconCrossfadeTime</fadetime>
+					<bordersize>32</bordersize>
+				</control>
+				<control type="image">
+					<posx>32</posx>
+					<posy>406</posy>
+					<width>506</width>
+					<height>60</height>
+					<texture border="1">separator2.png</texture>
+				</control>
+				<control type="image">
+					<posx>32</posx>
+					<posy>500</posy>
+					<width>506</width>
+					<height>60</height>
+					<texture border="1">separator2.png</texture>
+				</control>
+				<control type="group">
+					<posy>465</posy>
+					<control type="image">
+						<posx>32</posx>
+						<colordiffuse>grey2</colordiffuse>
+						<include>MediaFlagVars</include>
+						<texture>$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
+						<visible>!IsEmpty(ListItem.VideoResolution)</visible>
+					</control>
+					<control type="image">
+						<posx>217</posx>
+						<colordiffuse>grey2</colordiffuse>
+						<include>MediaFlagVars</include>
+						<texture>$INFO[ListItem.AudioCodec,flags/audio/,.png]</texture>
+						<visible>!IsEmpty(ListItem.AudioCodec)</visible>
+					</control>
+					<control type="image">
+						<posx>402</posx>
+						<colordiffuse>grey2</colordiffuse>
+						<include>MediaFlagVars</include>
+						<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
+						<visible>!IsEmpty(ListItem.VideoCodec)</visible>
+					</control>
+				</control>
+				<control type="textbox" id="70">
+					<label>$VAR[VideoPlotVar]</label>
+					<posy>560</posy>
+					<posx>47</posx>
+					<width>476</width>
+					<height>458</height>
+					<font>font15_textbox</font>
+					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(62)</autoscroll>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<pagecontrol>62</pagecontrol>
+				</control>
+				<control type="scrollbar" id="62">
+					<posx>538</posx>
+					<posy>560</posy>
+					<width>14</width>
+					<height>460</height>
+					<onup>PageUp(70)</onup>
+					<ondown>PageUp(70)</ondown>
+					<onleft>50</onleft>
+					<onright>SetProperty(MediaMenu,True,home)</onright>
+					<onright>SetFocus(9050)</onright>
+					<texturesliderbackground>-</texturesliderbackground>
+					<texturesliderbar colordiffuse="55ffffff" border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
+					<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
+					<showonepage>false</showonepage>
+					<orientation>vertical</orientation>
 				</control>
 			</control>
 		</control>
