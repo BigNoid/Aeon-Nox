@@ -96,21 +96,7 @@
 		<control type="list" id="9033">
 			<include>HiddenList</include>
 			<content>
-				<item>
-					<onclick>noop</onclick>
-					<thumb>$INFO[Skin.String(Movies.Fallback)]</thumb>
-					<visible>Container.Content(movies)</visible>
-				</item>
-				<item>
-					<onclick>noop</onclick>
-					<thumb>$INFO[Skin.String(TVShows.Fallback)]</thumb>
-					<visible>Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)</visible>
-				</item>
-				<item>
-					<onclick>noop</onclick>
-					<thumb>$INFO[Skin.String(Videos.Fallback)]</thumb>
-					<visible>![Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | Container.Content(movies)]</visible>
-				</item>
+				<include>VideoFallback</include>
 			</content>
 		</control>
 		<control type="multiimage">
@@ -285,6 +271,23 @@
 			<thumb>$INFO[Skin.String(Weather.Fallback)]</thumb>
 		</item>
 	</include>
+	<include name="VideoFallback">
+		<item>
+			<onclick>noop</onclick>
+			<thumb>$INFO[Skin.String(Movies.Fallback)]</thumb>
+			<visible>Container.Content(movies)</visible>
+		</item>
+		<item>
+			<onclick>noop</onclick>
+			<thumb>$INFO[Skin.String(TVShows.Fallback)]</thumb>
+			<visible>Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)</visible>
+		</item>
+		<item>
+			<onclick>noop</onclick>
+			<thumb>$INFO[Skin.String(Videos.Fallback)]</thumb>
+			<visible>![Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | Container.Content(movies)]</visible>
+		</item>
+	</include>
 
 	<include name="GlobalSearchBG">
 		<control type="image">
@@ -350,6 +353,22 @@
 			<animation effect="fade" time="600">Visible</animation>
 			<animation effect="fade" time="600">Hidden</animation>
 			<animation effect="fade" time="200">WindowClose</animation>
+		</control>
+	</include>
+
+	<include name="BGHack">
+		<!-- Dont show default fanart -->
+		<control type="list" id="9033">
+			<include>HiddenList</include>
+			<content>
+				<include condition="Window.IsActive(pictures)">PicturesFallback</include>
+				<include condition="Window.IsActive(musiclibrary) | Window.IsActive(musicfiles) | Window.IsActive(musicplaylist)">MusicFallback</include>
+				<include condition="Window.IsActive(PVR)">LiveTVFallback</include>
+				<include condition="Window.IsActive(programs)">AppsFallback</include>
+				<include condition="Window.IsActive(SettingsCategory.xml) | Window.IsActive(systeminfo) | Window.IsActive(skinsettings) | Window.IsActive(settings) | Window.IsActive(addonbrowser)">SystemFallback</include>
+				<include condition="Window.IsActive(weather)">WeatherFallback</include>
+				<include condition="Window.IsActive(videos)">VideoFallback</include>
+			</content>
 		</control>
 	</include>
 </includes>
