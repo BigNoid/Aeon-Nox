@@ -67,21 +67,6 @@
                 <visible>System.HasAddon(script.libraryeditor) + !IsEmpty(ListItem.DBID)</visible>
                 <visible>Container.Content(songs)</visible>
             </control> -->
-            <control type="button" id="2007">
-                <width>462</width>
-                <height>58</height>
-                <textoffsety>12</textoffsety>
-                <align>center</align>
-                <texturefocus>dialogs/context_highlight.png</texturefocus>
-                <texturenofocus>dialogs/context_nofocus.png</texturenofocus>
-                <label>$LOCALIZE[31096]</label>
-                <font>Font_Reg30_2</font>
-                <textcolor>context</textcolor>
-                <focusedcolor>white2</focusedcolor>
-                <colordiffuse>$VAR[SpotColorVar2]</colordiffuse>
-                <visible>Container.Content(artists) | Container.Content(actors) | Container.Content(directors)</visible>
-                <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Label],return)</onclick>
-            </control>
             <control type="button" id="2009">
                 <width>462</width>
                 <height>58</height>
@@ -94,8 +79,12 @@
                 <textcolor>context</textcolor>
                 <focusedcolor>white2</focusedcolor>
                 <colordiffuse>$VAR[SpotColorVar2]</colordiffuse>
-                <visible>Container.Content(albums) | Container.Content(songs)</visible>
-                <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[ListItem.Label],return)</onclick>
+                <visible>Container.Content(albums) | Container.Content(songs) | Container.Content(artists) | Container.Content(actors) | Container.Content(directors)</visible>
+                <onclick condition="Container.Content(albums) | Container.Content(songs)">RunScript(script.extendedinfo,info=youtubesearch,id=$ESCINFO[ListItem.Artist] $ESCINFO[ListItem.Label],silent=False)</onclick>
+                <onclick condition="Container.Content(artists) | Container.Content(actors) | Container.Content(directors)">RunScript(script.extendedinfo,info=youtubesearch,id=$ESCINFO[ListItem.Label],silent=False)</onclick>
+                <onclick condition="Container.Content(albums) | Container.Content(songs)">SetProperty(SearchValue,$ESCINFO[ListItem.Artist] $ESCINFO[ListItem.Label],home)</onclick>
+                <onclick condition="Container.Content(artists) | Container.Content(actors) | Container.Content(directors)">SetProperty(SearchValue,$ESCINFO[ListItem.Label],home)</onclick>
+                <onclick>ActivateWindow(1168)</onclick>              
             </control>
             <control type="button" id="2011">
                 <width>462</width>
@@ -129,7 +118,7 @@
                 <colordiffuse>$VAR[SpotColorVar2]</colordiffuse>
                 <onclick>SetProperty(SetPanelItem,1,home)</onclick>
                 <onclick>ActivateWindow(1132)</onclick>
-                <visible>[Container.Content(addons) + !Window.IsActive(addonbrowser)]| Container.Content(albums)</visible>
+                <visible>[Container.Content(addons) + !Window.IsActive(addonbrowser)] | Container.Content(albums)</visible>
                 <onclick>Skin.SetString($INFO[Window(home).Property(MenuItem)].Label,$ESCINFO[ListItem.Label])</onclick>
                 <onclick>Skin.SetString($INFO[Window(home).Property(MenuItem)].Icon,$ESCINFO[ListItem.Icon])</onclick>
                 <onclick condition="Container.Content(addons)">Skin.SetString($INFO[Window(home).Property(MenuItem)].Type,1)</onclick>
@@ -152,7 +141,9 @@
                 <visible>Container.Content(movies) | [!IsEmpty(Window.Property(SongToMusicVideo.Path)) + Window.IsActive(musiclibrary)]</visible>
                 <onclick condition="Container.Content(movies) + !IsEmpty(ListItem.Trailer)">Dialog.Close(106)</onclick>
                 <onclick condition="Container.Content(movies) + !IsEmpty(ListItem.Trailer)">SetFocus(7566)</onclick>
-                <onclick condition="Container.Content(movies) + IsEmpty(ListItem.Trailer)">ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Label] Trailer,return)</onclick>
+                <onclick condition="Container.Content(movies) + IsEmpty(ListItem.Trailer)">RunScript(script.extendedinfo,info=youtubesearch,id=$ESCINFO[ListItem.Title] Trailer,silent=False)</onclick>
+                <onclick condition="Container.Content(movies) + IsEmpty(ListItem.Trailer)">SetProperty(SearchValue,$ESCINFO[ListItem.Title] Trailer,home)</onclick>
+                <onclick condition="Container.Content(movies) + IsEmpty(ListItem.Trailer)">ActivateWindow(1168)</onclick>
                 <onclick condition="!IsEmpty(Window.Property(SongToMusicVideo.Path)) + Window.IsActive(musiclibrary)">PlayMedia($ESCINFO[Window.Property(SongToMusicVideo.Path)])</onclick>
             </control>
             <control type="button" id="2010">
@@ -170,6 +161,23 @@
                 <visible>Window.IsActive(addonbrowser) + [Substring(ListItem.Property(Addon.ID),script.,left) | Substring(ListItem.Property(Addon.ID),plugin.,left)]</visible>
                 <onclick condition="Substring(ListItem.Property(Addon.ID),script.,left)">Runscript($INFO[ListItem.Property(Addon.ID)])</onclick>
                 <onclick condition="Substring(ListItem.Property(Addon.ID),plugin.,left)">RunAddon($INFO[ListItem.Property(Addon.ID)])</onclick>
+            </control>
+            <control type="button" id="2070">
+                <width>462</width>
+                <height>58</height>
+                <textoffsety>12</textoffsety>
+                <align>center</align>
+                <texturefocus>dialogs/context_highlight.png</texturefocus>
+                <texturenofocus>dialogs/context_nofocus.png</texturenofocus>
+                <label>$LOCALIZE[31941]</label>
+                <font>Font_Reg30_2</font>
+                <textcolor>context</textcolor>
+                <focusedcolor>white2</focusedcolor>
+                <colordiffuse>$VAR[SpotColorVar2]</colordiffuse>
+                <visible>!IsEmpty(ListItem.PictureGPSLon)</visible>
+                <onclick>ClearProperty(googlemap,home)</onclick>
+                <onclick>RunScript(script.extendedinfo,info=getgooglemap,location=geocode,lat=$ESCINFO[ListItem.PictureGPSLat],lon=$ESCINFO[ListItem.PictureGPSLon])</onclick>
+                <onclick>ActivateWindow(1163)</onclick>
             </control>
         </control>
         <control type="image" id="997">

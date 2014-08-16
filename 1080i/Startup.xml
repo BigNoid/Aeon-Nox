@@ -5,23 +5,26 @@
     <allowoverlay>no</allowoverlay>
     <include condition="!Skin.HasSetting(firstrun4.0)">AutoConfig</include>
     <onload>RunScript(script.favourites)</onload>
+    <onload>SetProperty(zoomlevel,15,home)</onload>
+    <onload>SetProperty(Type,roadmap,home)</onload>
+    <onload>SetProperty(Direction,1,home)</onload>
     <onload condition="System.HasAddon(script.extendedinfo) + [Substring(Skin.String(widgetlist),xkcd) | Substring(Skin.String(widget2list),xkcd)]">RunScript(script.extendedinfo,info=xkcd)</onload>
     <onload condition="System.HasAddon(script.extendedinfo) + Substring(Skin.String(backgroundlist),flickr)">RunScript(script.extendedinfo,info=flickr)</onload>
     <onload condition="System.HasAddon(script.extendedinfo) + [Substring(Skin.String(widgetlist),cyanide) | Substring(Skin.String(widget2list),cyanide)]">RunScript(script.extendedinfo,info=cyanide)</onload>
     <onload condition="System.HasAddon(script.extendedinfo)">AlarmClock(News,RunScript(script.extendedinfo,info=json,feed=$VAR[NewsFeedVar],prefix=News),00:01,silent)</onload>
-    <onload condition="Substring(Skin.String(widgetlist),actors) | Substring(Skin.String(widget2list),actors) | Skin.HasSetting(ActorBirthdayRSS)">RunScript(script.metadata.actors,borntoday,10,random)</onload>
-    <onload condition="Substring(Skin.String(backgroundlist),weatherworldbackground) + System.HasAddon(script.widget.weatherworld)">RunScript(script.widget.weatherworld,time=10&amp;limit=9&amp;mapsize=1920x1080&amp;tilesize=360x60&amp;window=10000&amp;condition=StringCompare(Control.GetLabel(4322),weatherworldbackground))</onload>
-    <onload condition="Library.HasContent(tvshows)">RunScript(script.tv.show.next.aired,silent=True)</onload>
+    <onload condition="System.HasAddon(script.extendedinfo)">RunScript(script.extendedinfo,info=NearEvents,info=incinema,info=trendingshows,info=trendingmovies,info=premiereshows)</onload>
+    <onload condition="System.HasAddon(script.extendedinfo)">RunScript(script.extendedinfo,info=NearEvents,prefix=Festivals,festivalsonly=true)</onload>
     <onload condition="System.HasAddon(script.extendedinfo) + [Substring(Skin.String(widgetlist),rss1) | Substring(Skin.String(widget2list),rss1)]">RunScript(script.extendedinfo,info=json,feed=$INFO[Skin.String(CustomHomeFeedURL1)],prefix=RSS1)</onload>
     <onload condition="System.HasAddon(script.extendedinfo) + [Substring(Skin.String(widgetlist),rss2) | Substring(Skin.String(widget2list),rss2)]">RunScript(script.extendedinfo,info=json,feed=$INFO[Skin.String(CustomHomeFeedURL2)],prefix=RSS2)</onload>
     <onload condition="System.HasAddon(script.extendedinfo) + [Substring(Skin.String(widgetlist),rss3) | Substring(Skin.String(widget2list),rss3)]">RunScript(script.extendedinfo,info=json,feed=$INFO[Skin.String(CustomHomeFeedURL3)],prefix=RSS3)</onload>
+    <onload condition="System.HasAddon(script.extendedinfo) + skin.hassetting(backendmode)">RunScript(script.extendedinfo,backend=true)</onload>
+    <onload condition="Substring(Skin.String(widgetlist),actors) | Substring(Skin.String(widget2list),actors) | Skin.HasSetting(ActorBirthdayRSS)">RunScript(script.metadata.actors,borntoday,10,random)</onload>
+    <onload condition="Library.HasContent(tvshows)">RunScript(script.tv.show.next.aired,silent=True)</onload>
     <!--     <onload condition="System.HasAddon(script.extendedinfo)">AlarmClock(XKCD,RunScript(script.extendedinfo,guiless,feed=http://pipes.yahoo.com/pipes/pipe.run?_id=b3e97cbe0bb1b9ebba8a550b48db6ef5&amp;_render=rss,imagecaching=false,window=10000,limit=8,prefix=XKCD),00:01,silent)</onload>
  -->
     <onload condition="Substring(Skin.String(widgetlist),recentpics) | Substring(Skin.String(widget2list),recentpics) | Substring(Skin.String(backgroundlist),recentpics)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Latest'&amp;sort='Added'&amp;limit=10)</onload>
     <onload condition="System.HasAddon(plugin.image.mypicsdb)">RunScript(plugin.image.mypicsdb,0,?action='setproperties'&amp;method='Random'&amp;sort='Added'&amp;limit=10)</onload>
-    <onload condition="Substring(Skin.String(widgetlist),concerts) | Substring(Skin.String(widget2list),concerts)">RunScript(script.extendedinfo,info=NearEvents)</onload>
     <onload condition="Substring(Skin.String(widgetlist),roms) | Substring(Skin.String(widget2list),roms)">RunScript(script.games.rom.collection.browser,limit=10)</onload>
-    <onload condition="skin.hassetting(backendmode)">RunScript(script.extendedinfo,backend=true)</onload>
     <onload condition="!IsEmpty(Skin.String(SmartPlaylist1.Call))">$INFO[Skin.String(SmartPlaylist1.Call)]</onload>
     <onload condition="!IsEmpty(Skin.String(SmartPlaylist2.Call))">$INFO[Skin.String(SmartPlaylist2.Call)]</onload>
     <onload condition="!IsEmpty(Skin.String(SmartPlaylist3.Call))">$INFO[Skin.String(SmartPlaylist3.Call)]</onload>
@@ -57,7 +60,7 @@
             </control>
             <control type="button" id="11">
                 <onclick>noop</onclick>
-                <onfocus>ReplaceWindow(Home)</onfocus>
+                <onfocus>ReplaceWindow($INFO[System.StartupWindow])</onfocus>
                 <animation effect="fade" start="100" end="0" time="3200">Focus</animation>
             </control>
         </control>

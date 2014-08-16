@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window>
-    <defaultcontrol>1500</defaultcontrol>
-    <onload condition="!Player.HasAudio + System.HasAddon(script.artistslideshow)">SetProperty(CURRENTARTIST,$ESCINFO[ListItem.Artist])</onload>
-    <onload condition="!Player.HasAudio + System.HasAddon(script.artistslideshow)">SetProperty(ArtistSlideshow.ExternalCall,True)</onload>
-    <onload condition="!Player.HasAudio + System.HasAddon(script.artistslideshow)">RunScript(script.artistslideshow,windowid=12001&amp;artistfield=CURRENTARTIST)</onload>
-    <onload condition="System.HasAddon(script.extendedinfo)">RunScript(script.extendedinfo,info=artistevents,artistname=$ESCINFO[ListItem.Artist])</onload>
+    <defaultcontrol>40</defaultcontrol>
+    <onload>ClearProperty(Logo,home)</onload>
+    <onload>ClearProperty(Shout.Count,home)</onload>
+    <onload condition="System.HasAddon(script.extendedinfo) + Container.Content(artists)">RunScript(script.extendedinfo,info=artistevents,info=similarartistsinlibrary,info=artistdetails,artistname=$ESCINFO[ListItem.Artist])</onload>
+    <onload condition="System.HasAddon(script.extendedinfo) + Container.Content(albums)">RunScript(script.extendedinfo,info=shouts,info=artistevents,info=similarartistsinlibrary,info=artistdetails,info=albuminfo,artistname=$ESCINFO[ListItem.Artist],albumname=$ESCINFO[ListItem.Album])</onload>
     <onunload condition="System.HasAddon(script.artistslideshow)">clearProperty(ArtistSlideshow.ExternalCall)</onunload>
     <animation type="WindowOpen" reversible="false">
         <effect type="zoom" start="150" end="100" center="960,540" time="400" tween="cubic" />
@@ -15,6 +15,124 @@
         <effect type="zoom" start="100" end="130" center="960,540" time="240" tween="cubic" easing="in" />
     </animation>
     <controls>
+           <control type="button" id="9023">
+            <include>HiddenObject</include>
+            <onfocus>ClearProperty(ShowArtistEvents,home)</onfocus>
+            <onfocus>SetProperty(Label,$ESCINFO[Container(8010).ListItem.Label],home)</onfocus>
+            <onfocus>SetProperty(Label2,$ESCINFO[Container(8010).ListItem.Label2],home)</onfocus>
+            <onfocus>SetProperty(Thumb,$ESCINFO[Container(8010).ListItem.Thumb],home)</onfocus>
+            <onfocus>SetProperty(City,$ESCINFO[Container(8010).ListItem.Property(City)],home)</onfocus>
+            <onfocus>SetProperty(Street,$ESCINFO[Container(8010).ListItem.Property(Street)],home)</onfocus>
+            <onfocus>SetProperty(ID,$ESCINFO[Container(8010).ListItem.Property(ID)],home)</onfocus>
+            <onfocus>SetProperty(Name,$ESCINFO[Container(8010).ListItem.Property(Name)],home)</onfocus>
+            <onfocus>SetProperty(EventName,$ESCINFO[Container(8010).ListItem.Property(EventName)],home)</onfocus>
+            <onfocus>SetProperty(Website,$ESCINFO[Container(8010).ListItem.Property(Website)],home)</onfocus>
+            <onfocus>SetProperty(TicketURL,$ESCINFO[Container(8010).ListItem.Property(TicketURL)],home)</onfocus>
+            <onfocus>SetProperty(Description,$ESCINFO[Container(8010).ListItem.Property(Description)],home)</onfocus>
+            <onfocus>SetProperty(Headliner,$ESCINFO[Container(8010).ListItem.Property(Headliner)],home)</onfocus>
+            <onfocus>SetProperty(Venue_Image,$ESCINFO[Container(8010).ListItem.Property(Venue_Image)],home)</onfocus>
+            <onfocus>SetProperty(GoogleMap,$ESCINFO[Container(8010).ListItem.Property(GoogleMap)],home)</onfocus>
+            <onfocus>SetProperty(WidgetType,concert,home)</onfocus>
+            <onfocus>SetFocus(8010)</onfocus>
+            <onfocus>ActivateWindow(1165)</onfocus>
+        </control>
+        <control type="button" id="5014">
+            <include>HiddenObject</include>
+            <texturenofocus>-</texturenofocus>
+            <onfocus>SetProperty(WidgetType,onlinealbum,home)</onfocus>
+            <onfocus>Runscript(script.extendedinfo,info=extendedalbuminfo,id=$INFO[Container(6010).ListItem.Property(Id)],silent=False)</onfocus>
+            <onfocus>SetFocus(6010)</onfocus>
+            <onfocus>ActivateWindow(1165)</onfocus>
+            <animation effect="fade" delay="140" time="1" reversible="false">Hidden</animation>
+            <visible>Control.HasFocus(6010)</visible>
+        </control>
+        <control type="button" id="3334">
+            <include>HiddenObject</include>
+            <texturenofocus>-</texturenofocus>
+            <onfocus>PlayMedia($INFO[Container(10010).ListItem.Property(Path)])</onfocus>
+            <animation effect="fade" delay="140" time="1" reversible="false">Hidden</animation>
+            <visible>Control.HasFocus(10010)</visible>
+        </control>
+        
+        <control type="button" id="5014">
+            <include>HiddenObject</include>
+            <onfocus>SetProperty(PanelWidgetInfo,true,home)</onfocus>
+            <onfocus>SetProperty(WidgetPosition,Widget1,home)</onfocus>
+            <onfocus>SetProperty(WidgetType,artists,home)</onfocus>
+            <onfocus>SetProperty(Label,$ESCINFO[Container(5010).ListItem.Label],home)</onfocus>
+            <onfocus>SetProperty(Label2,$ESCINFO[Container(5010).ListItem.Label2],home)</onfocus>
+            <onfocus>SetProperty(Icon,$ESCINFO[Container(5010).ListItem.Icon],home)</onfocus>
+            <onfocus>SetProperty(Fanart,$ESCINFO[Container(5010).ListItem.Property(Fanart)],home)</onfocus>
+            <onfocus>SetProperty(Thumb,$ESCINFO[Container(5010).ListItem.Thumb],home)</onfocus>
+            <onfocus>SetProperty(Path,$ESCINFO[Container(5010).ListItem.Property(Path)],home)</onfocus>
+            <onfocus>SetProperty(Poster,$ESCINFO[Container(5010).ListItem.Property(Poster)],home)</onfocus>
+            <onfocus>SetProperty(Logo,$ESCINFO[Container(5010).ListItem.Property(Logo)],home)</onfocus>
+            <onfocus>SetProperty(ClearArt,$ESCINFO[Container(5010).ListItem.Property(ClearArt)],home)</onfocus>
+            <onfocus>SetProperty(Landscape,$ESCINFO[Container(5010).ListItem.Property(Landscape)],home)</onfocus>
+            <onfocus>SetProperty(Banner,$ESCINFO[Container(5010).ListItem.Property(Banner)],home)</onfocus>
+            <onfocus>SetProperty(CharacterArt,$ESCINFO[Container(5010).ListItem.Property(CharacterArt)],home)</onfocus>
+            <onfocus>SetProperty(Discart,$ESCINFO[Container(5010).ListItem.Property(Discart)],home)</onfocus>
+            <onfocus>SetProperty(Year,$ESCINFO[Container(5010).ListItem.Property(Year)],home)</onfocus>
+            <onfocus>SetProperty(Plot,$ESCINFO[Container(5010).ListItem.Property(Plot)],home)</onfocus>
+            <onfocus>SetProperty(Tagline,$ESCINFO[Container(5010).ListItem.Property(Tagline)],home)</onfocus>
+            <onfocus>SetProperty(OriginalTitle,$ESCINFO[Container(5010).ListItem.Property(OriginalTitle)],home)</onfocus>
+            <onfocus>SetProperty(RunningTime,$ESCINFO[Container(5010).ListItem.Property(RunningTime)],home)</onfocus>
+            <onfocus>SetProperty(Director,$ESCINFO[Container(5010).ListItem.Property(Director)],home)</onfocus>
+            <onfocus>SetProperty(Artist,$ESCINFO[Container(5010).ListItem.Property(Artist)],home)</onfocus>
+            <onfocus>SetProperty(Rating,$ESCINFO[Container(5010).ListItem.Property(Rating)],home)</onfocus>
+            <onfocus>SetProperty(StatusID,$ESCINFO[Container(5010).ListItem.Property(StatusID)],home)</onfocus>
+            <onfocus>SetProperty(Status,$ESCINFO[Container(5010).ListItem.Property(Status)],home)</onfocus>
+            <onfocus>SetProperty(NextTitle,$ESCINFO[Container(5010).ListItem.Property(NextTitle)],home)</onfocus>
+            <onfocus>SetProperty(LatestTitle,$ESCINFO[Container(5010).ListItem.Property(LatestTitle)],home)</onfocus>
+            <onfocus>SetProperty(LatestDate,$ESCINFO[Container(5010).ListItem.Property(LatestDate)],home)</onfocus>
+            <onfocus>SetProperty(Studio,$ESCINFO[Container(5010).ListItem.Property(Studio)],home)</onfocus>
+            <onfocus>SetProperty(Country,$ESCINFO[Container(5010).ListItem.Property(Country)],home)</onfocus>
+            <onfocus>SetProperty(Network,$ESCINFO[Container(5010).ListItem.Property(Network)],home)</onfocus>
+            <onfocus>SetProperty(PercentPlayed,$ESCINFO[Container(5010).ListItem.Property(PercentPlayed)],home)</onfocus>
+            <onfocus>SetProperty(AudioChannels,$ESCINFO[Container(5010).ListItem.Property(AudioChannels)],home)</onfocus>
+            <onfocus>SetProperty(AudioCodec,$ESCINFO[Container(5010).ListItem.Property(AudioCodec)],home)</onfocus>
+            <onfocus>SetProperty(VideoCodec,$ESCINFO[Container(5010).ListItem.Property(VideoCodec)],home)</onfocus>
+            <onfocus>SetProperty(VideoAspect,$ESCINFO[Container(5010).ListItem.Property(VideoAspect)],home)</onfocus>
+            <onfocus>SetProperty(VideoResolution,$ESCINFO[Container(5010).ListItem.Property(VideoResolution)],home)</onfocus>
+            <onfocus>SetProperty(mpaa,$ESCINFO[Container(5010).ListItem.Property(mpaa)],home)</onfocus>
+            <onfocus>SetProperty(Id,$ESCINFO[Container(5010).ListItem.Property(Id)],home)</onfocus>
+            <onfocus>SetProperty(SetId,$ESCINFO[Container(5010).ListItem.Property(SetId)],home)</onfocus>
+            <onfocus>SetProperty(Channel,$ESCINFO[Container(5010).ListItem.Property(Channel)],home)</onfocus>
+            <onfocus>SetProperty(Publisher,$ESCINFO[Container(5010).ListItem.Property(Publisher)],home)</onfocus>
+            <onfocus>SetProperty(Description,$ESCINFO[Container(5010).ListItem.Property(Description)],home)</onfocus>
+            <onfocus>SetProperty(Genre,$ESCINFO[Container(5010).ListItem.Property(Genre)],home)</onfocus>
+            <onfocus>SetProperty(RecordLabel,$ESCINFO[Container(5010).ListItem.Property(RecordLabel)],home)</onfocus>
+            <onfocus>SetProperty(Premiered,$ESCINFO[Container(5010).ListItem.Property(Premiered)],home)</onfocus>
+            <onfocus>SetProperty(Folder,$ESCINFO[Container(5010).ListItem.Property(Folder)],home)</onfocus>
+            <onfocus>SetProperty(EpisodeNumber,$ESCINFO[Container(5010).ListItem.Property(EpisodeNumber)],home)</onfocus>
+            <onfocus>SetProperty(Version,$ESCINFO[Container(5010).ListItem.Property(Version)],home)</onfocus>
+            <onfocus>SetProperty(DBID,$ESCINFO[Container(5010).ListItem.Property(DBID)],home)</onfocus>
+            <onfocus>SetProperty(Trailer,$ESCINFO[Container(5010).ListItem.Property(Trailer)],home)</onfocus>
+            <onfocus>SetProperty(Mood,$ESCINFO[Container(5010).ListItem.Property(Mood)],home)</onfocus>
+            <onfocus>SetProperty(Style,$ESCINFO[Container(5010).ListItem.Property(Style)],home)</onfocus>
+            <onfocus>SetProperty(Theme,$ESCINFO[Container(5010).ListItem.Property(Theme)],home)</onfocus>
+            <onfocus>SetProperty(Instrument,$ESCINFO[Container(5010).ListItem.Property(Instrument)],home)</onfocus>
+            <onfocus>SetProperty(Born,$ESCINFO[Container(5010).ListItem.Property(Born)],home)</onfocus>
+            <onfocus>SetProperty(Died,$ESCINFO[Container(5010).ListItem.Property(Died)],home)</onfocus>
+            <onfocus>SetProperty(Formed,$ESCINFO[Container(5010).ListItem.Property(Formed)],home)</onfocus>
+            <onfocus>SetProperty(Disbanded,$ESCINFO[Container(5010).ListItem.Property(Disbanded)],home)</onfocus>
+            <onfocus>SetProperty(YearsActive,$ESCINFO[Container(5010).ListItem.Property(YearsActive)],home)</onfocus>
+            <onfocus>SetProperty(Watched,$ESCINFO[Container(5010).ListItem.Property(Watched)],home)</onfocus>
+            <onfocus>SetProperty(Writer,$ESCINFO[Container(5010).ListItem.Property(Writer)],home)</onfocus>
+            <onfocus>SetProperty(Top250,$INFO[Container(5010).ListItem.Property(Top250)],home)</onfocus>
+            <onfocus>SetFocus(5010)</onfocus>
+            <onfocus>ActivateWindow(1165)</onfocus>
+            <animation effect="fade" delay="140" time="1" reversible="false">Hidden</animation>
+            <visible>Control.HasFocus(5010)</visible>
+        </control>
+        <control type="button" id="9025">
+            <include>HiddenObject</include>
+            <texturenofocus>-</texturenofocus>
+            <onfocus>SetProperty(WidgetType,onlinealbum,home)</onfocus>
+            <onfocus>Runscript(script.extendedinfo,info=albuminfo,id=$INFO[Container(6010).ListItem.Property(Id)],silent=False)</onfocus>
+            <onfocus>SetFocus(6010)</onfocus>
+            <onfocus>ActivateWindow(1165)</onfocus>
+        </control>
         <control type="image">
             <aspectratio>scale</aspectratio>
             <texture background="true" fallback="special://skin/backgrounds/fallback_music.jpg">$INFO[ListItem.Art(fanart)]</texture>
@@ -157,6 +275,16 @@
                     <animation effect="fade" start="100" end="0" time="0" condition="Substring(Control.GetLabel(8308),empty.png)">Conditional</animation>
                     <visible>!IsEmpty(Skin.String(ArtistsLogosPath))</visible>
                 </control>
+               <control type="image">
+                    <posx>1295</posx>
+                    <posy>-200</posy>
+                    <width>570</width>
+                    <height>403</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture background="true" fallback="empty.png">$INFO[Window(home).Property(Logo)]</texture>
+                    <fadetime>400</fadetime>
+                    <visible>Substring(Control.GetLabel(8308),empty.png) | IsEmpty(Skin.String(ArtistsLogosPath))</visible>
+                </control>
                 <control type="label">
                     <posx>500</posx>
                     <posy>-190</posy>
@@ -181,33 +309,9 @@
                     <textcolor>white3</textcolor>
                     <scroll>true</scroll>
                 </control>
-                <control type="textbox" id="4">
-                    <posx>500</posx>
-                    <posy>-80</posy>
-                    <width>778</width>
-                    <height>270</height>
-                    <font>Font_Reg30_2</font>
-                    <shadowcolor>black</shadowcolor>
-                    <textcolor>white3</textcolor>
-                    <pagecontrol>60</pagecontrol>
-                    <autoscroll delay="15000" time="AutoScrollTime" repeat="10000">Skin.HasSetting(AutoScroll)</autoscroll>
-                    <animation effect="fade" time="320">VisibleChange</animation>
-                    <visible>ControlGroup(1500).HasFocus(13) | ControlGroup(1500).HasFocus(14)</visible>
-                </control>
-                <control type="spincontrol" id="60">
-                    <posx>1203</posx>
-                    <posy>-143</posy>
-                    <width>50</width>
-                    <height>88</height>
-                    <onup>1500</onup>
-                    <onleft>1500</onleft>
-                    <onright>1500</onright>
-                    <ondown>1500</ondown>
-                    <visible>ControlGroup(1500).HasFocus(13) | ControlGroup(1500).HasFocus(14)</visible>
-                </control>
                 <control type="group">
                     <animation effect="fade" time="320">VisibleChange</animation>
-                    <visible>!Control.IsVisible(50) + Container.Content(albums)</visible>
+                    <visible>Container.Content(albums)</visible>
                     <control type="grouplist">
                         <posx>500</posx>
                         <posy>-80</posy>
@@ -329,8 +433,7 @@
                     </control>
                 </control>
                 <control type="group">
-                    <visible>!Control.IsVisible(50) + Container.Content(artists)</visible>
-                    <animation effect="fade" time="320">VisibleChange</animation>
+                    <visible>Container.Content(artists)</visible>
                     <control type="grouplist">
                         <posx>500</posx>
                         <posy>-80</posy>
@@ -529,112 +632,6 @@
                 </control>
             </control>
         </control>
-        <!-- List -->
-        <control type="grouplist">
-            <posx>500</posx>
-            <posy>727</posy>
-            <width>1250</width>
-            <itemgap>20</itemgap>
-            <orientation>horizontal</orientation>
-            <control type="label">
-                <label>$INFO[Control.GetLabel(20)]</label>
-                <font>Font_Reg33_Caps</font>
-                <shadowcolor>black</shadowcolor>
-                <include>BreadcrumbsLabel</include>
-                <animation effect="fade" start="100" end="50" time="160" tween="cubic" easing="inout" condition="!Control.HasFocus(20)">Conditional</animation>
-                <visible>Control.IsEnabled(20) + Control.IsVisible(20)</visible>
-            </control>
-            <control type="label">
-                <label>$INFO[Control.GetLabel(24)]</label>
-                <font>Font_Reg33_Caps</font>
-                <shadowcolor>black</shadowcolor>
-                <include>BreadcrumbsLabel</include>
-                <animation effect="fade" start="100" end="50" time="160" tween="cubic" easing="inout" condition="!Control.HasFocus(24)">Conditional</animation>
-                <visible>Control.IsEnabled(24) + Control.IsVisible(24)</visible>
-            </control>
-            <control type="label">
-                <label>$INFO[Control.GetLabel(13)]</label>
-                <font>Font_Reg33_Caps</font>
-                <shadowcolor>black</shadowcolor>
-                <include>BreadcrumbsLabel</include>
-                <animation effect="fade" start="100" end="50" time="160" tween="cubic" easing="inout" condition="!Control.HasFocus(13)">Conditional</animation>
-                <visible>Control.IsEnabled(13) + Control.IsVisible(13)</visible>
-            </control>
-            <control type="label">
-                <label>$INFO[Control.GetLabel(14)]</label>
-                <font>Font_Reg33_Caps</font>
-                <shadowcolor>black</shadowcolor>
-                <include>BreadcrumbsLabel</include>
-                <animation effect="fade" start="100" end="50" time="160" tween="cubic" easing="inout" condition="!Control.HasFocus(14)">Conditional</animation>
-                <visible>Control.IsEnabled(14) + Control.IsVisible(14)</visible>
-            </control>
-            <control type="label">
-                <label>$INFO[Control.GetLabel(15)]</label>
-                <font>Font_Reg33_Caps</font>
-                <shadowcolor>black</shadowcolor>
-                <include>BreadcrumbsLabel</include>
-                <animation effect="fade" start="100" end="50" time="160" tween="cubic" easing="inout" condition="!Control.HasFocus(15)">Conditional</animation>
-                <visible>Control.IsEnabled(15) + Control.IsVisible(15)</visible>
-            </control>
-            <control type="label">
-                <label>$INFO[Control.GetLabel(22)]</label>
-                <font>Font_Reg33_Caps</font>
-                <shadowcolor>black</shadowcolor>
-                <include>BreadcrumbsLabel</include>
-                <animation effect="fade" start="100" end="50" time="160" tween="cubic" easing="inout" condition="!Control.HasFocus(22)">Conditional</animation>
-                <visible>Control.IsVisible(22)</visible>
-            </control>
-            <control type="label">
-                <label>$INFO[Control.GetLabel(25)]</label>
-                <font>Font_Reg33_Caps</font>
-                <shadowcolor>black</shadowcolor>
-                <include>BreadcrumbsLabel</include>
-                <animation effect="fade" start="100" end="50" time="160" tween="cubic" easing="inout" condition="!Control.HasFocus(25)">Conditional</animation>
-                <visible>Control.IsVisible(25)</visible>
-            </control>
-        </control>
-        <control type="grouplist" id="1500">
-            <onup>5000</onup>
-            <onleft>9000</onleft>
-            <onright>1500</onright>
-            <ondown>5000</ondown>
-            <orientation>horizontal</orientation>
-            <itemgap>50</itemgap>
-            <control type="button" id="20">
-                <label>$LOCALIZE[208]</label>
-                <include>HiddenObject</include>
-                <onclick>RunScript(script.playalbum,albumid=$INFO[ListItem.DBID])</onclick>
-                <visible>System.HasAddon(script.playalbum) + Container.Content(albums)</visible>
-            </control>
-            <control type="button" id="24">
-                <label>$LOCALIZE[31172]</label>
-                <include>HiddenObject</include>
-            </control>
-            <control type="togglebutton" id="13">
-                <label>$LOCALIZE[183]</label>
-                <include>HiddenObject</include>
-                <visible>Container.Content(albums)</visible>
-            </control>
-            <control type="togglebutton" id="14">
-                <label>$LOCALIZE[21887]</label>
-                <include>HiddenObject</include>
-                <visible>Container.Content(artists)</visible>
-            </control>
-            <control type="button" id="15">
-                <label>$LOCALIZE[31074]</label>
-                <include>HiddenObject</include>
-                <onclick>RunScript(script.metadata.actors,$ESCINFO[Listitem.Artist])</onclick>
-                <visible>Container.Content(Artists) + System.HasAddon(script.metadata.actors)</visible>
-            </control>
-            <control type="button" id="22">
-                <label>$LOCALIZE[31096]</label>
-                <include>HiddenObject</include>
-                <onclick condition="Container.Content(artists)">ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist],return)</onclick>
-                <onclick condition="Container.Content(albums)">ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[ListItem.Album],return)</onclick>
-                <onclick>Dialog.Close(all,true)</onclick>
-                <visible>Container.Content(artists) | Container.Content(albums)</visible>
-            </control>
-        </control>
         <!-- Artist Logo / Record Label flag-->
         <!--<control type="image">
       <posx>1271</posx>
@@ -654,1473 +651,8 @@
             <aspectratio>keep</aspectratio>
             <texture>$INFO[ListItem.Property(Album_Label),flags/music/recordlabel/,.png]</texture>
             <colordiffuse>white3</colordiffuse>
-            <visible>!ControlGroup(1500).HasFocus(25)</visible>
-            <include>Animation_VisibleChange200</include>
         </control>
-        <!-- Tracks / Discography -->
-        <control type="panel" id="50">
-            <posx>500</posx>
-            <posy>800</posy>
-            <width>800</width>
-            <height>280</height>
-            <aligny>bottom</aligny>
-            <onleft>50</onleft>
-            <onright>50</onright>
-            <onup>1500</onup>
-            <ondown>1500</ondown>
-            <pagecontrol>61</pagecontrol>
-            <scrolltime>200</scrolltime>
-            <orientation>horizontal</orientation>
-            <visible>ControlGroup(1500).HasFocus(24)</visible>
-            <itemlayout condition="Container.Content(Albums)" height="40" width="400">
-                <control type="image">
-                    <posy>-20</posy>
-                    <width>400</width>
-                    <height>60</height>
-                    <texture border="1">osd/osd_settings_buttonnf.png</texture>
-                </control>
-                <control type="label">
-                    <posx>10</posx>
-                    <width>400</width>
-                    <height>40</height>
-                    <textoffsetx>15</textoffsetx>
-                    <label>$INFO[ListItem.TrackNumber]: [COLOR white3]$INFO[ListItem.Label][/COLOR]</label>
-                    <font>Font_Reg28</font>
-                    <shadowcolor>black</shadowcolor>
-                    <textcolor>$VAR[TitleColorVar]</textcolor>
-                </control>
-                <control type="label">
-                    <posx>400</posx>
-                    <width>400</width>
-                    <height>40</height>
-                    <textoffsetx>15</textoffsetx>
-                    <align>right</align>
-                    <label>$INFO[ListItem.Duration]</label>
-                    <font>Font_Reg28</font>
-                    <shadowcolor>black</shadowcolor>
-                    <textcolor>white3</textcolor>
-                </control>
-            </itemlayout>
-            <focusedlayout condition="Container.Content(Albums)" height="40" width="400">
-                <control type="group">
-                    <visible>!Control.HasFocus(50)</visible>
-                    <control type="image">
-                        <posy>-20</posy>
-                        <width>400</width>
-                        <height>60</height>
-                        <texture border="1">osd/osd_settings_buttonnf.png</texture>
-                    </control>
-                    <control type="label">
-                        <posx>10</posx>
-                        <width>400</width>
-                        <height>40</height>
-                        <textoffsetx>15</textoffsetx>
-                        <label>$INFO[ListItem.TrackNumber]: [COLOR white3]$INFO[ListItem.Label][/COLOR]</label>
-                        <font>Font_Reg28</font>
-                        <shadowcolor>black</shadowcolor>
-                        <textcolor>$VAR[TitleColorVar]</textcolor>
-                    </control>
-                    <control type="label">
-                        <posx>400</posx>
-                        <width>400</width>
-                        <height>40</height>
-                        <textoffsetx>15</textoffsetx>
-                        <align>right</align>
-                        <label>$INFO[ListItem.Duration]</label>
-                        <font>Font_Reg28</font>
-                        <shadowcolor>black</shadowcolor>
-                        <textcolor>white3</textcolor>
-                    </control>
-                </control>
-                <control type="group">
-                    <visible>Control.HasFocus(50)</visible>
-                    <control type="image">
-                        <width>400</width>
-                        <height>40</height>
-                        <texture border="8">views/tripanel/listselect_fo.png</texture>
-                        <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                    </control>
-                    <control type="label">
-                        <posx>10</posx>
-                        <width>400</width>
-                        <height>40</height>
-                        <textoffsetx>15</textoffsetx>
-                        <label>$INFO[ListItem.TrackNumber]: [COLOR white2]$INFO[ListItem.Label][/COLOR]</label>
-                        <font>Font_Reg28</font>
-                        <shadowcolor>black</shadowcolor>
-                        <textcolor>$VAR[TitleColorVar]</textcolor>
-                    </control>
-                    <control type="label">
-                        <posx>400</posx>
-                        <width>400</width>
-                        <height>40</height>
-                        <textoffsetx>15</textoffsetx>
-                        <align>right</align>
-                        <label>$INFO[ListItem.Duration]</label>
-                        <font>Font_Reg28</font>
-                        <shadowcolor>black</shadowcolor>
-                    </control>
-                </control>
-            </focusedlayout>
-            <itemlayout condition="Container.Content(Artists)" height="40" width="400">
-                <control type="image">
-                    <posy>-20</posy>
-                    <width>400</width>
-                    <height>60</height>
-                    <texture border="1">osd/osd_settings_buttonnf.png</texture>
-                </control>
-                <control type="label">
-                    <posx>10</posx>
-                    <width>400</width>
-                    <height>40</height>
-                    <textoffsetx>15</textoffsetx>
-                    <label>$INFO[ListItem.Label]</label>
-                    <font>Font_Reg28</font>
-                    <shadowcolor>black</shadowcolor>
-                    <textcolor>white3</textcolor>
-                </control>
-            </itemlayout>
-            <focusedlayout condition="Container.Content(Artists)" height="40" width="400">
-                <control type="group">
-                    <visible>!Control.HasFocus(50)</visible>
-                    <control type="image">
-                        <posy>-20</posy>
-                        <width>400</width>
-                        <height>60</height>
-                        <texture border="1">osd/osd_settings_buttonnf.png</texture>
-                    </control>
-                    <control type="label">
-                        <posx>10</posx>
-                        <width>400</width>
-                        <height>40</height>
-                        <textoffsetx>15</textoffsetx>
-                        <label>$INFO[ListItem.Label]</label>
-                        <font>Font_Reg28</font>
-                        <shadowcolor>black</shadowcolor>
-                        <textcolor>white3</textcolor>
-                    </control>
-                </control>
-                <control type="group">
-                    <visible>Control.HasFocus(50)</visible>
-                    <control type="image">
-                        <width>400</width>
-                        <height>40</height>
-                        <texture border="8">views/tripanel/listselect_fo.png</texture>
-                        <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                    </control>
-                    <control type="label">
-                        <posx>10</posx>
-                        <width>400</width>
-                        <height>40</height>
-                        <textoffsetx>15</textoffsetx>
-                        <label>$INFO[ListItem.Label]</label>
-                        <font>Font_Reg28</font>
-                        <shadowcolor>black</shadowcolor>
-                    </control>
-                </control>
-            </focusedlayout>
-        </control>
-        <!-- Main Group -->
-        <control type="grouplist" id="40">
-            <posx>-135</posx>
-            <posy>5</posy>
-            <width>2325</width>
-            <height>780</height>
-            <animation effect="slide" end="0,300" time="0" condition="Window.IsActive(1147)">Conditional</animation>
-            <scrolltime tween="cubic" easing="inout">500</scrolltime>
-            <orientation>horizontal</orientation>
-            <itemgap>-1060</itemgap>
-            <animation type="WindowOpen" reversible="false">
-                <effect type="zoom" start="150" end="100" center="960,540" time="960" tween="cubic" />
-                <effect type="fade" end="100" time="960" />
-            </animation>
-            <animation type="WindowClose" reversible="false">
-                <effect type="fade" start="100" end="0" time="240" />
-                <effect type="zoom" start="100" end="130" center="960,540" time="240" tween="cubic" easing="in" />
-            </animation>
-            <!-- Similar Artists -->
-            <control type="group" id="5000">
-                <width>2325</width>
-                <height>825</height>
-                <animation type="Conditional" condition="![ControlGroup(5000).HasFocus | Control.HasFocus(5012)]">
-                    <effect type="fade" start="100" end="80" time="400" tween="cubic" easing="inout" />
-                    <effect type="zoom" start="100" end="70" time="400" tween="cubic" easing="inout" center="auto" />
-                </animation>
-                <control type="button" id="5012">
-                    <include>HiddenObject</include>
-                    <onup>1500</onup>
-                    <ondown>5001</ondown>
-                    <onright>6012</onright>
-                    <onleft>9012</onleft>
-                    <ondown>5001</ondown>
-                    <onclick>SetFocus(5001)</onclick>
-                </control>
-                <control type="group" id="5001">
-                    <posx>450</posx>
-                    <include>FeaturedPanel</include>
-                    <control type="group">
-                        <posx>131</posx>
-                        <posy>91</posy>
-                        <control type="label">
-                            <posx>-100</posx>
-                            <posy>-15</posy>
-                            <width>445</width>
-                            <height>34</height>
-                            <align>center</align>
-                            <label>$LOCALIZE[31635]</label>
-                            <font>Font_Reg37_Caps</font>
-                            <textcolor>$VAR[TitleColorVar]</textcolor>
-                        </control>
-                        <control type="group">
-                            <posx>-90</posx>
-                            <posy>27</posy>
-                            <control type="image">
-                                <posx>-20</posx>
-                                <posy>-8</posy>
-                                <width>465</width>
-                                <height>465</height>
-                                <texture>thumbs/boxes/cd_shadow_light_shadow.png</texture>
-                                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                                <visible>!Skin.HasSetting(DisableGlowbar)</visible>
-                                <animation effect="fade" start="100" end="80" time="2000" pulse="true" condition="true">conditional</animation>
-                                <include>Animation_VisibleChange400</include>
-                            </control>
-                            <control type="multiimage">
-                                <posx>2</posx>
-                                <posy>11</posy>
-                                <width>420</width>
-                                <height>420</height>
-                                <aspectratio scalediffuse="false">scale</aspectratio>
-                                <imagepath background="true" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[Container(5010).ListItem.Icon]</imagepath>
-                                <fadetime>750</fadetime>
-                                <timeperimage>5000</timeperimage>
-                            </control>
-                            <control type="image">
-                                <posx>-20</posx>
-                                <posy>-8</posy>
-                                <width>465</width>
-                                <height>465</height>
-                                <texture>thumbs/boxes/cd_shadow_light.png</texture>
-                            </control>
-                        </control>
-                        <control type="panel" id="5010">
-                            <posx>379</posx>
-                            <posy>-22</posy>
-                            <width>800</width>
-                            <height>490</height>
-                            <onup>5012</onup>
-                            <ondown>1500</ondown>
-                            <onback>Dialog.Close(1154)</onback>
-                            <onright>6010</onright>
-                            <onleft>9010</onleft>
-                            <orientation>vertical</orientation>
-                            <focusposition>0</focusposition>
-                            <scrolltime tween="cubic" easing="inout">400</scrolltime>
-                            <preloaditems>2</preloaditems>
-                            <itemlayout height="240" width="266">
-                                <include>MusicVisPanelLayout</include>
-                                <control type="image">
-                                    <posy>10</posy>
-                                    <width>240</width>
-                                    <height>240</height>
-                                    <texture border="6">common/bgcolor.png</texture>
-                                    <visible>Control.HasFocus(5010)</visible>
-                                    <include>Animation_VisibleChange400</include>
-                                    <colordiffuse>55FFFFFF</colordiffuse>
-                                </control>
-                            </itemlayout>
-                            <focusedlayout height="240" width="266">
-                                <include>MusicVisPanelLayout</include>
-                                <control type="image">
-                                    <posy>10</posy>
-                                    <width>240</width>
-                                    <height>240</height>
-                                    <texture border="6">views/addonwall_select.png</texture>
-                                    <visible>Control.HasFocus(5010)</visible>
-                                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                                </control>
-                            </focusedlayout>
-                            <content>
-                                <!--     <include>SimilarArtistsItems</include> -->
-                                <item id="1">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.1.SimilarName)]</label>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.1.SimilarThumb)]</icon>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.1.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.1.SimilarThumb))</visible>
-                                </item>
-                                <item id="2">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.2.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.2.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.2.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.2.SimilarThumb))</visible>
-                                </item>
-                                <item id="3">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.3.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.3.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.3.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.3.SimilarThumb))</visible>
-                                </item>
-                                <item id="4">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.4.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.4.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.4.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.4.SimilarThumb))</visible>
-                                </item>
-                                <item id="5">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.5.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.5.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.5.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.5.SimilarThumb))</visible>
-                                </item>
-                                <item id="6">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.6.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.6.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.6.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.6.SimilarThumb))</visible>
-                                </item>
-                                <item id="7">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.7.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.7.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.7.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.7.SimilarThumb))</visible>
-                                </item>
-                                <item id="8">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.8.SimilarName)]</label>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.8.SimilarThumb)]</icon>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.8.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.8.SimilarThumb))</visible>
-                                </item>
-                                <item id="9">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.9.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.9.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.9.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.9.SimilarThumb))</visible>
-                                </item>
-                                <item id="10">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.10.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.10.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.10.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.10.SimilarThumb))</visible>
-                                </item>
-                                <item id="11">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.11.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.11.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.11.SimilarThumb))</visible>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.11.SimilarThumb)]</icon>
-                                </item>
-                                <item id="12">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.12.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.12.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.12.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.12.SimilarThumb))</visible>
-                                </item>
-                                <item id="13">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.13.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.13.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.13.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.13.SimilarThumb))</visible>
-                                </item>
-                                <item id="14">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.14.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.14.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.14.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.14.SimilarThumb))</visible>
-                                </item>
-                                <item id="15">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.15.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.15.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.15.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.15.SimilarThumb))</visible>
-                                </item>
-                                <item id="16">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.16.SimilarName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window.Property(ArtistSlideshow.16.SimilarName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.16.SimilarThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.16.SimilarThumb))</visible>
-                                </item>
-                            </content>
-                        </control>
-                        <!--content-->
-                    </control>
-                    <control type="image">
-                        <posx>21</posx>
-                        <posy>59</posy>
-                        <width>1290</width>
-                        <height>516</height>
-                        <texture>featured/panel_featured_overlay.png</texture>
-                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
-                    </control>
-                </control>
-            </control>
-            <!-- Discography -->
-            <control type="group" id="6000">
-                <width>2325</width>
-                <height>825</height>
-                <animation type="Conditional" condition="![ControlGroup(6000).HasFocus | Control.HasFocus(6012)]">
-                    <effect type="fade" start="100" end="80" time="400" tween="cubic" easing="inout" />
-                    <effect type="zoom" start="100" end="70" time="400" tween="cubic" easing="inout" center="auto" />
-                </animation>
-                <control type="button" id="6012">
-                    <include>HiddenObject</include>
-                    <onup>1500</onup>
-                    <ondown>6001</ondown>
-                    <onright>7012</onright>
-                    <onleft>5012</onleft>
-                    <ondown>6001</ondown>
-                    <onclick>Action(Close)</onclick>
-                    <onclick>ActivateWindow(Videos,MovieTitles,return)</onclick>
-                </control>
-                <control type="group">
-                    <posx>450</posx>
-                    <include>FeaturedPanel</include>
-                    <control type="group" id="6001">
-                        <posx>131</posx>
-                        <posy>91</posy>
-                        <control type="label">
-                            <posx>-100</posx>
-                            <posy>-15</posy>
-                            <width>445</width>
-                            <height>34</height>
-                            <align>center</align>
-                            <label>$LOCALIZE[21888]</label>
-                            <font>Font_Reg37_Caps</font>
-                            <textcolor>$VAR[TitleColorVar]</textcolor>
-                        </control>
-                        <control type="group">
-                            <posx>-90</posx>
-                            <posy>27</posy>
-                            <control type="image">
-                                <posx>-20</posx>
-                                <posy>-8</posy>
-                                <width>465</width>
-                                <height>465</height>
-                                <texture>thumbs/boxes/cd_shadow_light_shadow.png</texture>
-                                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                                <visible>!Skin.HasSetting(DisableGlowbar)</visible>
-                                <animation effect="fade" start="100" end="80" time="2000" pulse="true" condition="true">conditional</animation>
-                                <include>Animation_VisibleChange400</include>
-                            </control>
-                            <control type="multiimage">
-                                <posx>2</posx>
-                                <posy>11</posy>
-                                <width>420</width>
-                                <height>420</height>
-                                <aspectratio scalediffuse="false">scale</aspectratio>
-                                <imagepath background="true" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[Container(6010).ListItem.Icon]</imagepath>
-                                <fadetime>750</fadetime>
-                                <timeperimage>5000</timeperimage>
-                            </control>
-                            <control type="image">
-                                <posx>-20</posx>
-                                <posy>-8</posy>
-                                <width>465</width>
-                                <height>465</height>
-                                <texture>thumbs/boxes/cd_shadow_light.png</texture>
-                            </control>
-                        </control>
-                        <control type="panel" id="6010">
-                            <posx>379</posx>
-                            <posy>-22</posy>
-                            <width>800</width>
-                            <height>490</height>
-                            <onup>6012</onup>
-                            <ondown>1500</ondown>
-                            <onback>Dialog.Close(1154)</onback>
-                            <onright>7010</onright>
-                            <onleft>5010</onleft>
-                            <orientation>vertical</orientation>
-                            <focusposition>0</focusposition>
-                            <scrolltime tween="cubic" easing="inout">400</scrolltime>
-                            <preloaditems>2</preloaditems>
-                            <itemlayout height="240" width="266">
-                                <include>MusicVisPanelLayout</include>
-                                <control type="image">
-                                    <posy>10</posy>
-                                    <width>240</width>
-                                    <height>240</height>
-                                    <texture border="6">common/bgcolor.png</texture>
-                                    <visible>Control.HasFocus(6010)</visible>
-                                    <include>Animation_VisibleChange400</include>
-                                    <colordiffuse>55FFFFFF</colordiffuse>
-                                </control>
-                            </itemlayout>
-                            <focusedlayout height="240" width="266">
-                                <include>MusicVisPanelLayout</include>
-                                <control type="image">
-                                    <posy>10</posy>
-                                    <width>240</width>
-                                    <height>240</height>
-                                    <texture border="6">views/addonwall_select.png</texture>
-                                    <visible>Control.HasFocus(6010)</visible>
-                                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                                </control>
-                            </focusedlayout>
-                            <content>
-                                <!--                                 <include>DiscographyItems</include> -->
-                                <item id="1">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.1.AlbumName)]</label>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.1.AlbumThumb)]</icon>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.1.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.1.AlbumThumb))</visible>
-                                </item>
-                                <item id="2">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.2.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.2.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.2.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.2.AlbumThumb))</visible>
-                                </item>
-                                <item id="3">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.3.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.3.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.3.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.3.AlbumThumb))</visible>
-                                </item>
-                                <item id="4">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.4.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.4.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.4.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.4.AlbumThumb))</visible>
-                                </item>
-                                <item id="5">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.5.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.5.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.5.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.5.AlbumThumb))</visible>
-                                </item>
-                                <item id="6">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.6.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.6.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.6.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.6.AlbumThumb))</visible>
-                                </item>
-                                <item id="7">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.7.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.7.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.7.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.7.AlbumThumb))</visible>
-                                </item>
-                                <item id="8">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.8.AlbumName)]</label>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.8.AlbumThumb)]</icon>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.8.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.8.AlbumThumb))</visible>
-                                </item>
-                                <item id="9">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.9.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.9.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.9.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.9.AlbumThumb))</visible>
-                                </item>
-                                <item id="10">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.10.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.10.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.10.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.10.AlbumThumb))</visible>
-                                </item>
-                                <item id="11">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.11.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.11.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.11.AlbumThumb))</visible>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.11.AlbumThumb)]</icon>
-                                </item>
-                                <item id="12">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.12.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.12.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.12.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.12.AlbumThumb))</visible>
-                                </item>
-                                <item id="13">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.13.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.13.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.13.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.13.AlbumThumb))</visible>
-                                </item>
-                                <item id="14">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.14.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.14.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.14.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.14.AlbumThumb))</visible>
-                                </item>
-                                <item id="15">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.15.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.15.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.15.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.15.AlbumThumb))</visible>
-                                </item>
-                                <item id="16">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.16.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.16.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.16.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.16.AlbumThumb))</visible>
-                                </item>
-                                <item id="17">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.17.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.17.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.17.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.17.AlbumThumb))</visible>
-                                </item>
-                                <item id="18">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.18.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.18.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.18.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.18.AlbumThumb))</visible>
-                                </item>
-                                <item id="19">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.19.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.19.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.19.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.19.AlbumThumb))</visible>
-                                </item>
-                                <item id="20">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.20.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.20.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.20.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.20.AlbumThumb))</visible>
-                                </item>
-                                <item id="21">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.21.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.21.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.21.AlbumThumb))</visible>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.21.AlbumThumb)]</icon>
-                                </item>
-                                <item id="22">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.22.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.22.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.22.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.22.AlbumThumb))</visible>
-                                </item>
-                                <item id="23">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.23.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.23.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.23.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.23.AlbumThumb))</visible>
-                                </item>
-                                <item id="24">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.24.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.24.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.24.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.24.AlbumThumb))</visible>
-                                </item>
-                                <item id="25">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.25.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.25.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.25.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.25.AlbumThumb))</visible>
-                                </item>
-                                <item id="26">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.26.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.26.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.26.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.26.AlbumThumb))</visible>
-                                </item>
-                                <item id="27">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.27.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.27.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.27.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.27.AlbumThumb))</visible>
-                                </item>
-                                <item id="28">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.28.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.28.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.28.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.28.AlbumThumb))</visible>
-                                </item>
-                                <item id="29">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.29.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.29.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.29.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.29.AlbumThumb))</visible>
-                                </item>
-                                <item id="30">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.30.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.30.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.30.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.30.AlbumThumb))</visible>
-                                </item>
-                                <item id="31">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.31.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.31.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.31.AlbumThumb))</visible>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.31.AlbumThumb)]</icon>
-                                </item>
-                                <item id="32">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.32.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.32.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.32.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.32.AlbumThumb))</visible>
-                                </item>
-                                <item id="33">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.33.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.33.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.33.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.33.AlbumThumb))</visible>
-                                </item>
-                                <item id="34">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.34.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.34.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.34.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.34.AlbumThumb))</visible>
-                                </item>
-                                <item id="35">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.35.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.35.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.35.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.35.AlbumThumb))</visible>
-                                </item>
-                                <item id="36">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.36.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.36.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.36.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.36.AlbumThumb))</visible>
-                                </item>
-                                <item id="37">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.37.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.37.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.37.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.37.AlbumThumb))</visible>
-                                </item>
-                                <item id="38">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.38.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.38.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.38.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.38.AlbumThumb))</visible>
-                                </item>
-                                <item id="39">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.39.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.39.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.39.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.39.AlbumThumb))</visible>
-                                </item>
-                                <item id="40">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.40.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.40.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.40.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.40.AlbumThumb))</visible>
-                                </item>
-                                <item id="41">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.41.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.41.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.41.AlbumThumb))</visible>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.41.AlbumThumb)]</icon>
-                                </item>
-                                <item id="42">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.42.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.42.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.42.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.42.AlbumThumb))</visible>
-                                </item>
-                                <item id="43">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.43.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.43.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.43.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.43.AlbumThumb))</visible>
-                                </item>
-                                <item id="44">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.44.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.44.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.44.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.44.AlbumThumb))</visible>
-                                </item>
-                                <item id="45">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.45.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.45.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.45.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.45.AlbumThumb))</visible>
-                                </item>
-                                <item id="46">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.46.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.46.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.46.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.46.AlbumThumb))</visible>
-                                </item>
-                                <item id="47">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.47.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.47.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.47.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.47.AlbumThumb))</visible>
-                                </item>
-                                <item id="48">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.48.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.48.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.48.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.48.AlbumThumb))</visible>
-                                </item>
-                                <item id="49">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.49.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.49.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.49.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.49.AlbumThumb))</visible>
-                                </item>
-                                <item id="50">
-                                    <label>$INFO[Window.Property(ArtistSlideshow.50.AlbumName)]</label>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Artist] $INFO[Window.Property(ArtistSlideshow.50.AlbumName)],return)</onclick>
-                                    <onclick>Dialog.Close(all,true)</onclick>
-                                    <icon>$INFO[Window.Property(ArtistSlideshow.50.AlbumThumb)]</icon>
-                                    <visible>!IsEmpty(Window.Property(ArtistSlideshow.50.AlbumThumb))</visible>
-                                </item>
-                            </content>
-                        </control>
-                        <!--content-->
-                    </control>
-                    <control type="image">
-                        <posx>21</posx>
-                        <posy>59</posy>
-                        <width>1290</width>
-                        <height>516</height>
-                        <texture>featured/panel_featured_overlay.png</texture>
-                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
-                    </control>
-                </control>
-            </control>
-            <!-- Bio -->
-            <control type="group" id="7000">
-                <width>2325</width>
-                <height>825</height>
-                <animation type="Conditional" condition="![ControlGroup(7000).HasFocus | Control.HasFocus(7012)]">
-                    <effect type="fade" start="100" end="80" time="400" tween="cubic" easing="inout" />
-                    <effect type="zoom" start="100" end="70" time="400" tween="cubic" easing="inout" center="auto" />
-                </animation>
-                <control type="button" id="7012">
-                    <include>HiddenObject</include>
-                    <onup>1500</onup>
-                    <ondown>7001</ondown>
-                    <onright>8012</onright>
-                    <onleft>6012</onleft>
-                    <ondown>7001</ondown>
-                    <onclick>Action(Close)</onclick>
-                </control>
-                <control type="group">
-                    <posx>450</posx>
-                    <include>FeaturedPanel</include>
-                    <control type="image">
-                        <posx>37</posx>
-                        <posy>60</posy>
-                        <width>1260</width>
-                        <height>506</height>
-                        <aspectratio aligny="top">scale</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(fanart)]</texture>
-                        <colordiffuse>44FFFFFF</colordiffuse>
-                    </control>
-                    <control type="group" id="7001">
-                        <posx>131</posx>
-                        <posy>91</posy>
-                        <control type="label">
-                            <posx>-100</posx>
-                            <posy>-15</posy>
-                            <width>445</width>
-                            <height>34</height>
-                            <align>center</align>
-                            <label>$LOCALIZE[21887]</label>
-                            <font>Font_Reg37_Caps</font>
-                            <textcolor>$VAR[TitleColorVar]</textcolor>
-                        </control>
-                        <control type="group">
-                            <posx>-90</posx>
-                            <posy>27</posy>
-                            <control type="image">
-                                <posx>-20</posx>
-                                <posy>-8</posy>
-                                <width>465</width>
-                                <height>465</height>
-                                <texture>thumbs/boxes/cd_shadow_light_shadow.png</texture>
-                                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                                <visible>!Skin.HasSetting(DisableGlowbar)</visible>
-                                <animation effect="fade" start="100" end="80" time="2000" pulse="true" condition="true">conditional</animation>
-                                <include>Animation_VisibleChange400</include>
-                            </control>
-                            <control type="multiimage">
-                                <posx>2</posx>
-                                <posy>11</posy>
-                                <width>420</width>
-                                <height>420</height>
-                                <aspectratio scalediffuse="false">scale</aspectratio>
-                                <imagepath background="true" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[Window.Property(ArtistSlideshow)]</imagepath>
-                                <fadetime>750</fadetime>
-                                <timeperimage>5000</timeperimage>
-                            </control>
-                            <control type="image">
-                                <posx>-20</posx>
-                                <posy>-8</posy>
-                                <width>465</width>
-                                <height>465</height>
-                                <texture>thumbs/boxes/cd_shadow_light.png</texture>
-                            </control>
-                        </control>
-                        <control type="textbox">
-                            <posx>360</posx>
-                            <posy>-10</posy>
-                            <width>724</width>
-                            <height>474</height>
-                            <label>$INFO[Window.Property(ArtistSlideshow.ArtistBiography)]</label>
-                            <font>Font_Reg30_2</font>
-                            <pagecontrol>7010</pagecontrol>
-                            <autoscroll delay="8000" time="AutoScrollTime" repeat="8000">Skin.HasSetting(AutoScroll)</autoscroll>
-                        </control>
-                        <control type="spincontrol" id="7010">
-                            <posx>1080</posx>
-                            <posy>-30</posy>
-                            <width>50</width>
-                            <height>88</height>
-                            <onup>7012</onup>
-                            <ondown>1500</ondown>
-                            <onleft>6010</onleft>
-                            <animation effect="zoom" start="100" end="115" center="auto" time="240" tween="back" condition="Control.HasFocus(7010)">Conditional</animation>
-                            <onright>8010</onright>
-                        </control>
-                    </control>
-                    <control type="image">
-                        <posx>21</posx>
-                        <posy>59</posy>
-                        <width>1290</width>
-                        <height>516</height>
-                        <texture>featured/panel_featured_overlay.png</texture>
-                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
-                    </control>
-                </control>
-            </control>
-            <!-- Playlist -->
-            <control type="group" id="8000">
-                <width>2325</width>
-                <height>825</height>
-                <animation type="Conditional" condition="![ControlGroup(8000).HasFocus | Control.HasFocus(8012)]">
-                    <effect type="fade" start="100" end="80" time="400" tween="cubic" easing="inout" />
-                    <effect type="zoom" start="100" end="70" time="400" tween="cubic" easing="inout" center="1160,412" />
-                </animation>
-                <control type="button" id="8012">
-                    <include>HiddenObject</include>
-                    <onup>1500</onup>
-                    <ondown>8001</ondown>
-                    <onright>9012</onright>
-                    <onleft>7012</onleft>
-                    <onclick>SetFocus(8001)</onclick>
-                </control>
-                <control type="group" id="8001">
-                    <posx>450</posx>
-                    <include>FeaturedPanel</include>
-                    <control type="image">
-                        <posx>37</posx>
-                        <posy>60</posy>
-                        <width>1260</width>
-                        <height>506</height>
-                        <aspectratio aligny="top">scale</aspectratio>
-                        <texture background="true">$INFO[ListItem.Art(fanart)]</texture>
-                        <colordiffuse>44FFFFFF</colordiffuse>
-                    </control>
-                    <control type="group">
-                        <posx>131</posx>
-                        <posy>91</posy>
-                        <control type="label">
-                            <posx>-100</posx>
-                            <posy>-15</posy>
-                            <width>445</width>
-                            <height>34</height>
-                            <align>center</align>
-                            <label>$LOCALIZE[31270]</label>
-                            <font>Font_Reg37_Caps</font>
-                            <textcolor>$VAR[TitleColorVar]</textcolor>
-                        </control>
-                        <control type="group">
-                            <posx>-90</posx>
-                            <posy>27</posy>
-                            <control type="image">
-                                <posx>-20</posx>
-                                <posy>-8</posy>
-                                <width>465</width>
-                                <height>465</height>
-                                <texture>thumbs/boxes/cd_shadow_light_shadow.png</texture>
-                                <colordiffuse>$VAR[ColorDiffuseVar]</colordiffuse>
-                                <visible>!Skin.HasSetting(DisableGlowbar)</visible>
-                                <animation effect="fade" start="100" end="80" time="2000" pulse="true" condition="true">conditional</animation>
-                                <include>Animation_VisibleChange400</include>
-                            </control>
-                            <control type="multiimage">
-                                <posx>2</posx>
-                                <posy>11</posy>
-                                <width>420</width>
-                                <height>420</height>
-                                <aspectratio scalediffuse="false">scale</aspectratio>
-                                <imagepath background="true" diffuse="thumbs/boxes/cdcover_mask.png">$INFO[Window.Property(ArtistSlideshow)]</imagepath>
-                                <fadetime>750</fadetime>
-                                <timeperimage>5000</timeperimage>
-                            </control>
-                            <control type="image">
-                                <posx>-20</posx>
-                                <posy>-8</posy>
-                                <width>465</width>
-                                <height>465</height>
-                                <texture>thumbs/boxes/cd_shadow_light.png</texture>
-                            </control>
-                        </control>
-                        <control type="panel" id="8010">
-                            <posx>379</posx>
-                            <posy>-18</posy>
-                            <width>800</width>
-                            <height>480</height>
-                            <onup>8012</onup>
-                            <ondown>1500</ondown>
-                            <onleft>7010</onleft>
-                            <onright>9010</onright>
-                            <orientation>vertical</orientation>
-                            <focusposition>0</focusposition>
-                            <scrolltime tween="cubic" easing="inout">400</scrolltime>
-                            <preloaditems>2</preloaditems>
-                            <itemlayout height="48" width="800">
-                                <control type="image">
-                                    <posx>15</posx>
-                                    <posy>0</posy>
-                                    <width>770</width>
-                                    <height>48</height>
-                                    <texture border="3">osd/osd_settings_buttonnf.png</texture>
-                                </control>
-                                <control type="label">
-                                    <posx>765</posx>
-                                    <posy>0</posy>
-                                    <width>300</width>
-                                    <height>48</height>
-                                    <align>right</align>
-                                    <label>$INFO[ListItem.Label2]</label>
-                                    <font>Font_Reg26</font>
-                                    <textcolor>$VAR[TitleColorVar]</textcolor>
-                                </control>
-                                <control type="label">
-                                    <posx>45</posx>
-                                    <posy>0</posy>
-                                    <width>765</width>
-                                    <height>48</height>
-                                    <align>left</align>
-                                    <label>[COLOR white2]$INFO[ListItem.Property(City)]: [/COLOR]$INFO[ListItem.Property(Name)]</label>
-                                    <font>Font_Reg29</font>
-                                    <textcolor>grey2</textcolor>
-                                </control>
-                                <!--                 <control type="label">
-                    <posy>10</posy>
-                    <posx>235</posx>
-                    <width>660</width>
-                    <height>60</height>
-                    <textcolor>grey2</textcolor>
-                    <align>right</align>
-                    <number>yes</number>
-                    <font>Font_Reg29</font>
-                    <label>$INFO[ListItem.Property(Number)]</label>
-                </control> -->
-                            </itemlayout>
-                            <focusedlayout height="48" width="800">
-                                <control type="image">
-                                    <width>800</width>
-                                    <height>48</height>
-                                    <texture border="8">views/tripanel/listselect_fo.png</texture>
-                                    <visible>Control.HasFocus(8010)</visible>
-                                    <colordiffuse>$VAR[FocusTextureColorVar]</colordiffuse>
-                                </control>
-                                <control type="image">
-                                    <posx>15</posx>
-                                    <posy>0</posy>
-                                    <width>370</width>
-                                    <height>48</height>
-                                    <texture border="3">osd/osd_settings_buttonnf.png</texture>
-                                </control>
-                                <control type="label">
-                                    <posx>765</posx>
-                                    <posy>0</posy>
-                                    <width>300</width>
-                                    <height>48</height>
-                                    <align>right</align>
-                                    <label>$INFO[ListItem.Label2]</label>
-                                    <font>Font_Reg26</font>
-                                    <textcolor>$VAR[TitleColorVar]</textcolor>
-                                </control>
-                                <control type="label">
-                                    <posx>45</posx>
-                                    <posy>0</posy>
-                                    <width>765</width>
-                                    <height>48</height>
-                                    <align>left</align>
-                                    <label>[COLOR white2]$INFO[ListItem.Property(City)]: [/COLOR]$INFO[ListItem.Property(Name)]</label>
-                                    <font>Font_Reg29</font>
-                                    <textcolor>grey2</textcolor>
-                                </control>
-                            </focusedlayout>
-                            <content>
-                                <item id="1">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.1.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.1.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.1.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.1.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.1.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),0)</visible>
-                                </item>
-                                <item id="2">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.2.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.2.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.2.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.2.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.2.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),1)</visible>
-                                </item>
-                                <item id="3">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.3.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.3.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.3.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.3.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.3.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),2)</visible>
-                                </item>
-                                <item id="4">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.4.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.4.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.4.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.4.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.4.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),3)</visible>
-                                </item>
-                                <item id="5">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.5.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.5.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.5.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.5.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.5.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),4)</visible>
-                                </item>
-                                <item id="6">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.6.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.6.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.6.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.6.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.6.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),5)</visible>
-                                </item>
-                                <item id="7">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.7.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.7.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.7.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.7.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.7.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),6)</visible>
-                                </item>
-                                <item id="8">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.8.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.8.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.8.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.8.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.8.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),7)</visible>
-                                </item>
-                                <item id="9">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.9.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.9.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.9.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.9.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.9.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),8)</visible>
-                                </item>
-                                <item id="10">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.10.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.10.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.10.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.10.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.10.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),9)</visible>
-                                </item>
-                                <item id="11">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.11.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.11.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.11.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.11.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.11.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),10)</visible>
-                                </item>
-                                <item id="12">
-                                    <label>$INFO[Window(Home).Property(ArtistEvents.12.Artists)]</label>
-                                    <label2>$INFO[Window(Home).Property(ArtistEvents.12.Date)]</label2>
-                                    <property name="City">$INFO[Window(Home).Property(ArtistEvents.12.City)]</property>
-                                    <property name="Name">$INFO[Window(Home).Property(ArtistEvents.12.Name)]</property>
-                                    <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[Window(Home).Property(ArtistEvents.12.Artists)],return)</onclick>
-                                    <onclick>Dialog.Close(1139)</onclick>
-                                    <visible>IntegerGreaterThan(Window(Home).Property(ArtistEvents.Count),11)</visible>
-                                </item>
-                            </content>
-                        </control>
-                    </control>
-                    <control type="image">
-                        <posx>21</posx>
-                        <posy>59</posy>
-                        <width>1290</width>
-                        <height>516</height>
-                        <texture>featured/panel_featured_overlay.png</texture>
-                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
-                    </control>
-                </control>
-            </control>
-            <!-- Fanart -->
-            <control type="group" id="2000">
-                <width>2325</width>
-                <height>825</height>
-                <animation type="Conditional" condition="![ControlGroup(2000).HasFocus | Control.HasFocus(9012)]">
-                    <effect type="fade" start="100" end="80" time="400" tween="cubic" easing="inout" />
-                    <effect type="zoom" start="100" end="70" time="400" tween="cubic" easing="inout" center="auto" />
-                </animation>
-                <control type="button" id="9012">
-                    <include>HiddenObject</include>
-                    <onup>1500</onup>
-                    <ondown>9001</ondown>
-                    <onright>5012</onright>
-                    <onleft>8012</onleft>
-                    <ondown>9001</ondown>
-                    <onclick>Action(Close)</onclick>
-                    <onclick>ActivateWindow(musiclibrary,root,return)</onclick>
-                </control>
-                <control type="group" id="9001">
-                    <posx>450</posx>
-                    <include>FeaturedPanel</include>
-                    <control type="group">
-                        <posx>31</posx>
-                        <posy>31</posy>
-                        <control type="button" id="9010">
-                            <include>HiddenObject</include>
-                            <onup>9012</onup>
-                            <ondown>1500</ondown>
-                            <onleft>8010</onleft>
-                            <onright>5012</onright>
-                            <onclick>SetFocus(9010)</onclick>
-                        </control>
-                        <control type="image">
-                            <posx>21</posx>
-                            <posy>29</posy>
-                            <width>1230</width>
-                            <height>506</height>
-                            <aspectratio aligny="top">scale</aspectratio>
-                            <texture background="true" fallback="special://skin/backgrounds/fallback_music.jpg">$INFO[ListItem.Art(fanart)]</texture>
-                            <visible>!SubString(Control.getLabel(8870),extrafanart)</visible>
-                        </control>
-                        <control type="multiimage" id="8870">
-                            <posx>21</posx>
-                            <posy>29</posy>
-                            <width>1230</width>
-                            <height>506</height>
-                            <aspectratio aligny="top">scale</aspectratio>
-                            <imagepath background="true">$INFO[Skin.String(ArtistsLogosPath)]$INFO[ListItem.Artist,,/extrafanart/]</imagepath>
-                        </control>
-                        <control type="image">
-                            <posx>21</posx>
-                            <posy>500</posy>
-                            <width>1230</width>
-                            <height>35</height>
-                            <texture>common/bgcolor.png</texture>
-                            <visible>!IsEmpty(ListItem.Property(Artist_Born)) | !IsEmpty(ListItem.Property(Artist_Formed)) | !IsEmpty(ListItem.Property(Artist_Died)) | !IsEmpty(ListItem.Property(Artist_Disbanded))</visible>
-                            <animation effect="fade" start="100" end="80" time="40" condition="true">Conditional</animation>
-                        </control>
-                        <control type="grouplist">
-                            <posx>31</posx>
-                            <posy>500</posy>
-                            <width>1230</width>
-                            <height>35</height>
-                            <align>center</align>
-                            <itemgap>50</itemgap>
-                            <orientation>horizontal</orientation>
-                            <control type="label">
-                                <width min="50" max="800">auto</width>
-                                <aligny>bottom</aligny>
-                                <label>$LOCALIZE[21893]: [COLOR white3]$INFO[ListItem.Property(Artist_Born)][/COLOR]</label>
-                                <font>Font_Reg29</font>
-                                <shadowcolor>black</shadowcolor>
-                                <textcolor>$VAR[SubTitleColorVar]</textcolor>
-                                <visible>!IsEmpty(ListItem.Property(Artist_Born))</visible>
-                            </control>
-                            <control type="label">
-                                <width min="50" max="800">auto</width>
-                                <aligny>bottom</aligny>
-                                <label>$LOCALIZE[21894]: [COLOR white3]$INFO[ListItem.Property(Artist_Formed)][/COLOR]</label>
-                                <font>Font_Reg29</font>
-                                <shadowcolor>black</shadowcolor>
-                                <textcolor>$VAR[SubTitleColorVar]</textcolor>
-                                <visible>!IsEmpty(ListItem.Property(Artist_Formed))</visible>
-                            </control>
-                            <control type="label">
-                                <width min="50" max="800">auto</width>
-                                <aligny>bottom</aligny>
-                                <label>$LOCALIZE[21897]: [COLOR white3]$INFO[ListItem.Property(Artist_Died)][/COLOR]</label>
-                                <font>Font_Reg29</font>
-                                <shadowcolor>black</shadowcolor>
-                                <textcolor>$VAR[SubTitleColorVar]</textcolor>
-                                <visible>!IsEmpty(ListItem.Property(Artist_Died))</visible>
-                            </control>
-                            <control type="label">
-                                <width min="50" max="800">auto</width>
-                                <aligny>bottom</aligny>
-                                <label>$LOCALIZE[21896]: [COLOR white3]$INFO[ListItem.Property(Artist_Disbanded)][/COLOR]</label>
-                                <font>Font_Reg29</font>
-                                <shadowcolor>black</shadowcolor>
-                                <textcolor>$VAR[SubTitleColorVar]</textcolor>
-                                <visible>!IsEmpty(ListItem.Property(Artist_Disbanded))</visible>
-                            </control>
-                        </control>
-                    </control>
-                    <control type="image">
-                        <posx>21</posx>
-                        <posy>59</posy>
-                        <width>1290</width>
-                        <height>516</height>
-                        <texture>featured/panel_featured_overlay.png</texture>
-                        <colordiffuse>$VAR[DialogColorVar]</colordiffuse>
-                    </control>
-                </control>
-            </control>
-        </control>
-        <control type="group">
-            <include>Animation_HideBreadCrumbs</include>
-            <visible>!ControlGroup(650).HasFocus + !ControlGroup(651).HasFocus+ !ControlGroup(652).HasFocus</visible>
-            <control type="image">
-                <width>1920</width>
-                <height>87</height>
-                <texture flipy="true">home/nav_back_shadow.png</texture>
-                <colordiffuse>$VAR[ExtendedColorVar]</colordiffuse>
-            </control>
-            <control type="grouplist">
-                <posx>0</posx>
-                <width>1920</width>
-                <align>center</align>
-                <itemgap>50</itemgap>
-                <orientation>horizontal</orientation>
-                <usecontrolcoords>true</usecontrolcoords>
-                <control type="image">
-                    <posy>6</posy>
-                    <width>38</width>
-                    <height>30</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture>common/featured_icon.png</texture>
-                    <colordiffuse>$VAR[BreadCrumbsContentColorVar]</colordiffuse>
-                    <visible>!Window.IsActive(visualisation)</visible>
-                </control>
-                <control type="group">
-                    <width>68</width>
-                    <visible>Window.IsActive(visualisation)</visible>
-                    <control type="image">
-                        <posy>6</posy>
-                        <width>38</width>
-                        <height>30</height>
-                        <aspectratio>keep</aspectratio>
-                        <texture>common/wrench.png</texture>
-                        <colordiffuse>$VAR[BreadCrumbsContentColorVar]</colordiffuse>
-                    </control>
-                    <control type="image">
-                        <posy>6</posy>
-                        <posx>-30</posx>
-                        <width>38</width>
-                        <height>30</height>
-                        <animation effect="rotate" end="-90" center="auto" time="0" condition="true">Conditional</animation>
-                        <aspectratio>keep</aspectratio>
-                        <texture>defaulticons/DefaultFolderBack.png</texture>
-                        <colordiffuse>$VAR[BreadCrumbsContentColorVar]</colordiffuse>
-                    </control>
-                </control>
-                <control type="label">
-                    <label>$LOCALIZE[31635]</label>
-                    <include>FeaturedTopLabel</include>
-                    <animation effect="fade" start="100" end="50" time="240" tween="cubic" easing="inout" condition="!Control.HasFocus(5012)">Conditional</animation>
-                    <animation effect="zoom" start="100" end="120" time="240" center="auto" tween="cubic" easing="inout" condition="ControlGroup(5000).HasFocus">Conditional</animation>
-                </control>
-                <control type="label">
-                    <label>$LOCALIZE[21888]</label>
-                    <include>FeaturedTopLabel</include>
-                    <animation effect="fade" start="100" end="50" time="240" tween="cubic" easing="inout" condition="!Control.HasFocus(6012)">Conditional</animation>
-                    <animation effect="zoom" start="100" end="120" time="240" center="auto" tween="cubic" easing="inout" condition="ControlGroup(6000).HasFocus">Conditional</animation>
-                </control>
-                <control type="label">
-                    <label>$LOCALIZE[21887]</label>
-                    <include>FeaturedTopLabel</include>
-                    <animation effect="fade" start="100" end="50" time="240" tween="cubic" easing="inout" condition="!Control.HasFocus(7012)">Conditional</animation>
-                    <animation effect="zoom" start="100" end="120" time="240" center="auto" tween="cubic" easing="inout" condition="ControlGroup(7000).HasFocus">Conditional</animation>
-                </control>
-                <control type="label">
-                    <label>$LOCALIZE[31270]</label>
-                    <include>FeaturedTopLabel</include>
-                    <animation effect="fade" start="100" end="50" time="240" tween="cubic" easing="inout" condition="!Control.HasFocus(8012)">Conditional</animation>
-                    <animation effect="zoom" start="100" end="120" time="240" center="auto" tween="cubic" easing="inout" condition="ControlGroup(8000).HasFocus">Conditional</animation>
-                </control>
-                <control type="label">
-                    <label>$LOCALIZE[20445]</label>
-                    <include>FeaturedTopLabel</include>
-                    <animation effect="fade" start="100" end="50" time="240" tween="cubic" easing="inout" condition="!Control.HasFocus(9012)">Conditional</animation>
-                    <animation effect="zoom" start="100" end="120" time="240" center="auto" tween="cubic" easing="inout" condition="ControlGroup(2000).HasFocus">Conditional</animation>
-                </control>
-            </control>
-        </control>
+        <include>AlbumInfoMusicPanels</include>
         <control type="group">
             <include>Media_Menu_Furniture</include>
             <control type="group" id="9000">
@@ -2136,6 +668,22 @@
                         <onup>9003</onup>
                         <ondown>3000</ondown>
                         <onback>5000</onback>
+                        <control type="button" id="20">
+                            <label>$LOCALIZE[208]</label>
+                            <include>HiddenObject</include>
+                            <onclick>RunScript(script.playalbum,albumid=$INFO[ListItem.DBID])</onclick>
+                            <visible>System.HasAddon(script.playalbum) + Container.Content(albums)</visible>
+                        </control>
+                        <control type="button" id="22">
+                            <label>$LOCALIZE[31096]</label>
+                            <include>HiddenObject</include>
+                            <onclick condition="Container.Content(artists)">SetProperty(SearchValue,$ESCINFO[ListItem.Artist],home)</onclick>
+                            <onclick condition="Container.Content(artists)">RunScript(script.extendedinfo,info=youtubesearch,id=$ESCINFO[ListItem.Artist],silent=False)</onclick>
+                            <onclick condition="Container.Content(albums)">SetProperty(SearchValue,$ESCINFO[ListItem.Artist] $ESCINFO[ListItem.Album],home)</onclick>
+                            <onclick condition="Container.Content(albums)">RunScript(script.extendedinfo,info=youtubesearch,id=$ESCINFO[ListItem.Artist] $ESCINFO[ListItem.Album],silent=False)</onclick>
+                            <onclick>ActivateWindow(1168)</onclick>   
+                            <visible>Container.Content(artists) | Container.Content(albums)</visible>
+                        </control>
                         <control type="button" id="6">
                             <label>$LOCALIZE[184]</label>
                             <include>Objects_MediaMenuButtonIcons</include>
@@ -2162,13 +710,6 @@
                             <include>Objects_MediaMenuButtonIcons</include>
                             <onclick>RunAddon(script.cdartmanager)</onclick>
                             <visible>System.HasAddon(script.cdartmanager)</visible>
-                        </control>
-                        <control type="radiobutton" id="121">
-                            <label>31730</label>
-                            <include>Objects_MediaMenuButtonIcons</include>
-                            <onclick>Skin.ToggleSetting(usescriptalbumlist)</onclick>
-                            <selected>Skin.HasSetting(usescriptalbumlist)</selected>
-                            <visible>System.HasAddon(script.artistslideshow)</visible>
                         </control>
                     </control>
                     <control type="grouplist">
@@ -2206,12 +747,6 @@
                             <animation effect="fade" start="100" end="55" time="0" condition="!Control.HasFocus(120)">Conditional</animation>
                             <include>MediaMenuIcons</include>
                             <visible>Control.IsVisible(120)</visible>
-                        </control>
-                        <control type="image">
-                            <texture>special://skin/extras/BigIcons/Gears.png</texture>
-                            <animation effect="fade" start="100" end="55" time="0" condition="!Control.HasFocus(121)">Conditional</animation>
-                            <include>MediaMenuIcons</include>
-                            <visible>Control.IsVisible(121)</visible>
                         </control>
                     </control>
                     <include>QuickNavLabel</include>
