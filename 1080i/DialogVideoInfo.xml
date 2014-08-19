@@ -6,8 +6,7 @@
     <onload>AlarmClock(ActorFade,SetProperty(ActorFade,true),00:02,silent)</onload>
     <onload condition="Container.Content(movies) + System.HasAddon(script.extendedinfo)">RunScript(script.extendedinfo,info=similarmovies,info=extendedinfo,type=movie,dbid=$INFO[ListItem.DBID],silent=True)</onload>
     <onload condition="Container.Content(tvshows) + System.HasAddon(script.extendedinfo)">RunScript(script.extendedinfo,info=similar,type=tvshow,dbid=$INFO[ListItem.DBID],silent=True)</onload>
-    <onload condition="System.HasAddon(script.dvdextras) + Container.Content(movies)">XBMC.RunScript(script.dvdextras,$ESCINFO[ListItem.FilenameAndPath],start_theme)</onload>
-    <onunload condition="System.HasAddon(script.dvdextras) + Container.Content(movies)">XBMC.RunScript(script.dvdextras,stop_theme)</onunload>
+    <onload condition="System.HasAddon(script.videoextras)">XBMC.RunScript(script.videoextras,check,"$INFO[ListItem.FilenameAndPath]")</onload>
     <onunload>ClearProperty(FanartZoom,movieinformation)</onunload>
     <allowoverlay>no</allowoverlay>
     <controls>
@@ -1606,8 +1605,8 @@
                         <description>Extras</description>
                         <include>DialogVideoInfoButton</include>
                         <label>$LOCALIZE[31020]</label>
-                        <onclick>XBMC.RunScript(script.dvdextras,$ESCINFO[ListItem.FilenameAndPath])</onclick>
-                        <visible>[Container.Content(movies) | Container.Content(episodes)] + System.HasAddon(script.dvdextras)</visible>
+                        <onclick>XBMC.RunScript(script.videoextras,display,"$INFO[ListItem.FilenameAndPath]")</onclick>
+                        <visible>System.HasAddon(script.videoextras) + [Container.Content(movies) | Container.Content(episodes) | Container.Content(TVShows) | Container.Content(musicvideos)] + IsEmpty(Window(movieinformation).Property("HideVideoExtrasButton"))</visible>
                     </control>
                     <control type="button" id="111">
                         <description>Similar Window</description>
