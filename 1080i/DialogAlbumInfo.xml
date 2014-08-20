@@ -4,6 +4,7 @@
     <onload>ClearProperty(Logo,home)</onload>
     <onload>ClearProperty(Shout.Count,home)</onload>
     <onload condition="System.HasAddon(script.extendedinfo) + Container.Content(artists)">RunScript(script.extendedinfo,info=artistevents,info=similarartistsinlibrary,info=artistdetails,artistname=$INFO[ListItem.Artist])</onload>
+    <onload>RunScript(script.extendedinfo,info=youtubesearch,id=$INFO[ListItem.Artist],hd=$INFO[Window(home).Property(hdonly)])</onload>
     <onload condition="System.HasAddon(script.extendedinfo) + Container.Content(albums)">RunScript(script.extendedinfo,info=shouts,info=artistevents,info=similarartistsinlibrary,info=artistdetails,info=albuminfo,artistname=$INFO[ListItem.Artist],albumname=$INFO[ListItem.Album])</onload>
     <onunload condition="System.HasAddon(script.artistslideshow)">clearProperty(ArtistSlideshow.ExternalCall)</onunload>
     <animation type="WindowOpen" reversible="false">
@@ -45,6 +46,14 @@
             <onfocus>ActivateWindow(1165)</onfocus>
             <animation effect="fade" delay="140" time="1" reversible="false">Hidden</animation>
             <visible>Control.HasFocus(6010)</visible>
+        </control>
+        <control type="button" id="5014">
+            <include>HiddenObject</include>
+            <texturenofocus>-</texturenofocus>
+            <onfocus>PlayMedia($INFO[Container(10010).ListItem.Property(Path)])</onfocus>
+            <onfocus>SetFocus(10010)</onfocus>
+            <animation effect="fade" delay="140" time="1" reversible="false">Hidden</animation>
+            <visible>Control.HasFocus(10010)</visible>
         </control>
         <control type="button" id="3334">
             <include>HiddenObject</include>
@@ -682,9 +691,7 @@
                             <selected>Control.HasFocus(22)</selected>
                             <textureradioon colordiffuse="$VAR[FocusTextureColorVar]">special://skin/extras/BigIcons/Youtube.png</textureradioon>
                             <textureradiooff colordiffuse="grey">special://skin/extras/BigIcons/Youtube.png</textureradiooff>
-                            <onclick condition="Container.Content(artists)">SetProperty(SearchValue,$ESCINFO[ListItem.Artist],home)</onclick>
                             <onclick condition="Container.Content(artists)">RunScript(script.extendedinfo,info=youtubesearch,id=$INFO[ListItem.Artist])</onclick>
-                            <onclick condition="Container.Content(albums)">SetProperty(SearchValue,$INFO[ListItem.Artist] $INFO[ListItem.Album],home)</onclick>
                             <onclick condition="Container.Content(albums)">RunScript(script.extendedinfo,info=youtubesearch,id=$INFO[ListItem.Artist] $INFO[ListItem.Album])</onclick>
                             <include>Objects_MediaMenuButtonIcons</include>
                             <onclick>ActivateWindow(1168)</onclick>   
