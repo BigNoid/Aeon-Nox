@@ -17,13 +17,12 @@
 				<top>32</top>
 				<width>356</width>
 				<height>720</height>
-				<onleft>SetProperty(MediaMenu,True,home)</onleft>
-				<onleft>SetFocus(9050)</onleft>
+				<onleft>61</onleft>
 				<onright condition="Container(9000).HasFocus(1)">300</onright>
 				<onright condition="Container(9000).HasFocus(5)">304</onright>
 				<onup>9000</onup>
 				<ondown>9000</ondown>
-				<pagecontrol>-</pagecontrol>
+				<pagecontrol>61</pagecontrol>
 				<scrolltime tween="quadratic">300</scrolltime>
 				<itemlayout height="90" width="356">
 					<control type="image">
@@ -81,28 +80,72 @@
 						<label>31904</label>
 						<onclick>noop</onclick>
 						<icon>-</icon>
+						<visible>!IsEmpty(Window.Property(Daily.IsFetched))</visible>
 					</item>
 					<item id="3">
 						<label>31901</label>
 						<onclick>noop</onclick>
 						<icon>-</icon>
+						<visible>!IsEmpty(Window.Property(36Hour.IsFetched))</visible>
 					</item>
 					<item id="4">
 						<label>31903</label>
 						<onclick>noop</onclick>
 						<icon>-</icon>
+						<visible>!IsEmpty(Window.Property(Weekend.IsFetched))</visible>
 					</item>
 					<item id="5">
 						<label>31902</label>
 						<onclick>noop</onclick>
 						<icon>-</icon>
+						<visible>!IsEmpty(Window.Property(Hourly.IsFetched))</visible>
 					</item>
 					<item id="6">
-						<label>31910</label>
+						<label fallback="1448">$INFO[Window.Property(Map.1.Heading)]</label>
 						<onclick>noop</onclick>
 						<icon>-</icon>
+						<visible>!IsEmpty(Window.Property(Map.1.Area)) + !IsEmpty(Window.Property(Map.IsFetched))</visible>
+					</item>
+					<item id="7">
+						<label fallback="387">$INFO[Window.Property(Map.2.Heading)]</label>
+						<onclick>noop</onclick>
+						<icon>-</icon>
+						<visible>!IsEmpty(Window.Property(Map.2.Area)) + !IsEmpty(Window.Property(Map.IsFetched))</visible>
+					</item>
+					<item id="8">
+						<label fallback="31127">$INFO[Window.Property(Map.3.Heading)]</label>
+						<onclick>noop</onclick>
+						<icon>-</icon>
+						<visible>!IsEmpty(Window.Property(Map.3.Area)) + !IsEmpty(Window.Property(Map.IsFetched))</visible>
+					</item>
+					<item id="9">
+						<label fallback="404">$INFO[Window.Property(Map.4.Heading)]</label>
+						<onclick>noop</onclick>
+						<icon>-</icon>
+						<visible>!IsEmpty(Window.Property(Map.4.Area)) + !IsEmpty(Window.Property(Map.IsFetched))</visible>
+					</item>
+					<item id="10">
+						<label fallback="31128">$INFO[Window.Property(Map.5.Heading)]</label>
+						<onclick>noop</onclick>
+						<icon>-</icon>
+						<visible>!IsEmpty(Window.Property(Map.5.Area)) + !IsEmpty(Window.Property(Map.IsFetched))</visible>
 					</item>
 				</content>
+			</control>
+			<control type="scrollbar" id="61">
+				<left>65</left>
+				<top>32</top>
+				<width>14</width>
+				<height>720</height>
+				<onleft>SetProperty(MediaMenu,True,home)</onleft>
+				<onleft>SetFocus(9050)</onleft>
+				<onright>9000</onright>
+				<ondown>61</ondown>
+				<onup>61</onup>
+				<showonepage>false</showonepage>
+				<texturesliderbackground>-</texturesliderbackground>
+				<texturesliderbar colordiffuse="55ffffff" border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
+				<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
 			</control>
 			<control type="image">
 				<description>LOGO</description>
@@ -786,10 +829,11 @@
 								<top>498</top>
 								<width>408</width>
 								<height>342</height>
+								<align>center</align>
 								<font>font15_textbox</font>
 								<textcolor>grey</textcolor>
 								<selectedcolor>selected</selectedcolor>
-								<label>$INFO[ListItem.Label2]</label>
+								<label>$INFO[ListItem.Label2][CR]$INFO[ListItem.Property(TemperatureHeading),,: ]$INFO[ListItem.Property(Temperature)][CR]$INFO[ListItem.Property(FeelsLike),$LOCALIZE[402]: ][CR]$INFO[ListItem.Property(Precipitation),$LOCALIZE[1448]: ][CR]$INFO[ListItem.Property(Wind),$LOCALIZE[404]: ][CR]$INFO[ListItem.Property(Humidity),$LOCALIZE[406]: ]</label>
 							</control>
 						</itemlayout>
 						<focusedlayout height="840" width="438">
@@ -824,10 +868,11 @@
 								<top>498</top>
 								<width>408</width>
 								<height>342</height>
+								<align>center</align>
 								<font>font15_textbox</font>
 								<textcolor>grey</textcolor>
 								<selectedcolor>selected</selectedcolor>
-								<label>$INFO[ListItem.Label2]</label>
+								<label>$INFO[ListItem.Label2][CR]$INFO[ListItem.Property(TemperatureHeading),,: ]$INFO[ListItem.Property(Temperature)][CR]$INFO[ListItem.Property(FeelsLike),$LOCALIZE[402]: ][CR]$INFO[ListItem.Property(Precipitation),$LOCALIZE[1448]: ][CR]$INFO[ListItem.Property(Wind),$LOCALIZE[404]: ][CR]$INFO[ListItem.Property(Humidity),$LOCALIZE[406]: ]</label>
 							</control>
 						</focusedlayout>
 						<content>
@@ -839,31 +884,40 @@
 							</item>
 							<item>
 								<label>$INFO[Window.Property(36Hour.1.Heading)]</label>
-								<label2>$INFO[Window.Property(36Hour.1.Forecast)]</label2>
+								<label2>$INFO[Window.Property(36Hour.1.Outlook)]</label2>
 								<icon>$INFO[Window.Property(36Hour.1.OutlookIcon)]</icon>
 								<property name="TemperatureHeading">$INFO[Window.Property(36Hour.1.TemperatureHeading)]</property>
 								<property name="Temperature">$INFO[Window.Property(36Hour.1.Temperature)]</property>
-								<property name="ChancePrecipitation">$INFO[Window.Property(36Hour.1.ChancePrecipitation)]</property>
+								<property name="Precipitation">$INFO[Window.Property(36Hour.1.Precipitation)]</property>
+								<property name="FeelsLike">$INFO[Window.Property(36Hour.1.FeelsLike)]</property>
+								<property name="Humidity">$INFO[Window.Property(36Hour.1.Humidity)]</property>
+								<property name="Wind">$INFO[Window.Property(36Hour.1.WindSpeed)]$INFO[Window.Property(36Hour.1.WindDirection),  ]$INFO[Window.Property(36Hour.1.WindDegree),  ]</property>
 								<onclick>noop</onclick>
 								<visible>!IsEmpty(Window.Property(36Hour.IsFetched))</visible>
 							</item>
 							<item>
 								<label>$INFO[Window.Property(36Hour.2.Heading)]</label>
-								<label2>$INFO[Window.Property(36Hour.2.Forecast)]</label2>
+								<label2>$INFO[Window.Property(36Hour.2.Outlook)]</label2>
 								<icon>$INFO[Window.Property(36Hour.2.OutlookIcon)]</icon>
 								<property name="TemperatureHeading">$INFO[Window.Property(36Hour.2.TemperatureHeading)]</property>
 								<property name="Temperature">$INFO[Window.Property(36Hour.2.Temperature)]</property>
-								<property name="ChancePrecipitation">$INFO[Window.Property(36Hour.2.ChancePrecipitation)]</property>
+								<property name="Precipitation">$INFO[Window.Property(36Hour.2.Precipitation)]</property>
+								<property name="FeelsLike">$INFO[Window.Property(36Hour.2.FeelsLike)]</property>
+								<property name="Humidity">$INFO[Window.Property(36Hour.2.Humidity)]</property>
+								<property name="Wind">$INFO[Window.Property(36Hour.2.WindSpeed)]$INFO[Window.Property(36Hour.2.WindDirection),  ]$INFO[Window.Property(36Hour.2.WindDegree),  ]</property>
 								<onclick>noop</onclick>
 								<visible>!IsEmpty(Window.Property(36Hour.IsFetched))</visible>
 							</item>
 							<item>
 								<label>$INFO[Window.Property(36Hour.3.Heading)]</label>
-								<label2>$INFO[Window.Property(36Hour.3.Forecast)]</label2>
+								<label2>$INFO[Window.Property(36Hour.3.Outlook)]</label2>
 								<icon>$INFO[Window.Property(36Hour.3.OutlookIcon)]</icon>
 								<property name="TemperatureHeading">$INFO[Window.Property(36Hour.3.TemperatureHeading)]</property>
 								<property name="Temperature">$INFO[Window.Property(36Hour.3.Temperature)]</property>
-								<property name="ChancePrecipitation">$INFO[Window.Property(36Hour.3.ChancePrecipitation)]</property>
+								<property name="Precipitation">$INFO[Window.Property(36Hour.3.Precipitation)]</property>
+								<property name="FeelsLike">$INFO[Window.Property(36Hour.3.FeelsLike)]</property>
+								<property name="Humidity">$INFO[Window.Property(36Hour.3.Humidity)]</property>
+								<property name="Wind">$INFO[Window.Property(36Hour.3.WindSpeed)]$INFO[Window.Property(36Hour.3.WindDirection),  ]$INFO[Window.Property(36Hour.3.WindDegree),  ]</property>
 								<onclick>noop</onclick>
 								<visible>!IsEmpty(Window.Property(36Hour.IsFetched))</visible>
 							</item>
@@ -943,7 +997,7 @@
 								<align>center</align>
 								<textcolor>grey</textcolor>
 								<selectedcolor>selected</selectedcolor>
-								<label>$INFO[ListItem.Property(WindSpeed),$LOCALIZE[383]: ]$INFO[ListItem.Property(WindDirection), | ]</label>
+								<label>$INFO[ListItem.Property(WindSpeed),$LOCALIZE[383]: ]$INFO[ListItem.Property(WindDirection),  ]</label>
 								<textoffsetx>15</textoffsetx>
 							</control>
 							<control type="label">
@@ -1026,7 +1080,7 @@
 								<align>center</align>
 								<textcolor>grey</textcolor>
 								<selectedcolor>selected</selectedcolor>
-								<label>$INFO[ListItem.Property(WindSpeed),$LOCALIZE[383]: ]$INFO[ListItem.Property(WindDirection), | ]</label>
+								<label>$INFO[ListItem.Property(WindSpeed),$LOCALIZE[383]: ]$INFO[ListItem.Property(WindDirection),  ]</label>
 								<textoffsetx>15</textoffsetx>
 							</control>
 							<control type="label">
@@ -1712,37 +1766,192 @@
 					<top>32</top>
 					<width>1316</width>
 					<height>838</height>
-					<control type="multiimage">
+					<control type="image">
 						<width>1316</width>
 						<height>839</height>
-						<imagepath>$INFO[Window.Property(MapPath)]</imagepath>
-						<timeperimage>500</timeperimage>
-						<pauseatend>1000</pauseatend>
-						<fadetime>0</fadetime>
-						<randomize>false</randomize>
-						<loop>yes</loop>
-						<aspectratio>keep</aspectratio>
-						<aligny>center</aligny>
+						<texture>$INFO[Window.Property(Map.1.Area)]</texture>
+						<aspectratio>scale</aspectratio>
 					</control>
 					<control type="image">
-						<top>348</top>
 						<width>1316</width>
-						<height>512</height>
-						<texture border="1">gradient_floor.png</texture>
-						<visible>!StringCompare(Window.Property(Alerts.Count),0)</visible>
+						<height>839</height>
+						<texture>$INFO[Window.Property(Map.1.Layer)]</texture>
+						<aspectratio>scale</aspectratio>
+						<colordiffuse>70FFFFFF</colordiffuse>
 					</control>
-					<control type="textbox">
-						<description>description area</description>
-						<left>30</left>
-						<top>600</top>
-						<width>1256</width>
-						<height>400</height>
-						<font>font15_textbox</font>
-						<align>left</align>
-						<textcolor>grey2</textcolor>
-						<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
-						<label>$INFO[Window.Property(Alerts)]</label>
-						<visible>!StringCompare(Window.Property(Alerts.Count),0)</visible>
+					<control type="label">
+						<top>720</top>
+						<width>1316</width>
+						<height>70</height>
+						<align>right</align>
+						<font>font24</font>
+						<textcolor>black</textcolor>
+						<shadowcolor>white</shadowcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<textoffsetx>15</textoffsetx>
+					</control>
+					<control type="image">
+						<top>780</top>
+						<width>1316</width>
+						<height>60</height>
+						<texture>$INFO[Window.Property(Map.1.Legend)]</texture>
+						<aspectratio align="right" aligny="bottom">keep</aspectratio>
+					</control>
+				</control>
+				<control type="group">
+					<visible>Container(9000).HasFocus(7)</visible>
+					<include>SettingsFadeEffect</include>
+					<left>522</left>
+					<top>32</top>
+					<width>1316</width>
+					<height>838</height>
+					<control type="image">
+						<width>1316</width>
+						<height>839</height>
+						<texture>$INFO[Window.Property(Map.2.Area)]</texture>
+						<aspectratio>scale</aspectratio>
+					</control>
+					<control type="image">
+						<width>1316</width>
+						<height>839</height>
+						<texture>$INFO[Window.Property(Map.2.Layer)]</texture>
+						<aspectratio>scale</aspectratio>
+						<colordiffuse>70FFFFFF</colordiffuse>
+					</control>
+					<control type="label">
+						<top>720</top>
+						<width>1316</width>
+						<height>70</height>
+						<align>right</align>
+						<font>font24</font>
+						<textcolor>black</textcolor>
+						<shadowcolor>white</shadowcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<textoffsetx>15</textoffsetx>
+					</control>
+					<control type="image">
+						<top>780</top>
+						<width>1316</width>
+						<height>60</height>
+						<texture>$INFO[Window.Property(Map.2.Legend)]</texture>
+						<aspectratio align="right" aligny="bottom">keep</aspectratio>
+					</control>
+				</control>
+				<control type="group">
+					<visible>Container(9000).HasFocus(8)</visible>
+					<include>SettingsFadeEffect</include>
+					<left>522</left>
+					<top>32</top>
+					<width>1316</width>
+					<height>838</height>
+					<control type="image">
+						<width>1316</width>
+						<height>839</height>
+						<texture>$INFO[Window.Property(Map.3.Area)]</texture>
+						<aspectratio>scale</aspectratio>
+					</control>
+					<control type="image">
+						<width>1316</width>
+						<height>839</height>
+						<texture>$INFO[Window.Property(Map.3.Layer)]</texture>
+						<aspectratio>scale</aspectratio>
+						<colordiffuse>70FFFFFF</colordiffuse>
+					</control>
+					<control type="label">
+						<top>720</top>
+						<width>1316</width>
+						<height>70</height>
+						<align>right</align>
+						<font>font24</font>
+						<textcolor>black</textcolor>
+						<shadowcolor>white</shadowcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<textoffsetx>15</textoffsetx>
+					</control>
+					<control type="image">
+						<top>780</top>
+						<width>1316</width>
+						<height>60</height>
+						<texture>$INFO[Window.Property(Map.3.Legend)]</texture>
+						<aspectratio align="right" aligny="bottom">keep</aspectratio>
+					</control>
+				</control>
+				<control type="group">
+					<visible>Container(9000).HasFocus(9)</visible>
+					<include>SettingsFadeEffect</include>
+					<left>522</left>
+					<top>32</top>
+					<width>1316</width>
+					<height>838</height>
+					<control type="image">
+						<width>1316</width>
+						<height>839</height>
+						<texture>$INFO[Window.Property(Map.4.Area)]</texture>
+						<aspectratio>scale</aspectratio>
+					</control>
+					<control type="image">
+						<width>1316</width>
+						<height>839</height>
+						<texture>$INFO[Window.Property(Map.4.Layer)]</texture>
+						<aspectratio>scale</aspectratio>
+						<colordiffuse>70FFFFFF</colordiffuse>
+					</control>
+					<control type="label">
+						<top>720</top>
+						<width>1316</width>
+						<height>70</height>
+						<align>right</align>
+						<font>font24</font>
+						<textcolor>black</textcolor>
+						<shadowcolor>white</shadowcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<textoffsetx>15</textoffsetx>
+					</control>
+					<control type="image">
+						<top>780</top>
+						<width>1316</width>
+						<height>60</height>
+						<texture>$INFO[Window.Property(Map.4.Legend)]</texture>
+						<aspectratio align="right" aligny="bottom">keep</aspectratio>
+					</control>
+				</control>
+				<control type="group">
+					<visible>Container(9000).HasFocus(10)</visible>
+					<include>SettingsFadeEffect</include>
+					<left>522</left>
+					<top>32</top>
+					<width>1316</width>
+					<height>838</height>
+					<control type="image">
+						<width>1316</width>
+						<height>839</height>
+						<texture>$INFO[Window.Property(Map.5.Area)]</texture>
+						<aspectratio>scale</aspectratio>
+					</control>
+					<control type="image">
+						<width>1316</width>
+						<height>839</height>
+						<texture>$INFO[Window.Property(Map.5.Layer)]</texture>
+						<aspectratio>scale</aspectratio>
+						<colordiffuse>70FFFFFF</colordiffuse>
+					</control>
+					<control type="label">
+						<top>720</top>
+						<width>1316</width>
+						<height>70</height>
+						<align>right</align>
+						<font>font24</font>
+						<textcolor>black</textcolor>
+						<shadowcolor>white</shadowcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<textoffsetx>15</textoffsetx>
+					</control>
+					<control type="image">
+						<top>780</top>
+						<width>1316</width>
+						<height>60</height>
+						<texture>$INFO[Window.Property(Map.5.Legend)]</texture>
+						<aspectratio align="right" aligny="bottom">keep</aspectratio>
 					</control>
 				</control>
 			</control>
