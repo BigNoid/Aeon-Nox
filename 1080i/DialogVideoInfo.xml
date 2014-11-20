@@ -460,7 +460,7 @@
 					<description>Plot</description>
 					<left>0</left>
 					<top>560</top>
-					<width>1132</width>
+					<width>788</width>
 					<height>402</height>
 					<font>font15_textbox</font>
 					<align>left</align>
@@ -469,22 +469,38 @@
 					<pagecontrol>60</pagecontrol>
 					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
 					<animation effect="fade" start="100" end="78" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(60)">Conditional</animation>
-					<visible>!Control.IsVisible(50)</visible>
+					<visible>!Control.IsVisible(50) + !IsEmpty(ListItem.Art(discart))</visible>
 				</control>
-				<control type="button" id="4003">
+				<control type="textbox" id="401">
+					<description>Plot</description>
 					<left>0</left>
 					<top>560</top>
 					<width>1132</width>
-					<height>400</height>
-					<onleft>9000</onleft>
-					<onright>9000</onright>
-					<texturefocus>-</texturefocus>
-					<texturenofocus>-</texturenofocus>
-					<onup condition="Control.IsVisible(60)">PageUp(60)</onup>
-					<onup condition="!Control.IsVisible(60)">9000</onup>
-					<ondown condition="Control.IsVisible(60)">PageDown(60)</ondown>
-					<ondown condition="!Control.IsVisible(60)">9000</ondown>
-					<onclick>Skin.ToggleSetting(VideoInfoPlotToggle)</onclick>
+					<height>402</height>
+					<font>font15_textbox</font>
+					<align>left</align>
+					<label>$VAR[VideoInfoPlotVar]</label>
+					<textcolor>white</textcolor>
+					<pagecontrol>60</pagecontrol>
+					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
+					<animation effect="fade" start="100" end="78" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(4003)">Conditional</animation>
+					<visible>!Control.IsVisible(50) + IsEmpty(ListItem.Art(discart))</visible>
+				</control>
+				<control type="image">
+					<left>-994</left>
+					<top>644</top>
+					<width>320</width>
+					<height>320</height>
+					<aspect>keep</aspect>
+					<texture background="true">$INFO[ListItem.Art(discart)]</texture>
+					<animation type="WindowOpen" reversible="false">
+						<effect type="slide" start="0,0" end="1800,0" delay="400" time="1800" tween="quadratic" easing="out" />
+						<effect type="rotate" start="0" center="auto" end="-720" delay="400" time="1800" tween="quadratic" easing="out" />
+					</animation>
+						<animation type="WindowClose" reversible="false">
+						<effect type="slide" start="1800,0" end="2220,0" time="320" tween="quadratic" easing="out" />
+					</animation>
+					<visible>!Control.IsVisible(50) + !IsEmpty(ListItem.Art(discart))</visible>
 				</control>
 				<control type="scrollbar" id="60">
 					<left>1136</left>
@@ -760,7 +776,7 @@
 					<onright>9000</onright>
 					<onup>300</onup>
 					<align>left</align>
-					<ondown condition="!Control.IsVisible(50)">4003</ondown>
+					<ondown condition="!Control.IsVisible(50)">60</ondown>
 					<ondown condition="Control.IsVisible(50)">50</ondown>
 					<orientation>horizontal</orientation>
 					<control type="togglebutton" id="8">
@@ -780,29 +796,40 @@
 						<include>ButtonInfoDialogsCommonValues</include>
 						<label>206</label>
 					</control>
-					<control type="image" id="201">
-						<width>2</width>
-						<height>58</height>
-						<texture border="1">separator3.png</texture>
-					</control>
-					<control type="button" id="10">
-						<description>Get Thumb</description>
-						<include>ButtonInfoDialogsCommonValues</include>
-						<label>13511</label>
-						<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
-					</control>
 					<control type="image" id="202">
 						<width>2</width>
 						<height>58</height>
 						<texture border="1">separator3.png</texture>
 					</control>
 					<control type="button" id="11">
-						<description>Play Trailer</description>
+						<description>Cinema Experience button</description>
 						<include>ButtonInfoDialogsCommonValues</include>
-						<label>20410</label>
-						<visible>!IsEmpty(ListItem.Trailer) + Container.Content(movies)</visible>
+						<width>260</width>
+						<textwidth>435</textwidth>
+						<textoffsetx>15</textoffsetx>
+						<onclick>Dialog.Close(MovieInformation)</onclick>
+						<onclick>RunScript(script.cinema.experience,movieid=$INFO[ListItem.DBID])</onclick>
+						<label>Cinema Experience</label>
+						<visible>System.HasAddon(script.cinema.experience)</visible>
+						<visible>Container.Content(movies) + !SubString(Window(10025).Property(CinemaExperienceRunning),True)</visible>
 					</control>
-					<control type="button" id="203">
+		    <control type="image" id="203">
+						<width>2</width>
+						<height>58</height>
+						<texture border="1">separator3.png</texture>
+					</control>
+		    <control type="button" id="10">
+						<description>Get Thumb</description>
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label>13511</label>
+						<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
+					</control>
+		    <control type="image" id="205">
+						<width>2</width>
+						<height>58</height>
+						<texture border="1">separator3.png</texture>
+					</control>
+					<!--- <control type="button" id="203">
 						<description>Play Trailer</description>
 						<include>ButtonInfoDialogsCommonValues</include>
 						<label>-</label>
@@ -817,12 +844,7 @@
 						<onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Label] Trailer,return)</onclick>
 						<onclick>Dialog.Close(movieinformation)</onclick>
 						<visible>IsEmpty(ListItem.Trailer) + Container.Content(movies)</visible>
-					</control>
-					<control type="image" id="205">
-						<width>2</width>
-						<height>58</height>
-						<texture border="1">separator3.png</texture>
-					</control>
+					</control> -->
 					<control type="button" id="6">
 						<description>Refresh</description>
 						<font>IconMedium</font>
