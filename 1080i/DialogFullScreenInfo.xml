@@ -21,17 +21,43 @@
 	<control type="textbox">
 		<description>Cast</description>
 		<align>left</align>
-		<left>1275</left>
-		<top>860</top>
-		<width>685</width>
-		<height>170</height>
+		<left>1230</left>
+		<top>780</top>
+		<width>690</width>
+		<height>250</height>
 		<font>font15</font>
 		<textcolor>white</textcolor>
 		<label>$INFO[VideoPlayer.CastandRole]</label>
-		<wrapmultiline>true</wrapmultiline>
 		<visible>[!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch) + !IsEmpty(VideoPlayer.CastandRole)] + [VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]</visible>
 		<autoscroll time="3000" delay="4000" repeat="4000">true</autoscroll>
 	</control>
+		<!-- PlotOutline (Movies) -->
+		<control type="textbox">
+			<visible>VideoPlayer.Content(movies) + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
+			<visible>!IsEmpty(VideoPlayer.PlotOutline)</visible>
+			<label>$INFO[VideoPlayer.PlotOutline]</label>
+			<align>right</align>
+			<left>10</left>
+			<top>780</top>
+			<width>690</width>
+			<height>250</height>
+			<font>font15</font>
+			<textcolor>white</textcolor>
+			<autoscroll time="3000" delay="4000" repeat="4000">true</autoscroll>
+		</control>
+		<!-- Episode Plot & Plot When PlotOutline Empty (Movies) -->
+		<control type="textbox">
+			<visible>[!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch) + IsEmpty(VideoPlayer.PlotOutline)] + [VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]</visible>
+			<label>$INFO[VideoPlayer.Plot]</label>
+			<align>right</align>
+			<left>10</left>
+			<top>780</top>
+			<width>690</width>
+			<height>250</height>
+			<font>font15</font>
+			<textcolor>white</textcolor>
+			<autoscroll time="3000" delay="4000" repeat="4000">true</autoscroll>
+		</control>
 	<!-- Movies -->
 		<control type="group">
 		<visible>VideoPlayer.Content(movies) + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
@@ -87,33 +113,6 @@
 					<visible>!IsEmpty(VideoPlayer.RatingAndVotes)</visible>
 				</control>
 			</control>
-		</control>
-		<!-- PlotOutline (Movies) -->
-		<control type="textbox" id="70">
-			<visible>VideoPlayer.Content(movies) + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
-			<visible>!IsEmpty(VideoPlayer.PlotOutline)</visible>
-			<label>$INFO[VideoPlayer.PlotOutline]</label>
-			<align>right</align>
-			<left>10</left>
-			<top>860</top>
-			<width>685</width>
-			<height>170</height>
-			<font>font15</font>
-			<textcolor>white</textcolor>
-			<autoscroll time="3000" delay="4000" repeat="4000">true</autoscroll>
-		</control>
-		<!-- Episode Plot & Plot When PlotOutline Empty (Movies) -->
-		<control type="textbox" id="71">
-			<visible>[!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch) + IsEmpty(VideoPlayer.PlotOutline)] + [VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]</visible>
-			<label>$INFO[VideoPlayer.Plot]</label>
-			<align>right</align>
-			<left>10</left>
-			<top>860</top>
-			<width>685</width>
-			<height>170</height>
-			<font>font15</font>
-			<textcolor>white</textcolor>
-			<autoscroll time="3000" delay="4000" repeat="4000">true</autoscroll>
 		</control>
 	<!-- Episodes -->
 		<control type="group">
@@ -219,7 +218,7 @@
 		<aligny>center</aligny>
 		<itemgap>0</itemgap>
 		<orientation>horizontal</orientation>
-			<control type="image" id="800011">
+			<control type="image">
 				<colordiffuse>grey2</colordiffuse>
 				<width>175</width>
 				<include>MediaFlagVars</include>
@@ -236,7 +235,7 @@
 				<width>175</width>
 				<colordiffuse>grey2</colordiffuse>
 				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
+				<texture>$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
 			</control>
 		</control>
 		<!-- Media Flag Bar Right -->
@@ -254,19 +253,19 @@
 				<width>175</width>
 				<colordiffuse>grey2</colordiffuse>
 				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
-			</control>
-			<control type="image">
-				<width>175</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
 				<texture>$VAR[VideoSourceFlagVar,flags/video/,.png]</texture>
 			</control>
 			<control type="image">
 				<width>175</width>
 				<colordiffuse>grey2</colordiffuse>
 				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
+				<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
+			</control>
+			<control type="image">
+				<width>175</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
 			</control>
 		</control>
 	<!-- Media Flag Bar Background (Files & Addons) -->
@@ -286,18 +285,6 @@
 		<itemgap>0</itemgap>
 		<orientation>horizontal</orientation>
 			<control type="image">
-				<width>165</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$VAR[VideoSourceFlagVar,flags/video/,.png]</texture>
-			</control>
-			<control type="image">
-				<width>384</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
-			</control>
-			<control type="image">
 				<width>384</width>
 				<colordiffuse>grey2</colordiffuse>
 				<include>MediaFlagVars</include>
@@ -308,6 +295,17 @@
 				<colordiffuse>grey2</colordiffuse>
 				<include>MediaFlagVars</include>
 				<texture>$INFO[VideoPlayer.AudioChannels,flags/channels/,.png]</texture>
+			</control><control type="image">
+				<width>165</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$VAR[VideoSourceFlagVar,flags/video/,.png]</texture>
+			</control>
+			<control type="image">
+				<width>384</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
 			</control>
 			<control type="image">
 				<width>384</width>
