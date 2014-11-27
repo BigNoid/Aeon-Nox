@@ -2,7 +2,7 @@
 <window>
 	<defaultcontrol always="true">50</defaultcontrol>
 	<allowoverlay>true</allowoverlay>
-	<views>50,51,52,53,55,56,57,58,59,499,500,501,502,507</views>
+	<views>50,51,52,53,55,56,57,58,59,499,500,501,502,504,505,507</views>
 	<onload>SetProperty(Window.HasSettings,True,home)</onload>
 	<onload>ClearProperty(MediaMenu,Home)</onload>
 	<onunload>ClearProperty(Window.HasSettings,Home)</onunload>
@@ -55,6 +55,10 @@
 			<!-- view id = 501 -->
 			<include>VideoEpisode</include>
 			<!-- view id = 502 -->
+			<include>View_504_Gallery</include>
+			<!-- view id = 504 -->
+			<include>View_505_Panel</include>
+			<!-- view id = 505 -->
 			<include>View_507_BigList</include>
 			<!-- view id = 507 -->
 		</control>
@@ -86,13 +90,6 @@
 						<label>[B]$VAR[FloorLabelVar][/B]</label>
 						<textoffsety>-2</textoffsety>
 						<textoffsetx>0</textoffsetx>
-					</control>
-					<control type="image">
-						<width>42</width>
-						<height>46.5</height>
-						<aspectratio>keep</aspectratio>
-						<texture>$VAR[UnFocusHDIndicator]</texture>
-						<visible>!IsEmpty(ListItem.VideoResolution)</visible>
 					</control>
 				</control>
 				<control type="group">
@@ -157,6 +154,8 @@
 						<include>MediaFlagVars</include>
 						<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
 						<!--<animation effect="slide" start="0" end="-1350" time="200" tween="cubic" easing="inout" condition="Container.Content(movies) | Container.Content(episodes)">Conditional</animation>-->
+						<visible>!IsEmpty(ListItem.Title)</visible>
+						<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 					</control>
 				</control>
 				<control type="group">
@@ -278,6 +277,7 @@
 						<left>230</left>
 						<include>MediaFlagVars</include>
 						<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
+						<visible>!IsEmpty(ListItem.Title)</visible>
 					</control>
 				</control>
 				<control type="group">
@@ -335,9 +335,6 @@
 			</control>
 			<control type="group">
 				<visible>Control.IsVisible(499)</visible>
-				<animation effect="slide" start="0" end="40" time="720" tween="cubic" easing="inout" condition="Control.IsVisible(57)">Conditional</animation>
-				<animation effect="slide" start="0" end="60" time="720" tween="cubic" easing="inout" condition="Control.IsVisible(55)">Conditional</animation>
-				<animation effect="slide" start="0,0" end="80,15" time="720" tween="cubic" easing="inout" condition="Control.IsVisible(56)">Conditional</animation>
 				<animation effect="slide" tween="cubic" time="720" start="0,806" end="0,0">VisibleChange</animation>
 				<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]</visible>
 				<control type="group">
@@ -345,7 +342,8 @@
 					<top>1010</top>
 					<visible>![Control.IsVisible(56) | Control.IsVisible(55)]</visible>
 					<include>VisibleFadeEffect</include>
-					<!--<control type="grouplist">
+					<!--
+					<control type="grouplist">
 						<left>30</left>
 						<top>0</top>
 						<width>1150</width>
@@ -372,7 +370,8 @@
 							<texture>$VAR[UnFocusHDIndicator]</texture>
 							<visible>!IsEmpty(ListItem.VideoResolution)</visible>
 						</control>
-					</control>-->
+					</control>
+					-->
 					<control type="label">
 						<left>10</left>
 						<top>0</top>
@@ -408,7 +407,7 @@
 					<orientation>horizontal</orientation>
 					<include>VisibleFadeEffect</include>
 					<visible>Container.Content(tvshows) | Container.Content(seasons)</visible>
-					<control type="image" id="800012">
+					<control type="image" id="800021">
 						<left>32</left>
 						<width>198</width>
 						<include>MediaFlagVars</include>
@@ -425,12 +424,13 @@
 						<font>font10</font>
 						<textcolor>white</textcolor>
 						<wrapmultiline>true</wrapmultiline>
-						<visible>IsEmpty(Control.GetLabel(800012))</visible>
+						<visible>IsEmpty(Control.GetLabel(800021))</visible>
 					</control>
 					<control type="image">
 						<left>230</left>
 						<include>MediaFlagVars</include>
 						<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
+						<visible>!IsEmpty(ListItem.Title)</visible>
 					</control>
 				</control>
 				<control type="group">
@@ -504,7 +504,7 @@
 			<include>VisibleFadeEffect</include>
 			<!-- Next Episode -->
 			<control type="label">
-				<top>915</top>
+				<top>920</top>
 				<left>350</left>
 				<width>1220</width>
 				<height>100</height>
@@ -517,7 +517,7 @@
 			</control>
 			<!-- Next Aired Status -->
 			<control type="label">
-				<top>915</top>
+				<top>920</top>
 				<left>350</left>
 				<width>1220</width>
 				<height>100</height>
@@ -543,7 +543,7 @@
 			</control>
 			<!-- Movie Classification Rating -->
 			<control type="image">
-				<visible>Container.Content(movies)</visible>
+				<visible>Container.Content(movies) + !IsEmpty(ListItem.Title)</visible>
 				<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Control.HasFocus(61)</visible>
 				<left>1680</left>
 				<top>957</top>
@@ -556,7 +556,7 @@
 			</control>
 			<!-- TV Classification Rating -->
 			<control type="image">
-				<visible>Container.Content(tvshows)</visible>
+				<visible>Container.Content(tvshows) + !IsEmpty(ListItem.Title)</visible>
 				<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Control.HasFocus(61)</visible>
 				<left>1680</left>
 				<top>968</top>
@@ -570,7 +570,7 @@
 			<!-- Top250 -->
 			<control type="label">
 				<left>827</left>
-				<top>915</top>
+				<top>920</top>
 				<width>250</width>
 				<height>100</height>
 				<align>center</align>
@@ -592,7 +592,7 @@
 				<scroll>true</scroll>
 				<textcolor>grey2</textcolor>
 				<scrollspeed>40</scrollspeed>
-				<visible>Container.Content(movies)</visible>
+				<visible>Container.Content(movies) + !IsEmpty(ListItem.Title)</visible>
 				<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Control.HasFocus(61)</visible>
 			</control>
 			<!-- Movie Set Title List -->
@@ -610,7 +610,7 @@
 			</control>
 			<!-- Year + Rating + Duration -->
 			<control type="label">
-				<top>1010</top>					
+				<top>1005</top>					
 				<left>450</left>
 				<width>1020</width>
 				<height>100</height>
@@ -618,7 +618,7 @@
 				<label>([B]$INFO[ListItem.Year,,[/B]) • ][B]$INFO[ListItem.RatingAndVotes,, [/B]• ][B]$INFO[ListItem.Duration,, [/B]$LOCALIZE[12391]]</label>
 				<font>font14</font>
 				<textcolor>grey2</textcolor>
-				<visible>Container.Content(movies)</visible>
+				<visible>Container.Content(movies) + !IsEmpty(ListItem.Title)</visible>
 				<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Control.HasFocus(61)</visible>
 			</control>
 			<!-- TV Total Episodes + Unwatched Episodes -->
@@ -631,12 +631,12 @@
 				<label>[B]Episodes:[/B] $INFO[ListItem.Property(TotalEpisodes)] $INFO[ListItem.Property(UnWatchedEpisodes), [B]($LOCALIZE[16101]:[/B] ,)]</label>
 				<font>font16</font>
 				<textcolor>grey2</textcolor>
-				<visible>Container.Content(tvshows) + !Control.HasFocus(61)</visible>
+				<visible>[Container.Content(tvshows) + !Control.HasFocus(61) + !IsEmpty(ListItem.Title)]</visible>
 			</control>
 			<!-- TV Rating -->
 			<control type="label">
 				<left>460</left>
-				<top>1010</top>
+				<top>1005</top>
 				<width>1000</width>
 				<height>100</height>
 				<align>center</align>
