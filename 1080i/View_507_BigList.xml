@@ -3,6 +3,7 @@
 	<!--BIG LIST-->
 	<include name="View_507_BigList">
 		<control type="group">
+			<visible>Control.IsVisible(507) + !Window.IsActive(addoninformation)</visible>
 			<include>ViewAnimation</include>
 			<!--container-->
 			<control type="list" id="507">
@@ -10,7 +11,7 @@
 				<left>60</left>
 				<top>95</top>
 				<width>1808</width>
-				<height>924</height>
+				<height>930</height>
 				<onleft>SetProperty(MediaMenu,True,home)</onleft>
 				<onleft>SetFocus(9050)</onleft>
 				<onright>60</onright>
@@ -19,7 +20,7 @@
 				<preloaditems>2</preloaditems>
 				<pagecontrol>60</pagecontrol>
 				<orientation>vertical</orientation>
-				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(artists)</visible>
+				<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(artists) | Container.Content(albums)]</visible>
 				<!--landscape layout-->
 				<itemlayout width="1808" height="231">
 					<include>view_BigList-LandscapeCommons</include>
@@ -40,37 +41,17 @@
 							<aligny>top</aligny>
 							<font>font15</font>
 							<textcolor>grey</textcolor>
-							<visible>Container.Content(movies)</visible>
+							<visible>Container.Content(movies) + !IsEmpty(ListItem.Title)</visible>
 							<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 						</control>
 						<control type="label">
 							<top>42</top>
 							<width>1380</width>
-							<label>[B]Episodes:[/B] $INFO[ListItem.Property(TotalEpisodes)] $INFO[ListItem.Property(UnWatchedEpisodes), [B]($LOCALIZE[16101]:[/B] ,)] • [B]$INFO[ListItem.RatingAndVotes][/B]</label>
+							<label>$INFO[ListItem.Duration]</label>
 							<aligny>top</aligny>
 							<font>font15</font>
-							<textcolor>themecolor</textcolor>
-							<visible>Container.Content(tvshows)</visible>
-							<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
-						</control>
-						<control type="label">
-							<top>42</top>
-							<width>1380</width>
-							<label>([B]$INFO[ListItem.Premiered,,[/B]) • ][B]$INFO[ListItem.RatingAndVotes,, [/B]• ][B]$INFO[ListItem.Duration,, [/B]$LOCALIZE[12391]]</label>
-							<aligny>top</aligny>
-							<font>font15</font>
-							<textcolor>themecolor</textcolor>
-							<visible>Container.Content(episodes)</visible>
-							<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
-						</control>
-						<control type="label">
-							<top>42</top>
-							<width>1380</width>
-							<label>$INFO[ListItem.Property(Artist_Genre)]</label>
-							<aligny>top</aligny>
-							<font>font15</font>
-							<textcolor>themecolor</textcolor>
-							<visible>Container.Content(artists)</visible>
+							<textcolor>grey</textcolor>
+							<visible>Container.Content(songs)</visible>
 						</control>
 						<!--
 						<control type="textbox">
@@ -80,15 +61,51 @@
 							<height>108</height>
 							<font>font14_textbox</font>
 							<textcolor>grey</textcolor>
-							<autoscroll>false</autoscroll>
-							<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Control.HasFocus(61)</visible>
+							<autoscroll time="3500" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
+							<visible>Container.Content(movies)</visible>
 						</control>
 						-->
+						<control type="label">
+							<top>42</top>
+							<width>1380</width>
+							<label>[B]Episodes:[/B] $INFO[ListItem.Property(TotalEpisodes)] $INFO[ListItem.Property(UnWatchedEpisodes), [B]($LOCALIZE[16101]:[/B] ,)] • [B]$INFO[ListItem.RatingAndVotes][/B]</label>
+							<aligny>top</aligny>
+							<font>font15</font>
+							<textcolor>themecolor_transparent</textcolor>
+							<visible>Container.Content(tvshows) + !IsEmpty(ListItem.Title)</visible>
+						</control>
+						<control type="label">
+							<top>42</top>
+							<width>1380</width>
+							<label>([B]$INFO[ListItem.Premiered,,[/B]) • ][B]$INFO[ListItem.RatingAndVotes,, [/B]• ][B]$INFO[ListItem.Duration,, [/B]$LOCALIZE[12391]]</label>
+							<aligny>top</aligny>
+							<font>font15</font>
+							<textcolor>themecolor</textcolor>
+							<visible>Container.Content(episodes) + !IsEmpty(ListItem.Title)</visible>
+						</control>
+						<control type="label">
+							<top>42</top>
+							<width>1380</width>
+							<label>$INFO[ListItem.Property(Artist_Genre)]</label>
+							<aligny>top</aligny>
+							<font>font15</font>
+							<textcolor>themecolor</textcolor>
+							<visible>Container.Content(artists) | Container.Content(albums)</visible>
+						</control>
+						<control type="label">
+							<top>42</top>
+							<width>1380</width>
+							<label>$INFO[ListItem.Artist]</label>
+							<aligny>top</aligny>
+							<font>font15</font>
+							<textcolor>themecolor</textcolor>
+							<visible>Container.Content(albums)</visible>
+						</control>
 						<control type="textbox">
 							<top>90</top>
 							<width>1380</width>
 							<height>108</height>
-							<label>$INFO[ListItem.Tagline,[COLOR labelheader],[/COLOR] - ]$VAR[VideoInfoPlotVar]</label>
+							<label>$INFO[ListItem.Tagline,[COLOR themecolor_transparent],[/COLOR] - ]$VAR[VideoInfoPlotVar]</label>
 							<autoscroll>false</autoscroll>
 							<font>font14_textbox</font>
 							<textcolor>grey</textcolor>
@@ -103,17 +120,16 @@
 							<autoscroll>false</autoscroll>
 							<font>font14_textbox</font>
 							<textcolor>grey</textcolor>
-							<visible>Container.Content(artists)</visible>
+							<visible>[Container.Content(artists) | Container.Content(albums)]</visible>
 						</control>
 						<control type="image">
 							<left>1200</left>
 							<top>16</top>
 							<width>192</width>
 							<height>33</height>
-							<texture fallback="rating0.png">$INFO[ListItem.StarRating]</texture>
+							<texture colordiffuse="themecolor_transparent" fallback="rating0.png">$INFO[ListItem.StarRating]</texture>
 							<aspectratio align="right">keep</aspectratio>
-							<visible>Container.Content(artists)]</visible>
-							<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+							<visible>Container.Content(albums) | Container.Content(songs)</visible>
 						</control>
 						<control type="image">
 							<left>1350</left>
@@ -132,6 +148,15 @@
 						<width>1803</width>
 						<height>231</height>
 						<texture>listselect_fo.png</texture>
+						<visible>!Container.Content(albums)</visible>
+					</control>
+					<control type="image">
+						<left>90</left>
+						<top>-8</top>
+						<width>1713</width>
+						<height>231</height>
+						<texture>listselect_fo.png</texture>
+						<visible>Container.Content(albums)</visible>
 					</control>
 					<include>view_BigList-LandscapeCommons</include>
 					<control type="group">
@@ -152,29 +177,50 @@
 								<aligny>top</aligny>
 								<font>font15</font>
 								<textcolor>white</textcolor>
-								<visible>Container.Content(movies)</visible>
+								<visible>Container.Content(movies) + !IsEmpty(ListItem.Title)</visible>
 								<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 							</control>
-						<control type="label">
-							<top>42</top>
-							<width>1380</width>
-							<label>[B]Episodes:[/B] $INFO[ListItem.Property(TotalEpisodes)] $INFO[ListItem.Property(UnWatchedEpisodes), [B]($LOCALIZE[16101]:[/B] ,)] • [B]$INFO[ListItem.RatingAndVotes][/B]</label>
-							<aligny>top</aligny>
-							<font>font15</font>
-							<textcolor>themecolor</textcolor>
-							<visible>Container.Content(tvshows)</visible>
-							<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
-						</control>
-						<control type="label">
-							<top>42</top>
-							<width>1380</width>
-							<label>([B]$INFO[ListItem.Premiered,,[/B]) • ][B]$INFO[ListItem.RatingAndVotes,, [/B]• ][B]$INFO[ListItem.Duration,, [/B]$LOCALIZE[12391]]</label>
-							<aligny>top</aligny>
-							<font>font15</font>
-							<textcolor>themecolor</textcolor>
-							<visible>Container.Content(episodes)</visible>
-							<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
-						</control>
+							<control type="label">
+								<top>42</top>
+								<width>1380</width>
+								<label>$INFO[ListItem.Duration]</label>
+								<aligny>top</aligny>
+								<font>font15</font>
+								<textcolor>grey</textcolor>
+								<visible>Container.Content(songs)</visible>
+							</control>
+							<!--
+							<control type="textbox">
+								<label>[B]$INFO[Window(home).Property(Set.Movies.Title)][/B]</label>
+								<top>90</top>
+								<width>1380</width>
+								<height>108</height>
+								<font>font14_textbox</font>
+								<textcolor>white</textcolor>
+								<autoscroll time="3500" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
+								<visible>Container.Content(movies)</visible>
+							</control>
+							-->
+							<control type="label">
+								<top>42</top>
+								<width>1380</width>
+								<label>[B]Episodes:[/B] $INFO[ListItem.Property(TotalEpisodes)] $INFO[ListItem.Property(UnWatchedEpisodes), [B]($LOCALIZE[16101]:[/B] ,)] • [B]$INFO[ListItem.RatingAndVotes][/B]</label>
+								<aligny>top</aligny>
+								<font>font15</font>
+								<textcolor>themecolor</textcolor>
+								<visible>Container.Content(tvshows) + !IsEmpty(ListItem.Title)</visible>
+								<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+							</control>
+							<control type="label">
+								<top>42</top>
+								<width>1380</width>
+								<label>([B]$INFO[ListItem.Premiered,,[/B]) • ][B]$INFO[ListItem.RatingAndVotes,, [/B]• ][B]$INFO[ListItem.Duration,, [/B]$LOCALIZE[12391]]</label>
+								<aligny>top</aligny>
+								<font>font15</font>
+								<textcolor>themecolor</textcolor>
+								<visible>Container.Content(episodes) + !IsEmpty(ListItem.Title)</visible>
+								<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+							</control>
 							<control type="label">
 								<top>42</top>
 								<width>1380</width>
@@ -184,18 +230,15 @@
 								<textcolor>themecolor</textcolor>
 								<visible>Container.Content(artists)</visible>
 							</control>
-							<!--
-							<control type="textbox">
-								<label>[B]$INFO[Window(home).Property(Set.Movies.Title)][/B]</label>
-								<top>90</top>
+							<control type="label">
+								<top>42</top>
 								<width>1380</width>
-								<height>108</height>
-								<font>font14_textbox</font>
-								<textcolor>grey</textcolor>
-								<autoscroll time="3500" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
-								<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Control.HasFocus(61)</visible>
+								<label>$INFO[ListItem.Artist]</label>
+								<aligny>top</aligny>
+								<font>font15</font>
+								<textcolor>themecolor</textcolor>
+								<visible>Container.Content(albums)</visible>
 							</control>
-							-->
 							<control type="textbox">
 								<visible>!Container.Content(artists)</visible>
 								<top>90</top>
@@ -215,7 +258,7 @@
 								<font>font14_textbox</font>
 								<textcolor>white</textcolor>
 								<autoscroll time="3500" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
-								<visible>Container.Content(artists)</visible>
+								<visible>[Container.Content(artists) | Container.Content(albums)]</visible>
 							</control>
 							<control type="image">
 								<left>1200</left>
@@ -224,18 +267,17 @@
 								<height>33</height>
 								<texture colordiffuse="themecolor" fallback="rating0.png">$INFO[ListItem.StarRating]</texture>
 								<aspectratio align="right">keep</aspectratio>
-								<visible>Container.Content(artists)]</visible>
-								<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+								<visible>Container.Content(albums) | Container.Content(songs)</visible>
 							</control>
-						<control type="image">
-							<left>1350</left>
-							<top>0</top>
-							<width>64</width>
-							<height>64</height>
-							<aspectratio>keep</aspectratio>
-							<texture>$VAR[ListItem.Overlay]</texture>
-							<visible>Container.Content(episodes)</visible>
-						</control>
+							<control type="image">
+								<left>1350</left>
+								<top>0</top>
+								<width>64</width>
+								<height>64</height>
+								<aspectratio>keep</aspectratio>
+								<texture>$VAR[ListItem.Overlay]</texture>
+								<visible>Container.Content(episodes)</visible>
+							</control>
 						</control>
 					</control>
 				</focusedlayout>
@@ -255,6 +297,7 @@
 				<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
 				<showonepage>false</showonepage>
 				<orientation>vertical</orientation>
+				<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(60) + !Container.Scrolling">Conditional</animation>
 			</control>
 		</control>
 	</include>
@@ -264,16 +307,20 @@
 			<left>18</left>
 			<top>10</top>
 			<control type="image">
-				<width>346</width>
-				<height>195</height>
-				<texture>background.png</texture>
+				<left>100</left>
+				<top>-2</top>
+				<width>200</width>
+				<height>200</height>
+				<aspectratio>scale</aspectratio>
+				<texture background="true">$INFO[ListItem.Icon]</texture>
+				<visible>Container.Content(albums) | Container.Content(songs)</visible>
 			</control>
 			<control type="image">
 				<width>346</width>
 				<height>195</height>
 				<texture background="true">$INFO[ListItem.Art(fanart)]</texture>
 				<aspectratio>scale</aspectratio>
-				<visible>!Container.Content(episodes)</visible>
+				<visible>![Container.Content(episodes) | Container.Content(albums) | Container.Content(songs)]</visible>
 			</control>
 			<control type="image">
 				<width>346</width>
@@ -295,7 +342,7 @@
 				<height>98</height>
 				<aspectratio align="center" aligny="bottom">keep</aspectratio>
 				<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
-				<visible>![Container.Content(episodes) | Container.Content(artists)]</visible>
+				<visible>![Container.Content(episodes) | Container.Content(artists)] + !Container.Content(albums)</visible>
 			</control>
 		</control>
 	</include>
