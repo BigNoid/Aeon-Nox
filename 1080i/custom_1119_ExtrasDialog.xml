@@ -49,7 +49,7 @@
 				<onclick>Dialog.Close(1119)</onclick>
 				<onclick>Dialog.Close(MovieInformation)</onclick>
 				<onclick>ActivateWindow(videos,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=$ESCINFO[ListItem.Label] Trailer,return)</onclick>
-				<visible>IsEmpty(ListItem.Trailer) + Container.Content(movies)</visible>
+				<visible>[IsEmpty(ListItem.Trailer) + Container.Content(movies)] + !Skin.HasSetting(trailertoggle)</visible>
 			</control>
 			<control type="button" id="90903">
 				<description>Play Trailer</description>
@@ -62,7 +62,20 @@
 				<onclick>Dialog.Close(1119)</onclick>
 				<onclick>Dialog.Close(MovieInformation)</onclick>
 				<onclick>PlayMedia($INFO[ListItem.Trailer])</onclick>
-				<visible>!IsEmpty(ListItem.Trailer) + Container.Content(movies)</visible>
+				<visible>[!IsEmpty(ListItem.Trailer) + Container.Content(movies)] + !Skin.HasSetting(trailertoggle)</visible>
+			</control>
+			<control type="button" id="90904">
+				<description>Cinema Experience button</description>
+				<width>510</width>
+				<textwidth>435</textwidth>
+				<textoffsetx>45</textoffsetx>
+				<texturefocus border="35,2,35,2">button_shutdown_focus.png</texturefocus>
+				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
+				<onclick>Dialog.Close(MovieInformation)</onclick>
+				<onclick>RunScript(script.cinema.experience,movieid=$INFO[ListItem.DBID])</onclick>
+				<label>Cinema Experience</label>
+				<visible>System.HasAddon(script.cinema.experience)</visible>
+				<visible>[Container.Content(movies) + !SubString(Window(10025).Property(CinemaExperienceRunning),True)] + Skin.HasSetting(trailertoggle)</visible>
 			</control>
 			<control type="button" id="90204">
 				<description>Artwork downloader button</description>
