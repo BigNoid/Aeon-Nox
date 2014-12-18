@@ -538,9 +538,10 @@
 			<include>Window_OpenClose_Animation</include>
 			<include>ViewAnimation</include>
 			<include>VisibleFadeEffect</include>
+			<!-- IMDb + Oscars -->
 			<control type="image">
 				<visible>!IsEmpty(ListItem.Top250)</visible>
-				<left>1785</left>
+				<left>1700</left>
 				<top>55</top>
 				<width>100</width>
 				<height>50</height>
@@ -550,18 +551,18 @@
 			</control>
 			<control type="Label">
 				<visible>!IsEmpty(ListItem.Top250) + Skin.HasSetting(imdblogo)</visible>
-				<left>1782</left>
+				<left>1697</left>
 				<top>110</top>
 				<width>100</width>
 				<height>100</height>
 				<align>center</align>
 				<label>[B]$INFO[ListItem.Top250,#][/B]</label>
 				<font>font16_title</font>
-				<shadowcolor>black</shadowcolor>
+				<shadowcolor>shadow</shadowcolor>
 				<textcolor>fffeec900</textcolor>
 			</control>
 			<control type="image">
-				<left>1795</left>
+				<left>1710</left>
 				<top>175</top>
 				<width>85</width>
 				<height>175</height>
@@ -579,7 +580,7 @@
 				<font>font13</font>
 				<textcolor>grey2</textcolor>
 				<label>Next Episode: $INFO[Window(Home).Property(NextAired.NextNumber)] - $INFO[Window(Home).Property(NextAired.NextTitle)]   ($INFO[Window(Home).Property(NextAired.NextDay)])</label>
-				<visible>!IsEmpty(Window(Home).Property(NextAired.NextDate)) + !Control.HasFocus(61)</visible>
+				<visible>[!IsEmpty(Window(Home).Property(NextAired.NextDate)) + !Control.HasFocus(61)] + Skin.HasSetting(noextendedinfotvshows)</visible>
 			</control>
 			<!-- Next Aired Status -->
 			<control type="label">
@@ -591,7 +592,7 @@
 				<font>font13</font>
 				<textcolor>grey2</textcolor>
 				<label>$INFO[Window(Home).Property(NextAired.Status)]</label>
-				<visible>[IsEmpty(Window(Home).Property(NextAired.NextDate)) + !IsEmpty(Window(Home).Property(NextAired.Status)) + !Control.HasFocus(61)]</visible>
+				<visible>[IsEmpty(Window(Home).Property(NextAired.NextDate)) + !IsEmpty(Window(Home).Property(NextAired.Status)) + !Control.HasFocus(61)] + Skin.HasSetting(noextendedinfotvshows)</visible>
 			</control>
 			<!-- Media Flags Left -->
 			<control type="grouplist">
@@ -602,23 +603,23 @@
 				<aligny>center</aligny>
 				<itemgap>0</itemgap>
 				<orientation>horizontal</orientation>
+				<visible>[Container.Content(tvshows) + Skin.HasSetting(nomediaflagstvshows)] | [Container.Content(movies) + Skin.HasSetting(nomediaflagsmovies)]</visible>
 				<control type="image" id="800019">
 					<left>25</left>
 					<top>968</top>
 					<width>198</width>
-					<colordiffuse>grey</colordiffuse>
+					<colordiffuse>grey2</colordiffuse>
 					<bordersize>2</bordersize>
 					<texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
-					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [Container.Content(tvshows) | Container.Content(movies)] + [!IsEmpty(ListItem.Studio) + !Control.HasFocus(61)]</visible>
+					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [!IsEmpty(ListItem.Studio) + !Control.HasFocus(61)]</visible>
 					<include>MediaFlagVars</include>
 				</control>
 				<control type="image">
-					<top>968</top>
 					<width>198</width>
-					<colordiffuse>grey</colordiffuse>
-					<bordersize>2</bordersize>
-					<texture>$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
-					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [Container.Content(movies) + !IsEmpty(ListItem.VideoResolution) + !Control.HasFocus(61)]</visible>
+					<aspectratio>keep</aspectratio>
+					<colordiffuse>grey2</colordiffuse>
+					<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
+					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [!IsEmpty(ListItem.MPAA) + !Control.HasFocus(61)]</visible>
 					<include>MediaFlagVars</include>
 				</control>
 			</control>
@@ -631,20 +632,22 @@
 				<aligny>center</aligny>
 				<itemgap>0</itemgap>
 				<orientation>horizontal</orientation>
+				<visible>[Container.Content(tvshows) + Skin.HasSetting(nomediaflagstvshows)] | [Container.Content(movies) + Skin.HasSetting(nomediaflagsmovies)]</visible>
 				<control type="image">
+					<top>968</top>
 					<width>198</width>
-					<colordiffuse>grey</colordiffuse>
+					<colordiffuse>grey2</colordiffuse>
 					<bordersize>2</bordersize>
-					<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
-					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [Container.Content(movies) + !IsEmpty(ListItem.VideoCodec) + !Control.HasFocus(61)]</visible>
+					<texture>$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
+					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [Container.Content(movies) + !IsEmpty(ListItem.VideoResolution) + !Control.HasFocus(61)]</visible>
 					<include>MediaFlagVars</include>
 				</control>
 				<control type="image">
 					<width>198</width>
-					<aspectratio>keep</aspectratio>
 					<colordiffuse>grey2</colordiffuse>
-					<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
-					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [Container.Content(movies) | Container.Content(tvshows)] + [!IsEmpty(ListItem.MPAA) + !Control.HasFocus(61)]</visible>
+					<bordersize>2</bordersize>
+					<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
+					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [Container.Content(movies) + !IsEmpty(ListItem.VideoCodec) + !Control.HasFocus(61)]</visible>
 					<include>MediaFlagVars</include>
 				</control>
 			</control>
@@ -659,7 +662,7 @@
 				<font>font13</font>
 				<textcolor>grey2</textcolor>
 				<visible>!IsEmpty(ListItem.Top250) + !Control.HasFocus(61)</visible>
-				<visible>!Skin.HasSetting(imdblogo)</visible>
+				<visible>!Skin.HasSetting(imdblogo) + Skin.HasSetting(noextendedinfomovies)</visible>
 			</control>
 			<!-- Tagline -->
 			<control type="label">
@@ -673,7 +676,7 @@
 				<scroll>true</scroll>
 				<textcolor>grey2</textcolor>
 				<scrollspeed>40</scrollspeed>
-				<visible>[Container.Content(movies) + !IsEmpty(ListItem.Tagline) + !Control.HasFocus(61)]</visible>
+				<visible>[Container.Content(movies) + !IsEmpty(ListItem.Tagline) + !Control.HasFocus(61)] + Skin.HasSetting(noextendedinfomovies)</visible>
 			</control>
 			<!-- Movie Set Title List -->
 			<control type="textbox">
@@ -686,7 +689,7 @@
 				<font>font14_textbox2</font>
 				<textcolor>grey2</textcolor>
 				<autoscroll time="2500" delay="2500" repeat="3000">true</autoscroll>
-				<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Control.HasFocus(61)</visible>
+				<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Control.HasFocus(61) + Skin.HasSetting(noextendedinfomovies)</visible>
 			</control>
 			<!-- Year • Rating • Duration -->
 			<control type="label">
@@ -698,7 +701,7 @@
 				<label>[B]$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$INFO[ListItem.Duration,, [/B]$LOCALIZE[12391]]</label>
 				<font>font14</font>
 				<textcolor>grey2</textcolor>
-				<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [Container.Content(movies) + !IsEmpty(ListItem.Title) + !Control.HasFocus(61)]</visible>
+				<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [Container.Content(movies) + !IsEmpty(ListItem.Title) + !Control.HasFocus(61)] + Skin.HasSetting(noextendedinfomovies)</visible>
 			</control>
 			<!-- TV Total Episodes + Unwatched Episodes -->
 			<control type="label">
@@ -710,7 +713,7 @@
 				<label>[B]Episodes:[/B] $INFO[ListItem.Property(TotalEpisodes)] $INFO[ListItem.Property(UnWatchedEpisodes), [B]($LOCALIZE[16101]:[/B] ,)]</label>
 				<font>font16</font>
 				<textcolor>grey2</textcolor>
-				<visible>[Container.Content(tvshows) + !IsEmpty(ListItem.Title) + !Control.HasFocus(61)]</visible>
+				<visible>[Container.Content(tvshows) + !IsEmpty(ListItem.Title) + !Control.HasFocus(61)] + Skin.HasSetting(noextendedinfotvshows)</visible>
 			</control>
 			<!-- TV Rating -->
 			<control type="label">
@@ -722,7 +725,7 @@
 				<label>[B]$INFO[ListItem.RatingAndVotes][/B]</label>
 				<font>font13</font>
 				<textcolor>grey2</textcolor>
-				<visible>[Container.Content(tvshows) + !IsEmpty(ListItem.RatingAndVotes) + !Control.HasFocus(61)]</visible>
+				<visible>[Container.Content(tvshows) + !IsEmpty(ListItem.RatingAndVotes) + !Control.HasFocus(61)] + Skin.HasSetting(noextendedinfotvshows)</visible>
 			</control>
 		</control>
 		<control type="group">
@@ -783,19 +786,20 @@
 					<selected>Skin.HasSetting(shiftcasedisc)</selected>
 					<visible>Control.IsVisible(601) + Container.Content(movies)</visible>
 				</control>
-				<control type="togglebutton" id="7003">
+				<control type="radiobutton" id="7003">
 					<description>Enable BannerInfo Floor</description>
 					<textwidth>255</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>Alternate Layout</label>
+					<label>Alternate layout</label>
 					<onclick>Skin.ToggleSetting(bannerinfofloor)</onclick>
+					<selected>Skin.HasSetting(bannerinfofloor)</selected>
 					<visible>Control.IsVisible(506)</visible>
 				</control>
 				<control type="radiobutton" id="7004">
 					<description>Enable IMDb logo</description>
 					<textwidth>255</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>IMDb + Oscar Logo</label>
+					<label>IMDb + Oscar logo</label>
 					<onclick>Skin.ToggleSetting(imdblogo)</onclick>
 					<selected>Skin.HasSetting(imdblogo)</selected>
 					<visible>Control.IsVisible(59) + Container.Content(movies)</visible>
@@ -814,6 +818,24 @@
 					<onclick condition="Control.IsVisible(504) + Container.Content(movies)">Skin.ToggleSetting(noindicatorgallerymovies)</onclick>
 					<visible>[Control.IsVisible(602) | Control.IsVisible(52) | Control.IsVisible(53) | Control.IsVisible(55) + [Container.Content(movies) | Container.Content(episodes)]] | [Control.IsVisible(504) + Container.Content(movies)]</visible>
 					<visible>!Container.Content(tvshows)</visible>
+				</control>
+				<control type="button" id="7006">
+					<description>Enable Extended Information</description>
+					<textwidth>375</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>Toggle extended info</label>
+					<onclick condition="Control.IsVisible(59) + Container.Content(tvshows)">Skin.ToggleSetting(noextendedinfotvshows)</onclick>
+					<onclick condition="Control.IsVisible(59) + Container.Content(movies)">Skin.ToggleSetting(noextendedinfomovies)</onclick>
+					<visible>Control.IsVisible(59) + [Container.Content(movies) | Container.Content(tvshows)]</visible>
+				</control>
+				<control type="button" id="7007">
+					<description>Enable Media Flags</description>
+					<textwidth>375</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>Toggle media flags</label>
+					<onclick condition="Control.IsVisible(59) + Container.Content(tvshows)">Skin.ToggleSetting(nomediaflagstvshows)</onclick>
+					<onclick condition="Control.IsVisible(59) + Container.Content(movies)">Skin.ToggleSetting(nomediaflagsmovies)</onclick>
+					<visible>Control.IsVisible(59) + [Container.Content(movies) | Container.Content(tvshows)]</visible>
 				</control>
 				<control type="button" id="201">
 					<description>View options</description>
