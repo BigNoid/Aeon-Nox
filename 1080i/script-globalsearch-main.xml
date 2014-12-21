@@ -17,6 +17,9 @@
 			<control type="label" id="110">
 				<include>HiddenObject</include>
 			</control>
+			<control type="label" id="210">
+				<include>HiddenObject</include>
+			</control>
 			<control type="label" id="120">
 				<include>HiddenObject</include>
 			</control>
@@ -42,7 +45,8 @@
 		<control type="group">
 			<left>0</left>
 			<top>128</top>
-			<include>Window_OpenClose_Animation</include>
+			<animation effect="slide" tween="cubic" time="720" start="0,1080" end="0,0">WindowOpen</animation>
+			<animation effect="slide" tween="cubic" time="720" end="0,1080" start="0,0">WindowClose</animation>
 			<include>SystemLeftPanel</include>
 			<control type="panel" id="9000">
 				<left>82</left>
@@ -109,6 +113,12 @@
 						<onright>111</onright>
 						<icon>-</icon>
 					</item>
+					<item id="11">
+						<visible>!IsEmpty(Container(211).ListItem.Label)</visible>
+						<label>$LOCALIZE[344]$INFO[Control.GetLabel(210), (, $LOCALIZE[342])]</label>
+						<onclick>noop</onclick>
+						<icon>-</icon>
+					</item>
 					<item id="2">
 						<visible>!IsEmpty(Container(121).ListItem.Label)</visible>
 						<label>$LOCALIZE[20343]$INFO[Control.GetLabel(120), (,)]</label>
@@ -157,12 +167,6 @@
 						<onclick>SendClick(198)</onclick>
 						<icon>-</icon>
 					</item>
-					<item id="10">
-						<visible>Control.IsVisible(199)</visible>
-						<label>$INFO[Control.GetLabel(199)]</label>
-						<onclick>noop</onclick>
-						<icon>-</icon>
-					</item>
 				</content>
 			</control>
 			<control type="scrollbar" id="60">
@@ -202,16 +206,18 @@
 			<animation effect="slide" start="0,-90" end="0,0" delay="800" time="480" condition="Window.Previous(home)">WindowOpen</animation>
 			<animation effect="slide" end="0,-90" start="0,0" time="480" condition="Window.Next(home)">WindowClose</animation>
 			<control type="label">
-				<left>1920</left>
+				<left>960</left>
 				<top>5</top>
 				<width>960</width>
 				<height>25</height>
+				<label>$INFO[Window.Property(GlobalSearch.SearchString)]</label>
 				<label>$INFO[Control.GetLabel(190)]$INFO[Control.GetLabel(191), ]</label>
 				<font>font13_title</font>
 				<textcolor>grey2</textcolor>
 				<align>right</align>
 				<aligny>center</aligny>
 				<textoffsetx>15</textoffsetx>
+				<visible></visible>
 			</control>
 			<control type="label" id="190">
 				<include>HiddenObject</include>
@@ -220,10 +226,20 @@
 				<include>HiddenObject</include>
 			</control>
 		</control>
+
 		<control type="group" id="100">
-			<include>Window_OpenClose_Animation</include>
+			<animation effect="slide" tween="cubic" time="720" start="0,1080" end="0,0">WindowOpen</animation>
+			<animation effect="slide" tween="cubic" time="720" end="0,1080" start="0,0">WindowClose</animation>
 			<control type="label" id="199">
-				<include>HiddenObject</include>
+				<left>522</left>
+				<top>160</top>
+				<width>1316</width>
+				<height>839</height>
+				<font>font45caps_title</font>
+				<align>center</align>
+				<aligny>center</aligny>
+				<label>$LOCALIZE[284]</label>
+				<include>VisibleFadeEffect</include>
 			</control>
 			<control type="button" id="198">
 				<onfocus>SetFocus(9000,9)</onfocus>
@@ -297,7 +313,7 @@
 							<textoffsetx>15</textoffsetx>
 						</control>
 						<control type="label">
-							<left>1316</left>
+							<left>0</left>
 							<top>670</top>
 							<width>1316</width>
 							<height>40</height>
@@ -327,6 +343,101 @@
 							<textcolor>grey2</textcolor>
 							<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
 							<visible>IsEmpty(Container(111).ListItem.Property(PlotOutline))</visible>
+						</control>
+					</control>
+				</control>
+				<!-- Actors -->
+				<control type="group" id="219">
+					<visible>Container(9000).HasFocus(11)</visible>
+					<include>SettingsFadeEffect</include>
+					<control type="panel" id="211">
+						<left>0</left>
+						<top>0</top>
+						<width>1316</width>
+						<height>658</height>
+						<pagecontrol>61</pagecontrol>
+						<onleft>Control.SetFocus(9000,1)</onleft>
+						<onright>61</onright>
+						<onup>111</onup>
+						<ondown>111</ondown>
+						<orientation>vertical</orientation>
+						<focusposition>0</focusposition>
+						<viewtype label="535">list</viewtype>
+						<preloaditems>2</preloaditems>
+						<itemlayout width="219" height="329">
+							<control type="image">
+								<width>219</width>
+								<height>329</height>
+								<aspectratio>scale</aspectratio>
+								<texture background="true">$INFO[ListItem.Icon]</texture>
+								<fadetime>400</fadetime>
+								<bordertexture border="2">thumbs/panel_border3.png</bordertexture>
+								<bordersize>2</bordersize>
+								<colordiffuse>BAffffff</colordiffuse>
+							</control>
+						</itemlayout>
+						<focusedlayout width="219" height="329">
+							<control type="group">
+								<animation type="Focus">
+									<effect type="zoom" start="95" end="100" time="200" tween="sine" easing="inout" center="auto" />
+									<effect type="fade" start="80" end="100" time="200" tween="sine" easing="in" />
+								</animation>
+								<control type="image">
+									<left>0</left>
+									<top>0</top>
+									<width>219</width>
+									<height>329</height>
+									<aspectratio>scale</aspectratio>
+									<texture background="true">$INFO[ListItem.Icon]</texture>
+									<fadetime>400</fadetime>
+									<bordertexture border="8">thumbs/thumbnail_focused.png</bordertexture>
+									<bordersize>8</bordersize>
+								</control>
+							</control>
+						</focusedlayout>
+					</control>
+					<control type="group">
+						<control type="label">
+							<left>0</left>
+							<top>670</top>
+							<width>1316</width>
+							<height>40</height>
+							<label>$INFO[Container(211).ListItem.Label]</label>
+							<font>font15</font>
+							<textcolor>labelheader</textcolor>
+							<textoffsetx>15</textoffsetx>
+						</control>
+						<control type="label">
+							<left>0</left>
+							<top>670</top>
+							<width>1316</width>
+							<height>40</height>
+							<align>right</align>
+							<label>$INFO[Container(211).ListItem.Property(Year),, • ]$INFO[Container(211).ListItem.Property(Duration),, $LOCALIZE[12391]]</label>
+							<font>font15</font>
+							<textcolor>grey2</textcolor>
+							<textoffsetx>15</textoffsetx>
+						</control>
+						<control type="textbox">
+							<left>15</left>
+							<top>720</top>
+							<width>1286</width>
+							<height>116</height>
+							<label>$INFO[Container(211).ListItem.Property(PlotOutline)]</label>
+							<font>font15_textbox</font>
+							<textcolor>grey2</textcolor>
+							<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
+						</control>
+						<control type="textbox">
+							<left>15</left>
+							<top>720</top>
+							<width>1286</width>
+							<height>116</height>
+							<label>$INFO[Container(211).ListItem.Property(Plot)]</label>
+							<font>font15_textbox</font>
+							<textcolor>grey2</textcolor>
+							<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
+							<visible>IsEmpty(Container(211).ListItem.Property(PlotOutline))</visible>
 						</control>
 					</control>
 				</control>
@@ -392,7 +503,7 @@
 							<textoffsetx>15</textoffsetx>
 						</control>
 						<control type="label">
-							<left>1316</left>
+							<left>0</left>
 							<top>670</top>
 							<width>1316</width>
 							<height>40</height>
@@ -475,7 +586,7 @@
 							<textoffsetx>15</textoffsetx>
 						</control>
 						<control type="label">
-							<left>1316</left>
+							<left>0</left>
 							<top>670</top>
 							<width>1316</width>
 							<height>40</height>
@@ -558,7 +669,7 @@
 							<textoffsetx>15</textoffsetx>
 						</control>
 						<control type="label">
-							<left>1316</left>
+							<left>0</left>
 							<top>670</top>
 							<width>1316</width>
 							<height>40</height>
@@ -641,7 +752,7 @@
 							<textoffsetx>15</textoffsetx>
 						</control>
 						<control type="label">
-							<left>1316</left>
+							<left>0</left>
 							<top>670</top>
 							<width>1316</width>
 							<height>40</height>
