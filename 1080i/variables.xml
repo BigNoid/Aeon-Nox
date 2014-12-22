@@ -72,8 +72,8 @@
 		<value>$INFO[System.CurrentWindow]</value>
 	</variable>
 	<variable name="BreadcrumbsVar">
-		<value condition="Window.IsActive(videos) + Container.Filtered">$VAR[BreadcrumbsFillerVar]$INFO[Container.FolderName]$INFO[Control.GetLabel(10),[COLOR grey3] | ,: $LOCALIZE[587][/COLOR]]</value>
-		<value condition="Window.IsActive(videos)">$VAR[BreadcrumbsFillerVar]$INFO[Container.FolderName]$INFO[Control.GetLabel(10),[COLOR grey3] | ,[/COLOR]]</value>
+		<value condition="Window.IsActive(videos) + Container.Filtered">$VAR[BreadcrumbsFillerVar]$INFO[Container.FolderName]$INFO[Control.GetLabel(10),[COLOR grey2] | ,: $LOCALIZE[587][/COLOR]]</value>
+		<value condition="Window.IsActive(videos)">$VAR[BreadcrumbsFillerVar]$INFO[Container.FolderName]$INFO[Control.GetLabel(10),[COLOR grey2] | ,[/COLOR]]</value>
 		<value condition="Window.IsActive(addoninformation) + !Window.IsActive(textviewer)">$VAR[BreadcrumbsFillerVar]$INFO[ListItem.Property(Addon.Name)]</value>
 		<value condition="Window.IsActive(textviewer)">$VAR[BreadcrumbsFillerVar]</value>
 		<value condition="Window.IsActive(script-globalsearch-main.xml)">$INFO[System.AddonTitle(script.globalsearch)]$INFO[Control.GetLabel(190),: ]$INFO[Control.GetLabel(191), ]</value>
@@ -153,6 +153,12 @@
 		<value condition="System.GetBool(videolibrary.showunwatchedplots)">$INFO[ListItem.Tagline,[COLOR labelheader],[/COLOR] - ]$INFO[ListItem.Plot]</value>
 		<value>$INFO[ListItem.Plot]</value>
 	</variable>
+	<variable name="VideoPlotVar2">
+		<value condition="Container.Content(seasons)">$INFO[Container.ShowPlot]</value>
+		<value condition="!IsEmpty(ListItem.PlotOutline) + !Skin.HasSetting(VideoInfoPlotToggle)">$INFO[ListItem.Tagline,[COLOR labelheader],[/COLOR] - ]$INFO[ListItem.PlotOutline]</value>
+		<value condition="System.GetBool(videolibrary.showunwatchedplots)">$INFO[ListItem.Tagline,[COLOR labelheader],[/COLOR] - ]$INFO[ListItem.Plot]</value>
+		<value>$INFO[ListItem.Plot]</value>
+	</variable>
 	<variable name="OtherPlotVar">
 		<value condition="Container.Content(albums) + !IsEmpty(ListItem.Property(Album_Description))">$INFO[ListItem.Property(Album_Description)]</value>
 		<value condition="Container.Content(albums)">$LOCALIZE[414]</value>
@@ -181,17 +187,17 @@
 		<value condition="SubString(ListItem.Filename,dvd) | StringCompare(ListItem.FileExtension,iso) | StringCompare(ListItem.FileExtension,ifo)">dvd</value>
 		<value>$INFO[ListItem.VideoCodec]</value>
 	</variable>
-	<variable name="VideoSourceFlagVar">
-		<value condition="[SubString(Player.Filenameandpath,PDTV) | SubString(Player.Filenameandpath,sdtv)]">sdtv</value>
-		<value condition="SubString(Player.Filenameandpath,hdtv)">hdtv</value>
-		<value condition="[SubString(Player.Filenameandpath,hddvd) | SubString(Player.Filenameandpath,hd-dvd)]">hddvd</value>
+    <variable name="VideoSourceFlagVar">
+        <value condition="[SubString(Player.Filenameandpath,PDTV) | SubString(Player.Filenameandpath,sdtv) | SubString(Player.Filenameandpath,sd tv)]">sdtv</value>
+        <value condition="[SubString(Player.Filenameandpath,hdtv) | SubString(Player.Filenameandpath,hd tv)]">hdtv</value>
+        <value condition="[SubString(Player.Filenameandpath,hddvd) | SubString(Player.Filenameandpath,hd-dvd)]">hddvd</value>
 		<value condition="VideoPlayer.IsStereoscopic">bluray3d</value>
-		<value condition="[SubString(Player.Filenameandpath,bluray) | SubString(Player.Filenameandpath,blu-ray) | SubString(Player.Filenameandpath,bdrip) | SubString(Player.Filenameandpath,brrip)]">bluray</value>
-		<value condition="SubString(Player.Filenameandpath,dvb)">dvb</value>
-		<value condition="SubString(Player.Filenameandpath,web-dl)">web-dl</value>
-		<value condition="SubString(Player.Filenameandpath,dvd) | SubString(Player.Filenameandpath,.iso,Right) | SubString(Player.Filenameandpath,.ifo,Right)">dvd</value>
-		<value>$INFO[VideoPlayer.VideoCodec]</value>
-	</variable>
+        <value condition="[SubString(Player.Filenameandpath,bluray) | SubString(Player.Filenameandpath,blu-ray) | SubString(Player.Filenameandpath,bdrip) | SubString(Player.Filenameandpath,brrip)]">bluray</value>
+        <value condition="SubString(Player.Filenameandpath,dvb)">dvb</value>
+        <value condition="SubString(Player.Filenameandpath,web-dl)">web-dl</value>
+        <value condition="[SubString(Player.Filenameandpath,dvd) | SubString(Player.Filenameandpath,.iso,Right) | SubString(Player.Filenameandpath,.ifo,Right)]">dvd</value>
+        <value>$INFO[VideoPlayer.VideoCodec]</value>
+    </variable>
 	<!-- InfoPanel -->
 	<variable name="VideoInfoPanelVar">
 		<value condition="Control.IsVisible(53) + Container.Content(movies)">$INFO[Skin.String(53.Movies.InfoPanel)]</value>
@@ -302,7 +308,7 @@
 
 	<variable name="PosterThumbVar">
 		<value condition="!IsEmpty(ListItem.Art(season.poster))">$INFO[ListItem.Art(season.poster)]</value>
-		<value condition="!IsEmpty(ListItem.Art(tvshow.poster)) + !Container.COntent(seasons)">$INFO[ListItem.Art(tvshow.poster)]</value>
+		<value condition="!IsEmpty(ListItem.Art(tvshow.poster)) + !Container.Content(seasons)">$INFO[ListItem.Art(tvshow.poster)]</value>
 		<value condition="!IsEmpty(ListItem.Art(poster))">$INFO[ListItem.Art(poster)]</value>
 		<value condition="Container.Content(genres)">$INFO[ListItem.Label,special://skin/extras/moviegenres/,.jpg]</value>
 		<value>$INFO[ListItem.Icon]</value>
@@ -315,7 +321,8 @@
 		<value condition="Container.Content(episodes)">$INFO[ListItem.TvShowTitle]</value>
 		<value condition="Container.Content(addons)">$INFO[ListItem.Property(Addon.Summary)]</value>
 		<value condition="Container.Content(musicvideos)">$INFO[ListItem.Artist]</value>
-		<value condition="IsEmpty(ListItem.Genre)">$INFO[Window(Home).Property(Set.Movies.Genre)]</value>
+		<value condition="[Control.IsVisible(500) | Control.IsVisible(57) | Control.IsVisible(53) | Control.IsVisible(58) | Control.IsVisible(52) | Control.IsVisible(499) | Control.IsVisible(504) | Control.IsVisible(601)] + [Container.Content(movies) + !IsEmpty(ListItem.Title)]">$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$INFO[ListItem.Duration,, $LOCALIZE[12391]]</value>
+		<value condition="[Control.IsVisible(500) | Control.IsVisible(57) | Control.IsVisible(53) | Control.IsVisible(58) | Control.IsVisible(52) | Control.IsVisible(499) | Control.IsVisible(504)] + [Container.Content(tvshows) + !IsEmpty(ListItem.Title)]">Episodes: $INFO[ListItem.Property(TotalEpisodes)] $INFO[ListItem.Property(UnWatchedEpisodes), ($LOCALIZE[16101]: ,)]</value>
 		<value>$INFO[ListItem.Genre]</value>
 	</variable>
 	<variable name="FloorLabel2Var">
@@ -345,7 +352,7 @@
 		<value>$INFO[Player.Art(clearlogo)]</value>
 	</variable>
 	<variable name="PlayerTitleLabelVar">
-		<value condition="Player.ChapterCount">$INFO[Player.Title]$INFO[player.chapter, • $LOCALIZE[21396] ]$INFO[player.chaptercount, / ,]</value>
+		<value condition="Player.ChapterCount">$INFO[player.chapter,$LOCALIZE[21396] ]$INFO[player.chaptercount, / ,] • $INFO[Player.Title]</value>
 		<value>$INFO[Player.Title]</value>
 	</variable>
 	<variable name="SkinSettingsDescriptionVar">
@@ -369,6 +376,9 @@
 		<value condition="Control.HasFocus(403)">$LOCALIZE[31916]</value>
 		<value condition="Control.HasFocus(404)">$LOCALIZE[31944]</value>
 		<value condition="Control.HasFocus(405)">$LOCALIZE[31945]</value>
+		<value condition="Control.HasFocus(501)">Show Plot and Cast while displaying Info during video playback.</value>
+		<value condition="Control.HasFocus(502)">Toggle DiscArt in Movie information.</value>
+		<value condition="Control.HasFocus(503)">Change the location of the trailer button when viewing movie information. This swaps the places of the Trailer and Cinema Experience buttons.</value>
 		<value condition="Control.HasFocus(90000) + IsEmpty(Container(90000).ListItem.Property(Path))">$LOCALIZE[31923]</value>
 		<value condition="Control.HasFocus(90012)">$LOCALIZE[31925]</value>
 		<value condition="Control.HasFocus(90013) | Control.HasFocus(90021)">$LOCALIZE[31926]</value>
@@ -384,6 +394,14 @@
 	<variable name="HorizontalListNavVar">
 		<value condition="Skin.HasSetting(HorizontalListNav)">$LOCALIZE[31005]</value>
 		<value>$LOCALIZE[571]</value>
+	</variable>
+	<variable name="HomeMenuNavVar">
+		<value condition="Skin.HasSetting(HomeMenuNavVar)">$LOCALIZE[31005]</value>
+		<value>$LOCALIZE[571]</value>
+	</variable>
+	<variable name="TopBarVar">
+		<value condition="Skin.HasSetting(hidetopbar)">Hide</value>
+		<value>Show</value>
 	</variable>
 	<variable name="SlimListSettingVar">
 		<value condition="Skin.HasSetting(Enable.SlimList)">$LOCALIZE[31095]</value>

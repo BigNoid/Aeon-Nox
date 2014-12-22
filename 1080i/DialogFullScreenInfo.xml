@@ -1,93 +1,347 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window type="dialog" id="142">
+	<zorder>0</zorder>
 	<controls>
+		<!-- Panel Background (Movies + Episodes) -->
+		<control type="image">
+			<visible>[VideoPlayer.Content(episodes) | VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
+			<width>1920</width>
+			<height>150</height>
+			<texture border="1,1,1,40">topbar.png</texture>
+		</control>
+		<!-- Plot + Cast  -->
 		<control type="group">
-			<animation effect="slide" start="0,-100" end="0,0" time="200">WindowOpen</animation>
-			<animation effect="slide" start="0,-100" end="0,0" time="200">VisibleChange</animation>
-			<visible>!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV)</visible>
-			<top>0</top>
+			<visible>[!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)] + Skin.HasSetting(ShowPlotCast)</visible>
 			<control type="image">
-				<left>0</left>
-				<top>0</top>
+				<top>540</top>
 				<width>1920</width>
-				<height>122</height>
-				<texture border="1,1,1,40">topbar.png</texture>
+				<height>540</height>
+				<texture border="2">gradient_floor.png</texture>
+				<visible>[!IsEmpty(VideoPlayer.Plot) | !IsEmpty(VideoPlayer.PlotOutline) | !IsEmpty(VideoPlayer.CastandRole)]</visible>
 			</control>
-			<control type="grouplist">
-				<left>0</left>
-				<top>0</top>
-				<width>1920</width>
-				<height>90</height>
+			<!-- Cast -->
+			<control type="textbox">
+				<description>Cast</description>
 				<align>center</align>
-				<aligny>center</aligny>
-				<itemgap>0</itemgap>
-				<orientation>horizontal</orientation>
-				<control type="image">
-					<width>320</width>
-					<height>88</height>
-					<include>MediaFlagVars</include>
-					<texture background="true">$INFO[Player.Art(thumb)]</texture>
-					<visible>VideoPlayer.Content(livetv)</visible>
+				<left>1200</left>
+				<top>778</top>
+				<width>700</width>
+				<height>252</height>
+				<font>font15</font>
+				<textcolor>white</textcolor>
+				<label>$INFO[VideoPlayer.CastandRole]</label>
+				<visible>!IsEmpty(VideoPlayer.CastandRole) + [VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]</visible>
+				<autoscroll time="2500" delay="7500" repeat="5000">true</autoscroll>
+				<animation type="VisibleChange" reversible="false">
+					<effect type="fade" start="0" end="100" time="500" />
+				</animation>
+				<animation type="WindowOpen" reversible="false">
+					<effect type="fade" start="0" end="100" time="400" />
+				</animation>
+				<animation type="WindowClose" reversible="false">
+					<effect type="fade" start="100" end="0" time="000" />
+				</animation>
+			</control>
+			<!-- PlotOutline (Movies) -->
+			<control type="textbox">
+				<visible>VideoPlayer.Content(movies) + !IsEmpty(VideoPlayer.PlotOutline)</visible>
+				<label>$INFO[VideoPlayer.PlotOutline]</label>
+				<left>20</left>
+				<top>778</top>
+				<width>675</width>
+				<height>252</height>
+				<font>font15</font>
+				<textcolor>white</textcolor>
+				<autoscroll time="2500" delay="7500" repeat="5000">true</autoscroll>
+				<animation type="VisibleChange" reversible="false">
+					<effect type="fade" start="0" end="100" time="500" />
+				</animation>
+				<animation type="WindowOpen" reversible="false">
+					<effect type="fade" start="0" end="100" time="400" />
+				</animation>
+				<animation type="WindowClose" reversible="false">
+					<effect type="fade" start="100" end="0" time="000" />
+				</animation>
+			</control>
+			<!-- Episode Plot & Plot When PlotOutline Empty (Movies) -->
+			<control type="textbox">
+				<visible>[VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)] + IsEmpty(VideoPlayer.PlotOutline)</visible>
+				<label>$INFO[VideoPlayer.Plot]</label>
+				<align>justify</align>
+				<left>20</left>
+				<top>778</top>
+				<width>675</width>
+				<height>252</height>
+				<font>font15</font>
+				<textcolor>white</textcolor>
+				<autoscroll time="2500" delay="7500" repeat="5000">true</autoscroll>
+				<animation type="VisibleChange" reversible="false">
+					<effect type="fade" start="0" end="100" time="500" />
+				</animation>
+				<animation type="WindowOpen" reversible="false">
+					<effect type="fade" start="0" end="100" time="400" />
+				</animation>
+				<animation type="WindowClose" reversible="false">
+					<effect type="fade" start="100" end="0" time="000" />
+				</animation>
+			</control>
+		</control>
+		<!-- Movies -->
+		<control type="group">
+			<visible>VideoPlayer.Content(movies) + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
+			<control type="group">
+				<control type="label">
+					<align>center</align>
+					<label>[B]$INFO[Player.Title][/B]	($INFO[VideoPlayer.Year])</label>
+					<left>550</left>
+					<width>820</width>
+					<font>font16_title</font>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<visible>!IsEmpty(Player.Title)</visible>
+					<scroll>true</scroll>
 				</control>
-				<control type="image" id="800011">
-					<colordiffuse>grey2</colordiffuse>
-					<width>320</width>
-					<include>MediaFlagVars</include>
-					<bordersize>2</bordersize>
-					<texture fallback="flags/studios/default-studio.png">$INFO[VideoPlayer.Studio,flags/studios/,.png]</texture>
-					<visible>!IsEmpty(Control.GetLabel(800011)) | IsEmpty(VideoPlayer.Studio)</visible>
-					<visible>!VideoPlayer.Content(livetv)</visible>
+				<control type="label" id="72">
+					<align>center</align>
+					<top>55</top>
+					<left>500</left>
+					<label>[COLOR themecolor]$INFO[VideoPlayer.Tagline][/COLOR]</label>
+					<font>font15</font>
+					<width>920</width>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<visible>!IsEmpty(VideoPlayer.Tagline)</visible>
+					<scroll>true</scroll>
 				</control>
 				<control type="label">
-					<left>0</left>
-					<width>320</width>
-					<height>90</height>
-					<align>center</align>
-					<label>$INFO[VideoPlayer.Studio]</label>
-					<font>font10</font>
+					<top>-1050</top>
+					<left>15</left>
+					<label>[COLOR themecolor]Directed By:[/COLOR]</label>
+					<align>left</align>
+					<width>155</width>
+					<font>font13</font>
+					<visible>!IsEmpty(VideoPlayer.Director)</visible>
+				</control>
+				<control type="label">
+					<top>-1050</top>
+					<left>165</left>
+					<label>[COLOR grey2]$INFO[VideoPlayer.Director][/COLOR]</label>
+					<align>left</align>
+					<width>350</width>
+					<font>font13</font>
+					<scroll>true</scroll>
+					<visible>!IsEmpty(VideoPlayer.Director)</visible>
+				</control>
+				<control type="label">
+					<top>-1050</top>
+					<align>right</align>
+					<label>[COLOR themecolor]IMDb:[/COLOR] $INFO[VideoPlayer.RatingAndVotes] $INFO[VideoPlayer.Top250 , [COLOR themecolor]$LOCALIZE[13409][/COLOR] #]</label>
+					<left>1305</left>						
+					<width>600</width>
+					<font>font13</font>
 					<textcolor>grey2</textcolor>
-					<wrapmultiline>true</wrapmultiline>
-					<visible>IsEmpty(Control.GetLabel(800011))</visible>
-					<visible>!VideoPlayer.Content(livetv)</visible>
+					<visible>!IsEmpty(VideoPlayer.RatingAndVotes)</visible>
 				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture fallback="flags/mpaa/NR.png">$VAR[VideoRatingFlagVar]</texture>
-					<visible>!VideoPlayer.Content(livetv)</visible>
+			</control>
+		</control>
+		<!-- Episodes -->
+		<control type="group">
+			<visible>VideoPlayer.Content(episodes) + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
+			<control type="group">
+				<width>1920</width>
+				<height>190</height>
+				<control type="label">
+					<top>0</top>
+					<left>620</left>
+					<label>[B]$INFO[VideoPlayer.TvShowTitle][/B]</label>
+					<font>font16_title</font>
+					<width>700</width>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<visible>!IsEmpty(VideoPlayer.TvShowTitle)</visible>
+					<scroll>true</scroll>
+					<align>center</align>
 				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
+				<control type="label">
+					<label>[COLOR themecolor]$INFO[Player.Title][/COLOR]</label>
+					<font>font15</font>
+					<width>1220</width>
+					<top>55</top>
+					<left>350</left>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<visible>!IsEmpty(Player.Title)</visible>
+					<align>center</align>
+					<scroll>true</scroll>
 				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
+				<control type="grouplist">
+					<left>15</left>
+					<top>-150</top>
+					<width>610</width>
+					<itemgap>0</itemgap>
+					<orientation>horizontal</orientation>
+					<control type="label">
+						<label>[COLOR themecolor]Directed By:  [/COLOR]</label>
+						<width min="0" max="155">auto</width>
+						<font>font13</font>
+						<visible>!IsEmpty(VideoPlayer.Director)</visible>
+					</control>
+					<control type="label">
+						<label>$INFO[VideoPlayer.Director]</label>
+						<width min="0" max="215">auto</width>
+						<textcolor>grey2</textcolor>
+						<font>font13</font>
+						<scroll>true</scroll>
+						<visible>!IsEmpty(VideoPlayer.Director)</visible>
+					</control>
+					<control type="label">
+						<label>[COLOR themecolor]  •  [/COLOR]</label>
+						<font>font13</font>
+						<width min="0" max="100">auto</width>
+						<visible>!IsEmpty(VideoPlayer.Director) + !IsEmpty(VideoPlayer.RatingAndVotes)</visible>
+					</control>
+					<control type="label">
+						<label>[COLOR themecolor]Rating: [/COLOR]</label>
+						<font>font13</font>
+						<width min="0" max="110">auto</width>
+						<visible>IsEmpty(VideoPlayer.Director) + !IsEmpty(VideoPlayer.RatingAndVotes)</visible>
+					</control>
+					<control type="label">
+						<label>[COLOR grey2]$INFO[VideoPlayer.RatingAndVotes][/COLOR]</label>
+						<font>font13</font>
+						<width min="0" max="200">auto</width>
+						<visible>!IsEmpty(VideoPlayer.RatingAndVotes)</visible>
+					</control>
+					<control type="label">
+						<label>[COLOR themecolor]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,], Episode $INFO[VideoPlayer.Episode][/COLOR]</label>
+						<font>font13</font>
+						<visible>IsEmpty(VideoPlayer.Director) + IsEmpty(VideoPlayer.RatingAndVotes)</visible>
+						<align>left</align>
+						<width>auto</width>
+					</control>
 				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.AudioChannels,flags/channels/,.png]</texture>
-					<visible>VideoPlayer.Content(livetv)</visible>
+				<control type="label">
+					<top>-150</top>
+					<label>[COLOR themecolor]$LOCALIZE[20416]:[/COLOR] [COLOR grey2]($INFO[VideoPlayer.Premiered])[/COLOR]</label>
+					<left>1305</left>						
+					<width>600</width>
+					<font>font13</font>
+					<align>right</align>
+					<visible>IsEmpty(VideoPlayer.Director) + IsEmpty(VideoPlayer.RatingAndVotes)</visible>
 				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$VAR[VideoSourceFlagVar,flags/video/,.png]</texture>
+				<control type="label">
+					<top>-150</top>
+					<label>[COLOR themecolor]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,], Episode $INFO[VideoPlayer.Episode][/COLOR]  [COLOR grey2]($INFO[VideoPlayer.Premiered])[/COLOR]</label>
+					<left>1305</left>						
+					<width>600</width>
+					<font>font13</font>
+					<align>right</align>
+					<visible>[!IsEmpty(VideoPlayer.Director) | !IsEmpty(VideoPlayer.RatingAndVotes)]</visible>
 				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
-				</control>
+			</control>
+		</control>
+		<!-- Media Flag Bar Left -->
+		<control type="grouplist">
+			<visible>[VideoPlayer.Content(episodes) | VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
+			<left>10</left>
+			<top>32</top>
+			<width>525</width>
+			<height>90</height>
+			<align>left</align>
+			<aligny>center</aligny>
+			<itemgap>0</itemgap>
+			<orientation>horizontal</orientation>
+			<control type="image">
+				<colordiffuse>grey2</colordiffuse>
+				<width>175</width>
+				<include>MediaFlagVars</include>
+				<bordersize>2</bordersize>
+				<texture fallback="flags/studios/default-studio.png">$INFO[VideoPlayer.Studio,flags/studios/,.png]</texture>
+			</control>
+			<control type="image">
+				<width>175</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture fallback="flags/mpaa/NR.png">$VAR[VideoRatingFlagVar]</texture>
+			</control>
+			<control type="image">
+				<width>175</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
+			</control>
+		</control>
+		<!-- Media Flag Bar Right -->
+		<control type="grouplist">
+			<visible>[VideoPlayer.Content(episodes) | VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
+			<left>1385</left>
+			<top>32</top>
+			<width>525</width>
+			<height>90</height>
+			<align>right</align>
+			<aligny>center</aligny>
+			<itemgap>0</itemgap>
+			<orientation>horizontal</orientation>
+			<control type="image">
+				<width>175</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$VAR[VideoSourceFlagVar,flags/video/,.png]</texture>
+			</control>
+			<control type="image">
+				<width>175</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
+			</control>
+			<control type="image">
+				<width>175</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
+			</control>
+		</control>
+		<!-- Media Flag Bar Background (Files & Addons) -->
+		<control type="image">
+			<visible>[!VideoPlayer.Content(episodes) + !VideoPlayer.Content(movies) + !Window.IsActive(videoosd) + !Window.IsActive(1118) + !VideoPlayer.Content(LiveTV)]</visible>
+			<width>1920</width>
+			<height>120</height>
+			<texture border="1,1,1,40">topbar.png</texture>
+		</control>
+		<!-- Media Flag Bar (Files & Addons) -->
+		<control type="grouplist">
+			<visible>[!VideoPlayer.Content(episodes) + !VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !Window.IsActive(1118) + !VideoPlayer.Content(LiveTV)]</visible>
+			<width>1920</width>
+			<height>100</height>
+			<align>center</align>
+			<aligny>center</aligny>
+			<itemgap>0</itemgap>
+			<orientation>horizontal</orientation>
+			<control type="image">
+				<width>320</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$VAR[VideoSourceFlagVar,flags/video/,.png]</texture>
+			</control>
+			<control type="image">
+				<width>320</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
+			</control>
+			<control type="image">
+				<width>320</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
+			</control>
+			<control type="image">
+				<width>320</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
+			</control>
+			<control type="image">
+				<width>320</width>
+				<colordiffuse>grey2</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$INFO[VideoPlayer.AudioChannels,flags/channels/,.png]</texture>
 			</control>
 		</control>
 	</controls>

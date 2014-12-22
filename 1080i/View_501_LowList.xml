@@ -6,6 +6,24 @@
 			<visible>Control.IsVisible(501) + !Window.IsActive(addoninformation)</visible>
 			<include>ViewAnimation</include>
 			<control type="image">
+				<left>1500</left>
+				<top>530</top>
+				<width>390</width>
+				<height>164</height>
+				<aspectratio aligny="bottom">keep</aspectratio>
+				<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+				<visible>Skin.HasSetting(nohighlist) + Skin.HasSetting(lowlistlogo)</visible>
+			</control>
+			<control type="image">
+				<left>1500</left>
+				<top>530</top>
+				<width>390</width>
+				<height>164</height>
+				<aspectratio aligny="bottom">keep</aspectratio>
+				<texture background="true">$INFO[ListItem.Art(tvshow.clearlogo)]</texture>
+				<visible>Skin.HasSetting(nohighlist) + Skin.HasSetting(lowlistlogo)</visible>
+			</control>
+			<control type="image">
 				<top>710</top>
 				<width>1920</width>
 				<height>651</height>
@@ -31,6 +49,7 @@
 				<width>650</width>
 				<height>270</height>
 				<animation effect="slide" end="0,-170" time="120" condition="!Skin.HasSetting(nohighlist)">Conditional</animation>
+				<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 				<control type="button">
 					<label>[COLOR labelheader]$LOCALIZE[31000]:[/COLOR][CR]$INFO[ListItem.Director]</label>
 					<width>650</width>
@@ -94,6 +113,19 @@
 					<pagecontrol>62</pagecontrol>
 					<include>ShowCaseInfoPanelButtonsValues</include>
 					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(62)</autoscroll>
+					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+				</control>
+				<control type="textbox" id="70">
+					<label>$VAR[VideoPlotVar]</label>
+					<left>15</left>
+					<top>-150</top>
+					<width>615</width>
+					<height>400</height>
+					<font>font14_textbox</font>
+					<pagecontrol>62</pagecontrol>
+					<include>ShowCaseInfoPanelButtonsValues</include>
+					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(62)</autoscroll>
+					<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 				</control>
 				<control type="scrollbar" id="62">
 					<left>636</left>
@@ -110,6 +142,24 @@
 					<texturesliderbarfocus border="1">scrollbar/texturesliderbar3.png</texturesliderbarfocus>
 					<showonepage>false</showonepage>
 					<orientation>vertical</orientation>
+					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+				</control>
+				<control type="scrollbar" id="62">
+					<left>636</left>
+					<top>-150</top>
+					<width>14</width>
+					<height>450</height>
+					<onup>PageUp(70)</onup>
+					<ondown>PageUp(70)</ondown>
+					<onleft>50</onleft>
+					<onright>SetProperty(MediaMenu,True,home)</onright>
+					<onright>SetFocus(9050)</onright>
+					<texturesliderbackground>scrollbar/texturesliderbackground3.png</texturesliderbackground>
+					<texturesliderbar colordiffuse="55ffffff" border="1">scrollbar/texturesliderbar3.png</texturesliderbar>
+					<texturesliderbarfocus border="1">scrollbar/texturesliderbar3.png</texturesliderbarfocus>
+					<showonepage>false</showonepage>
+					<orientation>vertical</orientation>
+					<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 				</control>
 			</control>
 			<control type="group">
@@ -298,6 +348,7 @@
 						<colordiffuse>grey2</colordiffuse>
 						<include>MediaFlagVars</include>
 						<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
+						<visible>!IsEmpty(ListItem.Title)</visible>
 					</control>
 				</control>
 				<control type="image">
@@ -309,7 +360,7 @@
 					<include>VisibleFadeEffect</include>
 				</control>
 			</control>
-			<control type="fixedlist" id="501">
+			<control type="list" id="501">
 				<left>450</left>
 				<top>733</top>
 				<width>976</width>
@@ -344,6 +395,21 @@
 						<aligny>center</aligny>
 						<label fallback="• • • •">$INFO[ListItem.Year]</label>
 						<visible>!IsEmpty(ListItem.Title)</visible>
+						<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+					</control>
+					<control type="label">
+						<left>15</left>
+						<width>90</width>
+						<height>68</height>
+						<font>font15</font>
+						<textcolor>labelheader</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label>• • • •</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(501)">Conditional</animation>
+						<visible>!IsEmpty(ListItem.Title)</visible>
+						<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 					</control>
 					<control type="label">
 						<left>110</left>
@@ -364,6 +430,7 @@
 						<selectedcolor>selected</selectedcolor>
 						<aligny>center</aligny>
 						<label>$INFO[ListItem.Rating]</label>
+						<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 					</control>
 					<control type="image">
 						<left>742</left>
@@ -399,6 +466,20 @@
 						<label fallback="• • • •">$INFO[ListItem.Year]</label>
 						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(501)">Conditional</animation>
 						<visible>!IsEmpty(ListItem.Title)</visible>
+						<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+					</control>
+					<control type="label">
+						<left>15</left>
+						<width>90</width>
+						<height>68</height>
+						<font>font15</font>
+						<selectedcolor>selected</selectedcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label>• • • •</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(501)">Conditional</animation>
+						<visible>!IsEmpty(ListItem.Title)</visible>
+						<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 					</control>
 					<control type="label">
 						<left>110</left>
@@ -418,6 +499,7 @@
 						<selectedcolor>selected</selectedcolor>
 						<aligny>center</aligny>
 						<label>$INFO[ListItem.Rating]</label>
+						<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(501)">Conditional</animation>
 					</control>
 					<control type="image">
@@ -874,7 +956,7 @@
 					<label>[COLOR labelheader]$LOCALIZE[21894]:[/COLOR][CR]$INFO[ListItem.Property(Artist_Formed)]</label>
 					<width>650</width>
 					<include>ShowCaseInfoPanelButtonsValues</include>
-					<visible>!IsEmpty(ListItem.Property(Artist_Formed)) + IsEmpty(ListItem.Property(Artist_Genre))</visible>
+					<visible>!IsEmpty(ListItem.Property(Artist_Formed)) + IsEmpty(ListItem.Property(Artist_Genre)) + IsEmpty(ListItem.Property(Artist_Born))</visible>
 				</control>
 				<control type="button">
 					<label>[COLOR labelheader]$LOCALIZE[21893]:[/COLOR][CR]$INFO[ListItem.Property(Artist_Born)]</label>
@@ -938,7 +1020,7 @@
 					<texture flipy="true" border="1">bottom_shadow.png</texture>
 				</control>
 			</control>
-			<control type="fixedlist" id="501">
+			<control type="list" id="501">
 				<left>450</left>
 				<top>652</top>
 				<width>976</width>
@@ -998,7 +1080,7 @@
 						<width>180</width>
 						<height>34</height>
 						<aspectratio>keep</aspectratio>
-						<texture fallback="rating0.png">$INFO[ListItem.StarRating]</texture>
+						<texture colordiffuse="themecolor" fallback="rating0.png">$INFO[ListItem.StarRating]</texture>
 						<colordiffuse>grey2</colordiffuse>
 						<visible>!IsEmpty(ListItem.Title)</visible>
 					</control>
@@ -1031,7 +1113,7 @@
 					</control>
 					<control type="label">
 						<left>110</left>
-						<width>620</width>
+						<width>550</width>
 						<height>68</height>
 						<font>font15</font>
 						<selectedcolor>selected</selectedcolor>
