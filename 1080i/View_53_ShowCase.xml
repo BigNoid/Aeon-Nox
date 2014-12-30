@@ -11,7 +11,7 @@
 				<control type="group" id="6001">
 					<left>55</left>
 					<top>570</top>
-					<visible>Container.OnNext</visible>
+					<visible>Container.OnNext + !Skin.HasSetting(noshowcaseflow)</visible>
 					<animation effect="slide" end="-135,0" time="200" reversible="false">Hidden</animation>
 					<control type="group">
 						<left>15</left>
@@ -134,7 +134,7 @@
 				<control type="group" id="6002">
 					<left>55</left>
 					<top>570</top>
-					<visible>Container.OnPrevious</visible>
+					<visible>Container.OnPrevious + !Skin.HasSetting(noshowcaseflow)</visible>
 					<animation effect="slide" end="135,0" time="200" reversible="false">Hidden</animation>
 					<control type="group">
 						<left>1500</left>
@@ -281,7 +281,7 @@
 				<control type="group" id="6000">
 					<left>55</left>
 					<top>570</top>
-					<visible>!Control.IsVisible(6001) + !Control.IsVisible(6002)</visible>
+					<visible>!Control.IsVisible(6001) + !Control.IsVisible(6002) + !Skin.HasSetting(noshowcaseflow)</visible>
 					<control type="group">
 						<left>15</left>
 						<visible>!IsEmpty(Container(53).ListItemNoWrap(-6).FolderPath) | !Skin.HasSetting(HorizontalListNav)</visible>
@@ -409,34 +409,6 @@
 							<include>MovieShowCaseItem0</include>
 							<include>MovieShowCase</include>
 						</control>
-						<!--
-						<control type="group">
-							<control type="image">
-								<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem0Var]</texture>
-								<aspectratio scalediffuse="false" aligny="top" align="left">scale</aspectratio>
-								<include>MovieShowcaseThumbReflectionNoFlow</include>
-								<left>16</left>
-							</control>
-							<control type="image">
-								<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem1Var]</texture>
-								<aspectratio scalediffuse="false" aligny="top" align="left">scale</aspectratio>
-								<include>MovieShowcaseThumbReflectionNoFlow</include>
-								<left>310</left>
-							</control>
-							<control type="image">
-								<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem2Var]</texture>
-								<aspectratio scalediffuse="false" aligny="top" align="left">scale</aspectratio>
-								<include>MovieShowcaseThumbReflectionNoFlow</include>
-								<left>604</left>
-							</control>
-							<control type="image">
-								<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem3Var]</texture>
-								<aspectratio scalediffuse="false" aligny="top" align="left">scale</aspectratio>
-								<include>MovieShowcaseThumbReflectionNoFlow</include>
-								<left>900</left>
-							</control>
-						</control>
-						-->
 					</control>
 				</control>
 			</control>
@@ -701,44 +673,59 @@
 		<focusposition>3</focusposition>
 		<orientation>horizontal</orientation>
 		<preloaditems>2</preloaditems>
-		<itemlayout height="525" width="260" condition="!Skin.HasSetting(noshowcaseflow)"></itemlayout>
-		<focusedlayout height="525" width="260" condition="!Skin.HasSetting(noshowcaseflow)"></focusedlayout>
+		<itemlayout height="600" width="100" condition="![Skin.HasSetting(noshowcaseflow) + !Control.IsVisible(6000)]"></itemlayout>
+		<focusedlayout height="525" width="858" condition="![Skin.HasSetting(noshowcaseflow) + !Control.IsVisible(6000)]"></focusedlayout>
 		<itemlayout height="600" width="294" condition="Skin.HasSetting(noshowcaseflow)">
 			<control type="group">
-				<animation effect="fade" time="0" delay="800">Visible</animation>
+				<posy>30</posy>
 				<animation effect="zoom" start="80" end="90" center="147,345" time="300" reversible="false" tween="cubic">Focus</animation>
+				<animation effect="fade" time="0" delay="800">Visible</animation>
 				<control type="image">
-					<include>MovieShowcaseThumbNoFlow</include>
-					<texture background="true" diffuse="thumbs/thumb_mask.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem0Var]</texture>
+					<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem0Var]</texture>
+					<include>MovieShowcaseThumb</include>
+				</control>
+				<control type="image">
+					<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem0Var]</texture>
+					<include>MovieShowcaseThumbReflection</include>
+				</control>
+				<control type="image">
+					<texture background="true">thumbs/boxes/$VAR[GlobalCaseVar]</texture>
+					<include>MovieShowcaseDVDCoverVars</include>
+				</control>
+				<control type="image">
+					<include>WatchedOverlayShowCase2</include>
+					<texture>$VAR[IconOverlayShowcaseNoFlowVar]</texture>
 				</control>
 			</control>
 		</itemlayout>
 		<focusedlayout height="525" width="294" condition="Skin.HasSetting(noshowcaseflow)">
 			<control type="group">
-                <animation effect="fade" time="0" delay="800">Visible</animation>
+				<posy>30</posy>
+				<animation effect="fade" time="0" delay="800">Visible</animation>
                 <animation effect="zoom" start="80" end="100" center="147,345" time="300" reversible="false" tween="cubic">Focus</animation>
-                <control type="image">
-                    <include>MovieShowcaseThumbNoFlow</include>
-                    <texture background="true" diffuse="thumbs/thumb_mask.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem0Var]</texture>
-                </control>
-            </control>
+				<control type="image">
+					<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem0Var]</texture>
+					<include>MovieShowcaseThumb</include>
+				</control>
+				<control type="image">
+					<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem0Var]</texture>
+					<include>MovieShowcaseThumbReflection</include>
+				</control>
+				<control type="image">
+					<texture background="true">thumbs/boxes/$VAR[GlobalCaseVar]</texture>
+					<include>MovieShowcaseDVDCoverVars</include>
+				</control>
+				<control type="image">
+					<include>WatchedOverlayShowCase2</include>
+					<texture>$VAR[IconOverlayShowcaseNoFlowVar]</texture>
+				</control>
+			</control>
 		</focusedlayout>
 	</include>
+	
 	<include name="MovieShowcaseThumb">
-		<visible>!Skin.HasSetting(noshowcaseflow)</visible>
 		<left>-4</left>
 		<top>-10</top>
-		<width>304</width>
-		<height>436</height>
-		<align>center</align>
-		<aspectratio scalediffuse="false">scale</aspectratio>
-		<fadetime>0</fadetime>
-		<bordertexture border="20">thumbs/thumb_shadow_aa.png</bordertexture>
-		<bordersize>20</bordersize>
-	</include>
-	<include name="MovieShowcaseThumbNoFlow">
-		<left>-4</left>
-		<top>20</top>
 		<width>304</width>
 		<height>436</height>
 		<align>center</align>
@@ -754,7 +741,6 @@
 		<height>437</height>
 		<fadetime>0</fadetime>
 		<visible>Skin.HasSetting(toggleshowcasecovers) + [container.content(movies) | Container.Content(musicvideos)]</visible>
-		<visible>Skin.HasSetting(noshowcaseflow)</visible>
 	</include>
 	<include name="MovieShowcaseDVDCoverVars">
 		<left>-38</left>
@@ -763,7 +749,6 @@
 		<height>437</height>
 		<fadetime>0</fadetime>
 		<visible>Skin.HasSetting(toggleshowcasecovers) + [container.content(movies) | Container.Content(musicvideos)]</visible>
-		<visible>!Skin.HasSetting(noshowcaseflow)</visible>
 	</include>
 	<include name="MovieShowcaseThumbReflection">
 		<aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
@@ -773,16 +758,6 @@
 		<width>264</width>
 		<height>396</height>
 		<colordiffuse>d1FFFFFF</colordiffuse>
-		<visible>!Skin.HasSetting(noshowcaseflow)</visible>
-	</include>
-	<include name="MovieShowcaseThumbReflectionNoFlow">
-		<aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
-		<fadetime>0</fadetime>
-		<top>400</top>
-		<width>264</width>
-		<height>396</height>
-		<colordiffuse>d1FFFFFF</colordiffuse>
-		<visible>Skin.HasSetting(noshowcaseflow)</visible>
 	</include>
 	<include name="WatchedOverlayShowCase">
 		<left>191</left>
@@ -791,7 +766,6 @@
 		<height>120</height>
 		<fadetime>0</fadetime>
 		<bordersize>20</bordersize>
-		<visible>!Skin.HasSetting(noshowcaseflow)</visible>
 	</include>
 	<include name="WatchedOverlayShowCase2">
 		<left>195</left>
@@ -800,7 +774,6 @@
 		<height>120</height>
 		<fadetime>0</fadetime>
 		<bordersize>20</bordersize>
-		<visible>!Skin.HasSetting(noshowcaseflow)</visible>
 	</include>
 	<include name="MovieShowCaseItem-7">
 		<control type="image">
@@ -1394,7 +1367,6 @@
 			<height>36</height>
 			<aspectratio>keep</aspectratio>
 			<texture>circle.png</texture>
-			<visible>!Skin.HasSetting(noshowcaseflow)</visible>
 		</control>
 	</include>
 	<include name="UnwatchedIconVars">
