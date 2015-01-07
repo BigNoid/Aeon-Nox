@@ -179,13 +179,12 @@
 					<align>center</align>
 					<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]</visible>
 					<control type="group">
-						<visible>!Skin.HasSetting(coloredflags)</visible>
-						<left>120</left>
+						<left>95</left>
 						<control type="image" id="900011">
 							<colordiffuse>white</colordiffuse>
 							<include>MediaFlagVars</include>
 							<bordersize>2</bordersize>
-							<texture>$INFO[ListItem.Studio,flags/studios/,.png]</texture>
+							<texture>$VAR[PathFlagsStudios]</texture>
 						</control>
 						<control type="label">
 							<left>-10</left>
@@ -199,60 +198,22 @@
 							<visible>IsEmpty(Control.GetLabel(900011))</visible>
 						</control>
 						<control type="image">
-							<left>1675</left>
+							<left>1600</left>
 							<colordiffuse>white</colordiffuse>
 							<include>MediaFlagVars</include>
 							<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
 							<!--<animation effect="slide" start="0" end="-1350" time="200" tween="cubic" easing="inout" condition="Container.Content(movies) | Container.Content(episodes)">Conditional</animation>-->
-							<visible>!IsEmpty(ListItem.Title) + ![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
-						</control>
-					</control>
-					<control type="group">
-						<left>55</left>
-						<width>198</width>
-						<visible>Skin.HasSetting(coloredflags)</visible>
-						<control type="image" id="900012">
-							<width>198</width>
-							<include>MediaFlagVars</include>
-							<bordersize>2</bordersize>
-							<texture>$INFO[ListItem.Studio,flags/colored/studios/,.png]</texture>
-						</control>
-						<control type="label">
-							<left>0</left>
-							<width>198</width>
-							<height>90</height>
-							<align>center</align>
-							<label>$INFO[ListItem.Studio]</label>
-							<font>font10</font>
-							<textcolor>white</textcolor>
-							<wrapmultiline>true</wrapmultiline>
-							<visible>IsEmpty(Control.GetLabel(900012))</visible>
+							<visible>!IsEmpty(ListItem.Title) + ![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Skin.HasSetting(coloredflags)</visible>
 						</control>
 						<control type="image">
-							<left>1675</left>
+							<left>1605</left>
 							<colordiffuse>white</colordiffuse>
 							<aspectratio scalediffuse="false">center</aspectratio>
 							<include>MediaFlagVars</include>
 							<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
-							<visible>!IsEmpty(ListItem.Title) + ![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+							<visible>!IsEmpty(ListItem.Title) + ![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + Skin.HasSetting(coloredflags)</visible>
 						</control>
 					</control>
-					<!--
-					<control type="image">
-						<left>300</left>
-						<colordiffuse>white</colordiffuse>
-						<include>MediaFlagVars</include>
-						<texture>$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
-						<visible>!IsEmpty(ListItem.VideoResolution)</visible>
-					</control>
-					<control type="image">
-						<left>1470</left>
-						<colordiffuse>white</colordiffuse>
-						<include>MediaFlagVars</include>
-						<texture>$INFO[ListItem.AudioCodec,flags/audio/,.png]</texture>
-						<visible>!IsEmpty(ListItem.AudioCodec)</visible>
-					</control>
-					-->
 				</control>
 				<control type="group">
 					<left>0</left>
@@ -387,155 +348,98 @@
 					<top>1000</top>
 					<width>1840</width>
 					<height>90</height>
-					<orientation>horizontal</orientation>
 					<include>VisibleFadeEffect</include>
 					<visible>Container.Content(tvshows) | Container.Content(seasons)</visible>
 					<control type="group">
-						<visible>!Skin.HasSetting(coloredflags)</visible>
 						<control type="image">
 							<left>32</left>
 							<width>198</width>
 							<include>MediaFlagVars</include>
 							<bordersize>2</bordersize>
-							<texture>$INFO[ListItem.Studio,flags/studios/,.png]</texture>
+							<texture>$VAR[PathFlagsStudios]</texture>
 						</control>
 						<control type="image">
 							<left>230</left>
 							<include>MediaFlagVars</include>
 							<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
-							<visible>!IsEmpty(ListItem.Title)</visible>
-						</control>
-					</control>
-					<control type="group">
-						<visible>Skin.HasSetting(coloredflags)</visible>
-						<control type="image">
-							<left>32</left>
-							<width>198</width>
-							<include>MediaFlagVars</include>
-							<bordersize>2</bordersize>
-							<texture>$INFO[ListItem.Studio,flags/colored/studios/,.png]</texture>
+							<visible>!IsEmpty(ListItem.Title) + !Skin.HasSetting(coloredflags)</visible>
 						</control>
 						<control type="image">
 							<left>230</left>
 							<include>MediaFlagVars</include>
 							<aspectratio scalediffuse="false">center</aspectratio>
 							<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
-							<visible>!IsEmpty(ListItem.Title)</visible>
+							<visible>!IsEmpty(ListItem.Title) + Skin.HasSetting(coloredflags)</visible>
 						</control>
 					</control>
 				</control>
-				<control type="group">
-					<left>1246</left>
+				<control type="grouplist">
+					<left>800</left>
 					<top>1000</top>
-					<width>1840</width>
+					<width>1000</width>
 					<height>90</height>
+					<align>right</align>
+					<orientation>horizontal</orientation>
 					<include>VisibleFadeEffect</include>
 					<visible>![Container.Content(tvshows) | Container.Content(seasons) | Control.IsVisible(55)]</visible>
-					<control type="group">
-						<visible>!Skin.HasSetting(coloredflags)</visible>
 						<control type="image">
-							<left>32</left>
+							<width>168</width>
 							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
+							<texture>$VAR[PathFlagsResolution]</texture>
 							<visible>!IsEmpty(ListItem.VideoResolution)</visible>
 						</control>
 						<control type="image">
-							<left>230</left>
+							<width>168</width>
 							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.AudioCodec,flags/audio/,.png]</texture>
+							<texture>$VAR[PathFlagsAudio]</texture>
 							<visible>!IsEmpty(ListItem.AudioCodec)</visible>
 						</control>
 						<control type="image">
-							<left>428</left>
-							<include>MediaFlagVars</include>
-							<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
-							<visible>!IsEmpty(ListItem.VideoCodec)</visible>
-						</control>
-					</control>
-					<control type="group">
-						<visible>Skin.HasSetting(coloredflags)</visible>
-						<control type="image">
-							<left>-150</left>
-							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.VideoResolution,flags/colored/resolution/,.png]</texture>
-							<visible>!IsEmpty(ListItem.VideoResolution)</visible>
-						</control>
-						<control type="image">
-							<left>32</left>
-							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.AudioCodec,flags/colored/audio/,.png]</texture>
-							<visible>!IsEmpty(ListItem.AudioCodec)</visible>
-						</control>
-						<control type="image">
-							<left>230</left>
+							<width>168</width>
 							<colordiffuse>grey2</colordiffuse>
 							<include>MediaFlagVars</include>                    
 							<texture>$INFO[ListItem.AudioChannels,flags/colored/channels/,.png]</texture>
-							<visible>!IsEmpty(ListItem.AudioChannels)</visible>
+							<visible>!IsEmpty(ListItem.AudioChannels) + Skin.HasSetting(coloredflags)</visible>
 						</control>
 						<control type="image">
-							<left>428</left>
+							<width>168</width>
 							<include>MediaFlagVars</include>
-							<texture>$VAR[SourceFlagVar,flags/colored/source/,.png]</texture>
+							<texture>$VAR[PathFlagsSource]</texture>
 							<visible>!IsEmpty(ListItem.VideoCodec)</visible>
 						</control>
-					</control>
 				</control>
-				<control type="group">
-					<left>1330</left>
+				<control type="grouplist">
+					<left>825</left>
 					<top>1000</top>
-					<width>1815</width>
+					<width>1000</width>
 					<height>90</height>
+					<orientation>horizontal</orientation>
+					<align>right</align>
 					<include>VisibleFadeEffect</include>
 					<visible>![Container.Content(tvshows) | Container.Content(seasons)] + Control.IsVisible(55)</visible>
-					<control type="group">
-						<visible>!Skin.HasSetting(coloredflags)</visible>
-						<control type="image">
-							<left>0</left>
-							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
-							<visible>!IsEmpty(ListItem.VideoResolution)</visible>
-						</control>
-						<control type="image">
-							<left>175</left>
-							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.AudioCodec,flags/audio/,.png]</texture>
-							<visible>!IsEmpty(ListItem.AudioCodec)</visible>
-						</control>
-						<control type="image">
-							<left>350</left>
-							<include>MediaFlagVars</include>
-							<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
-							<visible>!IsEmpty(ListItem.VideoCodec)</visible>
-						</control>
+					<control type="image">
+						<width>168</width>
+						<include>MediaFlagVars</include>
+						<texture>$VAR[PathFlagsResolution]</texture>
+						<visible>!IsEmpty(ListItem.VideoResolution)</visible>
 					</control>
-					<control type="group">
-						<visible>Skin.HasSetting(coloredflags)</visible>
-						<control type="image">
-							<left>-175</left>
-							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.VideoResolution,flags/colored/resolution/,.png]</texture>
-							<visible>!IsEmpty(ListItem.VideoResolution)</visible>
-						</control>
-						<control type="image">
-							<left>0</left>
-							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.AudioCodec,flags/colored/audio/,.png]</texture>
-							<visible>!IsEmpty(ListItem.AudioCodec)</visible>
-						</control>
-						<control type="image">
-							<left>175</left>
-							<colordiffuse>grey2</colordiffuse>
-							<include>MediaFlagVars</include>                    
-							<texture>$INFO[ListItem.AudioChannels,flags/colored/channels/,.png]</texture>
-							<visible>!IsEmpty(ListItem.AudioChannels)</visible>
-						</control>
-						<control type="image">
-							<left>350</left>
-							<include>MediaFlagVars</include>
-							<texture>$VAR[SourceFlagVar,flags/colored/source/,.png]</texture>
-							<visible>!IsEmpty(ListItem.VideoCodec)</visible>
-						</control>
+					<control type="image">
+						<width>168</width>
+						<include>MediaFlagVars</include>
+						<texture>$VAR[PathFlagsAudio]</texture>
+						<visible>!IsEmpty(ListItem.AudioCodec)</visible>
+					</control>
+					<control type="image">
+						<width>168</width>
+						<include>MediaFlagVars</include>                    
+						<texture>$INFO[ListItem.AudioChannels,flags/colored/channels/,.png]</texture>
+						<visible>!IsEmpty(ListItem.AudioChannels) + Skin.HasSetting(coloredflags)</visible>
+					</control>
+					<control type="image">
+						<width>168</width>
+						<include>MediaFlagVars</include>
+						<texture>$VAR[PathFlagsSource]</texture>
+						<visible>!IsEmpty(ListItem.VideoCodec)</visible>
 					</control>
 				</control>
 			</control>
@@ -573,11 +477,12 @@
 						<textoffsetx>30</textoffsetx>
 						<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 					</control>
+					<!-- TV Show Next Aired -->
 					<!-- Next Episode -->
 					<control type="label">
 						<top>90</top>
 						<left>10</left>
-						<width>1100</width>
+						<width>1200</width>
 						<height>30</height>
 						<align>left</align>
 						<font>font13_title</font>
@@ -586,7 +491,7 @@
 						<label>Next Episode: $INFO[Window(Home).Property(NextAired.NextNumber)] - $INFO[Window(Home).Property(NextAired.NextTitle)]   ($INFO[Window(Home).Property(NextAired.NextDay)])</label>
 						<visible>!IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
 					</control>
-					<!-- Next Aired Status -->
+					<!-- Show Status -->
 					<control type="label">
 						<top>90</top>
 						<left>10</left>
@@ -609,14 +514,13 @@
 					<include>VisibleFadeEffect</include>
 					<visible>Container.Content(tvshows) | Container.Content(seasons)</visible>
 					<control type="group">
-						<visible>!Skin.HasSetting(coloredflags)</visible>
-						<control type="image" id="800021">
+						<control type="image" id="900051">
 							<left>32</left>
 							<width>198</width>
 							<colordiffuse>white</colordiffuse>
 							<include>MediaFlagVars</include>
 							<bordersize>2</bordersize>
-							<texture>$INFO[ListItem.Studio,flags/studios/,.png]</texture>
+							<texture>$VAR[PathFlagsStudios]</texture>
 						</control>
 						<control type="label">
 							<left>32</left>
@@ -627,98 +531,54 @@
 							<font>font10</font>
 							<textcolor>white</textcolor>
 							<wrapmultiline>true</wrapmultiline>
-							<visible>IsEmpty(Control.GetLabel(800021))</visible>
-						</control>
-						<control type="image">
-							<left>230</left>
-							<include>MediaFlagVars</include>
-							<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
-							<visible>!IsEmpty(ListItem.Title)</visible>
-						</control>
-					</control>
-					<control type="group">
-						<visible>Skin.HasSetting(coloredflags)</visible>
-						<control type="image" id="800022">
-							<left>32</left>
-							<width>198</width>
-							<include>MediaFlagVars</include>
-							<bordersize>2</bordersize>
-							<texture>$INFO[ListItem.Studio,flags/colored/studios/,.png]</texture>
-						</control>
-						<control type="label">
-							<left>32</left>
-							<width>198</width>
-							<height>90</height>
-							<align>center</align>
-							<label>$INFO[ListItem.Studio]</label>
-							<font>font10</font>
-							<textcolor>white</textcolor>
-							<wrapmultiline>true</wrapmultiline>
-							<visible>IsEmpty(Control.GetLabel(800022))</visible>
-						</control>
-						<control type="image">
-							<left>230</left>
-							<include>MediaFlagVars</include>
-							<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
-							<visible>!IsEmpty(ListItem.Title)</visible>
+							<visible>IsEmpty(Control.GetLabel(900051))</visible>
 						</control>
 					</control>
 				</control>
-				<control type="group">
-					<left>1235</left>
+				<control type="grouplist">
+					<left>1020</left>
 					<top>1000</top>
-					<width>1840</width>
+					<width>800</width>
 					<height>90</height>
+					<align>right</align>
+					<orientation>horizontal</orientation>
 					<include>VisibleFadeEffect</include>
-					<visible>![Container.Content(tvshows) | Container.Content(seasons)]</visible>
-					<control type="group">
-						<visible>!Skin.HasSetting(coloredflags)</visible>
-						<control type="image">
-							<left>32</left>
-							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
-							<visible>!IsEmpty(ListItem.VideoResolution)</visible>
-						</control>
-						<control type="image">
-							<left>230</left>
-							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.AudioCodec,flags/audio/,.png]</texture>
-							<visible>!IsEmpty(ListItem.AudioCodec)</visible>
-						</control>
-						<control type="image">
-							<left>428</left>
-							<include>MediaFlagVars</include>
-							<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
-							<visible>!IsEmpty(ListItem.VideoCodec)</visible>
-						</control>
+					<control type="image">
+						<width>168</width>
+						<include>MediaFlagVars</include>
+						<texture>$VAR[PathFlagsResolution]</texture>
+						<visible>!IsEmpty(ListItem.VideoResolution)</visible>
 					</control>
-					<control type="group">
-						<visible>Skin.HasSetting(coloredflags)</visible>
-						<control type="image">
-							<left>-68</left>
-							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.VideoResolution,flags/colored/resolution/,.png]</texture>
-							<visible>!IsEmpty(ListItem.VideoResolution)</visible>
-						</control>
-						<control type="image">
-							<left>80</left>
-							<include>MediaFlagVars</include>
-							<texture>$INFO[ListItem.AudioCodec,flags/colored/audio/,.png]</texture>
-							<visible>!IsEmpty(ListItem.AudioCodec)</visible>
-						</control>
-						<control type="image">
-							<left>250</left>
-							<colordiffuse>grey2</colordiffuse>
-							<include>MediaFlagVars</include>                    
-							<texture>$INFO[ListItem.AudioChannels,flags/colored/channels/,.png]</texture>
-							<visible>!IsEmpty(ListItem.AudioChannels)</visible>
-						</control>
-						<control type="image">
-							<left>428</left>
-							<include>MediaFlagVars</include>
-							<texture>$VAR[SourceFlagVar,flags/colored/source/,.png]</texture>
-							<visible>!IsEmpty(ListItem.VideoCodec)</visible>
-						</control>
+					<control type="image">
+						<width>168</width>
+						<include>MediaFlagVars</include>
+						<texture>$VAR[PathFlagsAudio]</texture>
+						<visible>!IsEmpty(ListItem.AudioCodec)</visible>
+					</control>
+					<control type="image">
+						<width>168</width>
+						<colordiffuse>grey2</colordiffuse>
+						<include>MediaFlagVars</include>                    
+						<texture>$INFO[ListItem.AudioChannels,flags/colored/channels/,.png]</texture>
+						<visible>!IsEmpty(ListItem.AudioChannels) + Skin.HasSetting(coloredflags)</visible>
+					</control>
+					<control type="image">
+						<width>168</width>
+						<include>MediaFlagVars</include>
+						<texture>$VAR[PathFlagsSource]</texture>
+						<visible>!IsEmpty(ListItem.VideoCodec)</visible>
+					</control>
+					<control type="image">
+						<left>230</left>
+						<include>MediaFlagVars</include>
+						<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
+						<visible>!IsEmpty(ListItem.Title) + !Skin.HasSetting(coloredflags) + [Container.Content(tvshows) | Container.Content(seasons)]</visible>
+					</control>
+					<control type="image">
+						<left>230</left>
+						<include>MediaFlagVars</include>
+						<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
+						<visible>!IsEmpty(ListItem.Title) + Skin.HasSetting(coloredflags) + [Container.Content(tvshows) | Container.Content(seasons)]</visible>
 					</control>
 				</control>
 			</control>
@@ -774,7 +634,6 @@
 			<control type="group">
 				<visible>[Container.Content(tvshows) + Skin.HasSetting(nomediaflagstvshows)] | [Container.Content(movies) + Skin.HasSetting(nomediaflagsmovies)]</visible>
 				<visible>!Control.HasFocus(61)</visible>
-				<!-- Original -->
 				<control type="grouplist">
 					<left>10</left>
 					<top>968</top>
@@ -783,12 +642,11 @@
 					<aligny>center</aligny>
 					<itemgap>0</itemgap>
 					<orientation>horizontal</orientation>
-					<visible>!Skin.HasSetting(coloredflags)</visible>
 					<control type="image">
 						<width>198</width>
 						<colordiffuse>grey2</colordiffuse>
 						<bordersize>2</bordersize>
-						<texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
+						<texture fallback="flags/studios/default-studio.png">$VAR[PathFlagsStudios]</texture>
 						<visible>!IsEmpty(ListItem.Title) + !IsEmpty(ListItem.Studio)</visible>
 						<include>MediaFlagVars</include>
 					</control>
@@ -799,25 +657,7 @@
 						<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
 						<visible>!IsEmpty(ListItem.MPAA) + !Container.Content(tvshows)</visible>
 						<include>MediaFlagVars</include>
-					</control>
-				</control>
-				<!--  Colored -->
-				<control type="grouplist">
-					<left>10</left>
-					<top>968</top>
-					<height>90</height>
-					<align>left</align>
-					<aligny>center</aligny>
-					<itemgap>0</itemgap>
-					<orientation>horizontal</orientation>
-					<visible>Skin.HasSetting(coloredflags)</visible>
-					<control type="image">
-						<width>198</width>
-						<colordiffuse>grey2</colordiffuse>
-						<bordersize>2</bordersize>
-						<texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/colored/studios/,.png]</texture>
-						<visible>!IsEmpty(ListItem.Title) + !IsEmpty(ListItem.Studio)</visible>
-						<include>MediaFlagVars</include>
+						<visible>!Skin.HasSetting(coloredflags)</visible>
 					</control>
 					<control type="image">
 						<width>185</width>
@@ -826,6 +666,7 @@
 						<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
 						<visible>!IsEmpty(ListItem.MPAA) + !Container.Content(tvshows)</visible>
 						<include>MediaFlagVars</include>
+						<visible>Skin.HasSetting(coloredflags)</visible>
 					</control>
 				</control>
 			</control>
@@ -833,7 +674,6 @@
 			<control type="group">
 				<visible>[Container.Content(tvshows) + Skin.HasSetting(nomediaflagstvshows)] | [Container.Content(movies) + Skin.HasSetting(nomediaflagsmovies)]</visible>
 				<visible>!Control.HasFocus(61)</visible>
-				<!-- Original -->
 				<control type="grouplist">
 					<top>968</top>
 					<left>1504</left>
@@ -842,20 +682,19 @@
 					<aligny>center</aligny>
 					<itemgap>0</itemgap>
 					<orientation>horizontal</orientation>
-					<visible>!Skin.HasSetting(coloredflags)</visible>
 					<control type="image">
 						<width>198</width>
 						<colordiffuse>grey2</colordiffuse>
 						<bordersize>2</bordersize>
-						<texture>$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
-						<visible>!Container.Content(tvshows) + !IsEmpty(ListItem.VideoResolution)</visible>
+						<texture>$VAR[PathFlagsResolution]</texture>
+						<visible>!IsEmpty(ListItem.VideoResolution)</visible>
 						<include>MediaFlagVars</include>
 					</control>
 					<control type="image">
 						<width>198</width>
 						<colordiffuse>grey2</colordiffuse>
 						<bordersize>2</bordersize>
-						<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
+						<texture>$VAR[PathFlagsSource]</texture>
 						<visible>!IsEmpty(ListItem.VideoCodec)</visible>
 						<include>MediaFlagVars</include>
 					</control>
@@ -864,43 +703,16 @@
 						<aspectratio>keep</aspectratio>
 						<colordiffuse>grey2</colordiffuse>
 						<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
-						<visible>!Container.Content(movies) + !IsEmpty(ListItem.MPAA)</visible>
 						<include>MediaFlagVars</include>
-					</control>
-				</control>
-				<!-- Colored -->
-				<control type="grouplist">
-					<top>968</top>
-					<left>1504</left>
-					<height>90</height>
-					<align>right</align>
-					<aligny>center</aligny>
-					<itemgap>0</itemgap>
-					<orientation>horizontal</orientation>
-					<visible>Skin.HasSetting(coloredflags)</visible>
-					<control type="image">
-						<width>198</width>
-						<colordiffuse>grey2</colordiffuse>
-						<bordersize>2</bordersize>
-						<texture>$INFO[ListItem.VideoResolution,flags/colored/resolution/,.png]</texture>
-						<visible>!IsEmpty(ListItem.VideoResolution)</visible>
-						<include>MediaFlagVars</include>
-					</control>
-					<control type="image">
-						<width>198</width>
-						<colordiffuse>grey2</colordiffuse>
-						<bordersize>2</bordersize>
-						<texture>$VAR[SourceFlagVar,flags/colored/source/,.png]</texture>
-						<visible>!IsEmpty(ListItem.VideoCodec)</visible>
-						<include>MediaFlagVars</include>
+						<visible>!Skin.HasSetting(coloredflags) + Container.Content(tvshows) + !IsEmpty(ListItem.MPAA)</visible>
 					</control>
 					<control type="image">
 						<width>198</width>
 						<aspectratio>keep</aspectratio>
 						<colordiffuse>grey2</colordiffuse>
 						<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
-						<visible>!Container.Content(movies) + !IsEmpty(ListItem.MPAA)</visible>
 						<include>MediaFlagVars</include>
+						<visible>Skin.HasSetting(coloredflags) + Container.Content(tvshows)  + !IsEmpty(ListItem.MPAA)</visible>
 					</control>
 				</control>
 			</control>
@@ -1095,7 +907,7 @@
 				</control>
 				<control type="radiobutton" id="7004">
 					<description>Enable IMDb logo</description>
-					<textwidth>255</textwidth>
+					<textwidth>285</textwidth>
 					<include>ButtonCommonValues</include>
 					<label>IMDb logo + Oscar statue</label>
 					<onclick>Skin.ToggleSetting(imdblogo)</onclick>
@@ -1178,6 +990,15 @@
 					<selected>Skin.HasSetting(wallfloorlabels)</selected>
 					<visible>Control.IsVisible(503)</visible>
 				</control>
+				<!--
+				<control type="button" id="7013">
+					<description>Toggle Colored Mod</description>
+					<textwidth>375</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>Toggle icons</label>
+					<onclick>Skin.ToggleSetting(coloredflags)</onclick>
+				</control>
+				-->
 				<control type="button" id="201">
 					<description>View options</description>
 					<textwidth>352</textwidth>
