@@ -15,6 +15,11 @@
 			<visible>Control.IsVisible(52) | Control.IsVisible(53)</visible>
 			<include condition="!IsEmpty(Skin.String(InfoPanel.Delay))">InfoPanelDelayAnimation</include>
 		</control>
+		<control type="label" id="4422">
+			<label>$INFO[ListItem(0).Art(discart)]</label>
+			<include>HiddenObject</include>
+			<visible>Control.IsVisible(52) | Control.IsVisible(53) + Skin.HasSetting(showcasemod)</visible>
+		</control>
 		<include>CommonBackground</include>
 		<control type="group">
 			<visible>Control.IsVisible(52) | Control.IsVisible(53)</visible>
@@ -93,6 +98,7 @@
 					<align>center</align>
 					<itemgap>18</itemgap>
 					<orientation>horizontal</orientation>
+					<visible>[!Skin.HasSetting(showcaselogo) + Skin.HasSetting(showcasemod)] | [Skin.HasSetting(showcaselogo) + !Skin.HasSetting(showcasemod)] | [!Skin.HasSetting(showcaselogo) + !Skin.HasSetting(showcasemod)]</visible>
 					<control type="label">
 						<width>auto</width>
 						<height>42</height>
@@ -120,9 +126,20 @@
 						<visible>!IsEmpty(ListItem.VideoResolution) + [Skin.HasSetting(noindicatorshowcase) + Control.IsVisible(53)]</visible>
 					</control>
 				</control>
+				<control type="image">
+					<left>805</left>
+					<top>1000</top>
+					<width>315</width>
+					<height>105</height>
+					<aspectratio aligny="bottom">keep</aspectratio>
+					<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+					<visible>Skin.HasSetting(showcaselogo) + Skin.HasSetting(showcasemod)</visible>
+					<include>VisibleFadeEffect</include>
+				</control>
 				<control type="group">
 					<left>300</left>
 					<top>1010</top>
+					<visible>[!Skin.HasSetting(showcaselogo) + Skin.HasSetting(showcasemod)] | [Skin.HasSetting(showcaselogo) + !Skin.HasSetting(showcasemod)] | [!Skin.HasSetting(showcaselogo) + !Skin.HasSetting(showcasemod)]</visible>
 					<control type="label">
 						<left>0</left>
 						<top>35</top>
@@ -382,31 +399,31 @@
 					<orientation>horizontal</orientation>
 					<include>VisibleFadeEffect</include>
 					<visible>![Container.Content(tvshows) | Container.Content(seasons) | Control.IsVisible(55)]</visible>
-						<control type="image">
-							<width>168</width>
-							<include>MediaFlagVars</include>
-							<texture>$VAR[PathFlagsResolution]</texture>
-							<visible>!IsEmpty(ListItem.VideoResolution)</visible>
-						</control>
-						<control type="image">
-							<width>168</width>
-							<include>MediaFlagVars</include>
-							<texture>$VAR[PathFlagsAudio]</texture>
-							<visible>!IsEmpty(ListItem.AudioCodec)</visible>
-						</control>
-						<control type="image">
-							<width>168</width>
-							<colordiffuse>grey2</colordiffuse>
-							<include>MediaFlagVars</include>                    
-							<texture>$INFO[ListItem.AudioChannels,flags/colored/channels/,.png]</texture>
-							<visible>!IsEmpty(ListItem.AudioChannels) + Skin.HasSetting(coloredflags)</visible>
-						</control>
-						<control type="image">
-							<width>168</width>
-							<include>MediaFlagVars</include>
-							<texture>$VAR[PathFlagsSource]</texture>
-							<visible>!IsEmpty(ListItem.VideoCodec)</visible>
-						</control>
+					<control type="image">
+						<width>168</width>
+						<include>MediaFlagVars</include>
+						<texture>$VAR[PathFlagsResolution]</texture>
+						<visible>!IsEmpty(ListItem.VideoResolution)</visible>
+					</control>
+					<control type="image">
+						<width>168</width>
+						<include>MediaFlagVars</include>
+						<texture>$VAR[PathFlagsAudio]</texture>
+						<visible>!IsEmpty(ListItem.AudioCodec)</visible>
+					</control>
+					<control type="image">
+						<width>168</width>
+						<colordiffuse>grey2</colordiffuse>
+						<include>MediaFlagVars</include>                    
+						<texture>$INFO[ListItem.AudioChannels,flags/colored/channels/,.png]</texture>
+						<visible>!IsEmpty(ListItem.AudioChannels) + Skin.HasSetting(coloredflags)</visible>
+					</control>
+					<control type="image">
+						<width>168</width>
+						<include>MediaFlagVars</include>
+						<texture>$VAR[PathFlagsSource]</texture>
+						<visible>!IsEmpty(ListItem.VideoCodec)</visible>
+					</control>
 				</control>
 				<control type="grouplist">
 					<left>825</left>
@@ -861,13 +878,54 @@
 					<onclick>ReloadSkin()</onclick>
 					<visible>Control.IsVisible(501)</visible>
 				</control>
-				<control type="togglebutton" id="6099">
+				<control type="button" id="7005">
+					<description>Enable HD/SD/3D Indicators</description>
+					<textwidth>375</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>Toggle HD/SD/3D</label>
+					<onclick condition="Control.IsVisible(602) + Container.Content(episodes)">Skin.ToggleSetting(noindicatorfanartlistepisodes)</onclick>
+					<onclick condition="Control.IsVisible(602) + Container.Content(movies)">Skin.ToggleSetting(noindicatorfanartlistmovies)</onclick>
+					<onclick condition="Control.IsVisible(52)">Skin.ToggleSetting(noindicatorlandscape)</onclick>
+					<onclick condition="Control.IsVisible(53)">Skin.ToggleSetting(noindicatorshowcase)</onclick>
+					<onclick condition="Control.IsVisible(504) + Container.Content(movies)">Skin.ToggleSetting(noindicatorgallerymovies)</onclick>
+					<visible>[Control.IsVisible(602) | Control.IsVisible(52) | Control.IsVisible(53) + [Container.Content(movies) | Container.Content(episodes)]] | [Control.IsVisible(504) + Container.Content(movies)]</visible>
+					<visible>!Container.Content(tvshows) + !Container.Content(seasons)</visible>
+				</control>
+				<control type="radiobutton" id="6099">
 					<description>Enable ShowCase Covers</description>
 					<textwidth>255</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>Toggle Covers</label>
+					<label>Enable covers</label>
 					<onclick>Skin.ToggleSetting(toggleshowcasecovers)</onclick>
+					<onclick condition="Skin.HasSetting(toggleshowcasecovers) + Skin.HasSetting(showcasemod)">Skin.ToggleSetting(showcasemod)</onclick>
+					<selected>Skin.HasSetting(toggleshowcasecovers)</selected>
 					<visible>Control.IsVisible(53) + Container.Content(movies)</visible>
+				</control>
+				<control type="radiobutton" id="7010">
+					<description>No CoverFlow</description>
+					<textwidth>375</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>No CoverFlow</label>
+					<onclick>Skin.ToggleSetting(noshowcaseflow)</onclick>
+					<selected>Skin.HasSetting(noshowcaseflow)</selected>
+					<visible>Control.IsVisible(53)</visible>
+				</control>
+				<control type="radiobutton" id="6098">
+					<description>Enable ShowCase Mod</description>
+					<textwidth>255</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>Enable ShowCase mod</label>
+					<onclick>Skin.ToggleSetting(showcasemod)</onclick>
+					<selected>Skin.HasSetting(showcasemod)</selected>
+					<visible>Control.IsVisible(53) + Container.Content(movies) + !Skin.HasSetting(noshowcaseflow)</visible>
+				</control>
+				<control type="radiobutton" id="6056">
+					<include>ButtonCommonValues</include>
+					<textwidth>255</textwidth>
+					<label>Display logo</label>
+					<onclick>Skin.ToggleSetting(showcaselogo)</onclick>
+					<selected>Skin.HasSetting(showcaselogo)</selected>
+					<visible>[Control.IsVisible(52) | Control.IsVisible(53)] + Skin.HasSetting(showcasemod) + !Skin.HasSetting(noshowcaseflow)</visible>
 				</control>
 				<control type="togglebutton" id="7000">
 					<description>Enable Logo LowList</description>
@@ -882,7 +940,7 @@
 					<description>Enable Shift DiscArt</description>
 					<textwidth>255</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>Show DiscArt</label>
+					<label>Show discart</label>
 					<onclick>Skin.ToggleSetting(discshift)</onclick>
 					<selected>Skin.HasSetting(discshift)</selected>
 					<visible>[Control.IsVisible(57) + Container.Content(movies) + !Skin.HasSetting(smallshiftview)]</visible>
@@ -891,7 +949,7 @@
 					<description>Enable ShiftCase DiscArt</description>
 					<textwidth>255</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>Show DiscArt</label>
+					<label>Show discart</label>
 					<onclick>Skin.ToggleSetting(discshiftcase)</onclick>
 					<selected>Skin.HasSetting(discshiftcase)</selected>
 					<visible>Control.IsVisible(601) + Container.Content(movies)</visible>
@@ -913,19 +971,6 @@
 					<onclick>Skin.ToggleSetting(imdblogo)</onclick>
 					<selected>Skin.HasSetting(imdblogo)</selected>
 					<visible>Control.IsVisible(59) + Container.Content(movies)</visible>
-				</control>
-				<control type="button" id="7005">
-					<description>Enable HD/SD/3D Indicators</description>
-					<textwidth>375</textwidth>
-					<include>ButtonCommonValues</include>
-					<label>Toggle HD/SD/3D</label>
-					<onclick condition="Control.IsVisible(602) + Container.Content(episodes)">Skin.ToggleSetting(noindicatorfanartlistepisodes)</onclick>
-					<onclick condition="Control.IsVisible(602) + Container.Content(movies)">Skin.ToggleSetting(noindicatorfanartlistmovies)</onclick>
-					<onclick condition="Control.IsVisible(52)">Skin.ToggleSetting(noindicatorlandscape)</onclick>
-					<onclick condition="Control.IsVisible(53)">Skin.ToggleSetting(noindicatorshowcase)</onclick>
-					<onclick condition="Control.IsVisible(504) + Container.Content(movies)">Skin.ToggleSetting(noindicatorgallerymovies)</onclick>
-					<visible>[Control.IsVisible(602) | Control.IsVisible(52) | Control.IsVisible(53) + [Container.Content(movies) | Container.Content(episodes)]] | [Control.IsVisible(504) + Container.Content(movies)]</visible>
-					<visible>!Container.Content(tvshows) + !Container.Content(seasons)</visible>
 				</control>
 				<control type="button" id="7006">
 					<description>Enable Extended Information</description>
@@ -949,7 +994,7 @@
 					<description>Alternate Layout Episode</description>
 					<textwidth>375</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>Alternate Layout</label>
+					<label>Alternate layout</label>
 					<onclick>Skin.ToggleSetting(alternatelayoutepisode)</onclick>
 					<selected>Skin.HasSetting(alternatelayoutepisode)</selected>
 					<visible>Control.IsVisible(502)</visible>
@@ -958,25 +1003,16 @@
 					<description>Small Shift View</description>
 					<textwidth>375</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>Small Shift View</label>
+					<label>Enable small Shift</label>
 					<onclick>Skin.ToggleSetting(smallshiftview)</onclick>
 					<selected>Skin.HasSetting(smallshiftview)</selected>
 					<visible>Control.IsVisible(57)</visible>
-				</control>
-				<control type="radiobutton" id="7010">
-					<description>No CoverFlow</description>
-					<textwidth>375</textwidth>
-					<include>ButtonCommonValues</include>
-					<label>No CoverFlow</label>
-					<onclick>Skin.ToggleSetting(noshowcaseflow)</onclick>
-					<selected>Skin.HasSetting(noshowcaseflow)</selected>
-					<visible>Control.IsVisible(53)</visible>
 				</control>
 				<control type="radiobutton" id="7011">
 					<description>Enable DiscArt</description>
 					<textwidth>375</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>Show DiscArt</label>
+					<label>Show discart</label>
 					<onclick>Skin.ToggleSetting(disclowlist)</onclick>
 					<selected>Skin.HasSetting(disclowlist)</selected>
 					<visible>Control.IsVisible(501) + Container.Content(movies)</visible>
@@ -985,7 +1021,7 @@
 					<description>Enable Wall Floor</description>
 					<textwidth>375</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>Enable Floor Info</label>
+					<label>Enable floor info</label>
 					<onclick>Skin.ToggleSetting(wallfloorlabels)</onclick>
 					<selected>Skin.HasSetting(wallfloorlabels)</selected>
 					<visible>Control.IsVisible(503)</visible>
@@ -994,7 +1030,7 @@
 					<description>Enable LowList Covers</description>
 					<textwidth>255</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>Toggle Covers</label>
+					<label>Toggle covers</label>
 					<onclick>Skin.ToggleSetting(togglelowlistcovers)</onclick>
 					<visible>Control.IsVisible(501) + Container.Content(movies)</visible>
 				</control>
