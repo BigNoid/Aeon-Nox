@@ -98,7 +98,7 @@
 					<align>center</align>
 					<itemgap>18</itemgap>
 					<orientation>horizontal</orientation>
-					<visible>[!Skin.HasSetting(showcaselogo) + Skin.HasSetting(showcasemod)] | [Skin.HasSetting(showcaselogo) + !Skin.HasSetting(showcasemod)] | [!Skin.HasSetting(showcaselogo) + !Skin.HasSetting(showcasemod)]</visible>
+					<visible>!Skin.HasSetting(showcaselogo) | Container.Content(episodes) | Container.Content(seasons)</visible>
 					<control type="label">
 						<width>auto</width>
 						<height>42</height>
@@ -126,20 +126,10 @@
 						<visible>!IsEmpty(ListItem.VideoResolution) + [Skin.HasSetting(noindicatorshowcase) + Control.IsVisible(53)]</visible>
 					</control>
 				</control>
-				<control type="image">
-					<left>805</left>
-					<top>1000</top>
-					<width>315</width>
-					<height>105</height>
-					<aspectratio aligny="bottom">keep</aspectratio>
-					<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
-					<visible>Skin.HasSetting(showcaselogo) + Skin.HasSetting(showcasemod)</visible>
-					<include>VisibleFadeEffect</include>
-				</control>
 				<control type="group">
 					<left>300</left>
 					<top>1010</top>
-					<visible>[!Skin.HasSetting(showcaselogo) + Skin.HasSetting(showcasemod)] | [Skin.HasSetting(showcaselogo) + !Skin.HasSetting(showcasemod)] | [!Skin.HasSetting(showcaselogo) + !Skin.HasSetting(showcasemod)]</visible>
+					<visible>!Skin.HasSetting(showcaselogo) | Container.Content(episodes) | Container.Content(seasons)</visible>
 					<control type="label">
 						<left>0</left>
 						<top>35</top>
@@ -607,6 +597,16 @@
 				<texture border="1">gradient_floor.png</texture>
 				<animation effect="slide" start="0,0" end="0,15" time="720" tween="cubic" easing="inout" condition="Control.IsVisible(56)">Conditional</animation>
 			</control>
+				<control type="image">
+					<left>805</left>
+					<top>1000</top>
+					<width>315</width>
+					<height>105</height>
+					<aspectratio aligny="bottom">keep</aspectratio>
+					<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+					<visible>Skin.HasSetting(showcaselogo) + [Control.IsVisible(53) | Control.IsVisible(52)]</visible>
+					<include>VisibleFadeEffect</include>
+				</control>
 		</control>
 		<control type="group">
 			<visible>Control.IsVisible(59)</visible>
@@ -910,6 +910,14 @@
 					<selected>Skin.HasSetting(noshowcaseflow)</selected>
 					<visible>Control.IsVisible(53)</visible>
 				</control>
+				<control type="radiobutton" id="6056">
+					<include>ButtonCommonValues</include>
+					<textwidth>255</textwidth>
+					<label>Display logo</label>
+					<onclick>Skin.ToggleSetting(showcaselogo)</onclick>
+					<selected>Skin.HasSetting(showcaselogo)</selected>
+					<visible>[Control.IsVisible(52) | Control.IsVisible(53)] + !Container.Content(episodes) + !Container.Content(seasons)</visible>
+				</control>
 				<control type="radiobutton" id="6098">
 					<description>Enable ShowCase Mod</description>
 					<textwidth>255</textwidth>
@@ -917,15 +925,7 @@
 					<label>Enable ShowCase mod</label>
 					<onclick>Skin.ToggleSetting(showcasemod)</onclick>
 					<selected>Skin.HasSetting(showcasemod)</selected>
-					<visible>Control.IsVisible(53) + Container.Content(movies) + !Skin.HasSetting(noshowcaseflow)</visible>
-				</control>
-				<control type="radiobutton" id="6056">
-					<include>ButtonCommonValues</include>
-					<textwidth>255</textwidth>
-					<label>Display logo</label>
-					<onclick>Skin.ToggleSetting(showcaselogo)</onclick>
-					<selected>Skin.HasSetting(showcaselogo)</selected>
-					<visible>[Control.IsVisible(52) | Control.IsVisible(53)] + Skin.HasSetting(showcasemod) + !Skin.HasSetting(noshowcaseflow)</visible>
+					<visible>Control.IsVisible(53) + Container.Content(movies) + !Skin.HasSetting(noshowcaseflow) + Skin.HasSetting(toggleshowcasecovers)</visible>
 				</control>
 				<control type="togglebutton" id="7000">
 					<description>Enable Logo LowList</description>
