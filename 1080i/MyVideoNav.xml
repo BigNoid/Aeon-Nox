@@ -609,22 +609,23 @@
 			<include>ViewAnimation</include>
 			<include>VisibleFadeEffect</include>
 			<!-- IMDb Logo + Oscars Statue -->
-			<control type="group">
+			<control type="grouplist">
+				<left>1700</left>
+				<top>55</top>
+				<itemgap>0</itemgap>
+				<orientation>vertical</orientation>
 				<visible>Skin.HasSetting(imdblogo)</visible>
 				<control type="image">
 					<visible>!IsEmpty(ListItem.Top250)</visible>
-					<left>1700</left>
-					<top>55</top>
-					<width>100</width>
-					<height>50</height>
+					<width>125</width>
+					<height>65</height>
+					<align>center</align>
 					<aspectratio>scale</aspectratio>
 					<texture background="true">IMDb.png</texture>
 				</control>
 				<control type="Label">
 					<visible>!IsEmpty(ListItem.Top250)</visible>
-					<left>1697</left>
-					<top>110</top>
-					<width>100</width>
+					<width>125</width>
 					<height>100</height>
 					<align>center</align>
 					<label>$INFO[ListItem.Top250,#]</label>
@@ -633,24 +634,25 @@
 					<textcolor>fffeec900</textcolor>
 				</control>
 				<control type="image">
-					<left>1710</left>
-					<top>175</top>
-					<width>85</width>
+					<width>125</width>
 					<height>175</height>
+					<align>center</align>
 					<aspectratio>keep</aspectratio>
 					<texture background="true">oscars.png</texture>
 					<visible>SubString(ListItem.FileName,.oscars) | StringCompare(Container.FolderPath,special://profile/playlists/video/BestPicture.xsp)</visible> 
 				</control>
 			</control>
-			<!-- Media Flags Left -->
+			<!-- Media Flags + Tagline -->
 			<control type="group">
 				<visible>[Container.Content(tvshows) + Skin.HasSetting(nomediaflagstvshows)] | [Container.Content(movies) + Skin.HasSetting(nomediaflagsmovies)]</visible>
 				<visible>!Control.HasFocus(61)</visible>
+				<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 				<control type="grouplist">
 					<left>10</left>
 					<top>968</top>
+					<width>1920</width>
 					<height>90</height>
-					<align>left</align>
+					<align>center</align>
 					<aligny>center</aligny>
 					<itemgap>0</itemgap>
 					<orientation>horizontal</orientation>
@@ -672,7 +674,7 @@
 						<visible>!Skin.HasSetting(coloredflags)</visible>
 					</control>
 					<control type="image">
-						<width>185</width>
+						<width>198</width>
 						<aspectratio scalediffuse="false">center</aspectratio>
 						<colordiffuse>grey2</colordiffuse>
 						<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
@@ -680,20 +682,29 @@
 						<include>MediaFlagVars</include>
 						<visible>Skin.HasSetting(coloredflags)</visible>
 					</control>
-				</control>
-			</control>
-			<!-- Media Flags Right -->
-			<control type="group">
-				<visible>[Container.Content(tvshows) + Skin.HasSetting(nomediaflagstvshows)] | [Container.Content(movies) + Skin.HasSetting(nomediaflagsmovies)]</visible>
-				<visible>!Control.HasFocus(61)</visible>
-				<control type="grouplist">
-					<top>968</top>
-					<left>1504</left>
-					<height>90</height>
-					<align>right</align>
-					<aligny>center</aligny>
-					<itemgap>0</itemgap>
-					<orientation>horizontal</orientation>
+					<!-- Tagline -->
+					<control type="label">
+						<width>1100</width>
+						<label>$INFO[ListItem.Tagline]</label>
+						<align>center</align>
+						<font>font16_bold</font>
+						<scroll>true</scroll>
+						<textcolor>grey2</textcolor>
+						<scrollspeed>40</scrollspeed>
+						<visible>!IsEmpty(ListItem.Tagline)</visible>
+					</control>
+					<!-- Hidden Tagline-->
+					<control type="label">
+						<width>1100</width>
+						<label>$INFO[ListItem.Tagline]</label>
+						<align>center</align>
+						<font>font16_bold</font>
+						<scroll>true</scroll>
+						<textcolor>grey2</textcolor>
+						<scrollspeed>40</scrollspeed>
+						<visible>IsEmpty(ListItem.Tagline)</visible>
+						<include>HiddenObject</include>
+					</control>
 					<control type="image">
 						<width>198</width>
 						<colordiffuse>grey2</colordiffuse>
@@ -769,20 +780,6 @@
 					<textcolor>grey2</textcolor>
 					<visible>!IsEmpty(ListItem.Top250) + !Skin.HasSetting(imdblogo)</visible>
 				</control>
-				<!-- Tagline -->
-				<control type="label">
-					<left>410</left>
-					<top>960</top>
-					<width>1100</width>
-					<height>100</height>
-					<align>center</align>
-					<label>[B]$INFO[ListItem.Tagline][/B]</label>
-					<font>font16</font>
-					<scroll>true</scroll>
-					<textcolor>grey2</textcolor>
-					<scrollspeed>40</scrollspeed>
-					<visible>!IsEmpty(ListItem.Tagline)</visible>
-				</control>
 				<!-- Movie Set Title List -->
 				<control type="textbox">
 					<label>[B]$INFO[Window(home).Property(Set.Movies.Title)][/B]</label>
@@ -810,7 +807,7 @@
 				</control>
 				<!-- Year • Rating • Duration (No Tagline) -->
 				<control type="label">
-					<top>960</top>					
+					<top>965</top>					
 					<left>450</left>
 					<width>1020</width>
 					<height>100</height>
@@ -1052,7 +1049,9 @@
 					<onclick condition="Control.IsVisible(591)">Skin.ToggleSetting(oscars591)</onclick>
 					<onclick condition="Control.IsVisible(57)">Skin.ToggleSetting(oscars57)</onclick>
 					<onclick condition="Control.IsVisible(57)">Skin.ToggleSetting(oscars57small)</onclick>
-					<visible>StringCompare(Container.FolderPath,special://profile/playlists/video/BestPicture.xsp) + [Control.IsVisible(500) | Control.IsVisible(499) | Control.IsVisible(503) | Control.IsVisible(609) | Control.IsVisible(504) | Control.IsVisible(505) | Control.IsVisible(591) | Control.IsVisible(57)]</visible>
+					<onclick condition="Control.IsVisible(501)">Skin.ToggleSetting(oscars501)</onclick>
+					<onclick condition="Control.IsVisible(507)">Skin.ToggleSetting(oscars507)</onclick>
+					<visible>StringCompare(Container.FolderPath,special://profile/playlists/video/BestPicture.xsp) + [Control.IsVisible(500) | Control.IsVisible(499) | Control.IsVisible(503) | Control.IsVisible(609) | Control.IsVisible(504) | Control.IsVisible(505) | Control.IsVisible(591) | Control.IsVisible(57) | Control.IsVisible(501) | Control.IsVisible(507)]</visible>
 				</control>
 				<!--
 				<control type="button" id="">
