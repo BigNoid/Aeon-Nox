@@ -5,9 +5,9 @@
 	<onload>ClearProperty(MediaMenu,Home)</onload>
 	<onunload>ClearProperty(Window.HasSettings,Home)</onunload>
 	<allowoverlay>no</allowoverlay>
-	<views>50</views>
-	<controls>
-		<include>CommonBackground</include>
+	<views>50,51</views>
+    <controls>
+        <include>CommonBackground</include>
 		<control type="group">
 			<left>0</left>
 			<top>128</top>
@@ -58,7 +58,7 @@
 					</control>
 					<control type="label">
 						<width>120</width>
-						<height>120</height>
+						<height>95</height>
 						<font>font45caps_title</font>
 						<textcolor>grey2</textcolor>
 						<selectedcolor>selected</selectedcolor>
@@ -73,7 +73,7 @@
 						<height>70</height>
 						<font>font30</font>
 						<textcolor>grey2</textcolor>
-						<selectedcolor>grey2</selectedcolor>
+						<selectedcolor>selected</selectedcolor>
 						<align>left</align>
 						<aligny>center</aligny>
 						<label>$INFO[ListItem.Label]</label>
@@ -93,13 +93,13 @@
 					<control type="progress">
 						<description>Progressbar</description>
 						<left>5</left>
-						<top>102</top>
+						<top>88</top>
 						<width>112</width>
 						<height>8</height>
-						<colordiffuse>88FFFFFF</colordiffuse>
 						<visible>ListItem.HasEpg</visible>
 						<info>ListItem.Progress</info>
-						<texturebg border="2">osd/texturebg2.png</texturebg>
+						<midtexture colordiffuse="themecolor">new_pvr/texturebg_white.png</midtexture>
+						<texturebg colordiffuse="grey3">new_pvr/texturebg.png</texturebg>
 					</control>
 					<control type="image">
 						<left>681</left>
@@ -141,7 +141,7 @@
 					</control>
 					<control type="label">
 						<width>120</width>
-						<height>120</height>
+						<height>95</height>
 						<font>font45caps_title</font>
 						<selectedcolor>selected</selectedcolor>
 						<align>center</align>
@@ -175,13 +175,14 @@
 					<control type="progress">
 						<description>Progressbar</description>
 						<left>5</left>
-						<top>102</top>
+						<top>88</top>
 						<width>112</width>
 						<height>8</height>
 						<colordiffuse>DDFFFFFF</colordiffuse>
 						<visible>ListItem.HasEpg</visible>
 						<info>ListItem.Progress</info>
-						<texturebg border="2">osd/texturebg2.png</texturebg>
+						<midtexture colordiffuse="themecolor">new_pvr/texturebg_white.png</midtexture>
+						<texturebg colordiffuse="grey3">new_pvr/texturebg.png</texturebg>
 					</control>
 					<control type="image">
 						<left>681</left>
@@ -286,7 +287,7 @@
 					<font>font15</font>
 					<textcolor>grey2</textcolor>
 					<textoffsetx>15</textoffsetx>
-					<visible>Container(50).ListItem.HasEpg</visible>
+					<visible>Container(11).ListItem.HasEpg</visible>
 					<label>[COLOR labelheader]$INFO[Container(50).ListItem.StartTime]$INFO[Container(50).ListItem.EndTime, - ,: ][/COLOR]$INFO[Container(50).ListItem.Title]</label>
 				</control>
 				<control type="label">
@@ -337,18 +338,329 @@
 				</control>
 			</control>
 		</control>
-		<include>ScrollOffsetLabel</include>
-		<control type="image">
-			<left>0</left>
-			<top>0</top>
-			<width>1920</width>
-			<height>1080</height>
-			<texture>black-back.png</texture>
-			<animation effect="fade" time="400">Visible</animation>
-			<animation effect="fade" time="200">Hidden</animation>
-			<visible>Window.IsActive(FileBrowser) | Window.IsActive(PVRGuideInfo) | Window.IsActive(PVRRecordingInfo) | Window.IsActive(PVRTimerSetting) | Window.IsActive(PVRGroupManager) | Window.IsActive(PVRGuideSearch)</visible>
+		
+		<control type="group">
+			<left>50</left>
+			<top>40</top>
+			<description>Channels Wall</description>
+			<visible>Control.IsVisible(51)</visible>
+			<include>VisibleFadeEffect</include>
+			<control type="image">
+				<description>background image</description>
+				<left>140</left>
+				<top>1080</top>
+				<width>1640</width>
+				<height>964</height>
+				<texture border="40">panel_reflect.png</texture>
+			</control>
+			<control type="image">
+				<description>background image</description>
+				<left>0</left>
+				<top>0</top>
+				<width>1840</width>
+				<height>1100</height>
+				<texture border="40">listpanel_back.png</texture>
+			</control>
+			<control type="panel" id="51">
+				<left>30</left>
+				<top>30</top>
+				<width>1800</width>
+				<height>775</height>
+				<onleft>SetProperty(MediaMenu,True,home)</onleft>
+				<onleft>SetFocus(9050)</onleft>
+				<onright>60</onright>
+				<onup>51</onup>
+				<ondown>51</ondown>
+				<pagecontrol>60</pagecontrol>
+				<preloaditems>2</preloaditems>
+				<viewtype label="Wall">icons</viewtype>
+				<scrolltime tween="quadratic" easing="out">300</scrolltime>
+				<itemlayout height="155" width="445">
+					<control type="image">
+						<width>440</width>
+						<height>150</height>
+						<aspectratio>strech</aspectratio>
+						<colordiffuse>33ffffff</colordiffuse>
+						<texture border="4" background="true">new_pvr/grey_bg.png</texture>
+						<visible>true</visible>
+					</control>
+					<control type="label">
+                        <left>14</left>
+                        <top>10</top>
+                        <width>320</width>
+                        <height>58</height>
+                        <font>font13b</font>
+                        <textcolor>grey</textcolor>
+						<selectedcolor>selected</selectedcolor>
+                        <align>left</align>
+                        <label>[B]$INFO[ListItem.ChannelNumber]  $INFO[ListItem.Label][/B]</label>
+					</control>
+					<control type="image">
+						<left>335</left>
+						<top>10</top>
+						<width>90</width>
+						<height>59</height>
+						<aspectratio align="right">keep</aspectratio>
+						<texture fallback="new_pvr/tv.png">$INFO[ListItem.Icon]</texture>
+						<colordiffuse>BAffffff</colordiffuse>
+					</control>
+					<control type="group">
+						<left>15</left>
+						<top>73</top>
+						<width>440</width>
+						<height>165</height>
+						<visible>ListItem.HasEpg</visible>
+						<control type="label">
+							<left>0</left>
+							<top>0</top>
+							<width>400</width>
+							<height>30</height>
+							<font>font12b</font>
+							<textcolor>grey2</textcolor>
+							<selectedcolor>selected</selectedcolor>
+							<align>left</align>
+							<label>$INFO[ListItem.Title]</label>
+						</control>
+						<control type="progress">
+							<left>0</left>
+							<top>35</top>
+							<width>408</width>
+							<height>6</height>
+							<info>ListItem.Progress</info>
+							<visible>!StringCompare(ListItem.Title,)</visible>
+							<midtexture colordiffuse="themecolor">new_pvr/texturebg_white.png</midtexture>
+							<texturebg colordiffuse="grey3">new_pvr/texturebg.png</texturebg>
+						</control>
+						<control type="label">
+							<left>0</left>
+							<top>42</top>
+							<width>400</width>
+							<height>30</height>
+							<font>font11</font>
+							<align>left</align>
+							<textcolor>grey3</textcolor>
+							<selectedcolor>grey2</selectedcolor>
+							<label>$LOCALIZE[19031]: $INFO[ListItem.NextTitle]</label>
+							<visible>true</visible>
+						</control>
+					</control>
+				</itemlayout>
+				<focusedlayout heigth="155" width="445">
+					<control type="group">
+						<animation type="Focus">
+							<effect type="fade" start="80" end="100" time="200" tween="sine" easing="in" />
+						</animation>
+						<control type="image">
+							<left>-13</left>
+							<top>-8</top>
+							<width>465</width>
+							<height>167</height>
+							<aspectratio>strech</aspectratio>
+							<texture border="4" background="true">new_pvr/overlay/OverlayDialogBackground.png</texture>
+							<colordiffuse>themecolor</colordiffuse>
+						</control>
+						<control type="image">
+							<width>440</width>
+							<height>150</height>
+							<aspectratio>strech</aspectratio>
+							<colordiffuse>60ffffff</colordiffuse>
+							<texture border="4" background="true">new_pvr/grey_bg.png</texture>
+							<visible>true</visible>
+						</control>
+						<control type="image">
+							<left>335</left>
+							<top>10</top>
+							<width>90</width>
+							<height>59</height>
+							<aspectratio align="right">keep</aspectratio>
+							<texture background="true" fallback="new_pvr/blank.png">$INFO[ListItem.Icon]</texture>
+							<fadetime>500</fadetime>
+						</control>
+						<control type="label">
+							<left>14</left>
+							<top>10</top>
+							<width>320</width>
+							<height>58</height>
+							<font>font13b</font>
+							<selectedcolor>selected</selectedcolor>
+							<align>left</align>
+							<label>[B]$INFO[ListItem.ChannelNumber]  $INFO[ListItem.Label][/B]</label>
+						</control>
+						<control type="group">
+							<left>15</left>
+							<top>73</top>
+							<width>440</width>
+							<height>165</height>
+							<visible>ListItem.HasEpg</visible>
+							<control type="label">
+								<left>0</left>
+								<top>0</top>
+								<width>400</width>
+								<height>30</height>
+								<font>font12b</font>
+								<selectedcolor>selected</selectedcolor>
+								<align>left</align>
+								<label>$INFO[ListItem.Title]</label>
+							</control>
+							<control type="progress">
+								<left>0</left>
+								<top>35</top>
+								<width>408</width>
+								<height>6</height>
+								<info>ListItem.Progress</info>
+								<visible>!StringCompare(ListItem.Title,)</visible>
+								<midtexture colordiffuse="themecolor">new_pvr/texturebg_white.png</midtexture>
+								<texturebg colordiffuse="grey3">new_pvr/texturebg.png</texturebg>
+							</control>
+							<control type="label">
+								<left>0</left>
+								<top>42</top>
+								<width>400</width>
+								<height>30</height>
+								<font>font11</font>
+								<align>left</align>
+								<textcolor>grey2</textcolor>
+								<selectedcolor>grey</selectedcolor>
+								<label>$LOCALIZE[19031]: $INFO[ListItem.NextTitle]</label>
+							</control>
+						</control>
+					</control>
+				</focusedlayout>
+			</control>
+			<control type="scrollbar" id="60">
+				<left>1810</left>
+				<top>30</top>
+				<width>14</width>
+				<height>900</height>
+				<onleft>51</onleft>
+				<onleft>51</onleft>
+				<ondown>60</ondown>
+				<onup>60</onup>
+				<showonepage>false</showonepage>
+				<texturesliderbackground>-</texturesliderbackground>
+				<texturesliderbar colordiffuse="55ffffff" border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
+				<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
+				<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(60) + !Container.Scrolling">Conditional</animation>
+			</control>
+			
+			<!-- Bottom info-panel -->
+			<control type="group">
+				<left>30</left>
+				<top>810</top>
+				<control type="image">
+					<left>0</left>
+					<top>0</top>
+					<width>1780</width>
+					<height>250</height>
+					<colordiffuse>60ffffff</colordiffuse>
+					<texture border="5">dialogs/default/inner.png</texture>
+					<visible>true</visible>
+				</control>
+				
+				<!-- Videopreview and logo -->
+				<control type="group">
+					<visible>!Player.HasVideo</visible>
+					<left>110</left>
+					<top>10</top>
+					<control type="image">
+						<width>200</width>
+						<height>200</height>
+						<aspectratio>keep</aspectratio>
+						<fadetime>400</fadetime>
+						<texture>$INFO[ListItem.Icon]</texture>
+					</control>
+				</control>
+				<control type="group">
+					<visible>Player.HasVideo</visible>
+					<top>2</top>
+					<control type="image">
+						<width>445</width>
+						<height>225</height>
+						<aspectratio>strech</aspectratio>
+						<texture border="0">black-back.png</texture>
+					</control>
+					<control type="videowindow">
+						<width>445</width>
+						<height>225</height>
+					</control>
+				</control>
+				
+				<!-- Discription and fanart -->
+				<control type="group">
+					<left>450</left>
+					<top>0</top>
+					<control type="label">
+						<top>15</top>
+						<width>1316</width>
+						<height>30</height>
+						<align>left</align>
+						<font>font14</font>
+						<textcolor>grey2</textcolor>
+						<textoffsetx>15</textoffsetx>
+						<label>[COLOR labelheader]$INFO[ListItem.StartTime]$INFO[ListItem.EndTime, - ,: ][/COLOR]$INFO[ListItem.Title]  |  $INFO[ListItem.Genre,[COLOR labelheader]$LOCALIZE[515]:[/COLOR] ,]</label>
+					</control>
+					<control type="textbox" id="81">
+						<label>$INFO[ListItem.Plot]</label>
+						<left>15</left>
+						<top>50</top>
+						<width>1286</width>
+						<height>180</height>
+						<font>font14_textbox2</font>
+						<pagecontrol>63</pagecontrol>
+						<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(63)</autoscroll>
+						<visible>![SubString(ListItem.PlotOutline,"http://",Left) | SubString(ListItem.PlotOutline,"https://",Left)]</visible>
+					</control>
+					<control type="textbox">
+						<left>15</left>
+						<top>50</top>
+						<width>1000</width>
+						<height>180</height>
+						<font>font14_textbox2</font>
+						<label>$INFO[ListItem.Plot]</label>
+						<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(63)</autoscroll>
+						<visible>SubString(ListItem.PlotOutline,"http://",Left) | SubString(ListItem.PlotOutline,"https://",Left)</visible>
+					</control>
+					<control type="image">
+						<left>1020</left>
+						<top>5</top>
+						<width>300</width>
+						<height>220</height>
+						<align>center</align>
+						<aspectratio>keep</aspectratio>
+						<texture>$INFO[ListItem.PlotOutline]</texture>
+						<visible>SubString(ListItem.PlotOutline,"http://",Left) | SubString(ListItem.PlotOutline,"https://",Left)</visible>
+					</control>
+					<control type="scrollbar" id="63">
+						<left>1328</left>
+						<top>124</top>
+						<width>14</width>
+						<height>110</height>
+						<onup>PageUp(81)</onup>
+						<ondown>PageUp(81)</ondown>
+						<onleft>10</onleft>
+						<onright>10</onright>
+						<texturesliderbackground>-</texturesliderbackground>
+						<texturesliderbar colordiffuse="55ffffff" border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
+						<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
+						<showonepage>false</showonepage>
+						<orientation>vertical</orientation>
+					</control>
+				</control>
+			</control>
 		</control>
+		
+        <include>ScrollOffsetLabel</include>
+        <control type="image">
+            <left>0</left>
+            <top>0</top>
+            <width>1920</width>
+            <height>1080</height>
+            <texture>black-back.png</texture>
+            <animation effect="fade" time="400">Visible</animation>
+            <animation effect="fade" time="200">Hidden</animation>
+            <visible>Window.IsActive(FileBrowser) | Window.IsActive(PVRGuideInfo) | Window.IsActive(PVRRecordingInfo) | Window.IsActive(PVRTimerSetting) | Window.IsActive(PVRGroupManager) | Window.IsActive(PVRGuideSearch)</visible>
+        </control>
 		<include>Topbar</include>
 		<include>PVRMediaMenu</include>
-	</controls>
+    </controls>
 </window>
