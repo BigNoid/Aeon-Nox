@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 	<!-- Details -->	
-	<include name="BigFanInfo">
+	<include name="BigInfo">
 		<control type="group">
 			<visible>Container.Content(movies) | Container.Content(tvshows)</visible>
 			<control type="image">
@@ -23,6 +23,19 @@
 				<aligny>top</aligny>
 				<label>$INFO[ListItem.Label]</label>
 				<scroll>true</scroll>
+				<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+			</control>
+			<control type="label">
+				<top>255</top>
+				<left>290</left>
+				<width>1580</width>
+				<height>70</height>
+				<font>font80caps_title</font>
+				<textcolor>grey</textcolor>
+				<align>left</align>
+				<aligny>top</aligny>
+				<label>$INFO[ListItem.Label]</label>
+				<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
 			</control>
 			<control type="label">
 				<top>82</top>
@@ -31,7 +44,18 @@
 				<height>65</height>
 				<font>font28_title</font>
 				<textcolor>grey</textcolor>
-				<label>[COLOR themecolor]$VAR[FloorSubLabelVar][/COLOR]</label>
+				<label>$VAR[FloorSubLabelVar]</label>
+				<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Container.Content(tvshows)</visible>
+			</control>
+			<control type="label">
+				<top>82</top>
+				<left>290</left>
+				<width>1200</width>
+				<height>65</height>
+				<font>font28_title</font>
+				<textcolor>selected</textcolor>
+				<label>$VAR[FloorSubLabelVar]</label>
+				<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Container.Content(movies)</visible>
 			</control>
 			<control type="textbox">
 				<top>150</top>
@@ -44,15 +68,28 @@
 				<aligny>top</aligny>
 				<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
 				<include>ShowCaseInfoPanelButtonsValues</include>
-				<label>[COLOR themecolor]$INFO[ListItem.Tagline,, ][/COLOR]$INFO[ListItem.Plot]</label>
+				<label>$VAR[VideoPlotVar2]</label>
 			</control>
 			<control type="image">
-				<left>1585</left>
+				<left>1530</left>
 				<top>92</top>
 				<width>400</width>
 				<height>45</height>
 				<aspectratio>keep</aspectratio>
-				<texture colordiffuse="themecolor" fallback="rating0.png">$INFO[ListItem.StarRating]</texture>
+				<texture>imdb.png</texture>
+				<visible>!IsEmpty(ListItem.Top250)</visible>
+			</control>
+			<control type="Label">
+				<visible>!IsEmpty(ListItem.Top250)</visible>
+				<left>1790</left>
+				<top>90</top>
+				<width>125</width>
+				<height>45</height>
+				<align>left</align>
+				<label>$INFO[ListItem.Top250,#]</label>
+				<font>font16_title_bold</font>
+				<shadowcolor>shadow</shadowcolor>
+				<textcolor>fffeec900</textcolor>
 			</control>
 		</control>
 		<control type="group">
@@ -101,7 +138,7 @@
 			</control>
 		</control>
 	</include>
-	<include name="View_592_BigFan_Info">
+	<include name="View_592_BigInfo">
 		<control type="group">
 			<visible>Control.IsVisible(592) + !Window.IsActive(addoninformation)</visible>
 			<control type="fixedlist" id="592">
@@ -115,15 +152,15 @@
 				<onup>SetFocus(9050)</onup>
 				<preloaditems>2</preloaditems>
 				<focusposition>0</focusposition>
-				<viewtype label="BigFan Info">list</viewtype>
+				<viewtype label="BigInfo">list</viewtype>
 				<scrolltime tween="quadratic" easing="out">300</scrolltime>
 				<visible>Container.Content(tvshows) | Container.Content(movies) | Container.Content(artists)</visible>
 				<orientation>horizontal</orientation>
 				<itemlayout width="1920" height="400">
-					<include>BigFanInfo</include>
+					<include>BigInfo</include>
 				</itemlayout>
 				<focusedlayout width="1920" height="400">
-					<include>BigFanInfo</include>
+					<include>BigInfo</include>
 				</focusedlayout>
 			</control>
 		</control>
