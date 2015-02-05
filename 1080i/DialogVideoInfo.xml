@@ -593,6 +593,35 @@
 							<texture>$VAR[PathFlagsResolution]</texture>
 							<visible>!IsEmpty(ListItem.VideoResolution)</visible>
 						</control>
+						<control type="image">
+							<width>2</width>
+							<height>90</height>
+							<texture border="1">separator3.png</texture>
+						</control>
+						<control type="image">
+							<width>198</width>
+							<colordiffuse>grey</colordiffuse>
+							<include>MediaFlagVars</include>
+							<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
+							<visible>!Skin.HasSetting(coloredflags) + !IsEmpty(ListItem.VideoCodec)</visible>
+						</control>
+						<control type="image">
+							<width>198</width>
+							<colordiffuse>grey</colordiffuse>
+							<include>MediaFlagVars</include>
+							<texture>$VAR[SourceFlagVar,flags/colored/source/,.png]</texture>
+							<visible>Skin.HasSetting(coloredflags) + !IsEmpty(ListItem.VideoCodec)</visible>
+						</control><control type="image">
+							<width>2</width>
+							<height>90</height>
+							<texture border="1">separator3.png</texture>
+						</control>
+						<control type="image">
+							<width>198</width>
+							<colordiffuse>grey</colordiffuse>
+							<include>MediaFlagVars</include>
+							<texture>$VAR[PathFlagsAspect]</texture>
+						</control>
 						<control type="group">
 							<visible>Container.Content(tvshows) + !IsEmpty(ListItem.Property(TotalSeasons))</visible>
 							<width>200</width>
@@ -629,6 +658,7 @@
 							<texture>$VAR[PathFlagsAudio]</texture>
 							<visible>!IsEmpty(ListItem.AudioCodec)</visible>
 						</control>
+						
 						<control type="group">
 							<visible>Container.Content(tvshows) + !IsEmpty(ListItem.Property(TotalEpisodes))</visible>
 							<width>200</width>
@@ -653,11 +683,13 @@
 								<textcolor>grey</textcolor>
 							</control>
 						</control>
+						
 						<control type="image">
 							<width>2</width>
 							<height>90</height>
 							<texture border="1">separator3.png</texture>
 						</control>
+						
 						<control type="image">
 							<width>198</width>
 							<colordiffuse>grey</colordiffuse>
@@ -665,6 +697,7 @@
 							<texture>$VAR[PathFlagsAudioChannels]</texture>
 							<visible>!IsEmpty(ListItem.AudioChannels)</visible>
 						</control>
+						
 						<control type="group">
 							<visible>Container.Content(tvshows) + !IsEmpty(ListItem.Property(UnWatchedEpisodes))</visible>
 							<width>200</width>
@@ -689,36 +722,7 @@
 								<textcolor>grey</textcolor>
 							</control>
 						</control>
-						<control type="image">
-							<width>2</width>
-							<height>90</height>
-							<texture border="1">separator3.png</texture>
-						</control>
-						<control type="image">
-							<width>198</width>
-							<colordiffuse>grey</colordiffuse>
-							<include>MediaFlagVars</include>
-							<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
-							<visible>!Skin.HasSetting(coloredflags) + !IsEmpty(ListItem.VideoCodec)</visible>
-						</control>
-						<control type="image">
-							<width>198</width>
-							<colordiffuse>grey</colordiffuse>
-							<include>MediaFlagVars</include>
-							<texture>$VAR[SourceFlagVar,flags/colored/source/,.png]</texture>
-							<visible>Skin.HasSetting(coloredflags) + !IsEmpty(ListItem.VideoCodec)</visible>
-						</control>
-						<control type="image">
-							<width>2</width>
-							<height>90</height>
-							<texture border="1">separator3.png</texture>
-						</control>
-						<control type="image">
-							<width>198</width>
-							<colordiffuse>grey</colordiffuse>
-							<include>MediaFlagVars</include>
-							<texture>$VAR[PathFlagsAspect]</texture>
-						</control>
+						
 						<control type="image">
 							<width>2</width>
 							<height>90</height>
@@ -809,7 +813,31 @@
 								<shadowcolor>shadow</shadowcolor>
 								<label>$INFO[ListItem.Label]</label>
 								<autoscroll delay="2000" time="3000" repeat="2500">true</autoscroll>						
-								<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>								
+								<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
+								<visible>!System.HasAddon(script.extendedinfo)</visible>
+							</control>
+							<control type="textbox">
+								<align>center</align>
+								<top>300</top>
+								<width>290</width>
+								<height>90</height>
+								<font>font14</font>
+								<textcolor>labelheader</textcolor>
+								<shadowcolor>shadow</shadowcolor>
+								<label>$INFO[ListItem.Label]</label>
+								<autoscroll delay="2000" time="3000" repeat="2500">true</autoscroll>						
+								<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
+								<visible>System.HasAddon(script.extendedinfo)</visible>
+							</control>
+							<control type="image">
+								<left>132</left>
+								<top>383</top>
+								<width>35</width>
+								<height>35</height>
+								<texture>arrowdown.png</texture>
+								<colordiffuse>selected</colordiffuse>
+								<bordersize>2</bordersize>
+								<visible>System.HasAddon(script.extendedinfo)</visible>
 							</control>
 						</control>
 					</focusedlayout>
@@ -883,7 +911,7 @@
 					<control type="button" id="910">
 						<description>Play Trailer</description>
 						<include>ButtonInfoDialogsCommonValues</include>
-						<label>$LOCALIZE[20410]</label>
+						<label>$LOCALIZE[208] $LOCALIZE[20410]</label>
 						<onclick>Dialog.Close(MovieInformation)</onclick>
 						<onclick>PlayMedia($INFO[ListItem.Trailer])</onclick>
 						<visible>[!IsEmpty(ListItem.Trailer) + Container.Content(movies)] + [!System.HasAddon(script.cinema.experience) | Skin.HasSetting(trailertoggle)]</visible>
@@ -891,7 +919,7 @@
 					<control type="button" id="911">
 						<description>Search Trailer</description>
 						<include>ButtonInfoDialogsCommonValues</include>
-						<label>$LOCALIZE[20410]</label>
+						<label>$LOCALIZE[137] $LOCALIZE[20410]</label>
 						<onclick>ActivateWindow(videos,plugin://plugin.video.youtube/kodion/search/query/?q=$INFO[ListItem.OriginalTitle]+Trailer)</onclick>
 						<onclick>Dialog.Close(movieinformation)</onclick>
 						<visible>[IsEmpty(ListItem.Trailer) + Container.Content(movies)] + [!System.HasAddon(script.cinema.experience) | Skin.HasSetting(trailertoggle)]</visible>
