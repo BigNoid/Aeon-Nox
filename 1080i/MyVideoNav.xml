@@ -18,7 +18,13 @@
 		<control type="label" id="4444">
 			<label>ShowCase Mod</label>
 			<include>HiddenObject</include>
-			<visible>[Control.IsVisible(52) | Control.IsVisible(53) + Skin.HasSetting(showcasemod)] + [!Container.Content(tvshows) + !Container.Content(seasons)]</visible>
+			<visible>[Control.IsVisible(53) + Skin.HasSetting(showcasemod)] + [!Container.Content(genres) + Container.Content(movies)]</visible>
+			<include condition="!IsEmpty(Skin.String(Showcase.Delay))">ShowCaseDelayAnimation</include>
+		</control>
+		<control type="label" id="4445">
+			<label>Boxset Mod</label>
+			<include>HiddenObject</include>
+			<visible>[Control.IsVisible(53) + Skin.HasSetting(boxsetmod) + [SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]] + [!Container.Content(genres) + Container.Content(movies)]</visible>
 			<include condition="!IsEmpty(Skin.String(Showcase.Delay))">ShowCaseDelayAnimation</include>
 		</control>
 		<include>CommonBackground</include>
@@ -916,6 +922,7 @@
 					<label>Enable covers</label>
 					<onclick>Skin.ToggleSetting(toggleshowcasecovers)</onclick>
 					<onclick condition="Skin.HasSetting(toggleshowcasecovers) + Skin.HasSetting(showcasemod)">Notification($LOCALIZE[19098]:,Disabling covers turns off the Showcase Mod,5000,icon.png)</onclick>
+					<onclick condition="Skin.HasSetting(toggleshowcasecovers)">Skin.reset(showcasemod)</onclick>
 					<selected>Skin.HasSetting(toggleshowcasecovers)</selected>
 					<visible>Control.IsVisible(53) + Container.Content(movies)</visible>
 				</control>
