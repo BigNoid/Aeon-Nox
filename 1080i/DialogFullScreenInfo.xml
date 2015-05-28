@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window type="dialog" id="142">
-	<onload condition="VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)">SetFocus(62)</onload>
+	<onload condition="[VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]">SetFocus(64)</onload>
 	<controls>
 		<control type="group">
 			<animation effect="slide" start="0,-100" end="0,0" time="200">WindowOpen</animation>
@@ -162,7 +162,7 @@
 						<control type="button">
 							<label>[COLOR labelheader]$LOCALIZE[345]:[/COLOR][CR]$INFO[VideoPlayer.Year]</label>
 							<left>570</left>
-							<width>254</width>
+							<width>190</width>
 							<include>ShowCaseInfoPanelButtonsValues</include>
 							<visible>!IsEmpty(VideoPlayer.Year)</visible>
 						</control>
@@ -227,6 +227,13 @@
 				<height>420</height>
 				<texture border="1">separator3.png</texture>
 			</control>
+			<control type="image">
+				<left>340</left>
+				<top>360</top>
+				<width>1580</width>
+				<height>60</height>
+				<texture border="1">separator2.png</texture>
+			</control>
 			<control type="grouplist">
 				<left>0</left>
 				<top>420</top>
@@ -236,13 +243,13 @@
 				<aligny>center</aligny>
 				<itemgap>0</itemgap>
 				<orientation>horizontal</orientation>
-				<control type="image" id="800011">
+				<control type="image" id="800012">
 					<colordiffuse>grey2</colordiffuse>
 					<width>260</width>
 					<include>MediaFlagVars</include>
 					<bordersize>2</bordersize>
 					<texture>$INFO[VideoPlayer.Studio,flags/studios/,.png]</texture>
-					<visible>!IsEmpty(Control.GetLabel(800011))</visible>
+					<visible>!IsEmpty(Control.GetLabel(800012))</visible>
 				</control>
 				<control type="label">
 					<left>0</left>
@@ -253,7 +260,7 @@
 					<font>font10</font>
 					<textcolor>grey2</textcolor>
 					<wrapmultiline>true</wrapmultiline>
-					<visible>IsEmpty(Control.GetLabel(800011))</visible>
+					<visible>IsEmpty(Control.GetLabel(800012))</visible>
 				</control>
 				<control type="image">
 					<width>260</width>
@@ -286,29 +293,63 @@
 					<texture>$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
 				</control>
 			</control>
-			<control type="textbox" id="70">
-				<label>$INFO[VideoPlayer.Plot]</label>
+			<control type="textbox" id="170">
+				<label>$INFO[VideoPlayer.CastAndRole]</label>
 				<left>1115</left>
 				<top>15</top>
 				<width>775</width>
 				<height>390</height>
 				<font>font15_textbox</font>
 				<pagecontrol>62</pagecontrol>
+				<include>SettingsFadeEffect</include>
 				<include>ShowCaseInfoPanelButtonsValues</include>
-				<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(62)</autoscroll>
+				<visible>Skin.HasSetting(Video.Plot.Cast)</visible>
+				<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(64)</autoscroll>
+			</control>
+			<control type="textbox" id="171">
+				<label>$INFO[VideoPlayer.Plot]</label>
+				<left>1115</left>
+				<top>15</top>
+				<width>775</width>
+				<height>390</height>
+				<font>font15_textbox</font>
+				<pagecontrol>63</pagecontrol>
+				<include>SettingsFadeEffect</include>
+				<include>ShowCaseInfoPanelButtonsValues</include>
+				<visible>!Skin.HasSetting(Video.Plot.Cast)</visible>
+				<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(64)</autoscroll>
 			</control>
 			<control type="scrollbar" id="62">
 				<left>1900</left>
 				<top>15</top>
 				<width>14</width>
 				<height>390</height>
-				<onup>PageUp(70)</onup>
-				<ondown>PageUp(70)</ondown>
 				<texturesliderbackground>-</texturesliderbackground>
-				<texturesliderbar colordiffuse="55ffffff" border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
+				<texturesliderbar border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
+				<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
+				<showonepage>false</showonepage>
+				<visible>Skin.HasSetting(Video.Plot.Cast)</visible>
+				<orientation>vertical</orientation>
+			</control>
+			<control type="scrollbar" id="63">
+				<left>1900</left>
+				<top>15</top>
+				<width>14</width>
+				<height>390</height>
+				<texturesliderbackground>-</texturesliderbackground>
+				<texturesliderbar border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
 				<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
 				<showonepage>false</showonepage>
 				<orientation>vertical</orientation>
+				<visible>!Skin.HasSetting(Video.Plot.Cast)</visible>
+			</control>
+			<control type="button" id="64">
+				<onup condition="Skin.HasSetting(Video.Plot.Cast)">PageUp(62)</onup>
+				<ondown condition="Skin.HasSetting(Video.Plot.Cast)">PageDown(62)</ondown>
+				<onup condition="!Skin.HasSetting(Video.Plot.Cast)">PageUp(63)</onup>
+				<ondown condition="!Skin.HasSetting(Video.Plot.Cast)">PageDown(63)</ondown>
+				<include>HiddenObject</include>
+				<onclick>Skin.ToggleSetting(Video.Plot.Cast)</onclick>
 			</control>
 		</control>
 	</controls>
