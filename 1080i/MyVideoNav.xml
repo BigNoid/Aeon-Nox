@@ -105,7 +105,7 @@
 				<animation effect="slide" tween="cubic" time="720" start="0,806" end="0,0">VisibleChange</animation>
 				<control type="grouplist">
 					<left>300</left>
-					<top>1000</top>
+					<top>980</top>
 					<width>1320</width>
 					<height>42</height>
 					<align>center</align>
@@ -135,11 +135,11 @@
 				</control>
 				<control type="group">
 					<left>300</left>
-					<top>1010</top>
+					<top>1000</top>
 					<visible>!Skin.HasSetting(showcaselogo) | Container.Content(episodes) | Container.Content(seasons)</visible>
 					<control type="label">
 						<left>0</left>
-						<top>35</top>
+						<top>30</top>
 						<width>1320</width>
 						<height>30</height>
 						<align>center</align>
@@ -151,7 +151,7 @@
 					</control>
 					<control type="label">
 						<left>0</left>
-						<top>35</top>
+						<top>30</top>
 						<width>1320</width>
 						<height>30</height>
 						<align>center</align>
@@ -160,6 +160,18 @@
 						<label>$INFO[ListItem.Property(TotalEpisodes),$LOCALIZE[20360]: ]$INFO[ListItem.Property(UnWatchedEpisodes), (,[LOWERCASE] $LOCALIZE[16101][/LOWERCASE])]</label>
 						<textoffsetx>30</textoffsetx>
 						<visible>Container.Content(seasons)</visible>
+					</control>
+					<control type="label">
+						<left>0</left>
+						<top>70</top>
+						<width>1320</width>
+						<height>30</height>
+						<align>center</align>
+						<font>font13_title</font>
+						<textcolor>white</textcolor>
+						<label>$INFO[ListItem.Genre]</label>
+						<textoffsetx>30</textoffsetx>
+						<visible>!Container.Content(tvshows)</visible>
 					</control>
 					<!-- Next Episode -->
 					<control type="label">
@@ -170,7 +182,7 @@
 						<align>center</align>
 						<font>font13_title</font>
 						<textcolor>white</textcolor>
-						<label>$LOCALIZE[31010]: $INFO[Window(Home).Property(NextAired.NextNumber)] - $INFO[Window(Home).Property(NextAired.NextTitle)]	($INFO[Window(Home).Property(NextAired.NextDay)])</label>
+						<label>$LOCALIZE[31010]: $INFO[Window(Home).Property(NextAired.NextNumber)] - $INFO[Window(Home).Property(NextAired.NextTitle)] ($INFO[Window(Home).Property(NextAired.NextDay)])</label>
 						<visible>!IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
 					</control>
 					<!-- Next Aired Status -->
@@ -188,12 +200,12 @@
 				</control>
 				<control type="group">
 					<left>0</left>
-					<top>1010</top>
+					<top>1015</top>
 					<width>FullScreenWidth</width>
 					<align>center</align>
-					<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]</visible>
+					<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + !IsEmpty(Skin.String(MediaflagsLayout))</visible>
 					<control type="group">
-						<left>95</left>
+						<left>35</left>
 						<control type="image" id="900011">
 							<colordiffuse>white</colordiffuse>
 							<include>MediaFlagVars</include>
@@ -212,7 +224,7 @@
 							<visible>IsEmpty(Control.GetLabel(900011))</visible>
 						</control>
 						<control type="image">
-							<left>1600</left>
+							<left>1700</left>
 							<colordiffuse>white</colordiffuse>
 							<include>MediaFlagVars</include>
 							<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
@@ -220,12 +232,69 @@
 							<visible>!IsEmpty(ListItem.Title) + ![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + !Skin.HasSetting(coloredflags)</visible>
 						</control>
 						<control type="image">
-							<left>1605</left>
+							<left>1700</left>
 							<colordiffuse>white</colordiffuse>
 							<aspectratio scalediffuse="false">center</aspectratio>
 							<include>MediaFlagVars</include>
 							<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
 							<visible>!IsEmpty(ListItem.Title) + ![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + Skin.HasSetting(coloredflags)</visible>
+						</control>
+						<control type="image">
+							<left>125</left>
+							<width>195</width>
+							<colordiffuse>grey</colordiffuse>
+							<bordersize>2</bordersize>
+							<texture>$VAR[PathFlagsResolution]</texture>
+							<visible>!IsEmpty(ListItem.VideoResolution) + !StringCompare(Skin.String(MediaflagsLayout),$LOCALIZE[571])</visible>
+							<include>MediaFlagVars</include>
+						</control>
+						<control type="image">
+							<left>275</left>
+							<width>195</width>
+							<colordiffuse>grey</colordiffuse>
+							<bordersize>2</bordersize>
+							<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
+							<visible>!Skin.HasSetting(coloredflags) + !IsEmpty(ListItem.VideoCodec) + !StringCompare(Skin.String(MediaflagsLayout),$LOCALIZE[571])</visible>
+							<include>MediaFlagVars</include>
+						</control>
+						<control type="image">
+							<left>300</left>
+							<width>195</width>
+							<colordiffuse>grey</colordiffuse>
+							<bordersize>2</bordersize>
+							<texture>$VAR[SourceFlagVar,flags/colored/source/,.png]</texture>
+							<visible>Skin.HasSetting(coloredflags) + !IsEmpty(ListItem.VideoCodec) + !StringCompare(Skin.String(MediaflagsLayout),$LOCALIZE[571])</visible>
+							<include>MediaFlagVars</include>
+						</control>
+						<control type="image">
+							<left>1370</left>
+							<width>168</width>
+							<include>MediaFlagVars</include>
+							<texture>$INFO[ListItem.AudioCodec,flags/colored/audio/,.png]</texture>
+							<visible>!IsEmpty(ListItem.AudioCodec) + Skin.HasSetting(coloredflags) + !StringCompare(Skin.String(MediaflagsLayout),$LOCALIZE[571])</visible>
+						</control>
+						<control type="image">
+							<left>1400</left>
+							<width>168</width>
+							<include>MediaFlagVars</include>
+							<texture>$INFO[ListItem.AudioCodec,flags/audio/,.png]</texture>
+							<visible>!IsEmpty(ListItem.AudioCodec) + !Skin.HasSetting(coloredflags) + !StringCompare(Skin.String(MediaflagsLayout),$LOCALIZE[571])</visible>
+						</control>
+						<control type="image">
+							<left>1525</left>
+							<width>168</width>
+							<colordiffuse>grey2</colordiffuse>
+							<include>MediaFlagVars</include>
+							<texture>$INFO[ListItem.AudioChannels,flags/colored/channels/,.png]</texture>
+							<visible>!IsEmpty(ListItem.AudioChannels) + Skin.HasSetting(coloredflags) + !StringCompare(Skin.String(MediaflagsLayout),$LOCALIZE[571])</visible>
+						</control>
+						<control type="image">
+							<left>1540</left>
+							<width>168</width>
+							<colordiffuse>grey2</colordiffuse>
+							<include>MediaFlagVars</include>
+							<texture>$INFO[ListItem.AudioChannels,flags/channels/,.png]</texture>
+							<visible>!IsEmpty(ListItem.AudioChannels) + !Skin.HasSetting(coloredflags) + !StringCompare(Skin.String(MediaflagsLayout),$LOCALIZE[571])</visible>
 						</control>
 					</control>
 				</control>
@@ -289,7 +358,8 @@
 							<texture>$VAR[UnFocusHDIndicator]</texture>
 							<visible>!IsEmpty(ListItem.VideoResolution)</visible>
 						</control>
-					</control>-->	<!-- IMDb Logo + Oscars Statue -->
+					</control>-->	
+					<!-- IMDb Logo + Oscars Statue -->
 					<control type="grouplist">
 						<left>1535</left>
 						<top>-915</top>
@@ -656,8 +726,8 @@
 				<animation effect="slide" start="0,0" end="0,15" time="720" tween="cubic" easing="inout" condition="Control.IsVisible(56)">Conditional</animation>
 			</control>
 			<control type="image">
-				<left>805</left>
-				<top>1000</top>
+				<left>802</left>
+				<top>980</top>
 				<width>315</width>
 				<height>105</height>
 				<aspectratio aligny="bottom">keep</aspectratio>
@@ -1021,6 +1091,13 @@
 					<label>Debug.Hide</label>
 					<onclick>Skin.ToggleSetting(Debug.Hide)</onclick>
 					<selected>Skin.HasSetting(Debug.Hide)</selected>
+				</control>
+				<control type="radiobutton" id="7051">
+					<textwidth>375</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>Debug.ToggleColored</label>
+					<onclick>Skin.ToggleSetting(coloredflags)</onclick>
+					<selected>Skin.HasSetting(coloredflags)</selected>
 				</control>
 			-->
 			<control type="button" id="201">
