@@ -3,7 +3,6 @@
 	<defaultcontrol>-</defaultcontrol>
 	<allowoverlay>false</allowoverlay>
 	<onload condition="System.HasAddon(script.artistslideshow)">RunScript(script.artistslideshow, daemon=True)</onload>
-	<!-- <onload condition="Skin.HasSetting(Blur.Viz.Fanart) + System.HasAddon(script.toolbox)">RunScript(script.toolbox,info=blur,id=$INFO[Player.Art(fanart)])</onload> -->
 	<controls>
 		<control type="visualisation" id="2">
 			<!-- FIX ME Music Visualization needs to have an id of 2 in this window to be able to lock or change preset -->
@@ -13,7 +12,7 @@
 		</control>
 		<control type="group">
 			<visible>!StringCompare(Skin.String(Viz.Background),1)</visible>
-			<visible>!Skin.HasSetting(HideVisualizationFanart)</visible>
+			<visible>[Visualisation.Enabled + !Skin.HasSetting(HideVisualizationFanart)] | !Visualisation.Enabled</visible>
 			<include>SettingsFadeEffect</include>
 			<control type="multiimage" id="90300">
 				<description>Fanart image</description>
@@ -25,7 +24,9 @@
 		</control>
 		<control type="group">
 			<visible>StringCompare(Skin.String(Viz.Background),1)</visible>
+			<visible>[Visualisation.Enabled + !Skin.HasSetting(HideVisualizationFanart)] | !Visualisation.Enabled</visible>
 			<include>SettingsFadeEffect</include>
+			<animation effect="fade" start="100" end="20" time="0" condition="![StringCompare(Visualisation.Name,waveform) | StringCompare(Visualisation.Name,opengl spectrum) | StringCompare(Visualisation.Name,directx spectrum) | IsEmpty(Visualisation.Name)] + !Skin.HasSetting(HideVisualizationFanart)">Conditional</animation>
 			<control type="panel" id="9032">
 				<left>0</left>
 				<top>0</top>
@@ -79,7 +80,7 @@
 		<control type="fadelabel">
 			<left>0</left>
 			<top>0</top>
-			<heigth>1080</heigth>
+			<height>1080</height>
 			<width>FullScreenWidth</width>
 			<scroll>true</scroll>
 			<scrollout>true</scrollout>
@@ -97,7 +98,7 @@
 		<control type="fadelabel">
 			<left>0</left>
 			<top>0</top>
-			<heigth>1920</heigth>
+			<height>1920</height>
 			<width>1080</width>
 			<scroll>true</scroll>
 			<scrollout>true</scrollout>
