@@ -3,6 +3,8 @@
 	<defaultcontrol always="true">8</defaultcontrol>
 	<allowoverlay>no</allowoverlay>
 	<include condition="Skin.HasSetting(Enable.TvTunes)">LoadTvTunes</include>
+	<onload>RunScript(script.toolbox,info=blur,id='"$VAR[PosterVar]"',radius=20,prefix=VideoInfo)</onload>
+	<onunload>ClearProperty(ImageFilter,home)</onunload>
 	<controls>
 		<control type="group">
 			<animation effect="slide" start="-729,0" end="0,0" time="500" tween="quadratic">WindowOpen</animation>
@@ -33,11 +35,26 @@
 				<height>1080</height>
 				<aspectratio align="center">scale</aspectratio>
 				<texture background="true">$INFO[ListItem.Art(fanart)]</texture>
+				<visible>!Skin.HasSetting(Enable.BlurredVideoInfo)</visible>
+			</control>
+			<control type="image">
+				<width>1192</width>
+				<height>1080</height>
+				<aspectratio align="center">scale</aspectratio>
+				<texture background="true">$INFO[Window(home).Property(VideoInfo.ImageFilter)]</texture>
+				<visible>Skin.HasSetting(Enable.BlurredVideoInfo)</visible>
+			</control>
+			<control type="image">
+				<width>1192</width>
+				<height>1080</height>
+				<texture border="4" colordiffuse="80e5e5e5">dialogs/info/info_rightpaneltop.png</texture>
+				<visible>Skin.HasSetting(Enable.BlurredVideoInfo)</visible>
 			</control>
 			<control type="image">
 				<width>1192</width>
 				<height>1080</height>
 				<texture border="4">dialogs/info/info_rightpaneltop.png</texture>
+				<visible>!Skin.HasSetting(Enable.BlurredVideoInfo)</visible>
 			</control>
 			<control type="group">
 				<left>40</left>
@@ -792,7 +809,7 @@
 					<font>font12</font>
 					<textcolor>grey</textcolor>
 					<scroll>true</scroll>
-					<visible>Skin.HasSetting(Enable.ExtendedMPAA)</visible>
+					<visible>Skin.HasSetting(Enable.ExtendedMPAA) + Container.Content(movies)</visible>
 				</control>
 				<control type="panel" id="50">
 					<left>-36</left>
