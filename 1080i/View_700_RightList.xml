@@ -20,101 +20,57 @@
 				<left>5</left>
 				<top>395</top>
 				<visible>[!Skin.HasSetting(Enable.Rightlist.HidePoster.Movies) + Container.Content(movies)] | [!Skin.HasSetting(Enable.Rightlist.HidePoster.tvshows) + Container.Content(tvshows)] | [!Skin.HasSetting(Enable.Rightlist.HidePoster.seasons) + Container.Content(seasons)] | [!Skin.HasSetting(Enable.Rightlist.HidePoster.episodes) + Container.Content(episodes)]</visible>
-				<control type="image">
+				<control type="group">
 					<top>-200</top>
 					<left>30</left>
 					<width>380</width>
 					<height>380</height>
-					<aspectratio align="right">keep</aspectratio>
-					<texture background="true">$INFO[ListItem.Art(discart)]</texture>
-					<fadetime>IconCrossfadeTime</fadetime>
-					<animation type="WindowOpen" reversible="false">
-						<effect type="slide" tween="cubic" easing="inout" time="1500" delay="100" start="-800" end="0" />
-						<effect type="rotate" end="-360" center="auto" time="2000" delay="0" loop="false" tween="cubic" easing="inout" />
-					</animation>
-					<animation type="Conditional" reversible="false" condition="!Container.OnNext + !Container.OnPrevious">
-						<effect type="rotate" end="-360" center="auto" time="6400" delay="1200" loop="false" tween="cubic" easing="inout" />
-					</animation>
 					<visible>Container.Content(movies) + Skin.HasSetting(discrightlist)</visible>
+					<control type="image">
+						<aspectratio align="right">keep</aspectratio>
+						<texture background="true">$INFO[ListItem.Art(discart)]</texture>
+						<fadetime>IconCrossfadeTime</fadetime>
+						<include>RightListDiscAnimation</include>
+					</control>
+					<control type="image">
+						<aspectratio align="right">keep</aspectratio>
+						<texture background="true">$INFO[Window(home).Property(Set.Movie.1.Art(discart))]</texture>
+						<fadetime>IconCrossfadeTime</fadetime>
+						<animation type="WindowOpen" reversible="false">
+							<effect type="slide" tween="cubic" easing="inout" time="1500" delay="100" start="-800" end="0" />
+							<effect type="rotate" end="-360" center="auto" time="2000" delay="0" loop="false" tween="cubic" easing="inout" />
+						</animation>
+						<animation type="Conditional" reversible="false" condition="!Container.OnNext + !Container.OnPrevious">
+							<effect type="rotate" end="-360" center="auto" time="6400" delay="1200" loop="false" tween="cubic" easing="inout" />
+						</animation>
+						<visible>ListItem.IsCollection</visible>
+					</control>
+					<control type="image">
+						<aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
+						<texture background="true" diffuse="thumbs/sets/cdart-mask.png">$INFO[ListItem.Art(poster)]</texture>
+						<include>RightListDiscAnimation</include>
+						<visible>IsEmpty(ListItem.Art(discart)) + !IsEmpty(ListItem.Art(poster)) + StringCompare(Skin.String(RightList.FakeDisc),Default) + !ListItem.IsCollection</visible>
+					</control>
+					<control type="image">
+						<aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
+						<texture background="true">$VAR[FakeDiscOuterRingVar]</texture>
+						<include>RightListDiscAnimation</include>
+						<visible>IsEmpty(ListItem.Art(discart)) + !IsEmpty(ListItem.Art(poster)) + Container.Content(movies) + StringCompare(Skin.String(RightList.FakeDisc),Default) + !ListItem.IsCollection</visible>
+					</control>
+					<control type="image">
+						<aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
+						<texture background="true">$VAR[FakeHandWrittenDiscVar]</texture>
+						<include>RightListDiscAnimation</include>
+						<visible>IsEmpty(ListItem.Art(discart)) + !IsEmpty(ListItem.Art(poster)) + StringCompare(Skin.String(RightList.FakeDisc),Handwritten)</visible>
+					</control>
 				</control>
 				<control type="image">
-					<top>-200</top>
-					<left>30</left>
-					<width>380</width>
-					<height>380</height>
-					<aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
-					<texture background="true" diffuse="thumbs/sets/cdart-mask.png">$INFO[ListItem.Art(poster)]</texture>
-					<animation type="WindowOpen" reversible="false">
-						<effect type="slide" tween="cubic" easing="inout" time="1500" delay="100" start="-800" end="0" />
-						<effect type="rotate" end="-360" center="auto" time="2000" delay="0" loop="false" reversible="false" tween="cubic" easing="inout" />
-					</animation>
-					<animation type="Conditional" reversible="false" condition="!Container.OnNext + !Container.OnPrevious">
-						<effect type="rotate" end="-360" center="auto" time="6400" delay="1200" loop="false" reversible="false" tween="cubic" easing="inout" />
-					</animation>
-					<visible>Skin.Hassetting(discrightlist) + IsEmpty(ListItem.Art(discart)) + !IsEmpty(ListItem.Art(poster)) + Container.Content(movies) + Skin.HasSetting(Fakediscart) + !ListItem.IsCollection</visible>
-				</control>
-				<control type="image">
-					<top>-200</top>
-					<left>30</left>
-					<width>380</width>
-					<height>380</height>
-					<aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
-					<texture background="true">$VAR[FakeDiscArtOverlay]</texture>
-					<animation type="WindowOpen" reversible="false">
-						<effect type="slide" tween="cubic" easing="inout" time="1500" delay="100" start="-800" end="0" />
-						<effect type="rotate" end="-360" center="auto" time="2000" delay="0" loop="false" reversible="false" tween="cubic" easing="inout" />
-					</animation>
-					<animation type="Conditional" reversible="false" condition="!Container.OnNext + !Container.OnPrevious">
-						<effect type="rotate" end="-360" center="auto" time="6400" delay="1200" loop="false" reversible="false" tween="cubic" easing="inout" />
-					</animation>
-					<visible>Skin.Hassetting(discrightlist) + IsEmpty(ListItem.Art(discart)) + !IsEmpty(ListItem.Art(poster)) + Container.Content(movies) + Skin.HasSetting(Fakediscart) + !ListItem.IsCollection</visible>
-				</control>
-				<control type="image">
-					<top>-200</top>
-					<left>30</left>
-					<width>380</width>
-					<height>380</height>
-					<aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
-					<texture background="true">$VAR[FakeDischand]</texture>
-					<animation type="WindowOpen" reversible="false">
-						<effect type="slide" tween="cubic" easing="inout" time="1500" delay="100" start="-800" end="0" />
-						<effect type="rotate" end="-360" center="auto" time="2000" delay="0" loop="false" reversible="false" tween="cubic" easing="inout" />
-					</animation>
-					<animation type="Conditional" reversible="false" condition="!Container.OnNext + !Container.OnPrevious">
-						<effect type="rotate" end="-360" center="auto" time="6400" delay="1200" loop="false" reversible="false" tween="cubic" easing="inout" />
-					</animation>
-					<visible>Skin.Hassetting(discrightlist) + IsEmpty(ListItem.Art(discart)) + !IsEmpty(ListItem.Art(poster)) + Container.Content(movies) + Skin.HasSetting(Fakedischandwriting) + !SubString(ListItem.Path,videodb://movies/sets) + !Skin.Hassetting(Fakehanddisccolor)</visible>
-				</control>
-				<control type="image">
-					<top>-200</top>
-					<left>30</left>
-					<width>380</width>
-					<height>380</height>
-					<aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
-					<texture background="true">$VAR[FakeDischandcolor]</texture>
-					<animation type="WindowOpen" reversible="false">
-						<effect type="slide" tween="cubic" easing="inout" time="1500" delay="100" start="-800" end="0" />
-						<effect type="rotate" end="-360" center="auto" time="2000" delay="0" loop="false" reversible="false" tween="cubic" easing="inout" />
-					</animation>
-					<animation type="Conditional" reversible="false" condition="!Container.OnNext + !Container.OnPrevious">
-						<effect type="rotate" end="-360" center="auto" time="6400" delay="1200" loop="false" reversible="false" tween="cubic" easing="inout" />
-					</animation>
-					<visible>Skin.Hassetting(discrightlist) + IsEmpty(ListItem.Art(discart)) + !IsEmpty(ListItem.Art(poster)) + Container.Content(movies) + Skin.HasSetting(Fakedischandwriting) + !SubString(ListItem.Path,videodb://movies/sets) + Skin.Hassetting(Fakehanddisccolor)</visible>
-				</control>
-				<control type="textbox">
-					<animation effect="rotate" end="-360" center="216,-8" time="6400" delay="1200" loop="false" reversible="false" tween="cubic" easing="inout" condition="!Container.OnNext + !Container.OnPrevious">Conditional</animation>
-					<top>30</top>
-					<left>92</left>
-					<width>270</width>
-					<height>170</height>
-					<align>center</align>
-					<font>Hand_28</font>
-					<visible>Skin.Hassetting(discrightlist) + IsEmpty(ListItem.Art(discart)) + Container.Content(movies) + Skin.HasSetting(Fakedischandwriting) + !SubString(ListItem.Path,videodb://movies/sets) + IsEmpty(ListItem.Art(clearlogo))</visible>
-					<label> $INFO[ListItem.Label]</label>
-					<textcolor>black</textcolor>
-					<wrapmultiline>true</wrapmultiline>
-				</control>
-				<control type="image">
+					<left>108</left>
+					<top>-153</top>
+					<width>230</width>
+					<height>70</height>
+					<aspectratio aligny="bottom">keep</aspectratio>
+					<texture background="true" fallback="empty.png">$INFO[ListItem.Art(clearlogo)]</texture>
 					<animation type="WindowOpen" reversible="false">
 						<effect type="slide" tween="cubic" easing="inout" time="1500" delay="100" start="-800" end="0" />
 						<effect type="rotate" end="-360" center="218,-8" time="2000" delay="0" loop="false" reversible="false" tween="cubic" easing="inout" />
@@ -122,30 +78,26 @@
 					<animation type="Conditional" reversible="false" condition="!Container.OnNext + !Container.OnPrevious">
 						<effect type="rotate" end="-360" center="218,-8" time="6400" delay="1200" loop="false" reversible="false" tween="cubic" easing="inout" />
 					</animation>
-					<left>108</left>
-					<top>-153</top>
-					<width>230</width>
-					<height>70</height>
-					<aspectratio aligny="bottom">keep</aspectratio>
-					<texture background="true" fallback="empty.png">$INFO[ListItem.Art(clearlogo)]</texture>
-					<visible>Skin.HasSetting(rightlistlogomovie) + Container.Content(movies) + !IsEmpty(ListItem.Art(clearlogo)) + IsEmpty(ListItem.Art(discart)) + !SubString(ListItem.Path,videodb://movies/sets) + Skin.HasSetting(Fakedischandwriting)</visible>
+					<visible>!IsEmpty(ListItem.Art(clearlogo)) + IsEmpty(ListItem.Art(discart)) + StringCompare(Skin.String(RightList.FakeDisc),Handwritten)</visible>
 				</control>
-				<control type="image">
-					<top>-200</top>
-					<left>30</left>
-					<width>380</width>
-					<height>380</height>
-					<aspectratio align="right">keep</aspectratio>
-					<texture background="true">$INFO[Window(home).Property(Set.Movie.1.Art(discart))]</texture>
-					<fadetime>IconCrossfadeTime</fadetime>
+				<control type="textbox">
+					<top>-160</top>
+					<left>100</left>
+					<width>230</width>
+					<height>120</height>
+					<align>center</align>
+					<label> $INFO[ListItem.Label]</label>
+					<font>hand_45</font>
+					<textcolor>black</textcolor>
+					<wrapmultiline>true</wrapmultiline>
 					<animation type="WindowOpen" reversible="false">
 						<effect type="slide" tween="cubic" easing="inout" time="1500" delay="100" start="-800" end="0" />
-						<effect type="rotate" end="-360" center="auto" time="2000" delay="0" loop="false" tween="cubic" easing="inout" />
+						<effect type="rotate" end="-360" center="218,-8" time="2000" delay="0" loop="false" reversible="false" tween="cubic" easing="inout" />
 					</animation>
 					<animation type="Conditional" reversible="false" condition="!Container.OnNext + !Container.OnPrevious">
-						<effect type="rotate" end="-360" center="auto" time="6400" delay="1200" loop="false" tween="cubic" easing="inout" />
+						<effect type="rotate" end="-360" center="218,-8" time="6400" delay="1200" loop="false" reversible="false" tween="cubic" easing="inout" />
 					</animation>
-					<visible>ListItem.IsCollection + Skin.HasSetting(discrightlist)</visible>
+					<visible>Skin.Hassetting(discrightlist) + IsEmpty(ListItem.Art(discart)) + Container.Content(movies) + StringCompare(Skin.String(RightList.FakeDisc),Handwritten) + !ListItem.IsCollection + IsEmpty(ListItem.Art(clearlogo))</visible>
 				</control>
 				<control type="image">
 					<width>440</width>
