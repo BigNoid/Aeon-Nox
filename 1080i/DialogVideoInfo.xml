@@ -4,20 +4,9 @@
 	<allowoverlay>no</allowoverlay>
 	<onload>RunScript(script.toolbox,info=blur,id='"$VAR[PosterVar]"',radius=20,prefix=VideoInfo)</onload>
 	<onunload>ClearProperty(ImageFilter,home)</onunload>
-	<onload condition="Skin.HasSetting(Enable.ReplaceExtendedInfo) + Control.IsVisible(1200)">SetFocus(1200)</onload>
+	<onload condition="Skin.HasSetting(Enable.ReplaceExtendedInfo) + [Container.Content(movies) | Stringcompare(Container.FolderPath,videodb://tvshows/titles/) + Substring(Container.FolderPath,videodb://tvshows/titles/,left) + !Container.Content(episodes) + !Container.Content(seasons)]">Action(close)</onload>
+	<onload condition="Skin.HasSetting(Enable.ReplaceExtendedInfo) + [Container.Content(movies) | Stringcompare(Container.FolderPath,videodb://tvshows/titles/) + Substring(Container.FolderPath,videodb://tvshows/titles/,left) + !Container.Content(episodes) + !Container.Content(seasons)]">RunScript(script.extendedinfo,info=openinfodialog)</onload>
 	<controls>
-		<control type="button" id="1200">
-			<include>HiddenObject</include>
-			<onfocus>Dialog.Close(movieinformation)</onfocus>
-			<onfocus>RunScript(script.extendedinfo,info=extendedinfo,dbid=$INFO[ListItem.DBID],name=$INFO[ListItem.Title])</onfocus>
-			<visible>Container.Content(movies)</visible>
-		</control>
-		<control type="button" id="1200">
-			<include>HiddenObject</include>
-			<onfocus>Dialog.Close(movieinformation)</onfocus>
-			<onfocus>RunScript(script.extendedinfo,info=extendedtvinfo,dbid=$INFO[ListItem.DBID],name=$INFO[ListItem.Title])</onfocus>
-			<visible>Stringcompare(Container.FolderPath,videodb://tvshows/titles/) + Substring(Container.FolderPath,videodb://tvshows/titles/,left) + !Container.Content(episodes) + !Container.Content(seasons)</visible>
-		</control>
 		<control type="group">
 			<visible>!Skin.HasSetting(Enable.ReplaceExtendedInfo) | [!Stringcompare(Container.FolderPath,videodb://tvshows/titles/) + Substring(Container.FolderPath,videodb://tvshows/titles/,left)]</visible>
 			<control type="group">
