@@ -11,8 +11,6 @@
 		<viewtype label="BigFan">list</viewtype>
 		<preloaditems>2</preloaditems>
 		<scrolltime tween="quadratic">200</scrolltime>
-		<focusposition>1</focusposition>
-		<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons)</visible>
 		<itemlayout width="1080" height="1920"></itemlayout>
 		<focusedlayout width="1080" height="1920">
 			<control type="group">
@@ -38,8 +36,9 @@
 	</include>
 	<include name="View_591_BigFan">
 		<control type="group">
-			<include>ViewAnimation</include>
 			<include>BigFanList</include>
+			<include>Window_OpenClose_Animation</include>
+			<include>ViewAnimation</include>
 			<include>VisibleFadeEffect</include>
 			<visible>Control.IsVisible(591) + !Window.IsActive(addoninformation)</visible>
 			<!-- IMDb Logo -->
@@ -67,16 +66,14 @@
 					<shadowcolor>shadow</shadowcolor>
 					<textcolor>fffeec900</textcolor>
 				</control>
-				<!--
-				<control type="image">
+				<!--<control type="image">
 					<width>125</width>
 					<height>175</height>
 					<align>center</align>
 					<aspectratio>keep</aspectratio>
 					<texture background="true">oscars.png</texture>
 					<visible>SubString(ListItem.FileName,.oscars) | StringCompare(Container.FolderPath,special://profile/playlists/video/BestPicture.xsp)</visible>
-				</control>
-				-->
+				</control>-->
 			</control>
 			<control type="image">
 				<top>675</top>
@@ -107,253 +104,157 @@
 				<aspectratio align="center" aligny="top">keep</aspectratio>
 			</control>
 			<control type="group">
-				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons)</visible>
-				<control type="group">
-					<left>1320</left>
-					<top>990</top>
-					<width>1840</width>
-					<height>90</height>
-					<include>VisibleFadeEffect</include>
-					<control type="image">
-						<left>-320</left>
-						<colordiffuse>grey2</colordiffuse>
-						<bordersize>2</bordersize>
-						<texture fallback="flags/studios/default-studio.png">$VAR[PathFlagsStudios]</texture>
-						<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [!Container.Content(seasons) + !IsEmpty(ListItem.Studio)]</visible>
-						<include>MediaFlagVars</include>
-					</control>
-					<control type="image">
-						<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [!Container.Content(seasons) + !IsEmpty(ListItem.MPAA)]</visible>
-						<left>-180</left>
-						<aspectratio>scale</aspectratio>
-						<colordiffuse>grey2</colordiffuse>
-						<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
-						<include>MediaFlagVars</include>
-						<visible>!Skin.HasSetting(coloredflags)</visible>
-					</control>
-					<control type="image">
-						<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)] + [!Container.Content(seasons) + !IsEmpty(ListItem.MPAA)]</visible>
-						<left>-180</left>
-						<colordiffuse>grey2</colordiffuse>
-						<aspectratio scalediffuse="false">center</aspectratio>
-						<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
-						<include>MediaFlagVars</include>
-						<visible>Skin.HasSetting(coloredflags)</visible>
-					</control>
-					<control type="image">
-						<left>-10</left>
-						<colordiffuse>grey2</colordiffuse>
-						<include>MediaFlagVars</include>
-						<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
-						<visible>!Container.Content(tvshows) + !IsEmpty(ListItem.VideoCodec)</visible>
-						<visible>!Skin.HasSetting(coloredflags)</visible>
-					</control>
-					<control type="image">
-						<left>-10</left>
-						<colordiffuse>grey2</colordiffuse>
-						<include>MediaFlagVars</include>
-						<texture>$VAR[SourceFlagVar,flags/colored/source/,.png]</texture>
-						<visible>!Container.Content(tvshows) + !IsEmpty(ListItem.VideoCodec)</visible>
-						<visible>Skin.HasSetting(coloredflags)</visible>
-					</control>
-					<control type="image">
-						<left>150</left>
-						<colordiffuse>grey2</colordiffuse>
-						<include>MediaFlagVars</include>
-						<texture>$VAR[PathFlagsResolution]</texture>
-						<visible>!Container.Content(tvshows) + !IsEmpty(ListItem.VideoResolution)</visible>
-					</control>
-					<control type="image">
-						<left>300</left>
-						<colordiffuse>grey2</colordiffuse>
-						<include>MediaFlagVars</include>
-						<texture>$VAR[PathFlagsAudio]</texture>
-						<visible>!IsEmpty(ListItem.AudioCodec)</visible>
-					</control>
-					<control type="image">
-						<left>450</left>
-						<colordiffuse>grey2</colordiffuse>
-						<include>MediaFlagVars</include>
-						<texture>$VAR[PathFlagsAudioChannels]</texture>
-						<visible>!IsEmpty(ListItem.AudioChannels)</visible>
-					</control>
-					<control type="group">
-						<visible>[!Container.Content(seasons) + !Container.Content(movies) + !IsEmpty(ListItem.Title)]</visible>
-						<width>200</width>
-						<control type="label">
-							<left>125</left>
-							<top>2</top>
-							<width>200</width>
-							<height>60</height>
-							<align>center</align>
-							<label>[B]$INFO[ListItem.Property(TotalSeasons)][/B]</label>
-							<font>font48</font>
-							<wrapmultiline>true</wrapmultiline>
-							<textcolor>grey</textcolor>
-						</control>
-						<control type="label">
-							<top>52</top>
-							<left>125</left>
-							<width>200</width>
-							<height>30</height>
-							<align>center</align>
-							<label>[LOWERCASE]$VAR[OneOrMoreSeasonsVar][/LOWERCASE]</label>
-							<font>font12</font>
-							<textcolor>grey</textcolor>
-						</control>
-					</control>
-					<control type="group">
-						<visible>!Container.Content(movies) + !IsEmpty(ListItem.Property(TotalEpisodes))</visible>
-						<width>200</width>
-						<control type="label">
-							<left>250</left>
-							<top>2</top>
-							<width>200</width>
-							<height>60</height>
-							<align>center</align>
-							<label>[B]$INFO[ListItem.Property(TotalEpisodes)][/B]</label>
-							<font>font48</font>
-							<wrapmultiline>true</wrapmultiline>
-							<textcolor>grey</textcolor>
-						</control>
-						<control type="label">
-							<top>52</top>
-							<left>250</left>
-							<width>200</width>
-							<height>30</height>
-							<align>center</align>
-							<label>[LOWERCASE]$VAR[OneOrMoreEpisodesVar][/LOWERCASE]</label>
-							<font>font12</font>
-							<textcolor>grey</textcolor>
-						</control>
-					</control>
-					<control type="group">
-						<visible>!Container.Content(movies) + !IsEmpty(ListItem.Property(UnWatchedEpisodes))</visible>
-						<width>200</width>
-						<control type="label">
-							<left>400</left>
-							<top>2</top>
-							<width>200</width>
-							<height>60</height>
-							<align>center</align>
-							<label>[B]$INFO[ListItem.Property(UnWatchedEpisodes)][/B]</label>
-							<font>font48</font>
-							<wrapmultiline>true</wrapmultiline>
-							<textcolor>grey</textcolor>
-						</control>
-						<control type="label">
-							<top>52</top>
-							<left>400</left>
-							<width>200</width>
-							<height>30</height>
-							<align>center</align>
-							<label>[LOWERCASE]$LOCALIZE[16101][/LOWERCASE]</label>
-							<font>font12</font>
-							<textcolor>grey</textcolor>
-						</control>
-					</control>
+				<top>-65</top>
+				<visible>Control.IsVisible(591) + !Window.IsActive(addoninformation)</visible>
+				<control type="label">
+					<left>300</left>
+					<top>910</top>
+					<width>1250</width>
+					<height>42</height>
+					<aligny>top</aligny>
+					<align>left</align>
+					<font>font16_title</font>
+					<textcolor>grey</textcolor>
+					<scroll>true</scroll>
+					<label>[B]$INFO[ListItem.Label][/B]</label>
+					<textoffsety>-2</textoffsety>
+					<textoffsetx>30</textoffsetx>
 				</control>
-				<control type="group">
-					<control type="label">
-						<posx>300</posx>
-						<posy>910</posy>
-						<width>1250</width>
-						<height>42</height>
-						<aligny>top</aligny>
-						<align>left</align>
-						<font>font16_title</font>
-						<textcolor>grey</textcolor>
-						<scroll>true</scroll>
-						<label>[B]$INFO[ListItem.Label][/B]</label>
-						<textoffsety>-2</textoffsety>
-						<textoffsetx>30</textoffsetx>
-					</control>
-					<control type="label">
-						<posx>300</posx>
-						<posy>960</posy>
-						<width>1105</width>
-						<height>30</height>
-						<align>left</align>
-						<font>font13_title</font>
-						<textcolor>grey</textcolor>
-						<label>$VAR[VideoSubLabelVar]</label>
-						<textoffsetx>30</textoffsetx>
-						<visible>!Container.Content(tvshows) + !Container.Content(seasons) + ![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
-					</control>
-					<control type="label">
-						<posx>300</posx>
-						<posy>1000</posy>
-						<width>700</width>
-						<height>30</height>
-						<align>left</align>
-						<font>font13_title</font>
-						<textcolor>grey</textcolor>
-						<label>$VAR[FloorSubLabelVar]</label>
-						<textoffsetx>30</textoffsetx>
-						<scroll>true</scroll>
-					</control>
-					<control type="label">
-						<top>960</top>
-						<left>330</left>
-						<width>1220</width>
-						<height>30</height>
-						<align>left</align>
-						<font>font13_title</font>
-						<textcolor>grey2</textcolor>
-						<label>Next Episode: $INFO[Window(Home).Property(NextAired.NextNumber)] - $INFO[Window(Home).Property(NextAired.NextTitle)]	  ($INFO[Window(Home).Property(NextAired.NextDay)])</label>
-						<visible>Container.Content(tvshows) + !IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
-					</control>
-					<control type="label">
-						<left>330</left>
-						<top>960</top>
-						<width>1220</width>
-						<height>30</height>
-						<align>left</align>
-						<label>$INFO[Window(Home).Property(NextAired.Status)]</label>
-						<font>font13_title</font>
-						<textcolor>grey2</textcolor>
-						<visible>Container.Content(tvshows) + IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
-					</control>
+				<control type="label">
+					<left>300</left>
+					<top>960</top>
+					<width>1105</width>
+					<height>30</height>
+					<align>left</align>
+					<font>font13_title</font>
+					<textcolor>grey</textcolor>
+					<label>$VAR[VideoSubLabelVar]</label>
+					<textoffsetx>30</textoffsetx>
+					<visible>Container.Content(movies) + !ListItem.IsCollection</visible>
+				</control>
+				<control type="label">
+					<left>300</left>
+					<top>1000</top>
+					<width>700</width>
+					<height>30</height>
+					<align>left</align>
+					<font>font13_title</font>
+					<textcolor>grey</textcolor>
+					<label>$VAR[FloorSubLabelVar]</label>
+					<textoffsetx>30</textoffsetx>
+					<scroll>true</scroll>
+				</control>
+				<control type="label">
+					<top>960</top>
+					<left>330</left>
+					<width>1220</width>
+					<height>30</height>
+					<align>left</align>
+					<font>font13_title</font>
+					<textcolor>grey2</textcolor>
+					<label>$LOCALIZE[31010]: $INFO[Window(Home).Property(NextAired.NextNumber)] - $INFO[Window(Home).Property(NextAired.NextTitle)] ($INFO[Window(Home).Property(NextAired.NextDay)])</label>
+					<visible>!IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
+				</control>
+				<control type="label">
+					<left>330</left>
+					<top>960</top>
+					<width>1220</width>
+					<height>30</height>
+					<align>left</align>
+					<label>$INFO[Window(Home).Property(NextAired.Status)]</label>
+					<font>font13_title</font>
+					<textcolor>grey2</textcolor>
+					<visible>IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
 				</control>
 			</control>
-			<control type="group">
-				<visible>Container.Content(seasons)</visible>
-				<include>VisibleFadeEffect</include>
-				<left>1320</left>
-				<top>1000</top>
-				<width>1840</width>
-				<height>90</height>
+			<control type="grouplist">
+				<left>1100</left>
+				<top>980</top>
+				<orientation>horizontal</orientation>
+				<visible>Container.Content(tvshows) | Container.Content(seasons)</visible>
+				<control type="label">
+					<width>168</width>
+					<include>HiddenObject</include>
+					<visible>Container.Content(seasons)</visible>
+				</control>
+				<control type="image">
+					<width>188</width>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[PathFlagsStudios]</texture>
+					<visible>!IsEmpty(ListItem.Title)</visible>
+				</control>
+				<control type="image">
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
+				</control>
 				<control type="group">
+					<top>-6</top>
+					<width>162.5</width>
+					<visible>!IsEmpty(ListItem.Property(TotalSeasons))</visible>
 					<control type="label">
-						<posx>350</posx>
-						<posy>925</posy>
-						<width>1250</width>
-						<height>42</height>
-						<aligny>top</aligny>
-						<align>left</align>
-						<font>font16_title</font>
-						<textcolor>grey</textcolor>
-						<scroll>true</scroll>
-						<label>[B]$INFO[ListItem.Label][/B]</label>
-						<textoffsety>-2</textoffsety>
-						<textoffsetx>30</textoffsetx>
-					</control>
-					<control type="image">
 						<left>0</left>
+						<top>2</top>
+						<height>60</height>
 						<align>center</align>
-						<colordiffuse>grey2</colordiffuse>
-						<bordersize>2</bordersize>
-						<texture fallback="flags/studios/default-studio.png">$INFO[ListItem.Studio,flags/studios/,.png]</texture>
-						<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
-						<include>MediaFlagVars</include>
+						<label>$INFO[ListItem.Property(TotalSeasons)]</label>
+						<font>font48_bold</font>
+						<wrapmultiline>true</wrapmultiline>
+						<textcolor>grey</textcolor>
 					</control>
-					<control type="image">
-						<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
-						<left>150</left>
-						<aspectratio>scale</aspectratio>
-						<colordiffuse>grey2</colordiffuse>
-						<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
-						<include>MediaFlagVars</include>
+					<control type="label">
+						<top>52</top>
+						<height>30</height>
+						<align>center</align>
+						<label>[LOWERCASE]$VAR[OneOrMoreSeasonsVar][/LOWERCASE]</label>
+						<font>font12</font>
+						<textcolor>grey</textcolor>
+					</control>
+				</control>
+				<control type="group">
+					<top>-6</top>
+					<width>162.5</width>
+					<visible>!IsEmpty(ListItem.Property(TotalEpisodes))</visible>
+					<control type="label">
+						<left>0</left>
+						<top>2</top>
+						<height>60</height>
+						<align>center</align>
+						<label>$INFO[ListItem.Property(TotalEpisodes)]</label>
+						<font>font48_bold</font>
+						<wrapmultiline>true</wrapmultiline>
+						<textcolor>grey</textcolor>
+					</control>
+					<control type="label">
+						<top>52</top>
+						<height>30</height>
+						<align>center</align>
+						<label>[LOWERCASE]$VAR[OneOrMoreEpisodesVar][/LOWERCASE]</label>
+						<font>font12</font>
+						<textcolor>grey</textcolor>
+					</control>
+				</control>
+				<control type="group">
+					<top>-6</top>
+					<width>162.5</width>
+					<visible>!IsEmpty(ListItem.Property(UnWatchedEpisodes))</visible>
+					<control type="label">
+						<left>0</left>
+						<height>60</height>
+						<align>center</align>
+						<label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+						<font>font48_bold</font>
+						<wrapmultiline>true</wrapmultiline>
+						<textcolor>grey</textcolor>
+					</control>
+					<control type="label">
+						<top>52</top>
+						<height>30</height>
+						<align>center</align>
+						<label>[LOWERCASE]$LOCALIZE[16101][/LOWERCASE]</label>
+						<font>font12</font>
+						<textcolor>grey</textcolor>
 					</control>
 				</control>
 			</control>
