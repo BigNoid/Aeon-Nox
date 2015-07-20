@@ -30,7 +30,7 @@
 					<width>689</width>
 					<height>90</height>
 					<texture border="1">separator5.png</texture>
-					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+					<visible>!ListItem.IsCollection</visible>
 				</control>
 				<control type="image">
 					<left>0</left>
@@ -49,7 +49,7 @@
 					<pagecontrol>61</pagecontrol>
 					<include>ShowCaseInfoPanelButtonsValues</include>
 					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(61)</autoscroll>
-					<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+					<visible>!ListItem.IsCollection</visible>
 				</control>
 				<control type="textbox" id="70">
 					<label>$VAR[VideoPlotVar]</label>
@@ -61,7 +61,7 @@
 					<pagecontrol>61</pagecontrol>
 					<include>ShowCaseInfoPanelButtonsValues</include>
 					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(61)</autoscroll>
-					<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+					<visible>ListItem.IsCollection</visible>
 				</control>
 				<control type="scrollbar" id="61">
 					<left>688</left>
@@ -80,40 +80,41 @@
 					<orientation>vertical</orientation>
 				</control>
 			</control>
-			<control type="group">
-				<left>1180</left>
+			<control type="grouplist">
+				<left>1160</left>
 				<top>863</top>
 				<width>1815</width>
 				<height>90</height>
+				<orientation>horizontal</orientation>
 				<include>VisibleFadeEffect</include>
-				<visible>![Container.Content(tvshows) | Container.Content(seasons)] + [Container.Content(movies) | Container.Content(episodes)]</visible>
+				<visible>Container.Content(movies) | Container.Content(episodes)</visible>
 				<control type="image">
-					<left>0</left>
+					<width>168</width>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
 					<texture>$VAR[PathFlagsResolution]</texture>
 					<visible>!IsEmpty(ListItem.VideoResolution)</visible>
 				</control>
 				<control type="image">
-					<left>165</left>
+					<width>168</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[PathFlagsSource]</texture>
+					<visible>!IsEmpty(ListItem.VideoCodec)</visible>
+				</control>
+				<control type="image">
+					<width>168</width>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
 					<texture>$VAR[PathFlagsAudio]</texture>
 					<visible>!IsEmpty(ListItem.AudioCodec)</visible>
 				</control>
 				<control type="image">
-					<left>330</left>
+					<width>168</width>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
 					<texture>$VAR[PathFlagsAudioChannels]</texture>
 					<visible>!IsEmpty(ListItem.AudioChannels)</visible>
-				</control>
-				<control type="image">
-					<left>495</left>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$VAR[PathFlagsSource]</texture>
-					<visible>!IsEmpty(ListItem.VideoCodec)</visible>
 				</control>
 			</control>
 			<control type="group">
@@ -172,7 +173,7 @@
 					</control>
 				</control>
 				<control type="group">
-					<visible>!Container.Content(movies) + !IsEmpty(ListItem.Property(UnWatchedEpisodes))</visible>
+					<visible>!IsEmpty(ListItem.Property(UnWatchedEpisodes))</visible>
 					<top>-5</top>
 					<left>330</left>
 					<width>175</width>
@@ -196,8 +197,7 @@
 						<textcolor>grey2</textcolor>
 					</control>
 				</control>
-				<!--
-				<control type="image" id="800093">
+				<!--control type="image" id="800093">
 					<left>330</left>
 					<width>165</width>
 					<colordiffuse>grey2</colordiffuse>
@@ -216,8 +216,7 @@
 					<textcolor>white</textcolor>
 					<wrapmultiline>true</wrapmultiline>
 					<visible>IsEmpty(Control.GetLabel(800093))</visible>
-				</control>
-				-->
+				</control>-->
 				<control type="image">
 					<left>495</left>
 					<colordiffuse>grey2</colordiffuse>
@@ -302,8 +301,7 @@
 							<align>left</align>
 							<aligny>center</aligny>
 							<label fallback="• • • •">$INFO[ListItem.Year]</label>
-							<visible>!IsEmpty(ListItem.Title)</visible>
-							<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+							<visible>!IsEmpty(ListItem.Title) + !ListItem.IsCollection</visible>
 						</control>
 						<control type="label">
 							<left>15</left>
@@ -315,8 +313,7 @@
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>• • • •</label>
-							<visible>!IsEmpty(ListItem.Title)</visible>
-							<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+							<visible>!IsEmpty(ListItem.Title) + ListItem.IsCollection</visible>
 						</control>
 						<control type="label">
 							<left>110</left>
@@ -349,7 +346,7 @@
 							<selectedcolor>selected</selectedcolor>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Rating]</label>
-							<visible>!Skin.HasSetting(Enable.HideRatings) + ![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+							<visible>!Skin.HasSetting(Enable.HideRatings) + !ListItem.IsCollection</visible>
 						</control>
 						<control type="image">
 							<left>940</left>
@@ -394,8 +391,7 @@
 							<aligny>center</aligny>
 							<label fallback="• • • •">$INFO[ListItem.Year]</label>
 							<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(602)">Conditional</animation>
-							<visible>!IsEmpty(ListItem.Title)</visible>
-							<visible>![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+							<visible>!IsEmpty(ListItem.Title) + !ListItem.IsCollection</visible>
 						</control>
 						<control type="label">
 							<left>15</left>
@@ -407,8 +403,7 @@
 							<aligny>center</aligny>
 							<label>• • • •</label>
 							<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(602)">Conditional</animation>
-							<visible>!IsEmpty(ListItem.Title)</visible>
-							<visible>[SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+							<visible>!IsEmpty(ListItem.Title) + ListItem.IsCollection</visible>
 						</control>
 						<control type="label">
 							<left>110</left>
@@ -440,7 +435,7 @@
 							<selectedcolor>selected</selectedcolor>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Rating]</label>
-							<visible>!Skin.HasSetting(Enable.HideRatings) + ![SubString(ListItem.Path,videodb://movies/sets) + !Stringcompare(ListItem.Label,..)]</visible>
+							<visible>!Skin.HasSetting(Enable.HideRatings) + !ListItem.IsCollection</visible>
 							<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(602)">Conditional</animation>
 						</control>
 						<control type="image">
