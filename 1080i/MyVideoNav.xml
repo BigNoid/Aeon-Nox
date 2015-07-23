@@ -2,7 +2,7 @@
 <window>
 	<defaultcontrol always="true">50</defaultcontrol>
 	<allowoverlay>true</allowoverlay>
-	<views>50,602,501,507,51,52,53,55,56,57,58,601,506,59,500,499,502,503,609,504,505,591,592,700</views>
+	<views>50,602,501,507,51,52,53,55,56,57,58,601,506,59,500,499,502,503,609,504,505,591,592,700,701</views>
 	<onload>SetProperty(Window.HasSettings,True,home)</onload>
 	<onload>ClearProperty(MediaMenu,Home)</onload>
 	<onunload>ClearProperty(Window.HasSettings,Home)</onunload>
@@ -57,6 +57,22 @@
 			<animation effect="fade" end="100" time="120" delay="1600">WindowOpen</animation>
 			<animation effect="fade" end="100" time="120" delay="1600">Visible</animation>
 			<visible>Control.IsVisible(53) + Skin.HasSetting(showcasemod) + !Skin.HasSetting(boxsetmod) + !Container.Content(genres) + [Container.Content(movies) | Container.Content(sets)] + ListItem.IsCollection</visible>
+		</control>
+		<control type="label" id="4447">
+			<label>ShowCase Mod</label>
+			<include>HiddenObject</include>
+			<include condition="!IsEmpty(Skin.String(MyFlix.Delay))">MyFlixDelayAnimation</include>
+			<animation effect="fade" end="100" time="120" delay="1600">WindowOpen</animation>
+			<animation effect="fade" end="100" time="120" delay="1600">Visible</animation>
+			<visible>Control.IsVisible(701) + !ListItem.IsCollection</visible>
+		</control>
+		<control type="label" id="4448">
+			<label>ShowCase Mod</label>
+			<include>HiddenObject</include>
+			<include condition="!IsEmpty(Skin.String(MyFlix.Delay))">MyFlixDelayAnimation</include>
+			<animation effect="fade" end="100" time="120" delay="1600">WindowOpen</animation>
+			<animation effect="fade" end="100" time="120" delay="1600">Visible</animation>
+			<visible>Control.IsVisible(701) + ListItem.IsCollection</visible>
 		</control>
 		<include>CommonBackground</include>
 		<control type="group">
@@ -116,6 +132,8 @@
 			<!-- view id = 609 -->
 			<include>Video_RightList</include>
 			<!-- view id = 700 -->
+			<include>View_701_MyFlix</include>
+			<!-- view id = 701 -->
 		</control>
 		<control type="group">
 			<visible>Control.IsVisible(52) | Control.IsVisible(53) | Control.IsVisible(500) | Control.IsVisible(55) | Control.IsVisible(56) | Control.IsVisible(57) | Control.IsVisible(58) | Control.IsVisible(59) | Control.IsVisible(499) | Control.IsVisible(601)</visible>
@@ -145,7 +163,7 @@
 						<label>$VAR[FloorLabelVar]</label>
 						<textoffsety>-2</textoffsety>
 						<textoffsetx>0</textoffsetx>
-						<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons)</visible>
+						<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(sets)</visible>
 						<visible>!Control.IsVisible(59)</visible>
 					</control>
 					<control type="image">
@@ -805,6 +823,184 @@
 			</control>
 			<control type="image">
 				<left>1200</left>
+				<colordiffuse>grey</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$VAR[PathFlagsAudioChannels]</texture>
+				<visible>!IsEmpty(ListItem.AudioChannels) + !Container.Content(seasons)</visible>
+			</control>
+			<control type="grouplist">
+				<orientation>horizontal</orientation>
+				<left>555</left>
+				<visible>Control.IsVisible(700) + [Container.Content(tvshows) | Container.Content(seasons)]</visible>
+				<control type="label">
+					<width>168</width>
+					<include>HiddenObject</include>
+					<visible>Container.Content(seasons)</visible>
+				</control>
+				<control type="image">
+					<width>188</width>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[PathFlagsStudios]</texture>
+					<visible>!IsEmpty(ListItem.Title)</visible>
+				</control>
+				<control type="image">
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
+				</control>
+				<control type="group">
+					<top>-6</top>
+					<width>162.5</width>
+					<visible>!IsEmpty(ListItem.Property(TotalSeasons))</visible>
+					<control type="label">
+						<left>0</left>
+						<top>2</top>
+						<height>60</height>
+						<align>center</align>
+						<label>$INFO[ListItem.Property(TotalSeasons)]</label>
+						<font>font48_bold</font>
+						<wrapmultiline>true</wrapmultiline>
+						<textcolor>grey</textcolor>
+					</control>
+					<control type="label">
+						<top>52</top>
+						<height>30</height>
+						<align>center</align>
+						<label>[LOWERCASE]$VAR[OneOrMoreSeasonsVar][/LOWERCASE]</label>
+						<font>font12</font>
+						<textcolor>grey</textcolor>
+					</control>
+				</control>
+				<control type="group">
+					<visible>!IsEmpty(ListItem.Property(TotalEpisodes))</visible>
+					<width>162.5</width>
+					<top>-6</top>
+					<control type="label">
+						<left>0</left>
+						<top>2</top>
+						<height>60</height>
+						<align>center</align>
+						<label>$INFO[ListItem.Property(TotalEpisodes)]</label>
+						<font>font48_bold</font>
+						<wrapmultiline>true</wrapmultiline>
+						<textcolor>grey</textcolor>
+					</control>
+					<control type="label">
+						<top>52</top>
+						<height>30</height>
+						<align>center</align>
+						<label>[LOWERCASE]$VAR[OneOrMoreEpisodesVar][/LOWERCASE]</label>
+						<font>font12</font>
+						<textcolor>grey</textcolor>
+					</control>
+				</control>
+				<control type="group">
+					<visible>!IsEmpty(ListItem.Property(UnWatchedEpisodes))</visible>
+					<width>162.5</width>
+					<top>-6</top>
+					<control type="label">
+						<left>0</left>
+						<height>60</height>
+						<align>center</align>
+						<label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+						<font>font48_bold</font>
+						<wrapmultiline>true</wrapmultiline>
+						<textcolor>grey</textcolor>
+					</control>
+					<control type="label">
+						<top>52</top>
+						<height>30</height>
+						<align>center</align>
+						<label>[LOWERCASE]$LOCALIZE[16101][/LOWERCASE]</label>
+						<font>font12</font>
+						<textcolor>grey</textcolor>
+					</control>
+				</control>
+			</control>
+		</control>
+		<control type="group">
+			<left>200</left>
+			<top>990</top>
+			<width>1840</width>
+			<height>90</height>
+			<visible>Control.IsVisible(701) + !ListItem.IsCollection</visible>
+			<visible>!Window.IsActive(addoninformation)</visible>
+			<include>Window_OpenClose_Animation</include>
+			<include>ViewAnimation</include>
+			<control type="image" id="900018">
+				<left>-130</left>
+				<colordiffuse>grey</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$VAR[PathFlagsStudios]</texture>
+				<visible>!IsEmpty(ListItem.Studio) + !Container.Content(tvshows) + !Container.Content(seasons)</visible>
+			</control>
+			<control type="label">
+				<left>-130</left>
+				<width>155</width>
+				<height>90</height>
+				<align>center</align>
+				<label>$INFO[ListItem.Studio]</label>
+				<font>font10</font>
+				<textcolor>grey</textcolor>
+				<wrapmultiline>true</wrapmultiline>
+				<visible>IsEmpty(Control.GetLabel(900018))</visible>
+			</control>
+			<control type="image">
+				<top>12</top>
+				<left>150</left>
+				<width>120</width>
+				<height>70</height>
+				<texture fallback="flags/colored/rating/NR.png">$VAR[ColoredRatingFlagVar]</texture>
+				<colordiffuse>grey</colordiffuse>
+				<include>MediaFlagVars</include>
+				<visible>Skin.HasSetting(coloredflags) + !Container.Content(tvshows) + !Container.Content(seasons) + !IsEmpty(ListItem.Title)</visible>
+			</control>
+			<control type="image">
+				<left>150</left>
+				<width>200</width>
+				<colordiffuse>grey</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
+				<visible>!Skin.HasSetting(coloredflags)	 + !Container.Content(tvshows) + !Container.Content(seasons) + !IsEmpty(ListItem.Title)</visible>
+			</control>
+			<control type="image">
+				<left>415</left>
+				<colordiffuse>grey</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$VAR[PathFlagsResolution]</texture>
+				<visible>!IsEmpty(ListItem.VideoResolution)</visible>
+				<include>VisibleFadeEffect</include>
+			</control>
+			<control type="image">
+				<left>690</left>
+				<colordiffuse>grey</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$VAR[SourceFlagVar,flags/colored/source/,.png]</texture>
+				<visible>Skin.HasSetting(coloredflags) + !IsEmpty(ListItem.VideoCodec)</visible>
+			</control>
+			<control type="image">
+				<left>690</left>
+				<colordiffuse>grey</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
+				<visible>!Skin.HasSetting(coloredflags) + !IsEmpty(ListItem.VideoCodec)</visible>
+			</control>
+			<control type="image">
+				<left>970</left>
+				<colordiffuse>grey</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$VAR[PathFlagsAspect]</texture>
+			</control>
+			<control type="image">
+				<left>1245</left>
+				<colordiffuse>grey</colordiffuse>
+				<include>MediaFlagVars</include>
+				<texture>$VAR[PathFlagsAudio]</texture>
+				<visible>!IsEmpty(ListItem.AudioCodec)</visible>
+			</control>
+			<control type="image">
+				<left>1524</left>
 				<colordiffuse>grey</colordiffuse>
 				<include>MediaFlagVars</include>
 				<texture>$VAR[PathFlagsAudioChannels]</texture>
