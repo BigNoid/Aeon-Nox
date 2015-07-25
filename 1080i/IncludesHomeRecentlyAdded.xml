@@ -5,10 +5,10 @@
 			<animation effect="slide" tween="cubic" time="720" start="0,-1080" end="0,0">WindowOpen</animation>
 			<animation effect="slide" tween="cubic" time="720" end="0,-1080" start="0,0">WindowClose</animation>
 			<animation effect="slide" end="0,338" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
-			<visible>[StringCompare(Container(9000).ListItem.Property(WidgetType),1) | StringCompare(Container(9000).ListItem.Property(WidgetType),2) | StringCompare(Container(9000).ListItem.Property(WidgetType),4) | StringCompare(Container(9000).ListItem.Property(WidgetType),5) | StringCompare(Container(9000).ListItem.Property(WidgetType),10) | StringCompare(Container(9000).ListItem.Property(WidgetType),14) | StringCompare(Container(9000).ListItem.Property(WidgetType),15) | StringCompare(Container(9000).ListItem.Property(WidgetType),16) | StringCompare(Container(9000).ListItem.Property(WidgetType),20)]</visible>
+			<visible>!IsEmpty(Container(9000).ListItem.Property(WidgetType))</visible>
 			<include>VisibleFadeEffect</include>
 			<control type="group">
-				<visible>ControlGroup(9003).HasFocus() + !Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(panelwidgets)</visible>
+				<visible>ControlGroup(9003).HasFocus() + !Skin.HasSetting(lowermainmenu)</visible>
 				<include>VisibleFadeEffect</include>
 				<control type="image">
 					<left>0</left>
@@ -27,7 +27,7 @@
 				</control>
 			</control>
 			<control type="group">
-				<visible>ControlGroup(9003).HasFocus() + Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(panelwidgets)</visible>
+				<visible>ControlGroup(9003).HasFocus() + Skin.HasSetting(lowermainmenu)</visible>
 				<include>VisibleFadeEffect</include>
 				<control type="image">
 					<left>0</left>
@@ -47,7 +47,7 @@
 			</control>
 			<!-- Classic Widgets -->
 			<control type="group">
-				<visible>Control.HasFocus(8000) + !Skin.HasSetting(panelwidgets)</visible>
+				<visible>Control.HasFocus(8000) + StringCompare(Container(9000).ListItem.Property(WidgetStyle),Classic)</visible>
 				<include>VisibleFadeEffect</include>
 				<control type="image">
 					<left>0</left>
@@ -102,7 +102,7 @@
 					<control type="label">
 						<width>900</width>
 						<height>35</height>
-						<font>font14_title</font>
+						<font>font14</font>
 						<textcolor>white2</textcolor>
 						<shadowcolor>black</shadowcolor>
 						<label>$INFO[Container(8000).ListItem.Genre]</label>
@@ -123,7 +123,7 @@
 						<font>font14</font>
 						<textcolor>white2</textcolor>
 						<shadowcolor>black</shadowcolor>
-						<label>$INFO[Container(8000).ListItem.Year]$INFO[Container(8000).ListItem.RatingAndVotes,  |  ]$INFO[Container(8000).ListItem.Duration,	 |	, $LOCALIZE[12391]]</label>
+						<label>$INFO[Container(8000).ListItem.Year]$INFO[Container(8000).ListItem.RatingAndVotes,  |  ]$INFO[Container(8000).ListItem.Duration,  |  , $LOCALIZE[12391]]</label>
 						<visible>IsEmpty(Container(8000).ListItem.Artist) + IsEmpty(Container(8000).ListItem.TvShowTitle)</visible>
 					</control>
 					<control type="label">
@@ -142,26 +142,17 @@
 						<textcolor>white2</textcolor>
 						<shadowcolor>black</shadowcolor>
 						<label>$INFO[Container(8000).ListItem.Director,$LOCALIZE[31000] ]</label>
-						<visible>!StringCompare(Container(9000).ListItem.Property(WidgetType),20) + [IsEmpty(Container(8000).ListItem.Artist) + IsEmpty(Container(8000).ListItem.TvShowTitle)] </visible>
+						<visible>IsEmpty(Container(8000).ListItem.Artist) + IsEmpty(Container(8000).ListItem.TvShowTitle)</visible>
 					</control>
-					<control type="label">
+					<!--<control type="label">
 						<width>900</width>
 						<height>35</height>
 						<font>font14</font>
 						<textcolor>white2</textcolor>
 						<shadowcolor>black</shadowcolor>
-						<label>$INFO[Container(8000).ListItem.mpaa,Rated ]</label>
-						<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),20)</visible>
-					</control>
-					<control type="label">
-						<width>900</width>
-						<height>35</height>
-						<font>font14</font>
-						<textcolor>white2</textcolor>
-						<shadowcolor>black</shadowcolor>
-						<label>$INFO[Container(8000).ListItem.mpaa,]</label>
-						<visible>!StringCompare(Container(9000).ListItem.Property(WidgetType),20) + [IsEmpty(Container(8000).ListItem.Artist) + IsEmpty(Container(8000).ListItem.TvShowTitle)]</visible>
-					</control>
+						<label>$INFO[Container(8000).ListItem.Property(episodeno)]</label>
+						<visible>!IsEmpty(Container(8000).ListItem.Property(episodeno))</visible>
+					</control>-->
 					<control type="label">
 						<width>900</width>
 						<height>35</height>
@@ -262,7 +253,7 @@
 			<control type="group">
 				<left>1420</left>
 				<top>20</top>
-				<visible>!Skin.HasSetting(panelwidgets)</visible>
+				<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),Classic)</visible>
 				<control type="group">
 					<animation type="Conditional" condition="Control.HasFocus(8000)">
 						<effect type="rotatey" start="0" end="180" center="221,0" time="400" tween="sine" easing="inout" />
@@ -382,7 +373,7 @@
 				</control>
 			</control>
 			<control type="group">
-				<visible>IsEmpty(Container(8000).ListItem.Label) + !Skin.HasSetting(panelwidgets)</visible>
+				<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),Classic) + IsEmpty(Container(8000).ListItem.Label)</visible>
 				<left>1583</left>
 				<top>183</top>
 				<control type="image">
@@ -402,675 +393,622 @@
 					<animation effect="rotate" start="360" end="0" center="auto" time="2000" loop="true" condition="true">conditional</animation>
 				</control>
 			</control>
-			<!-- Poster Panel Widgets -->
+
+
+
+
+
+
+
+
+			<!-- Widget Panel-->
 			<control type="group">
-				<visible>[StringCompare(Container(9000).ListItem.Property(WidgetType),1) | StringCompare(Container(9000).ListItem.Property(WidgetType),16) | StringCompare(Container(9000).ListItem.Property(WidgetType),20)]</visible>
-				<control type="image">
-					<left>175</left>
-					<top>-40</top>
-					<width>1560</width>
-					<height>480</height>
-					<texture border="40">dialogs/default/bg2.png</texture>
-					<visible>Skin.HasSetting(expandedwidgets) + Skin.HasSetting(panelwidgets)</visible>
+				<animation effect="rotatex" start="0" end="90" time="200" center="221,0" tween="sine" easing="inout" condition="Skin.HasSetting(HomeInfo)">conditional</animation>
+				<animation effect="fade" start="100" end="0" time="100" center="221,0" condition="Skin.HasSetting(HomeInfo)">conditional</animation>
+				<!-- Panel Background-->
+				<control type="group">
+					<include>WP-PanelVisible</include>
+					<control type="image">
+						<include>WP-LabelBackground</include>
+					</control>
+					<control type="image">
+						<include>WP-LabelBackground2</include>
+					</control>
+					<control type="image">
+						<include>WP-LabelBackground3</include>
+					</control>
+					<control type="image">
+						<include>WP-Background</include>
+					</control>
+					<control type="label">
+						<include>WP-Label</include>
+						<label>$INFO[Container(9000).ListItem.Property(WidgetLabel)]</label>
+					</control>
+					<control type="label">
+						<include>WP-Label2</include>
+						<label>$INFO[Container(8001).ListItem.Label]</label>
+						<visible>Control.HasFocus(8001)</visible>
+					</control>
 				</control>
-				<control type="image">
-					<left>175</left>
-					<top>50</top>
-					<width>1562</width>
-					<height>370</height>
-					<texture border="40">dialogs/default/bg2.png</texture>
-					<visible>!Skin.HasSetting(expandedwidgets) + Skin.HasSetting(panelwidgets)</visible>
+				<!-- Panel Updating -->
+				<control type="group">
+					<include>WP-PanelUpdatingVisible</include>
+					<left>912</left>
+					<top>211</top>
+					<control type="image">
+						<description>Busy animation</description>
+						<width>96</width>
+						<height>96</height>
+						<texture colordiffuse="labelheader">android/spinner_48_inner_holo.png</texture>
+						<aspectratio>keep</aspectratio>
+						<animation effect="rotate" start="0" end="360" center="auto" time="2000" loop="true" condition="true">conditional</animation>
+					</control>
+					<control type="image">
+						<description>Busy animation</description>
+						<width>96</width>
+						<height>96</height>
+						<texture>android/spinner_48_outer_holo.png</texture>
+						<aspectratio>keep</aspectratio>
+						<animation effect="rotate" start="360" end="0" center="auto" time="2000" loop="true" condition="true">conditional</animation>
+					</control>
 				</control>
-			</control>
-			<control type="group">
-				<left>810</left>
-				<top>425</top>
-				<width>300</width>
-				<height>40</height>
-				<font>font13</font>
-				<visible>Skin.HasSetting(panelwidgets)</visible>
-				<control type="label">
-					<align>center</align>
-					<textcolor>white</textcolor>
-					<shadowcolor>black</shadowcolor>
-					<label>$INFO[Container(9000).ListItem.Property(WidgetLabel)]</label>
+				<!-- Cover -->
+				<control type="panel" id="8001">
+					<include>WP-PanelPortrait</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),Cover)</visible>
+					<itemlayout height="305" width="216">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImagePortrait</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="216">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImagePortrait</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+						<control type="image">
+							<include>WP-PanelImagePortrait</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- Glass Cover -->
+				<control type="panel" id="8001">
+					<include>WP-PanelPortrait</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),GlassCover)</visible>
+					<itemlayout height="305" width="216">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImagePortraitGlass</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+						<control type="image">
+							<description>Glass Overlay</description>
+							<include>WP-PanelImagePortraitGlassOverlay</include>
+							<texture>thumbs/boxes/poster_shadow.png</texture>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="216">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImagePortraitGlass</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+						<control type="image">
+							<description>Glass Overlay</description>
+							<include>WP-PanelImagePortraitGlassOverlay</include>
+							<texture>thumbs/boxes/poster_shadow.png</texture>
+						</control>
+						<control type="image">
+							<include>WP-PanelImagePortrait</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- Case -->
+				<control type="panel" id="8001">
+					<include>WP-PanelPortrait</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),Case)</visible>
+					<itemlayout height="305" width="216">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImagePortraitCase</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+						<control type="image">
+							<description>Case Overlay</description>
+							<include>WP-PanelImagePortraitCaseOverlay</include>
+							<texture>thumbs/boxes/$VAR[GlobalCaseVar]</texture>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="216">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImagePortraitCase</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+						<control type="image">
+							<description>Case Overlay</description>
+							<include>WP-PanelImagePortraitCaseOverlay</include>
+							<texture>thumbs/boxes/$VAR[GlobalCaseVar]</texture>
+						</control>
+						<control type="image">
+							<include>WP-PanelImagePortrait</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- Clear Case -->
+				<control type="panel" id="8001">
+					<include>WP-PanelPortrait</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),ClearCase)</visible>
+					<itemlayout height="305" width="216">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImagePortraitClearCase</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+						<control type="image">
+							<description>Case Overlay</description>
+							<include>WP-PanelImagePortraitClearCaseOverlay</include>
+							<texture>thumbs/boxes/clearcases/$VAR[GlobalCaseVar]</texture>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="216">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImagePortraitClearCase</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+						<control type="image">
+							<description>Case Overlay</description>
+							<include>WP-PanelImagePortraitClearCaseOverlay</include>
+							<texture>thumbs/boxes/clearcases/$VAR[GlobalCaseVar]</texture>
+						</control>
+						<control type="image">
+							<include>WP-PanelImagePortrait</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- Music/App Cover -->
+				<control type="panel" id="8001">
+
+					<include>WP-PanelSquare</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),AlbumAppCover)</visible>
+
+					<itemlayout height="305" width="303" condition="!Skin.HasSetting(HomeInfo)">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImageSquare</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+						<control type="image">
+							<description>Fallbaack Music Videos</description>
+							<include>WP-PanelImageSquare</include>
+							<texture>$INFO[ListItem.Icon]</texture>
+							<visible>IsEmpty(ListItem.Art(poster)) +	StringCompare(Container(9000).ListItem.Property(WidgetType),21)</visible>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="303" condition="!Skin.HasSetting(HomeInfo)">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImageSquare</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+						<control type="image">
+							<description>Fallback Music Videos</description>
+							<include>WP-PanelImageSquare</include>
+							<texture>$INFO[ListItem.Icon]</texture>
+							<visible>IsEmpty(ListItem.Art(poster)) +	StringCompare(Container(9000).ListItem.Property(WidgetType),21)</visible>
+						</control>
+						<control type="image">
+							<include>WP-PanelImageSquare</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- Music/App Glass Cover -->
+				<control type="panel" id="8001">
+					<include>WP-PanelSquare</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),GlassAlbumAppCover)</visible>
+					<itemlayout height="305" width="303">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImageSquareGlass</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+						<control type="image">
+							<description>Fallback Music Videos</description>
+							<include>WP-PanelImageSquareGlass</include>
+							<texture>$INFO[ListItem.Icon]</texture>
+							<visible>IsEmpty(ListItem.Art(poster)) +	StringCompare(Container(9000).ListItem.Property(WidgetType),21)</visible>
+						</control>
+						<control type="image">
+							<description>Glass Overlay</description>
+							<include>WP-PanelImageSquareGlassOverlay</include>
+							<texture>thumbs/boxes/cd_shadow_light.png</texture>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="303">
+						<control type="image">
+							<description>Music Cover</description>
+							<include>WP-PanelImageSquareGlass</include>
+							<texture>$VAR[HomeWidgetCoverVar]</texture>
+						</control>
+						<control type="image">
+							<description>Fallback Music Videos</description>
+							<include>WP-PanelImageSquareGlass</include>
+							<texture>$INFO[ListItem.Icon]</texture>
+							<visible>IsEmpty(ListItem.Art(poster)) +	StringCompare(Container(9000).ListItem.Property(WidgetType),21)</visible>
+						</control>
+						<control type="image">
+							<description>Glass Overlay</description>
+							<include>WP-PanelImageSquareGlassOverlay</include>
+							<texture>thumbs/boxes/cd_shadow_light.png</texture>
+						</control>
+						<control type="image">
+							<include>WP-PanelImageSquare</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- Landscape -->
+				<control type="panel" id="8001">
+					<include>WP-PanelLandscape</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),Landscape)</visible>
+					<itemlayout height="305" width ="504">
+						<control type="image">
+							<description>Landscape</description>
+							<include>WP-PanelImageLandscape</include>
+							<texture>$VAR[HomeWidgetLandscapeVar]</texture>
+						</control>
+						<control type="image">
+							<description>Fallback Fanart</description>
+							<include>WP-PanelImageLandscape</include>
+							<texture>$VAR[HomeWidgetFanartVar]</texture>
+							<visible>IsEmpty(ListItem.Art(landscape)) + IsEmpty(ListItem.Art(tvshow.landscape))</visible>
+						</control>
+						<control type="image">
+							<description>Fallback Logo</description>
+							<include>WP-PanelImageLandscapeLogoFallback</include>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+							<visible>IsEmpty(ListItem.Art(landscape)) + IsEmpty(ListItem.Art(tvshow.landscape))</visible>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="504">
+						<control type="image">
+							<description>Landscape</description>
+							<include>WP-PanelImageLandscape</include>
+							<texture>$VAR[HomeWidgetLandscapeVar]</texture>
+						</control>
+						<control type="image">
+							<description>Fallback Fanart</description>
+							<include>WP-PanelImageLandscape</include>
+							<texture>$VAR[HomeWidgetFanartVar]</texture>
+							<visible>IsEmpty(ListItem.Art(landscape)) + IsEmpty(ListItem.Art(tvshow.landscape))</visible>
+						</control>
+						<control type="image">
+							<description>Fallback Logo</description>
+							<include>WP-PanelImageLandscapeLogoFallback</include>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+							<visible>IsEmpty(ListItem.Art(landscape)) + IsEmpty(ListItem.Art(tvshow.landscape))</visible>
+						</control>
+						<control type="image">
+							<include>WP-PanelImageLandscape</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- Fanart -->
+				<control type="panel" id="8001">
+					<include>WP-PanelLandscape</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),FanArt)	</visible>
+					<itemlayout height="305" width ="504">
+						<control type="image">
+							<description>FanArt</description>
+							<include>WP-PanelImageLandscape</include>
+							<texture>$VAR[HomeWidgetFanartVar]</texture>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="504">
+						<control type="image">
+							<description>FanArt</description>
+							<include>WP-PanelImageLandscape</include>
+							<texture>$VAR[HomeWidgetFanartVar]</texture>
+						</control>
+						<control type="image">
+							<include>WP-PanelImageLandscape</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- Fanart with ClearLogo-->
+				<control type="panel" id="8001">
+					<include>WP-PanelLandscape</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),FanArtClearLogo)</visible>
+					<itemlayout height="305" width ="504">
+						<control type="image">
+							<description>Fanart</description>
+							<include>WP-PanelImageLandscape</include>
+							<texture colordiffuse="77FFFFFF">$VAR[HomeWidgetFanArtVar]</texture>
+						</control>
+						<control type="image">
+							<description>Logo</description>
+							<include>WP-PanelImageLogo</include>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+						</control>
+						<control type="textbox">
+							<description>Fallback Text</description>
+							<include>WP-LandscapeTextMid</include>
+							<label>$INFO[ListItem.title]</label>
+							<visible>IsEmpty(ListItem.Art(tvshow.clearlogo)) + IsEmpty(ListItem.Art(clearlogo))</visible>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="504">
+						<control type="image">
+							<description>Fanart</description>
+							<include>WP-PanelImageLandscape</include>
+							<texture colordiffuse="77FFFFFF">$VAR[HomeWidgetFanArtVar]</texture>
+						</control>
+						<control type="image">
+							<description>Logo</description>
+							<include>WP-PanelImageLogo</include>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+						</control>
+						<control type="textbox">
+							<description>Fallback Text</description>
+							<include>WP-LandscapeTextMid</include>
+							<label>$INFO[ListItem.title]</label>
+							<visible>IsEmpty(ListItem.Art(tvshow.clearlogo)) + IsEmpty(ListItem.Art(clearlogo))</visible>
+						</control>
+						<control type="image">
+							<include>WP-PanelImageLandscape</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- ClearLogo-->
+				<control type="panel" id="8001">
+					<include>WP-PanelLandscape</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),ClearLogo)</visible>
+					<itemlayout height="305" width ="504">
+						<control type="image">
+							<description>Logo</description>
+							<include>WP-PanelImageLogo</include>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+						</control>
+						<control type="textbox">
+							<description>Fallback Text</description>
+							<include>WP-LandscapeTextMid</include>
+							<label>$INFO[ListItem.title]</label>
+							<visible>IsEmpty(ListItem.Art(tvshow.clearlogo)) + IsEmpty(ListItem.Art(clearlogo))</visible>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="504">
+						<control type="image">
+							<description>Logo</description>
+							<include>WP-PanelImageLogo</include>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+						</control>
+						<control type="textbox">
+							<description>Fallback Text</description>
+							<include>WP-LandscapeTextMid</include>
+							<label>$INFO[ListItem.title]</label>
+							<visible>IsEmpty(ListItem.Art(tvshow.clearlogo)) + IsEmpty(ListItem.Art(clearlogo))</visible>
+						</control>
+						<control type="image">
+							<include>WP-PanelImageLandscape</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- ClearArt -->
+				<control type="panel" id="8001">
+					<include>WP-PanelLandscape</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),ClearArt)</visible>
+					<itemlayout height="305" width ="504">
+						<control type="image">
+							<description>ClearArt</description>
+							<include>WP-PanelImageLogo</include>
+							<texture>$VAR[HomeWidgetClearArtVar]</texture>
+						</control>
+						<control type="image">
+							<description>Fallback ClearArt</description>
+							<include>WP-PanelImageLogo</include>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+							<visible>IsEmpty(ListItem.Art(clearart)) + IsEmpty(ListItem.Art(tvshow.clearart))</visible>
+						</control>
+						<control type="textbox">
+							<description>Fallback Text</description>
+							<include>WP-LandscapeTextMid</include>
+							<label>$INFO[ListItem.title]</label>
+							<visible>IsEmpty(ListItem.Art(clearart)) + IsEmpty(ListItem.Art(tvshow.clearart)) + IsEmpty(ListItem.Art(tvshow.clearlogo)) + IsEmpty(ListItem.Art(clearlogo))</visible>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="504">
+						<control type="image">
+							<description>ClearArt</description>
+							<include>WP-PanelImageLogo</include>
+							<texture>$VAR[HomeWidgetClearArtVar]</texture>
+						</control>
+						<control type="image">
+							<description>Fallback ClearArt</description>
+							<include>WP-PanelImageLogo</include>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+							<visible>IsEmpty(ListItem.Art(clearart)) + IsEmpty(ListItem.Art(tvshow.clearart))</visible>
+						</control>
+						<control type="textbox">
+							<description>Fallback Text</description>
+							<include>WP-LandscapeTextMid</include>
+							<label>$INFO[ListItem.title]</label>
+							<visible>IsEmpty(ListItem.Art(clearart)) + IsEmpty(ListItem.Art(tvshow.clearart)) + IsEmpty(ListItem.Art(tvshow.clearlogo)) + IsEmpty(ListItem.Art(clearlogo))</visible>
+						</control>
+						<control type="image">
+							<include>WP-PanelImageLandscape</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- Movie DiscArt -->
+				<control type="panel" id="8001">
+					<include>WP-PanelSquare</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),DiscArt)</visible>
+					<itemlayout height="305" width="303">
+						<control type="image">
+							<description>DiscArt</description>
+							<include>WP-PanelImageSquareGlass</include>
+							<texture>$VAR[HomeWidgetDiscArtVar]</texture>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="303">
+						<control type="image">
+							<description>Cover</description>
+							<include>WP-PanelImageSquareGlass</include>
+							<texture>$VAR[HomeWidgetDiscArtVar]</texture>
+						</control>
+						<control type="image">
+							<include>WP-PanelImageSquare</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- TV Character Art -->
+				<control type="panel" id="8001">
+					<include>WP-PanelSquare</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),CharacterArt)</visible>
+					<itemlayout height="305" width="303">
+						<control type="image">
+							<description>Character Art</description>
+							<include>WP-PanelImageSquareGlass</include>
+							<texture>$VAR[HomeWidgetCharacterArtVar]</texture>
+						</control>
+						<control type="image">
+							<description>TV Logo</description>
+							<include>WP-PanelImageLogoSquare</include>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="303">
+						<control type="image">
+							<description>Character Art</description>
+							<include>WP-PanelImageSquareGlass</include>
+							<texture>$VAR[HomeWidgetCharacterArtVar]</texture>
+						</control>
+						<control type="image">
+							<description>TV Logo</description>
+							<include>WP-PanelImageLogoSquare</include>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+						</control>
+						<control type="image">
+							<include>WP-PanelImageSquare</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				</control>
+				<!-- Banner -->
+				<control type="panel" id="8001">
+					<include>WP-PanelBanner</include>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),Banner)</visible>
+					<itemlayout height="155" width ="757">
+						<control type="image">
+							<description>Banner</description>
+							<include>WP-PanelImageBanner</include>
+							<texture>$VAR[HomeWidgetBannerVar]</texture>
+						</control>
+						<control type="image">
+							<description>Fanart Fallback</description>
+							<include>WP-PanelImageBanner</include>
+							<aspectratio aligny="center">scale</aspectratio>
+							<texture>$VAR[HomeWidgetFanartVar]</texture>
+							<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner))</visible>
+						</control>
+						<control type="image">
+							<description>Logo Fallback</description>
+							<include>WP-PanelImageBanner</include>
+							<aspectratio aligny="center">keep</aspectratio>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+							<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner))</visible>
+						</control>
+						<control type="label">
+							<description>Text Fallback</description>
+							<include>WP-BannerText</include>
+							<label>$INFO[ListItem.title]</label>
+							<visible>IsEmpty(ListItem.Art(clearlogo)) + IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner)) + IsEmpty(ListItem.Art(tvshow.clearlogo))</visible>
+						</control>
+					</itemlayout>
+					<focusedlayout height="305" width="504">
+						<control type="image">
+							<description>Banner</description>
+							<include>WP-PanelImageBanner</include>
+							<texture>$VAR[HomeWidgetBannerVar]</texture>
+						</control>
+						<control type="image">
+							<description>Fanart Fallback</description>
+							<include>WP-PanelImageBanner</include>
+							<aspectratio aligny="center">scale</aspectratio>
+							<texture>$VAR[HomeWidgetFanartVar]</texture>
+							<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner))</visible>
+						</control>
+						<control type="image">
+							<description>Logo Fallback</description>
+							<include>WP-PanelImageBanner</include>
+							<aspectratio aligny="center">keep</aspectratio>
+							<texture>$VAR[HomeWidgetLogoVar]</texture>
+							<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner))</visible>
+						</control>
+						<control type="label">
+							<description>Text Fallback</description>
+							<include>WP-BannerText</include>
+							<label>$INFO[ListItem.title]</label>
+							<visible>IsEmpty(ListItem.Art(clearlogo)) + IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner)) + IsEmpty(ListItem.Art(tvshow.clearlogo))</visible>
+						</control>
+						<control type="image">
+							<include>WP-PanelImageBanner</include>
+							<include>WP-FocusImageTexture</include>
+						</control>
+					</focusedlayout>
+					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
 				</control>
 			</control>
 
-			<control type="panel" id="8005">
-				<left>200</left>
-				<top>-20</top>
-				<width>1512</width>
-				<height>520</height>
-				<onup>9000</onup>
-				<ondown>9000</ondown>
-				<onleft>8005</onleft>
-				<onright>8005</onright>
-				<onback>9000</onback>
-				<orientation>horizontal</orientation>
-				<preloaditems>2</preloaditems>
-				<scrolltime tween="quadratic" easing="out">300</scrolltime>
-				<visible>[StringCompare(Container(9000).ListItem.Property(WidgetType),1) | StringCompare(Container(9000).ListItem.Property(WidgetType),16) | StringCompare(Container(9000).ListItem.Property(WidgetType),20)] + Skin.HasSetting(panelwidgets)</visible>
-				<animation effect="fade" start="0" end="100" time="500" tween="sine" easing="inout" condition="Control.IsVisible(8005)">Conditional</animation>
-				<itemlayout height="351" width="250" condition="Skin.HasSetting(expandedwidgets)">
-					<control type="image">
-						<left>15</left>
-						<top>10</top>
-						<width>234</width>
-						<height>351</height>
-						<fadetime>400</fadetime>
-						<texture fallback="Black.png">$INFO[ListItem.Art(poster)]</texture>
-					</control>
-                    <control type="image">
-						<left>15</left>
-						<top>10</top>
-						<width>237</width>
-						<height>351</height>
-						<texture>thumbs/diffuse.png</texture>
-						<fadetime>300</fadetime>
-					</control>
-					<control type="label">
-						<left>25</left>
-						<top>365</top>
-						<width>214</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>white</textcolor>
-						<label>$INFO[ListItem.Label]</label>
-					</control>
-					<control type="label">
-						<left>25</left>
-						<top>400</top>
-						<width>214</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>white</textcolor>
-						<label>$INFO[ListItem.Rating] • $INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
-					</control>
-				</itemlayout>
-				<focusedlayout height="351" width="250"	condition="Skin.HasSetting(expandedwidgets)">
-					<control type="group">
-						<animation type="Focus" reversible="false">
-							<effect type="zoom" start="90" end="100" time="200" tween="sine" easing="inout" center="auto" />
-							<effect type="fade" start="80" end="100" time="200" tween="sine" easing="in" />
-						</animation>
-						<control type="image">
-							<left>15</left>
-							<top>10</top>
-							<width>234</width>
-							<height>351</height>
-							<fadetime>400</fadetime>
-							<texture fallback="Black.png">$INFO[ListItem.Art(poster)]</texture>
-						</control>
-						<control type="label">
-							<left>25</left>
-							<top>365</top>
-							<width>214</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>labelheader</textcolor>
-							<label>$INFO[ListItem.Label]</label>
-						</control>
-						<control type="label">
-							<left>25</left>
-							<top>400</top>
-							<width>214</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>labelheader</textcolor>
-							<label>$INFO[ListItem.Rating] • $INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
-						</control>
-					</control>
-				</focusedlayout>
-				<itemlayout height="320" width="216" condition="!Skin.HasSetting(expandedwidgets)">
-					<control type="image">
-						<top>95</top>
-						<width>216</width>
-						<height>320</height>
-						<fadetime>400</fadetime>
-						<aspectratio>scale</aspectratio>
-						<texture fallback="Black.png">$INFO[ListItem.Art(poster)]</texture>
-					</control>
-				</itemlayout>
-				<focusedlayout height="320" width="216" condition="!Skin.HasSetting(expandedwidgets)">
-					<control type="group">
-						<animation type="Focus" reversible="false">
-							<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
-							<effect type="fade" start="90" end="100" time="300" tween="sine" easing="in" />
-						</animation>
-						<control type="image">
-							<top>95</top>
-							<width>216</width>
-							<height>320</height>
-							<fadetime>400</fadetime>
-							<aspectratio>scale</aspectratio>
-							<texture fallback="Black.png">$INFO[ListItem.Art(poster)]</texture>
-						</control>
-					</control>
-					<control type="image">
-						<top>55</top>
-						<width>216</width>
-						<height>360</height>
-						<texture>thumbs/poster_black.png</texture>
-						<visible>!IsEmpty(ListItem.Label)</visible>
-					</control>
-					<control type="label">
-						<left>14</left>
-						<top>340</top>
-						<width>188</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>labelheader</textcolor>
-						<label>$INFO[ListItem.Label]</label>
-					</control>
-					<control type="label">
-						<left>10</left>
-						<top>370</top>
-						<width>196</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>labelheader</textcolor>
-						<label>$INFO[ListItem.Rating] • $INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
-					</control>
-				</focusedlayout>
-				<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
-			</control>
-			<!-- TV Panel Widgets -->
-			<control type="group">
-				<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),14) + Skin.HasSetting(panelwidgets)</visible>
-				<control type="image">
-					<left>100</left>
-					<top>133</top>
-					<width>1720</width>
-					<height>313</height>
-					<texture border="40">dialogs/default/bg2.png</texture>
-					<visible>Skin.HasSetting(expandedwidgets)</visible>
-				</control>
-				<control type="image">
-					<left>95</left>
-					<top>187</top>
-					<width>1728</width>
-					<height>238</height>
-					<texture border="40">dialogs/default/bg2.png</texture>
-					<visible>!Skin.HasSetting(expandedwidgets)</visible>
-				</control>
-			</control>
-			<control type="panel" id="8010">
-				<left>122</left>
-				<top>155</top>
-				<width>1676</width>
-				<height>300</height>
-				<onup>9000</onup>
-				<ondown>9000</ondown>
-				<onleft>8010</onleft>
-				<onright>8010</onright>
-				<onback>9000</onback>
-				<orientation>horizontal</orientation>
-				<scrolltime tween="quadratic" easing="out">300</scrolltime>
-				<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),14) + Skin.HasSetting(panelwidgets)</visible>
-				<animation effect="fade" start="0" end="100" time="500" tween="sine" easing="inout" condition="Control.IsVisible(8010)">Conditional</animation>
-				<itemlayout height="300" width="419" condition="Skin.HasSetting(expandedwidgets)">
-					<control type="image">
-						<left>30</left>
-						<top>5</top>
-						<width>350</width>
-						<height>200</height>
-						<fadetime>400</fadetime>
-						<aspectratio>scale</aspectratio>
-						<texture fallback="Black.png">$INFO[ListItem.Thumb]</texture>
-					</control>
-					<!-- Recent Episodes -->
-					<control type="group">
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),special://skin/extras/playlists/recentepisodes.xsp)</visible>
-						<control type="label">
-							<left>40</left>
-							<top>238</top>
-							<width>330</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>white</textcolor>
-							<label>$INFO[ListItem.Label]</label>
-						</control>
-						<control type="label">
-							<left>40</left>
-							<top>203</top>
-							<width>330</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>white</textcolor>
-							<label>$INFO[ListItem.TvShowTitle]</label>
-						</control>
-					</control>
-					<!-- Random + Recommended Episodes -->
-					<control type="group">
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),5) | StringCompare(Container(9000).ListItem.Property(Widget),6)</visible>
-						<control type="label">
-							<left>40</left>
-							<top>203</top>
-							<width>330</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13_title</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>white</textcolor>
-							<label>$INFO[ListItem.TvShowTitle]</label>
-						</control>
-						<control type="label">
-							<left>40</left>
-							<top>238</top>
-							<width>330</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13_title</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>white</textcolor>
-							<label>$INFO[ListItem.Property(episodeno)] • $INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
-						</control>
-					</control>
-				</itemlayout>
-				<focusedlayout height="300" width="419" condition="Skin.HasSetting(expandedwidgets)">
-					<control type="group">
-						<animation type="Focus" reversible="false">
-							<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
-							<effect type="fade" start="95" end="100" time="300" tween="sine" easing="in" />
-						</animation>
-						<control type="image">
-							<left>30</left>
-							<top>5</top>
-							<width>350</width>
-							<height>200</height>
-							<fadetime>400</fadetime>
-							<aspectratio>scale</aspectratio>
-							<texture fallback="Black.png">$INFO[ListItem.Thumb]</texture>
-						</control>
-					</control>
-					<!-- Recent Episodes -->
-					<control type="group">
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),special://skin/extras/playlists/recentepisodes.xsp)</visible>
-						<control type="label">
-							<left>40</left>
-							<top>238</top>
-							<width>330</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>labelheader</textcolor>
-							<label>$INFO[ListItem.Label]</label>
-						</control>
-						<control type="label">
-							<left>40</left>
-							<top>203</top>
-							<width>330</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>labelheader</textcolor>
-							<label>$INFO[ListItem.TvShowTitle]</label>
-						</control>
-					</control>
-					<!-- Random + Recommended Episodes -->
-					<control type="group">
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),5) | StringCompare(Container(9000).ListItem.Property(Widget),6)</visible>
-						<control type="label">
-							<left>40</left>
-							<top>203</top>
-							<width>330</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13_title</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>selected</textcolor>
-							<label>$INFO[ListItem.TvShowTitle]</label>
-						</control>
-						<control type="label">
-							<left>40</left>
-							<top>238</top>
-							<width>330</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13_title</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>selected</textcolor>
-							<label>$INFO[ListItem.Property(episodeno)] • $INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
-						</control>
-					</control>
-				</focusedlayout>
-				<itemlayout height="300" width="335" condition="!Skin.HasSetting(expandedwidgets)">
-					<control type="image">
-						<left>0</left>
-						<top>52</top>
-						<width>333</width>
-						<height>200</height>
-						<fadetime>400</fadetime>
-						<texture fallback="Black.png">$INFO[ListItem.Thumb]</texture>
-					</control>
-					<control type="image">
-						<top>2</top>
-						<width>333</width>
-						<height>250</height>
-						<texture>thumbs/poster_black.png</texture>
-						<visible>!IsEmpty(ListItem.TvShowTitle)</visible>
-					</control>
-					<!-- Recent Episodes -->
-					<control type="label">
-						<left>5</left>
-						<top>215</top>
-						<width>323</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13_title</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>white</textcolor>
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),special://skin/extras/playlists/recentepisodes.xsp)</visible>
-					</control>
-					<control type="label">
-						<left>5</left>
-						<top>185</top>
-						<width>323</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13_title</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>white</textcolor>
-						<label>$INFO[ListItem.TvShowTitle]</label>
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),special://skin/extras/playlists/recentepisodes.xsp)</visible>
-					</control>
-					<!-- Random + Recommended Episodes -->
-					<control type="group">
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),5) | StringCompare(Container(9000).ListItem.Property(Widget),6)</visible>
-						<control type="label">
-							<left>5</left>
-							<top>185</top>
-							<width>323</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13_title</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>white</textcolor>
-							<label>$INFO[ListItem.TvShowTitle]</label>
-						</control>
-						<control type="label">
-							<left>5</left>
-							<top>215</top>
-							<width>323</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13_title</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>white</textcolor>
-							<label>$INFO[ListItem.Property(episodeno)] • $INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
-						</control>
-					</control>
-				</itemlayout>
-				<focusedlayout height="300" width="337" condition="!Skin.HasSetting(expandedwidgets)">
-					<control type="group">
-						<animation type="Focus" reversible="false">
-							<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
-							<effect type="fade" start="95" end="100" time="300" tween="sine" easing="in" />
-						</animation>
-						<control type="image">
-							<top>52</top>
-							<width>333</width>
-							<height>200</height>
-							<fadetime>400</fadetime>
-							<texture fallback="Black.png">$INFO[ListItem.Thumb]</texture>
-						</control>
-					</control>
-					<control type="image">
-						<top>2</top>
-						<width>333</width>
-						<height>250</height>
-						<texture>thumbs/poster_black.png</texture>
-						<visible>!IsEmpty(ListItem.TvShowTitle)</visible>
-					</control>
-					<!-- Recent Episodes -->
-					<control type="label">
-						<left>5</left>
-						<top>215</top>
-						<width>323</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13_title</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>labelheader</textcolor>
-						<label>$INFO[ListItem.Label]</label>
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),special://skin/extras/playlists/recentepisodes.xsp)</visible>
-					</control>
-					<control type="label">
-						<left>5</left>
-						<top>185</top>
-						<width>323</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13_title</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>labelheader</textcolor>
-						<label>$INFO[ListItem.TvShowTitle]</label>
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),special://skin/extras/playlists/recentepisodes.xsp)</visible>
-					</control>
-					<!-- Random + Recommended Episodes -->
-					<control type="group">
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),5) | StringCompare(Container(9000).ListItem.Property(Widget),6)</visible>
-						<control type="label">
-							<left>5</left>
-							<top>185</top>
-							<width>323</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13_title</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>selected</textcolor>
-							<label>$INFO[ListItem.TvShowTitle]</label>
-						</control>
-						<control type="label">
-							<left>5</left>
-							<top>215</top>
-							<width>323</width>
-							<height>36</height>
-							<align>center</align>
-							<font>font13_title</font>
-							<shadowcolor>black</shadowcolor>
-							<textcolor>selected</textcolor>
-							<label>$INFO[ListItem.Property(episodeno)] • $INFO[ListItem.Duration,, $LOCALIZE[12391]]</label>
-						</control>
-					</control>
-				</focusedlayout>
-				<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
-			</control>
-			<!-- Music + Addon Panel Widgets -->
-			<control type="group">
-				<visible>[StringCompare(Container(9000).ListItem.Property(WidgetType),2) | StringCompare(Container(9000).ListItem.Property(WidgetType),5) | StringCompare(Container(9000).ListItem.Property(WidgetType),10) | StringCompare(Container(9000).ListItem.Property(WidgetType),15)] + Skin.HasSetting(panelwidgets)</visible>
-				<control type="image">
-					<left>175</left>
-					<top>100</top>
-					<width>1570</width>
-					<height>350</height>
-					<texture border="40">dialogs/default/bg2.png</texture>
-					<visible>Skin.HasSetting(expandedwidgets)</visible>
-				</control>
-				<control type="image">
-					<left>175</left>
-					<top>143</top>
-					<width>1570</width>
-					<height>295</height>
-					<texture border="40">dialogs/default/bg2.png</texture>
-					<visible>!Skin.HasSetting(expandedwidgets)</visible>
-				</control>
-			</control>
-			<control type="panel" id="8020">
-				<left>200</left>
-				<top>75</top>
-				<width>1520</width>
-				<height>470</height>
-				<onup>9000</onup>
-				<ondown>9000</ondown>
-				<onleft>8020</onleft>
-				<onright>8020</onright>
-				<onback>9000</onback>
-				<orientation>horizontal</orientation>
-				<scrolltime tween="quadratic" easing="out">300</scrolltime>
-				<visible>[StringCompare(Container(9000).ListItem.Property(WidgetType),2) | StringCompare(Container(9000).ListItem.Property(WidgetType),5) | StringCompare(Container(9000).ListItem.Property(WidgetType),10) | StringCompare(Container(9000).ListItem.Property(WidgetType),15)] + Skin.HasSetting(panelwidgets)</visible>
-				<animation effect="fade" start="0" end="100" time="500" tween="sine" easing="inout" condition="Control.IsVisible(8020)">Conditional</animation>
-				<itemlayout height="300" width="305" condition="Skin.HasSetting(expandedwidgets)">
-					<control type="image">
-						<top>50</top>
-						<width>300</width>
-						<height>300</height>
-						<fadetime>400</fadetime>
-						<aspectratio>scale</aspectratio>
-						<texture fallback="Black.png">$INFO[ListItem.Thumb]</texture>
-						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-					</control>
-					<control type="image">
-						<top>50</top>
-						<width>300</width>
-						<height>300</height>
-						<texture>thumbs/poster_black.png</texture>
-						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-					</control>
-					<control type="label">
-						<left>5</left>
-						<top>305</top>
-						<width>290</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>white</textcolor>
-						<label>$INFO[ListItem.Label]</label>
-						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-					</control>
-				</itemlayout>
-				<focusedlayout height="300" width="300" condition="Skin.HasSetting(expandedwidgets)">
-					<control type="group">
-						<animation type="Focus" reversible="false">
-							<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
-							<effect type="fade" start="95" end="100" time="300" tween="sine" easing="in" />
-						</animation>
-						<control type="image">
-							<top>50</top>
-							<width>300</width>
-							<height>300</height>
-							<fadetime>400</fadetime>
-							<aspectratio>scale</aspectratio>
-							<texture fallback="Black.png">$INFO[ListItem.Thumb]</texture>
-							<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-						</control>
-					</control>
-					<control type="image">
-						<top>50</top>
-						<width>300</width>
-						<height>300</height>
-						<texture>thumbs/poster_black.png</texture>
-						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-					</control>
-					<control type="label">
-						<left>5</left>
-						<top>305</top>
-						<width>290</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>labelheader</textcolor>
-						<label>$INFO[ListItem.Label]</label>
-						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-					</control>
-				</focusedlayout>
-				<itemlayout height="254" width="254" condition="!Skin.HasSetting(expandedwidgets)">
-					<control type="image">
-						<top>90</top>
-						<width>254</width>
-						<height>254</height>
-						<fadetime>400</fadetime>
-						<texture fallback="Black.png">$INFO[ListItem.Thumb]</texture>
-						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-					</control>
-					<control type="image">
-						<top>90</top>
-						<width>254</width>
-						<height>254</height>
-						<texture>thumbs/poster_black.png</texture>
-						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-					</control>
-					<control type="label">
-						<left>5</left>
-						<top>300</top>
-						<width>244</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>white</textcolor>
-						<label>$INFO[ListItem.Label]</label>
-						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-					</control>
-				</itemlayout>
-				<focusedlayout height="254" width="254" condition="!Skin.HasSetting(expandedwidgets)">
-					<control type="group">
-						<animation type="Focus" reversible="false">
-							<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
-							<effect type="fade" start="95" end="100" time="300" tween="sine" easing="in" />
-						</animation>
-						<control type="image">
-							<top>90</top>
-							<width>254</width>
-							<height>254</height>
-							<fadetime>400</fadetime>
-							<texture fallback="Black.png">$INFO[ListItem.Thumb]</texture>
-							<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-						</control>
-					</control>
-					<control type="image">
-						<top>90</top>
-						<width>254</width>
-						<height>254</height>
-						<texture>thumbs/poster_black.png</texture>
-						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-					</control>
-					<control type="label">
-						<left>5</left>
-						<top>300</top>
-						<width>244</width>
-						<height>36</height>
-						<align>center</align>
-						<font>font13</font>
-						<shadowcolor>black</shadowcolor>
-						<textcolor>selected</textcolor>
-						<label>$INFO[ListItem.Label]</label>
-						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
-					</control>
-				</focusedlayout>
-				<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
-			</control>
-			<!-- End Home Library Widgets -->
+
+
+
 		</control>
 	</include>
+
+
+
+
+
+
+
+
+
 	<include name="NowPlayingVideoWidget">
 		<!-- Video Info -->
 		<control type="group">
 			<left>0</left>
 			<top>622</top>
 			<visible>Player.HasVideo</visible>
-			<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes) | VideoPlayer.Content(musicvideos)</visible>
+			<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes) | VideoPlayer.Content(musicvideos) | VideoPlayer.Content(livetv)</visible>
 			<include>VisibleFadeEffect</include>
 			<animation effect="slide" tween="cubic" time="720" start="0,1080" end="0,0" condition="!Skin.HasSetting(lowermainmenu)">WindowOpen</animation>
 			<animation effect="slide" tween="cubic" time="720" end="0,1080" start="0,0" condition="!Skin.HasSetting(lowermainmenu)">WindowClose</animation>
@@ -1085,22 +1023,9 @@
 					<width>360</width>
 					<height>360</height>
 					<aspectratio align="right">keep</aspectratio>
-					<texture fallback="DefaultVideoCover.png">$INFO[Player.Art(poster)]</texture>
+					<texture fallback="DefaultVideoCover.png">$VAR[HomeNowPlayingThumbVar]</texture>
 					<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
 					<bordersize>20</bordersize>
-					<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(musicvideos)</visible>
-				</control>
-				<control type="image">
-					<description>Cover image</description>
-					<left>20</left>
-					<top>45</top>
-					<width>360</width>
-					<height>360</height>
-					<aspectratio align="right" aligny="center">keep</aspectratio>
-					<texture fallback="DefaultVideoCover.png">$INFO[Player.Art(tvshow.poster)]</texture>
-					<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
-					<bordersize>20</bordersize>
-					<visible>VideoPlayer.Content(episodes)</visible>
 				</control>
 				<control type="grouplist">
 					<left>390</left>
@@ -1108,6 +1033,16 @@
 					<width>1510</width>
 					<height>460</height>
 					<itemgap>12</itemgap>
+					<control type="label">
+						<left>50</left>
+						<width>1300</width>
+						<height>40</height>
+						<font>font48_title</font>
+						<textcolor>white2</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<label>$INFO[VideoPlayer.ChannelName]</label>
+						<visible>VideoPlayer.Content(livetv)</visible>
+					</control>
 					<control type="label">
 						<left>50</left>
 						<width>1300</width>
@@ -1186,6 +1121,16 @@
 						<shadowcolor>black</shadowcolor>
 						<label>$INFO[VideoPlayer.Studio]</label>
 						<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(musicvideos)</visible>
+					</control>
+					<control type="label">
+						<left>100</left>
+						<width>1300</width>
+						<height>40</height>
+						<font>font15</font>
+						<textcolor>white2</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<label>$INFO[VideoPlayer.Plot]</label>
+						<visible>VideoPlayer.Content(livetv)</visible>
 					</control>
 					<control type="label">
 						<description>Time Label</description>
@@ -1342,27 +1287,22 @@
 			<animation effect="slide" start="1870,0" end="0,0" delay="300" time="240" condition="!window.previous(startup)">WindowOpen</animation>
 			<animation effect="slide" start="1870" end="0" time="240">VisibleChange</animation>
 			<animation effect="slide" start="1870,0" end="0,0" delay="800" time="480" condition="window.previous(startup)">WindowOpen</animation>
-			<!--
 			<animation effect="slide" end="0,-90" time="300" tween="cubic" easing="inout" condition="ControlGroup(9001).HasFocus()">conditional</animation>
 			<animation effect="fade" start="100" end="0" time="300" condition="ControlGroup(9001).HasFocus()">conditional</animation>
-			-->
 			<animation effect="slide" end="0,340" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
-			<animation effect="slide" end="0,340" time="320" tween="cubic" easing="inout" condition="!Skin.HasSetting(lowermainmenu)">Conditional</animation>
-			<top>700</top>
+			<top>612</top>
 			<control type="group">
 				<control type="image" id="90101">
 					<left>50</left>
-					<top>-43</top>
 					<width>90</width>
 					<height>87</height>
-					<texture flipy="true">submenu_end.png</texture>
+					<texture>submenu_end.png</texture>
 				</control>
 				<control type="image">
 					<left>140</left>
-					<top>-43</top>
 					<width>1780</width>
 					<height>87</height>
-					<texture flipy="true">submenu_bar.png</texture>
+					<texture>submenu_bar.png</texture>
 				</control>
 			</control>
 			<control type="group">
@@ -1398,7 +1338,6 @@
 			<animation effect="slide" start="1870" end="0" time="240">VisibleChange</animation>
 			<animation effect="slide" start="1870,0" end="0,0" delay="800" time="480" condition="window.previous(startup)">WindowOpen</animation>
 			<animation effect="slide" end="0,-946" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
-			<animation effect="slide" end="0,-1040" time="320" tween="cubic" easing="inout" condition="!Skin.HasSetting(lowermainmenu)">Conditional</animation>
 			<top>993</top>
 			<control type="group">
 				<animation effect="rotatex" end="180" time="320" center="20" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
@@ -1407,30 +1346,12 @@
 					<width>1780</width>
 					<height>87</height>
 					<texture flipy="true">submenu_bar.png</texture>
-					<visible>Skin.HasSetting(lowermainmenu)</visible>
 				</control>
 				<control type="image">
 					<left>50</left>
 					<width>90</width>
 					<height>87</height>
 					<texture flipy="true" border="78,0,0,0">submenu_end.png</texture>
-					<visible>Skin.HasSetting(lowermainmenu)</visible>
-				</control>
-				<control type="image">
-					<left>140</left>
-					<top>44</top>
-					<width>1780</width>
-					<height>87</height>
-					<texture>submenu_bar.png</texture>
-					<visible>!Skin.HasSetting(lowermainmenu)</visible>
-				</control>
-				<control type="image">
-					<left>50</left>
-					<top>44</top>
-					<width>90</width>
-					<height>87</height>
-					<texture border="78,0,0,0">submenu_end.png</texture>
-					<visible>!Skin.HasSetting(lowermainmenu)</visible>
 				</control>
 			</control>
 			<control type="group">
