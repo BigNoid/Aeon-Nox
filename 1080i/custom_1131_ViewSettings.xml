@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window id="1131" type="dialog">
 	<defaultcontrol always="true">9011</defaultcontrol>
-	<visible>Window.IsActive(1131)</visible>
 	<onunload>ClearProperty(actualViewtype,home)</onunload>
-	<coordinates>
-		<left>0</left>
-		<top>0</top>
-		<system>1</system>
-	</coordinates>
 	<include>WindowSettingsFadeEffect</include>
 	<controls>
 		<control type="group">
@@ -65,7 +59,7 @@
 					<onclick condition="Stringcompare(Window(home).Property(actualViewtype),Gallery) + Container.Content(movies)">Skin.ToggleSetting(noindicatorgallerymovies)</onclick>
 					<onclick condition="Stringcompare(Window(home).Property(actualViewtype),BigList) + Container.Content(movies)">Skin.ToggleSetting(noindicatorbiglist)</onclick>
 					<onclick condition="Stringcompare(Window(home).Property(actualViewtype),BigList) + Container.Content(episodes)">Skin.ToggleSetting(noindicatorbiglistepisode)</onclick>
-					<visible>[Stringcompare(Window(home).Property(actualViewtype),FanartList) | Stringcompare(Window(home).Property(actualViewtype),BigList) + [Container.Content(movies) | Container.Content(episodes)]] | [Stringcompare(Window(home).Property(actualViewtype),Gallery) + Container.Content(movies)] | [[Stringcompare(Window(home).Property(actualViewtype),Landscape) | Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies)] + [Container.Content(movies) | Container.Content(episodes)] + !Skin.HasSetting(showcaselogo)]</visible>
+					<visible>[Stringcompare(Window(home).Property(actualViewtype),FanartList) | Stringcompare(Window(home).Property(actualViewtype),BigList) + [Container.Content(movies) | Container.Content(episodes)]] | [Stringcompare(Window(home).Property(actualViewtype),Gallery) + Container.Content(movies)] | [[Container.Content(movies) | Container.Content(episodes)] + [Stringcompare(Window(home).Property(actualViewtype),Landscape) + !Skin.HasSetting(Enable.Landscape.Logo)] | [Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + !Skin.HasSetting(Enable.ShowCase.Logo)]]</visible>
 					<visible>!Container.Content(tvshows) + !Container.Content(seasons)</visible>
 				</control>
 				<control type="radiobutton" id="1506">
@@ -255,7 +249,7 @@
 					<label2>[COLOR themecolor]$VAR[MediaflagsLayoutLabelVar][/COLOR]</label2>
 					<onclick>$VAR[MediaflagsLayoutOnclickVar]</onclick>
 					<texturenofocus border="1">separator5.png</texturenofocus>
-					<visible>[[Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) | Stringcompare(Window(home).Property(actualViewtype),Landscape)] + Container.Content(movies)] | Stringcompare(Window(home).Property(actualViewtype),Logo)</visible>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) | Stringcompare(Window(home).Property(actualViewtype),Landscape) | Stringcompare(Window(home).Property(actualViewtype),Wall) | Stringcompare(Window(home).Property(actualViewtype),Logo)</visible>
 				</control>
 				<control type="radiobutton" id="1532">
 					<description>No CoverFlow</description>
@@ -270,9 +264,17 @@
 					<include>ButtonCommonValues</include>
 					<textwidth>255</textwidth>
 					<label>$LOCALIZE[31139]</label>
-					<onclick>Skin.ToggleSetting(showcaselogo)</onclick>
-					<selected>Skin.HasSetting(showcaselogo)</selected>
-					<visible>[Stringcompare(Window(home).Property(actualViewtype),Landscape) | Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies)] + !Container.Content(episodes) + !Container.Content(seasons) + !Container.Content(genres)</visible>
+					<onclick>Skin.ToggleSetting(Enable.ShowCase.Logo)</onclick>
+					<selected>Skin.HasSetting(Enable.ShowCase.Logo)</selected>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + !Container.Content(episodes) + !Container.Content(seasons) + !Container.Content(genres)</visible>
+				</control>
+				<control type="radiobutton" id="1534">
+					<include>ButtonCommonValues</include>
+					<textwidth>255</textwidth>
+					<label>$LOCALIZE[31139]</label>
+					<onclick>Skin.ToggleSetting(Enable.Landscape.Logo)</onclick>
+					<selected>Skin.HasSetting(Enable.Landscape.Logo)</selected>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),Landscape) + !Container.Content(episodes) + !Container.Content(seasons) + !Container.Content(genres)</visible>
 				</control>
 				<control type="radiobutton" id="1502">
 					<include>ButtonCommonValues</include>
@@ -281,7 +283,7 @@
 					<onclick>Skin.ToggleSetting(Enable.ShowCase.MovieGenre)</onclick>
 					<selected>Skin.HasSetting(Enable.ShowCase.MovieGenre)</selected>)
 					<texturenofocus border="1">separator5.png</texturenofocus>
-					<visible>Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(movies) + !Skin.HasSetting(showcaselogo)</visible>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(movies) + !Skin.HasSetting(Enable.ShowCase.Logo)</visible>
 				</control>
 				<control type="radiobutton" id="1503">
 					<include>ButtonCommonValues</include>
@@ -290,7 +292,7 @@
 					<onclick>Skin.ToggleSetting(Enable.ShowCase.TVShowGenre)</onclick>
 					<selected>Skin.HasSetting(Enable.ShowCase.TVShowGenre)</selected>)
 					<texturenofocus border="1">separator5.png</texturenofocus>
-					<visible>Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(tvshows) + !Skin.HasSetting(showcaselogo)</visible>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(tvshows) + !Skin.HasSetting(Enable.ShowCase.Logo)</visible>
 				</control>
 				<control type="radiobutton" id="1504">
 					<include>ButtonCommonValues</include>
@@ -350,15 +352,6 @@
 					<onclick>$VAR[ShowcaseModDelayOnClickVar]</onclick>
 					<texturenofocus border="1">separator5.png</texturenofocus>
 					<visible>Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + [Container.Content(movies) | Container.Content(sets)] + [Skin.HasSetting(showcasemod) | Skin.HasSetting(boxsetmod)]</visible>
-				</control>
-				<control type="radiobutton" id="1538">
-					<include>ButtonCommonValues</include>
-					<textwidth>255</textwidth>
-					<label>$LOCALIZE[31140]</label>
-					<onclick>Skin.ToggleSetting(showcasenogenrelabel)</onclick>
-					<selected>Skin.HasSetting(showcasenogenrelabel)</selected>
-					<texturenofocus border="1">separator5.png</texturenofocus>
-					<visible>Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(genres)</visible>
 				</control>
 				<control type="radiobutton" id="1529">
 					<include>ButtonCommonValues</include>
@@ -454,7 +447,7 @@
 					<description>Enable Wall Floor Info</description>
 					<textwidth>255</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>$LOCALIZE[31133]</label>
+					<label>$LOCALIZE[31149]</label>
 					<onclick>Skin.ToggleSetting(Enable.Wall.FloorInfo.movies)</onclick>
 					<selected>Skin.HasSetting(Enable.Wall.FloorInfo.movies)</selected>
 					<visible>Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(movies)</visible>
@@ -531,6 +524,78 @@
 					<onclick>$VAR[MyFlixModDelayOnClickVar]</onclick>
 					<texturenofocus border="1">separator5.png</texturenofocus>
 					<visible>Stringcompare(Window(home).Property(actualViewtype),MyFlix) + Container.Content(movies)</visible>
+				</control>
+				<control type="radiobutton" id="1580">
+					<include>ButtonCommonValues</include>
+					<textwidth>255</textwidth>
+					<label>Display genre</label>
+					<onclick>Skin.ToggleSetting(Enable.Landscape.MovieGenre)</onclick>
+					<selected>Skin.HasSetting(Enable.Landscape.MovieGenre)</selected>)
+					<texturenofocus border="1">separator5.png</texturenofocus>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(movies) + !Skin.HasSetting(Enable.Landscape.Logo)</visible>
+				</control>
+				<control type="radiobutton" id="1581">
+					<include>ButtonCommonValues</include>
+					<textwidth>255</textwidth>
+					<label>Display genre</label>
+					<onclick>Skin.ToggleSetting(Enable.Landscape.TVShowGenre)</onclick>
+					<selected>Skin.HasSetting(Enable.Landscape.TVShowGenre)</selected>)
+					<texturenofocus border="1">separator5.png</texturenofocus>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(tvshows) + !Skin.HasSetting(Enable.Landscape.Logo)</visible>
+				</control>
+				<control type="radiobutton" id="1582">
+					<include>ButtonCommonValues</include>
+					<textwidth>255</textwidth>
+					<label>Display genre</label>
+					<onclick>Skin.ToggleSetting(Enable.Landscape.SeasonGenre)</onclick>
+					<selected>Skin.HasSetting(Enable.Landscape.SeasonGenre)</selected>)
+					<texturenofocus border="1">separator5.png</texturenofocus>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(seasons)</visible>
+				</control>
+				<control type="radiobutton" id="1586">
+					<description>Enable Wall Floor</description>
+					<textwidth>375</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>$LOCALIZE[31133]</label>
+					<onclick>Skin.ToggleSetting(Enable.Wall.AlbumLabels)</onclick>
+					<selected>Skin.HasSetting(Enable.Wall.AlbumLabels)</selected>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(albums)</visible>
+				</control>
+				<control type="radiobutton" id="1587">
+					<include>ButtonCommonValues</include>
+					<textwidth>255</textwidth>
+					<label>Display genre</label>
+					<onclick>Skin.ToggleSetting(Enable.Wall.MovieGenre)</onclick>
+					<selected>Skin.HasSetting(Enable.Wall.MovieGenre)</selected>)
+					<texturenofocus border="1">separator5.png</texturenofocus>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(movies) + !Skin.HasSetting(Enable.Wall.Logo)</visible>
+				</control>
+				<control type="radiobutton" id="1588">
+					<include>ButtonCommonValues</include>
+					<textwidth>255</textwidth>
+					<label>Display genre</label>
+					<onclick>Skin.ToggleSetting(Enable.Wall.TVShowGenre)</onclick>
+					<selected>Skin.HasSetting(Enable.Wall.TVShowGenre)</selected>)
+					<texturenofocus border="1">separator5.png</texturenofocus>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(tvshows) + !Skin.HasSetting(Enable.Wall.Logo)</visible>
+				</control>
+				<control type="radiobutton" id="1589">
+					<include>ButtonCommonValues</include>
+					<textwidth>255</textwidth>
+					<label>Display genre</label>
+					<onclick>Skin.ToggleSetting(Enable.Wall.SeasonGenre)</onclick>
+					<selected>Skin.HasSetting(Enable.Wall.SeasonGenre)</selected>)
+					<texturenofocus border="1">separator5.png</texturenofocus>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(seasons)</visible>
+				</control>
+				<control type="radiobutton" id="1590">
+					<description>Enable Wall Floor Info</description>
+					<textwidth>255</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>$LOCALIZE[31149]</label>
+					<onclick>Skin.ToggleSetting(Enable.Landscape.FloorInfo.episodes)</onclick>
+					<selected>Skin.HasSetting(Enable.Landscape.FloorInfo.episodes)</selected>
+					<visible>Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(episodes)</visible>
 				</control>
 			</control>
 			<control type="button" id="9012">
