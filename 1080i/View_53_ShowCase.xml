@@ -110,12 +110,8 @@
 								<include>MovieShowcaseThumb</include>
 							</control>
 							<control type="image">
-								<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-1Var]</texture>
+								<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-1Var]</texture>
 								<include>MovieShowcaseCase</include>
-							</control>
-							<control type="image">
-								<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes-1Var]</texture>
-								<include>MovieShowcaseClearCase</include>
 							</control>
 							<control type="image">
 								<include>WatchedOverlayShowCase</include>
@@ -140,7 +136,7 @@
 								<include>MovieShowcaseThumbReflection</include>
 							</control>
 							<control type="image">
-								<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-1Var]p.png</texture>
+								<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-1Var]p.png</texture>
 								<include>MovieShowcaseCaseReflection</include>
 							</control>
 						</control>
@@ -248,12 +244,8 @@
 								<include>MovieShowcaseThumb</include>
 							</control>
 							<control type="image">
-								<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes1Var]</texture>
+								<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes1Var]</texture>
 								<include>MovieShowcaseCase</include>
-							</control>
-							<control type="image">
-								<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes1Var]</texture>
-								<include>MovieShowcaseClearCase</include>
 							</control>
 							<control type="image">
 								<include>WatchedOverlayShowCase</include>
@@ -274,19 +266,20 @@
 							</control>
 							<control type="image">
 								<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem1Var]</texture>
-								<aspectratio scalediffuse="false" aligny="top" align="right">scale</aspectratio>
 								<include>MovieShowcaseThumbReflection</include>
 							</control>
 							<control type="image">
-								<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem1Var]</texture>
-								<include>MovieShowcaseCaseReflection</include>
-							</control>
-							<control type="image">
-								<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes1Var]p.png</texture>
+								<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes1Var]p.png</texture>
 								<include>MovieShowcaseCaseReflection</include>
 							</control>
 						</control>
 					</control>
+				</control>
+				<control type="button" id="99">
+					<include>HiddenObject</include>
+					<onleft>Control.Move(53,-12)</onleft>
+					<onright>Control.Move(53,12)</onright>
+					<onup>53</onup>
 				</control>
 				<control type="group" id="6000">
 					<left>55</left>
@@ -437,7 +430,8 @@
 				<textureslidernibfocus>-</textureslidernibfocus>
 				<showonepage>false</showonepage>
 				<orientation>horizontal</orientation>
-				<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(72) + !Container.Scrolling">Conditional</animation>
+				<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(99) + !Container.Scrolling + !Skin.HasSetting(noshowcaseflow)">Conditional</animation>
+				<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(72) + !Container.Scrolling + Skin.HasSetting(noshowcaseflow)">Conditional</animation>
 			</control>
 		</control>
 	</include>
@@ -954,7 +948,8 @@
 		<onleft>53</onleft>
 		<onright>53</onright>
 		<onup>62</onup>
-		<ondown>72</ondown>
+		<ondown condition="!Skin.HasSetting(noshowcaseflow)">99</ondown>
+		<ondown condition="Skin.HasSetting(noshowcaseflow)">72</ondown>
 		<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(musicvideos) | Container.Content(seasons) | Container.Content(genres) | Container.Content(sets)</visible>
 		<viewtype label="31077">bigwrap</viewtype>
 		<pagecontrol>72</pagecontrol>
@@ -978,12 +973,8 @@
 					<include>MovieShowcaseThumbReflection</include>
 				</control>
 				<control type="image">
-					<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[GlobalCaseVar]</texture>
+					<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 					<include>MovieShowcaseCase</include>
-				</control>
-				<control type="image">
-					<texture background="true">thumbs/boxes/clearcases/$VAR[GlobalCaseVar]</texture>
-					<include>MovieShowcaseClearCase</include>
 				</control>
 				<control type="image">
 					<include>WatchedOverlayShowCase</include>
@@ -1005,7 +996,7 @@
 				<animation effect="fade" time="0" delay="800">Visible</animation>
 				<animation effect="zoom" start="80" end="100" center="147,345" time="300" reversible="false" tween="cubic">Focus</animation>
 				<control type="image">
-					<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[GlobalCaseBackVar]</texture>
+					<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]p.png$VAR[GlobalCaseBackVar]</texture>
 					<include>MovieShowcaseCaseReflection</include>
 				</control>
 				<control type="image">
@@ -1017,7 +1008,7 @@
 					</animation>
 				</control>
 				<control type="image">
-					<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[GlobalCaseVar]</texture>
+					<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 					<include>MovieShowcaseCaseReflection</include>
 					<animation type="conditional" reversible="false" condition="[!IsEmpty(Control.GetLabel(4444)) + Control.IsVisible(4444)] + !ListItem.IsCollection">
 						<effect type="rotatey" center="19" start="0" end="65" time="1000" tween="quadratic" easing="out" />
@@ -1025,12 +1016,8 @@
 					</animation>
 				</control>
 				<control type="image">
-					<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[GlobalCaseBackVar]</texture>
+					<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
 					<include>MovieShowcaseCase</include>
-				</control>
-				<control type="image">
-					<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[GlobalCaseBackVar]</texture>
-					<include>MovieShowcaseClearCase</include>
 				</control>
 				<control type="image">
 					<left>25</left>
@@ -1054,16 +1041,8 @@
 					</animation>
 				</control>
 				<control type="image">
-					<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[GlobalCaseVar]</texture>
+					<texture background="true" fallback="$VAR[CaseTypePathVar]">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 					<include>MovieShowcaseCase</include>
-					<animation type="conditional" reversible="false" condition="[!IsEmpty(Control.GetLabel(4444)) + Control.IsVisible(4444)] + !ListItem.IsCollection">
-						<effect type="rotatey" center="19" start="0" end="65" time="1000" tween="quadratic" easing="out" />
-						<effect type="rotatey" delay="5000" center="19" start="0" end="-65" time="1000" tween="quadratic" easing="out" />
-					</animation>
-				</control>
-				<control type="image">
-					<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[GlobalCaseVar]</texture>
-					<include>MovieShowcaseClearCase</include>
 					<animation type="conditional" reversible="false" condition="[!IsEmpty(Control.GetLabel(4444)) + Control.IsVisible(4444)] + !ListItem.IsCollection">
 						<effect type="rotatey" center="19" start="0" end="65" time="1000" tween="quadratic" easing="out" />
 						<effect type="rotatey" delay="5000" center="19" start="0" end="-65" time="1000" tween="quadratic" easing="out" />
@@ -1117,15 +1096,7 @@
 		<width>375</width>
 		<height>500</height>
 		<bordersize>20</bordersize>
-		<visible>Skin.HasSetting(Enable.ShowCase.Covers) + !Skin.HasSetting(useclearcases) + [Container.Content(movies) | Container.Content(sets) | Container.Content(musicvideos)]</visible>
-	</include>
-	<include name="MovieShowcaseClearCase">
-		<left>-52</left>
-		<top>-48</top>
-		<width>370</width>
-		<height>500</height>
-		<bordersize>20</bordersize>
-		<visible>Skin.HasSetting(useclearcases) + Skin.HasSetting(Enable.ShowCase.Covers) + !Container.Content(tvshows) + !Container.Content(seasons) + !Container.Content(genres)</visible>
+		<visible>Skin.HasSetting(Enable.ShowCase.Covers) + [Container.Content(movies) | Container.Content(sets) | Container.Content(musicvideos)]</visible>
 	</include>
 	<include name="MovieShowcaseThumbReflection">
 		<aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
@@ -1142,7 +1113,7 @@
 		<width>335</width>
 		<height>406</height>
 		<colordiffuse>d1FFFFFF</colordiffuse>
-		<visible>!Skin.HasSetting(useclearcases) + Skin.HasSetting(Enable.ShowCase.Covers) + !Container.Content(tvshows) + !Container.Content(seasons) + !Container.Content(genres)</visible>
+		<visible>Skin.HasSetting(Enable.ShowCase.Covers) + !Container.Content(tvshows) + !Container.Content(seasons) + !Container.Content(genres)</visible>
 	</include>
 	<include name="WatchedOverlayShowCase">
 		<left>192</left>
@@ -1170,24 +1141,12 @@
 	</include>
 	<include name="MovieShowCaseItem-7">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-7Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/back_$VAR[ShowcaseRes-7Var]</texture>
-			<include>MovieShowcaseClearCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem-7Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-7Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-7Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes-7Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="group">
 			<left>28</left>
@@ -1195,47 +1154,27 @@
 			<include condition="Skin.HasSetting(Disable.UnwatchedIcon)">UnwatchedIcon-7</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-7Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
-		</control>
-		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem-7Var]</texture>
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-7Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-7Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
 	<include name="MovieShowCaseItem-6">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-6Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/back_$VAR[ShowcaseRes-6Var]</texture>
-			<include>MovieShowcaseClearCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem-6Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-6Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-6Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes-6Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="group">
 			<left>28</left>
 			<top>22</top>
 			<include condition="Skin.HasSetting(Disable.UnwatchedIcon)">UnwatchedIcon-6</include>
-		</control>
-		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-6Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
 		</control>
 		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem-6Var]</texture>
@@ -1244,39 +1183,23 @@
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-6Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-6Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
 	<include name="MovieShowCaseItem-5">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-5Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/back_$VAR[ShowcaseRes-5Var]</texture>
-			<include>MovieShowcaseClearCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem-5Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/$VAR[ShowcaseRes-5Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-5Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes-5Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="group">
 			<left>28</left>
 			<top>22</top>
 			<include condition="Skin.HasSetting(Disable.UnwatchedIcon)">UnwatchedIcon-5</include>
-		</control>
-		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-5Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
 		</control>
 		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem-5Var]</texture>
@@ -1285,35 +1208,23 @@
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-5Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-5Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
 	<include name="MovieShowCaseItem-4">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-4Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem-4Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-4Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-4Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes-4Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="group">
 			<left>28</left>
 			<top>22</top>
 			<include condition="Skin.HasSetting(Disable.UnwatchedIcon)">UnwatchedIcon-4</include>
-		</control>
-		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-4Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
 		</control>
 		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem-4Var]</texture>
@@ -1322,35 +1233,23 @@
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-4Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-4Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
 	<include name="MovieShowCaseItem-3">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-3Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem-3Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-3Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-3Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes-3Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="group">
 			<left>28</left>
 			<top>22</top>
 			<include condition="Skin.HasSetting(Disable.UnwatchedIcon)">UnwatchedIcon-3</include>
-		</control>
-		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-3Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
 		</control>
 		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem-3Var]</texture>
@@ -1365,29 +1264,17 @@
 	</include>
 	<include name="MovieShowCaseItem-2">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-2Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem-2Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-2Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-2Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes-2Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="group">
 			<left>28</left>
 			<top>22</top>
 			<include condition="Skin.HasSetting(Disable.UnwatchedIcon)">UnwatchedIcon-2</include>
-		</control>
-		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-2Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
 		</control>
 		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem-2Var]</texture>
@@ -1396,26 +1283,18 @@
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-2Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-2Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
 	<include name="MovieShowCaseItem-1">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-1Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem-1Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-1Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-1Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes-1Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="image">
 			<include>WatchedOverlayShowCase</include>
@@ -1435,17 +1314,11 @@
 			<include condition="Skin.HasSetting(Disable.UnwatchedIcon)">UnwatchedIcon-1</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes-1Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
-		</control>
-		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem-1Var]</texture>
-			<aspectratio scalediffuse="false" aligny="top" align="left">scale</aspectratio>
-			<width>180</width>
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes-1Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-1Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
@@ -1453,26 +1326,18 @@
 		<control type="group">
 			<visible>!listItem.IsCollection + Skin.HasSetting(boxsetmod) | !Skin.HasSetting(boxsetmod)</visible>
 			<control type="image">
-				<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[GlobalCaseVar]</texture>
-				<include>MovieShowcaseCaseReflection</include>
-			</control>
-			<control type="image">
 				<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem0Var]</texture>
 				<include>MovieShowcaseThumbReflection</include>
 				<include>ShowCaseModAnimation</include>
 			</control>
 			<control type="image">
-				<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[GlobalCaseVar]</texture>
+				<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 				<include>MovieShowcaseCaseReflection</include>
 				<include>ShowCaseModAnimation</include>
 			</control>
 			<control type="image">
-				<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[GlobalCaseBackVar]</texture>
+				<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
 				<include>MovieShowcaseCase</include>
-			</control>
-			<control type="image">
-				<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[GlobalCaseBackVar]</texture>
-				<include>MovieShowcaseClearCase</include>
 			</control>
 			<control type="group">
 				<left>25</left>
@@ -1563,13 +1428,8 @@
 				<include>ShowCaseModAnimation</include>
 			</control>
 			<control type="image">
-				<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[GlobalCaseVar]</texture>
+				<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 				<include>MovieShowcaseCase</include>
-				<include>ShowCaseModAnimation</include>
-			</control>
-			<control type="image">
-				<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[GlobalCaseVar]</texture>
-				<include>MovieShowcaseClearCase</include>
 				<include>ShowCaseModAnimation</include>
 			</control>
 			<control type="image">
@@ -1597,20 +1457,12 @@
 	</include>
 	<include name="MovieShowCaseItem1">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes1Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem1Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes1Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes1Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes1Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="image">
 			<include>WatchedOverlayShowCase</include>
@@ -1630,37 +1482,22 @@
 			<include condition="Skin.HasSetting(Disable.UnwatchedIcon)">UnwatchedIcon1</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes1Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
-		</control>
-		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem1Var]</texture>
-			<aspectratio scalediffuse="false" aligny="top" align="right">scale</aspectratio>
-			<left>86</left>
-			<width>192</width>
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes1Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes1Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
 	<include name="MovieShowCaseItem2">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes2Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem2Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes2Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes2Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes2Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="image">
 			<include>WatchedOverlayShowCase</include>
@@ -1675,37 +1512,22 @@
 			<texture>$VAR[IconOverlay2Var]</texture>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes2Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
-		</control>
-		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem2Var]</texture>
-			<aspectratio scalediffuse="false" aligny="top" align="right">scale</aspectratio>
-			<left>102</left>
-			<width>177</width>
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes2Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes2Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
 	<include name="MovieShowCaseItem3">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes3Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem3Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes3Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes3Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes3Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="image">
 			<include>WatchedOverlayShowCase</include>
@@ -1720,37 +1542,22 @@
 			<texture>$VAR[IconOverlay3Var]</texture>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes3Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
-		</control>
-		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem3Var]</texture>
-			<aspectratio scalediffuse="false" aligny="top" align="right">scale</aspectratio>
-			<left>121</left>
-			<width>158</width>
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes3Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes3Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
 	<include name="MovieShowCaseItem4">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes4Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem4Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes4Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes4Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes4Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="image">
 			<include>WatchedOverlayShowCase</include>
@@ -1765,37 +1572,22 @@
 			<texture>$VAR[IconOverlay4Var]</texture>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes4Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
-		</control>
-		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem4Var]</texture>
-			<aspectratio scalediffuse="false" aligny="top" align="right">scale</aspectratio>
-			<left>136</left>
-			<width>144</width>
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes4Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes4Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
 	<include name="MovieShowCaseItem5">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes5Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem5Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes5Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes5Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes5Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="image">
 			<include>WatchedOverlayShowCase</include>
@@ -1810,37 +1602,22 @@
 			<texture>$VAR[IconOverlay5Var]</texture>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes5Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
-		</control>
-		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem5Var]</texture>
-			<aspectratio scalediffuse="false" aligny="top" align="right">scale</aspectratio>
-			<left>148</left>
-			<width>133</width>
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes5Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes5Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
 	<include name="MovieShowCaseItem6">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes6Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem6Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes6Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes6Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes6Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="image">
 			<include>WatchedOverlayShowCase</include>
@@ -1855,37 +1632,22 @@
 			<texture>$VAR[IconOverlay6Var]</texture>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes6Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
-		</control>
-		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem6Var]</texture>
-			<aspectratio scalediffuse="false" aligny="top" align="right">scale</aspectratio>
-			<left>158</left>
-			<width>122</width>
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes6Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes6Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
 	<include name="MovieShowCaseItem7">
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes7Var]</texture>
-			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
 			<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem7Var]</texture>
 			<include>MovieShowcaseThumb</include>
 		</control>
 		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes7Var]</texture>
+			<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes7Var]</texture>
 			<include>MovieShowcaseCase</include>
-		</control>
-		<control type="image">
-			<texture background="true" fallback="thumbs/boxes/clearcases/p.png">thumbs/boxes/clearcases/$VAR[ShowcaseRes7Var]</texture>
-			<include>MovieShowcaseClearCase</include>
 		</control>
 		<control type="image">
 			<include>WatchedOverlayShowCase</include>
@@ -1898,17 +1660,13 @@
 		<control type="image">
 			<include>WatchedOverlayShowCase3</include>
 			<texture>$VAR[IconOverlay7Var]</texture>
-		</control>
-		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/back_$VAR[ShowcaseRes7Var]</texture>
-			<include>MovieShowcaseCaseReflection</include>
 		</control>
 		<control type="image">
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem7Var]</texture>
 			<include>MovieShowcaseThumbReflection</include>
 		</control>
 		<control type="image">
-			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="thumbs/boxes/p.png">thumbs/boxes/$VAR[ShowcaseRes7Var]</texture>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes7Var]</texture>
 			<include>MovieShowcaseCaseReflection</include>
 		</control>
 	</include>
@@ -2746,6 +2504,7 @@
 					<control type="image">
 						<include>MovieShowcaseCase</include>
 						<texture background="true">thumbs\boxes\p.png</texture>
+						<visible>!Skin.HasSetting(useclearcases)</visible>
 					</control>
 					<control type="image">
 						<include>BoxsetClearCaseThumb</include>
