@@ -141,8 +141,8 @@
 		<value>$INFO[ListItem.Duration]</value>
 	</variable>
 	<variable name="PosterVar">
-		<value condition="Container.Content(episodes) + !IsEmpty(ListItem.Art(season.poster))">$INFO[ListItem.Art(season.poster)]</value>
-		<value condition="Container.Content(episodes) + !IsEmpty(ListItem.Art(tvshow.poster))">$INFO[ListItem.Art(tvshow.poster)]</value>
+		<value condition="!IsEmpty(Container.Art(season.poster))">$INFO[Container.Art(season.poster)]</value>
+		<value condition="!IsEmpty(ListItem.Art(tvshow.poster)) + !Container.Content(seasons)">$INFO[ListItem.Art(tvshow.poster)]</value>
 		<value condition="!IsEmpty(ListItem.Art(poster))">$INFO[ListItem.Art(poster)]</value>
 		<value>$INFO[ListItem.Icon]</value>
 	</variable>
@@ -405,7 +405,7 @@
 		<value condition="Container.Content(addons)">$INFO[ListItem.Property(Addon.Summary)]</value>
 		<value condition="Container.Content(musicvideos)">$INFO[ListItem.Artist]</value>
 		<value condition="[Control.IsVisible(500) | Control.IsVisible(57) | Control.IsVisible(53) | Control.IsVisible(58) | Control.IsVisible(52) | Control.IsVisible(499) | Control.IsVisible(503) | Control.IsVisible(504) | Control.IsVisible(592) | Control.IsVisible(601) | Control.IsVisible(700)] + [Container.Content(movies) + !IsEmpty(ListItem.Title)]">$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$INFO[ListItem.Duration,, $LOCALIZE[12391]]$INFO[ListItem.Endtime, • $LOCALIZE[19127]: ,]</value>
-		<value condition="[Control.IsVisible(500) | Control.IsVisible(57) | Control.IsVisible(53) | Control.IsVisible(58) | Control.IsVisible(52) | Control.IsVisible(499) | Control.IsVisible(503) | Control.IsVisible(504)] + [Container.Content(tvshows) + !IsEmpty(ListItem.Title)]">$LOCALIZE[20360]: $INFO[ListItem.Property(TotalEpisodes)] $INFO[ListItem.Property(UnWatchedEpisodes), ($LOCALIZE[16101]: ,)]</value>
+		<value condition="[Control.IsVisible(500) | Control.IsVisible(57) | Control.IsVisible(53) | Control.IsVisible(58) | Control.IsVisible(52) | Control.IsVisible(499) | Control.IsVisible(503) | Control.IsVisible(504)] + [Container.Content(tvshows) | Container.Content(seasons) + !IsEmpty(ListItem.Title)]">$LOCALIZE[20360]: $INFO[ListItem.Property(TotalEpisodes)] $INFO[ListItem.Property(UnWatchedEpisodes), ($LOCALIZE[16101]: ,)]</value>
 		<value>$INFO[ListItem.Genre]</value>
 	</variable>
 	<variable name="FloorLabel2Var">
@@ -997,21 +997,25 @@
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(movies) + IsEmpty(Skin.String(53.Movies.MediaflagsLayout))">$LOCALIZE[351]</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(tvshows) + !IsEmpty(Skin.String(53.TV.MediaflagsLayout))">$INFO[Skin.String(53.TV.MediaflagsLayout)]</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(tvshows) + IsEmpty(Skin.String(53.TV.MediaflagsLayout))">$LOCALIZE[351]</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(seasons) + !IsEmpty(Skin.String(53.Seasons.MediaflagsLayout))">$INFO[Skin.String(53.Seasons.MediaflagsLayout)]</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(seasons) + IsEmpty(Skin.String(53.Seasons.MediaflagsLayout))">$LOCALIZE[351]</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(movies) + !IsEmpty(Skin.String(503.Movies.MediaflagsLayout))">$INFO[Skin.String(503.Movies.MediaflagsLayout)]</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(movies) + IsEmpty(Skin.String(503.Movies.MediaflagsLayout))">$LOCALIZE[351]</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(tvshows) + !IsEmpty(Skin.String(503.TV.MediaflagsLayout))">$INFO[Skin.String(503.TV.MediaflagsLayout)]</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(tvshows) + IsEmpty(Skin.String(503.TV.MediaflagsLayout))">$LOCALIZE[351]</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(seasons) + !IsEmpty(Skin.String(503.Seasons.MediaflagsLayout))">$INFO[Skin.String(503.Seasons.MediaflagsLayout)]</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(seasons) + IsEmpty(Skin.String(503.Seasons.MediaflagsLayout))">$LOCALIZE[351]</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Logo) + Container.Content(movies) + !IsEmpty(Skin.String(59.Movies.MediaflagsLayout))">$INFO[Skin.String(59.Movies.MediaflagsLayout)]</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Logo) + Container.Content(movies) + IsEmpty(Skin.String(59.Movies.MediaflagsLayout))">$LOCALIZE[351]</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Logo) + Container.Content(tvshows) + !IsEmpty(Skin.String(59.TV.MediaflagsLayout))">$INFO[Skin.String(59.TV.MediaflagsLayout)]</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Logo) + Container.Content(tvshows) + IsEmpty(Skin.String(59.TV.MediaflagsLayout))">$LOCALIZE[351]</value>
 	</variable>
 	<variable name="MediaflagsLayoutOnclickVar">">
-		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(movies)  + IsEmpty(Skin.String(52.Movies.MediaflagsLayout))">Skin.SetString(52.Movies.MediaflagsLayout,$LOCALIZE[571])</value>
-		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(movies)  + StringCompare(Skin.String(52.Movies.MediaflagsLayout),$LOCALIZE[571])">Skin.SetString(52.Movies.MediaflagsLayout,$LOCALIZE[31160])</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(movies) + IsEmpty(Skin.String(52.Movies.MediaflagsLayout))">Skin.SetString(52.Movies.MediaflagsLayout,$LOCALIZE[571])</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(movies) + StringCompare(Skin.String(52.Movies.MediaflagsLayout),$LOCALIZE[571])">Skin.SetString(52.Movies.MediaflagsLayout,$LOCALIZE[31160])</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(movies) + StringCompare(Skin.String(52.Movies.MediaflagsLayout),$LOCALIZE[31160])">Skin.Reset(52.Movies.MediaflagsLayout)</value>
-		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(tvshows)  + IsEmpty(Skin.String(52.TV.MediaflagsLayout))">Skin.SetString(52.TV.MediaflagsLayout,$LOCALIZE[571])</value>
-		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(tvshows)  + StringCompare(Skin.String(52.TV.MediaflagsLayout),$LOCALIZE[571])">Skin.Reset(52.TV.MediaflagsLayout)</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(tvshows) + IsEmpty(Skin.String(52.TV.MediaflagsLayout))">Skin.SetString(52.TV.MediaflagsLayout,$LOCALIZE[571])</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(tvshows) + StringCompare(Skin.String(52.TV.MediaflagsLayout),$LOCALIZE[571])">Skin.Reset(52.TV.MediaflagsLayout)</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(episodes) + IsEmpty(Skin.String(52.Episodes.MediaflagsLayout))">Skin.SetString(52.Episodes.MediaflagsLayout,$LOCALIZE[571])</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(episodes) + StringCompare(Skin.String(52.Episodes.MediaflagsLayout),$LOCALIZE[571])">Skin.SetString(52.Episodes.MediaflagsLayout,$LOCALIZE[31160])</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(episodes) + StringCompare(Skin.String(52.Episodes.MediaflagsLayout),$LOCALIZE[31160])">Skin.Reset(52.Episodes.MediaflagsLayout)</value>
@@ -1020,11 +1024,15 @@
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(movies) + StringCompare(Skin.String(53.Movies.MediaflagsLayout),$LOCALIZE[31160])">Skin.Reset(53.Movies.MediaflagsLayout)</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(tvshows) + IsEmpty(Skin.String(53.TV.MediaflagsLayout))">Skin.SetString(53.TV.MediaflagsLayout,$LOCALIZE[571])</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(tvshows) + StringCompare(Skin.String(53.TV.MediaflagsLayout),$LOCALIZE[571])">Skin.Reset(53.TV.MediaflagsLayout)</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(seasons) + IsEmpty(Skin.String(53.Seasons.MediaflagsLayout))">Skin.SetString(53.Seasons.MediaflagsLayout,$LOCALIZE[571])</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),ShowCaseMovies) + Container.Content(seasons) + StringCompare(Skin.String(53.Seasons.MediaflagsLayout),$LOCALIZE[571])">Skin.Reset(53.Seasons.MediaflagsLayout)</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(movies)  + IsEmpty(Skin.String(503.Movies.MediaflagsLayout))">Skin.SetString(503.Movies.MediaflagsLayout,$LOCALIZE[571])</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(movies)  + StringCompare(Skin.String(503.Movies.MediaflagsLayout),$LOCALIZE[571])">Skin.SetString(503.Movies.MediaflagsLayout,$LOCALIZE[31160])</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(movies) + StringCompare(Skin.String(503.Movies.MediaflagsLayout),$LOCALIZE[31160])">Skin.Reset(503.Movies.MediaflagsLayout)</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(tvshows)  + IsEmpty(Skin.String(503.TV.MediaflagsLayout))">Skin.SetString(503.TV.MediaflagsLayout,$LOCALIZE[571])</value>
-		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(tvshows)  + StringCompare(Skin.String(503.TV.MediaflagsLayout),$LOCALIZE[571])">Skin.Reset(503.TV.MediaflagsLayout)</value>Wall
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(tvshows)  + StringCompare(Skin.String(503.TV.MediaflagsLayout),$LOCALIZE[571])">Skin.Reset(503.TV.MediaflagsLayout)</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(seasons)  + IsEmpty(Skin.String(503.Seasons.MediaflagsLayout))">Skin.SetString(503.Seasons.MediaflagsLayout,$LOCALIZE[571])</value>
+		<value condition="Stringcompare(Window(home).Property(actualViewtype),Wall) + Container.Content(seasons)  + StringCompare(Skin.String(503.Seasons.MediaflagsLayout),$LOCALIZE[571])">Skin.Reset(503.Seasons.MediaflagsLayout)</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Logo) + Container.Content(movies)  + IsEmpty(Skin.String(59.Movies.MediaflagsLayout))">Skin.SetString(59.Movies.MediaflagsLayout,$LOCALIZE[571])</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Logo) + Container.Content(movies)  + StringCompare(Skin.String(59.Movies.MediaflagsLayout),$LOCALIZE[571])">Skin.SetString(59.Movies.MediaflagsLayout,$LOCALIZE[31160])</value>
 		<value condition="Stringcompare(Window(home).Property(actualViewtype),Logo) + Container.Content(movies) + StringCompare(Skin.String(59.Movies.MediaflagsLayout),$LOCALIZE[31160])">Skin.Reset(59.Movies.MediaflagsLayout)</value>
