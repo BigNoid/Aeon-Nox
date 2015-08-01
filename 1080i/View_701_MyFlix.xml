@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <includes>
-	<constant name="slide_time">1600</constant>
-	<constant name="fadeout_time">200</constant>
+	<constant name="fade_time">1600</constant>
 	<include name="View_701_MyFlix">
 		<control type="group">
 			<visible>Control.IsVisible(701)</visible>
@@ -122,7 +121,7 @@
 			<control type="fixedlist" id="701">
 				<top>530</top>
 				<left>10</left>
-				<width>1920</width>
+				<width>1900</width>
 				<height>525</height>
 				<visible>Container.Content(movies)</visible>
 				<onleft>701</onleft>
@@ -132,12 +131,14 @@
 				<ondown>63</ondown>
 				<viewtype label="MyFlix">bigwrap</viewtype>
 				<pagecontrol>63</pagecontrol>
-				<scrolltime tween="quadratic">300</scrolltime>
 				<orientation>horizontal</orientation>
 				<preloaditems>2</preloaditems>
 				<focusposition>0</focusposition>
-				<include>ViewAnimation</include>
-				<itemlayout height="525" width="272">
+				<itemlayout height="402" width="270">
+					<control type="image">
+						<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
+						<include>FlixDVDCoverVars</include>
+					</control>
 					<include>FlixThumb</include>
 					<control type="image">
 						<left>-1</left>
@@ -148,15 +149,19 @@
 						<bordersize>20</bordersize>
 					</control>
 					<control type="image">
-						<texture background="true" colordiffuse="99FFFFFF">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 						<include>FlixDVDCoverVars</include>
+						<texture background="true" colordiffuse="99FFFFFF">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 					</control>
 					<include>FlixThumbReflection</include>
+					<include>FlixThumbReflectionDVD</include>
 				</itemlayout>
-				<focusedlayout height="525" width="272">
+				<focusedlayout height="402" width="270">
 					<control type="image">
+						<left>-30</left>
+						<top>60</top>
+						<width>295</width>
+						<height>410</height>
 						<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
-						<include>FlixDVDCoverVars</include>
 					</control>
 					<control type="group">
 						<visible>Control.IsVisible(7000)</visible>
@@ -164,12 +169,12 @@
 						<control type="image">
 							<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 							<include>FlixDVDCoverVars</include>
-							<include>MyFlixModAnimation</include>
 						</control>
-						<control type="group">
-							<include>FlixThumbReflection</include>
-							<include>MyFlixModAnimation</include>
-						</control>
+					</control>
+					<control type="group">
+						<include>FlixThumbReflection</include>
+						<include>FlixThumbReflectionDVD</include>
+						<include>MyFlixModAnimation</include>
 					</control>
 				</focusedlayout>
 			</control>
@@ -262,7 +267,7 @@
 			</control>
 			<control type="group" id="7000">
 				<visible>Container.OnNext | Container.OnPrevious</visible>
-				<animation effect="slide" time="slide_time" reversible="false">Hidden</animation>
+				<animation effect="fade" time="fade_time" reversible="false">Hidden</animation>
 				<control type="label">
 					<include>HiddenObject</include>
 				</control>
@@ -275,19 +280,14 @@
 					<include>FlixThumb</include>
 					<include>MyFlixModAnimation</include>
 				</control>
-				<control type="group">
-					<include>FlixThumbReflection</include>
-					<include>MyFlixModAnimation</include>
-				</control>
-				<include>FlixThumbReflectionDVD</include>
 				<control type="image">
 					<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 					<include>FlixDVDCoverVars</include>
 					<include>MyFlixModAnimation</include>
 				</control>
 				<control type="image">
-					<include>WatchedOverlayShowCase</include>
-					<texture>$VAR[MyFlixOverlay]</texture>
+					<include>WatchedOverlayMyFlix</include>
+					<texture>$VAR[ListItem.Overlay]</texture>
 				</control>
 			</control>
 			<control type="scrollbar" id="63">
@@ -322,16 +322,11 @@
 	<include name="FlixThumbReflection">
 		<control type="image">
 			<left>19</left>
-			<top>450</top>
+			<top>465</top>
 			<width>228</width>
 			<height>402</height>
 			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png">$VAR[PosterThumbVar]</texture>
-			<colordiffuse>52FFFFFF</colordiffuse>
 		</control>
-	</include>
-	<include name="FlixThumbReflection">
-		<colordiffuse>d1FFFFFF</colordiffuse>
-		<animation effect="fade" start="70" end="70" time="0" condition="true">Conditional</animation>
 	</include>
 	<include name="FlixDVDCoverVars">
 		<left>-30</left>
@@ -342,13 +337,13 @@
 	</include>
 	<include name="FlixThumbReflectionDVD">
 		<control type="image">
-			<left>-27</left>
-			<top>397</top>
-			<width>325</width>
-			<height>180</height>
+			<left>-30</left>
+			<top>442</top>
+			<width>295</width>
+			<height>410</height>
 			<colordiffuse>d1FFFFFF</colordiffuse>
-			<animation effect="fade" start="70" end="70" time="0" condition="true">Conditional</animation>
-			<visible>Skin.HasSetting(usecases) + Skin.HasSetting(clearcases) + [Container.Content(movies) | Container.Content(musicvideos)]</visible>
+			<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
+			<visible>Skin.HasSetting(Enable.MyFlix.Cases) + [Container.Content(movies) | Container.Content(sets)]</visible>
 		</control>
 	</include>
 </includes>
