@@ -13,7 +13,7 @@
 				<aspectratio aligny="bottom">keep</aspectratio>
 				<control type="image">
 					<texture background="true">$VAR[ArtworkLogoVar]</texture>
-					<visible>SKin.HasSetting(Enable.MyFlix.Logo)</visible>
+					<visible>[Container.Content(movies) + SKin.HasSetting(Enable.MyFlix.MovieLogo)] | [Container.Content(tvshows) + SKin.HasSetting(Enable.MyFlix.TVLogo)]</visible>
 				</control>
 			</control>
 			<control type="label">
@@ -22,7 +22,7 @@
 				<font>font_musicviz</font>
 				<textcolor>grey</textcolor>
 				<label>$INFO[ListItem.Title]</label>
-				<visible>IsEmpty(ListItem.Art(clearlogo)) | !SKin.HasSetting(Enable.MyFlix.Logo)</visible>
+				<visible>[Container.Content(movies) + [SKin.HasSetting(Enable.MyFlix.MovieLogo) + IsEmpty(ListItem.Art(clearlogo))] | [!SKin.HasSetting(Enable.MyFlix.MovieLogo)]] | [Container.Content(tvshows) + [SKin.HasSetting(Enable.MyFlix.TVLogo) + IsEmpty(ListItem.Art(clearlogo))] | [!SKin.HasSetting(Enable.MyFlix.TVLogo)]]</visible>
 			</control>
 			<control type="group">
 				<left>10</left>
@@ -94,6 +94,27 @@
 							<visible>!IsEmpty(Window(home).Property(Set.Movies.Genre))</visible>
 						</control>
 					</control>
+				<control type="grouplist">
+					<visible>[Container.Content(tvshows) | Container.Content(seasons)]</visible>
+					<control type="label">
+						<label>[COLOR labelheader]$LOCALIZE[31010]:[/COLOR][CR]$INFO[Window(Home).Property(NextAired.NextDate),,: ]$INFO[Window(Home).Property(NextAired.NextTitle)]</label>
+						<width>650</width>
+						<include>RighListButtonsValues</include>
+						<visible>!IsEmpty(Window(Home).Property(NextAired.NextDate)) + !Skin.HasSetting(Disable.NextAired)</visible>
+					</control>
+					<control type="label">
+						<label>[COLOR labelheader]$LOCALIZE[126]:[/COLOR][CR]$INFO[Window(Home).Property(NextAired.Status)]</label>
+						<width>650</width>
+						<include>RighListButtonsValues</include>
+						<visible>[Container.Content(tvshows) | Container.Content(seasons)] + [!IsEmpty(Window(Home).Property(NextAired.Status)) + IsEmpty(Window(Home).Property(NextAired.NextDate)) + !Skin.HasSetting(Disable.NextAired)]</visible>
+					</control>
+					<control type="label">
+						<label>[COLOR labelheader]$LOCALIZE[515]:[/COLOR][CR]$INFO[ListItem.Genre]</label>
+						<width>650</width>
+						<include>RighListButtonsValues</include>
+						<visible>!IsEmpty(ListItem.Genre)</visible>
+					</control>
+				</control>
 					<control type="textbox">
 						<top>240</top>
 						<left>15</left>
@@ -120,10 +141,10 @@
 			</control>
 			<control type="fixedlist" id="701">
 				<top>530</top>
-				<left>10</left>
-				<width>1900</width>
+				<left>0</left>
+				<width>1920</width>
 				<height>525</height>
-				<visible>Container.Content(movies)</visible>
+				<visible>Container.Content(movies) | Container.Content(tvshows)</visible>
 				<onleft>701</onleft>
 				<onright>701</onright>
 				<onup>SetProperty(MediaMenu,True,home)</onup>
@@ -134,14 +155,14 @@
 				<orientation>horizontal</orientation>
 				<preloaditems>2</preloaditems>
 				<focusposition>0</focusposition>
-				<itemlayout height="402" width="270">
+				<itemlayout height="402" width="271" condition="Container.Content(movies)">
 					<control type="image">
 						<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
 						<include>FlixDVDCoverVars</include>
 					</control>
 					<include>FlixThumb</include>
 					<control type="image">
-						<left>-1</left>
+						<left>10</left>
 						<top>75</top>
 						<width>268</width>
 						<height>390</height>
@@ -155,12 +176,9 @@
 					<include>FlixThumbReflection</include>
 					<include>FlixThumbReflectionDVD</include>
 				</itemlayout>
-				<focusedlayout height="402" width="270">
+				<focusedlayout height="402" width="271" condition="Container.Content(movies)">
 					<control type="image">
-						<left>-30</left>
-						<top>60</top>
-						<width>295</width>
-						<height>410</height>
+						<include>FlixDVDCoverVars</include>
 						<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
 					</control>
 					<control type="group">
@@ -177,13 +195,63 @@
 						<include>MyFlixModAnimation</include>
 					</control>
 				</focusedlayout>
+				<itemlayout height="402" width="271" condition="Container.Content(tvshows) + !Skin.HasSetting(Enable.MyFlix.TVLandscape)">
+					<control type="image">
+					</control>
+					<include>FlixThumb</include>
+					<control type="image">
+						<left>10</left>
+						<top>75</top>
+						<width>268</width>
+						<height>390</height>
+						<texture border="1" colordiffuse="99FFFFFF">black.png</texture>
+						<bordersize>20</bordersize>
+					</control>
+					<control type="image">
+					</control>
+					<include>FlixThumbReflection</include>
+				</itemlayout>
+				<focusedlayout height="402" width="271" condition="Container.Content(tvshows) + !Skin.HasSetting(Enable.MyFlix.TVLandscape) + !Skin.HasSetting(Enable.NyFlix.TVLandscape)">
+					<control type="group">
+						<include>FlixThumb</include>
+					</control>
+					<control type="group">
+						<include>FlixThumbReflection</include>
+					</control>
+				</focusedlayout>
+				<itemlayout height="270" width="480" condition="Container.Content(tvshows) + Skin.HasSetting(Enable.MyFlix.TVLandscape)">
+					<control type="image">
+						<include>FlixLandscape</include>
+						<texture background="true" diffuse="thumbs/thumb_mask.png">$VAR[LandscapeItem0Var]</texture>
+					</control>
+					<!-- <control type="image">
+						<left>-1</left>
+						<top>75</top>
+						<width>268</width>
+						<height>390</height>
+						<texture border="1" colordiffuse="99FFFFFF">black.png</texture>
+						<bordersize>20</bordersize>
+					</control>
+					<control type="image">
+					</control>
+					<include>FlixThumbReflection</include> -->
+				</itemlayout>
+				<focusedlayout height="270" width="480" condition="Container.Content(tvshows) + Skin.HasSetting(Enable.MyFlix.TVLandscape)">
+					<control type="image">
+						<include>FlixLandscape</include>
+						<texture background="true" diffuse="thumbs/thumb_mask.png">$VAR[LandscapeItem0Var]</texture>
+					</control>
+					<!-- <control type="group">
+						<include>FlixThumbReflection</include>
+					</control> -->
+				</focusedlayout>
 			</control>
 			<control type="group">
 				<left>31</left>
 				<top>680</top>
 				<width>215</width>
 				<height>215</height>
-				<visible>!Control.IsVisible(7000) + Skin.HasSetting(Enable.MyFlix.OpenCase) + Skin.HasSetting(Enable.MyFlix.Cases)</visible>
+				<visible>!Control.IsVisible(7000) + Skin.HasSetting(Enable.MyFlix.OpenCase) + Skin.HasSetting(Enable.MyFlix.Cases) + [Container.Content(movies) | Container.Content(sets)]</visible>
 				<control type="image">
 					<texture background="true" fallback="bd.png">$INFO[ListItem(0).Art(discart)]</texture>
 					<animation type="Conditional" condition="[!IsEmpty(Control.GetLabel(4447)) + Control.IsVisible(4447)]" reversible="false">
@@ -266,16 +334,16 @@
 				</control>
 			</control>
 			<control type="group" id="7000">
-				<visible>Container.OnNext | Container.OnPrevious</visible>
-				<animation effect="fade" time="fade_time" reversible="false">Hidden</animation>
+				<visible>[Container.Content(movies) | Container.Content(sets)] + [Container.OnNext | Container.OnPrevious]</visible>
+				<animation effect="fade" time="fade_time" end="0" reversible="false">Hidden</animation>
 				<control type="label">
 					<include>HiddenObject</include>
 				</control>
 			</control>
 			<control type="group">
 				<top>530</top>
-				<left>10</left>
-				<visible>!Control.IsVisible(7000)</visible>
+				<left>0</left>
+				<visible>!Control.IsVisible(7000) + [Container.Content(movies) | Container.Content(sets)]</visible>
 				<control type="group">
 					<include>FlixThumb</include>
 					<include>MyFlixModAnimation</include>
@@ -310,7 +378,7 @@
 	</include>
 	<include name="FlixThumb">
 		<control type="image">
-			<left>-1</left>
+			<left>10</left>
 			<top>75</top>
 			<width>268</width>
 			<height>390</height>
@@ -319,9 +387,17 @@
 			<bordersize>20</bordersize>
 		</control>
 	</include>
+	<include name="FlixLandscape">
+		<left>-10</left>
+		<top>197</top>
+		<width>480</width>
+		<height>270</height>
+		<bordertexture border="20">thumbs/thumb_shadow_aa.png</bordertexture>
+		<bordersize>20</bordersize>
+	</include>
 	<include name="FlixThumbReflection">
 		<control type="image">
-			<left>19</left>
+			<left>29</left>
 			<top>465</top>
 			<width>228</width>
 			<height>402</height>
@@ -329,7 +405,7 @@
 		</control>
 	</include>
 	<include name="FlixDVDCoverVars">
-		<left>-30</left>
+		<left>-18</left>
 		<top>60</top>
 		<width>295</width>
 		<height>410</height>
@@ -337,7 +413,7 @@
 	</include>
 	<include name="FlixThumbReflectionDVD">
 		<control type="image">
-			<left>-30</left>
+			<left>-18</left>
 			<top>442</top>
 			<width>295</width>
 			<height>410</height>
