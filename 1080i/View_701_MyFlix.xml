@@ -208,7 +208,7 @@
 				<top>530</top>
 				<left>0</left>
 				<width>1920</width>
-				<height>525</height>
+				<height>600</height>
 				<visible>Container.Content(movies) | Container.Content(sets) | Container.Content(tvshows) | Container.Content(episodes)</visible>
 				<onleft>701</onleft>
 				<onright>701</onright>
@@ -220,20 +220,9 @@
 				<orientation>horizontal</orientation>
 				<preloaditems>2</preloaditems>
 				<focusposition>0</focusposition>
-				<itemlayout height="402" width="271" condition="Container.Content(movies) | Container.Content(sets) | [Container.Content(tvshows) + !Skin.HasSetting(Enable.MyFlix.TVLandscape)]">
-					<control type="image">
-						<include>FlixCaseVars</include>
-						<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
-					</control>
+				<itemlayout height="525" width="271" condition="Container.Content(movies) | Container.Content(sets) | [Container.Content(tvshows) + !Skin.HasSetting(Enable.MyFlix.TVLandscape)]">
 					<include>FlixPoster</include>
-					<control type="image">
-						<left>206</left>
-						<top>95</top>
-						<width>60</width>
-						<height>60</height>
-						<texture>$VAR[OverlayVar]</texture>
-						<aspectratio align="center" aligny="top">keep</aspectratio>
-					</control>
+					<include>FlixPosterOverlay</include>
 					<control type="image">
 						<left>10</left>
 						<top>75</top>
@@ -249,7 +238,7 @@
 					<include>FlixPosterReflection</include>
 					<include>FlixPosterCaseReflection</include>
 				</itemlayout>
-				<focusedlayout height="402" width="271" condition="Container.Content(movies) | Container.Content(sets) | [Container.Content(tvshows) + !Skin.HasSetting(Enable.MyFlix.TVLandscape)]">
+				<focusedlayout height="525" width="271" condition="Container.Content(movies) | Container.Content(sets) | [Container.Content(tvshows) + !Skin.HasSetting(Enable.MyFlix.TVLandscape)]">
 					<control type="image">
 						<include>FlixCaseVars</include>
 						<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
@@ -261,19 +250,12 @@
 							<include>FlixCaseVars</include>
 							<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 						</control>
-						<control type="image">
-							<left>206</left>
-							<top>95</top>
-							<width>60</width>
-							<height>60</height>
-							<texture>$VAR[OverlayVar]</texture>
-							<aspectratio align="center" aligny="top">keep</aspectratio>
-						</control>
+						<include>FlixPosterOverlay</include>
 					</control>
 					<control type="group">
+						<visible>[[Container.Content(movies) | Container.Content(sets)] + Control.IsVisible(7000)] | [[Container.Content(movies) | Container.Content(sets)] + !Skin.HasSetting(Enable.MyFlix.OpenCase)] | Container.Content(tvshows)</visible>
 						<include>FlixPosterReflection</include>
 						<include>FlixPosterCaseReflection</include>
-						<include>MyFlixModAnimation</include>
 					</control>
 				</focusedlayout>
 				<itemlayout height="270" width="480" condition="Container.Content(tvshows) + Skin.HasSetting(Enable.MyFlix.TVLandscape)">
@@ -319,7 +301,7 @@
 						<aspectratio align="center" aligny="top">keep</aspectratio>
 					</control>
 					<control type="image">
-						<left>-10</left>
+						<left>0</left>
 						<top>197</top>
 						<width>480</width>
 						<height>270</height>
@@ -429,7 +411,7 @@
 				</control>
 			</control>
 			<control type="group" id="7000">
-				<visible>[Container.Content(movies) | Container.Content(sets)] + [Container.OnNext | Container.OnPrevious]</visible>
+				<visible>[Container.Content(movies) | Container.Content(sets)] + [Container.OnNext | Container.OnPrevious] + Skin.HasSetting(Enable.MyFlix.OpenCase)</visible>
 				<animation effect="fade" time="fade_time" end="0" reversible="false">Hidden</animation>
 				<control type="label">
 					<include>HiddenObject</include>
@@ -446,13 +428,10 @@
 						<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 						<include>FlixCaseVars</include>
 					</control>
-					<control type="image">
-						<left>206</left>
-						<top>95</top>
-						<width>60</width>
-						<height>60</height>
-						<texture>$VAR[OverlayVar]</texture>
-						<aspectratio align="center" aligny="top">keep</aspectratio>
+					<include>FlixPosterOverlay</include>
+					<control type="group">
+						<include>FlixPosterReflection</include>
+						<include>FlixPosterCaseReflection</include>
 					</control>
 				</control>
 			</control>
@@ -483,6 +462,16 @@
 			<texture background="true">$VAR[PosterThumbVar]</texture>
 			<bordertexture border="20">thumbs/thumb_shadow_aa.png</bordertexture>
 			<bordersize>20</bordersize>
+		</control>
+	</include>
+	<include name="FlixPosterOverlay">
+		<control type="image">
+			<left>206</left>
+			<top>95</top>
+			<width>60</width>
+			<height>60</height>
+			<texture>$VAR[OverlayVar]</texture>
+			<aspectratio align="center" aligny="top">keep</aspectratio>
 		</control>
 	</include>
 	<include name="FlixPosterReflection">
@@ -516,7 +505,7 @@
 	</include>
 	<include name="FlixEpisodeThumb">
 		<control type="image">
-			<left>-10</left>
+			<left>0</left>
 			<top>197</top>
 			<width>480</width>
 			<height>270</height>
@@ -527,7 +516,7 @@
 	</include>
 	<include name="FlixEpisodeThumbReflection">
 		<control type="image">
-			<left>-10</left>
+			<left>0</left>
 			<top>197</top>
 			<width>480</width>
 			<height>270</height>
