@@ -239,12 +239,12 @@
 					<include>FlixPosterCaseReflection</include>
 				</itemlayout>
 				<focusedlayout height="525" width="271" condition="Container.Content(movies) | Container.Content(sets) | [Container.Content(tvshows) + !Skin.HasSetting(Enable.MyFlix.TVLandscape)]">
+					<control type="group">
+						<visible>[[Container.Content(movies) | Container.Content(sets)] + Control.IsVisible(7000) + Skin.HasSetting(Enable.MyFlix.OpenCase)] | [[Container.Content(movies) | Container.Content(sets)] + !Skin.HasSetting(Enable.MyFlix.OpenCase)] | Container.Content(tvshows)</visible>
 					<control type="image">
 						<include>FlixCaseVars</include>
 						<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
 					</control>
-					<control type="group">
-						<visible>[[Container.Content(movies) | Container.Content(sets)] + Control.IsVisible(7000) + Skin.HasSetting(Enable.MyFlix.OpenCase)] | [[Container.Content(movies) | Container.Content(sets)] + !Skin.HasSetting(Enable.MyFlix.OpenCase)] | Container.Content(tvshows)</visible>
 						<include>FlixPoster</include>
 						<control type="image">
 							<include>FlixCaseVars</include>
@@ -299,6 +299,7 @@
 						<height>60</height>
 						<texture>$VAR[OverlayVar]</texture>
 						<aspectratio align="center" aligny="top">keep</aspectratio>
+						<visible>!IsEmpty(Skin.String(701.Episodes.DisableOverlay)) + Container.Content(episodes)</visible>
 					</control>
 					<control type="image">
 						<left>0</left>
@@ -319,9 +320,19 @@
 						<height>60</height>
 						<texture>$VAR[OverlayVar]</texture>
 						<aspectratio align="center" aligny="top">keep</aspectratio>
+						<visible>!IsEmpty(Skin.String(701.Episodes.DisableOverlay)) + Container.Content(episodes)</visible>
 					</control>
 					<include>FlixEpisodeThumbReflection</include>
 				</focusedlayout>
+			</control>
+			<control type="group">
+				<top>530</top>
+				<left>0</left>
+				<visible>[[Container.Content(movies) | Container.Content(sets)] + !Control.IsVisible(7000) + Skin.HasSetting(Enable.MyFlix.OpenCase)]</visible>
+				<control type="image">
+					<include>FlixCaseVars</include>
+					<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
+				</control>
 			</control>
 			<control type="group">
 				<left>33</left>
@@ -472,7 +483,7 @@
 			<height>60</height>
 			<texture>$VAR[OverlayVar]</texture>
 			<aspectratio align="center" aligny="top">keep</aspectratio>
-			<visible>[!Skin.HasSetting(Disable.MyFlix.MovieOverlay) + Container.Content(movies)]</visible>
+			<visible>[!IsEmpty(Skin.String(701.Movies.DisableOverlay)) + Container.Content(movies)] | [!IsEmpty(Skin.String(701.TV.DisableOverlay)) + Container.Content(tvshows)]</visible>
 		</control>
 	</include>
 	<include name="FlixPosterReflection">
