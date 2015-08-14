@@ -401,9 +401,9 @@
 		<value condition="Container.Content(episodes)">$INFO[ListItem.TvShowTitle]</value>
 		<value condition="Container.Content(addons)">$INFO[ListItem.Property(Addon.Summary)]</value>
 		<value condition="Container.Content(musicvideos)">$INFO[ListItem.Artist]</value>
-		<value condition="[Control.IsVisible(500) | Control.IsVisible(57) | Control.IsVisible(53) | Control.IsVisible(58) | Control.IsVisible(52) | Control.IsVisible(499) | Control.IsVisible(503) | Control.IsVisible(504) | Control.IsVisible(592) | Control.IsVisible(601) | Control.IsVisible(700)] + [Container.Content(movies) + !IsEmpty(ListItem.Title)]">$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$INFO[ListItem.Duration,, $LOCALIZE[12391]]$INFO[ListItem.Endtime, • $LOCALIZE[19127]: ,]</value>
-		<value condition="[Control.IsVisible(500) | Control.IsVisible(57) | Control.IsVisible(53) | Control.IsVisible(58) | Control.IsVisible(52) | Control.IsVisible(499) | Control.IsVisible(503) | Control.IsVisible(504)] + [Container.Content(tvshows) | Container.Content(seasons) + !IsEmpty(ListItem.Title)]">$LOCALIZE[20360]: $INFO[ListItem.Property(TotalEpisodes)] $INFO[ListItem.Property(UnWatchedEpisodes), ($LOCALIZE[16101]: ,)]</value>
-		<value>$INFO[ListItem.Genre]</value>
+		<value condition="Container.Content(movies) + !IsEmpty(ListItem.Title) + !Skin.HasSetting(Enable.HourMinuteDuration)">$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$INFO[ListItem.Duration,, $LOCALIZE[12391]]$INFO[ListItem.Endtime, • $LOCALIZE[19127]: ,]</value>
+		<value condition="Container.Content(movies) + !IsEmpty(ListItem.Title) + Skin.HasSetting(Enable.HourMinuteDuration)">$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$VAR[ListItemDurationVar]$INFO[ListItem.Endtime, • $LOCALIZE[19127]: ,]</value>
+		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !IsEmpty(ListItem.Title)">$LOCALIZE[20360]: $INFO[ListItem.Property(TotalEpisodes)] $INFO[ListItem.Property(UnWatchedEpisodes), ($LOCALIZE[16101]: ,)]</value>
 	</variable>
 	<variable name="FloorLabel2Var">
 		<value condition="Container.Content(artists)">$INFO[ListItem.Property(Artist_Genre)]</value>
@@ -1073,6 +1073,46 @@
 		<value condition="!IntegerGreaterThan(Player.TimeRemaining(mm),09) + IntegerGreaterThan(Player.TimeRemaining(mm),0) + StringCompare(Player.TimeRemaining(mm),01)">$LOCALIZE[12311][CR]$LOCALIZE[31182]</value>
 		<value condition="!IntegerGreaterThan(Player.TimeRemaining(h),0) + !IntegerGreaterThan(Player.TimeRemaining(mm),01)">$INFO[Player.TimeRemaining(ss)][CR]$LOCALIZE[31184]</value>
 	</variable>
+	<variable name="ListItemMinuteDurationVar">
+        <value condition="[SubString(ListItem.Duration,1,Right)]">1m</value>
+        <value condition="[SubString(ListItem.Duration,2,Right)]">2m</value>
+        <value condition="[SubString(ListItem.Duration,3,Right)]">3m</value>
+        <value condition="[SubString(ListItem.Duration,4,Right)]">4m</value>
+        <value condition="[SubString(ListItem.Duration,5,Right)]">5m</value>
+        <value condition="[SubString(ListItem.Duration,6,Right)]">6m</value>
+        <value condition="[SubString(ListItem.Duration,7,Right)]">7m</value>
+        <value condition="[SubString(ListItem.Duration,8,Right)]">8m</value>
+        <value condition="[SubString(ListItem.Duration,9,Right)]">9m</value>
+        <value condition="[SubString(ListItem.Duration,0,Right) + !StringCompare(ListItem.Duration,60) + !StringCompare(ListItem.Duration,120) + !StringCompare(ListItem.Duration,180) + !StringCompare(ListItem.Duration,240)]">0m</value>
+    </variable>
+    <variable name="ListItemDurationVar">
+        <value condition="[!IntegerGreaterThan(ListItem.Duration,60)]">$INFO[ListItem.Duration]m</value>
+        <value condition="[!IntegerGreaterThan(ListItem.Duration,99) + SubString(ListItem.Duration,6,Left)]">1h$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[!IntegerGreaterThan(ListItem.Duration,99) + SubString(ListItem.Duration,7,Left)]">1h1$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[!IntegerGreaterThan(ListItem.Duration,99) + SubString(ListItem.Duration,8,Left)]">1h2$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[!IntegerGreaterThan(ListItem.Duration,99) + SubString(ListItem.Duration,9,Left)]">1h3$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,10,Left)]">1h4$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,11,Left)]">1h5$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,12,Left)]">2h$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,13,Left)]">2h1$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,14,Left)]">2h2$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,15,Left)]">2h3$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,16,Left)]">2h4$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,17,Left)]">2h5$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,18,Left)]">3h$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,19,Left)]">3h1$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,20,Left)]">3h2$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,21,Left)]">3h3$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,22,Left)]">3h4$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,23,Left)]">3h5$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,24,Left)]">4h$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,25,Left)]">4h1$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,26,Left)]">4h2$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,27,Left)]">4h3$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,28,Left)]">4h4$VAR[ListItemMinuteDurationVar]</value>
+        <value condition="[SubString(ListItem.Duration,29,Left)]">4h5$VAR[ListItemMinuteDurationVar]</value>
+        <value>$INFO[ListItem.Duration]</value>
+    </variable>
 	<variable name="FakeDiscOuterRingVar">
 		<value condition="SubString(ListItem.Filename,3d) | SubString(ListItem.Filename,3dbd)">discart/3d.png</value>
 		<value condition="SubString(ListItem.Filename,hddvd)">discart/hddvd.png</value>
