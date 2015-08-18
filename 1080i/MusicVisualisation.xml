@@ -110,8 +110,8 @@
 			<animation effect="rotate" tween="cubic" time="720" center="auto" end="90" condition="true">Conditonal</animation>
 		</control>
 		<control type="group">
-			<left>0</left>
 			<top>520</top>
+			<visible>!Skin.HasSetting(Enable.AlternateMusicLayout)</visible>
 			<visible>[Player.ShowInfo | Window.IsActive(MusicOSD)] + ![Window.IsVisible(AddonSettings) | Window.IsVisible(SelectDialog) | Window.IsVisible(VisualisationPresetList)]</visible>
 			<include>VisibleFadeEffect</include>
 			<include>Window_OpenClose_Animation</include>
@@ -126,7 +126,7 @@
 				<top>230</top>
 				<width>400</width>
 				<height>45</height>
-				<colordiffuse>FFFFD700</colordiffuse>
+				<colordiffuse>selected</colordiffuse>
 				<aspectratio>keep</aspectratio>
 				<texture fallback="rating0.png">$INFO[Player.StarRating]</texture>
 			</control>
@@ -292,6 +292,159 @@
 				<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
 				<bordersize>20</bordersize>
 			</control>-->
+		</control>
+		<control type="group">
+			<top>520</top>
+			<visible>Skin.HasSetting(Enable.AlternateMusicLayout)</visible>
+			<visible>[Player.ShowInfo | Window.IsActive(MusicOSD)] + ![Window.IsVisible(AddonSettings) | Window.IsVisible(SelectDialog) | Window.IsVisible(VisualisationPresetList)]</visible>
+			<include>VisibleFadeEffect</include>
+			<include>Window_OpenClose_Animation</include>
+			<control type="image">
+				<top>-200</top>
+				<width>FullScreenWidth</width>
+				<height>760</height>
+				<texture border="1">nowplaying_shadow.png</texture>
+			</control>
+			<control type="group">
+				<left>300</left>
+				<top>150</top>
+				<control type="label">
+					<left>478</left>
+					<top>-80</top>
+					<width>780</width>
+					<height>80</height>
+					<font>font_musicviz</font>
+					<align>left</align>
+					<textcolor>white</textcolor>
+					<shadowcolor>black</shadowcolor>
+					<label>$INFO[MusicPlayer.Artist]</label>
+					<scroll>true</scroll>
+					<scrollsuffix>  -  </scrollsuffix>
+					<visible>Substring(Control.GetLabel(9999),empty.png) | IsEmpty(Skin.String(pathlogosartists))</visible>
+				</control>
+				<control type="image" id="9999">
+					<left>473</left>
+					<top>-120</top>
+					<align>left</align>
+					<aligny>bottom</aligny>
+					<description>Artist Logo</description>
+					<width>400</width>
+					<height>155</height>
+					<aspectratio>keep</aspectratio>
+					<texture background="true" fallback="empty.png">$INFO[Skin.String(pathlogosartists)]$INFO[MusicPlayer.Artist,,/logo.png]</texture>
+					<fadetime>400</fadetime>
+					<visible>!IsEmpty(Skin.String(pathlogosartists))</visible>
+				</control>
+				<control type="label">
+					<left>475</left>
+					<top>70</top>
+					<width>780</width>
+					<height>20</height>
+					<align>left</align>
+					<font>font30</font>
+					<label>$INFO[MusicPlayer.TrackNumber,[COLOR labelheader],. [/COLOR]]$INFO[Player.Title]</label>
+					<textcolor>white</textcolor>
+					<scroll>true</scroll>
+					<shadowcolor>black</shadowcolor>
+					<scrollsuffix>  -  </scrollsuffix>
+				</control>
+				<control type="label">
+					<left>475</left>
+					<top>140</top>
+					<width>780</width>
+					<height>20</height>
+					<align>left</align>
+					<font>font30</font>
+					<label>$INFO[MusicPlayer.Album]$INFO[musicplayer.discnumber, - $LOCALIZE[427]:]$INFO[MusicPlayer.Year, [COLOR labelheader][,][/COLOR]]</label>
+					<textcolor>white</textcolor>
+					<shadowcolor>black</shadowcolor>
+					<scroll>true</scroll>
+					<scrollsuffix>  -  </scrollsuffix>
+				</control>
+				<control type="label">
+					<left>475</left>
+					<top>208</top>
+					<width>600</width>
+					<height>18</height>
+					<align>left</align>
+					<font>font30</font>
+					<label>$INFO[Player.Time]$INFO[Player.Duration,[COLOR=labelheader] / [/COLOR]]</label>
+					<textcolor>white</textcolor>
+					<shadowcolor>black</shadowcolor>
+				</control>
+				<control type="label">
+					<left>475</left>
+					<top>248</top>
+					<width>780</width>
+					<height>65</height>
+					<textcolor>white</textcolor>
+					<font>font13</font>
+					<scroll>true</scroll>
+					<scrollsuffix>  -  </scrollsuffix>
+					<label>$INFO[MusicPlayer.Genre,, · ][COLOR labelheader]$INFO[MusicPlayer.Codec,, ]$INFO[MusicPlayer.Bitrate,, kbps[/COLOR]]$INFO[MusicPlayer.BitsPerSample, , $LOCALIZE[612] ·][COLOR labelheader]$INFO[MusicPlayer.Samplerate, , kHz][/COLOR]</label>
+				</control>
+				<control type="image">
+					<left>465</left>
+					<top>315</top>
+					<width>400</width>
+					<height>45</height>
+					<colordiffuse>selected</colordiffuse>
+					<texture>$INFO[Player.StarRating]</texture>
+					<aspectratio align="left" aligny="bottom">keep</aspectratio>
+				</control>
+			</control>
+			<control type="group">
+				<top>-12</top>
+				<control type="image" id="8888">
+					<left>220</left>
+					<top>3</top>
+					<width>545</width>
+					<height>545</height>
+					<aligny>top</aligny>
+					<aspectratio align="left">keep</aspectratio>
+					<fadetime>300</fadetime>
+					<animation effect="rotate" end="-360" center="auto" time="5000" loop="true" reversible="false" condition="!Player.Paused">Conditional</animation>
+					<texture background="true" fallback="special://skin/extras/cdart/blank.png" diffuse="thumbs/cdart_mask.png">$INFO[Player.FolderPath]cdart.png</texture>
+					<bordersize>30</bordersize>
+				</control>
+				<control type="label">
+					<left>360</left>
+					<top>80</top>
+					<width>265</width>
+					<height>89</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>fontCDartist</font>
+					<visible>StringCompare(Control.GetLabel(8888),special://skin/extras/cdart/blank.png)</visible>
+					<label> $INFO[MusicPlayer.Artist]</label>
+					<animation effect="rotate" end="-360" center="495,275" time="5000" loop="true" reversible="false" condition="!Player.Paused">Conditional</animation>
+					<textcolor>black</textcolor>
+					<wrapmultiline>true</wrapmultiline>
+				</control>
+				<control type="label">
+					<left>350</left>
+					<top>370</top>
+					<width>280</width>
+					<height>99</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>fontCDalbum</font>
+					<visible>StringCompare(Control.GetLabel(8888),special://skin/extras/cdart/blank.png)</visible>
+					<label> $INFO[MusicPlayer.Album]</label>
+					<animation effect="rotate" end="-360" center="495,275" time="5000" loop="true" reversible="false" condition="!Player.Paused">Conditional</animation>
+					<textcolor>black</textcolor>
+					<wrapmultiline>true</wrapmultiline>
+				</control>
+				<control type="image">
+					<description>Cover image</description>
+					<width>550</width>
+					<height>550</height>
+					<aspectratio align="right">scale</aspectratio>
+					<texture diffuse="thumbs/cdcover_mask2.png" fallback="DefaultAlbumCover.png">$INFO[Player.Art(thumb)]</texture>
+					<bordertexture border="28">thumbs/cd_shadow2.png</bordertexture>
+					<bordersize>28</bordersize>
+				</control>
+			</control>
 		</control>
 		<!-- RSS Feed: similar artists-->
 		<control type="group">
