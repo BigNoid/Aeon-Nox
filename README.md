@@ -1,5 +1,5 @@
 # Aeon Nox 5: SiLVO
-A modded version of Aeon Nox 5 created by BigNoid
+A modded version of Aeon Nox 5
 
 **Branches guide:**
  - **master:** Kodi v16 Codename Jarvis
