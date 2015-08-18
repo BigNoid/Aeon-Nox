@@ -9,8 +9,8 @@ A modded version of Aeon Nox 5
 *Check the [Aeon Nox 5: SiLVO thread](http://forum.kodi.tv/showthread.php?tid=210069) for more information and support*
  
 **Mr. V Widgets:**
- - mrv_widgets branch is for v1
- - mr.v_widgets branch is for v2
+ - mr.v_widgets_v1 branch is for version 1 
+ - mr.v_widgets_v2 branch is for version 2
  
 *Check the [Mr. V Widget thread](http://forum.kodi.tv/showthread.php?tid=227102) for the most up to date information*
  
