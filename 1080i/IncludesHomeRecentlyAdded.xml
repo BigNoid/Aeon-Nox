@@ -5,7 +5,7 @@
 			<animation effect="slide" tween="cubic" time="720" start="0,-1080" end="0,0">WindowOpen</animation>
 			<animation effect="slide" tween="cubic" time="720" end="0,-1080" start="0,0">WindowClose</animation>
 			<animation effect="slide" end="0,338" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
-			<visible>[StringCompare(Container(9000).ListItem.Property(WidgetType),1) | StringCompare(Container(9000).ListItem.Property(WidgetType),2) | StringCompare(Container(9000).ListItem.Property(WidgetType),4) | StringCompare(Container(9000).ListItem.Property(WidgetType),5) | StringCompare(Container(9000).ListItem.Property(WidgetType),10) | StringCompare(Container(9000).ListItem.Property(WidgetType),14) | StringCompare(Container(9000).ListItem.Property(WidgetType),15) | StringCompare(Container(9000).ListItem.Property(WidgetType),16) | StringCompare(Container(9000).ListItem.Property(WidgetType),20)]</visible>
+			<visible>!IsEmpty(Container(9000).ListItem.Property(WidgetType))</visible>
 			<include>VisibleFadeEffect</include>
 			<control type="group">
 				<visible>ControlGroup(9003).HasFocus() + !Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(panelwidgets)</visible>
@@ -67,7 +67,7 @@
 					<height>432</height>
 					<itemgap>12</itemgap>
 					<align>center</align>
-					<visible>!SubString(Container(9000).ListItem.Property(Widget),addons://sources/,left)</visible>
+					<visible>!SubString(Container(9000).ListItem.Property(Widget),addons://sources/,left) + !SubString(Container(9000).ListItem.Property(WidgetType),20)</visible>
 					<control type="label">
 						<width>900</width>
 						<height>40</height>
@@ -123,7 +123,7 @@
 						<font>font14</font>
 						<textcolor>white2</textcolor>
 						<shadowcolor>black</shadowcolor>
-						<label>$INFO[Container(8000).ListItem.Year]$INFO[Container(8000).ListItem.RatingAndVotes, | ]$INFO[Container(8000).ListItem.Duration, | , $LOCALIZE[12391]]</label>
+						<label>$INFO[Container(8000).ListItem.Year]$INFO[Container(8000).ListItem.RatingAndVotes, • ,]$INFO[Container(8000).ListItem.Duration, • , $LOCALIZE[12391]]</label>
 						<visible>IsEmpty(Container(8000).ListItem.Artist) + IsEmpty(Container(8000).ListItem.TvShowTitle)</visible>
 					</control>
 					<control type="label">
@@ -132,7 +132,7 @@
 						<font>font14</font>
 						<textcolor>white2</textcolor>
 						<shadowcolor>black</shadowcolor>
-						<label>$INFO[Container(8000).ListItem.Premiered,, | ]$INFO[Container(8000).ListItem.RatingAndVotes]$INFO[Container(8000).ListItem.Duration, | , $LOCALIZE[12391]]</label>
+						<label>$INFO[Container(8000).ListItem.Premiered]$INFO[Container(8000).ListItem.RatingAndVotes, • ,]$INFO[Container(8000).ListItem.Duration, • , $LOCALIZE[12391]]</label>
 						<visible>!IsEmpty(Container(8000).ListItem.TvShowTitle)</visible>
 					</control>
 					<control type="label">
@@ -142,16 +142,7 @@
 						<textcolor>white2</textcolor>
 						<shadowcolor>black</shadowcolor>
 						<label>$INFO[Container(8000).ListItem.Director,$LOCALIZE[31000] ]</label>
-						<visible>!StringCompare(Container(9000).ListItem.Property(WidgetType),20) + [IsEmpty(Container(8000).ListItem.Artist) + IsEmpty(Container(8000).ListItem.TvShowTitle)] </visible>
-					</control>
-					<control type="label">
-						<width>900</width>
-						<height>35</height>
-						<font>font14</font>
-						<textcolor>white2</textcolor>
-						<shadowcolor>black</shadowcolor>
-						<label>$INFO[Container(8000).ListItem.mpaa,Rated ]</label>
-						<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),20)</visible>
+						<visible>[IsEmpty(Container(8000).ListItem.Artist) + IsEmpty(Container(8000).ListItem.TvShowTitle)] </visible>
 					</control>
 					<control type="label">
 						<width>900</width>
@@ -160,7 +151,7 @@
 						<textcolor>white2</textcolor>
 						<shadowcolor>black</shadowcolor>
 						<label>$INFO[Container(8000).ListItem.mpaa,]</label>
-						<visible>!StringCompare(Container(9000).ListItem.Property(WidgetType),20) + [IsEmpty(Container(8000).ListItem.Artist) + IsEmpty(Container(8000).ListItem.TvShowTitle)]</visible>
+						<visible>[IsEmpty(Container(8000).ListItem.Artist) + IsEmpty(Container(8000).ListItem.TvShowTitle)]</visible>
 					</control>
 					<control type="label">
 						<width>900</width>
@@ -188,6 +179,88 @@
 						<shadowcolor>black</shadowcolor>
 						<label>$INFO[Container(8000).ListItem.Album]$INFO[Container(8000).ListItem.Year, [,]]</label>
 						<visible>!IsEmpty(Container(8000).ListItem.Album)</visible>
+					</control>
+					<control type="label">
+						<height>2</height>
+						<label>-</label>
+					</control>
+					<control type="textbox">
+						<description>Plot</description>
+						<width>900</width>
+						<height>150</height>
+						<font>font14_textbox</font>
+						<align>left</align>
+						<label>$INFO[Container(8000).ListItem.Plot]$INFO[Container(8000).ListItem.Property(Album_Description)]</label>
+						<textcolor>white2</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
+					</control>
+				</control>
+				<control type="grouplist">
+					<left>432</left>
+					<top>13</top>
+					<width>1300</width>
+					<height>432</height>
+					<itemgap>12</itemgap>
+					<align>center</align>
+					<visible>!SubString(Container(9000).ListItem.Property(Widget),addons://sources/,left) + SubString(Container(9000).ListItem.Property(WidgetType),20)</visible>
+					<control type="label">
+						<width>900</width>
+						<height>40</height>
+						<font>font14_title</font>
+						<textcolor>labelheader</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<label>$INFO[Container(8000).ListItem.Property(Title)]</label>
+						<wrapmultiline>true</wrapmultiline>
+					</control>
+					<control type="label">
+						<width>900</width>
+						<height>20</height>
+						<font>font14</font>
+						<textcolor>white2</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<label>$INFO[Container(8000).ListItem.Property(Tagline)]</label>
+						<visible>!IsEmpty(Container(8000).ListItem.Property(Tagline))</visible>
+					</control>
+					<control type="label">
+						<height>2</height>
+						<label>-</label>
+					</control>
+					<control type="label">
+						<width>900</width>
+						<height>35</height>
+						<font>font14_title</font>
+						<textcolor>white2</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<label>$INFO[Container(8000).ListItem.Property(Genre)]</label>
+						<visible>!IsEmpty(Container(8000).ListItem.Genre)</visible>
+					</control>
+					<control type="label">
+						<width>900</width>
+						<height>35</height>
+						<font>font14</font>
+						<textcolor>white2</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<label>$INFO[Container(8000).ListItem.Property(Director),$LOCALIZE[31000]: ,]</label>
+						<visible>!IsEmpty(Container(8000).ListItem.Property(Director)) + [IsEmpty(Container(8000).ListItem.Artist) + IsEmpty(Container(8000).ListItem.TvShowTitle)]</visible>
+					</control>
+					<control type="label">
+						<width>900</width>
+						<height>35</height>
+						<font>font14</font>
+						<textcolor>white2</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<label>$INFO[Container(8000).ListItem.Property(MPAA),Rated ]</label>
+						<visible>!IsEmpty(Container(8000).ListItem.Property(MPAA))</visible>
+					</control>
+					<control type="label">
+						<width>900</width>
+						<height>35</height>
+						<font>font14</font>
+						<textcolor>white2</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<label>$INFO[Container(8000).ListItem.Property(Year)]$INFO[Container(8000).ListItem.RatingAndVotes, • ,]$INFO[Container(8000).ListItem.Property(Duration), • , $LOCALIZE[12391]]</label>
+						<visible>IsEmpty(Container(8000).ListItem.Artist)</visible>
 					</control>
 					<control type="label">
 						<height>2</height>
@@ -407,9 +480,9 @@
 				<visible>[StringCompare(Container(9000).ListItem.Property(WidgetType),1) | StringCompare(Container(9000).ListItem.Property(WidgetType),16) | StringCompare(Container(9000).ListItem.Property(WidgetType),20)]</visible>
 				<control type="image">
 					<left>175</left>
-					<top>-40</top>
+					<top>-10</top>
 					<width>1560</width>
-					<height>480</height>
+					<height>450</height>
 					<texture border="40">dialogs/default/bg2.png</texture>
 					<visible>Skin.HasSetting(expandedwidgets) + Skin.HasSetting(panelwidgets)</visible>
 				</control>
@@ -422,15 +495,23 @@
 					<visible>!Skin.HasSetting(expandedwidgets) + Skin.HasSetting(panelwidgets)</visible>
 				</control>
 			</control>
-			<control type="group">
-				<left>810</left>
+			<control type="grouplist">
+				<left>0</left>
 				<top>425</top>
-				<width>300</width>
+				<width>1920</width>
 				<height>40</height>
-				<font>font13</font>
+				<itemgap>10</itemgap>
+				<align>center</align>
+				<orientation>horizontal</orientation>
 				<visible>Skin.HasSetting(panelwidgets)</visible>
+				<control type="image">
+					<width>150</width>
+					<texture>$VAR[WidgetIconVar]</texture>
+					<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),20)</visible>
+				</control>
 				<control type="label">
-					<align>center</align>
+					<width>auto</width>
+					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<shadowcolor>black</shadowcolor>
 					<label>$INFO[Container(9000).ListItem.Property(WidgetLabel)]</label>
@@ -451,20 +532,20 @@
 				<preloaditems>2</preloaditems>
 				<scrolltime tween="quadratic" easing="out">300</scrolltime>
 				<visible>[StringCompare(Container(9000).ListItem.Property(WidgetType),1) | StringCompare(Container(9000).ListItem.Property(WidgetType),16) | StringCompare(Container(9000).ListItem.Property(WidgetType),20)] + Skin.HasSetting(panelwidgets)</visible>
-				<itemlayout height="351" width="250" condition="Skin.HasSetting(expandedwidgets)">
+				<itemlayout height="325" width="250" condition="Skin.HasSetting(expandedwidgets)">
 					<control type="image">
 						<left>15</left>
-						<top>10</top>
+						<top>36</top>
 						<width>234</width>
-						<height>351</height>
-						<texture fallback="black.png">$INFO[ListItem.Art(poster)]</texture>
+						<height>325</height>
+						<texture fallback="DefaultMovies.png">$INFO[ListItem.Art(poster)]</texture>
 					</control>
                     <control type="image">
 						<left>15</left>
-						<top>10</top>
-						<width>237</width>
-						<height>351</height>
-						<texture>thumbs/diffuse.png</texture>
+						<top>36</top>
+						<width>234</width>
+						<height>325</height>
+						<texture colordiffuse="66FFFFFF">black.png</texture>
 					</control>
 					<control type="label">
 						<left>25</left>
@@ -489,17 +570,17 @@
 						<label>$VAR[WidgetSubLabelVar]</label>
 					</control>
 				</itemlayout>
-				<focusedlayout height="351" width="250" condition="Skin.HasSetting(expandedwidgets)">
+				<focusedlayout height="325" width="250" condition="Skin.HasSetting(expandedwidgets)">
 					<control type="group">
 						<animation type="Focus" reversible="false">
 							<effect type="zoom" start="90" end="100" time="200" tween="sine" easing="inout" center="auto" />
 						</animation>
 						<control type="image">
 							<left>15</left>
-							<top>10</top>
+							<top>36</top>
 							<width>234</width>
-							<height>351</height>
-							<texture fallback="black.png">$INFO[ListItem.Art(poster)]</texture>
+							<height>325</height>
+							<texture fallback="DefaultMovies.png">$INFO[ListItem.Art(poster)]</texture>
 						</control>
 						<control type="label">
 							<left>25</left>
@@ -532,7 +613,7 @@
 						<height>320</height>
 						<fadetime>400</fadetime>
 						<aspectratio>scale</aspectratio>
-						<texture fallback="black.png">$INFO[ListItem.Art(poster)]</texture>
+						<texture fallback="DefaultMovies.png">$INFO[ListItem.Art(poster)]</texture>
 					</control>
 				</itemlayout>
 				<focusedlayout height="320" width="216" condition="!Skin.HasSetting(expandedwidgets)">
@@ -545,7 +626,7 @@
 							<width>216</width>
 							<height>320</height>
 							<aspectratio>scale</aspectratio>
-							<texture fallback="black.png">$INFO[ListItem.Art(poster)]</texture>
+							<texture fallback="DefaultMovies.png">$INFO[ListItem.Art(poster)]</texture>
 						</control>
 					</control>
 					<control type="image">
@@ -580,6 +661,7 @@
 				</focusedlayout>
 				<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
 			</control>
+
 			<!-- TV Panel Widgets -->
 			<control type="group">
 				<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),14) + Skin.HasSetting(panelwidgets)</visible>
@@ -922,7 +1004,7 @@
 							<width>300</width>
 							<height>300</height>
 							<aspectratio>scale</aspectratio>
-							<texture fallback="Black.png">$INFO[ListItem.Thumb]</texture>
+							<texture fallback="black.png">$INFO[ListItem.Thumb]</texture>
 						</control>
 						<control type="label">
 							<left>5</left>
@@ -970,7 +1052,7 @@
 							<top>90</top>
 							<width>254</width>
 							<height>254</height>
-							<texture fallback="Black.png">$INFO[ListItem.Thumb]</texture>
+							<texture fallback="black.png">$INFO[ListItem.Thumb]</texture>
 						</control>
 					</control>
 				</itemlayout>
