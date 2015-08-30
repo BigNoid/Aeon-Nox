@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window type="dialog" id="142">
 	<zorder>0</zorder>
-	<onload condition="[VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)] + Skin.HasSetting(ShowPlotCast)">SetFocus(64)</onload>
+	<onload condition="[VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]">SetFocus(64)</onload>
 	<controls>
 		<control type="button" id="64">
 			<include>HiddenObject</include>
 			<onleft>65</onleft>
 			<onright>63</onright>
+			<onup>Skin.ToggleSetting(Enable.TimeRemaining)</onup>
+			<ondown>Skin.ToggleSetting(Enable.SeekTimeRemaining)</ondown>
 			<onclick>Skin.ToggleSetting(ShowPlotCast)</onclick>
 		</control>
 		<!-- Panel Background (Movies + Episodes) -->
@@ -23,7 +25,8 @@
 			<width>FullScreenWidth</width>
 			<align>center</align>
 			<font>BigAssTimeFont</font>
-			<textcolor>B3FFFFFF</textcolor>
+			<textcolor>D0FFFFFF</textcolor>
+			<shadowcolor>black</shadowcolor>
 			<visible>Skin.HasSetting(Enable.TimeRemaining) + !VideoPlayer.Content(LiveTV)</visible>
 		</control>
 		<control type="group">
@@ -61,7 +64,7 @@
 					</animation>
 					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(63)</autoscroll>
 				</control>
-				<!-- PlotOutline (Movies) -->
+				<!-- Plot -->
 				<control type="textbox">
 					<label>$VAR[VideoPlayerPlotVar]</label>
 					<left>20</left>
@@ -97,7 +100,6 @@
 				<ondown>63</ondown>
 				<onleft>64</onleft>
 				<onright>64</onright>
-				<visible>Skin.HasSetting(ShowPlotCast)</visible>
 				<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(63) + !Container.Scrolling">Conditional</animation>
 			</control>
 			<control type="scrollbar" id="65">
@@ -114,7 +116,6 @@
 				<ondown>65</ondown>
 				<onleft>64</onleft>
 				<onright>64</onright>
-				<visible>Skin.HasSetting(ShowPlotCast)</visible>
 				<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(65) + !Container.Scrolling">Conditional</animation>
 			</control>
 		</control>
@@ -124,7 +125,7 @@
 			<control type="group">
 				<control type="label">
 					<align>center</align>
-					<label>[B]$INFO[Player.Title][/B] ($INFO[VideoPlayer.Year])</label>
+					<label>[B]$INFO[Player.Title][/B] $INFO[VideoPlayer.Year,(,)]</label>
 					<left>505</left>
 					<width>910</width>
 					<font>font28_title</font>
@@ -157,7 +158,7 @@
 				<control type="label">
 					<top>-1050</top>
 					<align>right</align>
-					<label>[COLOR themecolor]IMDb:[/COLOR] $INFO[VideoPlayer.RatingAndVotes] $INFO[VideoPlayer.Top250 , [COLOR themecolor]$LOCALIZE[13409][/COLOR] #]</label>
+					<label>$INFO[VideoPlayer.RatingAndVotes,[COLOR themecolor]IMDb:[/COLOR] ,] $INFO[VideoPlayer.Top250 , [COLOR themecolor]$LOCALIZE[13409][/COLOR] #]</label>
 					<left>1305</left>
 					<width>600</width>
 					<font>font13</font>
@@ -474,8 +475,12 @@
 		</control>
 		<!-- New DialogInfo for LiveTV -->
 		<control type="group" id="9006">
-			<animation effect="slide" start="0,1080" end="0,60" time="800" easing="out" tween="back">WindowOpen</animation>
-			<animation effect="slide" start="0,60" end="0,1080" time="800" delay="400" easing="in" tween="back">WindowClose</animation>
+			<animation type="WindowOpen" reversible="false">
+				<effect type="slide" start="0,-806" end="0" easing="out" tween="back" time="800" />
+			</animation>
+			<animation type="WindowClose" reversible="false">
+				<effect type="slide" end="0,-806" start="0" easing="in" tween="cubic" time="600" />
+			</animation>
 			<visible>VideoPlayer.Content(LiveTV) + !Window.IsActive(infodialog) + !Control.IsVisible(9001) + !Control.IsVisible(9002)</visible>
 			<control type="image">
 				<left>260</left>
