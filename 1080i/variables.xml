@@ -376,6 +376,8 @@
 	</variable>
 	<variable name="InfoPanelLabel4Var">
 		<value condition="[Container.Content(movies) | Container.Content(episodes) | Container.Content(sets)] + !IsEmpty(Window(home).Property(Set.Movies.Runtime))">[COLOR labelheader]$LOCALIZE[2050]:[/COLOR][CR]$INFO[Window(home).Property(Set.Movies.Runtime),, $LOCALIZE[12391]]</value>
+		<value condition="[Container.Content(movies) | Container.Content(episodes) | Container.Content(sets)] + !Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR labelheader]$LOCALIZE[2050]:[/COLOR][CR]$$INFO[ListItem.Duration]</value>
+		<value condition="[Container.Content(movies) | Container.Content(episodes) | Container.Content(sets)] + Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR labelheader]$LOCALIZE[2050]:[/COLOR][CR]$VAR[ListItemDurationVar]</value>
 		<value condition="[Container.Content(movies) | Container.Content(episodes) | Container.Content(sets)]">[COLOR labelheader]$LOCALIZE[2050]:[/COLOR][CR]$INFO[ListItem.Duration,, $LOCALIZE[12391]]</value>
 		<value condition="Container.Content(tvshows) + !IsEmpty(Window(Home).Property(NextAired.Runtime))">[COLOR labelheader]$LOCALIZE[2050]:[/COLOR][CR]$VAR[DurationVar,, $LOCALIZE[12391]]</value>
 		<value condition="Container.Content(tvshows)">[COLOR labelheader]$LOCALIZE[33054]:[/COLOR][CR]$INFO[ListItem.Property(TotalSeasons)]</value>
@@ -429,9 +431,15 @@
 	</variable>
 	<variable name="OSDRightLabelVar">
 		<value condition="Player.ShowTime + !VideoPlayer.Content(livetv)">$INFO[Player.Time]$INFO[Player.TimeRemaining, / ]</value>
-		<value condition="!VideoPlayer.Content(livetv) + Skin.HasSetting(Enable.SeekTimeRemaining)">$INFO[Player.Time]$INFO[Player.TimeRemaining, / ]</value>
-		<value condition="!VideoPlayer.Content(livetv) + !Skin.HasSetting(Enable.SeekTimeRemaining)">$INFO[Player.Time]$INFO[Player.Duration, / ]</value>
+		<value condition="!VideoPlayer.Content(livetv) + IsEmpty(Skin.String(Seekbar.RightLabel))">$INFO[Player.Time]$INFO[Player.Duration, / ]</value>
+		<value condition="!VideoPlayer.Content(livetv) + StringCompare(Skin.String(Seekbar.RightLabel),1)">$INFO[Player.Time]$INFO[Player.TimeRemaining, / ]</value>
+		<value condition="!VideoPlayer.Content(livetv) + StringCompare(Skin.String(Seekbar.RightLabel),2)">$INFO[Player.TimeRemaining]$INFO[Player.Duration, / ]</value>
 		<value condition="VideoPlayer.Content(livetv)">$INFO[VideoPlayer.NextTitle,$LOCALIZE[19031]: ]</value>
+	</variable>
+	<variable name="OSDRightLabelOnDownVar">
+		<value condition="IsEmpty(Skin.String(Seekbar.RightLabel))">Skin.SetString(Seekbar.RightLabel,1)</value>
+		<value condition="StringCompare(Skin.String(Seekbar.RightLabel),1)">Skin.SetString(Seekbar.RightLabel,2)</value>
+		<value condition="StringCompare(Skin.String(Seekbar.RightLabel),2)">Skin.Reset(Seekbar.RightLabel)</value>
 	</variable>
 	<variable name="VideoPlayerForwardRewindVar">
 		<value condition="Player.Forwarding2x | Player.Rewinding2x">2x</value>
@@ -1051,6 +1059,10 @@
 		<value condition="StringCompare(Skin.String(TriPanelLayout),$LOCALIZE[31162])">Skin.SetString(TriPanelLayout,$LOCALIZE[571])</value>
 	</variable>
 	<variable name="DisableOverlayLabelVar">
+		<value condition="StringCompare(Window(home).Property(actualViewtype),InfoWall) + Container.Content(movies) + !IsEmpty(Skin.String(51.Movies.DisableOverlay))">$INFO[Skin.String(51.Movies.DisableOverlay)]</value>
+		<value condition="StringCompare(Window(home).Property(actualViewtype),InfoWall) + Container.Content(movies) + IsEmpty(Skin.String(51.Movies.DisableOverlay))">$LOCALIZE[1223]</value>
+		<value condition="StringCompare(Window(home).Property(actualViewtype),InfoWall) + Container.Content(tvshows) + !IsEmpty(Skin.String(51.TV.DisableOverlay))">$INFO[Skin.String(51.TV.DisableOverlay)]</value>
+		<value condition="StringCompare(Window(home).Property(actualViewtype),InfoWall) + Container.Content(tvshows) + IsEmpty(Skin.String(51.TV.DisableOverlay))">$LOCALIZE[1223]</value>
 		<value condition="StringCompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(movies) + !IsEmpty(Skin.String(52.Movies.DisableOverlay))">$INFO[Skin.String(52.Movies.DisableOverlay)]</value>
 		<value condition="StringCompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(movies) + IsEmpty(Skin.String(52.Movies.DisableOverlay))">$LOCALIZE[1223]</value>
 		<value condition="StringCompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(tvshows) + !IsEmpty(Skin.String(52.TV.DisableOverlay))">$INFO[Skin.String(52.TV.DisableOverlay)]</value>
@@ -1097,6 +1109,10 @@
 		<value condition="StringCompare(Window(home).Property(actualViewtype),MyFlix) + Container.Content(episodes) + IsEmpty(Skin.String(701.Episodes.DisableOverlay))">$LOCALIZE[1223]</value>
 	</variable>
 	<variable name="DisableOverlayOnclickVar">
+		<value condition="StringCompare(Window(home).Property(actualViewtype),InfoWall) + Container.Content(movies) + IsEmpty(Skin.String(51.Movies.DisableOverlay))">Skin.SetString(51.Movies.DisableOverlay,$LOCALIZE[305])</value>
+		<value condition="StringCompare(Window(home).Property(actualViewtype),InfoWall) + Container.Content(movies) + StringCompare(Skin.String(51.Movies.DisableOverlay),$LOCALIZE[305])">Skin.Reset(51.Movies.DisableOverlay)</value>
+		<value condition="StringCompare(Window(home).Property(actualViewtype),InfoWall) + Container.Content(tvshows) + IsEmpty(Skin.String(51.TV.DisableOverlay))">Skin.SetString(51.TV.DisableOverlay,$LOCALIZE[305])</value>
+		<value condition="StringCompare(Window(home).Property(actualViewtype),InfoWall) + Container.Content(tvshows) + StringCompare(Skin.String(51.TV.DisableOverlay),$LOCALIZE[305])">Skin.Reset(51.TV.DisableOverlay)</value>
 		<value condition="StringCompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(movies) + IsEmpty(Skin.String(52.Movies.DisableOverlay))">Skin.SetString(52.Movies.DisableOverlay,$LOCALIZE[305])</value>
 		<value condition="StringCompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(movies) + StringCompare(Skin.String(52.Movies.DisableOverlay),$LOCALIZE[305])">Skin.Reset(52.Movies.DisableOverlay)</value>
 		<value condition="StringCompare(Window(home).Property(actualViewtype),Landscape) + Container.Content(tvshows) + IsEmpty(Skin.String(52.TV.DisableOverlay))">Skin.SetString(52.TV.DisableOverlay,$LOCALIZE[305])</value>
