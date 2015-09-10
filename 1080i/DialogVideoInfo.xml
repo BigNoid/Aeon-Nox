@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-	<defaultcontrol always="true">8</defaultcontrol>
 	<allowoverlay>no</allowoverlay>
+	<onload condition="!StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232])">SetFocus(8)</onload>
+	<onload condition="StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232])">SetFocus(909)</onload>
 	<onload condition="Skin.HasSetting(Enable.BlurredVideoInfo)">RunScript(script.toolbox,info=blur,id='"$VAR[PosterVar]"',radius=20,prefix=VideoInfo)</onload>
 	<onunload>ClearProperty(ImageFilter,home)</onunload>
 	<onload condition="Skin.HasSetting(Enable.ReplaceExtendedInfo) + [Container.Content(movies) | Stringcompare(Container.FolderPath,videodb://tvshows/titles/) + Substring(Container.FolderPath,videodb://tvshows/titles/,left) + !Container.Content(episodes) + !Container.Content(seasons)]">Action(close)</onload>
@@ -1975,8 +1976,26 @@
 						<label>208</label>
 						<altlabel>1024</altlabel>
 						<usealttexture>Container.Content(tvshows)</usealttexture>
+						<visible>!StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232])</visible>
 					</control>
 					<control type="image" id="200">
+						<width>2</width>
+						<height>58</height>
+						<texture border="1">separator3.png</texture>
+						<visible>!StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232])</visible>
+					</control>
+					<control type="button" id="909">
+						<description>CinemaVision</description>
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label>$INFO[System.AddonTitle(script.cinemavision)]</label>
+						<width>260</width>
+						<textwidth>435</textwidth>
+						<textoffsetx>15</textoffsetx>
+						<onclick>Dialog.Close(MovieInformation)</onclick>
+						<onclick>RunScript(script.cinemavision,experience)</onclick>
+						<visible>System.HasAddon(script.cinemavision) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + !StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31014]) + IsEmpty(Window(Home).Property(script.cinemavision.running))</visible>
+					</control>
+					<control type="image" id="201">
 						<width>2</width>
 						<height>58</height>
 						<texture border="1">separator3.png</texture>
@@ -1991,24 +2010,13 @@
 						<height>58</height>
 						<texture border="1">separator3.png</texture>
 					</control>
-					<control type="button" id="909">
-						<description>CinemaVision</description>
-						<include>ButtonInfoDialogsCommonValues</include>
-						<label>$INFO[System.AddonTitle(script.cinemavision)]</label>
-						<width>260</width>
-						<textwidth>435</textwidth>
-						<textoffsetx>15</textoffsetx>
-						<onclick>Dialog.Close(MovieInformation)</onclick>
-						<onclick>RunScript(script.cinemavision,experience)</onclick>
-						<visible>System.HasAddon(script.cinemavision) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + !Skin.HasSetting(trailertoggle) + IsEmpty(Window(Home).Property(script.cinemavision.running))</visible>
-					</control>
 					<control type="button" id="910">
 						<description>Play Trailer</description>
 						<include>ButtonInfoDialogsCommonValues</include>
 						<label>$LOCALIZE[20410]</label>
 						<onclick>Dialog.Close(MovieInformation)</onclick>
 						<onclick>PlayMedia($INFO[ListItem.Trailer])</onclick>
-						<visible>[!IsEmpty(ListItem.Trailer) + Container.Content(movies)] + [!System.HasAddon(script.cinemavision) | Skin.HasSetting(trailertoggle)]</visible>
+						<visible>[!IsEmpty(ListItem.Trailer) + Container.Content(movies)] + [!System.HasAddon(script.cinemavision) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31014])]</visible>
 					</control>
 					<control type="button" id="911">
 						<description>Search Trailer</description>
@@ -2016,13 +2024,13 @@
 						<label>$LOCALIZE[137] $LOCALIZE[20410]</label>
 						<onclick>ActivateWindow(videos,plugin://plugin.video.youtube/kodion/search/query/?q=$INFO[ListItem.OriginalTitle]+Trailer)</onclick>
 						<onclick>Dialog.Close(movieinformation)</onclick>
-						<visible>[IsEmpty(ListItem.Trailer) + Container.Content(movies)] + [!System.HasAddon(script.cinemavision) | Skin.HasSetting(trailertoggle)]</visible>
+						<visible>[IsEmpty(ListItem.Trailer) + Container.Content(movies)] + [!System.HasAddon(script.cinemavision) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31014])]</visible>
 					</control>
-					<control type="image" id="905">
+					<control type="image" id="203">
 						<width>2</width>
 						<height>58</height>
 						<texture border="1">separator3.png</texture>
-						<visible>Container.Content(movies)</visible>
+						<visible>Container.Content(movies) + [!System.HasAddon(script.cinemavision) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31014])]</visible>
 					</control>
 					<control type="button" id="10">
 						<description>Get Thumb</description>
@@ -2030,7 +2038,7 @@
 						<label>13511</label>
 						<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
 					</control>
-					<control type="image" id="206">
+					<control type="image" id="204">
 						<width>2</width>
 						<height>58</height>
 						<texture border="1">separator3.png</texture>
@@ -2043,7 +2051,7 @@
 						<label></label>
 						<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
 					</control>
-					<control type="image" id="208">
+					<control type="image" id="205">
 						<width>2</width>
 						<height>58</height>
 						<texture border="1">separator3.png</texture>
