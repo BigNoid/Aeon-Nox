@@ -2,7 +2,7 @@
 <includes>
 	<variable name="GlobalBackgroundVar">
 		<value condition="!IsEmpty(ListItem.Art(extrafanart1)) + !Skin.HasSetting(Disable.Extrafanart) + !ListItem.IsCollection">$INFO[Control.GetLabel(4410)]</value>
-		<value condition="!IsEmpty(ListItem.Art(fanart)) + !Skin.HasSetting(Disable.Fanart)">$INFO[ListItem.Art(fanart)]</value>
+		<value condition="!IsEmpty(ListItem.Art(fanart)) + [!Skin.HasSetting(Disable.Fanart) | IsEmpty(ListItem.Art(extrafanart1))]">$INFO[ListItem.Art(fanart)]</value>
 		<value condition="!IsEmpty(Container.Art(set.fanart))">$INFO[Container.Art(set.fanart)]</value>
 		<value condition="StringCompare(Container(9033).ListItem.Thumb,1)">$INFO[Window(Home).Property(script.grab.fanart.Movie.FanArt)]</value>
 		<value condition="StringCompare(Container(9033).ListItem.Thumb,2)">$INFO[Window(Home).Property(script.grab.fanart.TV.FanArt)]</value>
@@ -854,7 +854,9 @@
 		<value>$INFO[VideoPlayer.MPAA,flags/mpaa/,.png]</value>
 	</variable>
 	<variable name="UnFocusHDIndicator">
-		<value condition="ListItem.IsStereoscopic">overlays/list/3d.png</value>
+		<value condition="ListItem.IsStereoscopic + !Skin.HasSetting(coloredflags)">overlays/list/3d.png</value>
+		<value condition="ListItem.IsStereoscopic + Skin.HasSetting(coloredflags)">overlays/list/colored/3d.png</value>
+		<value condition="Skin.HasSetting(coloredflags)">$INFO[ListItem.VideoResolution,overlays/list/colored/,.png]</value>
 		<value>$INFO[ListItem.VideoResolution,overlays/list/,.png]</value>
 	</variable>
 	<variable name="VizArtistInfoVar">
