@@ -5,10 +5,12 @@
 			<animation effect="slide" tween="cubic" time="720" start="0,-1080" end="0,0">WindowOpen</animation>
 			<animation effect="slide" tween="cubic" time="720" end="0,-1080" start="0,0">WindowClose</animation>
 			<animation effect="slide" end="0,338" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
-			<visible>!IsEmpty(Container(9000).ListItem.Property(WidgetType))</visible>
+			<animation effect="fade" start="100" end="0" time="0" reversible="false" condition="Container(9000).OnNext | Container(9000).OnPrevious">Conditional</animation>
+			<animation effect="fade" start="0" end="100" time="200" delay="200" reversible="false" condition="![Container(9000).OnNext | Container(9000).OnPrevious]">Conditional</animation>
+			<visible>!IsEmpty(Container(9000).ListItem.Property(widget))</visible>
 			<include>VisibleFadeEffect</include>
 			<control type="group">
-				<visible>ControlGroup(9003).HasFocus() + !Skin.HasSetting(lowermainmenu) + IsEmpty(Container(9000).ListItem.Property(WidgetStyle))</visible>
+				<visible>ControlGroup(9003).HasFocus() + !Skin.HasSetting(lowermainmenu) + IsEmpty(Container(9000).ListItem.Property(widgetStyle))</visible>
 				<include>VisibleFadeEffect</include>
 				<control type="image">
 					<left>0</left>
@@ -27,7 +29,7 @@
 				</control>
 			</control>
 			<control type="group">
-				<visible>ControlGroup(9003).HasFocus() + Skin.HasSetting(lowermainmenu) + IsEmpty(Container(9000).ListItem.Property(WidgetStyle))</visible>
+				<visible>ControlGroup(9003).HasFocus() + Skin.HasSetting(lowermainmenu) + IsEmpty(Container(9000).ListItem.Property(widgetStyle))</visible>
 				<include>VisibleFadeEffect</include>
 				<control type="image">
 					<left>0</left>
@@ -47,7 +49,7 @@
 			</control>
 			<!-- Classic Widgets -->
 			<control type="group">
-				<visible>Control.HasFocus(8000) + IsEmpty(Container(9000).ListItem.Property(WidgetStyle))</visible>
+				<visible>Control.HasFocus(8000) + IsEmpty(Container(9000).ListItem.Property(widgetStyle))</visible>
 				<include>VisibleFadeEffect</include>
 				<control type="image">
 					<left>0</left>
@@ -67,7 +69,7 @@
 					<height>432</height>
 					<itemgap>12</itemgap>
 					<align>center</align>
-					<visible>!SubString(Container(9000).ListItem.Property(Widget),addons://sources/,left) + !SubString(Container(9000).ListItem.Property(WidgetType),20)</visible>
+					<visible>!SubString(Container(9000).ListItem.Property(Widget),addons://sources/,left) + !StringCompare(Container(9000).ListItem.Property(widgetTarget),extendedinfo)</visible>
 					<control type="label">
 						<width>900</width>
 						<height>40</height>
@@ -203,7 +205,7 @@
 					<height>432</height>
 					<itemgap>12</itemgap>
 					<align>center</align>
-					<visible>!SubString(Container(9000).ListItem.Property(Widget),addons://sources/,left) + SubString(Container(9000).ListItem.Property(WidgetType),20)</visible>
+					<visible>!SubString(Container(9000).ListItem.Property(Widget),addons://sources/,left) + StringCompare(Container(9000).ListItem.Property(widgetTarget),extendedinfo)</visible>
 					<control type="label">
 						<width>900</width>
 						<height>40</height>
@@ -285,7 +287,7 @@
 					<height>432</height>
 					<itemgap>12</itemgap>
 					<align>center</align>
-					<visible>SubString(Container(9000).ListItem.Property(Widget),addons://sources/,left)</visible>
+					<visible>StringCompare(Container(9000).ListItem.Property(widget),Addon)</visible>
 					<control type="label">
 						<width>900</width>
 						<height>40</height>
@@ -335,7 +337,7 @@
 			<control type="group">
 				<left>1420</left>
 				<top>20</top>
-				<visible>IsEmpty(Container(9000).ListItem.Property(WidgetStyle))</visible>
+				<visible>!IsEmpty(Container(9000).ListItem.Property(widgetPath)) + IsEmpty(Container(9000).ListItem.Property(widgetStyle))</visible>
 				<control type="group">
 					<animation type="Conditional" condition="Control.HasFocus(8000)">
 						<effect type="rotatey" start="0" end="180" center="221,0" time="400" tween="sine" easing="inout" />
@@ -356,7 +358,8 @@
 						<font>font15_title</font>
 						<align>center</align>
 						<textcolor>dialogheader</textcolor>
-						<label>$INFO[Container(9000).ListItem.Property(WidgetLabel)]</label>
+						<label>$INFO[Container(9000).ListItem.Property(widgetName)]</label>
+						<!-- <label>$INFO[Container(9000).ListItem.Property(widgetType)]</label> -->
 					</control>
 					<control type="image">
 						<left>32</left>
@@ -417,7 +420,7 @@
 						<pagecontrol>-</pagecontrol>
 						<orientation>vertical</orientation>
 						<scrolltime tween="quadratic" easing="out">200</scrolltime>
-						<visible>!IsEmpty(Container(9000).ListItem.Property(Widget))</visible>
+						<visible>!IsEmpty(Container(9000).ListItem.Property(widgetPath))</visible>
 						<autoscroll time="10000" delay="10000" repeat="10000">Control.IsVisible(9003) + !Control.HasFocus(8000)</autoscroll>
 						<itemlayout height="60" width="360">
 							<control type="image">
@@ -450,12 +453,12 @@
 								<label>$INFO[ListItem.Label]</label>
 							</control>
 						</focusedlayout>
-						<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+						<content target="$INFO[Container(9000).ListItem.Property(widgetTarget)]">$INFO[Container(9000).ListItem.Property(widgetPath)]</content>
 					</control>
 				</control>
 			</control>
 			<control type="group">
-				<visible>IsEmpty(Container(8000).ListItem.Label) + IsEmpty(Container(9000).ListItem.Property(WidgetStyle))</visible>
+				<visible>IsEmpty(Container(8000).ListItem.Label) + IsEmpty(Container(9000).ListItem.Property(widgetStyle)) + !StringCompare(Container(9000).ListItem.Property(widget),weather)</visible>
 				<left>1583</left>
 				<top>183</top>
 				<control type="image">
@@ -477,7 +480,7 @@
 			</control>
 			<!-- Poster Extended Panel Widgets -->
 			<control type="group">
-				<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31229]) + [StringCompare(Container(9000).ListItem.Property(WidgetType),1) | StringCompare(Container(9000).ListItem.Property(WidgetType),16) | StringCompare(Container(9000).ListItem.Property(WidgetType),20)]</visible>
+				<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229]) + [StringCompare(Container(9000).ListItem.Property(widgetType),movies) | StringCompare(Container(9000).ListItem.Property(widgetType),playlists) | StringCompare(Container(9000).ListItem.Property(widgetTarget),extendedinfo)]</visible>
 				<control type="image">
 					<left>175</left>
 					<top>-10</top>
@@ -496,14 +499,14 @@
 					<control type="image">
 						<width>150</width>
 						<texture>$VAR[WidgetLogoVar]</texture>
-						<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),20)</visible>
+						<visible>StringCompare(Container(9000).ListItem.Property(widgetTarget),extendedinfo)</visible>
 					</control>
 					<control type="label">
 						<width>auto</width>
 						<font>font13</font>
 						<textcolor>FFFFFFFF</textcolor>
 						<shadowcolor>black</shadowcolor>
-						<label>$INFO[Container(9000).ListItem.Property(WidgetLabel)]</label>
+						<label>$INFO[Container(9000).ListItem.Property(widgetName)]</label>
 					</control>
 				</control>
 				<control type="panel" id="8005">
@@ -527,7 +530,7 @@
 							<height>325</height>
 							<texture background="true" fallback="DefaultMovies.png">$INFO[ListItem.Art(poster)]</texture>
 						</control>
-	                    <control type="image">
+						<control type="image">
 							<left>15</left>
 							<top>36</top>
 							<width>234</width>
@@ -593,13 +596,13 @@
 							</control>
 						</control>
 					</focusedlayout>
-					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+					<content target="$INFO[Container(9000).ListItem.Property(widgetTarget)]">$INFO[Container(9000).ListItem.Property(widgetPath)]</content>
 				</control>
 			</control>
 			<!-- Poster Panel Widgets -->
 			<control type="group">
-				<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31230])</visible>
-				<visible>[StringCompare(Container(9000).ListItem.Property(WidgetType),1) | StringCompare(Container(9000).ListItem.Property(WidgetType),16) | StringCompare(Container(9000).ListItem.Property(WidgetType),20)]</visible>
+				<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])</visible>
+				<visible>[StringCompare(Container(9000).ListItem.Property(widgetType),movies) | StringCompare(Container(9000).ListItem.Property(WidgetType),playlists) | StringCompare(Container(9000).ListItem.Property(widgetTarget),extendedinfo)]</visible>
 				<control type="image">
 					<left>175</left>
 					<top>50</top>
@@ -618,14 +621,14 @@
 					<control type="image">
 						<width>150</width>
 						<texture>$VAR[WidgetLogoVar]</texture>
-						<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),20)</visible>
+						<visible>StringCompare(Container(9000).ListItem.Property(widgetTarget),extendedinfo)</visible>
 					</control>
 					<control type="label">
 						<width>auto</width>
 						<font>font13</font>
 						<textcolor>FFFFFFFF</textcolor>
 						<shadowcolor>black</shadowcolor>
-						<label>$INFO[Container(9000).ListItem.Property(WidgetLabel)]</label>
+						<label>$INFO[Container(9000).ListItem.Property(widgetName)]</label>
 					</control>
 				</control>
 				<control type="panel" id="8006">
@@ -694,19 +697,19 @@
 							<label>$VAR[WidgetSubLabelVar]</label>
 						</control>
 					</focusedlayout>
-					<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+					<content target="$INFO[Container(9000).ListItem.Property(widgetTarget)]">$INFO[Container(9000).ListItem.Property(widgetPath)]</content>
 				</control>
 			</control>
-			<!-- TV Panel Widgets -->
+			<!-- Landscape Panel Widgets -->
 			<control type="group">
-				<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),14) + !IsEmpty(Container(9000).ListItem.Property(WidgetStyle))</visible>
+				<visible>StringCompare(Container(9000).ListItem.Property(widgetType),episodes) + !IsEmpty(Container(9000).ListItem.Property(widgetStyle))</visible>
 				<control type="image">
 					<left>100</left>
 					<top>133</top>
 					<width>1720</width>
 					<height>313</height>
 					<texture border="40">dialogs/default/bg2.png</texture>
-					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31229])</visible>
+					<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])</visible>
 				</control>
 				<control type="image">
 					<left>95</left>
@@ -714,7 +717,7 @@
 					<width>1728</width>
 					<height>238</height>
 					<texture border="40">dialogs/default/bg2.png</texture>
-					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31230])</visible>
+					<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])</visible>
 				</control>
 			</control>
 			<control type="panel" id="8010">
@@ -729,8 +732,8 @@
 				<onback>9000</onback>
 				<orientation>horizontal</orientation>
 				<scrolltime tween="quadratic" easing="out">300</scrolltime>
-				<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),14) + !IsEmpty(Container(9000).ListItem.Property(WidgetStyle))</visible>
-				<itemlayout height="300" width="419" condition="StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31229])">
+				<visible>StringCompare(Container(9000).ListItem.Property(widgetType),episodes)</visible>
+				<itemlayout height="300" width="419" condition="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])">
 					<control type="image">
 						<left>30</left>
 						<top>5</top>
@@ -741,7 +744,7 @@
 					</control>
 					<!-- Recent Episodes -->
 					<control type="group">
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),special://skin/extras/playlists/recentepisodes.xsp)</visible>
+						<visible>StringCompare(Container(9000).ListItem.Property(widgetPath),videodb://recentlyaddedepisodes/) | StringCompare(Container(9000).ListItem.Property(widget),recentepisodes)</visible>
 						<control type="label">
 							<left>40</left>
 							<top>238</top>
@@ -765,9 +768,9 @@
 							<label>$INFO[ListItem.TvShowTitle]</label>
 						</control>
 					</control>
-					<!-- Random + Recommended Episodes -->
+					<!-- Recommended Episodes -->
 					<control type="group">
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),5) | StringCompare(Container(9000).ListItem.Property(Widget),6)</visible>
+						<visible>StringCompare(Container(9000).ListItem.Property(widgetType),pictures) | StringCompare(Container(9000).ListItem.Property(widgetPath),library://video/inprogressshows.xml) | StringCompare(Container(9000).ListItem.Property(widget),recommendedepisodes) | StringCompare(Container(9000).ListItem.Property(widget),randomepisodes)</visible>
 						<control type="label">
 							<left>40</left>
 							<top>203</top>
@@ -792,7 +795,7 @@
 						</control>
 					</control>
 				</itemlayout>
-				<focusedlayout height="300" width="419" condition="StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31229])">
+				<focusedlayout height="300" width="419" condition="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])">
 					<control type="group">
 						<animation type="Focus" reversible="false">
 							<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
@@ -807,7 +810,7 @@
 						</control>
 						<!-- Recent Episodes -->
 						<control type="group">
-							<visible>StringCompare(Container(9000).ListItem.Property(Widget),special://skin/extras/playlists/recentepisodes.xsp)</visible>
+							<visible>StringCompare(Container(9000).ListItem.Property(widgetPath),videodb://recentlyaddedepisodes/) | StringCompare(Container(9000).ListItem.Property(widget),recentepisodes)</visible>
 							<control type="label">
 								<left>40</left>
 								<top>238</top>
@@ -833,7 +836,7 @@
 						</control>
 						<!-- Random + Recommended Episodes -->
 						<control type="group">
-							<visible>StringCompare(Container(9000).ListItem.Property(Widget),5) | StringCompare(Container(9000).ListItem.Property(Widget),6)</visible>
+							<visible>StringCompare(Container(9000).ListItem.Property(widgetType),pictures) | StringCompare(Container(9000).ListItem.Property(widgetPath),library://video/inprogressshows.xml) | StringCompare(Container(9000).ListItem.Property(widget),recommendedepisodes) | StringCompare(Container(9000).ListItem.Property(widget),randomepisodes)</visible>
 							<control type="label">
 								<left>40</left>
 								<top>203</top>
@@ -859,7 +862,7 @@
 						</control>
 					</control>
 				</focusedlayout>
-				<itemlayout height="300" width="335" condition="StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31230])">
+				<itemlayout height="300" width="335" condition="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])">
 					<control type="image">
 						<left>0</left>
 						<top>52</top>
@@ -885,11 +888,11 @@
 						<shadowcolor>black</shadowcolor>
 						<textcolor>white</textcolor>
 						<label>$INFO[ListItem.TvShowTitle]</label>
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),special://skin/extras/playlists/recentepisodes.xsp)</visible>
+						<visible>StringCompare(Container(9000).ListItem.Property(widgetPath),videodb://recentlyaddedepisodes/) | StringCompare(Container(9000).ListItem.Property(widget),recentepisodes)</visible>
 					</control>
 					<!-- Random + Recommended Episodes -->
 					<control type="group">
-						<visible>StringCompare(Container(9000).ListItem.Property(Widget),5) | StringCompare(Container(9000).ListItem.Property(Widget),6)</visible>
+						<visible>StringCompare(Container(9000).ListItem.Property(widgetType),pictures) | StringCompare(Container(9000).ListItem.Property(widgetPath),library://video/inprogressshows.xml) | StringCompare(Container(9000).ListItem.Property(widget),recommendedepisodes) | StringCompare(Container(9000).ListItem.Property(widget),randomepisodes)</visible>
 						<control type="label">
 							<left>5</left>
 							<top>185</top>
@@ -914,7 +917,7 @@
 						</control>
 					</control>
 				</itemlayout>
-				<focusedlayout height="300" width="337" condition="StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31230])">
+				<focusedlayout height="300" width="337" condition="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])">
 					<control type="group">
 						<animation type="Focus" reversible="false">
 							<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
@@ -943,7 +946,7 @@
 							<shadowcolor>black</shadowcolor>
 							<textcolor>labelheader</textcolor>
 							<label>$INFO[ListItem.Label]</label>
-							<visible>StringCompare(Container(9000).ListItem.Property(Widget),special://skin/extras/playlists/recentepisodes.xsp)</visible>
+							<visible>StringCompare(Container(9000).ListItem.Property(widgetPath),videodb://recentlyaddedepisodes/) | StringCompare(Container(9000).ListItem.Property(widget),recentepisodes)</visible>
 						</control>
 						<control type="label">
 							<left>5</left>
@@ -955,11 +958,11 @@
 							<shadowcolor>black</shadowcolor>
 							<textcolor>labelheader</textcolor>
 							<label>$INFO[ListItem.TvShowTitle]</label>
-							<visible>StringCompare(Container(9000).ListItem.Property(Widget),special://skin/extras/playlists/recentepisodes.xsp)</visible>
+							<visible>StringCompare(Container(9000).ListItem.Property(widgetPath),videodb://recentlyaddedepisodes/) | StringCompare(Container(9000).ListItem.Property(widget),recentepisodes)</visible>
 						</control>
 						<!-- Random + Recommended Episodes -->
 						<control type="group">
-							<visible>StringCompare(Container(9000).ListItem.Property(Widget),5) | StringCompare(Container(9000).ListItem.Property(Widget),6)</visible>
+							<visible>StringCompare(Container(9000).ListItem.Property(widgetType),pictures) | StringCompare(Container(9000).ListItem.Property(widgetPath),library://video/inprogressshows.xml) | StringCompare(Container(9000).ListItem.Property(widget),recommendedepisodes) | StringCompare(Container(9000).ListItem.Property(widget),randomepisodes)</visible>
 							<control type="label">
 								<left>5</left>
 								<top>185</top>
@@ -985,18 +988,18 @@
 						</control>
 					</control>
 				</focusedlayout>
-				<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+				<content target="$INFO[Container(9000).ListItem.Property(widgetTarget)]">$INFO[Container(9000).ListItem.Property(widgetPath)]</content>
 			</control>
 			<!-- Music + Addon Panel Widgets -->
 			<control type="group">
-				<visible>[StringCompare(Container(9000).ListItem.Property(WidgetType),2) | StringCompare(Container(9000).ListItem.Property(WidgetType),5) | StringCompare(Container(9000).ListItem.Property(WidgetType),10) | StringCompare(Container(9000).ListItem.Property(WidgetType),15)] + !IsEmpty(Container(9000).ListItem.Property(WidgetStyle))</visible>
+				<visible>[StringCompare(Container(9000).ListItem.Property(widgetTarget),music) | StringCompare(Container(9000).ListItem.Property(widgetTarget),pictures) | StringCompare(Container(9000).ListItem.Property(widgetTarget),programs) | StringCompare(Container(9000).ListItem.Property(widget),Addon)] + !IsEmpty(Container(9000).ListItem.Property(widgetStyle))</visible>
 				<control type="image">
 					<left>175</left>
 					<top>50</top>
 					<width>1570</width>
 					<height>390</height>
 					<texture border="40">dialogs/default/bg2.png</texture>
-					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31229])</visible>
+					<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])</visible>
 				</control>
 				<control type="image">
 					<left>175</left>
@@ -1004,7 +1007,29 @@
 					<width>1570</width>
 					<height>295</height>
 					<texture border="40">dialogs/default/bg2.png</texture>
-					<visible>StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31230])</visible>
+					<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])</visible>
+				</control>
+				<control type="grouplist">
+					<left>0</left>
+					<top>425</top>
+					<width>1920</width>
+					<height>40</height>
+					<itemgap>10</itemgap>
+					<align>center</align>
+					<orientation>horizontal</orientation>
+					<animation effect="slide" end="0,-40" time="320" tween="cubic" easing="inout" condition="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])">Conditional</animation>
+					<control type="image">
+						<width>150</width>
+						<texture>$VAR[WidgetLogoVar]</texture>
+						<visible>StringCompare(Container(9000).ListItem.Property(widgetTarget),extendedinfo)</visible>
+					</control>
+					<control type="label">
+						<width>auto</width>
+						<font>font13</font>
+						<textcolor>FFFFFFFF</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<label>$INFO[Container(9000).ListItem.Property(widgetName)]</label>
+					</control>
 				</control>
 			</control>
 			<control type="panel" id="8020">
@@ -1019,8 +1044,8 @@
 				<onback>9000</onback>
 				<orientation>horizontal</orientation>
 				<scrolltime tween="quadratic" easing="out">300</scrolltime>
-				<visible>[StringCompare(Container(9000).ListItem.Property(WidgetType),2) | StringCompare(Container(9000).ListItem.Property(WidgetType),5) | StringCompare(Container(9000).ListItem.Property(WidgetType),10) | StringCompare(Container(9000).ListItem.Property(WidgetType),15)] + !IsEmpty(Container(9000).ListItem.Property(WidgetStyle))</visible>
-				<itemlayout height="300" width="305" condition="StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31229])">
+				<visible>[StringCompare(Container(9000).ListItem.Property(widgetTarget),music) | StringCompare(Container(9000).ListItem.Property(widgetTarget),pictures) | StringCompare(Container(9000).ListItem.Property(widgetTarget),programs) | StringCompare(Container(9000).ListItem.Property(widget),Addon)] + !IsEmpty(Container(9000).ListItem.Property(widgetStyle))</visible>
+				<itemlayout height="300" width="305" condition="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])">
 					<control type="group">
 						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
 						<control type="image">
@@ -1043,7 +1068,7 @@
 						</control>
 					</control>
 				</itemlayout>
-				<focusedlayout height="300" width="300" condition="StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31229])">
+				<focusedlayout height="300" width="300" condition="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])">
 					<control type="group">
 						<animation type="Focus" reversible="false">
 							<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
@@ -1069,7 +1094,7 @@
 						</control>
 					</control>
 				</focusedlayout>
-				<itemlayout height="254" width="254" condition="StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31230])">
+				<itemlayout height="254" width="254" condition="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])">
 					<control type="group">
 						<visible>!StringCompare(ListItem.Label,Get More...)</visible>
 						<control type="image">
@@ -1080,7 +1105,7 @@
 						</control>
 					</control>
 				</itemlayout>
-				<focusedlayout height="254" width="254" condition="StringCompare(Container(9000).ListItem.Property(WidgetStyle),$LOCALIZE[31230])">
+				<focusedlayout height="254" width="254" condition="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])">
 					<control type="group">
 						<animation type="Focus" reversible="false">
 							<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
@@ -1090,27 +1115,28 @@
 							<top>90</top>
 							<width>254</width>
 							<height>254</height>
-							<texture fallback="black.png">$INFO[ListItem.Thumb]</texture>						</control>
-							<control type="image">
-								<top>90</top>
-								<width>254</width>
-								<height>254</height>
-								<texture>thumbs/poster_black.png</texture>
-							</control>
-							<control type="label">
-								<left>5</left>
-								<top>300</top>
-								<width>244</width>
-								<height>36</height>
-								<align>center</align>
-								<font>font13</font>
-								<shadowcolor>black</shadowcolor>
-								<textcolor>selected</textcolor>
-								<label>$INFO[ListItem.Label]</label>
-							</control>
+							<texture fallback="black.png">$INFO[ListItem.Thumb]</texture>
 						</control>
-					</focusedlayout>
-				<content target="$VAR[WidgetListTargetVar]">$VAR[WidgetListContent]</content>
+						<control type="image">
+							<top>90</top>
+							<width>254</width>
+							<height>254</height>
+							<texture>thumbs/poster_black.png</texture>
+						</control>
+						<control type="label">
+							<left>5</left>
+							<top>300</top>
+							<width>244</width>
+							<height>36</height>
+							<align>center</align>
+							<font>font13</font>
+							<shadowcolor>black</shadowcolor>
+							<textcolor>selected</textcolor>
+							<label>$INFO[ListItem.Label]</label>
+						</control>
+					</control>
+				</focusedlayout>
+				<content target="$INFO[Container(9000).ListItem.Property(widgetTarget)]">$INFO[Container(9000).ListItem.Property(widgetPath)]</content>
 			</control>
 		</control>
 	</include>
@@ -1561,7 +1587,7 @@
 			<animation effect="slide" tween="cubic" time="720" start="0,-1080" end="0,0">WindowOpen</animation>
 			<animation effect="slide" tween="cubic" time="720" end="0,-1080" start="0,0">WindowClose</animation>
 			<include>VisibleFadeEffect</include>
-			<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),3)</visible>
+			<visible>StringCompare(Container(9000).ListItem.Property(widget),weather)</visible>
 			<control type="image">
 				<left>0</left>
 				<top>0</top>
