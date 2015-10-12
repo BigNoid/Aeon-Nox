@@ -489,18 +489,16 @@
 		</control>
 		<!-- New DialogInfo for LiveTV -->
 		<control type="group" id="9006">
-			<animation type="WindowOpen" reversible="false">
-				<effect type="slide" start="0,-806" end="0" easing="out" tween="back" time="800" />
-			</animation>
-			<animation type="WindowClose" reversible="false">
-				<effect type="slide" end="0,-806" start="0" easing="in" tween="cubic" time="600" />
-			</animation>
+			<top>90</top>
+			<animation effect="fade" start="0" end="100" time="400">WindowOpen</animation>
+			<animation effect="fade" start="100" end="0" time="400">WindowClose</animation>
 			<visible>VideoPlayer.Content(LiveTV) + !Window.IsActive(infodialog) + !Control.IsVisible(9001) + !Control.IsVisible(9002)</visible>
 			<control type="image">
 				<left>260</left>
 				<width>1400</width>
-				<height>700</height>
+				<height>600</height>
 				<texture border="40">dialogs/default/bg.png</texture>
+				<!-- <colordiffuse>$VAR[DialogColorVar]</colordiffuse> -->
 				<animation effect="fade" end="95" condition="true">Conditional</animation>
 			</control>
 			<control type="group">
@@ -508,8 +506,7 @@
 				<top>20</top>
 				<width>1320</width>
 				<height>780</height>
-				<control type="label">
-					<!-- Channel name -->
+				<control type="label"> <!-- Channel name -->
 					<top>0</top>
 					<width>1050</width>
 					<height>50</height>
@@ -517,8 +514,7 @@
 					<font>font16</font>
 					<textcolor>themecolor</textcolor>
 				</control>
-				<control type="label">
-					<!-- Current EPG -->
+				<control type="label"> <!-- Current EPG -->
 					<top>50</top>
 					<width>1320</width>
 					<height>50</height>
@@ -526,8 +522,7 @@
 					<font>font48</font>
 					<scroll>true</scroll>
 				</control>
-				<control type="image">
-					<!-- pvr line -->
+				<control type="image"> <!-- pvr line -->
 					<top>110</top>
 					<width>1320</width>
 					<height>2</height>
@@ -539,41 +534,41 @@
 					<width>1000</width>
 					<height>30</height>
 					<label>$LOCALIZE[515]: $INFO[VideoPlayer.Genre]</label>
+					<font>Font_Reg34_Caps</font>
 					<textcolor>grey</textcolor>
 				</control>
 				<control type="textbox">
 					<left>4</left>
 					<top>160</top>
 					<width>1000</width>
-					<height>480</height>
+					<height>400</height>
 					<label>$INFO[VideoPlayer.Plot]</label>
-					<pagecontrol>60</pagecontrol>
-					<autoscroll delay="15000" time="AutoScrollTime" repeat="10000">Skin.HasSetting(AutoScroll) + !Control.HasFocus(60)</autoscroll>
-					<visible>!Control.IsVisible(50)</visible>
+					<font>font15_textbox</font>
+					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
+					<visible>[SubString(ListItem.PlotOutline,"http://",Left) | SubString(ListItem.PlotOutline,"https://",Left)]</visible>
 				</control>
-				<control type="image">
-					<!-- Logo background -->
+				<control type="textbox">
+					<left>4</left>
+					<top>160</top>
+					<width>1320</width>
+					<height>400</height>
+					<label>$INFO[VideoPlayer.PlotOutline] $INFO[VideoPlayer.Plot]</label>
+					<font>font15_textbox</font>
+					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
+					<visible>![SubString(ListItem.PlotOutline,"http://",Left) | SubString(ListItem.PlotOutline,"https://",Left)]</visible>
+				</control>
+
+				<control type="image"> <!-- Logo background -->
 					<left>1050</left>
 					<top>-20</top>
 					<width>250</width>
 					<height>200</height>
 					<texture>pvr/bg_channel_icon.png</texture>
 					<align>center</align>
+					<!-- <colordiffuse>$VAR[DialogColorVar]</colordiffuse> -->
 					<visible>false</visible>
 				</control>
-				<control type="image">
-					<!-- Channel logo -->
-					<left>1050</left>
-					<top>150</top>
-					<width>200</width>
-					<height>200</height>
-					<aspectratio>keep</aspectratio>
-					<align>center</align>
-					<texture>$INFO[VideoPlayer.Cover]</texture>
-					<visible>IsEmpty(VideoPlayer.PlotOutline)</visible>
-				</control>
-				<control type="image">
-					<!-- Show\Movie poster -->
+				<control type="image"> <!-- Show\Movie poster -->
 					<left>1050</left>
 					<top>160</top>
 					<width>250</width>
@@ -581,7 +576,7 @@
 					<align>center</align>
 					<aspectratio>keep</aspectratio>
 					<texture>$INFO[VideoPlayer.PlotOutline]</texture>
-					<visible>!IsEmpty(VideoPlayer.PlotOutline)</visible>
+					<visible>[SubString(ListItem.PlotOutline,"http://",Left) | SubString(ListItem.PlotOutline,"https://",Left)]</visible>
 				</control>
 			</control>
 		</control>

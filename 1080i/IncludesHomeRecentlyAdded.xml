@@ -1155,6 +1155,24 @@
 			<animation effect="slide" end="0,-640" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
 			<control type="group">
 				<control type="image">
+					<description>bg image</description>
+					<left>0</left>
+					<top>-50</top>
+					<width>1920</width>
+					<height>560</height>
+					<texture>gradient_floor.png</texture>
+					<visible>!Skin.HasSetting(lowermainmenu)</visible>
+				</control>
+				<control type="image">
+					<description>bg image</description>
+					<left>0</left>
+					<top>-50</top>
+					<width>1920</width>
+					<height>800</height>
+					<texture flipy="true">gradient_floor.png</texture>
+					<visible>Skin.HasSetting(lowermainmenu)</visible>
+				</control>
+				<control type="image">
 					<description>Cover image</description>
 					<left>20</left>
 					<top>45</top>
@@ -1184,6 +1202,16 @@
 					<width>1510</width>
 					<height>460</height>
 					<itemgap>12</itemgap>
+					<control type="label">
+						<left>50</left>
+						<width>1300</width>
+						<height>40</height>
+						<font>font48_title</font>
+						<textcolor>themecolor</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<label>$INFO[VideoPlayer.ChannelName]</label>
+						<visible>VideoPlayer.Content(livetv)</visible>
+					</control>
 					<control type="label">
 						<left>50</left>
 						<width>1300</width>
@@ -1262,6 +1290,16 @@
 						<shadowcolor>black</shadowcolor>
 						<label>$INFO[VideoPlayer.Studio]</label>
 						<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(musicvideos)</visible>
+					</control>
+					<control type="label">
+						<left>100</left>
+						<width>1300</width>
+						<height>40</height>
+						<font>font15</font>
+						<textcolor>white</textcolor>
+						<shadowcolor>black</shadowcolor>
+						<label>$INFO[VideoPlayer.Plot]</label>
+						<visible>VideoPlayer.Content(livetv)</visible>
 					</control>
 					<control type="label">
 						<description>Time Label</description>
@@ -1775,6 +1813,156 @@
 						<onclick>noop</onclick>
 					</item>
 				</content>
+			</control>
+		</control>
+	</include>
+	<include name="LiveTVWidget">
+		<control type="group">
+			<left>490r</left>
+			<top>200</top>
+			<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),12)</visible>
+			<include>VisibleFadeEffect</include>
+			<include>Window_OpenClose_Animation</include>
+			<animation effect="fade" start="100" end="0" time="200" condition="Window.IsActive(Favourites)">conditional</animation>
+			<control type="group">
+				<animation effect="slide" start="0,0" end="0,100" time="0" condition="PVR.IsRecording">conditional</animation>
+				<visible>PVR.HasNonRecordingTimer</visible>
+				<height>120</height>
+				<top>30</top>
+				<control type="image">
+					<left>-200</left>
+					<top>0</top>
+					<width>800</width>
+					<height>120</height>
+					<texture flipx="true" border="40,0,0,0" >side_fade.png</texture>
+				</control>
+				<control type="image">
+					<left>390</left>
+					<top>0</top>
+					<width>90</width>
+					<height>120</height>
+					<aspectratio>keep</aspectratio>
+					<texture background="true" fallback="DefaultTVShows.png">$INFO[PVR.NextRecordingChannelIcon]</texture>
+				</control>
+				<control type="label">
+					<left>340</left>
+					<top>12</top>
+					<height>26</height> 
+					<width>26</width>
+					<textoffsetx>15</textoffsetx>
+					<font>IconTiny</font>
+					<textcolor>themecolor</textcolor>
+					<label></label>
+				</control>
+				<control type="label">
+					<description>Next Timer Header label</description>
+					<left>-55</left>
+					<top>12</top>
+					<height>25</height>
+					<width>400</width>
+					<label>$LOCALIZE[19157][COLOR=grey]$INFO[PVR.NextRecordingChannel, - ,][/COLOR]</label>
+					<align>right</align>
+					<aligny>center</aligny>
+					<font>font13</font>
+					<textcolor>themecolor</textcolor>
+					<shadowcolor>black</shadowcolor>
+				</control>
+				<control type="label">
+					<description>NextRecordingDateTime</description>
+					<left>-20</left>
+					<top>48</top>
+					<height>25</height>
+					<width>400</width>
+					<label>$INFO[PVR.NextRecordingDateTime,$LOCALIZE[19126] - ]</label>
+					<align>right</align>
+					<aligny>center</aligny>
+					<font>font13</font>
+					<scroll>true</scroll>
+					<shadowcolor>black</shadowcolor>
+				</control>
+				<control type="label">
+					<description>NextRecordingTitle Channel</description>
+					<left>-420</left>
+					<top>85</top>
+					<height>25</height>
+					<width>800</width>
+					<label>$INFO[PVR.NextRecordingTitle]</label>
+					<align>right</align>
+					<aligny>center</aligny>
+					<font>font13_title</font>
+					<textcolor>white</textcolor>
+					<shadowcolor>black</shadowcolor>
+					<scroll>true</scroll>
+				</control>
+			</control>
+			<control type="group">
+				<visible>PVR.IsRecording</visible>
+				<height>150</height>
+				<control type="image">
+					<left>-200</left>
+					<top>0</top>
+					<width>800</width>
+					<height>120</height>
+					<texture flipx="true" border="40,0,0,0" >side_fade.png</texture>
+				</control>
+				<control type="image">
+					<left>390</left>
+					<top>0</top>
+					<width>90</width>
+					<height>120</height>
+					<aspectratio>keep</aspectratio>
+					<texture background="true" fallback="DefaultTVShows.png">$INFO[PVR.NowRecordingChannelIcon]</texture>
+				</control>
+				<control type="label">
+					<left>340</left>
+					<top>12</top>
+					<height>26</height> 
+					<width>26</width>
+					<textoffsetx>15</textoffsetx>
+					<font>IconTiny</font>
+					<textcolor>red</textcolor>
+					<label></label>
+				</control>
+				<control type="label">
+					<description>Is Recording Header label</description>
+					<left>-55</left>
+					<top>12</top>
+					<height>25</height>
+					<width>400</width>
+					<label>$LOCALIZE[19158][COLOR=grey]$INFO[PVR.NowRecordingChannel, - ,][/COLOR]</label>
+					<align>right</align>
+					<aligny>center</aligny>
+					<font>font13</font>
+					<textcolor>themecolor</textcolor>
+					<shadowcolor>black</shadowcolor>
+				</control>
+				<control type="label">
+					<description>NowRecordingDateTime</description>
+					<left>-20</left>
+					<top>48</top>
+					<height>25</height>
+					<width>400</width>
+					<label>$INFO[PVR.NowRecordingDateTime,$LOCALIZE[19126] - ]</label>
+					<align>right</align>
+					<aligny>center</aligny>
+					<font>font13</font>
+					<scroll>true</scroll>
+					<shadowcolor>black</shadowcolor>
+				</control>
+				<control type="label">
+					<description>NowRecordingTitle Channel</description>
+					<left>-420</left>
+					<top>85</top>
+					<height>25</height>
+					<width>800</width>
+					<label>$INFO[PVR.NowRecordingTitle]</label>
+					<align>right</align>
+					<aligny>center</aligny>
+					<font>font13_title</font>
+					<textcolor>white</textcolor>
+					<shadowcolor>black</shadowcolor>
+					<scroll>true</scroll>
+				</control>
 			</control>
 		</control>
 	</include>
