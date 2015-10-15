@@ -7,7 +7,7 @@
 			<animation effect="slide" end="0,338" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
 			<animation effect="fade" start="100" end="0" time="0" reversible="false" condition="Container(9000).OnNext | Container(9000).OnPrevious">Conditional</animation>
 			<animation effect="fade" start="0" end="100" time="200" delay="200" reversible="false" condition="![Container(9000).OnNext | Container(9000).OnPrevious]">Conditional</animation>
-			<visible>!IsEmpty(Container(9000).ListItem.Property(widget))</visible>
+			<visible>!IsEmpty(Container(9000).ListItem.Property(widget)) + !StringCompare(Container(9000).ListItem.Property(widget),weather) + !StringCompare(Container(9000).ListItem.Property(widget),$LOCALIZE[31502])</visible>
 			<include>VisibleFadeEffect</include>
 			<control type="group">
 				<visible>ControlGroup(9003).HasFocus() + !Skin.HasSetting(lowermainmenu) + IsEmpty(Container(9000).ListItem.Property(widgetStyle))</visible>
@@ -458,7 +458,7 @@
 				</control>
 			</control>
 			<control type="group">
-				<visible>IsEmpty(Container(8000).ListItem.Label) + IsEmpty(Container(9000).ListItem.Property(widgetStyle)) + !StringCompare(Container(9000).ListItem.Property(widget),weather)</visible>
+				<visible>IsEmpty(Container(8000).ListItem.Label) + IsEmpty(Container(9000).ListItem.Property(widgetStyle))</visible>
 				<left>1583</left>
 				<top>183</top>
 				<control type="image">
@@ -1146,7 +1146,7 @@
 			<left>0</left>
 			<top>622</top>
 			<visible>Player.HasVideo</visible>
-			<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes) | VideoPlayer.Content(musicvideos)</visible>
+			<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes) | VideoPlayer.Content(musicvideos) | VideoPlayer.Content(livetv)</visible>
 			<include>VisibleFadeEffect</include>
 			<animation effect="slide" tween="cubic" time="720" start="0,1080" end="0,0" condition="!Skin.HasSetting(lowermainmenu)">WindowOpen</animation>
 			<animation effect="slide" tween="cubic" time="720" end="0,1080" start="0,0" condition="!Skin.HasSetting(lowermainmenu)">WindowClose</animation>
@@ -1179,22 +1179,8 @@
 					<width>360</width>
 					<height>360</height>
 					<aspectratio align="right">keep</aspectratio>
-					<texture fallback="DefaultVideoCover.png">$INFO[Player.Art(poster)]</texture>
-					<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+					<texture fallback="DefaultVideoCover.png">$VAR[HomeNowPlayingThumbVar]</texture>
 					<bordersize>20</bordersize>
-					<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(musicvideos)</visible>
-				</control>
-				<control type="image">
-					<description>Cover image</description>
-					<left>20</left>
-					<top>45</top>
-					<width>360</width>
-					<height>360</height>
-					<aspectratio align="right" aligny="center">keep</aspectratio>
-					<texture fallback="DefaultVideoCover.png">$INFO[Player.Art(tvshow.poster)]</texture>
-					<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
-					<bordersize>20</bordersize>
-					<visible>VideoPlayer.Content(episodes)</visible>
 				</control>
 				<control type="grouplist">
 					<left>390</left>
@@ -1815,12 +1801,12 @@
 				</content>
 			</control>
 		</control>
-	</include>
+	</include>7
 	<include name="LiveTVWidget">
 		<control type="group">
 			<left>490r</left>
 			<top>200</top>
-			<visible>StringCompare(Container(9000).ListItem.Property(WidgetType),12)</visible>
+			<visible>StringCompare(Container(9000).ListItem.Property(widget),$LOCALIZE[31502])</visible>
 			<include>VisibleFadeEffect</include>
 			<include>Window_OpenClose_Animation</include>
 			<animation effect="fade" start="100" end="0" time="200" condition="Window.IsActive(Favourites)">conditional</animation>
@@ -1847,7 +1833,7 @@
 				<control type="label">
 					<left>340</left>
 					<top>12</top>
-					<height>26</height> 
+					<height>26</height>
 					<width>26</width>
 					<textoffsetx>15</textoffsetx>
 					<font>IconTiny</font>
@@ -1916,7 +1902,7 @@
 				<control type="label">
 					<left>340</left>
 					<top>12</top>
-					<height>26</height> 
+					<height>26</height>
 					<width>26</width>
 					<textoffsetx>15</textoffsetx>
 					<font>IconTiny</font>
