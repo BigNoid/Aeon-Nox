@@ -1932,28 +1932,25 @@
 							<include>ButtonInfoDialogsCommonValues</include>
 							<label>$LOCALIZE[20410]</label>
 							<onclick>Dialog.Close(MovieInformation)</onclick>
-							<onclick>PlayMedia($INFO[ListItem.Trailer])</onclick>
-							<visible>[!IsEmpty(ListItem.Trailer) + Container.Content(movies)] + [!System.HasAddon(script.cinemavision) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31014])]</visible>
+							<onclick condition="!IsEmpty(ListItem.Trailer)">PlayMedia($INFO[ListItem.Trailer])</onclick>
+							<onclick condition="IsEmpty(ListItem.Trailer)">ActivateWindow(videos,plugin://plugin.video.youtube/kodion/search/query/?q=$INFO[ListItem.OriginalTitle]+Trailer)</onclick>
+							<visible>Container.Content(movies)</visible>
+							<visible>System.HasAddon(script.cinemavision) + [StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31014]) | StringCompare(Skin.String(Trailer.Button),$LOCALIZE[31612])] | !System.HasAddon(script.cinemavision)</visible>
 						</control>
-						<control type="button" id="911">
+						<!-- <control type="button" id="911">
 							<description>Search Trailer</description>
 							<include>ButtonInfoDialogsCommonValues</include>
 							<label>$LOCALIZE[137] $LOCALIZE[20410]</label>
 							<onclick>Dialog.Close(movieinformation)</onclick>
-							<onclick>ActivateWindow(videos,plugin://plugin.video.youtube/kodion/search/query/?q=$INFO[ListItem.OriginalTitle]+Trailer)</onclick>
+							<onclick condition="IsEmpty(ListItem.Trailer)">ActivateWindow(videos,plugin://plugin.video.youtube/kodion/search/query/?q=$INFO[ListItem.OriginalTitle]+Trailer)</onclick>
 							<visible>[IsEmpty(ListItem.Trailer) + Container.Content(movies)] + [!System.HasAddon(script.cinemavision) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31014])]</visible>
-						</control>
-						<control type="image" id="203">
-							<width>2</width>
-							<height>58</height>
-							<texture border="1">separator3.png</texture>
-							<visible>Container.Content(movies) + [!System.HasAddon(script.cinemavision) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31014])]</visible>
-						</control>
+						</control> -->
 						<control type="button" id="10">
 							<description>Get Thumb</description>
 							<include>ButtonInfoDialogsCommonValues</include>
 							<label>13511</label>
 							<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
+							<visible>System.HasAddon(script.cinemavision) + [!StringCompare(Skin.String(Trailer.Button),$LOCALIZE[31612]) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31014])] | !Container.Content(movies)</visible>
 						</control>
 						<control type="image" id="204">
 							<width>2</width>
