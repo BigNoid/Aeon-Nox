@@ -709,7 +709,7 @@
 		</control>
 	</include>
 	<include name="VideoCastItem">
-		<param name="CastListItemID]"/>
+		<param name="CastListItemID"/>
 		<definition>
 			<item>
 				<label>$INFO[Container(50).ListItem($PARAM[CastListItemID]).Label]</label>
@@ -718,6 +718,36 @@
 				<visible>!IsEmpty(Container(50).ListItemNoWrap($PARAM[CastListItemID]).Label)</visible>
 				<onclick>RunScript(script.extendedinfo,info=extendedactorinfo,name=$INFO[Container(50).Listitem($PARAM[CastListItemID]).Label])</onclick>
 			</item>
+		</definition>
+	</include>
+	<include name="TVGuideFanart">
+		<param name="FanartImageControlID"/>
+		<definition>
+			<control type="image">
+				<include>FullscreenDimensions</include>
+				<include>AnimatedBackgroundAnimation</include>
+				<texture background="true">$INFO[Container($PARAM[FanartImageControlID]).ListItem.Property(Fanart)]</texture>
+				<aspectratio>scale</aspectratio>
+				<visible>Control.HasFocus($PARAM[FanartImageControlID])</visible>
+				<fadetime>600</fadetime>
+				<animation effect="fade" time="600">Visible</animation>
+				<animation effect="fade" time="600">Hidden</animation>
+			</control>
+		</definition>
+	</include>
+	<include name="GlobalSearchFanart">
+		<param name="FanartImageControlID"/>
+		<definition>
+			<control type="image">
+				<include>AnimatedBackgroundAnimation</include>
+				<texture background="true" fallback="$INFO[Skin.String(CustomDefaultBackground)]">$INFO[Container($PARAM[FanartImageControlID]).ListItem.Property(Fanart)]</texture>
+				<aspectratio>scale</aspectratio>
+				<fadetime>600</fadetime>
+				<visible>Control.HasFocus($PARAM[FanartImageControlID])</visible>
+				<animation effect="fade" time="600">Visible</animation>
+				<animation effect="fade" time="600">Hidden</animation>
+				<animation effect="fade" time="200">WindowClose</animation>
+			</control>
 		</definition>
 	</include>
 	<!-- <include name="AutoConfig">
