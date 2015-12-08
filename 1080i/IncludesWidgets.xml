@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 	<include name="IncludePanelWidgets">
+		<param name="PanelID" default="8001"/>
 		<param name="PanelWidth" default="1680"/>
 		<param name="PanelOnleft" default="8001"/>
 		<param name="PanelOnright" default="8001"/>
@@ -13,38 +14,43 @@
 			<onleft>$PARAM[PanelOnleft]</onleft>
 			<onright>$PARAM[PanelOnright]</onright>
 			<onback>9000</onback>
-			<oninfo condition="StringCompare(Container(9000).ListItem.Property(widgetType),movies)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container(8001).ListItem.Label])</oninfo>
-			<oninfo condition="StringCompare(Container(9000).ListItem.Property(widgetType),episodes)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(8001).ListItem.TvShowTitle])</oninfo>
+			<oninfo condition="StringCompare(Container(9000).ListItem.Property(widgetType),movies)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container($PARAM[PanelID]).ListItem.Label])</oninfo>
+			<oninfo condition="StringCompare(Container(9000).ListItem.Property(widgetType),episodes)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container($PARAM[PanelID]).ListItem.TvShowTitle])</oninfo>
 			<orientation>horizontal</orientation>
 			<preloaditems>2</preloaditems>
 			<scrolltime tween="quadratic" easing="out">300</scrolltime>
 		</definition>
 	</include>
 	<include name="IncludePosterWidgetLayout">
+		<param name="PanelID" default="8001"/>
+		<param name="LayoutWidth" default="240"/>
 		<param name="ArtworkTop" default="36"/>
+		<param name="ArtworkWidth" default="235"/>
+		<param name="ArtworkHeight" default="325"/>
 		<param name="LabelTop" default="365"/>
+		<param name="LabelWidth" default="215"/>
 		<param name="SubLabelTop" default="400"/>
-		<param name="WidgetStyleString" default="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])"/>
+		<param name="WidgetStyleString" default="$LOCALIZE[31229]"/>
 		<definition>
-			<itemlayout height="325" width="240" condition="[StringCompare(Container(9000).ListItem.Property(widgetType),movies) | StringCompare(Container(9000).ListItem.Property(WidgetType),playlists) | StringCompare(Container(9000).ListItem.Property(widgetTarget),extendedinfo) | [StringCompare(Container(9000).ListItem.Property(widgetType),tvshows) + !SubString(Container(9000).ListItem.Property(widgetpath),episodes)]] + $PARAM[WidgetStyleString]">
+			<itemlayout height="325" width="$PARAM[LayoutWidth]" condition="[StringCompare(Container(9000).ListItem.Property(widgetType),movies) | StringCompare(Container(9000).ListItem.Property(WidgetType),playlists) | StringCompare(Container(9000).ListItem.Property(widgetTarget),extendedinfo) | [StringCompare(Container(9000).ListItem.Property(widgetType),tvshows) + !SubString(Container(9000).ListItem.Property(widgetpath),episodes)]] + StringCompare(Container(9000).ListItem.Property(widgetStyle),$PARAM[WidgetStyleString])">
 				<control type="image">
 					<top>$PARAM[ArtworkTop]</top>
-					<width>235</width>
+					<width>$PARAM[ArtworkWidth]</width>
 					<height>325</height>
 					<texture background="true" fallback="DefaultMovies.png">$VAR[WidgetListItemPoster]</texture>
 				</control>
 				<control type="image">
 					<top>$PARAM[ArtworkTop]</top>
-					<width>235</width>
+					<width>$PARAM[ArtworkWidth]</width>
 					<height>325</height>
 					<texture colordiffuse="4DFFFFFF">black.png</texture>
 				</control>
 				<control type="group">
-					<visible>!StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])</visible>
+					<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])</visible>
 					<control type="label">
 						<left>10</left>
 						<top>$PARAM[LabelTop]</top>
-						<width>214</width>
+						<width>$PARAM[LabelWidth]</width>
 						<height>36</height>
 						<align>center</align>
 						<font>font13</font>
@@ -55,7 +61,7 @@
 					<control type="label">
 						<left>10</left>
 						<top>$PARAM[SubLabelTop]</top>
-						<width>214</width>
+						<width>$PARAM[LabelWidth]</width>
 						<height>36</height>
 						<align>center</align>
 						<font>font13</font>
@@ -65,7 +71,7 @@
 					</control>
 				</control>
 			</itemlayout>
-			<focusedlayout height="325" width="240" condition="[StringCompare(Container(9000).ListItem.Property(widgetType),movies) | StringCompare(Container(9000).ListItem.Property(WidgetType),playlists) | StringCompare(Container(9000).ListItem.Property(widgetTarget),extendedinfo) | [StringCompare(Container(9000).ListItem.Property(widgetType),tvshows) + !SubString(Container(9000).ListItem.Property(widgetpath),episodes)]] + $PARAM[WidgetStyleString]">
+			<focusedlayout height="325" width="$PARAM[LayoutWidth]" condition="[StringCompare(Container(9000).ListItem.Property(widgetType),movies) | StringCompare(Container(9000).ListItem.Property(WidgetType),playlists) | StringCompare(Container(9000).ListItem.Property(widgetTarget),extendedinfo) | [StringCompare(Container(9000).ListItem.Property(widgetType),tvshows) + !SubString(Container(9000).ListItem.Property(widgetpath),episodes)]] + StringCompare(Container(9000).ListItem.Property(widgetStyle),$PARAM[WidgetStyleString])">
 				<control type="group">
 					<animation type="Focus" reversible="false">
 						<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
@@ -73,13 +79,13 @@
 					</animation>
 					<control type="image">
 						<top>$PARAM[ArtworkTop]</top>
-						<width>235</width>
+						<width>$PARAM[ArtworkWidth]</width>
 						<height>325</height>
 						<texture background="true" fallback="DefaultMovies.png">$VAR[WidgetListItemPoster]</texture>
 					</control>
 					<control type="image">
 						<top>$PARAM[ArtworkTop]</top>
-						<width>235</width>
+						<width>$PARAM[ArtworkWidth]</width>
 						<height>325</height>
 						<texture colordiffuse="E6FFFFFF">logo_back.png</texture>
 						<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])</visible>
@@ -87,7 +93,7 @@
 					<control type="label">
 						<left>10</left>
 						<top>$PARAM[LabelTop]</top>
-						<width>214</width>
+						<width>$PARAM[LabelWidth]</width>
 						<height>36</height>
 						<align>center</align>
 						<font>font13</font>
@@ -98,7 +104,7 @@
 					<control type="label">
 						<left>10</left>
 						<top>$PARAM[SubLabelTop]</top>
-						<width>214</width>
+						<width>$PARAM[LabelWidth]</width>
 						<height>36</height>
 						<align>center</align>
 						<font>font13</font>
@@ -111,25 +117,26 @@
 		</definition>
 	</include>
 	<include name="IncludeLandscapeWidgetLayout">
-		<param name="ArtworkTop" default="110"/>
+		<param name="PanelID" default="8001"/>
+		<param name="LayoutWidth" default="420"/>
+		<param name="LayoutHeight" default="252"/>
 		<param name="ArtworkWidth" default="415"/>
 		<param name="ArtworkHeight" default="252"/>
-		<param name="LabelTop" default="365"/>
+		<param name="ArtworkTop" default="110"/>
 		<param name="LabelWidth" default="400"/>
+		<param name="LabelTop" default="365"/>
 		<param name="SubLabelTop" default="400"/>
-		<param name="LayoutWidth" default="420"/>
-		<param name="WidgetStyleString" default="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])"/>
+		<param name="WidgetStyleString" default="$LOCALIZE[31229]"/>
 		<definition>
-			<itemlayout width="$PARAM[LayoutWidth]" height="252" condition="[StringCompare(Container(9000).ListItem.Property(widgetType),episodes) | StringCompare(Container(9000).ListItem.Property(widgetType),musicvideos) | [StringCompare(Container(9000).ListItem.Property(widgetType),tvshows) + SubString(Container(9000).ListItem.Property(widgetpath),episodes)]] + $PARAM[WidgetStyleString]">
+			<itemlayout width="$PARAM[LayoutWidth]" height="$PARAM[LayoutHeight]" condition="[StringCompare(Container(9000).ListItem.Property(widgetType),episodes) | StringCompare(Container(9000).ListItem.Property(widgetType),musicvideos) | [StringCompare(Container(9000).ListItem.Property(widgetType),tvshows) + SubString(Container(9000).ListItem.Property(widgetpath),episodes)]] + StringCompare(Container(9000).ListItem.Property(widgetStyle),$PARAM[WidgetStyleString])">
 				<control type="image">
 					<top>$PARAM[ArtworkTop]</top>
 					<width>$PARAM[ArtworkWidth]</width>
 					<height>$PARAM[ArtworkHeight]</height>
-					<aspectratio>scale</aspectratio>
 					<texture fallback="DefaultTVShows.png">$VAR[WidgetListItemLandscape]</texture>
 				</control>
 				<control type="group">
-					<visible>!StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])</visible>
+					<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])</visible>
 					<control type="label">
 						<left>10</left>
 						<top>$PARAM[LabelTop]</top>
@@ -154,7 +161,7 @@
 					</control>
 				</control>
 				<control type="group">
-					<visible>!StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])</visible>
+					<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])</visible>
 					<control type="image">
 						<top>$PARAM[ArtworkTop]</top>
 						<width>$PARAM[ArtworkWidth]</width>
@@ -174,7 +181,7 @@
 					</control>
 				</control>
 			</itemlayout>
-			<focusedlayout width="420" height="252" condition="[StringCompare(Container(9000).ListItem.Property(widgetType),episodes) | StringCompare(Container(9000).ListItem.Property(widgetType),musicvideos) | [StringCompare(Container(9000).ListItem.Property(widgetType),tvshows) + SubString(Container(9000).ListItem.Property(widgetpath),episodes)]] + $PARAM[WidgetStyleString]">
+			<focusedlayout width="$PARAM[LayoutWidth]" height="$PARAM[LayoutHeight]" condition="[StringCompare(Container(9000).ListItem.Property(widgetType),episodes) | StringCompare(Container(9000).ListItem.Property(widgetType),musicvideos) | [StringCompare(Container(9000).ListItem.Property(widgetType),tvshows) + SubString(Container(9000).ListItem.Property(widgetpath),episodes)]] + StringCompare(Container(9000).ListItem.Property(widgetStyle),$PARAM[WidgetStyleString])">
 				<control type="group">
 					<animation type="Focus" reversible="false">
 						<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
@@ -184,7 +191,6 @@
 						<top>$PARAM[ArtworkTop]</top>
 						<width>$PARAM[ArtworkWidth]</width>
 						<height>$PARAM[ArtworkHeight]</height>
-						<aspectratio>scale</aspectratio>
 						<texture fallback="DefaultTVShows.png">$VAR[WidgetListItemLandscape]</texture>
 					</control>
 					<control type="image">
@@ -220,16 +226,108 @@
 			</focusedlayout>
 		</definition>
 	</include>
+	<include name="IncludeSquareWidgetLayout">
+		<param name="PanelID" default="8001"/>
+		<param name="LayoutWidth" default="280"/>
+		<param name="ArtworkWidth" default="275"/>
+		<param name="ArtworkHeight" default="275"/>
+		<param name="ArtworkTop" default="90"/>
+		<param name="LabelWidth" default="255"/>
+		<param name="LabelTop" default="410"/>
+		<param name="SubLabelTop" default="375"/>
+		<param name="WidgetStyleString" default="$LOCALIZE[31229]"/>
+		<definition>
+			<itemlayout height="325" width="$PARAM[LayoutWidth]" condition="[StringCompare(Container(9000).ListItem.Property(widgetTarget),music) | StringCompare(Container(9000).ListItem.Property(widgetTarget),programs) | StringCompare(Container(9000).ListItem.Property(widgetType),musicvideos)] + StringCompare(Container(9000).ListItem.Property(widgetStyle),$PARAM[WidgetStyleString])">
+				<control type="image">
+					<top>$PARAM[ArtworkTop]</top>
+					<width>$PARAM[ArtworkWidth]</width>
+					<height>$PARAM[ArtworkHeight]</height>
+					<aspectratio scalediffuse="false" aligny="bottom">keep</aspectratio>
+					<texture fallback="DefaultAddon.png">$INFO[ListItem.Icon]</texture>
+				</control>
+				<control type="group">
+					<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])</visible>
+					<control type="label">
+						<left>10</left>
+						<top>$PARAM[LabelTop]</top>
+						<width>$PARAM[LabelWidth]</width>
+						<height>36</height>
+						<align>center</align>
+						<font>font13</font>
+						<shadowcolor>black</shadowcolor>
+						<textcolor>white</textcolor>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+					<control type="label">
+						<left>10</left>
+						<top>$PARAM[SubLabelTop]</top>
+						<width>$PARAM[LabelWidth]</width>
+						<height>36</height>
+						<align>center</align>
+						<font>font13</font>
+						<shadowcolor>black</shadowcolor>
+						<textcolor>white</textcolor>
+						<label>$INFO[ListItem.Artist]</label>
+					</control>
+				</control>
+			</itemlayout>
+			<focusedlayout height="325" width="$PARAM[LayoutWidth]" condition="[StringCompare(Container(9000).ListItem.Property(widgetTarget),music) | StringCompare(Container(9000).ListItem.Property(widgetTarget),programs) | StringCompare(Container(9000).ListItem.Property(widgetType),musicvideos)] + StringCompare(Container(9000).ListItem.Property(widgetStyle),$PARAM[WidgetStyleString])">
+				<control type="group">
+					<animation type="Focus" reversible="false">
+						<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
+						<effect type="fade" start="80" end="100" time="300" />
+					</animation>
+					<control type="image">
+						<top>$PARAM[ArtworkTop]</top>
+						<width>$PARAM[ArtworkWidth]</width>
+						<height>$PARAM[ArtworkHeight]</height>
+						<aspectratio scalediffuse="false" aligny="bottom">keep</aspectratio>
+						<texture fallback="DefaultAddon.png">$INFO[ListItem.Icon]</texture>
+					</control>
+					<control type="image">
+						<top>$PARAM[ArtworkTop]</top>
+						<width>$PARAM[ArtworkWidth]</width>
+						<height>$PARAM[ArtworkHeight]</height>
+						<texture colordiffuse="E6FFFFFF">logo_back.png</texture>
+						<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31230])</visible>
+					</control>
+					<control type="label">
+						<left>10</left>
+						<top>$PARAM[LabelTop]</top>
+						<width>$PARAM[LabelWidth]</width>
+						<height>36</height>
+						<align>center</align>
+						<font>font13</font>
+						<shadowcolor>black</shadowcolor>
+						<textcolor>selected</textcolor>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+					<control type="label">
+						<left>10</left>
+						<top>$PARAM[SubLabelTop]</top>
+						<width>$PARAM[LabelWidth]</width>
+						<height>36</height>
+						<align>center</align>
+						<font>font13</font>
+						<shadowcolor>black</shadowcolor>
+						<textcolor>selected</textcolor>
+						<label>$INFO[ListItem.Artist]</label>
+					</control>
+				</control>
+			</focusedlayout>
+		</definition>
+	</include>
 	<include name="IncludeAddonWidgetLayout">
+		<param name="PanelID" default="8001"/>
 		<param name="ArtworkTop" default="90"/>
 		<param name="ArtworkWidth" default="205"/>
 		<param name="ArtworkHeight" default="325"/>
 		<param name="LabelTop" default="415"/>
 		<param name="LabelWidth" default="195"/>
 		<param name="LayoutWidth" default="210"/>
-		<param name="WidgetStyleString" default="StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])"/>
+		<param name="WidgetStyleString" default="$LOCALIZE[31229]"/>
 		<definition>
-			<itemlayout height="325" width="$PARAM[LayoutWidth]" condition="[StringCompare(Container(9000).ListItem.Property(widgetTarget),music) | StringCompare(Container(9000).ListItem.Property(widgetTarget),pictures) | StringCompare(Container(9000).ListItem.Property(widgetTarget),programs) | StringCompare(Container(9000).ListItem.Property(widgetType),video)] + !StringCompare(Container(9000).ListItem.Property(widgetType),musicvideos) + $PARAM[WidgetStyleString]">
+			<itemlayout height="325" width="$PARAM[LayoutWidth]" condition="[StringCompare(Container(9000).ListItem.Property(widgetTarget),pictures) | StringCompare(Container(9000).ListItem.Property(widgetType),video)] + StringCompare(Container(9000).ListItem.Property(widgetStyle),$PARAM[WidgetStyleString])">
 				<control type="image">
 					<top>$PARAM[ArtworkTop]</top>
 					<width>$PARAM[ArtworkWidth]</width>
@@ -250,7 +348,7 @@
 					<visible>StringCompare(Container(9000).ListItem.Property(widgetStyle),$LOCALIZE[31229])</visible>
 				</control>
 			</itemlayout>
-			<focusedlayout height="325" width="$PARAM[LayoutWidth]" condition="[StringCompare(Container(9000).ListItem.Property(widgetTarget),music) | StringCompare(Container(9000).ListItem.Property(widgetTarget),pictures) | StringCompare(Container(9000).ListItem.Property(widgetTarget),programs) | StringCompare(Container(9000).ListItem.Property(widgetType),video)] + !StringCompare(Container(9000).ListItem.Property(widgetType),musicvideos) + $PARAM[WidgetStyleString]">
+			<focusedlayout height="325" width="$PARAM[LayoutWidth]" condition="[StringCompare(Container(9000).ListItem.Property(widgetTarget),pictures) | StringCompare(Container(9000).ListItem.Property(widgetType),video)] + StringCompare(Container(9000).ListItem.Property(widgetStyle),$PARAM[WidgetStyleString])">
 				<control type="group">
 					<animation type="Focus" reversible="false">
 						<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
