@@ -7,7 +7,9 @@
 		<include>CommonBackground</include>
 		<include condition="!Skin.HasSetting(Disable.Videoinfo)">NowPlayingVideoWidget</include>
 		<include condition="!Skin.HasSetting(Disable.Musicinfo)">NowPlayingMusicWidget</include>
-		<include>HomeRecentlyAddedInfo</include>
+		<include condition="!Skin.HasSetting(Enable.AdvancedWidgets)">HomeRecentlyAddedInfo</include>
+		<include condition="Skin.HasSetting(Enable.AdvancedWidgets)">Widget1</include>
+		<include condition="Skin.HasSetting(Enable.AdvancedWidgets)">Widget2</include>
 		<include>WeatherWidget</include>
 		<include>LiveTVWidget</include>
 		<control type="group">
@@ -19,6 +21,7 @@
 				<animation effect="slide" start="-1945,0" end="0,0" delay="300" time="240" condition="!Window.Previous(startup)">WindowOpen</animation>
 				<animation effect="slide" start="-1945" end="0" time="240">VisibleChange</animation>
 				<animation effect="slide" start="-1945,0" end="0,0" delay="800" time="480" condition="Window.Previous(startup)">WindowOpen</animation>
+				<animation effect="slide" end="0,-381" time="320" tween="cubic" easing="inout" condition="!Skin.HasSetting(lowermainmenu) + Window.IsVisible(1199)">Conditional</animation>
 				<control type="image">
 					<width>FullScreenWidth</width>
 					<height>87</height>
@@ -50,7 +53,9 @@
 					<align>right</align>
 					<orientation>horizontal</orientation>
 					<onup condition="Control.IsVisible(9003)">9003</onup>
-					<onup condition="!Control.IsVisible(9003)">9000</onup>
+					<onup condition="Skin.HasSetting(lowermainmenu) + !Control.IsVisible(90010) + Control.IsVisible(90020)">8002</onup>
+					<onup condition="Skin.HasSetting(lowermainmenu) + Control.IsVisible(90010)">8001</onup>
+					<onup condition="!Skin.HasSetting(lowermainmenu) + Control.IsVisible(90010)">8001</onup>
 					<ondown>9000</ondown>
 					<include condition="System.HasAddon(script.globalsearch) + !Skin.HasSetting(Disable.SearchButton)">HomeSearchButton</include>
 					<control type="button" id="9021">
@@ -145,12 +150,13 @@
 				<effect type="fade" start="100" end="0" time="300" />
 				<effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" />
 			</animation>
+			<animation effect="slide" end="0,-381" time="320" tween="cubic" easing="inout" condition="!Skin.HasSetting(lowermainmenu) + Window.IsVisible(1199)">Conditional</animation>
 			<control type="group">
 				<control type="group" id="9001">
 					<left>0</left>
 					<top>159</top>
 					<onup>9000</onup>
-					<ondown>9002</ondown>
+					<ondown condition="!Skin.HasSetting(lowermainmenu) + Control.IsVisible(90020)">8002</ondown>
 					<include condition="[StringCompare(Skin.String(RSS.Position),$LOCALIZE[571]) | !StringCompare(Skin.String(RSS.Position),$LOCALIZE[571]) + !Skin.HasSetting(Enable.VisibleSubmenu)] + system.getbool(lookandfeel.enablerssfeeds) | [!system.getbool(lookandfeel.enablerssfeeds) + !Skin.HasSetting(Enable.VisibleSubmenu)]">SubMenuAnimation</include>
 					<animation effect="slide" start="1870,0" end="0,0" delay="300" time="240" condition="!Window.Previous(startup)">WindowOpen</animation>
 					<animation effect="slide" start="1870,0" end="0,0" delay="200" time="480" condition="Window.Previous(startup)">WindowOpen</animation>
@@ -172,7 +178,7 @@
 						<width>1500</width>
 						<height>87</height>
 						<onup>9000</onup>
-						<ondown>9004</ondown>
+						<ondown condition="!Skin.HasSetting(lowermainmenu) + Control.IsVisible(90020)">8002</ondown>
 						<pagecontrol>-</pagecontrol>
 						<scrolltime tween="quadratic" easing="out">300</scrolltime>
 						<focusposition>2</focusposition>
@@ -307,6 +313,7 @@
 				<animation effect="slide" end="-480,0" time="240">WindowClose</animation>
 				<animation effect="slide" start="-480,0" end="0,0" delay="300" time="240" condition="!window.previous(startup)">WindowOpen</animation>
 				<animation effect="slide" start="-480,0" end="0,0" delay="800" time="480" condition="window.previous(startup)">WindowOpen</animation>
+				<animation effect="slide" end="-299,0" time="320" tween="cubic" easing="inout" condition="Window.IsVisible(1199)">Conditional</animation>
 				<control type="image">
 					<left>0</left>
 					<top>-8</top>
@@ -388,8 +395,8 @@
 			<animation effect="slide" end="1460,0" time="240">WindowClose</animation>
 			<animation effect="slide" start="1400,0" end="0,0" delay="300" time="240" condition="!window.previous(startup)">WindowOpen</animation>
 			<animation effect="slide" start="1400,0" end="0,0" delay="800" time="480" condition="window.previous(startup)">WindowOpen</animation>
-			<animation effect="slide" end="0,1000" time="320" tween="cubic" easing="inout" condition="system.getbool(lookandfeel.enablerssfeeds) + StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + StringCompare(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]">Conditional</animation>
-			<top>-5</top>
+			<animation effect="slide" end="0,993" time="320" tween="cubic" easing="inout" condition="system.getbool(lookandfeel.enablerssfeeds) + StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + StringCompare(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]">Conditional</animation>
+			<top>0</top>
 			<control type="image">
 				<left>510</left>
 				<width>1410</width>
@@ -444,6 +451,12 @@
 				<onleft>9000</onleft>
 				<ondown condition="Control.IsVisible(9003)">9003</ondown>
 				<ondown condition="!Control.IsVisible(9003)">9000</ondown>
+				<onup condition="StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + Control.IsVisible(8002)">8002</onup>
+				<onup condition="StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + Control.IsVisible(8001) + !Control.IsVisible(8002)">8001</onup>
+				<onup condition="StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + !Control.IsVisible(8001) + !Control.IsVisible(8002)">9000</onup>
+				<ondown condition="!StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + Control.IsVisible(8001)">8001</ondown>
+				<ondown condition="!StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + !Control.IsVisible(8001) + Control.IsVisible(8002)">8002</ondown>
+				<ondown condition="!StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + !Control.IsVisible(8001) + !Control.IsVisible(8002)">9000</ondown>
 				<control type="image">
 					<width>65</width>
 					<height>40</height>
