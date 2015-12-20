@@ -288,7 +288,7 @@
 							<texture border="1">separator3.png</texture>
 						</control>
 						<control type="group">
-							<visible>!IsEmpty(ListItem.Rating)</visible>
+							<visible>!IsEmpty(ListItem.Rating) + IsEmpty(ListItem.UserRating)</visible>
 							<width>200</width>
 							<control type="label">
 								<left>0</left>
@@ -314,9 +314,38 @@
 							<width>2</width>
 							<height>88</height>
 							<texture border="1">separator3.png</texture>
-							<visible>!IsEmpty(ListItem.Rating)</visible>
+							<visible>!IsEmpty(ListItem.Rating) + IsEmpty(ListItem.UserRating)</visible>
+					</control>
+					<control type="group">
+						<visible>!IsEmpty(ListItem.UserRating)</visible>
+						<width>120</width>
+						<control type="label">
+							<left>0</left>
+							<top>2</top>
+							<width>120</width>
+							<height>60</height>
+							<align>center</align>
+							<label>$INFO[ListItem.UserRating]</label>
+							<font>font48_bold</font>
+							<textcolor>grey</textcolor>
 						</control>
-						<control type="group">
+						<control type="label">
+							<top>52</top>
+							<width>120</width>
+							<height>30</height>
+							<align>center</align>
+							<label>[LOWERCASE]$LOCALIZE[31146][/LOWERCASE]</label>
+							<font>font12</font>
+							<textcolor>grey</textcolor>
+						</control>
+					</control>
+					<control type="image">
+						<width>2</width>
+						<height>90</height>
+						<texture border="1">separator3.png</texture>
+						<visible>!IsEmpty(ListItem.UserRating)</visible>
+					</control>
+					<control type="group">
 							<visible>!IsEmpty(ListItem.Top250)</visible>
 							<width>200</width>
 							<control type="label">
@@ -1796,10 +1825,12 @@
 							<texture border="1">separator3.png</texture>
 							<visible>System.HasAddon(script.cinemavision) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + !StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31014]) + IsEmpty(Window(Home).Property(script.cinemavision.running))</visible>
 						</control>
-						<control type="button" id="9">
-							<description>Resume</description>
+						<control type="togglebutton" id="7">
+							<description>Set rating</description>
 							<include>ButtonInfoDialogsCommonValues</include>
-							<label>$VAR[VideoInfoResumeLabelVar]</label>
+							<label>38023</label>
+							<altlabel>$LOCALIZE[31147]</altlabel>
+							<usealttexture>!IsEmpty(ListItem.UserRating)</usealttexture>
 						</control>
 						<control type="image" id="202">
 							<width>2</width>
@@ -1815,6 +1846,11 @@
 							<onclick condition="IsEmpty(ListItem.Trailer)">ActivateWindow(videos,plugin://plugin.video.youtube/kodion/search/query/?q=$INFO[ListItem.OriginalTitle]+Trailer)</onclick>
 							<visible>Container.Content(movies)</visible>
 							<visible>System.HasAddon(script.cinemavision) + [StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | StringCompare(Skin.String(CinemaVision.Button),$LOCALIZE[31014]) | StringCompare(Skin.String(Trailer.Button),$LOCALIZE[31612])] | !System.HasAddon(script.cinemavision)</visible>
+						</control>
+						<control type="image" id="203">
+							<width>2</width>
+							<height>58</height>
+							<texture border="1">separator3.png</texture>
 						</control>
 						<control type="button" id="10">
 							<description>Get Thumb</description>
@@ -1841,7 +1877,7 @@
 							<height>58</height>
 							<texture border="1">separator3.png</texture>
 						</control>
-						<control type="button" id="207">
+						<control type="button" id="206">
 							<description>Extras</description>
 							<font>IconMedium</font>
 							<width>80</width>
