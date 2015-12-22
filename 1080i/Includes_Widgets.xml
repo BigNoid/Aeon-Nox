@@ -12,7 +12,7 @@
 			<animation effect="slide" end="0,-349" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(lowermainmenu)">Conditional</animation>
 			<animation effect="slide" end="215,-64" condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])">Conditional</animation>
 			<animation effect="fade" start="100" end="0" time="200" delay="100" condition="Window.IsVisible(1199)">Conditional</animation>
-			<animation effect="fade" start="100" end="0" time="200" delay="100" condition="Skin.HasSetting(Enable.WidgetHide) + !Control.HasFocus(8001) + !Control.HasFocus(8002)">Conditional</animation>
+			<animation effect="fade" start="100" end="0" time="200" delay="100" condition="[Skin.HasSetting(Enable.WidgetHide) + !Control.HasFocus(8001) + !Control.HasFocus(8002)] | [Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8002) + !StringCompare(Container(9000).ListItem.Property(widgetStyle.2),List)]">Conditional</animation>
 			<visible>!IsEmpty(Container(9000).ListItem.Property(widgetPath))</visible>
 			<include>VisibleFadeEffect</include>
 			<!-- Test Image
@@ -25,6 +25,7 @@
 				<texture>back.png</texture>
 			</control>-->
 			<!-- Widgets -->
+			<include>PanelInfo1</include>
 			<include>skinshortcuts-template-widgetList1</include>
 			<include>skinshortcuts-template-widgetPanel1</include>
 		</control>
@@ -42,7 +43,7 @@
 			<animation effect="slide" end="0,601" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(lowermainmenu)">Conditional</animation>
 			<animation effect="slide" end="215,633" condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])">Conditional</animation>
 			<animation effect="fade" start="100" end="0" time="200" delay="100" condition="Window.IsVisible(1199)">Conditional</animation>
-			<animation effect="fade" start="100" end="0" time="200" delay="100" condition="Skin.HasSetting(Enable.WidgetHide) + !Control.HasFocus(8001) + !Control.HasFocus(8002)">Conditional</animation>
+			<animation effect="fade" start="100" end="0" time="200" delay="100" condition="[Skin.HasSetting(Enable.WidgetHide) + !Control.HasFocus(8001) + !Control.HasFocus(8002)]  | [Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8001) + !StringCompare(Container(9000).ListItem.Property(widgetStyle),List)]">Conditional</animation>
 			<animation effect="fade" start="100" end="0" time="200" delay="100" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(Disable.Videoinfo) + Player.HasVideo + !Control.HasFocus(8002)">Conditional</animation>
 			<animation effect="fade" start="100" end="0" time="200" delay="100" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(Disable.Musicinfo) + Player.HasAudio + !Control.HasFocus(8002)">Conditional</animation>
 			<animation effect="fade" start="100" end="0" time="200" delay="100" condition="!IsEmpty(Container(9000).ListItem.Property(widgetLiveTV)) + [PVR.HasNonRecordingTimer | PVR.IsRecording] + !Control.HasFocus(8002)">Conditional</animation>
@@ -58,6 +59,7 @@
 				<texture>back.png</texture>
 			</control>-->
 			<!-- Widgets -->
+			<include>PanelInfo2</include>
 			<include>skinshortcuts-template-widgetList2</include>
 			<include>skinshortcuts-template-widgetPanel2</include>
 		</control>
@@ -377,6 +379,143 @@
 		<orientation>horizontal</orientation>
 		<preloaditems>2</preloaditems>
 		<scrolltime tween="quadratic" easing="out">300</scrolltime>
+	</include>
+	<!-- Panel Info -->
+	<include name="PanelInfo1">
+		<control type="group">		
+			<top>90</top>
+			<left>240</left>
+			<visible>Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8001) + !StringCompare(Container(9000).ListItem.Property(widgetStyle),List)</visible>
+			<animation effect="slide" end="0,950" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(lowermainmenu)">Conditional</animation>
+			<animation effect="slide" end="0,697" condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])">Conditional</animation>
+			<control type="group">
+				<control type="image">
+					<top>-40</top>
+					<width>1480</width>
+					<height>390</height>
+					<texture colordiffuse="AAFFFFFF">homewidgets/list_shadow.png</texture>
+					<animation effect="fade" time="300" tween="sine" easing="inout">VisibleChange</animation>
+				</control>
+				<control type="group">
+					<visible>IsEmpty(Container(8001).ListItem.Property(HighTemp)) + IsEmpty(Container(8001).ListItem.ChannelName) + IsEmpty(Container(8001).ListItem.Artist) + IsEmpty(Container(8001).ListItem.AlbumArtist) + IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
+					<control type="image">
+						<left>-20</left>
+						<top>-20</top>
+						<width>233</width>
+						<height>350</height>
+						<texture background="true">$VAR[HomeWidget8001PosterVar]</texture>
+						<fadetime>IconCrossfadeTime</fadetime>
+						<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+						<bordersize>20</bordersize>
+					</control>
+					<control type="grouplist">
+						<left>212</left>
+						<include name="ListInfo">
+							<param name="Texture">$VAR[HomeWidget8001PosterVar]</param>
+							<param name="Width">1228</param>
+							<param name="Title">$VAR[HomeWidget8001TitleVar]</param>
+							<param name="SubTitle">$VAR[HomeWidget8001SubTitleVar]</param>
+							<param name="Info1">$VAR[HomeWidget8001Info1Var]</param>
+							<param name="Info2">$VAR[HomeWidget8001Info2Var]</param>
+							<param name="Plot">$VAR[HomeWidget8001PlotVar]</param>
+						</include>
+					</control>
+				</control>
+				<control type="group">
+					<visible>!IsEmpty(Container(8001).ListItem.Property(HighTemp)) | !IsEmpty(Container(8001).ListItem.ChannelName) | !IsEmpty(Container(8001).ListItem.Artist) | !IsEmpty(Container(8001).ListItem.AlbumArtist) | !IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
+					<control type="image">
+						<left>-20</left>
+						<top>-20</top>
+						<width>350</width>
+						<height>350</height>
+						<texture background="true">$VAR[HomeWidget8001PosterVar]</texture>
+						<fadetime>IconCrossfadeTime</fadetime>
+						<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+						<bordersize>20</bordersize>
+					</control>
+					<control type="grouplist">
+						<left>330</left>
+						<include name="ListInfo">
+							<param name="Texture">$VAR[HomeWidget8001PosterVar]</param>
+							<param name="Width">1110</param>
+							<param name="Title">$VAR[HomeWidget8001TitleVar]</param>
+							<param name="SubTitle">$VAR[HomeWidget8001SubTitleVar]</param>
+							<param name="Info1">$VAR[HomeWidget8001Info1Var]</param>
+							<param name="Info2">$VAR[HomeWidget8001Info2Var]</param>
+							<param name="Plot">$VAR[HomeWidget8001PlotVar]</param>
+						</include>
+					</control>
+				</control>
+			</control>		
+		</control>
+	</include>
+	<include name="PanelInfo2">
+		<control type="group">		
+			<top>449</top>
+			<left>240</left>
+			<visible>Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8002) + !StringCompare(Container(9000).ListItem.Property(widgetStyle.2),List)</visible>
+			<animation effect="slide" end="0,-950" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(lowermainmenu)">Conditional</animation>
+			<animation effect="slide" end="0,-697" condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])">Conditional</animation>
+			<control type="group">
+				<control type="image">
+					<top>-40</top>
+					<width>1480</width>
+					<height>390</height>
+					<texture colordiffuse="AAFFFFFF">homewidgets/list_shadow.png</texture>
+					<animation effect="fade" time="300" tween="sine" easing="inout">VisibleChange</animation>
+				</control>
+				<control type="group">
+					<visible>IsEmpty(Container(8002).ListItem.Property(HighTemp)) + IsEmpty(Container(8002).ListItem.ChannelName) + IsEmpty(Container(8002).ListItem.Artist) + IsEmpty(Container(8002).ListItem.AlbumArtist) + IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
+					<control type="image">
+						<left>-20</left>
+						<top>-20</top>
+						<width>233</width>
+						<height>350</height>
+						<texture background="true">$VAR[HomeWidget8002PosterVar]</texture>
+						<fadetime>IconCrossfadeTime</fadetime>
+						<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+						<bordersize>20</bordersize>
+					</control>
+					<control type="grouplist">
+						<left>212</left>
+						<include name="ListInfo">
+							<param name="Texture">$VAR[HomeWidget8002PosterVar]</param>
+							<param name="Width">898</param>
+							<param name="Title">$VAR[HomeWidget8002TitleVar]</param>
+							<param name="SubTitle">$VAR[HomeWidget8002SubTitleVar]</param>
+							<param name="Info1">$VAR[HomeWidget8002Info1Var]</param>
+							<param name="Info2">$VAR[HomeWidget8002Info2Var]</param>
+							<param name="Plot">$VAR[HomeWidget8002PlotVar]</param>
+						</include>
+					</control>
+				</control>
+				<control type="group">
+					<visible>!IsEmpty(Container(8002).ListItem.Property(HighTemp)) | !IsEmpty(Container(8002).ListItem.ChannelName) | !IsEmpty(Container(8002).ListItem.Artist) | !IsEmpty(Container(8002).ListItem.AlbumArtist) | !IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
+					<control type="image">
+						<left>-20</left>
+						<top>-20</top>
+						<width>350</width>
+						<height>350</height>
+						<texture background="true">$VAR[HomeWidget8002PosterVar]</texture>
+						<fadetime>IconCrossfadeTime</fadetime>
+						<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+						<bordersize>20</bordersize>
+					</control>
+					<control type="grouplist">
+						<left>330</left>
+						<include name="ListInfo">
+							<param name="Texture">$VAR[HomeWidget8002PosterVar]</param>
+							<param name="Width">781</param>
+							<param name="Title">$VAR[HomeWidget8002TitleVar]</param>
+							<param name="SubTitle">$VAR[HomeWidget8002SubTitleVar]</param>
+							<param name="Info1">$VAR[HomeWidget8002Info1Var]</param>
+							<param name="Info2">$VAR[HomeWidget8002Info2Var]</param>
+							<param name="Plot">$VAR[HomeWidget8002PlotVar]</param>
+						</include>
+					</control>
+				</control>
+			</control>		
+		</control>
 	</include>
 	<!-- Panel Background/Labels -->
 	<include name="PanelBack1">
