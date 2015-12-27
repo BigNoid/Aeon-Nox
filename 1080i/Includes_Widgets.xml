@@ -26,9 +26,12 @@
 			</control> -->
 			<!-- Widgets -->
 			<include>PanelInfo1</include>
+			<include>ExtPanelInfo1</include>
 			<include>skinshortcuts-template-widgetList1</include>
 			<include>skinshortcuts-template-widgetPanel1</include>
 			<include>skinshortcuts-template-widgetExtPanel1</include>
+			<include>skinshortcuts-template-widgetComPanel1</include>
+			<include>skinshortcuts-template-widgetComExtPanel1</include>
 		</control>
 	</include>
 	<include name="Widget2">
@@ -61,9 +64,12 @@
 			</control> -->
 			<!-- Widgets -->
 			<include>PanelInfo2</include>
+			<include>ExtPanelInfo2</include>
 			<include>skinshortcuts-template-widgetList2</include>
 			<include>skinshortcuts-template-widgetPanel2</include>
 			<include>skinshortcuts-template-widgetExtPanel2</include>
+			<include>skinshortcuts-template-widgetComPanel2</include>
+			<include>skinshortcuts-template-widgetComExtPanel2</include>
 		</control>
 	</include>
 	<!-- ******* ONINFO ******** -->
@@ -362,9 +368,9 @@
 	<!-- Panel Containers -->
 	<include name="PanelWidget1">
 		<top>0</top>
-		<left>242</left>
-		<width>1435</width>
-		<height>300</height>
+		<left>$PARAM[Left]</left>
+		<width>$PARAM[Width]</width>
+		<height>$PARAM[Height]</height>
 		<include>HorizontalNavigation1</include>
 		<include>OnInfo1</include>
 		<orientation>horizontal</orientation>
@@ -373,9 +379,9 @@
 	</include>
 	<include name="PanelWidget2">
 		<top>0</top>
-		<left>242</left>
-		<width>1435</width>
-		<height>300</height>
+		<left>$PARAM[Left]</left>
+		<width>$PARAM[Width]</width>
+		<height>$PARAM[Height]</height>
 		<include>HorizontalNavigation2</include>
 		<include>OnInfo2</include>
 		<orientation>horizontal</orientation>
@@ -384,10 +390,11 @@
 	</include>
 	<!-- Panel Info -->
 	<include name="PanelInfo1">
-		<control type="group">		
+		<control type="group">
 			<top>90</top>
 			<left>240</left>
-			<visible>Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8001) + !StringCompare(Container(9000).ListItem.Property(widgetStyle),List)</visible>
+			<visible>IntegerGreaterThan(Container(8001).NumItems,0)</visible>
+			<visible>[Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8001) + Substring(Container(9000).ListItem.Property(widgetStyle),Panel) + !Substring(Container(9000).ListItem.Property(widgetStyle),Extended)] | [Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8001) + Substring(Container(9000).ListItem.Property(widgetStyle),Panel) + StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])]</visible>
 			<animation effect="slide" end="0,950" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(lowermainmenu)">Conditional</animation>
 			<animation effect="slide" end="0,697" condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])">Conditional</animation>
 			<control type="group">
@@ -448,14 +455,15 @@
 						</include>
 					</control>
 				</control>
-			</control>		
+			</control>
 		</control>
 	</include>
 	<include name="PanelInfo2">
-		<control type="group">		
+		<control type="group">
 			<top>449</top>
 			<left>240</left>
-			<visible>Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8002) + !StringCompare(Container(9000).ListItem.Property(widgetStyle.2),List)</visible>
+			<visible>IntegerGreaterThan(Container(8002).NumItems,0)</visible>
+			<visible>[Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8002) + Substring(Container(9000).ListItem.Property(widgetStyle.2),Panel) + !Substring(Container(9000).ListItem.Property(widgetStyle.2),Extended)] | [Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8002) + Substring(Container(9000).ListItem.Property(widgetStyle.2),Panel) + StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])]</visible>
 			<animation effect="slide" end="0,-950" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(lowermainmenu)">Conditional</animation>
 			<animation effect="slide" end="0,-697" condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])">Conditional</animation>
 			<control type="group">
@@ -516,7 +524,143 @@
 						</include>
 					</control>
 				</control>
-			</control>		
+			</control>
+		</control>
+	</include>
+	<include name="ExtPanelInfo1">
+		<control type="group">
+			<top>90</top>
+			<left>40</left>
+			<visible>IntegerGreaterThan(Container(8001).NumItems,0)</visible>
+			<visible>Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8001) + Substring(Container(9000).ListItem.Property(widgetStyle),Extended Panel) + !StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			<animation effect="slide" end="0,950" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(lowermainmenu)">Conditional</animation>
+			<control type="group">
+				<control type="image">
+					<top>-40</top>
+					<width>1890</width>
+					<height>390</height>
+					<texture colordiffuse="AAFFFFFF">homewidgets/list_shadow.png</texture>
+					<animation effect="fade" time="300" tween="sine" easing="inout">VisibleChange</animation>
+				</control>
+				<control type="group">
+					<visible>IsEmpty(Container(8001).ListItem.Property(HighTemp)) + IsEmpty(Container(8001).ListItem.ChannelName) + IsEmpty(Container(8001).ListItem.Artist) + IsEmpty(Container(8001).ListItem.AlbumArtist) + IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
+					<control type="image">
+						<left>-20</left>
+						<top>-20</top>
+						<width>233</width>
+						<height>350</height>
+						<texture background="true">$VAR[HomeWidget8001PosterVar]</texture>
+						<fadetime>IconCrossfadeTime</fadetime>
+						<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+						<bordersize>20</bordersize>
+					</control>
+					<control type="grouplist">
+						<left>212</left>
+						<include name="ListInfo">
+							<param name="Texture">$VAR[HomeWidget8001PosterVar]</param>
+							<param name="Width">1638</param>
+							<param name="Title">$VAR[HomeWidget8001TitleVar]</param>
+							<param name="SubTitle">$VAR[HomeWidget8001SubTitleVar]</param>
+							<param name="Info1">$VAR[HomeWidget8001Info1Var]</param>
+							<param name="Info2">$VAR[HomeWidget8001Info2Var]</param>
+							<param name="Plot">$VAR[HomeWidget8001PlotVar]</param>
+						</include>
+					</control>
+				</control>
+				<control type="group">
+					<visible>!IsEmpty(Container(8001).ListItem.Property(HighTemp)) | !IsEmpty(Container(8001).ListItem.ChannelName) | !IsEmpty(Container(8001).ListItem.Artist) | !IsEmpty(Container(8001).ListItem.AlbumArtist) | !IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
+					<control type="image">
+						<left>-20</left>
+						<top>-20</top>
+						<width>350</width>
+						<height>350</height>
+						<texture background="true">$VAR[HomeWidget8001PosterVar]</texture>
+						<fadetime>IconCrossfadeTime</fadetime>
+						<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+						<bordersize>20</bordersize>
+					</control>
+					<control type="grouplist">
+						<left>330</left>
+						<include name="ListInfo">
+							<param name="Texture">$VAR[HomeWidget8001PosterVar]</param>
+							<param name="Width">1520</param>
+							<param name="Title">$VAR[HomeWidget8001TitleVar]</param>
+							<param name="SubTitle">$VAR[HomeWidget8001SubTitleVar]</param>
+							<param name="Info1">$VAR[HomeWidget8001Info1Var]</param>
+							<param name="Info2">$VAR[HomeWidget8001Info2Var]</param>
+							<param name="Plot">$VAR[HomeWidget8001PlotVar]</param>
+						</include>
+					</control>
+				</control>
+			</control>
+		</control>
+	</include>
+	<include name="ExtPanelInfo2">
+		<control type="group">
+			<top>449</top>
+			<left>40</left>
+			<visible>IntegerGreaterThan(Container(8002).NumItems,0)</visible>
+			<visible>Skin.HasSetting(Enable.PanelInfo) + Control.HasFocus(8002) + Substring(Container(9000).ListItem.Property(widgetStyle.2),Extended Panel) + !StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			<animation effect="slide" end="0,-950" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(lowermainmenu)">Conditional</animation>
+			<control type="group">
+				<control type="image">
+					<top>-40</top>
+					<width>1890</width>
+					<height>390</height>
+					<texture colordiffuse="AAFFFFFF">homewidgets/list_shadow.png</texture>
+					<animation effect="fade" time="300" tween="sine" easing="inout">VisibleChange</animation>
+				</control>
+				<control type="group">
+					<visible>IsEmpty(Container(8002).ListItem.Property(HighTemp)) + IsEmpty(Container(8002).ListItem.ChannelName) + IsEmpty(Container(8002).ListItem.Artist) + IsEmpty(Container(8002).ListItem.AlbumArtist) + IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
+					<control type="image">
+						<left>-20</left>
+						<top>-20</top>
+						<width>233</width>
+						<height>350</height>
+						<texture background="true">$VAR[HomeWidget8002PosterVar]</texture>
+						<fadetime>IconCrossfadeTime</fadetime>
+						<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+						<bordersize>20</bordersize>
+					</control>
+					<control type="grouplist">
+						<left>212</left>
+						<include name="ListInfo">
+							<param name="Texture">$VAR[HomeWidget8002PosterVar]</param>
+							<param name="Width">1638</param>
+							<param name="Title">$VAR[HomeWidget8002TitleVar]</param>
+							<param name="SubTitle">$VAR[HomeWidget8002SubTitleVar]</param>
+							<param name="Info1">$VAR[HomeWidget8002Info1Var]</param>
+							<param name="Info2">$VAR[HomeWidget8002Info2Var]</param>
+							<param name="Plot">$VAR[HomeWidget8002PlotVar]</param>
+						</include>
+					</control>
+				</control>
+				<control type="group">
+					<visible>!IsEmpty(Container(8002).ListItem.Property(HighTemp)) | !IsEmpty(Container(8002).ListItem.ChannelName) | !IsEmpty(Container(8002).ListItem.Artist) | !IsEmpty(Container(8002).ListItem.AlbumArtist) | !IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
+					<control type="image">
+						<left>-20</left>
+						<top>-20</top>
+						<width>350</width>
+						<height>350</height>
+						<texture background="true">$VAR[HomeWidget8002PosterVar]</texture>
+						<fadetime>IconCrossfadeTime</fadetime>
+						<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+						<bordersize>20</bordersize>
+					</control>
+					<control type="grouplist">
+						<left>330</left>
+						<include name="ListInfo">
+							<param name="Texture">$VAR[HomeWidget8002PosterVar]</param>
+							<param name="Width">1520</param>
+							<param name="Title">$VAR[HomeWidget8002TitleVar]</param>
+							<param name="SubTitle">$VAR[HomeWidget8002SubTitleVar]</param>
+							<param name="Info1">$VAR[HomeWidget8002Info1Var]</param>
+							<param name="Info2">$VAR[HomeWidget8002Info2Var]</param>
+							<param name="Plot">$VAR[HomeWidget8002PlotVar]</param>
+						</include>
+					</control>
+				</control>
+			</control>
 		</control>
 	</include>
 	<!-- Panel Background/Labels -->
@@ -531,9 +675,8 @@
 		</control>
 		<control type="label">
 			<top>-28</top>
-			<left></left>
-			<centerleft>50%</centerleft>
-			<width>1440</width>
+			<left>965</left>
+			<width>710</width>
 			<height>20</height>
 			<align>right</align>
 			<font>font13_title</font>
@@ -541,42 +684,18 @@
 			<shadowcolor>shadow</shadowcolor>
 			<label>$PARAM[label]</label>
 			<visible>StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
-		</control>
-		<control type="label">
-			<top>$PARAM[labelBottom]</top>
-			<left></left>
-			<centerleft>50%</centerleft>
-			<width>1440</width>
-			<height>20</height>
-			<align>center</align>
-			<font>font13_title</font>
-			<textcolor>grey</textcolor>
-			<shadowcolor>shadow</shadowcolor>
-			<label>$PARAM[label]</label>
-			<visible>!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
-		</control>
-	</include>
-	<include name="PanelBack2">
-		<control type="image">
-			<left></left>
-			<centerleft>50%</centerleft>
-			<top>-21</top>
-			<width>1473.5</width>
-			<height>$PARAM[backHeight]</height>
-			<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidgetBackgroundVar]</texture>
 		</control>
 		<control type="label">
 			<top>-28</top>
-			<left></left>
-			<centerleft>50%</centerleft>
-			<width>1440</width>
+			<left>240</left>
+			<width>710</width>
 			<height>20</height>
-			<align>right</align>
+			<align>left</align>
 			<font>font13_title</font>
-			<textcolor>grey</textcolor>
+			<textcolor>$VAR[ThemeLabelColor]</textcolor>
 			<shadowcolor>shadow</shadowcolor>
-			<label>$PARAM[label]</label>
-			<visible>StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			<label>$VAR[HomeWidget8001TitleVar]</label>
+			<visible>Control.HasFocus(8001) + StringCompare(Container(9000).ListItem.Property(widgetTitle),Title) + StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
 		</control>
 		<control type="label">
 			<top>$PARAM[labelBottom]</top>
@@ -589,7 +708,183 @@
 			<textcolor>grey</textcolor>
 			<shadowcolor>shadow</shadowcolor>
 			<label>$PARAM[label]</label>
-			<visible>!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			<visible>!StringCompare(Container(9000).ListItem.Property(widgetTitle),Title) + !StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+		</control>
+		<control type="label">
+			<top>$PARAM[labelBottom]</top>
+			<left>240</left>
+			<width>710</width>
+			<height>20</height>
+			<align>left</align>
+			<font>font13_title</font>
+			<textcolor>$VAR[ThemeLabelColor]</textcolor>
+			<shadowcolor>shadow</shadowcolor>
+			<label>$VAR[HomeWidget8001TitleVar]</label>
+			<visible>Control.HasFocus(8001) + StringCompare(Container(9000).ListItem.Property(widgetTitle),Title) + !StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+		</control>
+		<control type="label">
+			<top>$PARAM[labelBottom]</top>
+			<left>965</left>
+			<width>710</width>
+			<height>20</height>
+			<align>right</align>
+			<font>font13_title</font>
+			<textcolor>grey</textcolor>
+			<shadowcolor>shadow</shadowcolor>
+			<label>$PARAM[label]</label>
+			<visible>StringCompare(Container(9000).ListItem.Property(widgetTitle),Title) + !StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+		</control>
+	</include>
+	<include name="PanelBack2">
+		<control type="group">
+			<visible>IntegerGreaterThan(Container(8002).NumItems,0)</visible>
+			<control type="image">
+				<left></left>
+				<centerleft>50%</centerleft>
+				<top>-21</top>
+				<width>1473.5</width>
+				<height>$PARAM[backHeight]</height>
+				<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidgetBackgroundVar]</texture>
+			</control>
+			<control type="label">
+				<top>-28</top>
+				<left>965</left>
+				<width>710</width>
+				<height>20</height>
+				<align>right</align>
+				<font>font13_title</font>
+				<textcolor>grey</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$PARAM[label]</label>
+				<visible>StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			</control>
+			<control type="label">
+				<top>-28</top>
+				<left>240</left>
+				<width>710</width>
+				<height>20</height>
+				<align>left</align>
+				<font>font13_title</font>
+				<textcolor>$VAR[ThemeLabelColor]</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$VAR[HomeWidget8002TitleVar]</label>
+				<visible>Control.HasFocus(8002) + StringCompare(Container(9000).ListItem.Property(widgetTitle.2),Title) + StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			</control>
+			<control type="label">
+				<top>$PARAM[labelBottom]</top>
+				<left></left>
+				<centerleft>50%</centerleft>
+				<width>1440</width>
+				<height>20</height>
+				<align>center</align>
+				<font>font13_title</font>
+				<textcolor>grey</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$PARAM[label]</label>
+				<visible>!StringCompare(Container(9000).ListItem.Property(widgetTitle.2),Title) + !StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			</control>
+			<control type="label">
+				<top>$PARAM[labelBottom]</top>
+				<left>240</left>
+				<width>710</width>
+				<height>20</height>
+				<align>left</align>
+				<font>font13_title</font>
+				<textcolor>$VAR[ThemeLabelColor]</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$VAR[HomeWidget8002TitleVar]</label>
+				<visible>Control.HasFocus(8001) + StringCompare(Container(9000).ListItem.Property(widgetTitle.2),Title) + !StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			</control>
+			<control type="label">
+				<top>$PARAM[labelBottom]</top>
+				<left>965</left>
+				<width>710</width>
+				<height>20</height>
+				<align>right</align>
+				<font>font13_title</font>
+				<textcolor>grey</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$PARAM[label]</label>
+				<visible>StringCompare(Container(9000).ListItem.Property(widgetTitle),Title.2) + !StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			</control>
+		</control>
+	</include>
+	<include name="ExtPanelBack1">
+		<control type="group">
+			<visible>IntegerGreaterThan(Container(8001).NumItems,0)</visible>
+			<control type="image">
+				<left></left>
+				<centerleft>50%</centerleft>
+				<top>-21</top>
+				<width>1885</width>
+				<height>$PARAM[backHeight]</height>
+				<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidgetBackgroundVar]</texture>
+			</control>
+			<control type="label">
+				<top>-28</top>
+				<left></left>
+				<centerleft>50%</centerleft>
+				<width>1440</width>
+				<height>20</height>
+				<align>right</align>
+				<font>font13_title</font>
+				<textcolor>grey</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$PARAM[label]</label>
+				<visible>StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			</control>
+			<control type="label">
+				<top>$PARAM[labelBottom]</top>
+				<left></left>
+				<centerleft>50%</centerleft>
+				<width>1440</width>
+				<height>20</height>
+				<align>center</align>
+				<font>font13_title</font>
+				<textcolor>grey</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$PARAM[label]</label>
+				<visible>!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			</control>
+		</control>
+	</include>
+	<include name="ExtPanelBack2">
+		<control type="group">
+			<visible>IntegerGreaterThan(Container(8002).NumItems,0)</visible>
+			<control type="image">
+				<left></left>
+				<centerleft>50%</centerleft>
+				<top>-21</top>
+				<width>1885</width>
+				<height>$PARAM[backHeight]</height>
+				<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidgetBackgroundVar]</texture>
+			</control>
+			<control type="label">
+				<top>-28</top>
+				<left></left>
+				<centerleft>50%</centerleft>
+				<width>1440</width>
+				<height>20</height>
+				<align>right</align>
+				<font>font13_title</font>
+				<textcolor>grey</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$PARAM[label]</label>
+				<visible>StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			</control>
+			<control type="label">
+				<top>$PARAM[labelBottom]</top>
+				<left></left>
+				<centerleft>50%</centerleft>
+				<width>1440</width>
+				<height>20</height>
+				<align>center</align>
+				<font>font13_title</font>
+				<textcolor>grey</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$PARAM[label]</label>
+				<visible>!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			</control>
 		</control>
 	</include>
 	<!-- Panel Container Content -->
@@ -672,7 +967,7 @@
 					<texture>homewidgets/label.png</texture>
 					<animation effect="zoom" end="95,90" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
 					<animation effect="zoom" end="94,90" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="textbox">
 					<left>8</left>
@@ -684,7 +979,7 @@
 					<font>font12_title</font>
 					<textcolor>$VAR[ThemeLabelColor]</textcolor>
 					<label>$VAR[HomeWidgetTitleVar]</label>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="image">
 					<left>3</left>
@@ -883,7 +1178,7 @@
 					<height>100</height>
 					<texture>homewidgets/label.png</texture>
 					<animation effect="zoom" end="95,88" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="textbox">
 					<left>20</left>
@@ -897,7 +1192,7 @@
 					<label>$VAR[HomeWidgetTitleVar]</label>
 					<animation effect="slide" end="10,0" condition="$PARAM[caseVisible]">conditional</animation>
 					<animation effect="slide" end="10,0" condition="$PARAM[clearVisible]">conditional</animation>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="image">
 					<left>3</left>
@@ -1027,7 +1322,7 @@
 					<textcolor>lightgrey</textcolor>
 					<label>$INFO[ListItem.Label] $INFO[ListItem.Label2][CR]$INFO[ListItem.Property(HighTemp),[COLOR red],[/COLOR]]$INFO[ListItem.Property(LowTemp), | [COLOR blue],[/COLOR]]</label>
 					<visible>$PARAM[isWeather]</visible>
-				</control>				
+				</control>
 				<control type="textbox">
 					<left>23</left>
 					<top>20</top>
@@ -1047,7 +1342,7 @@
 					<height>100</height>
 					<texture>homewidgets/label.png</texture>
 					<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="textbox">
 					<left>8</left>
@@ -1059,7 +1354,7 @@
 					<font>font12_title</font>
 					<textcolor>$VAR[ThemeLabelColor]</textcolor>
 					<label>$VAR[HomeWidgetTitleVar]</label>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="image">
 					<left>3</left>
@@ -1189,7 +1484,7 @@
 					<height>50</height>
 					<texture>homewidgets/label.png</texture>
 					<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="textbox">
 					<left>8</left>
@@ -1201,7 +1496,7 @@
 					<font>font12_title</font>
 					<textcolor>$VAR[ThemeLabelColor]</textcolor>
 					<label>$VAR[HomeWidgetTitleVar]</label>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="image">
 					<left>3</left>
@@ -1214,8 +1509,629 @@
 		</focusedlayout>
 	</include>
 	<!-- Extended Panel Container Content -->
-	<include name="PortraitExtArt">
-		<itemlayout height="300" width="159">
+	<include name="ExtPortraitArt">
+		<itemlayout height="300" width="205">
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>200</width>
+				<height>300</height>
+				<aspectratio aligny="top">scale</aspectratio>
+				<animation effect="zoom" end="96,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<animation effect="zoom" end="95,90" center="100,250" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="zoom" end="94,97" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$PARAM[Texture]</texture>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>200</top>
+				<width>200</width>
+				<height>100</height>
+				<texture>homewidgets/label.png</texture>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="95,90" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<animation effect="zoom" end="94,90" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="textbox">
+				<left>8</left>
+				<top>230</top>
+				<width>190</width>
+				<height>70</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font12_title</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$VAR[HomeWidgetTitleVar]</label>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>200</width>
+				<height>300</height>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$PARAM[Case]</texture>
+			</control>
+		</itemlayout>
+		<focusedlayout height="300" width="205">
+			<control type="group">
+				<animation  type="Focus" reversible="false">
+					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
+				</animation>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>200</width>
+					<height>300</height>
+					<aspectratio aligny="top">scale</aspectratio>
+					<animation effect="zoom" end="96,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="95,90" center="100,250" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="zoom" end="94,97" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
+					<texture>$PARAM[Texture]</texture>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<width>200</width>
+					<height>300</height>
+					<animation effect="zoom" end="96,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="95,90" center="100,250" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="zoom" end="94,97" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
+					<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>200</top>
+					<width>200</width>
+					<height>100</height>
+					<texture>homewidgets/label.png</texture>
+					<animation effect="zoom" end="95,90" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="94,90" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="textbox">
+					<left>8</left>
+					<top>230</top>
+					<width>190</width>
+					<height>70</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font12_title</font>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$VAR[HomeWidgetTitleVar]</label>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>200</width>
+					<height>300</height>
+					<texture>$PARAM[Case]</texture>
+				</control>
+			</control>
+		</focusedlayout>
+	</include>
+	<include name="ExtSquareArt">
+		<itemlayout height="257" width="263">
+			<control type="image">
+				<left>4</left>
+				<top>0</top>
+				<width>257</width>
+				<height>257</height>
+				<aspectratio aligny="center" scalediffuse="false">$PARAM[Aspect]</aspectratio>
+				<animation effect="zoom" end="35,35" center="144,60" condition="$PARAM[isWeather]">conditional</animation>
+				<animation effect="zoom" end="96,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<animation effect="zoom" end="89,98" center="250,127" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="zoom" end="90,98" center="230,127" condition="$PARAM[clearVisible]">conditional</animation>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture diffuse="$PARAM[Diffuse]">$PARAM[Texture]</texture>
+			</control>
+			<control type="label">
+				<left>24</left>
+				<width>217</width>
+				<height>45</height>
+				<font>font14</font>
+				<align>center</align>
+				<textcolor>white2</textcolor>
+				<shadowcolor>black</shadowcolor>
+				<label>$INFO[ListItem.Label]</label>
+				<animation effect="slide" end="12,0" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="slide" end="12,0" condition="$PARAM[clearVisible]">conditional</animation>
+				<visible>$PARAM[isWeather]</visible>
+			</control>
+			<control type="textbox">
+				<top>130</top>
+				<left>24</left>
+				<width>217</width>
+				<height>80</height>
+				<font>font14</font>
+				<align>center</align>
+				<textcolor>white2</textcolor>
+				<shadowcolor>black</shadowcolor>
+				<label>$INFO[ListItem.Label2]</label>
+				<animation effect="slide" end="12,0" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="slide" end="12,0" condition="$PARAM[clearVisible]">conditional</animation>
+				<visible>$PARAM[isWeather]</visible>
+			</control>
+			<control type="label">
+				<top>200</top>
+				<left>24</left>
+				<width>217</width>
+				<height>60</height>
+				<font>font14</font>
+				<align>center</align>
+				<textcolor>white2</textcolor>
+				<shadowcolor>black</shadowcolor>
+				<label>$INFO[ListItem.Property(HighTemp),[COLOR red],[/COLOR]]$INFO[ListItem.Property(LowTemp), | [COLOR blue],[/COLOR]]</label>
+				<animation effect="slide" end="12,0" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="slide" end="12,0" condition="$PARAM[clearVisible]">conditional</animation>
+				<visible>$PARAM[isWeather]</visible>
+			</control>
+			<control type="image">
+				<left>4</left>
+				<top>0</top>
+				<width>257</width>
+				<height>257</height>
+				<animation effect="zoom" end="96,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<animation effect="zoom" end="89,98" center="250,127" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="zoom" end="90,98" center="230,127" condition="$PARAM[clearVisible]">conditional</animation>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$VAR[HomeWidgetFakeDiscArtVar]</texture>
+				<visible>$PARAM[fallbackVisible]</visible>
+			</control>
+			<control type="image">
+				<left>4</left>
+				<top>157</top>
+				<width>257</width>
+				<height>100</height>
+				<texture>homewidgets/label.png</texture>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="96,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="textbox">
+				<left>24</left>
+				<top>184</top>
+				<width>217</width>
+				<height>70</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font12_title</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$VAR[HomeWidgetTitleVar]</label>
+				<animation effect="slide" end="12,0" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="slide" end="12,0" condition="$PARAM[clearVisible]">conditional</animation>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="image">
+				<left>4</left>
+				<top>0</top>
+				<width>257</width>
+				<height>257</height>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$PARAM[Case]</texture>
+			</control>
+		</itemlayout>
+		<focusedlayout height="257" width="263">
+			<control type="group">
+				<animation type="Focus" reversible="false">
+					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
+				</animation>
+				<control type="image">
+					<left>4</left>
+					<top>0</top>
+					<width>257</width>
+					<height>257</height>
+					<aspectratio aligny="center" scalediffuse="false">$PARAM[Aspect]</aspectratio>
+					<animation effect="zoom" end="35,35" center="144,60" condition="$PARAM[isWeather]">conditional</animation>
+					<animation effect="zoom" end="96,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="89,98" center="250,127" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="zoom" end="90,98" center="230,127" condition="$PARAM[clearVisible]">conditional</animation>
+					<texture diffuse="$PARAM[Diffuse]">$PARAM[Texture]</texture>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<width>257</width>
+					<height>257</height>
+					<animation effect="zoom" end="96,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="89,98" center="250,127" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="zoom" end="90,98" center="230,127" condition="$PARAM[clearVisible]">conditional</animation>
+					<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
+				</control>
+				<control type="label">
+					<left>24</left>
+					<width>217</width>
+					<height>45</height>
+					<font>font14</font>
+					<align>center</align>
+					<textcolor>white2</textcolor>
+					<shadowcolor>black</shadowcolor>
+					<label>$INFO[ListItem.Label]</label>
+					<animation effect="slide" end="12,0" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="slide" end="12,0" condition="$PARAM[clearVisible]">conditional</animation>
+					<visible>$PARAM[isWeather]</visible>
+				</control>
+				<control type="textbox">
+					<top>130</top>
+					<left>24</left>
+					<width>217</width>
+					<height>80</height>
+					<font>font14</font>
+					<align>center</align>
+					<textcolor>white2</textcolor>
+					<shadowcolor>black</shadowcolor>
+					<label>$INFO[ListItem.Label2]</label>
+					<animation effect="slide" end="12,0" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="slide" end="12,0" condition="$PARAM[clearVisible]">conditional</animation>
+					<visible>$PARAM[isWeather]</visible>
+				</control>
+				<control type="label">
+					<top>200</top>
+					<left>24</left>
+					<width>217</width>
+					<height>60</height>
+					<font>font14</font>
+					<align>center</align>
+					<textcolor>white2</textcolor>
+					<shadowcolor>black</shadowcolor>
+					<label>$INFO[ListItem.Property(HighTemp),[COLOR red],[/COLOR]]$INFO[ListItem.Property(LowTemp), | [COLOR blue],[/COLOR]]</label>
+					<animation effect="slide" end="12,0" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="slide" end="12,0" condition="$PARAM[clearVisible]">conditional</animation>
+					<visible>$PARAM[isWeather]</visible>
+				</control>
+				<control type="image">
+					<left>4</left>
+					<top>0</top>
+					<width>257</width>
+					<height>257</height>
+					<animation effect="zoom" end="96,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="89,98" center="250,127" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="zoom" end="90,98" center="230,127" condition="$PARAM[clearVisible]">conditional</animation>
+					<texture>$VAR[HomeWidgetFakeDiscArtVar]</texture>
+					<visible>$PARAM[fallbackVisible]</visible>
+				</control>
+				<control type="image">
+					<left>4</left>
+					<top>157</top>
+					<width>257</width>
+					<height>100</height>
+					<texture>homewidgets/label.png</texture>
+					<animation effect="zoom" end="96,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="textbox">
+					<left>24</left>
+					<top>184</top>
+					<width>217</width>
+					<height>70</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font12_title</font>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$VAR[HomeWidgetTitleVar]</label>
+					<animation effect="slide" end="12,0" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="slide" end="12,0" condition="$PARAM[clearVisible]">conditional</animation>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="image">
+					<left>4</left>
+					<top>0</top>
+					<width>257</width>
+					<height>257</height>
+					<texture>$PARAM[Case]</texture>
+				</control>
+			</control>
+		</focusedlayout>
+	</include>
+	<include name="ExtLandscapeArt">
+		<itemlayout height="257" width="461">
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>456</width>
+				<height>257</height>
+				<aspectratio>$PARAM[Aspect]</aspectratio>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="98,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<texture>$PARAM[Texture]</texture>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>157</top>
+				<width>456</width>
+				<height>100</height>
+				<texture>homewidgets/label.png</texture>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<visible>$PARAM[isWeather]</visible>
+			</control>
+			<control type="textbox">
+				<left>8</left>
+				<top>187</top>
+				<width>446</width>
+				<height>70</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font12_title</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$INFO[ListItem.Label] $INFO[ListItem.Label2][CR]$INFO[ListItem.Property(HighTemp),[COLOR red],[/COLOR]]$INFO[ListItem.Property(LowTemp), | [COLOR blue],[/COLOR]]</label>
+				<visible>$PARAM[isWeather]</visible>
+			</control>
+			<control type="textbox">
+				<left>23</left>
+				<top>20</top>
+				<width>416</width>
+				<height>207</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>fontCDartist</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$VAR[HomeWidgetTitle2Var]</label>
+				<visible>$PARAM[fallbackVisible]</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>157</top>
+				<width>456</width>
+				<height>100</height>
+				<texture>homewidgets/label.png</texture>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="textbox">
+				<left>8</left>
+				<top>187</top>
+				<width>446</width>
+				<height>70</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font12_title</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$VAR[HomeWidgetTitleVar]</label>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>456</width>
+				<height>257</height>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$PARAM[Case]</texture>
+			</control>
+		</itemlayout>
+		<focusedlayout height="257" width="461">
+			<control type="group">
+				<animation type="Focus" reversible="false">
+					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
+				</animation>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>456</width>
+					<height>257</height>
+					<aspectratio>$PARAM[Aspect]</aspectratio>
+					<animation effect="zoom" end="98,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<texture>$PARAM[Texture]</texture>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<width>456</width>
+					<height>257</height>
+					<animation effect="zoom" end="98,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>157</top>
+					<width>456</width>
+					<height>100</height>
+					<texture>homewidgets/label.png</texture>
+					<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<visible>$PARAM[isWeather]</visible>
+				</control>
+				<control type="textbox">
+					<left>8</left>
+					<top>187</top>
+					<width>446</width>
+					<height>70</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font12_title</font>
+					<textcolor>lightgrey</textcolor>
+					<label>$INFO[ListItem.Label] $INFO[ListItem.Label2][CR]$INFO[ListItem.Property(HighTemp),[COLOR red],[/COLOR]]$INFO[ListItem.Property(LowTemp), | [COLOR blue],[/COLOR]]</label>
+					<visible>$PARAM[isWeather]</visible>
+				</control>
+				<control type="textbox">
+					<left>23</left>
+					<top>20</top>
+					<width>416</width>
+					<height>207</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>fontCDartist</font>
+					<textcolor>lightgrey</textcolor>
+					<label>$VAR[HomeWidgetTitle2Var]</label>
+					<visible>$PARAM[fallbackVisible]</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>157</top>
+					<width>456</width>
+					<height>100</height>
+					<texture>homewidgets/label.png</texture>
+					<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="textbox">
+					<left>8</left>
+					<top>187</top>
+					<width>446</width>
+					<height>70</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font12_title</font>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$VAR[HomeWidgetTitleVar]</label>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>456</width>
+					<height>257</height>
+					<texture>$PARAM[Case]</texture>
+				</control>
+			</control>
+		</focusedlayout>
+	</include>
+	<include name="ExtBannerArt">
+		<itemlayout height="118" width="615">
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>610</width>
+				<height>113</height>
+				<aspectratio aligny="top">scale</aspectratio>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="98.5,92" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<texture>$PARAM[Texture]</texture>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>610</width>
+				<height>113</height>
+				<aspectratio>keep</aspectratio>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$VAR[HomeWidgetClearLogoVar]</texture>
+				<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner))</visible>
+			</control>
+			<control type="textbox">
+				<left>23</left>
+				<top>10</top>
+				<width>570</width>
+				<height>93</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>fontCDartist</font>
+				<textcolor>lightgrey</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$VAR[HomeWidgetTitle2Var]</label>
+				<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner)) + IsEmpty(ListItem.Art(clearlogo)) + IsEmpty(ListItem.Art(tvshow.clearlogo))</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>63</top>
+				<width>610</width>
+				<height>50</height>
+				<texture>homewidgets/label.png</texture>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="98.5,83" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="textbox">
+				<left>8</left>
+				<top>75</top>
+				<width>600</width>
+				<height>35</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font12_title</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$VAR[HomeWidgetTitleVar]</label>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>610</width>
+				<height>113</height>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$PARAM[Case]</texture>
+			</control>
+		</itemlayout>
+		<focusedlayout height="118" width="615">
+			<control type="group">
+				<animation type="Focus" reversible="false">
+					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
+				</animation>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>610</width>
+					<height>113</height>
+					<aspectratio aligny="top">scale</aspectratio>
+					<animation effect="zoom" end="98.5,92" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<texture>$PARAM[Texture]</texture>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<width>610</width>
+					<height>113</height>
+					<animation effect="zoom" end="98.5,92" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>610</width>
+					<height>113</height>
+					<aspectratio>keep</aspectratio>
+					<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+					<texture>$VAR[HomeWidgetClearLogoVar]</texture>
+					<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner))</visible>
+				</control>
+				<control type="textbox">
+					<left>23</left>
+					<top>10</top>
+					<width>570</width>
+					<height>93</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>fontCDartist</font>
+					<textcolor>lightgrey</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+					<label>$VAR[HomeWidgetTitle2Var]</label>
+					<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner)) + IsEmpty(ListItem.Art(clearlogo)) + IsEmpty(ListItem.Art(tvshow.clearlogo))</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>63</top>
+					<width>610</width>
+					<height>50</height>
+					<texture>homewidgets/label.png</texture>
+					<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+					<animation effect="zoom" end="98.5,83" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="textbox">
+					<left>8</left>
+					<top>75</top>
+					<width>600</width>
+					<height>35</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font12_title</font>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$VAR[HomeWidgetTitleVar]</label>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>610</width>
+					<height>113</height>
+					<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+					<texture>$PARAM[Case]</texture>
+				</control>
+			</control>
+		</focusedlayout>
+	</include>
+	<!-- Compact Panel Container Content -->
+	<include name="ComPortraitArt">
+		<itemlayout height="233" width="159">
 			<control type="image">
 				<left>4</left>
 				<top>0</top>
@@ -1260,7 +2176,7 @@
 				<texture>$PARAM[Case]</texture>
 			</control>
 		</itemlayout>
-		<focusedlayout height="300" width="159">
+		<focusedlayout height="233" width="159">
 			<control type="group">
 				<animation  type="Focus" reversible="false">
 					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
@@ -1293,7 +2209,7 @@
 					<texture>homewidgets/label.png</texture>
 					<animation effect="zoom" end="95,90" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
 					<animation effect="zoom" end="94,90" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="textbox">
 					<left>11</left>
@@ -1303,21 +2219,21 @@
 					<align>center</align>
 					<aligny>center</aligny>
 					<font>font11_title</font>
-					<textcolor>lightgrey</textcolor>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
 					<label>$VAR[HomeWidgetTitleVar]</label>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="image">
 					<left>4</left>
 					<top>0</top>
 					<width>155</width>
 					<height>233</height>
-					<texture>$PARAM[Case]</texture>					
+					<texture>$PARAM[Case]</texture>
 				</control>
 			</control>
 		</focusedlayout>
 	</include>
-	<include name="SquareExtArt">
+	<include name="ComSquareArt">
 		<itemlayout height="200" width="205">
 			<control type="image">
 				<left>3</left>
@@ -1503,7 +2419,7 @@
 					<height>100</height>
 					<texture>homewidgets/label.png</texture>
 					<animation effect="zoom" end="96,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="textbox">
 					<left>15</left>
@@ -1513,23 +2429,23 @@
 					<align>center</align>
 					<aligny>center</aligny>
 					<font>font11_title</font>
-					<textcolor>lightgrey</textcolor>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
 					<label>$VAR[HomeWidgetTitleVar]</label>
 					<animation effect="slide" end="10,0" condition="$PARAM[caseVisible]">conditional</animation>
 					<animation effect="slide" end="10,0" condition="$PARAM[clearVisible]">conditional</animation>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="image">
 					<left>3</left>
 					<top>0</top>
 					<width>200</width>
-					<height>200</height>					
+					<height>200</height>
 					<texture>$PARAM[Case]</texture>
 				</control>
 			</control>
 		</focusedlayout>
 	</include>
-	<include name="LandscapeExtArt">
+	<include name="ComLandscapeArt">
 		<itemlayout height="201" width="358">
 			<control type="image">
 				<left>3</left>
@@ -1558,7 +2474,7 @@
 				<height>70</height>
 				<align>center</align>
 				<aligny>center</aligny>
-				<font>font12_title</font>
+				<font>font11_title</font>
 				<textcolor>lightgrey</textcolor>
 				<label>$INFO[ListItem.Label] $INFO[ListItem.Label2][CR]$INFO[ListItem.Property(HighTemp),[COLOR red],[/COLOR]]$INFO[ListItem.Property(LowTemp), | [COLOR blue],[/COLOR]]</label>
 				<visible>$PARAM[isWeather]</visible>
@@ -1616,7 +2532,7 @@
 					<top>0</top>
 					<width>353</width>
 					<height>199</height>
-					<aspectratio>$PARAM[Aspect]</aspectratio>					
+					<aspectratio>$PARAM[Aspect]</aspectratio>
 					<animation effect="zoom" end="98,95" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
 					<texture>$PARAM[Texture]</texture>
 				</control>
@@ -1632,7 +2548,7 @@
 					<top>99</top>
 					<width>353</width>
 					<height>100</height>
-					<texture>homewidgets/label.png</texture>					
+					<texture>homewidgets/label.png</texture>
 					<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
 					<visible>$PARAM[isWeather]</visible>
 				</control>
@@ -1643,7 +2559,7 @@
 					<height>70</height>
 					<align>center</align>
 					<aligny>center</aligny>
-					<font>font12_title</font>
+					<font>font11_title</font>
 					<textcolor>lightgrey</textcolor>
 					<label>$INFO[ListItem.Label] $INFO[ListItem.Label2][CR]$INFO[ListItem.Property(HighTemp),[COLOR red],[/COLOR]]$INFO[ListItem.Property(LowTemp), | [COLOR blue],[/COLOR]]</label>
 					<visible>$PARAM[isWeather]</visible>
@@ -1656,7 +2572,7 @@
 					<align>center</align>
 					<aligny>center</aligny>
 					<font>fontCDartist</font>
-					<textcolor>lightgrey</textcolor>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
 					<label>$VAR[HomeWidgetTitle2Var]</label>
 					<visible>$PARAM[fallbackVisible]</visible>
 				</control>
@@ -1665,9 +2581,9 @@
 					<top>99</top>
 					<width>353</width>
 					<height>100</height>
-					<texture>homewidgets/label.png</texture>					
+					<texture>homewidgets/label.png</texture>
 					<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="textbox">
 					<left>8</left>
@@ -1679,7 +2595,7 @@
 					<font>font12_title</font>
 					<textcolor>lightgrey</textcolor>
 					<label>$VAR[HomeWidgetTitleVar]</label>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="image">
 					<left>3</left>
@@ -1691,7 +2607,7 @@
 			</control>
 		</focusedlayout>
 	</include>
-	<include name="BannerExtArt">
+	<include name="ComBannerArt">
 		<itemlayout height="92" width="478">
 			<control type="image">
 				<left>3</left>
@@ -1767,7 +2683,7 @@
 					<top>0</top>
 					<width>473</width>
 					<height>87</height>
-					<aspectratio aligny="top">scale</aspectratio>					
+					<aspectratio aligny="top">scale</aspectratio>
 					<animation effect="zoom" end="98.5,90" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
 					<texture>$PARAM[Texture]</texture>
 				</control>
@@ -1783,7 +2699,7 @@
 					<top>0</top>
 					<width>473</width>
 					<height>87</height>
-					<aspectratio>keep</aspectratio>					
+					<aspectratio>keep</aspectratio>
 					<texture>$VAR[HomeWidgetClearLogoVar]</texture>
 					<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner))</visible>
 				</control>
@@ -1805,9 +2721,9 @@
 					<top>47</top>
 					<width>473</width>
 					<height>40</height>
-					<texture>homewidgets/label.png</texture>					
+					<texture>homewidgets/label.png</texture>
 					<animation effect="zoom" end="98.5,87" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="textbox">
 					<left>8</left>
@@ -1817,9 +2733,9 @@
 					<align>center</align>
 					<aligny>center</aligny>
 					<font>font12_title</font>
-					<textcolor>lightgrey</textcolor>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
 					<label>$VAR[HomeWidgetTitleVar]</label>
-					<visible>$PARAM[labelVisible]</visible>
+					<visible>$PARAM[labelFocusVisible]</visible>
 				</control>
 				<control type="image">
 					<left>3</left>
@@ -1830,7 +2746,616 @@
 				</control>
 			</control>
 		</focusedlayout>
-	</include>	
+	</include>
+	<!-- Compact Extended Panel Container Content -->
+	<include name="ComExtPortraitArt">
+		<itemlayout height="243" width="167.5">
+			<control type="image">
+				<left>4</left>
+				<top>0</top>
+				<width>162</width>
+				<height>243</height>
+				<aspectratio aligny="top">scale</aspectratio>
+				<animation effect="zoom" end="96,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<animation effect="zoom" end="96,90" center="81,198" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="zoom" end="93,96" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$PARAM[Texture]</texture>
+			</control>
+			<control type="image">
+				<left>4</left>
+				<top>143</top>
+				<width>162</width>
+				<height>100</height>
+				<texture>homewidgets/label.png</texture>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="96,90" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<animation effect="zoom" end="94,90" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="textbox">
+				<left>11</left>
+				<top>183</top>
+				<width>149</width>
+				<height>50</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font11_title</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$VAR[HomeWidgetTitleVar]</label>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="image">
+				<left>4</left>
+				<top>0</top>
+				<width>162</width>
+				<height>243</height>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$PARAM[Case]</texture>
+			</control>
+		</itemlayout>
+		<focusedlayout height="243" width="167.5">
+			<control type="group">
+				<animation  type="Focus" reversible="false">
+					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
+				</animation>
+				<control type="image">
+					<left>4</left>
+					<top>0</top>
+					<width>162</width>
+					<height>243</height>
+					<aspectratio aligny="top">scale</aspectratio>
+					<animation effect="zoom" end="96,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="96,90" center="81,198" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="zoom" end="93,96" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
+					<texture>$PARAM[Texture]</texture>
+				</control>
+				<control type="image">
+					<left>4</left>
+					<width>155</width>
+					<height>233</height>
+					<animation effect="zoom" end="96,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="95,90" center="76,198" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="zoom" end="94,95" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
+					<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
+				</control>
+				<control type="image">
+					<left>4</left>
+					<top>143</top>
+					<width>162</width>
+					<height>100</height>
+					<texture>homewidgets/label.png</texture>
+					<animation effect="zoom" end="96,90" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="94,90" center="auto" condition="$PARAM[clearVisible]">conditional</animation>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="textbox">
+					<left>11</left>
+					<top>183</top>
+					<width>149</width>
+					<height>50</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font11_title</font>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$VAR[HomeWidgetTitleVar]</label>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="image">
+					<left>4</left>
+					<top>0</top>
+					<width>162</width>
+					<height>243</height>
+					<texture>$PARAM[Case]</texture>
+				</control>
+			</control>
+		</focusedlayout>
+	</include>
+	<include name="ComExtSquareArt">
+		<itemlayout height="200" width="205">
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>200</width>
+				<height>200</height>
+				<aspectratio aligny="center" scalediffuse="false">$PARAM[Aspect]</aspectratio>
+				<animation effect="zoom" end="35,35" center="100,50" condition="$PARAM[isWeather]">conditional</animation>
+				<animation effect="zoom" end="96,95" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<animation effect="zoom" end="88,98" center="190,100" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="zoom" end="88,96" center="180,100" condition="$PARAM[clearVisible]">conditional</animation>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture diffuse="$PARAM[Diffuse]">$PARAM[Texture]</texture>
+			</control>
+			<control type="label">
+				<left>10</left>
+				<width>180</width>
+				<height>35</height>
+				<font>font12</font>
+				<align>center</align>
+				<textcolor>white2</textcolor>
+				<shadowcolor>black</shadowcolor>
+				<label>$INFO[ListItem.Label]</label>
+				<animation effect="slide" end="10,0" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="slide" end="10,0" condition="$PARAM[clearVisible]">conditional</animation>
+				<visible>$PARAM[isWeather]</visible>
+			</control>
+			<control type="textbox">
+				<top>100</top>
+				<left>10</left>
+				<width>180</width>
+				<height>60</height>
+				<font>font12</font>
+				<align>center</align>
+				<textcolor>white2</textcolor>
+				<shadowcolor>black</shadowcolor>
+				<label>$INFO[ListItem.Label2]</label>
+				<animation effect="slide" end="10,0" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="slide" end="10,0" condition="$PARAM[clearVisible]">conditional</animation>
+				<visible>$PARAM[isWeather]</visible>
+			</control>
+			<control type="label">
+				<top>165</top>
+				<left>10</left>
+				<width>180</width>
+				<height>25</height>
+				<font>font12</font>
+				<align>center</align>
+				<textcolor>white2</textcolor>
+				<shadowcolor>black</shadowcolor>
+				<label>$INFO[ListItem.Property(HighTemp),[COLOR red],[/COLOR]]$INFO[ListItem.Property(LowTemp), | [COLOR blue],[/COLOR]]</label>
+				<animation effect="slide" end="10,0" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="slide" end="10,0" condition="$PARAM[clearVisible]">conditional</animation>
+				<visible>$PARAM[isWeather]</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>200</width>
+				<height>200</height>
+				<animation effect="zoom" end="96,95" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<animation effect="zoom" end="88,98" center="190,100" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="zoom" end="88,96" center="180,100" condition="$PARAM[clearVisible]">conditional</animation>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$VAR[HomeWidgetFakeDiscArtVar]</texture>
+				<visible>$PARAM[fallbackVisible]</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>100</top>
+				<width>200</width>
+				<height>100</height>
+				<texture>homewidgets/label.png</texture>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="96,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="textbox">
+				<left>15</left>
+				<top>140</top>
+				<width>170</width>
+				<height>50</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font11_title</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$VAR[HomeWidgetTitleVar]</label>
+				<animation effect="slide" end="10,0" condition="$PARAM[caseVisible]">conditional</animation>
+				<animation effect="slide" end="10,0" condition="$PARAM[clearVisible]">conditional</animation>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>200</width>
+				<height>200</height>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$PARAM[Case]</texture>
+			</control>
+		</itemlayout>
+		<focusedlayout height="200" width="205">
+			<control type="group">
+				<animation type="Focus" reversible="false">
+					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
+				</animation>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>200</width>
+					<height>200</height>
+					<aspectratio aligny="center" scalediffuse="false">$PARAM[Aspect]</aspectratio>
+					<animation effect="zoom" end="35,35" center="144,80" condition="$PARAM[isWeather]">conditional</animation>
+					<animation effect="zoom" end="96,95" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="88,98" center="190,100" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="zoom" end="88,96" center="180,100" condition="$PARAM[clearVisible]">conditional</animation>
+					<texture diffuse="$PARAM[Diffuse]">$PARAM[Texture]</texture>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<width>200</width>
+					<height>200</height>
+					<animation effect="zoom" end="96,95" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="88,98" center="190,100" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="zoom" end="88,96" center="180,100" condition="$PARAM[clearVisible]">conditional</animation>
+					<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
+				</control>
+				<control type="label">
+					<left>10</left>
+					<width>180</width>
+					<height>35</height>
+					<font>font12</font>
+					<align>center</align>
+					<textcolor>white2</textcolor>
+					<shadowcolor>black</shadowcolor>
+					<label>$INFO[ListItem.Label]</label>
+					<animation effect="slide" end="10,0" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="slide" end="10,0" condition="$PARAM[clearVisible]">conditional</animation>
+					<visible>$PARAM[isWeather]</visible>
+				</control>
+				<control type="textbox">
+					<top>100</top>
+					<left>10</left>
+					<width>180</width>
+					<height>60</height>
+					<font>font12</font>
+					<align>center</align>
+					<textcolor>white2</textcolor>
+					<shadowcolor>black</shadowcolor>
+					<label>$INFO[ListItem.Label2]</label>
+					<animation effect="slide" end="10,0" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="slide" end="10,0" condition="$PARAM[clearVisible]">conditional</animation>
+					<visible>$PARAM[isWeather]</visible>
+				</control>
+				<control type="label">
+					<top>165</top>
+					<left>10</left>
+					<width>180</width>
+					<height>25</height>
+					<font>font12</font>
+					<align>center</align>
+					<textcolor>white2</textcolor>
+					<shadowcolor>black</shadowcolor>
+					<label>$INFO[ListItem.Property(HighTemp),[COLOR red],[/COLOR]]$INFO[ListItem.Property(LowTemp), | [COLOR blue],[/COLOR]]</label>
+					<animation effect="slide" end="10,0" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="slide" end="10,0" condition="$PARAM[clearVisible]">conditional</animation>
+					<visible>$PARAM[isWeather]</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>200</width>
+					<height>200</height>
+					<animation effect="zoom" end="96,95" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<animation effect="zoom" end="88,98" center="190,100" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="zoom" end="88,96" center="180,100" condition="$PARAM[clearVisible]">conditional</animation>
+					<texture>$VAR[HomeWidgetFakeDiscArtVar]</texture>
+					<visible>$PARAM[fallbackVisible]</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>100</top>
+					<width>200</width>
+					<height>100</height>
+					<texture>homewidgets/label.png</texture>
+					<animation effect="zoom" end="96,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="textbox">
+					<left>15</left>
+					<top>140</top>
+					<width>170</width>
+					<height>50</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font11_title</font>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$VAR[HomeWidgetTitleVar]</label>
+					<animation effect="slide" end="10,0" condition="$PARAM[caseVisible]">conditional</animation>
+					<animation effect="slide" end="10,0" condition="$PARAM[clearVisible]">conditional</animation>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>200</width>
+					<height>200</height>
+					<texture>$PARAM[Case]</texture>
+				</control>
+			</control>
+		</focusedlayout>
+	</include>
+	<include name="ComExtLandscapeArt">
+		<itemlayout height="205" width="369">
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>364</width>
+				<height>205</height>
+				<aspectratio>$PARAM[Aspect]</aspectratio>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="98,95" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<texture>$PARAM[Texture]</texture>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>105</top>
+				<width>364</width>
+				<height>100</height>
+				<texture>homewidgets/label.png</texture>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<visible>$PARAM[isWeather]</visible>
+			</control>
+			<control type="textbox">
+				<left>8</left>
+				<top>135</top>
+				<width>354</width>
+				<height>70</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font11_title</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$INFO[ListItem.Label] $INFO[ListItem.Label2][CR]$INFO[ListItem.Property(HighTemp),[COLOR red],[/COLOR]]$INFO[ListItem.Property(LowTemp), | [COLOR blue],[/COLOR]]</label>
+				<visible>$PARAM[isWeather]</visible>
+			</control>
+			<control type="textbox">
+				<left>13</left>
+				<top>10</top>
+				<width>334</width>
+				<height>185</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>fontCDartist</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$VAR[HomeWidgetTitle2Var]</label>
+				<visible>$PARAM[fallbackVisible]</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>105</top>
+				<width>364</width>
+				<height>100</height>
+				<texture>homewidgets/label.png</texture>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="textbox">
+				<left>8</left>
+				<top>135</top>
+				<width>354</width>
+				<height>70</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font12_title</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$VAR[HomeWidgetTitleVar]</label>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>364</width>
+				<height>205</height>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$PARAM[Case]</texture>
+			</control>
+		</itemlayout>
+		<focusedlayout height="205" width="369">
+			<control type="group">
+				<animation type="Focus" reversible="false">
+					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
+				</animation>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>364</width>
+					<height>205</height>
+					<aspectratio>$PARAM[Aspect]</aspectratio>
+					<animation effect="zoom" end="98,95" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<texture>$PARAM[Texture]</texture>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<width>364</width>
+					<height>205</height>
+					<animation effect="zoom" end="98,95" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>105</top>
+					<width>364</width>
+					<height>100</height>
+					<texture>homewidgets/label.png</texture>
+					<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<visible>$PARAM[isWeather]</visible>
+				</control>
+				<control type="textbox">
+					<left>8</left>
+					<top>135</top>
+					<width>354</width>
+					<height>70</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font11_title</font>
+					<textcolor>lightgrey</textcolor>
+					<label>$INFO[ListItem.Label] $INFO[ListItem.Label2][CR]$INFO[ListItem.Property(HighTemp),[COLOR red],[/COLOR]]$INFO[ListItem.Property(LowTemp), | [COLOR blue],[/COLOR]]</label>
+					<visible>$PARAM[isWeather]</visible>
+				</control>
+				<control type="textbox">
+					<left>13</left>
+					<top>10</top>
+					<width>334</width>
+					<height>185</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>fontCDartist</font>
+					<textcolor>lightgrey</textcolor>
+					<label>$VAR[HomeWidgetTitle2Var]</label>
+					<visible>$PARAM[fallbackVisible]</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>105</top>
+					<width>364</width>
+					<height>100</height>
+					<texture>homewidgets/label.png</texture>
+					<animation effect="zoom" end="98,89" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="textbox">
+					<left>8</left>
+					<top>135</top>
+					<width>354</width>
+					<height>70</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font12_title</font>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$VAR[HomeWidgetTitleVar]</label>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>364</width>
+					<height>205</height>
+					<texture>$PARAM[Case]</texture>
+				</control>
+			</control>
+		</focusedlayout>
+	</include>
+	<include name="ComExtBannerArt">
+		<itemlayout height="89" width="461">
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>456</width>
+				<height>84</height>
+				<aspectratio aligny="top">scale</aspectratio>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="98.5,90" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<texture>$PARAM[Texture]</texture>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>456</width>
+				<height>84</height>
+				<aspectratio>keep</aspectratio>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$VAR[HomeWidgetClearLogoVar]</texture>
+				<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner))</visible>
+			</control>
+			<control type="textbox">
+				<left>10</left>
+				<top>13</top>
+				<width>456</width>
+				<height>58</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>fontCDartist</font>
+				<textcolor>lightgrey</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$VAR[HomeWidgetTitle2Var]</label>
+				<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner)) + IsEmpty(ListItem.Art(clearlogo)) + IsEmpty(ListItem.Art(tvshow.clearlogo))</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>44</top>
+				<width>456</width>
+				<height>40</height>
+				<texture>homewidgets/label.png</texture>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<animation effect="zoom" end="98.5,87" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="textbox">
+				<left>8</left>
+				<top>49</top>
+				<width>436</width>
+				<height>35</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font12_title</font>
+				<textcolor>lightgrey</textcolor>
+				<label>$VAR[HomeWidgetTitleVar]</label>
+				<visible>$PARAM[labelVisible]</visible>
+			</control>
+			<control type="image">
+				<left>3</left>
+				<top>0</top>
+				<width>456</width>
+				<height>84</height>
+				<colordiffuse>$VAR[HomeWidgetTransVar]</colordiffuse>
+				<texture>$PARAM[Case]</texture>
+			</control>
+		</itemlayout>
+		<focusedlayout height="89" width="461">
+			<control type="group">
+				<animation type="Focus" reversible="false">
+					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
+				</animation>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>456</width>
+					<height>84</height>
+					<aspectratio aligny="top">scale</aspectratio>
+					<animation effect="zoom" end="98.5,90" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<texture>$PARAM[Texture]</texture>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<width>456</width>
+					<height>84</height>
+					<animation effect="zoom" end="99,96" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
+				</control>
+				<control type="textbox">
+					<left>10</left>
+					<top>13</top>
+					<width>456</width>
+					<height>58</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>fontCDartist</font>
+					<textcolor>lightgrey</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+					<label>$VAR[HomeWidgetTitle2Var]</label>
+					<visible>IsEmpty(ListItem.Art(banner)) + IsEmpty(ListItem.Art(tvshow.banner)) + IsEmpty(ListItem.Art(clearlogo)) + IsEmpty(ListItem.Art(tvshow.clearlogo))</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>44</top>
+					<width>456</width>
+					<height>40</height>
+					<texture>homewidgets/label.png</texture>
+					<animation effect="zoom" end="98.5,87" center="auto" condition="$PARAM[glassVisible]">conditional</animation>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="textbox">
+					<left>8</left>
+					<top>49</top>
+					<width>436</width>
+					<height>35</height>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font12_title</font>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$VAR[HomeWidgetTitleVar]</label>
+					<visible>$PARAM[labelFocusVisible]</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>0</top>
+					<width>456</width>
+					<height>84</height>
+					<texture>$PARAM[Case]</texture>
+				</control>
+			</control>
+		</focusedlayout>
+	</include>
 	<include name="WeatherContent">
 		<item>
 			<label>$LOCALIZE[31909]</label>
