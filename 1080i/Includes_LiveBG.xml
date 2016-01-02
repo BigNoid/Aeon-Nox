@@ -42,25 +42,25 @@
 		<control type="wraplist" id="9031">
 			<include>HiddenList</include>
 			<content>$VAR[CaseContentVar]</content>
-			<visible>SubString(Container(9000).ListItem.Property(background),s:live,Left) | [Control.HasFocus(9010) + SubString(Container(9010).ListItem.Property(background),s:live,Left)]</visible>
+			<visible>SubString(Container(9000).ListItem.Property(background),s:live,Left) | [Control.HasFocus(9010) + SubString(Container(9010).ListItem.Property(background),s:live,Left) | [Control.HasFocus(90100) + SubString(Container(90100).ListItem.Property(background),s:live,Left)]</visible>
 		</control>
 		<control type="wraplist" id="9034">
 			<include>HiddenList</include>
 			<content>$VAR[CaseContentVar]</content>
-			<autoscroll time="7000" delay="7000" repeat="7000">SubString(Container(9000).ListItem.Property(background),s:playlist,Left) | [Control.HasFocus(9010) + SubString(Container(9010).ListItem.Property(background),s:playlist,Left)]</autoscroll>
-			<visible>SubString(Container(9000).ListItem.Property(background),s:playlist,Left) | [Control.HasFocus(9010) + SubString(Container(9010).ListItem.Property(background),s:playlist,Left)]</visible>
+			<autoscroll time="7000" delay="7000" repeat="7000">True</autoscroll>
+			<visible>SubString(Container(9000).ListItem.Property(background),s:playlist,Left) | [Control.HasFocus(9010) + SubString(Container(9010).ListItem.Property(background),s:playlist,Left)]| [Control.HasFocus(90100) + SubString(Container(90100).ListItem.Property(background),s:playlist,Left)]</visible>
 		</control>
 		<control type="image">
 			<fadetime>600</fadetime>
-			<visible>[SubString(Container(9000).ListItem.Property(background),s:live,Left) | [Control.HasFocus(9010) + SubString(Container(9010).ListItem.Property(background),s:live,Left)]] + ![Control.HasFocus(9010) + !SubString(Container(9010).ListItem.Property(background),s:live,Left)]</visible>
+			<visible>SubString(Container(9000).ListItem.Property(background),s:live,Left) | [Control.HasFocus(9010) + SubString(Container(9010).ListItem.Property(background),s:live,Left)] | [Control.HasFocus(90100) + SubString(Container(90100).ListItem.Property(background),s:live,Left)]] + ![Control.HasFocus(9010) + !SubString(Container(9010).ListItem.Property(background),s:live,Left)] + ![Control.HasFocus(90100) + !SubString(Container(90100).ListItem.Property(background),s:live,Left)]</visible>
 			<include>FullscreenDimensions</include>
 			<aspectratio align="center" aligny="top">scale</aspectratio>
 			<texture background="true">special://skin/backgrounds/default_livecases.jpg</texture>
 		</control>
 		<control type="group">
-			<visible>![Control.HasFocus(9010) + !SubString(Container(9010).ListItem.Property(background),s:live,Left)]</visible>
+			<visible>![Control.HasFocus(9010) + !SubString(Container(9010).ListItem.Property(background),s:live,Left)] + ![Control.HasFocus(90100) + !SubString(Container(90100).ListItem.Property(background),s:live,Left)]</visible>
 			<control type="group">
-				<visible>[SubString(Container(9000).ListItem.Property(background),s:live,Left) + ![SubString(Container(9000).ListItem.Property(background),i:songs,Right) | SubString(Container(9010).ListItem.Property(background),i:albums,Right)]] | Control.HasFocus(9010) + SubString(Container(9010).ListItem.Property(background),s:live,Left) + ![SubString(Container(9010).ListItem.Property(background),i:songs,Right) | SubString(Container(9010).ListItem.Property(background),i:albums,Right)]</visible>
+				<visible>[SubString(Container(9000).ListItem.Property(background),s:live,Left) + ![SubString(Container(9000).ListItem.Property(background),i:songs,Right) | SubString(Container(9010).ListItem.Property(background),i:albums,Right)]] | Control.HasFocus(9010) + SubString(Container(9010).ListItem.Property(background),s:live,Left) + ![SubString(Container(9010).ListItem.Property(background),i:songs,Right) | SubString(Container(9010).ListItem.Property(background),i:albums,Right)] | Control.HasFocus(90100) + SubString(Container(90100).ListItem.Property(background),s:live,Left) + ![SubString(Container(90100).ListItem.Property(background),i:songs,Right) | SubString(Container(90100).ListItem.Property(background),i:albums,Right)]</visible>
 				<animation effect="fade" time="600">WindowOpen</animation>
 				<animation effect="fade" time="600">VisibleChange</animation>
 				<control type="group">
@@ -355,11 +355,13 @@
 	</include>
 	<!-- Cases Content Var -->
 	<variable name="CaseContentVar">
-		<value condition="[[Control.HasFocus(9000) | Control.HasFocus(9010) + IsEmpty(Container(9010).ListItem.Property(background))] + StringCompare(Container(9000).ListItem.Property(background),i:recent movies,Right)] | [StringCompare(Container(9010).ListItem.Property(background),i:recent movies,Right) + Control.HasFocus(9010) + !IsEmpty(Container(9010).ListItem.Property(background))]">special://skin/extras/playlists/recentmovies.xsp</value>
-		<value condition="[[Control.HasFocus(9000) | Control.HasFocus(9010) + IsEmpty(Container(9010).ListItem.Property(background))] + StringCompare(Container(9000).ListItem.Property(background),i:recent episodes,Right)] | [StringCompare(Container(9010).ListItem.Property(background),i:recent episodes,Right) + Control.HasFocus(9010) + !IsEmpty(Container(9010).ListItem.Property(background))]">special://skin/extras/playlists/recentepisodes.xsp</value>
-		<value condition="[[Control.HasFocus(9000) | Control.HasFocus(9010) + IsEmpty(Container(9010).ListItem.Property(background))] + StringCompare(Container(9000).ListItem.Property(background),i:songs,Right)] | [StringCompare(Container(9010).ListItem.Property(background),i:songs,Right) + Control.HasFocus(9010) + !IsEmpty(Container(9010).ListItem.Property(background))]">plugin://service.library.data.provider?type=randomsongs&amp;reload=$INFO[Window.Property(randomsongs)]</value>
-		<value condition="[[Control.HasFocus(9000) | Control.HasFocus(9010) + IsEmpty(Container(9010).ListItem.Property(background))] + StringCompare(Container(9000).ListItem.Property(background),i:albums,Right)] | [StringCompare(Container(9010).ListItem.Property(background),i:albums,Right) + Control.HasFocus(9010) + !IsEmpty(Container(9010).ListItem.Property(background))]">plugin://service.library.data.provider?type=randomalbums&amp;reload=$INFO[Window.Property(randomalbums)]</value>
+		<value condition="[Control.HasFocus(9010) + StringCompare(Container(9010).ListItem.Property(background),i:recent movies,Right)] | [Control.HasFocus(90100) + StringCompare(Container(90100).ListItem.Property(background),i:recent movies,Right)] | StringCompare(Container(9000).ListItem.Property(background,i:recent movies,Right)">special://skin/extras/playlists/recentmovies.xsp</value>
+		<value condition="[Control.HasFocus(9010) + StringCompare(Container(9010).ListItem.Property(background),i:recent episodes,Right)] | [Control.HasFocus(90100) + StringCompare(Container(90100).ListItem.Property(background),i:recent episodes,Right)] | StringCompare(Container(9000).ListItem.Property(background,i:recent episodes,Right)">special://skin/extras/playlists/recentepisodes.xsp</value>
+		<value condition="[Control.HasFocus(9010) + StringCompare(Container(9010).ListItem.Property(background),i:songs,Right)] | [Control.HasFocus(90100) + StringCompare(Container(90100).ListItem.Property(background),i:songs,Right)] | StringCompare(Container(9000).ListItem.Property(background,i:songs,Right)">plugin://service.library.data.provider?type=randomsongs&amp;reload=$INFO[Window.Property(randomsongs)]</value>
+		<value condition="[Control.HasFocus(9010) + StringCompare(Container(9010).ListItem.Property(background),i:albums,Right)] | [Control.HasFocus(90100) + StringCompare(Container(90100).ListItem.Property(background),i:albums,Right)] | StringCompare(Container(9000).ListItem.Property(background,i:albums,Right)">plugin://service.library.data.provider?type=randomalbums&amp;reload=$INFO[Window.Property(randomalbums)]</value>
+		<value condition="[Control.HasFocus(9010) + StringCompare(Container(9010).ListItem.Property(background),i:recent movies,Right)] | [Control.HasFocus(90100) + StringCompare(Container(90100).ListItem.Property(background),i:recent movies,Right)] | StringCompare(Container(9000).ListItem.Property(background,i:recent movies,Right)">special://skin/extras/playlists/recentmovies.xsp</value>
 		<value condition="Control.HasFocus(9010) + SubString(Container(9010).ListItem.Property(background),i:playlist,Right)">$INFO[Container(9010).ListItem.Property(backgroundPlaylist)]</value>
+		<value condition="Control.HasFocus(90100) + SubString(Container(90100).ListItem.Property(background),i:playlist,Right)">$INFO[Container(90100).ListItem.Property(backgroundPlaylist)]</value>
 		<value condition="SubString(Container(9000).ListItem.Property(background),i:playlist,Right)">$INFO[Container(9000).ListItem.Property(backgroundPlaylist)]</value>
 		<value>$INFO[Container(9000).ListItem.Thumb]</value>
 	</variable>
