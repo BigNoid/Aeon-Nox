@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 	<!-- ******* WIDGETS ******** -->
-	<include name="Widget1">
+	<include name="Widget1">		
 		<control type="group" id="90010">
 			<animation effect="slide" tween="cubic" time="720" start="0,-1080" end="0,0" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])">WindowOpen</animation>
 			<animation effect="slide" tween="cubic" time="720" end="0,-1080" start="0,0" condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])">WindowClose</animation>
@@ -144,6 +144,46 @@
 		<ondown condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + [Control.IsVisible(9027) | System.HasMediaDVD]">9020</ondown>
 		<onleft condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])">9000</onleft>
 	</include>
+	<include name="VerticalNavigation1">
+		<onleft condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + ![Control.IsVisible(9027) | System.HasMediaDVD]">9000</onleft>
+		<onleft condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + [Control.IsVisible(9027) | System.HasMediaDVD]">9020</onleft>
+		<onright condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + Skin.HasSetting(lowermainmenu) + Control.IsVisible(90020)">8002</onright>
+		<onleft condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])">9000</onleft>
+		<onright condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + Control.IsVisible(90020)">8002</onright>
+		<onright condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Control.IsVisible(90020) + [Control.IsVisible(9027) | System.HasMediaDVD]">9020</onright>
+	</include>
+	<include name="VerticalNavigation2">
+		<onleft condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(lowermainmenu) + Skin.HasSetting(Enable.VisibleSubmenu)">9001</onleft>
+		<onleft condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Skin.HasSetting(lowermainmenu) + !Skin.HasSetting(Enable.VisibleSubmenu)">9000</onleft>
+		<onleft condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + Skin.HasSetting(lowermainmenu) + !Control.IsVisible(90010) + ![Control.IsVisible(9027) | System.HasMediaDVD]">9000</onleft>
+		<onleft condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + Skin.HasSetting(lowermainmenu) + !Control.IsVisible(90010) + [Control.IsVisible(9027) | System.HasMediaDVD]">9020</onleft>
+		<onleft condition="!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + Skin.HasSetting(lowermainmenu) + Control.IsVisible(90010)">8001</onleft>
+		<onleft condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + Control.IsVisible(90010)">8001</onleft>
+		<onleft condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + !Control.IsVisible(90010)">9000</onleft>
+		<onright condition="StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + [Control.IsVisible(9027) | System.HasMediaDVD]">9020</onright>
+	</include>
+	<!-- ******* List WIDGETS ******** -->
+	<!-- List Containers -->
+	<include name="ListWidget1">
+		<width>300</width>
+		<height>300</height>
+		<include>VerticalNavigation1</include>
+		<include>OnInfo1</include>
+		<orientation>vertical</orientation>
+		<preloaditems>2</preloaditems>
+		<scrolltime tween="quadratic" easing="out">300</scrolltime>
+		<autoscroll time="10000" delay="10000" repeat="10000">Control.IsVisible(8001) + !Control.HasFocus(8001)</autoscroll>
+	</include>
+	<include name="ListWidget2">
+		<width>300</width>
+		<height>300</height>
+		<include>VerticalNavigation2</include>
+		<include>OnInfo2</include>
+		<orientation>vertical</orientation>
+		<preloaditems>2</preloaditems>
+		<scrolltime tween="quadratic" easing="out">300</scrolltime>
+		<autoscroll time="10000" delay="10000" repeat="10000">Control.IsVisible(8002) + !Control.HasFocus(8002)</autoscroll>
+	</include>
 	<!-- List Info -->
 	<include name="ListInfo">
 		<top>-2</top>
@@ -164,7 +204,6 @@
 			<font>font14_title</font>
 			<textcolor>labelheader</textcolor>
 			<shadowcolor>black</shadowcolor>
-			<scroll>true</scroll>
 			<label>$PARAM[SubTitle]</label>
 		</control>
 		<control type="label">
@@ -198,7 +237,7 @@
 			<align>justify</align>
 			<textcolor>white2</textcolor>
 			<shadowcolor>black</shadowcolor>
-			<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
+			<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
 			<label>$PARAM[Plot]</label>
 		</control>
 	</include>
@@ -368,11 +407,11 @@
 					<animation effect="fade" time="300" tween="sine" easing="inout">VisibleChange</animation>
 				</control>
 				<control type="group">
-					<visible>!StringCompare(Container(9000).ListItem.Property(widgetTarget),pictures) + IsEmpty(Container(8001).ListItem.Property(HighTemp)) + IsEmpty(Container(8001).ListItem.ChannelName) + IsEmpty(Container(8001).ListItem.Artist) + IsEmpty(Container(8001).ListItem.AlbumArtist) + IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
+					<visible>IsEmpty(Container(8001).ListItem.Property(HighTemp)) + IsEmpty(Container(8001).ListItem.ChannelName) + IsEmpty(Container(8001).ListItem.Artist) + IsEmpty(Container(8001).ListItem.AlbumArtist) + IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
 					<control type="image">
 						<left>-20</left>
 						<top>-20</top>
-						<width>246</width>
+						<width>233</width>
 						<height>350</height>
 						<texture background="true">$VAR[HomeWidget8001PosterVar]</texture>
 						<fadetime>IconCrossfadeTime</fadetime>
@@ -380,10 +419,10 @@
 						<bordersize>20</bordersize>
 					</control>
 					<control type="grouplist">
-						<left>225</left>
+						<left>212</left>
 						<include name="ListInfo">
 							<param name="Texture">$VAR[HomeWidget8001PosterVar]</param>
-							<param name="Width">1215</param>
+							<param name="Width">1228</param>
 							<param name="Title">$VAR[HomeWidget8001TitleVar]</param>
 							<param name="SubTitle">$VAR[HomeWidget8001SubTitleVar]</param>
 							<param name="Info1">$VAR[HomeWidget8001Info1Var]</param>
@@ -393,7 +432,7 @@
 					</control>
 				</control>
 				<control type="group">
-					<visible>StringCompare(Container(9000).ListItem.Property(widgetTarget),pictures) | !IsEmpty(Container(8001).ListItem.Property(HighTemp)) | !IsEmpty(Container(8001).ListItem.ChannelName) | !IsEmpty(Container(8001).ListItem.Artist) | !IsEmpty(Container(8001).ListItem.AlbumArtist) | !IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
+					<visible>!IsEmpty(Container(8001).ListItem.Property(HighTemp)) | !IsEmpty(Container(8001).ListItem.ChannelName) | !IsEmpty(Container(8001).ListItem.Artist) | !IsEmpty(Container(8001).ListItem.AlbumArtist) | !IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
 					<control type="image">
 						<left>-20</left>
 						<top>-20</top>
@@ -438,11 +477,11 @@
 					<animation effect="fade" time="300" tween="sine" easing="inout">VisibleChange</animation>
 				</control>
 				<control type="group">
-					<visible>!StringCompare(Container(9000).ListItem.Property(widgetTarget.2),pictures) + IsEmpty(Container(8002).ListItem.Property(HighTemp)) + IsEmpty(Container(8002).ListItem.ChannelName) + IsEmpty(Container(8002).ListItem.Artist) + IsEmpty(Container(8002).ListItem.AlbumArtist) + IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
+					<visible>IsEmpty(Container(8002).ListItem.Property(HighTemp)) + IsEmpty(Container(8002).ListItem.ChannelName) + IsEmpty(Container(8002).ListItem.Artist) + IsEmpty(Container(8002).ListItem.AlbumArtist) + IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
 					<control type="image">
 						<left>-20</left>
 						<top>-20</top>
-						<width>246</width>
+						<width>233</width>
 						<height>350</height>
 						<texture background="true">$VAR[HomeWidget8002PosterVar]</texture>
 						<fadetime>IconCrossfadeTime</fadetime>
@@ -450,10 +489,10 @@
 						<bordersize>20</bordersize>
 					</control>
 					<control type="grouplist">
-						<left>225</left>
+						<left>212</left>
 						<include name="ListInfo">
 							<param name="Texture">$VAR[HomeWidget8002PosterVar]</param>
-							<param name="Width">1215</param>
+							<param name="Width">1228</param>
 							<param name="Title">$VAR[HomeWidget8002TitleVar]</param>
 							<param name="SubTitle">$VAR[HomeWidget8002SubTitleVar]</param>
 							<param name="Info1">$VAR[HomeWidget8002Info1Var]</param>
@@ -463,7 +502,7 @@
 					</control>
 				</control>
 				<control type="group">
-					<visible>StringCompare(Container(9000).ListItem.Property(widgetTarget.2),pictures) | !IsEmpty(Container(8002).ListItem.Property(HighTemp)) | !IsEmpty(Container(8002).ListItem.ChannelName) | !IsEmpty(Container(8002).ListItem.Artist) | !IsEmpty(Container(8002).ListItem.AlbumArtist) | !IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
+					<visible>!IsEmpty(Container(8002).ListItem.Property(HighTemp)) | !IsEmpty(Container(8002).ListItem.ChannelName) | !IsEmpty(Container(8002).ListItem.Artist) | !IsEmpty(Container(8002).ListItem.AlbumArtist) | !IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
 					<control type="image">
 						<left>-20</left>
 						<top>-20</top>
@@ -507,11 +546,11 @@
 					<animation effect="fade" time="300" tween="sine" easing="inout">VisibleChange</animation>
 				</control>
 				<control type="group">
-					<visible>!StringCompare(Container(9000).ListItem.Property(widgetTarget),pictures) + IsEmpty(Container(8001).ListItem.Property(HighTemp)) + IsEmpty(Container(8001).ListItem.ChannelName) + IsEmpty(Container(8001).ListItem.Artist) + IsEmpty(Container(8001).ListItem.AlbumArtist) + IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
+					<visible>IsEmpty(Container(8001).ListItem.Property(HighTemp)) + IsEmpty(Container(8001).ListItem.ChannelName) + IsEmpty(Container(8001).ListItem.Artist) + IsEmpty(Container(8001).ListItem.AlbumArtist) + IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
 					<control type="image">
 						<left>-20</left>
 						<top>-20</top>
-						<width>246</width>
+						<width>233</width>
 						<height>350</height>
 						<texture background="true">$VAR[HomeWidget8001PosterVar]</texture>
 						<fadetime>IconCrossfadeTime</fadetime>
@@ -519,10 +558,10 @@
 						<bordersize>20</bordersize>
 					</control>
 					<control type="grouplist">
-						<left>225</left>
+						<left>212</left>
 						<include name="ListInfo">
 							<param name="Texture">$VAR[HomeWidget8001PosterVar]</param>
-							<param name="Width">1625</param>
+							<param name="Width">1638</param>
 							<param name="Title">$VAR[HomeWidget8001TitleVar]</param>
 							<param name="SubTitle">$VAR[HomeWidget8001SubTitleVar]</param>
 							<param name="Info1">$VAR[HomeWidget8001Info1Var]</param>
@@ -532,7 +571,7 @@
 					</control>
 				</control>
 				<control type="group">
-					<visible>StringCompare(Container(9000).ListItem.Property(widgetTarget),pictures) | !IsEmpty(Container(8001).ListItem.Property(HighTemp)) | !IsEmpty(Container(8001).ListItem.ChannelName) | !IsEmpty(Container(8001).ListItem.Artist) | !IsEmpty(Container(8001).ListItem.AlbumArtist) | !IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
+					<visible>!IsEmpty(Container(8001).ListItem.Property(HighTemp)) | !IsEmpty(Container(8001).ListItem.ChannelName) | !IsEmpty(Container(8001).ListItem.Artist) | !IsEmpty(Container(8001).ListItem.AlbumArtist) | !IsEmpty(Container(8001).ListItem.Property(Addon.Name))</visible>
 					<control type="image">
 						<left>-20</left>
 						<top>-20</top>
@@ -576,11 +615,11 @@
 					<animation effect="fade" time="300" tween="sine" easing="inout">VisibleChange</animation>
 				</control>
 				<control type="group">
-					<visible>!StringCompare(Container(9000).ListItem.Property(widgetTarget.2),pictures) + IsEmpty(Container(8002).ListItem.Property(HighTemp)) + IsEmpty(Container(8002).ListItem.ChannelName) + IsEmpty(Container(8002).ListItem.Artist) + IsEmpty(Container(8002).ListItem.AlbumArtist) + IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
+					<visible>IsEmpty(Container(8002).ListItem.Property(HighTemp)) + IsEmpty(Container(8002).ListItem.ChannelName) + IsEmpty(Container(8002).ListItem.Artist) + IsEmpty(Container(8002).ListItem.AlbumArtist) + IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
 					<control type="image">
 						<left>-20</left>
 						<top>-20</top>
-						<width>246</width>
+						<width>233</width>
 						<height>350</height>
 						<texture background="true">$VAR[HomeWidget8002PosterVar]</texture>
 						<fadetime>IconCrossfadeTime</fadetime>
@@ -588,10 +627,10 @@
 						<bordersize>20</bordersize>
 					</control>
 					<control type="grouplist">
-						<left>225</left>
+						<left>212</left>
 						<include name="ListInfo">
 							<param name="Texture">$VAR[HomeWidget8002PosterVar]</param>
-							<param name="Width">1625</param>
+							<param name="Width">1638</param>
 							<param name="Title">$VAR[HomeWidget8002TitleVar]</param>
 							<param name="SubTitle">$VAR[HomeWidget8002SubTitleVar]</param>
 							<param name="Info1">$VAR[HomeWidget8002Info1Var]</param>
@@ -601,7 +640,7 @@
 					</control>
 				</control>
 				<control type="group">
-					<visible>StringCompare(Container(9000).ListItem.Property(widgetTarget.2),pictures) | !IsEmpty(Container(8002).ListItem.Property(HighTemp)) | !IsEmpty(Container(8002).ListItem.ChannelName) | !IsEmpty(Container(8002).ListItem.Artist) | !IsEmpty(Container(8002).ListItem.AlbumArtist) | !IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
+					<visible>!IsEmpty(Container(8002).ListItem.Property(HighTemp)) | !IsEmpty(Container(8002).ListItem.ChannelName) | !IsEmpty(Container(8002).ListItem.Artist) | !IsEmpty(Container(8002).ListItem.AlbumArtist) | !IsEmpty(Container(8002).ListItem.Property(Addon.Name))</visible>
 					<control type="image">
 						<left>-20</left>
 						<top>-20</top>
@@ -640,16 +679,6 @@
 				<width>1473.5</width>
 				<height>$PARAM[backHeight]</height>
 				<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidgetBackgroundVar]</texture>
-				<visible>Skin.HasSetting(Enable.GlobalWidgetBack)</visible>
-			</control>
-			<control type="image">
-				<left></left>
-				<centerleft>50%</centerleft>
-				<top>-21</top>
-				<width>1473.5</width>
-				<height>$PARAM[backHeight]</height>
-				<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidget8001BackgroundVar]</texture>
-				<visible>!Skin.HasSetting(Enable.GlobalWidgetBack)</visible>
 			</control>
 			<control type="label">
 				<top>-28</top>
@@ -665,7 +694,7 @@
 			</control>
 			<control type="label">
 				<top>-28</top>
-				<left>243</left>
+				<left>240</left>
 				<width>710</width>
 				<height>20</height>
 				<align>left</align>
@@ -690,7 +719,7 @@
 			</control>
 			<control type="label">
 				<top>$PARAM[labelBottom]</top>
-				<left>243</left>
+				<left>240</left>
 				<width>710</width>
 				<height>20</height>
 				<align>left</align>
@@ -724,16 +753,6 @@
 				<width>1473.5</width>
 				<height>$PARAM[backHeight]</height>
 				<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidgetBackgroundVar]</texture>
-				<visible>Skin.HasSetting(Enable.GlobalWidgetBack)</visible>
-			</control>
-			<control type="image">
-				<left></left>
-				<centerleft>50%</centerleft>
-				<top>-21</top>
-				<width>1473.5</width>
-				<height>$PARAM[backHeight]</height>
-				<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidget8002BackgroundVar]</texture>
-				<visible>!Skin.HasSetting(Enable.GlobalWidgetBack)</visible>
 			</control>
 			<control type="label">
 				<top>-28</top>
@@ -749,7 +768,7 @@
 			</control>
 			<control type="label">
 				<top>-28</top>
-				<left>243</left>
+				<left>240</left>
 				<width>710</width>
 				<height>20</height>
 				<align>left</align>
@@ -774,7 +793,7 @@
 			</control>
 			<control type="label">
 				<top>$PARAM[labelBottom]</top>
-				<left>243</left>
+				<left>240</left>
 				<width>710</width>
 				<height>20</height>
 				<align>left</align>
@@ -808,53 +827,32 @@
 				<width>1885</width>
 				<height>$PARAM[backHeight]</height>
 				<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidgetBackgroundVar]</texture>
-				<visible>Skin.HasSetting(Enable.GlobalWidgetBack)</visible>
 			</control>
-			<control type="image">
+			<control type="label">
+				<top>-28</top>
 				<left></left>
 				<centerleft>50%</centerleft>
-				<top>-21</top>
-				<width>1885</width>
-				<height>$PARAM[backHeight]</height>
-				<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidget8001BackgroundVar]</texture>
-				<visible>!Skin.HasSetting(Enable.GlobalWidgetBack)</visible>
-			</control>
-			<control type="label">
-				<top>$PARAM[labelBottom]</top>
-				<left></left>
-				<centerleft>50%</centerleft>
-				<width>922</width>
-				<height>20</height>
-				<align>center</align>
-				<font>font13_title</font>
-				<textcolor>grey</textcolor>
-				<shadowcolor>shadow</shadowcolor>
-				<label>$PARAM[label]</label>
-				<visible>!StringCompare(Container(9000).ListItem.Property(widgetTitle),Title)</visible>
-			</control>
-			<control type="label">
-				<top>$PARAM[labelBottom]</top>
-				<left>39</left>
-				<width>922</width>
-				<height>20</height>
-				<align>left</align>
-				<font>font13_title</font>
-				<textcolor>$VAR[ThemeLabelColor]</textcolor>
-				<shadowcolor>shadow</shadowcolor>
-				<label>$VAR[HomeWidget8001TitleVar]</label>
-				<visible>Control.HasFocus(8001) + StringCompare(Container(9000).ListItem.Property(widgetTitle),Title)</visible>
-			</control>
-			<control type="label">
-				<top>$PARAM[labelBottom]</top>
-				<left>965</left>
-				<width>922</width>
+				<width>1440</width>
 				<height>20</height>
 				<align>right</align>
 				<font>font13_title</font>
 				<textcolor>grey</textcolor>
 				<shadowcolor>shadow</shadowcolor>
 				<label>$PARAM[label]</label>
-				<visible>StringCompare(Container(9000).ListItem.Property(widgetTitle),Title)</visible>
+				<visible>StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			</control>
+			<control type="label">
+				<top>$PARAM[labelBottom]</top>
+				<left></left>
+				<centerleft>50%</centerleft>
+				<width>1440</width>
+				<height>20</height>
+				<align>center</align>
+				<font>font13_title</font>
+				<textcolor>grey</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$PARAM[label]</label>
+				<visible>!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
 			</control>
 		</control>
 	</include>
@@ -868,53 +866,32 @@
 				<width>1885</width>
 				<height>$PARAM[backHeight]</height>
 				<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidgetBackgroundVar]</texture>
-				<visible>Skin.HasSetting(Enable.GlobalWidgetBack)</visible>
 			</control>
-			<control type="image">
+			<control type="label">
+				<top>-28</top>
 				<left></left>
 				<centerleft>50%</centerleft>
-				<top>-21</top>
-				<width>1885</width>
-				<height>$PARAM[backHeight]</height>
-				<texture colordiffuse="$VAR[HomeWidgetTransVar]" border="40">$VAR[HomeWidget8002BackgroundVar]</texture>
-				<visible>!Skin.HasSetting(Enable.GlobalWidgetBack)</visible>
-			</control>
-			<control type="label">
-				<top>$PARAM[labelBottom]</top>
-				<left></left>
-				<centerleft>50%</centerleft>
-				<width>922</width>
-				<height>20</height>
-				<align>center</align>
-				<font>font13_title</font>
-				<textcolor>grey</textcolor>
-				<shadowcolor>shadow</shadowcolor>
-				<label>$PARAM[label]</label>
-				<visible>!StringCompare(Container(9000).ListItem.Property(widgetTitle.2),Title)</visible>
-			</control>
-			<control type="label">
-				<top>$PARAM[labelBottom]</top>
-				<left>39</left>
-				<width>922</width>
-				<height>20</height>
-				<align>left</align>
-				<font>font13_title</font>
-				<textcolor>$VAR[ThemeLabelColor]</textcolor>
-				<shadowcolor>shadow</shadowcolor>
-				<label>$VAR[HomeWidget8002TitleVar]</label>
-				<visible>Control.HasFocus(8002) + StringCompare(Container(9000).ListItem.Property(widgetTitle.2),Title)</visible>
-			</control>
-			<control type="label">
-				<top>$PARAM[labelBottom]</top>
-				<left>965</left>
-				<width>922</width>
+				<width>1440</width>
 				<height>20</height>
 				<align>right</align>
 				<font>font13_title</font>
 				<textcolor>grey</textcolor>
 				<shadowcolor>shadow</shadowcolor>
 				<label>$PARAM[label]</label>
-				<visible>StringCompare(Container(9000).ListItem.Property(widgetTitle.2),Title)</visible>
+				<visible>StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
+			</control>
+			<control type="label">
+				<top>$PARAM[labelBottom]</top>
+				<left></left>
+				<centerleft>50%</centerleft>
+				<width>1440</width>
+				<height>20</height>
+				<align>center</align>
+				<font>font13_title</font>
+				<textcolor>grey</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$PARAM[label]</label>
+				<visible>!StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
 			</control>
 		</control>
 	</include>
@@ -3470,55 +3447,6 @@
 			<property name="WeatherMultiFanart">$INFO[Skin.String(weatherfanart.path)]$INFO[Window(weather).Property(Day6.FanartCode)]$INFO[Window(weather).Property(Day6.FanartCode),/weather-,-03.jpg]</property>
 			<onclick>ActivateWindow(weather)</onclick>
 			<visible>!IsEmpty(Window(Weather).Property(Day6.Title))</visible>
-		</item>
-	</include>
-	<include name="SystemContent">
-		<item id="1">
-			<label>$INFO[Network.IPAddress]</label>
-			<onclick>noop</onclick>
-			<icon>systeminfo/connected.png</icon>
-			<visible>System.InternetState</visible>
-		</item>
-		<item id="7">
-			<label>$INFO[Network.IPAddress]</label>
-			<onclick>noop</onclick>
-			<icon>systeminfo/disconnected.png</icon>
-			<visible>!System.InternetState</visible>
-		</item>
-		<item id="2">
-			<label>$INFO[System.Uptime]</label>
-			<onclick>noop</onclick>
-			<icon>systeminfo/uptime.png</icon>
-		</item>
-		<item id="3">
-			<label>$INFO[System.CpuFrequency]</label>
-			<onclick>noop</onclick>
-			<icon>systeminfo/cpu_usage.png</icon>
-		</item>
-		<item id="4">
-			<label>$INFO[System.FreeMemory]</label>
-			<onclick>noop</onclick>
-			<icon>systeminfo/ram.png</icon>
-		</item>
-		<item id="5">
-			<label>$INFO[System.ScreenWidth] x $INFO[System.ScreenHeight] @ $INFO[System.fps] FPS</label>
-			<onclick>noop</onclick>
-			<icon>systeminfo/resolution.png</icon>
-		</item>
-		<item id="8">
-			<label>$INFO[System.freespacepercent]</label>
-			<onclick>noop</onclick>
-			<icon>systeminfo/harddisk.png</icon>
-		</item>
-		<item id="7">
-			<label>$INFO[System.CPUUsage(used.percent),$LOCALIZE[13271],]</label>
-			<onclick>noop</onclick>
-			<icon>systeminfo/cpu_usage.png</icon>
-		</item>
-		<item id="6">
-			<label>$INFO[System.BuildVersion]</label>
-			<onclick>noop</onclick>
-			<icon>systeminfo/icon32x32.png</icon>
 		</item>
 	</include>
 </includes>
