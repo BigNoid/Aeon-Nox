@@ -10,18 +10,24 @@
 	<onload condition="IsEmpty(Skin.String(Overlay.Toggle))">ClearProperty(OverlayWatched,home)</onload>
 	<onload condition="StringCompare(Skin.String(Overlay.Toggle),1)">SetProperty(OverlayUnwatched,True,home)</onload>
 	<onload condition="StringCompare(Skin.String(Overlay.Toggle),1)">SetProperty(OverlayWatched,True,home)</onload>
+	<onload condition="StringCompare(Skin.String(Overlay.Toggle),4)">SetProperty(OverlayUnwatched,True,home)</onload>
+	<onload condition="StringCompare(Skin.String(Overlay.Toggle),4)">SetProperty(OverlayWatched,True,home)</onload>
 	<onload condition="StringCompare(Skin.String(Overlay.Toggle),2)">ClearProperty(OverlayUnwatched,home)</onload>
 	<onload condition="StringCompare(Skin.String(Overlay.Toggle),2)">SetProperty(OverlayWatched,True,home)</onload>
 	<onload condition="StringCompare(Skin.String(Overlay.Toggle),3)">ClearProperty(OverlayUnwatched,home)</onload>
 	<onload condition="StringCompare(Skin.String(Overlay.Toggle),3)">ClearProperty(OverlayWatched,home)</onload>
 	<onunload condition="Skin.HasSetting(Disable.Resumable)">SetProperty(Overlay.Resumable,True,home)</onunload>
 	<onunload condition="!Skin.HasSetting(Disable.Resumable)">ClearProperty(Overlay.Resumable,home)</onunload>
-	<onunload condition="!IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched))">Skin.SetString(Overlay.Toggle,1)</onunload>
-	<onunload condition="!IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched))">SetProperty(Overlay.Path,overlays/showcase/1/,home)</onunload>
+	<onunload condition="!IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched)) + !Skin.HasSetting(coloredflags)">Skin.SetString(Overlay.Toggle,1)</onunload>
+	<onunload condition="!IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched)) + !Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/1/,home)</onunload>
+	<onunload condition="!IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched)) + Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/4/,home)</onunload>
+	<onunload condition="!IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched)) + Skin.HasSetting(coloredflags)">Skin.SetString(Overlay.Toggle,4)</onunload>
 	<onunload condition="!IsEmpty(Window(Home).Property(OverlayUnwatched)) + IsEmpty(Window(Home).Property(OverlayWatched))">Skin.Reset(Overlay.Toggle)</onunload>
 	<onunload condition="!IsEmpty(Window(Home).Property(OverlayUnwatched)) + IsEmpty(Window(Home).Property(OverlayWatched))">SetProperty(Overlay.Path,overlays/showcase/,home)</onunload>
-	<onunload condition="IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched))">Skin.SetString(Overlay.Toggle,2)</onunload>
-	<onunload condition="IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched))">SetProperty(Overlay.Path,overlays/showcase/2/,home)</onunload>
+	<onunload condition="IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched)) + !Skin.HasSetting(coloredflags)">Skin.SetString(Overlay.Toggle,2)</onunload>
+	<onunload condition="IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched)) + !Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/2/,home)</onunload>
+	<onunload condition="IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched)) + Skin.HasSetting(coloredflags)">Skin.SetString(Overlay.Toggle,5)</onunload>
+	<onunload condition="IsEmpty(Window(Home).Property(OverlayUnwatched)) + !IsEmpty(Window(Home).Property(OverlayWatched)) + Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/5/,home)</onunload>
 	<onunload condition="IsEmpty(Window(Home).Property(OverlayUnwatched)) + IsEmpty(Window(Home).Property(OverlayWatched))">Skin.SetString(Overlay.Toggle,3)</onunload>
 	<onunload condition="IsEmpty(Window(Home).Property(OverlayUnwatched)) + IsEmpty(Window(Home).Property(OverlayWatched))">SetProperty(Overlay.Path,overlays/showcase/3/,home)</onunload>
 	<include>dialogeffect</include>
@@ -163,13 +169,6 @@
 				</item>
 				<item>
 					<label>$LOCALIZE[16102]</label>
-					<icon>overlays/showcase/4/OverlayWatched.png</icon>
-					<onclick>Skin.Reset(nocoloredoverlay)</onclick>
-					<property name="Radio">android/btn_radio_on_holo_dark.png</property>
-					<visible>Skin.HasSetting(coloredflags) + Skin.HasSetting(nocoloredoverlay)</visible>
-				</item>
-				<item>
-					<label>$LOCALIZE[16102]</label>
 					<icon>overlays/showcase/1/OverlayWatched.png</icon>
 					<onclick>SetProperty(OverlayWatched,True,home)</onclick>
 					<property name="Radio">android/btn_radio_off_holo_dark.png</property>
@@ -178,23 +177,30 @@
 				<item>
 					<label>$LOCALIZE[16102]</label>
 					<icon>overlays/showcase/4/OverlayWatched.png</icon>
-					<onclick>Skin.ToggleSetting(nocoloredoverlay)</onclick>
+					<onclick>ClearProperty(OverlayWatched,Home)</onclick>
+					<property name="Radio">android/btn_radio_on_holo_dark.png</property>
+					<visible>Skin.HasSetting(coloredflags) + !IsEmpty(Window(Home).Property(OverlayWatched))</visible>
+				</item>
+				<item>
+					<label>$LOCALIZE[16102]</label>
+					<icon>overlays/showcase/4/OverlayWatched.png</icon>
+					<onclick>SetProperty(OverlayWatched,True,home)</onclick>
 					<property name="Radio">android/btn_radio_off_holo_dark.png</property>
-					<visible>Skin.HasSetting(coloredflags) + !Skin.HasSetting(nocoloredoverlay)</visible>
+					<visible>Skin.HasSetting(coloredflags) + IsEmpty(Window(Home).Property(OverlayWatched))</visible>
 				</item>
 				<item>
 					<label>$LOCALIZE[16101]</label>
 					<icon>overlays/showcase/1/OverlayUnwatched.png</icon>
 					<onclick>ClearProperty(OverlayUnwatched,Home)</onclick>
 					<property name="Radio">android/btn_radio_on_holo_dark.png</property>
-					<visible>!Skin.HasSetting(coloredflags) + !IsEmpty(Window(Home).Property(OverlayUnwatched))</visible>
+					<visible>!IsEmpty(Window(Home).Property(OverlayUnwatched))</visible>
 				</item>
 				<item>
 					<label>$LOCALIZE[16101]</label>
 					<icon>overlays/showcase/1/OverlayUnwatched.png</icon>
 					<onclick>SetProperty(OverlayUnwatched,True,home)</onclick>
 					<property name="Radio">android/btn_radio_off_holo_dark.png</property>
-					<visible>!Skin.HasSetting(coloredflags) + IsEmpty(Window(Home).Property(OverlayUnwatched))</visible>
+					<visible>IsEmpty(Window(Home).Property(OverlayUnwatched))</visible>
 				</item>
 				<item>
 					<label>$LOCALIZE[31109]</label>
