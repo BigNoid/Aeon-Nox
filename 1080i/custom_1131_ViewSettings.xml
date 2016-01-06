@@ -54,7 +54,6 @@
 					<label2>[COLOR $VAR[ThemeLabelColor]]$VAR[NoTopBarLabelVar][/COLOR]</label2>
 					<onclick>$VAR[NoTopBarOnClickVar]</onclick>
 					<texturenofocus border="1">separator5.png</texturenofocus>
-					<visible>StringCompare(Window(home).Property(actualViewtype),ShowCaseMovies) | StringCompare(Window(home).Property(actualViewtype),ShowCaseSquare) | StringCompare(Window(home).Property(actualViewtype),Landscape) | StringCompare(Window(home).Property(actualViewtype),Posters) | StringCompare(Window(home).Property(actualViewtype),Shift) | StringCompare(Window(home).Property(actualViewtype),Logo) | StringCompare(Window(home).Property(actualViewtype),LowList) | StringCompare(Window(home).Property(actualViewtype),Episode) | StringCompare(Window(home).Property(actualViewtype),Gallery) | StringCompare(Window(home).Property(actualViewtype),Panel) | StringCompare(Window(home).Property(actualViewtype),SongList) | StringCompare(Window(home).Property(actualViewtype),BigFan) | StringCompare(Window(home).Property(actualViewtype),BigInfo) | StringCompare(Window(home).Property(actualViewtype),BannerPlex) | StringCompare(Window(home).Property(actualViewtype),FullscreenWall) | StringCompare(Window(home).Property(actualViewtype),RightList) | StringCompare(Window(home).Property(actualViewtype),Wall) | StringCompare(Window(home).Property(actualViewtype),SmallIcons) | StringCompare(Window(home).Property(actualViewtype),MyFlix) | StringCompare(Window(home).Property(actualViewtype),BigList)</visible>
 				</control>
 				<control type="button" id="1501">
 					<include>ButtonCommonValues</include>
@@ -63,7 +62,7 @@
 					<onclick>$VAR[MediaflagsLayoutOnclickVar]</onclick>
 					<texturenofocus border="1">separator5.png</texturenofocus>
 					<visible>!Container.Content(genres) + !Container.Content(sets)</visible>
-					<visible>StringCompare(Window(home).Property(actualViewtype),ShowCaseMovies) | StringCompare(Window(home).Property(actualViewtype),Landscape) | [StringCompare(Window(home).Property(actualViewtype),Wall) + ![Container.Content(programs) | Container.Content(addons)]] | StringCompare(Window(home).Property(actualViewtype),Logo)</visible>
+					<visible>StringCompare(Window(home).Property(actualViewtype),ShowCaseMovies) | [StringCompare(Window(home).Property(actualViewtype),Landscape) + !Window.IsActive(musiclibrary)] | [StringCompare(Window(home).Property(actualViewtype),Wall) + ![Container.Content(programs) | Container.Content(addons)]] | StringCompare(Window(home).Property(actualViewtype),Logo)</visible>
 				</control>
 				<control type="button" id="1502">
 					<include>ButtonCommonValues</include>
@@ -80,7 +79,7 @@
 					<label>$LOCALIZE[31620]</label>
 					<onclick>$VAR[ViewFloorOnClickVar]</onclick>
 					<label2>[COLOR $VAR[ThemeLabelColor]]$VAR[ViewFloorLabelVar][/COLOR]</label2>
-					<visible>StringCompare(Window(home).Property(actualViewtype),RightList)</visible>
+					<visible>StringCompare(Window(home).Property(actualViewtype),RightList) + !Window.IsActive(musiclibrary)</visible>
 				</control>
 				<control type="radiobutton" id="1504">
 					<description>Alternate BigList layout</description>
@@ -147,6 +146,15 @@
 					<selected>Skin.HasSetting(rightlistlogomovie)</selected>
 					<visible>StringCompare(Window(home).Property(actualViewtype),RightList) + Container.Content(movies)</visible>
 				</control>
+				<control type="radiobutton" id="1525">
+					<description>Enable Artist Logo</description>
+					<textwidth>375</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>$LOCALIZE[31606]</label>
+					<onclick>Skin.ToggleSetting(rightlistlogoartist)</onclick>
+					<selected>Skin.HasSetting(rightlistlogoartist)</selected>
+					<visible>[!System.HasAddon(script.skin.helper.service) + !IsEmpty(Skin.String(pathlogosartists)) | System.HasAddon(script.skin.helper.service)] + Window.IsActive(musiclibrary) + StringCompare(Window(home).Property(actualViewtype),RightList)</visible>
+				</control>
 				<control type="radiobutton" id="1517">
 					<description>Enable Info</description>
 					<include>ButtonCommonValues</include>
@@ -210,7 +218,7 @@
 					<label>$LOCALIZE[31606]</label>
 					<onclick>Skin.ToggleSetting(highlistlogo)</onclick>
 					<selected>Skin.HasSetting(highlistlogo)</selected>
-					<visible>StringCompare(Window(home).Property(actualViewtype),LowList) + !Skin.HasSetting(nohighlist)</visible>
+					<visible>StringCompare(Window(home).Property(actualViewtype),LowList) + !Skin.HasSetting(nohighlist) + !Window.IsActive(musiclibrary)</visible>
 				</control>
 				<control type="radiobutton" id="1531">
 					<description>Enable Logo High LowList</description>
@@ -218,7 +226,7 @@
 					<label>$LOCALIZE[31606]</label>
 					<onclick>Skin.ToggleSetting(lowlistlogo)</onclick>
 					<selected>Skin.HasSetting(lowlistlogo)</selected>
-					<visible>StringCompare(Window(home).Property(actualViewtype),LowList) + Skin.HasSetting(nohighlist)</visible>
+					<visible>StringCompare(Window(home).Property(actualViewtype),LowList) + Skin.HasSetting(nohighlist) + !Window.IsActive(musiclibrary)</visible>
 				</control>
 				<control type="radiobutton" id="1532">
 					<description>Enable DiscArt</description>
@@ -251,6 +259,14 @@
 					<onclick>Skin.ToggleSetting(Enable.LowList.SlidingMovieSetDiscart)</onclick>
 					<selected>Skin.HasSetting(Enable.LowList.SlidingMovieSetDiscart)</selected>
 					<visible>StringCompare(Window(home).Property(actualViewtype),LowList) + [Container.Content(movies) | Container.Content(sets)]</visible>
+				</control>
+				<control type="radiobutton" id="1536">
+					<description>Enable Logo LowList</description>
+					<include>ButtonCommonValues</include>
+					<label>$LOCALIZE[31606]</label>
+					<onclick>Skin.ToggleSetting(Enable.LowListArtistLogo)</onclick>
+					<selected>Skin.HasSetting(Enable.LowListArtistLogo)</selected>
+					<visible>StringCompare(Window(home).Property(actualViewtype),LowList) + Window.IsActive(musiclibrary)</visible>
 				</control>
 				<!-- ShowCase -->
 				<control type="radiobutton" id="1540">
@@ -416,7 +432,7 @@
 					<label>$LOCALIZE[31610]</label>
 					<onclick>Skin.ToggleSetting(Enable.Shift.Small)</onclick>
 					<selected>Skin.HasSetting(Enable.Shift.Small)</selected>
-					<visible>StringCompare(Window(home).Property(actualViewtype),Shift)</visible>
+					<visible>StringCompare(Window(home).Property(actualViewtype),Shift) + !Window.IsActive(musiclibrary)</visible>
 				</control>
 				<control type="radiobutton" id="1571">
 					<description>Enable covers</description>
@@ -600,7 +616,7 @@
 					<label>$LOCALIZE[31606]</label>
 					<onclick>Skin.ToggleSetting(Enable.Landscape.Logo)</onclick>
 					<selected>Skin.HasSetting(Enable.Landscape.Logo)</selected>
-					<visible>StringCompare(Window(home).Property(actualViewtype),Landscape) + !Container.Content(episodes) + !Container.Content(seasons) + !Container.Content(genres)</visible>
+					<visible>StringCompare(Window(home).Property(actualViewtype),Landscape) + !Container.Content(episodes) + !Container.Content(seasons) + !Container.Content(genres) + !Window.IsActive(musiclibrary)</visible>
 				</control>
 				<control type="radiobutton" id="1611">
 					<include>ButtonCommonValues</include>
@@ -633,7 +649,7 @@
 					<label>Banners</label>
 					<onclick>Skin.ToggleSetting(Enable.InfoWall.Banners)</onclick>
 					<selected>Skin.HasSetting(Enable.InfoWall.Banners)</selected>
-					<visible>StringCompare(Window(home).Property(actualViewtype),InfoWall)</visible>
+					<visible>StringCompare(Window(home).Property(actualViewtype),InfoWall) + !Window.IsActive(musiclibrary)</visible>
 				</control>
 				<control type="radiobutton" id="1619">
 					<description>Alternate InfoWall layout</description>
