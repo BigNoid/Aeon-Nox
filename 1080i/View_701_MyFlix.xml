@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <includes>
-	<constant name="fade_time">1600</constant>
 	<include name="View_701_MyFlix">
 		<control type="group">
 			<visible>Control.IsVisible(701)</visible>
 			<include>ViewAnimation</include>
 			<control type="group">
 				<animation effect="slide" start="0" end="0,70" time="0" tween="cubic" easing="inout" condition="[Container.Content(tvshows) + Skin.HasSetting(Enable.MyFlix.TVLandscape)] | Container.Content(episodes)">Conditional</animation>
-				<control type="image">
-					<left>20</left>
-					<top>40</top>
-					<width>380</width>
-					<height>124</height>
-					<aspectratio aligny="bottom">keep</aspectratio>
-					<texture background="true">$VAR[ArtworkLogoVar]</texture>
-					<visible>[[Container.Content(movies) | Container.Content(sets)] + SKin.HasSetting(Enable.MyFlix.MovieLogo)] | [Container.Content(tvshows) + SKin.HasSetting(Enable.MyFlix.TVLogo)] | [Container.Content(episodes) + SKin.HasSetting(Enable.MyFlix.EpisodeLogo)]</visible>
-				</control>
-				<control type="label">
-					<left>25</left>
-					<top>-850</top>
-					<font>font_musicviz</font>
-					<textcolor>grey</textcolor>
-					<label>$INFO[ListItem.Title]</label>
-					<visible>[[Container.Content(movies) | Container.Content(sets)] + SKin.HasSetting(Enable.MyFlix.MovieLogo) + IsEmpty(ListItem.Art(clearlogo))] | [[Container.Content(movies) | Container.Content(sets)] + !SKin.HasSetting(Enable.MyFlix.MovieLogo)] | [Container.Content(tvshows) + [SKin.HasSetting(Enable.MyFlix.TVLogo) + IsEmpty(ListItem.Art(clearlogo))]] | [Container.Content(tvshows) + !SKin.HasSetting(Enable.MyFlix.TVLogo)]</visible>
-				</control>
-				<control type="label">
-					<left>25</left>
-					<top>-850</top>
-					<font>font_musicviz</font>
-					<textcolor>grey</textcolor>
-					<label>$INFO[ListItem.TVShowTitle]</label>
-					<visible>[Container.Content(episodes) + [SKin.HasSetting(Enable.MyFlix.EpisodeLogo) + IsEmpty(ListItem.Art(tvshow.clearlogo))]] | [Container.Content(episodes) + !SKin.HasSetting(Enable.MyFlix.EpisodeLogo)]</visible>
+				<control type="group">
+					<animation effect="slide" end="0,400" time="0" condition="Skin.HasSetting(Disable.MyFlixInfo)">Conditional</animation>
+					<control type="image">
+						<left>20</left>
+						<top>40</top>
+						<width>380</width>
+						<height>124</height>
+						<aspectratio aligny="bottom">keep</aspectratio>
+						<texture background="true">$VAR[ArtworkLogoVar]</texture>
+						<visible>[[Container.Content(movies) | Container.Content(sets)] + SKin.HasSetting(Enable.MyFlix.MovieLogo)] | [Container.Content(tvshows) + SKin.HasSetting(Enable.MyFlix.TVLogo)] | [Container.Content(episodes) + SKin.HasSetting(Enable.MyFlix.EpisodeLogo)]</visible>
+					</control>
+					<control type="label">
+						<left>25</left>
+						<top>-850</top>
+						<font>font_musicviz</font>
+						<textcolor>grey</textcolor>
+						<label>$INFO[ListItem.Title]</label>
+						<visible>[[Container.Content(movies) | Container.Content(sets)] + SKin.HasSetting(Enable.MyFlix.MovieLogo) + IsEmpty(ListItem.Art(clearlogo))] | [[Container.Content(movies) | Container.Content(sets)] + !SKin.HasSetting(Enable.MyFlix.MovieLogo)] | [Container.Content(tvshows) + [SKin.HasSetting(Enable.MyFlix.TVLogo) + IsEmpty(ListItem.Art(clearlogo))]] | [Container.Content(tvshows) + !SKin.HasSetting(Enable.MyFlix.TVLogo)]</visible>
+					</control>
+					<control type="label">
+						<left>25</left>
+						<top>-850</top>
+						<font>font_musicviz</font>
+						<textcolor>grey</textcolor>
+						<label>$INFO[ListItem.TVShowTitle]</label>
+						<visible>[Container.Content(episodes) + [SKin.HasSetting(Enable.MyFlix.EpisodeLogo) + IsEmpty(ListItem.Art(tvshow.clearlogo))]] | [Container.Content(episodes) + !SKin.HasSetting(Enable.MyFlix.EpisodeLogo)]</visible>
+					</control>
 				</control>
 				<control type="group">
 					<left>10</left>
@@ -39,6 +41,7 @@
 					<height>270</height>
 					<include>VisibleFadeEffect</include>
 					<textcolor>grey</textcolor>
+					<visible>!Skin.HasSetting(Disable.MyFlixInfo)</visible>
 					<control type="group">
 						<animation effect="fade" start="0" end="100" time="820" delay="200" tween="cubic" easing="inout" condition="!IsEmpty(ListItem.Top250)">OnFocus</animation>
 						<control type="image">
@@ -234,7 +237,7 @@
 					</control>
 					<control type="image">
 						<include>FlixCaseVars</include>
-						<texture background="true" colordiffuse="99FFFFFF">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
+						<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 					</control>
 					<include>FlixPosterReflection</include>
 					<include>FlixPosterCaseReflection</include>
@@ -322,7 +325,7 @@
 			<control type="group">
 				<top>530</top>
 				<left>0</left>
-				<visible>[[Container.Content(movies) | Container.Content(sets)] + !Control.IsVisible(7000) + Skin.HasSetting(Enable.MyFlix.OpenCase)]</visible>
+				<visible>[Container.Content(movies) | Container.Content(sets)] + !Control.IsVisible(7000) + Skin.HasSetting(Enable.MyFlix.OpenCase)</visible>
 				<control type="image">
 					<include>FlixCaseVars</include>
 					<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
@@ -417,7 +420,7 @@
 			</control>
 			<control type="group" id="7000">
 				<visible>[Container.Content(movies) | Container.Content(sets)] + [Container.OnNext | Container.OnPrevious] + Skin.HasSetting(Enable.MyFlix.OpenCase)</visible>
-				<animation effect="fade" time="fade_time" end="0" reversible="false">Hidden</animation>
+				<animation effect="fade" time="1600" end="0" reversible="false">Hidden</animation>
 				<control type="label">
 					<include>HiddenObject</include>
 				</control>
