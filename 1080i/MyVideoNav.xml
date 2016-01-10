@@ -18,6 +18,26 @@
 			<ondown>50</ondown>
 			<onclick>50</onclick>
 		</control>
+		<control type="button" id="4401">
+			<include>HiddenObject</include>
+			<onfocus condition="!Skin.HasSetting(Enable.ManualNewInfoPanel) | !Control.IsVisible(4421)">SetProperty(MediaMenu,True,home)</onfocus>
+			<onfocus condition="!Skin.HasSetting(Enable.ManualNewInfoPanel) | !Control.IsVisible(4421)">SetFocus(9050)</onfocus>
+			<onup condition="Skin.HasSetting(Enable.ManualNewInfoPanel) + Control.IsVisible(4421)">SetProperty(MediaMenu,True,home)</onup>
+			<onup condition="Skin.HasSetting(Enable.ManualNewInfoPanel) + Control.IsVisible(4421)">SetFocus(9050)</onup>
+			<ondown>50</ondown>
+			<onleft>50</onleft>
+			<onright>50</onright>
+		</control>
+		<control type="button" id="4402">
+			<include>HiddenObject</include>
+			<onfocus condition="!Skin.HasSetting(Enable.ManualNewInfoPanel) | !Control.IsVisible(4421)">SetProperty(MediaMenu,True,home)</onfocus>
+			<onfocus condition="!Skin.HasSetting(Enable.ManualNewInfoPanel) | !Control.IsVisible(4421)">SetFocus(9050)</onfocus>
+			<onleft condition="Skin.HasSetting(Enable.ManualNewInfoPanel) + Control.IsVisible(4421)">SetProperty(MediaMenu,True,home)</onleft>
+			<onleft condition="Skin.HasSetting(Enable.ManualNewInfoPanel) + Control.IsVisible(4421)">SetFocus(9050)</onleft>
+			<ondown>50</ondown>
+			<onup>50</onup>
+			<onright>50</onright>
+		</control>
 		<control type="fadelabel" id="4410">
 			<top>-100</top>
 			<width>2560</width>
@@ -53,6 +73,12 @@
 			<label>$VAR[VideoInfoPanelVar]</label>
 			<include>HiddenObject</include>
 			<visible>Control.IsVisible(52) | Control.IsVisible(53) | Control.IsVisible(57) | Control.IsVisible(601)</visible>
+			<include condition="!IsEmpty(Skin.String(InfoPanel.Delay))">InfoPanelDelayAnimation</include>
+		</control>
+		<control type="label" id="4421">
+			<label>$VAR[NewInfoPanelVar]</label>
+			<include>HiddenObject</include>
+			<visible>Control.IsVisible(53) | Control.IsVisible(59) | Control.IsVisible(501)</visible>
 			<include condition="!IsEmpty(Skin.String(InfoPanel.Delay))">InfoPanelDelayAnimation</include>
 		</control>
 		<control type="label" id="4444">
@@ -993,7 +1019,27 @@
 					<onclick condition="Control.IsVisible(57)">$VAR[57VideoInfoPanelVar]</onclick>
 					<onclick condition="Control.IsVisible(601)">$VAR[601VideoInfoPanelVar]</onclick>
 					<visible>!Container.Content(genres)</visible>
-					<visible>Control.IsVisible(52) | Control.IsVisible(53) | Control.IsVisible(57) | Control.IsVisible(601)</visible>
+					<visible>Control.IsVisible(52) | Control.IsVisible(53) | Control.IsVisible(57) | Control.IsVisible(601) + Skin.HasSetting(Enable.NewInfoPanel)</visible>
+				</control>
+				<control type="button" id="6052">
+					<description>New InfoPanel Settings button</description>
+					<textwidth>352</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>New InfoPanel</label>
+					<label2>[COLOR $VAR[ThemeLabelColor]]$VAR[NewInfoPanelLabelVar][/COLOR]</label2>
+					<onclick>$VAR[NewInfoPanelOnClickVar]</onclick>
+					<visible>!Container.Content(genres) + Window.IsActive(videos)</visible>
+					<visible>Control.IsVisible(53) | Control.IsVisible(59) | Control.IsVisible(501)</visible>
+				</control>
+				<control type="radiobutton" id="60521">
+					<description>New InfoPanel Settings button</description>
+					<textwidth>352</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>   - Manual</label>
+					<onclick>Skin.ToggleSetting(Enable.ManualNewInfoPanel)</onclick>
+					<selected>Skin.HasSetting(Enable.ManualNewInfoPanel)</selected>
+					<visible>!Container.Content(genres) + Window.IsActive(videos) + !IsEmpty(Control.GetLabel(4421))</visible>
+					<visible>Control.IsVisible(53) | Control.IsVisible(59) | Control.IsVisible(501)</visible>
 				</control>
 				<control type="togglebutton" id="6053">
 					<description>LowList Toggle</description>
