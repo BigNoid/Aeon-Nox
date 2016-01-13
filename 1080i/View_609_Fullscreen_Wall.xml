@@ -1,6 +1,421 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 	<!-- Fullscreen Wall -->
+	<include name="Movie_Info">
+		<control type="group">
+			<top>264</top>
+			<left>310</left>
+			<animation effect="fade" start="0" end="293,222" time="2000" tween="cubic" easing="inout">Focus</animation>	
+			<control type="image">
+				<top>35</top>
+				<left>52</left>
+				<width>1221</width>
+				<height>492</height>
+				<aspectratio>scale</aspectratio>
+				<texture background="true">views/fullscreen_wall/wall_bg_blue.png</texture>
+				<fadetime>400</fadetime>
+			</control>
+			<control type="image">   
+				<top>-17</top>
+				<left>4</left>
+				<width>1317</width>
+				<height>594</height>
+				<texture border="36">views/fullscreen_wall/dialog_context.png</texture>
+				<bordersize>18</bordersize>
+			</control>
+			<control type="image">
+				<top>35</top>
+				<left>53</left>
+				<width>327</width>
+				<height>491</height>
+				<aspectratio>stretch</aspectratio>
+				<texture background="true" fallback="">$VAR[PosterVar]</texture>
+				<fadetime>400</fadetime>
+			</control>
+			<control type="image">
+				<top>40</top>			
+				<left>-593</left>
+				<height>87</height>
+				<aspectratio aligny="bottom">keep</aspectratio>
+				<texture background="true">$VAR[ArtworkLogoVar]</texture>
+			</control>			
+			<control type="label">
+				<top>75</top>			
+				<left>397</left>
+				<width>375</width>
+				<height>15</height>
+				<font>font14</font>				
+				<textcolor>$VAR[ThemeLabelColor]</textcolor>
+				<label>$INFO[ListItem.Label]</label>
+				<scroll>true</scroll>
+				<visible>IsEmpty(ListItem.Art(clearlogo))</visible>
+			</control>
+			<control type="label">
+				<top>75</top>			
+				<left>787</left>
+				<width>470</width>
+				<height>15</height>
+				<align>right</align>
+				<font>font14</font>
+				<textcolor>grey2</textcolor>
+				<label>$INFO[ListItem.RatingAndVotes]$INFO[ListItem.Top250, / $LOCALIZE[13409] #]</label>
+				<scroll>true</scroll>
+			</control>			
+			<control type="image">
+				<top>130</top>			
+				<left>372</left>
+				<width>940</width>
+				<height>2</height>
+				<align>left</align>
+				<texture flipx="true">views/fullscreen_wall/divider.png</texture>
+			</control>
+			<control type="grouplist"> <!-- Movies First Row Top -->
+				<top>130</top>			
+				<left>397</left>
+				<width>855</width>
+				<height>40</height>
+				<itemgap>15</itemgap>
+				<orientation>horizontal</orientation>	
+				<visible>Container.Content(movies) + !ListItem.IsCollection + !Container.Content(sets)</visible>
+				<control type="label">
+					<width>auto</width>	
+					<font>font14</font>						
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$LOCALIZE[20339]:</label>
+				</control>
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>	
+					<textcolor>grey</textcolor>					
+					<label>$INFO[ListItem.Director]</label>				
+				</control>			
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>						
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$LOCALIZE[345]:</label>				
+				</control>
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>	
+					<textcolor>grey</textcolor>					
+					<label>$INFO[ListItem.Year]</label>				
+				</control>					
+			</control>
+			<control type="grouplist"> <!-- Sets & Collections First Row Top -->
+				<top>130</top>			
+				<left>397</left>
+				<width>855</width>
+				<height>40</height>
+				<itemgap>15</itemgap>
+				<orientation>horizontal</orientation>	
+				<visible>ListItem.IsCollection + [Container.Content(movies) | Container.Content(sets)]</visible>
+				<control type="label">
+					<width>auto</width>	
+					<font>font14</font>						
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$LOCALIZE[20339]:</label>
+				</control>
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>
+					<textcolor>grey</textcolor>							
+					<label>$INFO[Window(home).Property(Set.Movies.Director)]</label>				
+				</control>				
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>						
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$LOCALIZE[345]:</label>					
+				</control>
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>	
+					<textcolor>grey</textcolor>							
+					<label>$INFO[Window(home).Property(Set.Movies.Years)]</label>			
+				</control>					
+			</control>	
+			<control type="grouplist"> <!-- TV Shows First Row Top -->
+				<top>130</top>			
+				<left>397</left>
+				<width>855</width>
+				<height>40</height>
+				<itemgap>15</itemgap>
+				<orientation>horizontal</orientation>	
+				<visible>Container.Content(tvshows)</visible>
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>	
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>					
+					<label>$INFO[ListItem.Property(TotalSeasons)]$VAR[OneOrMoreSeasonsVar, , [COLOR=white]/[/COLOR] ]$INFO[ListItem.Property(TotalEpisodes),, ]$VAR[OneOrMoreEpisodesVar]:</label>				
+				</control>	
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>	
+					<textcolor>grey</textcolor>							
+					<label>$INFO[ListItem.Property(UnWatchedEpisodes),, $LOCALIZE[16101]]</label>				
+				</control>					
+			</control>			
+			<control type="grouplist"> <!-- Movies Second Row Top -->
+				<top>173</top>			
+				<left>397</left>
+				<width>855</width>
+				<height>40</height>
+				<itemgap>15</itemgap>
+				<orientation>horizontal</orientation>
+				<visible>Container.Content(movies) + !ListItem.IsCollection + !Container.Content(sets)</visible>				
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>						
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$LOCALIZE[2050]:</label>
+				</control>
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>	
+					<textcolor>grey</textcolor>					
+					<label>$INFO[ListItem.Duration,, minutes]</label>
+				</control>		
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>						
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$LOCALIZE[515]:</label>
+				</control>
+				<control type="label">
+					<width>485</width>
+					<font>font14</font>	
+					<textcolor>grey</textcolor>					
+					<label>$INFO[ListItem.Genre]</label>
+					<scroll>true</scroll>
+				</control>
+			</control>
+			<control type="grouplist"> <!-- Sets & Collections Second Row Top -->
+				<top>173</top>			
+				<left>397</left>
+				<width>855</width>
+				<height>40</height>
+				<itemgap>15</itemgap>
+				<orientation>horizontal</orientation>
+				<visible>ListItem.IsCollection + [Container.Content(movies) | Container.Content(sets)]</visible>				
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>						
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$LOCALIZE[2050]:</label>
+				</control>
+				<control type="label">
+					<width>185</width>
+					<font>font14</font>	
+					<textcolor>grey</textcolor>							
+					<label>$INFO[Window(home).Property(Set.Movies.Runtime),, minutes]</label>
+				</control>		
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>						
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$LOCALIZE[515]:</label>
+				</control>
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>	
+					<textcolor>grey</textcolor>							
+					<label>$INFO[Window(home).Property(Set.Movies.Genre)]</label>
+					<scroll>true</scroll>
+				</control>
+			</control>
+			<control type="grouplist"> <!-- TV Shows Second Row Top -->
+				<top>173</top>				
+				<left>397</left>
+				<width>855</width>
+				<height>40</height>
+				<itemgap>15</itemgap>
+				<orientation>horizontal</orientation>
+				<visible>Container.Content(tvshows) + !IsEmpty(Window(Home).Property(NextAired.LatestNumber)) + IsEmpty(Window(Home).Property(NextAired.NextDate)) + IsEmpty(Window(Home).Property(NextAired.NextTitle))</visible>
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>						
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$LOCALIZE[31011]:</label>
+				</control>	
+				<control type="label">
+					<width>650</width>
+					<font>font14</font>
+					<textcolor>grey</textcolor>							
+					<label>$INFO[Window(Home).Property(NextAired.LatestNumber),, - ]$INFO[Window(Home).Property(NextAired.LatestTitle)]</label>
+					<scroll>true</scroll>			
+				</control>				
+			</control>	
+			<control type="grouplist"> <!-- TV Shows Second Row Top -->
+				<top>173</top>			
+				<left>397</left>
+				<width>855</width>
+				<height>40</height>
+				<itemgap>15</itemgap>
+				<orientation>horizontal</orientation>
+				<visible>Container.Content(tvshows) + [!IsEmpty(Window(Home).Property(NextAired.NextDate)) | !IsEmpty(Window(Home).Property(NextAired.NextTitle))]</visible>
+				<control type="label">
+					<width>auto</width>
+					<font>font14</font>						
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$LOCALIZE[31010]:</label>
+				</control>	
+				<control type="label">
+					<width>700</width>
+					<font>font14</font>	
+					<textcolor>grey</textcolor>							
+					<label>$INFO[Window(Home).Property(NextAired.NextDate),,: ]$INFO[Window(Home).Property(NextAired.NextTitle)]</label>
+					<scroll>true</scroll>
+				</control>				
+			</control>			
+			<control type="image">
+				<top>215</top>			
+				<left>372</left>
+				<width>940</width>
+				<height>2</height>
+				<align>left</align>
+				<texture flipx="true">views/fullscreen_wall/divider.png</texture>
+			</control>		
+			<control type="textbox"> 
+				<top>224</top>
+				<left>397</left>
+				<width>855</width>
+				<height>217</height>
+				<font>font14_textbox2</font>
+				<textcolor>grey</textcolor>
+				<label>$VAR[VideoPlotVar]</label>
+				<autoscroll delay="10000" time="4000" repeat="8000"></autoscroll>
+			</control>
+			<control type="image">
+				<top>449</top>			
+				<left>372</left>
+				<width>940</width>
+				<height>2</height>
+				<align>left</align>
+				<texture flipx="true">views/fullscreen_wall/divider.png</texture>
+			</control>
+			<control type="grouplist"> <!-- Movies Flags Bottom Row -->
+				<top>447</top>			
+				<left>397</left>
+				<width>855</width>
+				<height>90</height>
+				<align>left</align>
+				<aligny>center</aligny>
+				<itemgap>20</itemgap>
+				<orientation>horizontal</orientation>
+				<visible>Container.Content(movies)</visible>			
+				<control type="image">
+					<width>120</width>
+					<height>80</height>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[PathFlagsResolution]</texture>
+					<visible>!IsEmpty(ListItem.VideoResolution)</visible>
+				</control>		
+				<control type="image">
+					<width>120</width>
+					<height>80</height>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[SourceFlagVar,flags/video/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags) + !IsEmpty(ListItem.VideoCodec)</visible>
+				</control>
+				<control type="image">
+					<width>120</width>
+					<height>80</height>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[SourceFlagVar,flags/colored/source/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags) + !IsEmpty(ListItem.VideoCodec)</visible>
+				</control>						
+				<control type="image">
+					<width>120</width>
+					<height>80</height>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[PathFlagsAspect]</texture>
+				</control>
+				<control type="image">
+					<width>120</width>
+					<height>80</height>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[PathFlagsAudio]</texture>
+					<visible>!IsEmpty(ListItem.AudioCodec)</visible>
+				</control>
+				<control type="image">
+					<width>120</width>
+					<height>80</height>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[PathFlagsAudioChannels]</texture>
+					<visible>!IsEmpty(ListItem.AudioChannels)</visible>
+				</control>
+				<control type="image">
+					<width>120</width>
+					<height>80</height>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[PathFlagsCC]</texture>
+					<visible>!IsEmpty(ListItem.SubtitleLanguage)</visible>
+				</control>					
+			</control>
+			<control type="group"> <!-- TV Shows Studio Bottom Row -->
+				<top>446</top>			
+				<left>397</left>
+				<width>120</width>
+				<height>90</height>
+				<align>left</align>
+				<aligny>center</aligny>	
+				<visible>Container.Content(tvshows)</visible>			
+				<control type="image" id="900011">
+					<width>120</width>
+					<height>80</height>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[PathFlagsStudios]</texture>
+					<visible>!IsEmpty(ListItem.Studio)</visible>
+				</control>	
+				<control type="label">
+					<width>120</width>
+					<height>80</height>
+					<align>center</align>
+					<font>font10</font>					
+					<textcolor>white</textcolor>
+					<label>$INFO[ListItem.Studio]</label>
+					<visible>IsEmpty(Control.GetLabel(900011))</visible>
+				</control>	
+			</control>
+			<control type="group"> <!-- TV Shows MPAA Bottom Row -->
+				<top>447</top>			
+				<left>517</left>
+				<width>120</width>
+				<height>90</height>
+				<align>left</align>
+				<aligny>center</aligny>	
+				<visible>Container.Content(tvshows)</visible>					
+				<control type="image">
+					<width>120</width>
+					<height>80</height>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>120</width>
+					<height>80</height>
+					<colordiffuse>grey</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>					
+			</control>				
+		</control>			
+	</include>
+	<include name="Wall_Dimmer">
+		<animation effect="fade" start="100" end="50" time="300" condition="System.IdleTime(3) + Control.HasFocus(609) +  Skin.HasSetting(Enable.moviedetails) + [Container.Content(movies) | Container.Content(sets) | Container.Content(tvshows)] + !StringCompare(ListItem.Label,..)">conditional</animation>
+	</include>	
 	<include name="View_609_Fullscreen_Wall">
 		<control type="group">
 			<visible>Control.IsVisible(609)</visible>
@@ -22,6 +437,7 @@
 				</control>
 			</control>
 			<control type="panel" id="609">
+				<include>Wall_Dimmer</include>			
 				<width>1920</width>
 				<height>1080</height>
 				<onleft>SetProperty(MediaMenu,True,home)</onleft>
@@ -239,6 +655,11 @@
 					</control>
 				</focusedlayout>
 			</control>
+			<control type="group">
+				<visible>Container.Content(movies) | Container.Content(sets) | Container.Content(tvshows)</visible>
+				<visible>System.IdleTime(3) + Control.HasFocus(609) + !StringCompare(ListItem.Label,..) + Skin.HasSetting(Enable.moviedetails)</visible>
+				<include>Movie_Info</include>
+			</control>			
 			<control type="scrollbar" id="60">
 				<left>1906</left>
 				<top>0</top>
