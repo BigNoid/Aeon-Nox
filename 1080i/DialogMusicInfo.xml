@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-	<defaultcontrol always="true">7</defaultcontrol>
+	<defaultcontrol always="true">9001</defaultcontrol>
 	<coordinates>
 		<system>1</system>
 		<left>399</left>
 		<top>165</top>
 	</coordinates>
 	<include>dialogeffect</include>
+	<onunload>ClearProperty(Discography,musicinformation)</onunload>
 	<controls>
 		<control type="group">
 			<control type="image">
@@ -46,6 +47,8 @@
 				<onright>60</onright>
 				<pagecontrol>60</pagecontrol>
 				<scrolltime tween="quadratic" easing="out">200</scrolltime>
+				<include>SettingsFadeEffect</include>
+				<visible>IsEmpty(Window.Property(Discography))</visible>
 				<itemlayout height="90" width="738">
 					<control type="image">
 						<top>30</top>
@@ -258,14 +261,6 @@
 						<visible>!IsEmpty(ListItem.Property(Artist_Style))</visible>
 					</item>
 					<item>
-						<label>$INFO[ListItem.Property(Artist_Genre)]</label>
-						<label2>$LOCALIZE[515]:</label2>
-						<onclick>SetProperty(TextViewerHeader,$LOCALIZE[515],Home)</onclick>
-						<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Property(Artist_Genre)],Home)</onclick>
-						<onclick>ActivateWindow(1132)</onclick>
-						<visible>!IsEmpty(ListItem.Property(Artist_Genre))</visible>
-					</item>
-					<item>
 						<label>$INFO[ListItem.Property(Album_Mood)]</label>
 						<label2>$LOCALIZE[175]:</label2>
 						<onclick>SetProperty(TextViewerHeader,$LOCALIZE[175],Home)</onclick>
@@ -443,12 +438,91 @@
 					</item>
 				</content>
 			</control>
+			<control type="panel" id="50">
+				<left>31</left>
+				<top>88</top>
+				<width>738</width>
+				<height>630</height>
+				<onup>50</onup>
+				<ondown>50</ondown>
+				<onleft>9001</onleft>
+				<onright>60</onright>
+				<pagecontrol>60</pagecontrol>
+				<include>SettingsFadeEffect</include>
+				<visible>!IsEmpty(Window.Property(Discography))</visible>
+				<scrolltime tween="quadratic" easing="out">200</scrolltime>
+				<itemlayout height="90" width="738">
+					<control type="image">
+						<top>30</top>
+						<width>738</width>
+						<height>60</height>
+						<texture border="1">separator2.png</texture>
+					</control>
+					<control type="label">
+						<top>45</top>
+						<width>738</width>
+						<height>38</height>
+						<font>font14</font>
+						<textcolor>grey</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<textoffsetx>15</textoffsetx>
+					</control>
+					<control type="label">
+						<top>0</top>
+						<width>738</width>
+						<height>45</height>
+						<font>font14</font>
+						<textcolor>labelheader</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Label2]</label>
+						<textoffsetx>15</textoffsetx>
+					</control>
+				</itemlayout>
+				<focusedlayout height="90" width="738">
+					<control type="image">
+						<top>30</top>
+						<width>738</width>
+						<height>60</height>
+						<texture border="1">separator2.png</texture>
+					</control>
+					<control type="image">
+						<top>0</top>
+						<width>738</width>
+						<height>90</height>
+						<texture border="4">listselect_fo.png</texture>
+					</control>
+					<control type="label">
+						<top>45</top>
+						<width>738</width>
+						<height>38</height>
+						<font>font14</font>
+						<textcolor>white</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
+						<textoffsetx>15</textoffsetx>
+					</control>
+					<control type="label">
+						<top>0</top>
+						<width>738</width>
+						<height>45</height>
+						<font>font14</font>
+						<textcolor>white</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<label>$INFO[ListItem.Label2]</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
+						<textoffsetx>15</textoffsetx>
+					</control>
+				</focusedlayout>
+			</control>
 			<control type="scrollbar" id="60">
 				<left>770</left>
 				<top>88</top>
 				<height>630</height>
 				<width>14</width>
-				<onleft>9002</onleft>
+				<onleft condition="IsEmpty(Window(musicinformation).Property(Discography))">9002</onleft>
+				<onleft condition="!IsEmpty(Window(musicinformation).Property(Discography))">50</onleft>
 				<onright>9001</onright>
 				<ondown>60</ondown>
 				<onup>60</onup>
@@ -481,27 +555,43 @@
 					<top>320</top>
 					<height>310</height>
 					<onup>9001</onup>
-					<onleft>9002</onleft>
+					<onleft condition="IsEmpty(Window(musicinformation).Property(Discography))">9002</onleft>
+					<onleft condition="!IsEmpty(Window(musicinformation).Property(Discography))">50</onleft>
 					<onright>9001</onright>
 					<ondown>9001</ondown>
-					<!-- <align>bottom</align> -->
-					<control type="image">
+					<control type="image" id="200">
 						<description>Rating value</description>
 						<width>310</width>
-						<height>70</height>
+						<height>60</height>
 						<aspectratio aligny="top">keep</aspectratio>
 						<colordiffuse>grey2</colordiffuse>
 						<visible>IsEmpty(ListItem.UserRating) + !Container.Content(artists)</visible>
 						<texture>flags/rating/0.png</texture>
 					</control>
-					<control type="image">
+					<control type="image" id="201">
 						<description>Rating value</description>
 						<width>310</width>
-						<height>70</height>
+						<height>60</height>
 						<aspectratio aligny="top">keep</aspectratio>
 						<colordiffuse>grey2</colordiffuse>
 						<visible>!IsEmpty(ListItem.UserRating) + !Container.Content(artists)</visible>
 						<texture colordiffuse="themecolor">$INFO[ListItem.UserRating,flags/rating/,.png]</texture>
+					</control>
+					<control type="label" id="203">
+						<description>Rating value</description>
+						<width>310</width>
+						<height>10</height>
+						<label />
+					</control>
+					<control type="togglebutton" id="202">
+						<description>Discography button</description>
+						<width>310</width>
+						<label>$LOCALIZE[21888]</label>
+						<altlabel>$LOCALIZE[29915]</altlabel>
+						<onclick>SetProperty(Discography,True,musicinformation)</onclick>
+						<altclick>ClearProperty(Discography,musicinformation)</altclick>
+						<usealttexture>!IsEmpty(Window(musicinformation).Property(Discography))</usealttexture>
+						<visible>Container.Content(artists)</visible>
 					</control>
 					<control type="button" id="7">
 						<description>Set my rating</description>
