@@ -221,12 +221,17 @@
 				<viewtype label="RightList">list</viewtype>
 				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)</visible>
 				<scrolltime tween="quadratic" easing="out">200</scrolltime>
-				<itemlayout height="90" width="806" condition="!Skin.HasSetting(rightlistalternate) + Container.Content(movies)">
+				<itemlayout height="90" width="806" condition="[!Skin.HasSetting(rightlistalternate) + Container.Content(movies)] | [!Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)]">
 					<include name="RightListItemLayout">
 						<param name="width">600</param>
 					</include>
 				</itemlayout>
-				<focusedlayout height="90" width="806" condition="!Skin.HasSetting(rightlistalternate) + Container.Content(movies)">
+				<itemlayout height="90" width="806" condition="[Skin.HasSetting(rightlistalternate) + Container.Content(movies)] | [Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)] | [Container.Content(seasons) + !Skin.HasSetting(rightlistalternateseasons)] | [Container.Content(seasons) + Skin.HasSetting(rightlistalternateseasons)] | [Container.Content(episodes) + !Skin.HasSetting(rightlistalternateepisode)]">
+					<include name="RightListItemLayout">
+						<param name="width">700</param>
+					</include>
+				</itemlayout>
+				<focusedlayout height="90" width="806" condition="[!Skin.HasSetting(rightlistalternate) + Container.Content(movies)] | [!Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)]">
 					<control type="image">
 						<include>RightListFocusedHighLightContent</include>
 						<include>VisibleFadeEffect</include>
@@ -235,48 +240,13 @@
 						<param name="width">600</param>
 					</include>
 				</focusedlayout>
-				<itemlayout height="90" width="806" condition="Skin.HasSetting(rightlistalternate) + Container.Content(movies)">
-					<include name="RightListItemLayout">
-						<param name="width">700</param>
-					</include>
-				</itemlayout>
-				<focusedlayout height="90" width="806" condition="Skin.HasSetting(rightlistalternate) + Container.Content(movies)">
+				<focusedlayout height="90" width="806" condition="[Skin.HasSetting(rightlistalternate) + Container.Content(movies)] | [Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)] | [Container.Content(seasons) + Skin.HasSetting(rightlistalternateseasons)]">
 					<include name="RightListFocusedLayout">
 						<param name="width">700</param>
 						<param name="labelColor">$VAR[RightListThemeLabelColor]</param>
 					</include>
 				</focusedlayout>
-				<itemlayout height="90" width="806" condition="!Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)">
-					<include name="RightListItemLayout">
-						<param name="width">600</param>
-					</include>
-				</itemlayout>
-				<focusedlayout height="90" width="806" condition="!Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)">
-					<control type="image">
-						<include>RightListFocusedHighLightContent</include>
-						<include>VisibleFadeEffect</include>
-					</control>
-					<include name="RightListFocusedLayout">
-						<param name="width">600</param>
-					</include>
-				</focusedlayout>
-				<itemlayout height="90" width="806" condition="Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)">
-					<include name="RightListItemLayout">
-						<param name="width">700</param>
-					</include>
-				</itemlayout>
-				<focusedlayout height="90" width="806" condition="Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)">
-					<include name="RightListFocusedLayout">
-						<param name="width">700</param>
-						<param name="labelColor">$VAR[RightListThemeLabelColor]</param>
-					</include>
-				</focusedlayout>
-				<itemlayout height="90" width="806" condition="Container.Content(seasons) + !Skin.HasSetting(rightlistalternateseasons)">
-					<include name="RightListItemLayout">
-						<param name="width">700</param>
-					</include>
-				</itemlayout>
-				<focusedlayout height="90" width="806" condition="Container.Content(seasons) + !Skin.HasSetting(rightlistalternateseasons)">
+				<focusedlayout height="90" width="806" condition="[Container.Content(seasons) + !Skin.HasSetting(rightlistalternateseasons)]">
 					<control type="image">
 						<include>RightListFocusedHighLightContent</include>
 						<include>VisibleFadeEffect</include>
@@ -285,22 +255,6 @@
 						<param name="width">700</param>
 					</include>
 				</focusedlayout>
-				<itemlayout height="90" width="806" condition="Container.Content(seasons) + Skin.HasSetting(rightlistalternateseasons)">
-					<include name="RightListItemLayout">
-						<param name="width">700</param>
-					</include>
-				</itemlayout>
-				<focusedlayout height="90" width="806" condition="Container.Content(seasons) + Skin.HasSetting(rightlistalternateseasons)">
-					<include name="RightListFocusedLayout">
-						<param name="width">700</param>
-						<param name="labelColor">$VAR[RightListThemeLabelColor]</param>
-					</include>
-				</focusedlayout>
-				<itemlayout height="90" width="806" condition="Container.Content(episodes) + !Skin.HasSetting(rightlistalternateepisode)">
-					<include name="RightListItemLayout">
-						<param name="width">700</param>
-					</include>
-				</itemlayout>
 				<focusedlayout height="90" width="806" condition="Container.Content(episodes) + !Skin.HasSetting(rightlistalternateepisode)">
 					<control type="image">
 						<include>RightListFocusedHighLightContent</include>
@@ -512,7 +466,7 @@
 						<param name="width">775</param>
 					</include>
 				</itemlayout>
-				<focusedlayout height="90" width="806" condition="Container.Content(artists) + !Skin.HasSetting(RightList.AlternateArtists)">
+				<focusedlayout height="90" width="806" condition="[Container.Content(artists) + !Skin.HasSetting(RightList.AlternateArtists)]">
 					<control type="image">
 						<include>RightListFocusedHighLightContent</include>
 						<include>VisibleFadeEffect</include>
@@ -521,13 +475,13 @@
 						<param name="width">775</param>
 					</include>
 				</focusedlayout>
-				<focusedlayout height="90" width="806" condition="Container.Content(artists) + Skin.HasSetting(RightList.AlternateArtists)">
+				<focusedlayout height="90" width="806" condition="[Container.Content(artists) + Skin.HasSetting(RightList.AlternateArtists)]">
 					<include name="RightListItemLayout">
 						<param name="width">775</param>
 						<param name="labelColor">$VAR[RightListThemeLabelColor]</param>
 					</include>
 				</focusedlayout>
-				<focusedlayout height="90" width="806" condition="Container.Content(albums) + !Skin.HasSetting(RightList.AlternateAlbums)">
+				<focusedlayout height="90" width="806" condition="[Container.Content(albums) + !Skin.HasSetting(RightList.AlternateAlbums)] | [Container.Content(songs) + !Skin.HasSetting(RightList.AlternateSongs)]">
 					<control type="image">
 						<include>RightListFocusedHighLightContent</include>
 						<include>VisibleFadeEffect</include>
@@ -536,22 +490,7 @@
 						<param name="width">775</param>
 					</include>
 				</focusedlayout>
-				<focusedlayout height="90" width="806" condition="Container.Content(albums) + Skin.HasSetting(RightList.AlternateAlbums)">
-					<include name="RightListFocusedLayout">
-						<param name="width">775</param>
-						<param name="labelColor">$VAR[RightListThemeLabelColor]</param>
-					</include>
-				</focusedlayout>
-				<focusedlayout height="90" width="806" condition="Container.Content(songs) + !Skin.HasSetting(RightList.AlternateSongs)">
-					<control type="image">
-						<include>RightListFocusedHighLightContent</include>
-						<include>VisibleFadeEffect</include>
-					</control>
-					<include name="RightListFocusedLayout">
-						<param name="width">775</param>
-					</include>
-				</focusedlayout>
-				<focusedlayout height="90" width="806" condition="Container.Content(songs) + Skin.HasSetting(RightList.AlternateSongs)">
+				<focusedlayout height="90" width="806" condition="[Container.Content(albums) + Skin.HasSetting(RightList.AlternateAlbums)] | [Container.Content(songs) + Skin.HasSetting(RightList.AlternateSongs)]">
 					<include name="RightListFocusedLayout">
 						<param name="width">775</param>
 						<param name="labelColor">$VAR[RightListThemeLabelColor]</param>
