@@ -3,6 +3,7 @@
 	<defaultcontrol always="true">8</defaultcontrol>
 	<allowoverlay>no</allowoverlay>
 	<controls>
+		<include condition="System.HasAddon(script.extendedinfo)">HiddenActorList</include>
 		<control type="group">
 			<animation effect="slide" start="-729,0" end="0,0" time="500" tween="quadratic">WindowOpen</animation>
 			<animation effect="slide" end="-729,0" time="500" tween="quadratic">WindowClose</animation>
@@ -45,22 +46,22 @@
 				<height>854</height>
 				<control type="grouplist">
 					<top>-20</top>
-					<width>1100</width>
+					<width>1828</width>
 					<height>110</height>
 					<itemgap>0</itemgap>
 					<align>center</align>
 					<control type="label">
-						<width>1100</width>
+						<width>1828</width>
 						<height>60</height>
 						<aligny>center</aligny>
 						<align>left</align>
 						<font>font30_title_bold</font>
 						<textcolor>grey</textcolor>
 						<scroll>true</scroll>
-						<label>$INFO[ListItem.Label]</label>
+						<label>$INFO[ListItem.Title]</label>
 					</control>
 					<control type="label">
-						<width>1100</width>
+						<width>1828</width>
 						<height>30</height>
 						<aligny>center</aligny>
 						<align>left</align>
@@ -71,7 +72,7 @@
 						<visible>!IsEmpty(ListItem.Tagline)</visible>
 					</control>
 					<control type="label">
-						<width>1100</width>
+						<width>1828</width>
 						<height>30</height>
 						<aligny>center</aligny>
 						<align>left</align>
@@ -82,7 +83,7 @@
 						<visible>Container.Content(tvshows) + !IsEmpty(Window(Home).Property(NextAired.Status))</visible>
 					</control>
 					<control type="label">
-						<width>1100</width>
+						<width>1828</width>
 						<height>30</height>
 						<aligny>center</aligny>
 						<align>left</align>
@@ -93,7 +94,7 @@
 						<visible>Container.Content(episodes) + !IsEmpty(ListItem.TvShowTitle)</visible>
 					</control>
 					<control type="label">
-						<width>1100</width>
+						<width>1828</width>
 						<height>30</height>
 						<aligny>center</aligny>
 						<align>left</align>
@@ -107,14 +108,14 @@
 				<control type="image">
 					<left>-37</left>
 					<top>32</top>
-					<width>1828</width>
+					<width>1830</width>
 					<height>60</height>
 					<texture border="1">separator2.png</texture>
 				</control>
 				<control type="grouplist">
 					<left>0</left>
 					<top>95</top>
-					<width>1188</width>
+					<width>1830</width>
 					<height>90</height>
 					<itemgap>0</itemgap>
 					<align>left</align>
@@ -126,6 +127,16 @@
 						<label>$INFO[ListItem.Year]</label>
 						<font>font35_title_bold</font>
 						<textcolor>grey</textcolor>
+						<visible>!Container.Content(episodes)</visible>
+					</control>
+					<control type="label">
+						<width min="198" max="300">auto</width>
+						<height>90</height>
+						<align>left</align>
+						<label>$VAR[EpisodeCountVar]</label>
+						<font>font35_title_bold</font>
+						<textcolor>grey</textcolor>
+						<visible>Container.Content(episodes)</visible>
 					</control>
 					<control type="image">
 						<width>2</width>
@@ -290,14 +301,14 @@
 				<control type="image">
 					<left>-37</left>
 					<top>126</top>
-					<width>1828</width>
+					<width>1830</width>
 					<height>60</height>
 					<texture border="1">separator2.png</texture>
 				</control>
 				<control type="panel" id="300">
 					<left>-36</left>
 					<top>184</top>
-					<width>1828</width>
+					<width>1830</width>
 					<height>306</height>
 					<onup>4002</onup>
 					<ondown>9000</ondown>
@@ -379,66 +390,82 @@
 						<item>
 							<label>$INFO[ListItem.Director]</label>
 							<label2>$LOCALIZE[20339]:</label2>
-							<onclick condition="System.HasAddon(script.extendedinfo)">SetProperty(Dialog.1.Label,$LOCALIZE[31148])</onclick>
-							<onclick condition="System.HasAddon(script.extendedinfo)">SetProperty(Dialog.1.BuiltIn,SendClick(2003,13))</onclick>
-							<onclick condition="System.HasAddon(script.extendedinfo)">SetProperty(Dialog.2.Label,$LOCALIZE[31149])</onclick>
-							<onclick condition="System.HasAddon(script.extendedinfo)">SetProperty(Dialog.2.BuiltIn,RunScript(script.extendedinfo,info=extendedactorinfo,name=$INFO[ListItem.Director]))</onclick>
-							<onclick condition="System.HasAddon(script.extendedinfo)">RunScript(script.toolbox,info=selectdialog,header=$LOCALIZE[22080])</onclick>
+							<onclick condition="System.HasAddon(script.extendedinfo)">SetProperty(DirectorID,True)</onclick>
+							<onclick condition="System.HasAddon(script.extendedinfo)">SetProperty(ActorName,$INFO[ListItem.Director])</onclick>
+							<onclick condition="System.HasAddon(script.extendedinfo)">ActivateWindow(1130)</onclick>
 							<onclick condition="!System.HasAddon(script.extendedinfo)">SendClick(2003,13)</onclick>
 							<visible>!IsEmpty(ListItem.Director)</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.Writer]</label>
 							<label2>$LOCALIZE[20417]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[20417],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Writer],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>!IsEmpty(ListItem.Writer)</visible>
 						</item>
 						<item>
 							<label>$INFO[Window(Home).Property(NextAired.NextNumber),, - ]$INFO[Window(Home).Property(NextAired.NextTitle)]</label>
 							<label2>$LOCALIZE[31010]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[31010],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[Window(Home).Property(NextAired.NextNumber),, - ]$ESCINFO[Window(Home).Property(NextAired.NextTitle)],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>Container.Content(tvshows) + !IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
 						</item>
 						<item>
 							<label>$INFO[Window(Home).Property(NextAired.LatestNumber),, - ]$INFO[Window(Home).Property(NextAired.LatestTitle)]</label>
 							<label2>$LOCALIZE[31011]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[31011],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[Window(Home).Property(NextAired.LatestNumber),, - ]$INFO[Window(Home).Property(NextAired.LatestTitle)],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>Container.Content(tvshows) + !IsEmpty(Window(Home).Property(NextAired.LatestDate)) + IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
 						</item>
 						<item>
 							<label>$INFO[Window(Home).Property(NextAired.NextDate),, | ]$INFO[Window(Home).Property(NextAired.AirTime)]</label>
 							<label2>$LOCALIZE[31012]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[31012],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ndow(Home).Property(NextAired.NextDate),, | ]$INFO[Window(Home).Property(NextAired.AirTime)],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>Container.Content(tvshows) + !IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.Genre]</label>
 							<label2>$LOCALIZE[515]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[515],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Genre],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>!IsEmpty(ListItem.Genre)</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.Premiered]</label>
 							<label2>$LOCALIZE[20416]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[20416],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Premiered],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>!IsEmpty(ListItem.Premiered)</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.Country]</label>
 							<label2>$LOCALIZE[574]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[574],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Country],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>!IsEmpty(ListItem.Country)</visible>
 						</item>
 						<item>
 							<label>$INFO[Window(Home).Property(NextAired.Country)]</label>
 							<label2>$LOCALIZE[574]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[574],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Property(NextAired.Country)],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>Container.Content(tvshows) + !IsEmpty(Window(Home).Property(NextAired.Country))</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.DateAdded]</label>
 							<label2>$LOCALIZE[570]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[570],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.DateAdded],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>!IsEmpty(ListItem.DateAdded)</visible>
 						</item>
 						<item>
@@ -450,25 +477,33 @@
 						<item>
 							<label>$INFO[ListItem.Filename]</label>
 							<label2>$LOCALIZE[21800]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[21800],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Filename],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>!IsEmpty(ListItem.Filename)</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.PlayCount]</label>
 							<label2>$LOCALIZE[567]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[567],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.PlayCount],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>!IsEmpty(ListItem.PlayCount)</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.PercentPlayed,,%]</label>
 							<label2 fallback="-">$LOCALIZE[575]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[575],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.PercentPlayed,,%],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>ListItem.IsResumable</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.LastPlayed]</label>
 							<label2 fallback="-">$LOCALIZE[568]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[568],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.LastPlayed],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>!IsEmpty(ListItem.LastPlayed)</visible>
 						</item>
 						<item>
@@ -488,13 +523,17 @@
 						<item>
 							<label>[UPPERCASE]$INFO[ListItem.Property(AudioLanguage.1)]$INFO[ListItem.Property(AudioLanguage.2), / ]$INFO[ListItem.Property(AudioLanguage.3), / ]$INFO[ListItem.Property(AudioLanguage.4), / ]$INFO[ListItem.Property(AudioLanguage.5), / ]$INFO[ListItem.Property(AudioLanguage.6), / ]$INFO[ListItem.Property(AudioLanguage.7), / ][/UPPERCASE]</label>
 							<label2>$LOCALIZE[21447]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[575],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,[UPPERCASE]$INFO[ListItem.Property(AudioLanguage.1)]$INFO[ListItem.Property(AudioLanguage.2), / ]$INFO[ListItem.Property(AudioLanguage.3), / ]$INFO[ListItem.Property(AudioLanguage.4), / ]$INFO[ListItem.Property(AudioLanguage.5), / ]$INFO[ListItem.Property(AudioLanguage.6), / ]$INFO[ListItem.Property(AudioLanguage.7), / ][/UPPERCASE],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>!IsEmpty(ListItem.Property(AudioLanguage.1))</visible>
 						</item>
 						<item>
 							<label>[UPPERCASE]$INFO[ListItem.Property(SubtitleLanguage.1)]$INFO[ListItem.Property(SubtitleLanguage.2), / ]$INFO[ListItem.Property(SubtitleLanguage.3), / ]$INFO[ListItem.Property(SubtitleLanguage.4), / ]$INFO[ListItem.Property(SubtitleLanguage.5), / ]$INFO[ListItem.Property(SubtitleLanguage.6), / ]$INFO[ListItem.Property(SubtitleLanguage.7), / ]$INFO[ListItem.Property(SubtitleLanguage.8), / ]$INFO[ListItem.Property(SubtitleLanguage.9), / ]$INFO[ListItem.Property(SubtitleLanguage.10), / ]$INFO[ListItem.Property(SubtitleLanguage.11), / ]$INFO[ListItem.Property(SubtitleLanguage.12), / ]$INFO[ListItem.Property(SubtitleLanguage.13), / ]$INFO[ListItem.Property(SubtitleLanguage.14), / ]$INFO[ListItem.Property(SubtitleLanguage.15), / ][/UPPERCASE]</label>
 							<label2>$LOCALIZE[21448]:</label2>
-							<onclick>noop</onclick>
+							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[568],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,[UPPERCASE]$INFO[ListItem.Property(SubtitleLanguage.1)]$INFO[ListItem.Property(SubtitleLanguage.2), / ]$INFO[ListItem.Property(SubtitleLanguage.3), / ]$INFO[ListItem.Property(SubtitleLanguage.4), / ]$INFO[ListItem.Property(SubtitleLanguage.5), / ]$INFO[ListItem.Property(SubtitleLanguage.6), / ]$INFO[ListItem.Property(SubtitleLanguage.7), / ]$INFO[ListItem.Property(SubtitleLanguage.8), / ]$INFO[ListItem.Property(SubtitleLanguage.9), / ]$INFO[ListItem.Property(SubtitleLanguage.10), / ]$INFO[ListItem.Property(SubtitleLanguage.11), / ]$INFO[ListItem.Property(SubtitleLanguage.12), / ]$INFO[ListItem.Property(SubtitleLanguage.13), / ]$INFO[ListItem.Property(SubtitleLanguage.14), / ]$INFO[ListItem.Property(SubtitleLanguage.15), / ][/UPPERCASE],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 							<visible>!IsEmpty(ListItem.Property(SubtitleLanguage.1))</visible>
 						</item>
 					</content>
@@ -504,19 +543,18 @@
 					<top>970</top>
 					<control type="image">
 						<top>-60</top>
-						<width>1828</width>
+						<width>1830</width>
 						<height>60</height>
 						<texture border="1">separator2.png</texture>
 					</control>
 					<control type="grouplist">
 						<left>0</left>
 						<top>0</top>
-						<width>1828</width>
+						<width>1830</width>
 						<height>90</height>
 						<align>left</align>
 						<itemgap>0</itemgap>
 						<orientation>horizontal</orientation>
-						<animation effect="fade" start="0" end="100" time="500" tween="sine" easing="inout">VisibleChange</animation>
 						<visible>!ControlGroup(9001).HasFocus</visible>
 						<include>SettingsFadeEffect</include>
 						<control type="image">
@@ -659,7 +697,7 @@
 					</control>
 					<control type="image">
 						<top>90</top>
-						<width>1188</width>
+						<width>1830</width>
 						<height>2</height>
 						<texture border="1">separator2.png</texture>
 					</control>
@@ -685,15 +723,18 @@
 							<height>420</height>
 							<label />
 							<onup>9000</onup>
-							<ondown>50</ondown>
+							<ondown condition="!System.HasAddon(script.extendedinfo)">50</ondown>
+							<ondown condition="System.HasAddon(script.extendedinfo)">90019</ondown>
 							<include>ButtonInfoDialogsCommonValues</include>
-							<onclick>RunScript(script.toolbox,info=textviewer,header='"$INFO[ListItem.Label,[B],[/B]]"',text='"$INFO[ListItem.Tagline,[I],[/I][CR]]"'"$INFO[ListItem.Plot]"''"$INFO[ListItem.PlotOutline,[CR]---[CR]]"')</onclick>
+							<onclick>SetProperty(TextViewerHeader,$INFO[ListItem.Label,[B],[/B]],Home)</onclick>
+							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Tagline,[I],[/I][CR]]$ESCINFO[ListItem.Plot]$ESCINFO[ListItem.PlotOutline,[CR]---[CR]],Home)</onclick>
+							<onclick>ActivateWindow(1132)</onclick>
 						</control>
 						<control type="textbox" id="4">
 							<description>Plot</description>
 							<left>36</left>
 							<top>10</top>
-							<width>1800</width>
+							<width>1770</width>
 							<height>400</height>
 							<font>font15_textbox</font>
 							<align>left</align>
@@ -921,7 +962,7 @@
 					<visible>ControlGroup(9001).HasFocus</visible>
 					<include>SettingsFadeEffect</include>
 					<control type="label">
-						<width>1190</width>
+						<width>1830</width>
 						<height>90</height>
 						<aligny>center</aligny>
 						<font>font15</font>
