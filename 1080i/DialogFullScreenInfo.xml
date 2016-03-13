@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window type="dialog" id="142">
-	<zorder>0</zorder>
-	<onload>SetFocus(64)</onload>
+	<onload condition="!Skin.HasSetting(AlternateVideoOSD)">SetFocus(64)</onload>
+	<onload condition="Skin.HasSetting(AlternateVideoOSD)">SetFocus(96406)</onload>
 	<controls>
 		<control type="button" id="64">
 			<include>HiddenObject</include>
@@ -42,7 +42,7 @@
 		</control>
 		<!-- Plot + Cast -->
 		<control type="group">
-			<visible>Skin.HasSetting(ShowPlotCast)</visible>
+			<visible>Skin.HasSetting(ShowPlotCast) + !Skin.HasSetting(AlternateVideoOSD)</visible>
 			<control type="group">
 				<visible>[!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
 				<control type="image">
@@ -50,7 +50,7 @@
 					<width>1920</width>
 					<height>540</height>
 					<texture border="2">gradient_floor.png</texture>
-					<visible>[!IsEmpty(VideoPlayer.Plot) | !IsEmpty(VideoPlayer.PlotOutline) | !IsEmpty(VideoPlayer.CastandRole)]</visible>
+					<visible>[!IsEmpty(VideoPlayer.Plot) | !IsEmpty(VideoPlayer.PlotOutline) | !IsEmpty(VideoPlayer.CastandRole)] + Skin.HasSetting(AlternateVideoOSD)</visible>
 				</control>
 				<!-- Cast -->
 				<control type="textbox">
@@ -555,6 +555,260 @@
 					<aspectratio>keep</aspectratio>
 					<texture>$INFO[VideoPlayer.PlotOutline]</texture>
 					<visible>[SubString(ListItem.PlotOutline,"http://",Left) | SubString(ListItem.PlotOutline,"https://",Left)]</visible>
+				</control>
+			</control>
+		</control>
+		<!-- PlayerControls On Info -->
+		<control type="group">
+			<visible>Skin.HasSetting(AlternateVideoOSD) + !VideoPlayer.Content(LiveTV) + !Skin.HasSetting(Enable.ScreenshotMode)</visible>
+			<animation effect="slide" start="0,0" end="0,-80" time="240" tween="quadratic">WindowOpen</animation>
+			<top>1100</top>
+			<control type="group">
+				<top>-86</top>
+				<control type="image">
+					<left>0</left>
+					<top>4</top>
+					<width>FullScreenWidth</width>
+					<height>300</height>
+					<texture border="1,32,1,1">bottombar.png</texture>
+				</control>
+				<control type="progress">
+					<left>0</left>
+					<top>25</top>
+					<width>FullScreenWidth</width>
+					<height>40</height>
+					<texturebg border="2">osd/texturebg.png</texturebg>
+					<lefttexture>-</lefttexture>
+					<midtexture border="2">osd/midtexture_cache.png</midtexture>
+					<righttexture>-</righttexture>
+					<overlaytexture>-</overlaytexture>
+					<info>Player.ProgressCache</info>
+				</control>
+				<control type="progress">
+					<left>0</left>
+					<top>25</top>
+					<width>FullScreenWidth</width>
+					<height>36</height>
+					<texturebg border="1">osd/texturebg_cache.png</texturebg>
+					<lefttexture>-</lefttexture>
+					<midtexture colordiffuse="$VAR[ThemeLabelColor]" border="2">osd/midtexture.png</midtexture>
+					<righttexture>-</righttexture>
+					<overlaytexture>-</overlaytexture>
+					<info>Player.Progress</info>
+				</control>
+				<control type="label">
+					<top>24</top>
+					<left>0</left>
+					<width>FullScreenWidth</width>
+					<height>90</height>
+					<font>font14_title</font>
+					<textoffsetx>15</textoffsetx>
+					<textcolor>grey</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+					<align>center</align>
+					<aligny>top</aligny>
+					<textoffsety>-2</textoffsety>
+					<label>$VAR[SeekLabelVar]</label>
+					<visible>!VideoPlayer.Content(LiveTV)</visible>
+				</control>
+				<control type="label">
+					<top>24</top>
+					<left>0</left>
+					<width>FullScreenWidth</width>
+					<height>90</height>
+					<font>font14_title</font>
+					<textoffsetx>15</textoffsetx>
+					<textcolor>grey</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+					<align>center</align>
+					<aligny>top</aligny>
+					<textoffsety>-2</textoffsety>
+					<label>$INFO[System.Time]$INFO[VideoPlayer.EndTime, / ]</label>
+					<visible>VideoPlayer.Content(LiveTV)</visible>
+				</control>
+				<control type="label">
+					<top>24</top>
+					<left>1020</left>
+					<width>900</width>
+					<height>90</height>
+					<font>font14_title</font>
+					<textoffsetx>15</textoffsetx>
+					<textcolor>grey</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+					<align>right</align>
+					<aligny>top</aligny>
+					<textoffsety>-2</textoffsety>
+					<label>$VAR[OSDRightLabelVar]</label>
+					<animation effect="fade" start="100" end="50" time="240" condition="Player.Seeking">Conditional</animation>
+				</control>
+				<control type="grouplist" id="90001">
+					<top>60</top>
+					<height>144</height>
+					<width>FullScreenWidth</width>
+					<align>center</align>
+					<itemgap>0</itemgap>
+					<onup>64</onup>
+					<scrolltime tween="sine">200</scrolltime>
+					<orientation>horizontal</orientation>
+					<visible>!VideoPlayer.Content(LiveTV)</visible>
+					<control type="button" id="96401">
+						<textoffsety>60</textoffsety>
+						<texturefocus>osd/buttons/OSDBookMarksFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDBookMarksNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>ActivateWindow(videobookmarks)</onclick>
+					</control>
+					<control type="button" id="96402">
+						<texturefocus>osd/buttons/OSDAudioFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDAudioNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>ActivateWindow(osdaudiosettings)</onclick>
+					</control>
+					<control type="button" id="96403">
+						<texturefocus>osd/buttons/OSDVideoFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDVideoNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>ActivateWindow(osdvideosettings)</onclick>
+					</control>
+					<control type="button" id="96410">
+						<texturefocus>osd/buttons/OSDSubtitlesFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDSubtitlesNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>Close</onclick>
+						<onclick>ActivateWindow(SubtitleSearch)</onclick>
+					</control>
+					<control type="button" id="96404">
+						<texturefocus>osd/buttons/OSDPrevTrackFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDPrevTrackNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>PlayerControl(Previous)</onclick>
+						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					</control>
+					<control type="button" id="96405">
+						<texturefocus>osd/buttons/OSDRewindFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDRewindNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>PlayerControl(Rewind)</onclick>
+						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					</control>
+					<control type="togglebutton" id="96406">
+						<texturefocus>osd/buttons/OSDPauseFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDPauseNF.png</texturenofocus>
+						<alttexturefocus>osd/buttons/OSDPlayFO.png</alttexturefocus>
+						<alttexturenofocus>osd/buttons/OSDPlayNF.png</alttexturenofocus>
+						<label>-</label>
+						<altlabel>208</altlabel>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<usealttexture>Player.Paused | Player.Forwarding | Player.Rewinding</usealttexture>
+						<onclick>PlayerControl(Play)</onclick>
+						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					</control>
+					<control type="button" id="96407">
+						<texturefocus>osd/buttons/OSDStopFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDStopNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>PlayerControl(Stop)</onclick>
+						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					</control>
+					<control type="button" id="96408">
+						<texturefocus>osd/buttons/OSDForwardFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDForwardNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>PlayerControl(Forward)</onclick>
+						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					</control>
+					<control type="button" id="96409">
+						<texturefocus>osd/buttons/OSDNextTrackFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDNextTrackNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>PlayerControl(Next)</onclick>
+						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					</control>
+					<control type="button" id="96411">
+						<texturefocus>osd/buttons/OSDDvdFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDDvdNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>PlayerControl(ShowVideoMenu)</onclick>
+						<visible>VideoPlayer.HasMenu</visible>
+					</control>
+					<control type="button" id="96412">
+						<texturefocus>osd/buttons/OSDStereoscopicFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDStereoscopicNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>StereoMode</onclick>
+						<visible>VideoPlayer.IsStereoscopic</visible>
+					</control>
+					<control type="button" id="96413">
+						<texturefocus>osd/buttons/OSDInfoFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDInfoNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>Close</onclick>
+						<onclick>ActivateWindow(1118)</onclick>
+						<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)</visible>
+					</control>
+					<control type="button" id="96414">
+						<texturefocus>osd/buttons/OSDChannelListFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDChannelListNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>Close</onclick>
+						<onclick>Skin.ToggleSetting(Enable.ScreenshotMode)</onclick>
+						<onclick>Notification($LOCALIZE[19098]:,Taking a Screenshot,1500,icon.png)</onclick>
+						<onclick>AlarmClock(Take a Screenshot,TakeScreenshot,00:03,silent)</onclick>
+						<onclick>AlarmClock(Reset ScreenshotMode,Skin.Reset(Enable.ScreenshotMode),00:04,silent)</onclick>
+						<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)</visible>
+					</control>
+					<control type="button" id="96415">
+						<texturefocus>osd/buttons/OSDSkinFO.png</texturefocus>
+						<texturenofocus>osd/buttons/OSDSkinNF.png</texturenofocus>
+						<label>-</label>
+						<width>100</width>
+						<height>100</height>
+						<font>-</font>
+						<onclick>Dialog.Close(videoosd)</onclick>
+						<onclick>ActivateWindow(1115)</onclick>
+						<onclick>SetProperty(OSD.Settings,True,home)</onclick>
+					</control>
 				</control>
 			</control>
 		</control>
