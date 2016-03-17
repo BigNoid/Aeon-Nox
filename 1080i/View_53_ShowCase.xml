@@ -17,7 +17,9 @@
 		<height>525</height>
 		<onleft>53</onleft>
 		<onright>53</onright>
-		<onup>4401</onup>
+		<onup condition="!IsEmpty(ListItem.Title)">4401</onup>
+		<onup condition="IsEmpty(ListItem.Title)">SetProperty(MediaMenu,True,home)</onup>
+		<onup condition="IsEmpty(ListItem.Title)">SetFocus(9050)</onup>
 		<ondown condition="Control.IsVisible(95360)">95360</ondown>
 		<ondown condition="!Control.IsVisible(95360)">4400</ondown>
 		<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(musicvideos) | Container.Content(seasons) | Container.Content(genres) | Container.Content(sets)</visible>
@@ -224,10 +226,12 @@
 							<control type="image">
 								<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]back_$VAR[ShowcaseRes-1Var]</texture>
 								<include>MovieShowcaseNoCase</include>
+								<visible>!IsEmpty(ListItem(-1).Title)</visible>
 							</control>
 							<control type="image">
 								<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]back_$VAR[ShowcaseRes-1Var]</texture>
 								<include>MovieShowcaseNoCaseClear</include>
+								<visible>!IsEmpty(ListItem(-1).Title)</visible>
 							</control>
 							<control type="image">
 								<texture background="true" diffuse="thumbs/thumb_mask.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem-1Var]</texture>
@@ -236,7 +240,7 @@
 							<control type="image">
 								<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes-1Var]</texture>
 								<include>MovieShowcaseCase</include>
-								<visible>![ListItem(-1).IsCollection + Skin.HasSetting(Disable.ShowCaseSetCases)]</visible>
+								<visible>!IsEmpty(ListItem(-1).Title) + ![ListItem(-1).IsCollection + Skin.HasSetting(Disable.ShowCaseSetCases)]</visible>
 							</control>
 							<control type="image">
 								<include>WatchedOverlayShowCase</include>
@@ -357,10 +361,12 @@
 							<control type="image">
 								<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]back_$VAR[ShowcaseRes1Var]</texture>
 								<include>MovieShowcaseNoCase</include>
+								<visible>!IsEmpty(ListItem(1).Title)</visible>
 							</control>
 							<control type="image">
 								<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]back_$VAR[ShowcaseRes1Var]</texture>
 								<include>MovieShowcaseNoCaseClear</include>
+								<visible>!IsEmpty(ListItem(1).Title)</visible>
 							</control>
 							<control type="image">
 								<texture background="true" diffuse="thumbs/thumb_mask.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem1Var]</texture>
@@ -369,7 +375,7 @@
 							<control type="image">
 								<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes1Var]</texture>
 								<include>MovieShowcaseCase</include>
-								<visible>![ListItem(1).IsCollection + Skin.HasSetting(Disable.ShowCaseSetCases)]</visible>
+								<visible>!IsEmpty(ListItem(1).Title) + ![ListItem(1).IsCollection + Skin.HasSetting(Disable.ShowCaseSetCases)]</visible>
 							</control>
 							<control type="image">
 								<include>WatchedOverlayShowCase</include>
@@ -606,7 +612,7 @@
 		<width>335</width>
 		<height>406</height>
 		<colordiffuse>d1FFFFFF</colordiffuse>
-		<visible>Skin.HasSetting(Enable.ShowCase.Covers) + !Container.Content(genres)</visible>
+		<visible>Skin.HasSetting(Enable.ShowCase.Covers) + !Container.Content(genres) + !IsEmpty(ListItem.Title)</visible>
 	</include>
 	<include name="WatchedOverlayShowCase">
 		<left>188</left>
@@ -622,10 +628,12 @@
 			<control type="image">
 				<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]back_$VAR[ShowcaseRes$PARAM[ListItem.Position]Var]</texture>
 				<include>MovieShowcaseNoCase</include>
+				<visible>!IsEmpty(ListItem($PARAM[ListItem.Position]).Title)</visible>
 			</control>
 			<control type="image">
 				<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]back_$VAR[ShowcaseRes$PARAM[ListItem.Position]Var]</texture>
 				<include>MovieShowcaseNoCaseClear</include>
+				<visible>!IsEmpty(ListItem($PARAM[ListItem.Position]).Title)</visible>
 			</control>
 			<control type="image">
 				<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem$PARAM[ListItem.Position]Var]</texture>
@@ -634,7 +642,7 @@
 			<control type="image">
 				<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes$PARAM[ListItem.Position]Var]</texture>
 				<include>MovieShowcaseCase</include>
-				<visible>![ListItem($PARAM[ListItem.Position]).IsCollection + Skin.HasSetting(Disable.ShowCaseSetCases)]</visible>
+				<visible>![ListItem($PARAM[ListItem.Position]).IsCollection + Skin.HasSetting(Disable.ShowCaseSetCases)] + !IsEmpty(ListItem($PARAM[ListItem.Position]).Title)</visible>
 			</control>
 			<control type="image">
 				<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem$PARAM[ListItem.Position]Var]</texture>
@@ -643,6 +651,7 @@
 			<control type="image">
 				<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[ShowcaseRes$PARAM[ListItem.Position]Var]</texture>
 				<include>MovieShowcaseCaseReflection</include>
+				<visible>!IsEmpty(ListItem($PARAM[ListItem.Position]).Title)</visible>
 			</control>
 			<control type="image">
 				<texture background="true">$VAR[IconOverlay$PARAM[ListItem.Position]Var]</texture>
@@ -710,26 +719,29 @@
 				<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 				<include>MovieShowcaseCaseReflection</include>
 				<include>OpenCaseAnimation</include>
+				<visible>!IsEmpty(ListItem.Title)</visible>
 			</control>
 			<control type="image">
 				<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
 				<include>MovieShowcaseNoCase</include>
+				<visible>!IsEmpty(ListItem.Title)</visible>
 			</control>
 			<control type="image">
 				<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
 				<include>MovieShowcaseNoCaseClear</include>
+				<visible>!IsEmpty(ListItem.Title)</visible>
 			</control>
 			<control type="image">
 				<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseBackVar]</texture>
 				<include>MovieShowcaseCase</include>
-				<visible>![ListItem.IsCollection + Skin.HasSetting(Disable.ShowCaseSetCases)]</visible>
+				<visible>!IsEmpty(ListItem.Title) + ![ListItem.IsCollection + Skin.HasSetting(Disable.ShowCaseSetCases)]</visible>
 			</control>
 			<control type="group">
 				<left>25</left>
 				<top>72</top>
 				<width>240</width>
 				<height>240</height>
-				<visible>Skin.HasSetting(Enable.ShowCase.Covers) + Skin.HasSetting(showcasemod) + Container.Content(movies)</visible>
+				<visible>Skin.HasSetting(Enable.ShowCase.Covers) + Skin.HasSetting(showcasemod) + Container.Content(movies) + !IsEmpty(ListItem.Title)</visible>
 				<control type="image">
 					<texture background="true" fallback="BD.png">$INFO[ListItem(0).Art(discart)]</texture>
 					<include>ShowCaseModDiscAnimation</include>
@@ -742,7 +754,7 @@
 				<top>93</top>
 				<width>230</width>
 				<height>230</height>
-				<visible>!Skin.HasSetting(Enable.ShowCase.Covers) + Skin.HasSetting(showcasemod) + Container.Content(movies)</visible>
+				<visible>!Skin.HasSetting(Enable.ShowCase.Covers) + Skin.HasSetting(showcasemod) + Container.Content(movies) + !IsEmpty(ListItem.Title)</visible>
 				<control type="image">
 					<texture background="true" fallback="BD.png">$INFO[ListItem(0).Art(discart)]</texture>
 					<include>ShowCaseModDiscAnimation</include>
@@ -759,7 +771,7 @@
 				<control type="image">
 					<texture background="true" fallback="$VAR[CaseTypePathVar]p.png">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 					<include>MovieShowcaseCase</include>
-				<visible>![ListItem.IsCollection + Skin.HasSetting(Disable.ShowCaseSetCases)]</visible>
+				<visible>!IsEmpty(ListItem.Title) + ![ListItem.IsCollection + Skin.HasSetting(Disable.ShowCaseSetCases)]</visible>
 				</control>
 				<control type="image">
 					<texture background="true">$VAR[IconOverlay0Var]</texture>
