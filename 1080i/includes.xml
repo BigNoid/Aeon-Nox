@@ -885,6 +885,117 @@
 				</item>
 			</content>
 		</control>
+		<include condition="StringCompare(ListItem.DBType,movie)">ExtendedInfoMovieLists</include>
+		<include condition="StringCompare(ListItem.DBType,tvshow) | StringCompare(ListItem.DBType,season) | StringCompare(ListItem.DBType,episode)">ExtendedInfoSeriesLists</include>
+	</include>
+	<include name="DefaultActorList">
+		<control type="panel" id="50">
+			<left>-36</left>
+			<top>550</top>
+			<width>1190</width>
+			<height>420</height>
+			<viewtype label="">list</viewtype>
+			<pagecontrol>61</pagecontrol>
+			<scrolltime tween="quadratic" easing="out">300</scrolltime>
+			<orientation>horizontal</orientation>
+			<itemlayout height="420" width="280">
+				<control type="image">
+					<width>280</width>
+					<height>420</height>
+					<aspectratio aligny="top">scale</aspectratio>
+					<texture background="true">$INFO[ListItem.Icon]</texture>
+					<bordertexture border="2">thumbs/panel_border3.png</bordertexture>
+					<bordersize>2</bordersize>
+				</control>
+				<control type="image">
+					<top>322</top>
+					<width>280</width>
+					<height>98</height>
+					<texture>black.png</texture>
+					<colordiffuse>88ffffff</colordiffuse>
+					<bordersize>2</bordersize>
+				</control>
+				<control type="label">
+					<left>10</left>
+					<top>325</top>
+					<width>260</width>
+					<height>43</height>
+					<align>center</align>
+					<font>font14</font>
+					<textcolor>grey</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+					<selectedcolor>selected</selectedcolor>
+					<label>$INFO[ListItem.Label]</label>
+				</control>
+				<control type="label">
+					<left>10</left>
+					<top>368</top>
+					<width>260</width>
+					<height>43</height>
+					<align>center</align>
+					<font>font14</font>
+					<textcolor>grey</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+					<selectedcolor>selected</selectedcolor>
+					<label>$INFO[ListItem.Label2]</label>
+				</control>
+			</itemlayout>
+			<focusedlayout height="420" width="280">
+				<control type="group">
+					<animation type="Focus" reversible="false">
+						<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
+						<effect type="fade" start="80" end="100" time="300" />
+					</animation>
+					<control type="image">
+						<width>280</width>
+						<height>420</height>
+						<aspectratio aligny="top">scale</aspectratio>
+						<texture background="true">$INFO[ListItem.Icon]</texture>
+						<bordertexture border="8">thumbs/thumbnail_focused.png</bordertexture>
+						<bordersize>8</bordersize>
+					</control>
+					<control type="image">
+						<top>316</top>
+						<width>280</width>
+						<height>104</height>
+						<texture>black.png</texture>
+						<colordiffuse>88ffffff</colordiffuse>
+						<bordersize>8</bordersize>
+					</control>
+					<control type="label">
+						<left>10</left>
+						<top>325</top>
+						<width>260</width>
+						<height>43</height>
+						<align>center</align>
+						<font>font14</font>
+						<selectedcolor>selected</selectedcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
+					</control>
+					<control type="label">
+						<left>10</left>
+						<top>368</top>
+						<width>260</width>
+						<height>43</height>
+						<align>center</align>
+						<font>font14</font>
+						<selectedcolor>selected</selectedcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<label>$INFO[ListItem.Label2]</label>
+						<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
+					</control>
+				</control>
+			</focusedlayout>
+		</control>
+	</include>
+	<include name="HiddenActorList">
+		<control type="list" id="50">
+			<include>HiddenList</include>
+		</control>
+	</include>
+	<include name="ExtendedInfoMovieLists">
 		<control type="panel" id="90011">
 			<description>Similar movies</description>
 			<left>0</left>
@@ -894,7 +1005,6 @@
 			<orientation>horizontal</orientation>
 			<scrolltime tween="quadratic" easing="out">300</scrolltime>
 			<visible>!String.IsEqual(Window(Home).Property(SimilarMovies.Count),0)</visible>
-			<visible>Container.Content(movies)</visible>
 			<itemlayout height="420" width="280">
 				<control type="image">
 					<width>280</width>
@@ -1001,7 +1111,7 @@
 					</control>
 				</control>
 			</focusedlayout>
-			<content>plugin://script.extendedinfo?info=similarmovies&amp;&amp;id=$INFO[ListItem.DBID]</content>
+			<content>plugin://script.extendedinfo?info=similarmovies&amp;&amp;dbid=$INFO[ListItem.DBID]</content>
 		</control>
 		<control type="panel" id="90012">
 			<description>Movies from director</description>
@@ -1012,7 +1122,6 @@
 			<orientation>horizontal</orientation>
 			<scrolltime tween="quadratic" easing="out">300</scrolltime>
 			<visible>!String.IsEqual(Window(Home).Property(DirectorMovies.Count),0)</visible>
-			<visible>Container.Content(movies)</visible>
 			<itemlayout height="420" width="280">
 				<control type="image">
 					<width>280</width>
@@ -1119,7 +1228,7 @@
 					</control>
 				</control>
 			</focusedlayout>
-			<content target="video">plugin://script.extendedinfo?info=directormovies&amp;&amp;director=$INFO[ListItem.Director]</content>
+			<content target="video">plugin://script.extendedinfo?info=personmovies&amp;&amp;person=$INFO[ListItem.Director]</content>
 		</control>
 		<control type="panel" id="90013">
 			<description>Movies from writers</description>
@@ -1130,7 +1239,6 @@
 			<orientation>horizontal</orientation>
 			<scrolltime tween="quadratic" easing="out">300</scrolltime>
 			<visible>!String.IsEqual(Window(Home).Property(WriterMovies.Count),0)</visible>
-			<visible>Container.Content(movies)</visible>
 			<itemlayout height="420" width="280">
 				<control type="image">
 					<width>280</width>
@@ -1237,7 +1345,7 @@
 					</control>
 				</control>
 			</focusedlayout>
-			<content target="video">plugin://script.extendedinfo?info=writermovies&amp;&amp;writer=$INFO[ListItem.Writer]</content>
+			<content target="video">plugin://script.extendedinfo?info=personmovies&amp;&amp;person=$INFO[ListItem.Writer]</content>
 		</control>
 		<control type="panel" id="90014">
 			<description>Movies from studio</description>
@@ -1248,7 +1356,6 @@
 			<orientation>horizontal</orientation>
 			<scrolltime tween="quadratic" easing="out">300</scrolltime>
 			<visible>!String.IsEqual(Window(Home).Property(StudioInfo.Count),0)</visible>
-			<visible>Container.Content(movies)</visible>
 			<itemlayout height="420" width="280">
 				<control type="image">
 					<width>280</width>
@@ -1357,6 +1464,8 @@
 			</focusedlayout>
 			<content target="video">plugin://script.extendedinfo?info=studio&amp;&amp;studio=$INFO[ListItem.Studio]</content>
 		</control>
+	</include>
+	<include name="ExtendedInfoSeriesLists">
 		<control type="panel" id="90015">
 			<description>Similar TV Shows</description>
 			<left>0</left>
@@ -1474,113 +1583,6 @@
 				</control>
 			</focusedlayout>
 			<content target="video">plugin://script.extendedinfo?info=similartvshows&amp;&amp;dbid=$INFO[ListItem.DBID]</content>
-		</control>
-	</include>
-	<include name="DefaultActorList">
-		<control type="panel" id="50">
-			<left>-36</left>
-			<top>550</top>
-			<width>1190</width>
-			<height>420</height>
-			<viewtype label="">list</viewtype>
-			<pagecontrol>61</pagecontrol>
-			<scrolltime tween="quadratic" easing="out">300</scrolltime>
-			<orientation>horizontal</orientation>
-			<itemlayout height="420" width="280">
-				<control type="image">
-					<width>280</width>
-					<height>420</height>
-					<aspectratio aligny="top">scale</aspectratio>
-					<texture background="true">$INFO[ListItem.Icon]</texture>
-					<bordertexture border="2">thumbs/panel_border3.png</bordertexture>
-					<bordersize>2</bordersize>
-				</control>
-				<control type="image">
-					<top>322</top>
-					<width>280</width>
-					<height>98</height>
-					<texture>black.png</texture>
-					<colordiffuse>88ffffff</colordiffuse>
-					<bordersize>2</bordersize>
-				</control>
-				<control type="label">
-					<left>10</left>
-					<top>325</top>
-					<width>260</width>
-					<height>43</height>
-					<align>center</align>
-					<font>font14</font>
-					<textcolor>grey</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<selectedcolor>selected</selectedcolor>
-					<label>$INFO[ListItem.Label]</label>
-				</control>
-				<control type="label">
-					<left>10</left>
-					<top>368</top>
-					<width>260</width>
-					<height>43</height>
-					<align>center</align>
-					<font>font14</font>
-					<textcolor>grey</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<selectedcolor>selected</selectedcolor>
-					<label>$INFO[ListItem.Label2]</label>
-				</control>
-			</itemlayout>
-			<focusedlayout height="420" width="280">
-				<control type="group">
-					<animation type="Focus" reversible="false">
-						<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
-						<effect type="fade" start="80" end="100" time="300" />
-					</animation>
-					<control type="image">
-						<width>280</width>
-						<height>420</height>
-						<aspectratio aligny="top">scale</aspectratio>
-						<texture background="true">$INFO[ListItem.Icon]</texture>
-						<bordertexture border="8">thumbs/thumbnail_focused.png</bordertexture>
-						<bordersize>8</bordersize>
-					</control>
-					<control type="image">
-						<top>316</top>
-						<width>280</width>
-						<height>104</height>
-						<texture>black.png</texture>
-						<colordiffuse>88ffffff</colordiffuse>
-						<bordersize>8</bordersize>
-					</control>
-					<control type="label">
-						<left>10</left>
-						<top>325</top>
-						<width>260</width>
-						<height>43</height>
-						<align>center</align>
-						<font>font14</font>
-						<selectedcolor>selected</selectedcolor>
-						<shadowcolor>shadow</shadowcolor>
-						<label>$INFO[ListItem.Label]</label>
-						<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
-					</control>
-					<control type="label">
-						<left>10</left>
-						<top>368</top>
-						<width>260</width>
-						<height>43</height>
-						<align>center</align>
-						<font>font14</font>
-						<selectedcolor>selected</selectedcolor>
-						<shadowcolor>shadow</shadowcolor>
-						<label>$INFO[ListItem.Label2]</label>
-						<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
-					</control>
-				</control>
-			</focusedlayout>
-		</control>
-	</include>
-	<include name="HiddenActorList">
-		<control type="list" id="50">
-			<include>HiddenList</include>
 		</control>
 	</include>
 </includes>
