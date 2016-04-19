@@ -2235,13 +2235,13 @@
 				<include>FullscreenDimensions</include>
 				<texture>black.png</texture>
 				<animation effect="fade" start="0" end="40" time="320">Visible</animation>
-				<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(sets)] + System.IdleTime(3)</visible>
+				<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(sets)] + System.IdleTime(3)</visible>
 			</control>
 			<control type="group">
 				<top>254</top>
 				<left>300</left>
 				<animation effect="slide" start="0,-960" end="0,0" time="720" tween="cubic">Visible</animation>
-				<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(sets)] + System.IdleTime(3)</visible>
+				<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(sets)] + System.IdleTime(3)</visible>
 				<visible>true</visible>
 				<control type="image">
 					<top>2</top>
@@ -2290,18 +2290,28 @@
 					<textcolor>grey</textcolor>
 					<label>$INFO[ListItem.Label]</label>
 					<scroll>true</scroll>
-					<visible>String.IsEmpty(ListItem.Art(clearlogo))</visible>
+					<visible>[String.IsEmpty(ListItem.Art(clearlogo)) + !Container.Content(episodes)] | [String.IsEmpty(ListItem.Art(tvshow.clearlogo)) + Container.Content(episodes)]</visible>
 				</control>
 				<control type="group">
-					<visible>Container.Content(movies) | Container.Content(sets)</visible>
+					<visible>Container.Content(movies) | Container.Content(sets) | Container.Content(episodes)</visible>
 					<control type="grouplist">
 						<top>130</top>
 						<left>382</left>
 						<width>900</width>
 						<height>100</height>
 						<orientation>vertical</orientation>
-						<control type="group">
+						<control type="grouplist">
 							<visible>!ListItem.IsCollection</visible>
+							<orientation>vertical</orientation>
+							<control type="button">
+								<width>889</width>
+								<height>47.5</height>
+								<font>font14</font>
+								<textcolor>$VAR[ThemeLabelColor]</textcolor>
+								<label>$LOCALIZE[20352]: [COLOR grey]$INFO[ListItem.Season,,x]$INFO[ListItem.Episode,,. ]$INFO[ListItem.Title][/COLOR]</label>
+								<include>DefaultButtonsValues</include>
+								<visible>!String.IsEmpty(ListItem.Title) + Container.Content(episodes)</visible>
+							</control>
 							<control type="button">
 								<width>889</width>
 								<height>47.5</height>
@@ -2309,15 +2319,16 @@
 								<textcolor>$VAR[ThemeLabelColor]</textcolor>
 								<label>$INFO[ListItem.Director,$LOCALIZE[20339]: [COLOR grey],[/COLOR]]</label>
 								<include>DefaultButtonsValues</include>
+								<visible>!String.IsEmpty(ListItem.Director)</visible>
 							</control>
 							<control type="button">
-								<top>45</top>
 								<width>889</width>
 								<height>47.5</height>
 								<font>font14</font>
 								<textcolor>$VAR[ThemeLabelColor]</textcolor>
 								<label>$INFO[ListItem.Genre,$LOCALIZE[515]: [COLOR grey],[/COLOR]]</label>
 								<include>DefaultButtonsValues</include>
+								<visible>!String.IsEmpty(ListItem.Genre)</visible>
 							</control>
 						</control>
 						<control type="group">
@@ -2342,13 +2353,24 @@
 						</control>
 					</control>
 					<control type="label">
-						<top>220</top>
+						<top>223</top>
 						<left>397</left>
 						<width>889</width>
 						<height>45</height>
 						<font>font14</font>
 						<textcolor>$VAR[ThemeLabelColor]</textcolor>
 						<label>$INFO[ListItem.Rating,$LOCALIZE[31146]: [COLOR grey],[/COLOR]]$INFO[ListItem.Top250,[COLOR grey] / $LOCALIZE[13409] # ,[/COLOR]]$INFO[ListItem.Year,   $LOCALIZE[345]: [COLOR grey],[/COLOR]]$INFO[ListItem.Duration,   $LOCALIZE[2050]: [COLOR grey], $LOCALIZE[12391][/COLOR]]$INFO[Window(home).Property(Set.Movies.Runtime),   $LOCALIZE[2050]: [COLOR grey], $LOCALIZE[12391][/COLOR]]</label>
+						<visible>!Container.Content(episodes)</visible>
+					</control>
+					<control type="label">
+						<top>223</top>
+						<left>397</left>
+						<width>889</width>
+						<height>45</height>
+						<font>font14</font>
+						<textcolor>$VAR[ThemeLabelColor]</textcolor>
+						<label>$INFO[ListItem.RatingAndVotes,$LOCALIZE[31146]: [COLOR grey],[/COLOR] ]$INFO[ListItem.Duration,$LOCALIZE[2050]: [COLOR grey], $LOCALIZE[12391][/COLOR]]</label>
+						<visible>Container.Content(episodes)</visible>
 					</control>
 				</control>
 				<control type="grouplist">
@@ -2415,7 +2437,7 @@
 					<align>left</align>
 					<itemgap>20</itemgap>
 					<orientation>horizontal</orientation>
-					<visible>Container.Content(movies)</visible>
+					<visible>Container.Content(movies) | Container.Content(episodes)</visible>
 					<control type="image">
 						<width>127</width>
 						<colordiffuse>grey</colordiffuse>
