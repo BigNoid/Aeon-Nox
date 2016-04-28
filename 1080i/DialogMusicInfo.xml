@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
 	<defaultcontrol always="true">9000</defaultcontrol>
+	<onload condition="System.HasAddon(script.colorbox) + Skin.HasSetting(Enable.BlurredVideoInfo)">RunScript(script.colorbox,info=blur,id='"$INFO[ListItem.Icon]"',radius=50,prefix=DialogMusicInfo)</onload>
+	<onunload>ClearProperty(DialogVideoInfo.ImageFilter,home)</onunload>
 	<controls>
 		<control type="group">
-			<animation effect="slide" start="-729,0" end="0,0" time="500" tween="quadratic">WindowOpen</animation>
+			<animation effect="slide" start="-729,0" end="0,0" time="500" tween="quadratic" condition="!Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
+			<animation effect="slide" start="-729,0" end="0,0" delay="500" time="500" tween="quadratic" condition="Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
 			<animation effect="slide" end="-729,0" time="500" tween="quadratic">WindowClose</animation>
 			<control type="image">
 				<width>729</width>
@@ -46,26 +49,44 @@
 			</control>
 		</control>
 		<control type="group">
-			<animation effect="slide" start="1242,0" end="0,0" time="500" tween="quadratic">WindowOpen</animation>
+			<animation effect="slide" start="1242,0" end="0,0" time="500" tween="quadratic" condition="!Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
+			<animation effect="slide" start="1242,0" end="0,0" delay="500" time="500" tween="quadratic" condition="Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
 			<animation effect="slide" end="1242,0" time="500" tween="quadratic">WindowClose</animation>
 			<left>729</left>
 			<control type="image">
 				<width>1192</width>
 				<height>1080</height>
-				<texture>black.png</texture>
-				<visible>String.IsEmpty(ListItem.Art(fanart))</visible>
-			</control>
-			<control type="image">
-				<width>1192</width>
-				<height>1080</height>
-				<aspectratio align="center">scale</aspectratio>
-				<texture background="true">$INFO[ListItem.Art(fanart)]</texture>
-			</control>
-			<control type="image">
-				<width>1192</width>
-				<height>1080</height>
-				<texture border="4">dialogs/info/info_rightpaneltop.png</texture>
-			</control>
+					<texture>black.png</texture>
+				</control>
+				<control type="image">
+					<width>1192</width>
+					<height>1080</height>
+					<aspectratio align="center">scale</aspectratio>
+					<texture background="true">$INFO[ListItem.Art(fanart)]</texture>
+					<visible>!Skin.HasSetting(Enable.BlurredVideoInfo)</visible>
+				</control>
+				<control type="image">
+					<width>1192</width>
+					<height>1080</height>
+					<aspectratio align="center">scale</aspectratio>
+					<texture background="true">$INFO[Window(home).Property(DialogMusicInfo.ImageFilter)]</texture>
+					<fadetime>400</fadetime>
+					<visible>Skin.HasSetting(Enable.BlurredVideoInfo)</visible>
+				</control>
+				<control type="image">
+					<width>1192</width>
+					<height>1080</height>
+					<texture border="4">dialogs/info/info_rightpaneltop.png</texture>
+					<animation effect="fade" start="100" end="55" time="0" condition="true">Conditional</animation>
+					<visible>Skin.HasSetting(Enable.BlurredVideoInfo)</visible>
+				</control>
+				<control type="image">
+					<width>1192</width>
+					<height>1080</height>
+					<texture border="4">dialogs/info/info_rightpaneltop.png</texture>
+					<animation effect="fade" start="100" end="95" time="0" condition="true">Conditional</animation>
+					<visible>!Skin.HasSetting(Enable.BlurredVideoInfo)</visible>
+				</control>
 			<control type="group">
 				<left>40</left>
 				<top>20</top>
