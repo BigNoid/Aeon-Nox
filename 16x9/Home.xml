@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window>
 	<defaultcontrol always="true">9000</defaultcontrol>
-	<onload>ClearProperty(OfferReloadAfterConfirm,Home)</onload>
+	<onload>ClearProperty(WidgetUpdate,home)</onload>
 	<onload condition="!System.HasAddon(script.skinshortcuts) + !System.HasAddon(script.toolbox)">Notification($LOCALIZE[14117],$LOCALIZE[31315],20000,icon.png)</onload>
 	<onload condition="!System.HasAddon(script.skinshortcuts)">RunScript(script.toolbox,info=yesnodialog,header=$LOCALIZE[14117],text=$LOCALIZE[31315],yesaction=ActivateWindow(settings),noaction=InstallAddon(script.skinshortcuts)||SetProperty(OfferReloadAfterConfirm,True,home),yeslabel=$LOCALIZE[222],nolabel=$LOCALIZE[24038])</onload>
 	<onload>RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=9000)</onload>
+	<onunload>ClearProperty(SkinHelper.WidgetContainer,home)</onunload>
+	<onunload>ClearProperty(Widget.CaseHome,home)</onunload>
 	<controls>
 		<include>CommonBackground</include>
 		<include condition="!Skin.HasSetting(Disable.Videoinfo)">NowPlayingVideoWidget</include>
 		<include condition="!Skin.HasSetting(Disable.Musicinfo)">NowPlayingMusicWidget</include>
-		<include condition="!Skin.HasSetting(Enable.AdvancedWidgets)">HomeRecentlyAddedInfo</include>
-		<include condition="Skin.HasSetting(Enable.AdvancedWidgets)">Widget1</include>
-		<include condition="Skin.HasSetting(Enable.AdvancedWidgets)">Widget2</include>
-		<include>WeatherWidget</include>
+		<include>Widget1</include>
+		<include>Widget2</include>
 		<include>LiveTVWidget</include>
 		<control type="group">
 			<visible>!String.IsEqual(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
@@ -48,10 +48,9 @@
 					<height>41</height>
 					<align>right</align>
 					<orientation>horizontal</orientation>
-					<onup condition="Control.IsVisible(9003)">9003</onup>
-					<onup condition="Skin.HasSetting(lowermainmenu) + !Control.IsVisible(90010) + Control.IsVisible(90020)">8002</onup>
-					<onup condition="Skin.HasSetting(lowermainmenu) + Control.IsVisible(90010)">8001</onup>
-					<onup condition="!Skin.HasSetting(lowermainmenu) + Control.IsVisible(90010)">8001</onup>
+					<onup condition="Control.IsVisible(90010)">90010</onup>
+					<onup condition="!Control.IsVisible(90010) + Control.IsVisible(90020)">90020</onup>
+					<onup condition="!Control.IsVisible(90010) + !Control.IsVisible(90020)">9000</onup>
 					<ondown>9000</ondown>
 					<include condition="System.HasAddon(script.globalsearch) + !Skin.HasSetting(Disable.SearchButton)">HomeSearchButton</include>
 					<control type="button" id="9021">
@@ -151,8 +150,8 @@
 				<control type="group" id="9001">
 					<left>0</left>
 					<top>159</top>
-					<onup>9000</onup>
-					<ondown condition="!Skin.HasSetting(lowermainmenu) + Control.IsVisible(90020)">8002</ondown>
+					<ondown condition="System.HasMediaDVD | Control.IsVisible(9027)">9020</ondown>
+					<ondown condition="![System.HasMediaDVD | Control.IsVisible(9027)]">9000</ondown>
 					<include condition="[String.IsEqual(Skin.String(RSS.Position),$LOCALIZE[571]) | !String.IsEqual(Skin.String(RSS.Position),$LOCALIZE[571]) + !Skin.HasSetting(Enable.VisibleSubmenu)] + system.getbool(lookandfeel.enablerssfeeds) | [!system.getbool(lookandfeel.enablerssfeeds) + !Skin.HasSetting(Enable.VisibleSubmenu)]">SubMenuAnimation</include>
 					<animation effect="slide" start="1870,0" end="0,0" delay="300" time="240" condition="!Window.Previous(startup)">WindowOpen</animation>
 					<animation effect="slide" start="1870,0" end="0,0" delay="200" time="480" condition="Window.Previous(startup)">WindowOpen</animation>
@@ -168,7 +167,10 @@
 						<width>1500</width>
 						<height>87</height>
 						<onup>9000</onup>
-						<ondown condition="!Skin.HasSetting(lowermainmenu) + Control.IsVisible(90020)">8002</ondown>
+						<ondown condition="Control.IsVisible(90020)">90020</ondown>
+						<ondown condition="!Control.IsVisible(90020) + Control.IsVisible(90010)">90010</ondown>
+						<ondown condition="!Control.IsVisible(90020) + !Control.IsVisible(90010) + [System.HasMediaDVD | Control.IsVisible(9027)]">9020</ondown>
+						<ondown condition="!Control.IsVisible(90020) + !Control.IsVisible(90010) + ![System.HasMediaDVD | Control.IsVisible(9027)]">9000</ondown>
 						<pagecontrol>-</pagecontrol>
 						<scrolltime tween="quadratic" easing="out">300</scrolltime>
 						<focusposition>2</focusposition>
@@ -283,7 +285,9 @@
 				<animation effect="slide" end="-480,0" time="240">WindowClose</animation>
 				<animation effect="slide" start="-480,0" end="0,0" delay="300" time="240" condition="!window.previous(startup)">WindowOpen</animation>
 				<animation effect="slide" start="-480,0" end="0,0" delay="800" time="480" condition="window.previous(startup)">WindowOpen</animation>
-				<animation effect="slide" end="-299,0" time="320" tween="cubic" easing="inout" condition="Window.IsVisible(1199)">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="Window.IsVisible(1199)">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + Substring(Container(9000).ListItem.Property(widgetStyle),Extended) + ControlGroup(90010).HasFocus">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + StringCompare(Skin.String(MainMenu.Layout),$LOCALIZE[31994]) + Substring(Container(9000).ListItem.Property(widgetStyle.2),Extended) + ControlGroup(90020).HasFocus">Conditional</animation>
 				<control type="image">
 					<width>455</width>
 					<height>1080</height>
@@ -320,7 +324,6 @@
 					<onup>90100</onup>
 					<ondown>90100</ondown>
 					<onright>9000</onright>
-					<onleft>9004</onleft>
 					<pagecontrol>-</pagecontrol>
 					<scrolltime tween="quadratic" easing="out">300</scrolltime>
 					<orientation>Vertical</orientation>
@@ -363,41 +366,56 @@
 		</control>
 		<control type="group">
 			<visible>String.IsEqual(Skin.String(MainMenu.Layout),$LOCALIZE[31994])</visible>
-			<animation effect="slide" end="1460,0" time="240">WindowClose</animation>
+			<animation effect="slide" end="1870,0" time="240">WindowClose</animation>
 			<animation effect="slide" start="1400,0" end="0,0" delay="300" time="240" condition="!window.previous(startup)">WindowOpen</animation>
 			<animation effect="slide" start="1400,0" end="0,0" delay="800" time="480" condition="window.previous(startup)">WindowOpen</animation>
 			<animation effect="slide" end="0,993" time="320" tween="cubic" easing="inout" condition="system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]">Conditional</animation>
 			<top>0</top>
 			<control type="image">
 				<left>510</left>
-				<width>1410</width>
+				<width>1820</width>
 				<height>87</height>
 				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]">submenu_bar.png</texture>
 				<visible>system.getbool(lookandfeel.enablerssfeeds) + !String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEmpty(Skin.String(VerticalMenuSystemBar.Position))]</visible>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + Substring(Container(9000).ListItem.Property(widgetStyle),Extended) + ControlGroup(90010).HasFocus">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + Substring(Container(9000).ListItem.Property(widgetStyle.2),Extended) + ControlGroup(90020).HasFocus">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="Window.IsVisible(1199)">Conditional</animation>
 			</control>
 			<control type="image">
 				<left>420</left>
 				<width>90</width>
 				<height>87</height>
 				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]">submenu_end.png</texture>
-				<visible>system.getbool(lookandfeel.enablerssfeeds) + !String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEmpty(Skin.String(VerticalMenuSystemBar.Position))]</visible>
+				<visible>system.getbool(lookandfeel.enablerssfeeds) + !StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + IsEmpty(Skin.String(VerticalMenuSystemBar.Position))]</visible>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + Substring(Container(9000).ListItem.Property(widgetStyle),Extended) + ControlGroup(90010).HasFocus">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + Substring(Container(9000).ListItem.Property(widgetStyle.2),Extended) + ControlGroup(90020).HasFocus">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="Window.IsVisible(1199)">Conditional</animation>
 			</control>
 			<control type="image">
 				<left>510</left>
-				<width>1410</width>
+				<width>1820</width>
 				<height>87</height>
 				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]" flipy="true">submenu_bar.png</texture>
-				<visible>system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]</visible>
+				<visible>system.getbool(lookandfeel.enablerssfeeds) + StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + StringCompare(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]</visible>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + Substring(Container(9000).ListItem.Property(widgetStyle),Extended) + ControlGroup(90010).HasFocus">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + Substring(Container(9000).ListItem.Property(widgetStyle.2),Extended) + ControlGroup(90020).HasFocus">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="Window.IsVisible(1199)">Conditional</animation>
 			</control>
 			<control type="image">
 				<left>420</left>
 				<width>90</width>
 				<height>87</height>
 				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]" flipy="true">submenu_end.png</texture>
-				<visible>system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]</visible>
+				<visible>system.getbool(lookandfeel.enablerssfeeds) + StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + StringCompare(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]</visible>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + Substring(Container(9000).ListItem.Property(widgetStyle),Extended) + ControlGroup(90010).HasFocus">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + Substring(Container(9000).ListItem.Property(widgetStyle.2),Extended) + ControlGroup(90020).HasFocus">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="Window.IsVisible(1199)">Conditional</animation>
 			</control>
 			<control type="group">
-				<animation effect="slide" end="0,45" time="320" tween="cubic" easing="inout" condition="system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]">Conditional</animation>
+				<animation effect="slide" end="0,45" time="320" tween="cubic" easing="inout" condition="system.getbool(lookandfeel.enablerssfeeds) + StringCompare(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + StringCompare(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + Substring(Container(9000).ListItem.Property(widgetStyle),Extended) + ControlGroup(90010).HasFocus">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="!Window.IsVisible(1199) + Substring(Container(9000).ListItem.Property(widgetStyle.2),Extended) + ControlGroup(90020).HasFocus">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="Window.IsVisible(1199)">Conditional</animation>
 				<include condition="System.HasAddon(service.library.data.provider)">PlayListStatsList</include>
 				<control type="label">
 					<left>485</left>
@@ -419,15 +437,6 @@
 				<height>41</height>
 				<align>right</align>
 				<orientation>horizontal</orientation>
-				<onleft>9000</onleft>
-				<ondown condition="Control.IsVisible(9003)">9003</ondown>
-				<ondown condition="!Control.IsVisible(9003)">9000</ondown>
-				<onup condition="String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + Control.IsVisible(8002)">8002</onup>
-				<onup condition="String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + Control.IsVisible(8001) + !Control.IsVisible(8002)">8001</onup>
-				<onup condition="String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + !Control.IsVisible(8001) + !Control.IsVisible(8002)">9000</onup>
-				<ondown condition="!String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + Control.IsVisible(8001)">8001</ondown>
-				<ondown condition="!String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + !Control.IsVisible(8001) + Control.IsVisible(8002)">8002</ondown>
-				<ondown condition="!String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) + !Control.IsVisible(8001) + !Control.IsVisible(8002)">9000</ondown>
 				<control type="image">
 					<width>65</width>
 					<height>40</height>
