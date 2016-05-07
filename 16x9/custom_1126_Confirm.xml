@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window id="1126" type="dialog">
 	<defaultcontrol always="true">901002</defaultcontrol>
+	<onunload>ClearProperty(MissingDependency,home)</onunload>
+	<onunload>ClearProperty(NotWarnedOnHidingViz,home)</onunload>
 	<coordinates>
 		<system>1</system>
 		<left>502</left>
@@ -71,8 +73,8 @@
 				<ondown>noop</ondown>
 				<onclick>Dialog.Close(1126)</onclick>
 				<onclick condition="!String.IsEmpty(Window(Home).Property(MissingDependency)) + !System.HasAddon(script.skinshortcuts)">InstallAddon(script.skinshortcuts)</onclick>
-				<!-- <onclick condition="!String.IsEmpty(Window(Home).Property(MissingDependency))">SetProperty(OfferReloadAfterConfirm,True,home)</onclick> -->
-				<onclick condition="!String.IsEmpty(Window(Home).Property(MissingDependency))">ClearProperty(MissingDependency,home)</onclick>
+				<onclick condition="!Skin.HasSetting(WarnedOnHidingViz) + !String.IsEmpty(Window(Home).Property(NotWarnedOnHidingViz))">Skin.ToggleSetting(hidevizbehindfanart)</onclick>
+				<onclick condition="!Skin.HasSetting(WarnedOnHidingViz) + !String.IsEmpty(Window(Home).Property(NotWarnedOnHidingViz))">Skin.SetBool(WarnedOnHidingViz)</onclick>
 				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="5">listselect_fo.png</texturefocus>
 				<texturenofocus border="5">dialogs/default/inner.png</texturenofocus>
 			</control>
@@ -93,6 +95,7 @@
 				<ondown>noop</ondown>
 				<onclick>Dialog.Close(1126)</onclick>
 				<onclick condition="!String.IsEmpty(Window(Home).Property(MissingDependency))">ActivateWindow(settings)</onclick>
+				<onclick condition="!Skin.HasSetting(WarnedOnHidingViz) + !String.IsEmpty(Window(Home).Property(NotWarnedOnHidingViz))">Dialog.Close(1126)</onclick>
 				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="5">listselect_fo.png</texturefocus>
 				<texturenofocus border="5">dialogs/default/inner.png</texturenofocus>
 			</control>
