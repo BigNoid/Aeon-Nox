@@ -1,6 +1,402 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 	<!-- Main Menu Includes -->
+	<include name="HorizontalSubMenu">
+		<control type="fixedlist" id="9010">
+			<left>210</left>
+			<top>0</top>
+			<width>1500</width>
+			<height>87</height>
+			<onup>9000</onup>
+			<ondown condition="System.HasMediaDVD | Control.IsVisible(9027)">9020</ondown>
+			<ondown condition="![System.HasMediaDVD | Control.IsVisible(9027)]">9000</ondown>
+			<ondown condition="Control.IsVisible(90020)">90020</ondown>
+			<ondown condition="!Control.IsVisible(90020) + Control.IsVisible(90010)">90010</ondown>
+			<ondown condition="!Control.IsVisible(90020) + !Control.IsVisible(90010) + [System.HasMediaDVD | Control.IsVisible(9027)]">9020</ondown>
+			<ondown condition="!Control.IsVisible(90020) + !Control.IsVisible(90010) + ![System.HasMediaDVD | Control.IsVisible(9027)]">9000</ondown>
+			<pagecontrol>-</pagecontrol>
+			<scrolltime tween="quadratic" easing="out">300</scrolltime>
+			<focusposition>2</focusposition>
+			<movement>2</movement>
+			<orientation>Horizontal</orientation>
+			<itemlayout height="87" width="300">
+				<control type="label">
+					<width>300</width>
+					<height>41</height>
+					<font>font13_title</font>
+					<textcolor>$VAR[UnfocusedSubMenuColor]</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+					<align>center</align>
+					<aligny>center</aligny>
+					<label>$INFO[ListItem.Label]</label>
+				</control>
+			</itemlayout>
+			<focusedlayout height="87" width="300">
+				<control type="group">
+					<visible>Control.HasFocus(9010)</visible>
+					<control type="image">
+						<width>300</width>
+						<height>41</height>
+						<texture colordiffuse="$VAR[HighlightBarColor]">listselect_fo.png</texture>
+					</control>
+					<control type="label">
+						<width>300</width>
+						<height>41</height>
+						<font>font13_title</font>
+						<textcolor>$VAR[FocusedSubMenuColor]</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<align>center</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+				</control>
+				<control type="group">
+					<visible>!Control.HasFocus(9010)</visible>
+					<control type="label">
+						<width>300</width>
+						<height>41</height>
+						<font>font13_title</font>
+						<textcolor>$VAR[UnfocusedSubMenuColor]</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<align>center</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+				</control>
+			</focusedlayout>
+			<content>
+				<include>skinshortcuts-submenu</include>
+			</content>
+		</control>
+		<control type="button">
+			<left>85</left>
+			<top>6</top>
+			<width>30</width>
+			<height>30</height>
+			<texturefocus flipx="true" colordiffuse="white">arrowright.png</texturefocus>
+			<texturenofocus flipx="true">arrowright.png</texturenofocus>
+			<visible>Container(9010).HasPrevious</visible>
+			<onclick>Control.Move(9010,-1)</onclick>
+		</control>
+		<control type="button">
+			<left>1800</left>
+			<top>6</top>
+			<width>30</width>
+			<height>30</height>
+			<texturefocus colordiffuse="white">arrowright.png</texturefocus>
+			<texturenofocus>arrowright.png</texturenofocus>
+			<visible>Container(9010).HasNext</visible>
+			<onclick>Control.Move(9010,1)</onclick>
+		</control>
+	</include>
+	<include name="HorizontalMenuSystemBars">
+		<control type="group">
+			<top>424</top>
+			<control type="group">
+				<animation effect="slide" end="0,338" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+				<animation effect="slide" end="-1945,0" time="240">WindowClose</animation>
+				<animation effect="slide" start="-1945,0" end="0,0" delay="300" time="240" condition="!Window.Previous(startup)">WindowOpen</animation>
+				<animation effect="slide" start="-1945" end="0" time="240">VisibleChange</animation>
+				<animation effect="slide" start="-1945,0" end="0,0" delay="800" time="480" condition="Window.Previous(startup)">WindowOpen</animation>
+				<control type="image">
+					<width>FullScreenWidth</width>
+					<height>87</height>
+					<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]" flipy="true">submenu_bar.png</texture>
+					<visible>!Skin.HasSetting(Enable.ColoredSystemBars)</visible>
+				</control>
+				<control type="image">
+					<width>FullScreenWidth</width>
+					<height>87</height>
+					<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]" flipy="true">submenu_bar_white.png</texture>
+					<visible>Skin.HasSetting(Enable.ColoredSystemBars)</visible>
+				</control>
+				<include condition="System.HasAddon(service.library.data.provider)">PlayListStatsList</include>
+				<control type="label">
+					<left>0</left>
+					<top>46</top>
+					<width>1780</width>
+					<height>40</height>
+					<label>$VAR[LibraryStatsVar]</label>
+					<textoffsetx>15</textoffsetx>
+					<font>font13_title</font>
+					<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+				</control>
+				<control type="grouplist" id="9020">
+					<left>945</left>
+					<top>46</top>
+					<width>960</width>
+					<height>41</height>
+					<align>right</align>
+					<orientation>horizontal</orientation>
+					<onup condition="Control.IsVisible(90010)">90010</onup>
+					<onup condition="!Control.IsVisible(90010) + Control.IsVisible(90020)">90020</onup>
+					<onup condition="!Control.IsVisible(90010) + !Control.IsVisible(90020)">9000</onup>
+					<ondown>9000</ondown>
+					<include condition="System.HasAddon(script.globalsearch) + !Skin.HasSetting(Disable.SearchButton)">HomeSearchButton</include>
+					<control type="button" id="9021">
+						<label></label>
+						<textoffsetx>0</textoffsetx>
+						<width>50</width>
+						<height>41</height>
+						<align>center</align>
+						<font>IconTiny</font>
+						<textcolor>grey</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<visible>System.HasMediaDVD</visible>
+						<onclick>EjectTray()</onclick>
+						<animation type="Visible">
+							<effect type="fade" start="0" end="100" tween="sine" easing="inout" time="300" />
+							<effect type="zoom" start="50" end="100" center="auto" tween="sine" easing="inout" time="300" />
+						</animation>
+						<animation type="Hidden">
+							<effect type="fade" start="100" end="0" tween="sine" easing="inout" time="300" />
+							<effect type="zoom" start="100" end="50" center="auto" tween="sine" easing="inout" time="300" />
+						</animation>
+					</control>
+					<control type="button" id="9022">
+						<label></label>
+						<textoffsetx>0</textoffsetx>
+						<width>50</width>
+						<height>41</height>
+						<align>center</align>
+						<font>IconTiny</font>
+						<textcolor>grey</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<visible>System.HasMediaDVD</visible>
+						<onclick>PlayDVD</onclick>
+						<animation type="Visible">
+							<effect type="fade" start="0" end="100" tween="sine" easing="inout" time="300" />
+							<effect type="zoom" start="50" end="100" center="auto" tween="sine" easing="inout" time="300" />
+						</animation>
+						<animation type="Hidden">
+							<effect type="fade" start="100" end="0" tween="sine" easing="inout" time="300" />
+							<effect type="zoom" start="100" end="50" center="auto" tween="sine" easing="inout" time="300" />
+						</animation>
+					</control>
+					<control type="label" id="9026">
+						<width>5</width>
+						<height>41</height>
+						<label>-</label>
+						<font>font13_title</font>
+						<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
+					</control>
+					<control type="image">
+						<width>60</width>
+						<height>40</height>
+						<aspectratio>keep</aspectratio>
+						<texture fallback="$VAR[WeatherIconsPathVar]na.png">$VAR[WeatherIconsPathVar]$INFO[Weather.FanartCode,,.png]</texture>
+						<visible>Weather.IsFetched + !String.IsEmpty(Weather.Plugin)</visible>
+					</control>
+					<control type="label" id="9023">
+						<width>auto</width>
+						<height>41</height>
+						<label>$INFO[Weather.Temperature,,[COLOR grey] | [/COLOR]]</label>
+						<font>font13_title</font>
+						<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
+						<visible>Weather.IsFetched + !String.IsEmpty(Weather.Plugin)</visible>
+						<shadowcolor>shadow</shadowcolor>
+					</control>
+					<control type="label" id="9025">
+						<width>auto</width>
+						<height>41</height>
+						<label>$INFO[System.Date,[COLOR grey], | [/COLOR]]$INFO[System.Time]</label>
+						<font>font13_title</font>
+						<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+					</control>
+				</control>
+			</control>
+		</control>
+	</include>
+	<include name="VerticalSubMenu">
+		<control type="group" id="90001">
+			<animation effect="slide" end="-500,0" time="240">WindowClose</animation>
+			<animation effect="slide" start="0,0" end="350,0" time="280" delay="0" condition="Control.HasFocus(90100)">conditional</animation>
+			<left>-350</left>
+			<control type="image">
+				<width>350</width>
+				<height>1080</height>
+				<texture>verticalsubmenu_back.png</texture>
+			</control>
+			<control type="fixedlist" id="90100">
+				<top>330</top>
+				<width>380</width>
+				<height>720</height>
+				<onup>90100</onup>
+				<ondown>90100</ondown>
+				<onright>9000</onright>
+				<pagecontrol>-</pagecontrol>
+				<scrolltime tween="quadratic" easing="out">300</scrolltime>
+				<orientation>Vertical</orientation>
+				<focusposition>3</focusposition>
+				<movement>2</movement>
+				<itemlayout height="60" width="375">
+					<control type="label">
+						<left>15</left>
+						<width>308</width>
+						<height>60</height>
+						<font>font14_title</font>
+						<textcolor>$VAR[UnfocusedSubMenuColor]</textcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+				</itemlayout>
+				<focusedlayout height="60" width="375">
+					<control type="image">
+						<width>338</width>
+						<height>60</height>
+						<texture colordiffuse="$VAR[HighlightBarColor]">listselect_fo.png</texture>
+					</control>
+					<control type="label">
+						<left>15</left>
+						<width>308</width>
+						<height>60</height>
+						<font>font14_title</font>
+						<textcolor>$VAR[FocusedSubMenuColor]</textcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+				</focusedlayout>
+				<content>
+					<include>skinshortcuts-submenu</include>
+				</content>
+			</control>
+		</control>
+	</include>
+	<include name="VerticalMenuSystemBars">
+		<control type="group">
+			<animation effect="slide" end="1870,0" time="240">WindowClose</animation>
+			<animation effect="slide" start="1400,0" end="0,0" delay="300" time="240" condition="!window.previous(startup)">WindowOpen</animation>
+			<animation effect="slide" start="1400,0" end="0,0" delay="800" time="480" condition="window.previous(startup)">WindowOpen</animation>
+			<animation effect="slide" end="0,993" time="320" tween="cubic" easing="inout" condition="system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]">Conditional</animation>
+			<top>0</top>
+			<control type="image">
+				<left>510</left>
+				<width>1820</width>
+				<height>87</height>
+				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]">submenu_bar.png</texture>
+				<visible>system.getbool(lookandfeel.enablerssfeeds) + !String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEmpty(Skin.String(VerticalMenuSystemBar.Position))]</visible>
+				<visible>!Skin.HasSetting(Enable.ColoredSystemBars)</visible>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="$EXP[HasVerticalMenuWithExtended]">Conditional</animation>
+			</control>
+			<control type="image">
+				<left>510</left>
+				<width>1820</width>
+				<height>87</height>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="$EXP[HasVerticalMenuWithExtended]">Conditional</animation>
+				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]">submenu_bar_white.png</texture>
+				<visible>Skin.HasSetting(Enable.ColoredSystemBars)</visible>
+				<visible>system.getbool(lookandfeel.enablerssfeeds) + !String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEmpty(Skin.String(VerticalMenuSystemBar.Position))]</visible>
+			</control>
+			<control type="image">
+				<left>420</left>
+				<width>90</width>
+				<height>87</height>
+				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]">submenu_end.png</texture>
+				<visible>!Skin.HasSetting(Enable.ColoredSystemBars)</visible>
+				<visible>system.getbool(lookandfeel.enablerssfeeds) + !String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEmpty(Skin.String(VerticalMenuSystemBar.Position))]</visible>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="$EXP[HasVerticalMenuWithExtended]">Conditional</animation>
+			</control>
+			<control type="image">
+				<left>422</left>
+				<width>90</width>
+				<height>87</height>
+				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]">submenu_end_white.png</texture>
+				<visible>Skin.HasSetting(Enable.ColoredSystemBars)</visible>
+				<visible>system.getbool(lookandfeel.enablerssfeeds) + !String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEmpty(Skin.String(VerticalMenuSystemBar.Position))]</visible>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="$EXP[HasVerticalMenuWithExtended]">Conditional</animation>
+			</control>
+			<control type="image">
+				<left>510</left>
+				<width>1820</width>
+				<height>87</height>
+				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]" flipy="true">submenu_bar.png</texture>
+				<visible>system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]</visible>
+				<visible>!Skin.HasSetting(Enable.ColoredSystemBars)</visible>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="$EXP[HasVerticalMenuWithExtended]">Conditional</animation>
+			</control>
+			<control type="image">
+				<left>510</left>
+				<width>1820</width>
+				<height>87</height>
+				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]" flipy="true">submenu_bar_white.png</texture>
+				<visible>system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]</visible>
+				<visible>Skin.HasSetting(Enable.ColoredSystemBars)</visible>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="$EXP[HasVerticalMenuWithExtended]">Conditional</animation>
+			</control>
+			<control type="image">
+				<left>420</left>
+				<width>90</width>
+				<height>87</height>
+				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]" flipy="true">submenu_end.png</texture>
+				<visible>!Skin.HasSetting(Enable.ColoredSystemBars)</visible>
+				<visible>system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]</visible>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="$EXP[HasVerticalMenuWithExtended]">Conditional</animation>
+			</control>
+			<control type="image">
+				<left>422</left>
+				<width>90</width>
+				<height>87</height>
+				<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]" flipy="true">submenu_end_white.png</texture>
+				<visible>Skin.HasSetting(Enable.ColoredSystemBars)</visible>
+				<visible>system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]</visible>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="$EXP[HasVerticalMenuWithExtended]">Conditional</animation>
+			</control>
+			<control type="group">
+				<animation effect="slide" end="0,45" time="320" tween="cubic" easing="inout" condition="system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]">Conditional</animation>
+				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="$EXP[HasVerticalMenuWithExtended]">Conditional</animation>
+				<include condition="System.HasAddon(service.library.data.provider)">PlayListStatsList</include>
+				<control type="label">
+					<left>485</left>
+					<top>0</top>
+					<width>740</width>
+					<height>40</height>
+					<label>$VAR[LibraryStatsVar]</label>
+					<scroll>true</scroll>
+					<textoffsetx>15</textoffsetx>
+					<font>font13_title</font>
+					<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+				</control>
+			</control>
+			<control type="grouplist" id="9020">
+				<animation effect="slide" end="0,45" time="320" tween="cubic" easing="inout" condition="system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]">Conditional</animation>
+				<left>1110</left>
+				<top>0</top>
+				<width>800</width>
+				<height>41</height>
+				<align>right</align>
+				<orientation>horizontal</orientation>
+				<control type="image">
+					<width>65</width>
+					<height>40</height>
+					<aspectratio>keep</aspectratio>
+					<texture fallback="$VAR[WeatherIconsPathVar]na.png">$VAR[WeatherIconsPathVar]$INFO[Weather.FanartCode,,.png]</texture>
+					<visible>Weather.IsFetched + !String.IsEmpty(Weather.Plugin)</visible>
+				</control>
+				<control type="label" id="9023">
+					<width>auto</width>
+					<height>41</height>
+					<label>$INFO[Weather.Temperature,,[COLOR grey] | [/COLOR]]</label>
+					<font>font13_title</font>
+					<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
+					<visible>Weather.IsFetched + !String.IsEmpty(Weather.Plugin)</visible>
+					<shadowcolor>shadow</shadowcolor>
+				</control>
+				<control type="label" id="9025">
+					<width>auto</width>
+					<height>41</height>
+					<label>$INFO[System.Date,[COLOR grey], | [/COLOR]]$INFO[System.Time]</label>
+					<font>font13_title</font>
+					<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+				</control>
+			</control>
+		</control>
+	</include>
 	<include name="MainMenuListContent">
 		<left>-290</left>
 		<top>62</top>
