@@ -3,7 +3,6 @@
 	<defaultcontrol always="true">8</defaultcontrol>
 	<allowoverlay>no</allowoverlay>
 	<controls>
-		<include condition="System.HasAddon(script.extendedinfo)">HiddenActorList</include>
 		<control type="group">
 			<animation effect="slide" start="-729,0" end="0,0" time="500" tween="quadratic">WindowOpen</animation>
 			<animation effect="slide" end="-729,0" time="500" tween="quadratic">WindowClose</animation>
@@ -746,210 +745,30 @@
 							<animation effect="fade" start="100" end="78" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(900171)">Conditional</animation>
 						</control>
 					</control>
-					<include condition="!System.HasAddon(script.extendedinfo)">DefaultActorList</include>
-					<include condition="System.HasAddon(script.extendedinfo)">ExtendedVideoInfoLists</include>
+					<control type="panel" id="50">
+						<include content="ExtendedInfoListLayout">
+							<param name="label2" value="$INFO[ListItem.Label2]" />
+							<param name="overlayVisibility" value="false" />
+						</include>
+					</control>
+					<include condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,movie)">ExtendedInfoMovieLists</include>
+					<include condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">ExtendedInfoSeriesLists</include>
 					<control type="panel" id="90016">
 						<description>Seasons</description>
-						<left>0</left>
-						<top>0</top>
-						<width>1830</width>
-						<height>420</height>
-						<orientation>horizontal</orientation>
-						<scrolltime tween="quadratic" easing="out">300</scrolltime>
-						<visible>Integer.IsGreater(ListItem.Property(TotalSeasons),0)</visible>
-						<visible>String.IsEqual(ListItem.DBType,tvshow)</visible>
-						<itemlayout height="420" width="280">
-							<control type="image">
-								<width>280</width>
-								<height>420</height>
-								<aspectratio aligny="top">scale</aspectratio>
-								<texture background="true" fallback="DefaultVideoCover.png">$INFO[ListItem.Art(poster)]</texture>
-								<bordertexture border="2">thumbs/panel_border3.png</bordertexture>
-								<bordersize>2</bordersize>
-							</control>
-							<control type="image">
-								<top>322</top>
-								<width>280</width>
-								<height>98</height>
-								<texture>black.png</texture>
-								<colordiffuse>88ffffff</colordiffuse>
-								<bordersize>2</bordersize>
-							</control>
-							<control type="label">
-								<left>10</left>
-								<top>325</top>
-								<width>260</width>
-								<height>43</height>
-								<align>center</align>
-								<font>font14</font>
-								<textcolor>grey</textcolor>
-								<shadowcolor>shadow</shadowcolor>
-								<selectedcolor>selected</selectedcolor>
-								<label>$INFO[ListItem.Label]</label>
-							</control>
-							<control type="label">
-								<left>10</left>
-								<top>368</top>
-								<width>260</width>
-								<height>43</height>
-								<align>center</align>
-								<font>font14</font>
-								<textcolor>grey</textcolor>
-								<shadowcolor>shadow</shadowcolor>
-								<selectedcolor>selected</selectedcolor>
-								<label>$INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20453]]</label>
-							</control>
-						</itemlayout>
-						<focusedlayout height="420" width="280">
-							<control type="group">
-								<animation type="Focus" reversible="false">
-									<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
-									<effect type="fade" start="80" end="100" time="300" />
-								</animation>
-								<control type="image">
-									<width>280</width>
-									<height>420</height>
-									<aspectratio aligny="top">scale</aspectratio>
-									<texture background="true" fallback="DefaultVideoCover.png">$INFO[ListItem.Art(poster)]</texture>
-									<bordertexture border="8">thumbs/thumbnail_focused.png</bordertexture>
-									<bordersize>8</bordersize>
-								</control>
-								<control type="image">
-									<top>316</top>
-									<width>280</width>
-									<height>104</height>
-									<texture>black.png</texture>
-									<colordiffuse>88ffffff</colordiffuse>
-									<bordersize>8</bordersize>
-								</control>
-								<control type="label">
-									<left>10</left>
-									<top>325</top>
-									<width>260</width>
-									<height>43</height>
-									<align>center</align>
-									<font>font14</font>
-									<selectedcolor>selected</selectedcolor>
-									<shadowcolor>shadow</shadowcolor>
-									<label>$INFO[ListItem.Label]</label>
-									<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(90016)">Conditional</animation>
-								</control>
-								<control type="label">
-									<left>10</left>
-									<top>368</top>
-									<width>260</width>
-									<height>43</height>
-									<align>center</align>
-									<font>font14</font>
-									<selectedcolor>selected</selectedcolor>
-									<shadowcolor>shadow</shadowcolor>
-									<label>$INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20453]]</label>
-									<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(90016)">Conditional</animation>
-								</control>
-							</control>
-						</focusedlayout>
+						<include content="ExtendedInfoListLayout">
+							<param name="label2" value="$INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20453]]" />
+							<param name="overlayVisibility" value="false" />
+							<param name="listVisible" value="Integer.IsGreater(ListItem.Property(TotalSeasons),0) + String.IsEqual(ListItem.DBType,tvshow)" />
+						</include>
 						<content target="video">videodb://tvshows/titles/$INFO[ListItem.DBID]/</content>
 					</control>
 					<control type="panel" id="90018">
 						<description>Movies from Set</description>
-						<left>0</left>
-						<top>0</top>
-						<width>1830</width>
-						<height>420</height>
-						<orientation>horizontal</orientation>
-						<scrolltime tween="quadratic" easing="out">300</scrolltime>
-						<visible>!String.IsEmpty(ListItem.SetID)</visible>
-						<visible>String.IsEqual(ListItem.DBType,movie)</visible>
-						<itemlayout height="420" width="280">
-							<control type="image">
-								<width>280</width>
-								<height>420</height>
-								<aspectratio aligny="top">scale</aspectratio>
-								<texture background="true">$INFO[ListItem.Icon]</texture>
-								<bordertexture border="2">thumbs/panel_border3.png</bordertexture>
-								<bordersize>2</bordersize>
-							</control>
-							<control type="image">
-								<top>322</top>
-								<width>280</width>
-								<height>98</height>
-								<texture>black.png</texture>
-								<colordiffuse>88ffffff</colordiffuse>
-								<bordersize>2</bordersize>
-							</control>
-							<control type="label">
-								<left>10</left>
-								<top>325</top>
-								<width>260</width>
-								<height>43</height>
-								<align>center</align>
-								<font>font14</font>
-								<textcolor>grey</textcolor>
-								<shadowcolor>shadow</shadowcolor>
-								<selectedcolor>selected</selectedcolor>
-								<label>$INFO[ListItem.Label]</label>
-							</control>
-							<control type="label">
-								<left>10</left>
-								<top>368</top>
-								<width>260</width>
-								<height>43</height>
-								<align>center</align>
-								<font>font14</font>
-								<textcolor>grey</textcolor>
-								<shadowcolor>shadow</shadowcolor>
-								<selectedcolor>selected</selectedcolor>
-								<label>$INFO[ListItem.Year]</label>
-							</control>
-						</itemlayout>
-						<focusedlayout height="420" width="280">
-							<control type="group">
-								<animation type="Focus" reversible="false">
-									<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
-									<effect type="fade" start="80" end="100" time="300" />
-								</animation>
-								<control type="image">
-									<width>280</width>
-									<height>420</height>
-									<aspectratio aligny="top">scale</aspectratio>
-									<texture background="true">$INFO[ListItem.Icon]</texture>
-									<bordertexture border="8">thumbs/thumbnail_focused.png</bordertexture>
-									<bordersize>8</bordersize>
-								</control>
-								<control type="image">
-									<top>316</top>
-									<width>280</width>
-									<height>104</height>
-									<texture>black.png</texture>
-									<colordiffuse>88ffffff</colordiffuse>
-									<bordersize>8</bordersize>
-								</control>
-								<control type="label">
-									<left>10</left>
-									<top>325</top>
-									<width>260</width>
-									<height>43</height>
-									<align>center</align>
-									<font>font14</font>
-									<selectedcolor>selected</selectedcolor>
-									<shadowcolor>shadow</shadowcolor>
-									<label>$INFO[ListItem.Label]</label>
-									<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(90018)">Conditional</animation>
-								</control>
-								<control type="label">
-									<left>10</left>
-									<top>368</top>
-									<width>260</width>
-									<height>43</height>
-									<align>center</align>
-									<font>font14</font>
-									<selectedcolor>selected</selectedcolor>
-									<shadowcolor>shadow</shadowcolor>
-									<label>$INFO[ListItem.Year]</label>
-									<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(90018)">Conditional</animation>
-								</control>
-							</control>
-						</focusedlayout>
+						<include content="ExtendedInfoListLayout">
+							<param name="label2" value="$INFO[ListItem.Year]" />
+							<param name="overlayVisibility" value="false" />
+							<param name="listVisible" value="!String.IsEmpty(ListItem.SetID) + String.IsEqual(ListItem.DBType,movie)" />
+						</include>
 						<content target="video">videodb://movies/sets/$INFO[ListItem.SetID]</content>
 					</control>
 				</control>
