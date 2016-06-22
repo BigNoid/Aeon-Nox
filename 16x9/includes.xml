@@ -827,14 +827,6 @@
 	</include>
 	<include name="DefaultActorList">
 		<control type="panel" id="50">
-			<left>0</left>
-			<top>0</top>
-			<width>1196</width>
-			<height>420</height>
-			<viewtype label="">list</viewtype>
-			<pagecontrol>61</pagecontrol>
-			<scrolltime tween="quadratic" easing="out">300</scrolltime>
-			<orientation>horizontal</orientation>
 			<include content="ExtendedInfoListLayout">
 				<param name="PanelID">50</param>
 				<param name="label2" value="$INFO[ListItem.Label2]" />
@@ -849,61 +841,36 @@
 	<include name="ExtendedInfoMovieLists">
 		<control type="panel" id="90011">
 			<description>Similar movies</description>
-			<left>0</left>
-			<top>0</top>
-			<width>1196</width>
-			<height>420</height>
-			<orientation>horizontal</orientation>
-			<scrolltime tween="quadratic" easing="out">300</scrolltime>
-			<visible>!String.IsEqual(Window(Home).Property(SimilarMovies.Count),0)</visible>
 			<include content="ExtendedInfoListLayout">
 				<param name="PanelID">90011</param>
 				<param name="overlayVisibility" value="true" />
+				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(SimilarMovies.Count),0)" />
 			</include>
-			<content>plugin://script.extendedinfo?info=similarmovies&amp;&amp;imdb_id=$INFO[ListItem.IMDBNumber]&amp;&amp;dbid=$INFO[ListItem.DBID]</content>
+			<content>plugin://script.extendedinfo?info=traktsimilarmovies&amp;&amp;imdb_id=$INFO[ListItem.IMDBNumber]&amp;&amp;dbid=$INFO[ListItem.DBID]</content>
 		</control>
 		<control type="panel" id="90012">
 			<description>Movies from director</description>
-			<left>0</left>
-			<top>0</top>
-			<width>1196</width>
-			<height>420</height>
-			<orientation>horizontal</orientation>
-			<scrolltime tween="quadratic" easing="out">300</scrolltime>
-			<visible>!String.IsEqual(Window(Home).Property(DirectorMovies.Count),0)</visible>
 			<include content="ExtendedInfoListLayout">
 				<param name="PanelID">90012</param>
+				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(DirectorMovies.Count),0)" />
 				<param name="overlayVisibility" value="true" />
 			</include>
 			<content target="video">plugin://script.extendedinfo?info=personmovies&amp;&amp;person=$INFO[ListItem.Director]</content>
 		</control>
 		<control type="panel" id="90013">
 			<description>Movies from writers</description>
-			<left>0</left>
-			<top>0</top>
-			<width>1196</width>
-			<height>420</height>
-			<orientation>horizontal</orientation>
-			<scrolltime tween="quadratic" easing="out">300</scrolltime>
-			<visible>!String.IsEqual(Window(Home).Property(WriterMovies.Count),0)</visible>
 			<include content="ExtendedInfoListLayout">
 				<param name="PanelID">90013</param>
+				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(WriterMovies.Count),0)" />
 				<param name="overlayVisibility" value="true" />
 			</include>
 			<content target="video">plugin://script.extendedinfo?info=personmovies&amp;&amp;person=$INFO[ListItem.Writer]</content>
 		</control>
 		<control type="panel" id="90014">
 			<description>Movies from studio</description>
-			<left>0</left>
-			<top>0</top>
-			<width>1196</width>
-			<height>420</height>
-			<orientation>horizontal</orientation>
-			<scrolltime tween="quadratic" easing="out">300</scrolltime>
-			<visible>!String.IsEqual(Window(Home).Property(StudioInfo.Count),0) + System.HasAddon(script.extendedinfo)</visible>
-			<visible>Container.Content(movies)</visible>
 			<include content="ExtendedInfoListLayout">
 				<param name="PanelID">90014</param>
+				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(StudioInfo.Count),0)" />
 				<param name="overlayVisibility" value="true" />
 			</include>
 			<content target="video">plugin://script.extendedinfo?info=studio&amp;&amp;studio=$INFO[ListItem.Studio]</content>
@@ -912,15 +879,9 @@
 	<include name="ExtendedInfoSeriesLists">
 		<control type="panel" id="90015">
 			<description>Similar TV Shows</description>
-			<left>0</left>
-			<top>0</top>
-			<width>1196</width>
-			<height>420</height>
-			<orientation>horizontal</orientation>
-			<scrolltime tween="quadratic" easing="out">300</scrolltime>
-			<visible>!String.IsEqual(Window(Home).Property(SimilarTVShows.Count),0)</visible>
 			<include content="ExtendedInfoListLayout">
 				<param name="PanelID">90015</param>
+				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(SimilarTVShows.Count),0)" />
 				<param name="overlayVisibility" value="true" />
 			</include>
 			<content target="video">plugin://script.extendedinfo?info=traktsimilartvshows&amp;&amp;dbid=$INFO[ListItem.DBID]</content>
@@ -1953,179 +1914,5 @@
 				</control>
 			</control>
 		</definition>
-	</include>
-	<include name="LiveBackgroundSets">
-		<control type="image">
-			<include>FullscreenDimensions</include>
-			<aspectratio align="center" aligny="top">scale</aspectratio>
-			<texture background="true">$VAR[BoxsetModFanartVar]</texture>
-			<visible>ListItem.IsCollection</visible>
-			<fadetime>FanartCrossfadeTime</fadetime>
-		</control>
-		<control type="group">
-			<visible>ListItem.IsCollection</visible>
-			<animation effect="fade" time="600">WindowOpen</animation>
-			<animation effect="fade" time="600">Visible</animation>
-			<control type="group">
-				<description>Case 10</description>
-				<left>1170</left>
-				<top>1030</top>
-				<animation effect="zoom" start="180" end="180" center="auto" time="0" tween="linear" pulse="true" condition="true">Conditional</animation>
-				<animation effect="rotate" center="auto" start="-65" end="-65" time="0" condition="true">Conditional</animation>
-				<visible>!String.IsEmpty(Window(home).Property(Set.movie.9.Art(poster)))</visible>
-				<control type="image">
-					<include>PosterDimAndPos</include>
-					<texture background="true" diffuse="thumbs/boxes/movieposter_mask.png">$INFO[Window(home).Property(Set.movie.9.Art(poster))]</texture>
-				</control>
-				<control type="image">
-					<include>CaseDimAndPosSets</include>
-					<texture background="true" fallback="thumbs/boxes/p.png">$VAR[CaseTypePathVar]$INFO[Window(home).Property(Set.movie.9.VideoResolution)]p.png</texture>
-				</control>
-			</control>
-			<control type="group">
-				<description>Case 9</description>
-				<left>800</left>
-				<top>0</top>
-				<animation effect="zoom" start="180" end="180" center="auto" time="0" tween="linear" pulse="true" condition="true">Conditional</animation>
-				<animation effect="rotate" center="auto" start="65" end="65" time="0" condition="true">Conditional</animation>
-				<visible>!String.IsEmpty(Window(home).Property(Set.movie.8.Art(poster)))</visible>
-				<control type="image">
-					<include>PosterDimAndPos</include>
-					<texture background="true" diffuse="thumbs/boxes/movieposter_mask.png">$INFO[Window(home).Property(Set.movie.8.Art(poster))]</texture>
-				</control>
-				<control type="image">
-					<include>CaseDimAndPosSets</include>
-					<texture background="true" fallback="thumbs/boxes/p.png">$VAR[CaseTypePathVar]$INFO[Window(home).Property(Set.movie.8.VideoResolution)]p.png</texture>
-				</control>
-			</control>
-			<control type="group">
-				<description>Case 8</description>
-				<left>500</left>
-				<top>150</top>
-				<animation effect="zoom" start="180" end="180" center="auto" time="0" tween="linear" pulse="true" condition="true">Conditional</animation>
-				<animation effect="rotate" center="auto" start="10" end="10" time="0" condition="true">Conditional</animation>
-				<visible>!String.IsEmpty(Window(home).Property(Set.movie.5.Art(poster)))</visible>
-				<control type="image">
-					<include>PosterDimAndPos</include>
-					<texture background="true" diffuse="thumbs/boxes/movieposter_mask.png">$INFO[Window(home).Property(Set.movie.5.Art(poster))]</texture>
-				</control>
-				<control type="image">
-					<include>CaseDimAndPosSets</include>
-					<texture background="true" fallback="thumbs/boxes/p.png">$VAR[CaseTypePathVar]$INFO[Window(home).Property(Set.movie.5.VideoResolution)]p.png</texture>
-				</control>
-			</control>
-			<control type="group">
-				<description>Case 7</description>
-				<left>1550</left>
-				<top>300</top>
-				<animation effect="zoom" start="180" end="180" center="auto" time="0" tween="linear" pulse="true" condition="true">Conditional</animation>
-				<animation effect="rotate" center="auto" start="-20" end="-20" time="0" condition="true">Conditional</animation>
-				<visible>!String.IsEmpty(Window(home).Property(Set.movie.6.Art(poster)))</visible>
-				<control type="image">
-					<include>PosterDimAndPos</include>
-					<texture background="true" diffuse="thumbs/boxes/movieposter_mask.png">$INFO[Window(home).Property(Set.movie.6.Art(poster))]</texture>
-				</control>
-				<control type="image">
-					<include>CaseDimAndPosSets</include>
-					<texture background="true" fallback="thumbs/boxes/p.png">$VAR[CaseTypePathVar]$INFO[Window(home).Property(Set.movie.6.VideoResolution)]p.png</texture>
-				</control>
-			</control>
-			<control type="group">
-				<description>Case 6</description>
-				<left>1000</left>
-				<top>170</top>
-				<animation effect="zoom" start="180" end="180" center="auto" time="0" tween="linear" pulse="true" condition="true">Conditional</animation>
-				<animation effect="rotate" center="auto" start="25" end="25" time="0" condition="true">Conditional</animation>
-				<visible>!String.IsEmpty(Window(home).Property(Set.movie.4.Art(poster)))</visible>
-				<control type="image">
-					<include>PosterDimAndPos</include>
-					<texture background="true" diffuse="thumbs/boxes/movieposter_mask.png">$INFO[Window(home).Property(Set.movie.4.Art(poster))]</texture>
-				</control>
-				<control type="image">
-					<include>CaseDimAndPosSets</include>
-					<texture background="true" fallback="thumbs/boxes/p.png">$VAR[CaseTypePathVar]$INFO[Window(home).Property(Set.movie.4.VideoResolution)]p.png</texture>
-				</control>
-			</control>
-			<control type="group">
-				<description>Case 5</description>
-				<left>1900</left>
-				<top>-100</top>
-				<animation effect="zoom" start="180" end="180" center="auto" time="0" tween="linear" pulse="true" condition="true">Conditional</animation>
-				<animation effect="rotate" center="auto" start="75" end="75" time="0" condition="true">Conditional</animation>
-				<visible>!String.IsEmpty(Window(home).Property(Set.movie.7.Art(poster)))</visible>
-				<control type="image">
-					<include>PosterDimAndPos</include>
-					<texture background="true" diffuse="thumbs/boxes/movieposter_mask.png">$INFO[Window(home).Property(Set.movie.7.Art(poster))]</texture>
-				</control>
-				<control type="image">
-					<include>CaseDimAndPosSets</include>
-					<texture background="true" fallback="thumbs/boxes/p.png">$VAR[CaseTypePathVar]$INFO[Window(home).Property(Set.movie.7.VideoResolution)]p.png</texture>
-				</control>
-			</control>
-			<control type="group">
-				<description>Case 4</description>
-				<left>1500</left>
-				<top>800</top>
-				<animation effect="zoom" start="180" end="180" center="auto" time="0" tween="linear" pulse="true" condition="true">Conditional</animation>
-				<animation effect="rotate" center="auto" start="45" end="45" time="0" condition="true">Conditional</animation>
-				<visible>!String.IsEmpty(Window(home).Property(Set.movie.10.Art(poster)))</visible>
-				<control type="image">
-					<include>PosterDimAndPos</include>
-					<texture background="true" diffuse="thumbs/boxes/movieposter_mask.png">$INFO[Window(home).Property(Set.movie.10.Art(poster))]</texture>
-				</control>
-				<control type="image">
-					<include>CaseDimAndPosSets</include>
-					<texture background="true" fallback="thumbs/boxes/p.png">$VAR[CaseTypePathVar]$INFO[Window(home).Property(Set.movie.10.VideoResolution)]p.png</texture>
-				</control>
-			</control>
-			<control type="group">
-				<description>Case 3</description>
-				<left>1450</left>
-				<top>650</top>
-				<animation effect="zoom" start="180" end="180" center="auto" time="0" tween="linear" pulse="true" condition="true">Conditional</animation>
-				<animation effect="rotate" center="auto" start="-35" end="-35" time="0" condition="true">Conditional</animation>
-				<visible>!String.IsEmpty(Window(home).Property(Set.movie.3.Art(poster)))</visible>
-				<control type="image">
-					<include>PosterDimAndPos</include>
-					<texture background="true" diffuse="thumbs/boxes/movieposter_mask.png">$INFO[Window(home).Property(Set.movie.3.Art(poster))]</texture>
-				</control>
-				<control type="image">
-					<include>CaseDimAndPosSets</include>
-					<texture background="true" fallback="thumbs/boxes/p.png">$VAR[CaseTypePathVar]$INFO[Window(home).Property(Set.movie.3.VideoResolution)]p.png</texture>
-				</control>
-			</control>
-			<control type="group">
-				<description>Case 2</description>
-				<left>1100</left>
-				<top>400</top>
-				<animation effect="zoom" start="180" end="180" center="auto" time="0" tween="linear" pulse="true" condition="true">Conditional</animation>
-				<animation effect="rotate" center="auto" start="-10" end="-10" time="0" condition="true">Conditional</animation>
-				<visible>!String.IsEmpty(Window(home).Property(Set.movie.2.Art(poster)))</visible>
-				<control type="image">
-					<include>PosterDimAndPos</include>
-					<texture background="true" diffuse="thumbs/boxes/movieposter_mask.png">$INFO[Window(home).Property(Set.movie.2.Art(poster))]</texture>
-				</control>
-				<control type="image">
-					<include>CaseDimAndPosSets</include>
-					<texture background="true" fallback="thumbs/boxes/p.png">$VAR[CaseTypePathVar]$INFO[Window(home).Property(Set.movie.2.VideoResolution)]p.png</texture>
-				</control>
-			</control>
-			<control type="group">
-				<description>Case 1</description>
-				<left>700</left>
-				<top>400</top>
-				<animation effect="zoom" start="180" end="180" center="auto" time="0" tween="linear" pulse="true" condition="true">Conditional</animation>
-				<animation effect="rotate" center="auto" start="3" end="3" time="0" condition="true">Conditional</animation>
-				<visible>!String.IsEmpty(Window(home).Property(Set.movie.1.Art(poster)))</visible>
-				<control type="image">
-					<include>PosterDimAndPos</include>
-					<texture background="true" diffuse="thumbs/boxes/movieposter_mask.png">$INFO[Window(home).Property(Set.movie.1.Art(poster))]</texture>
-				</control>
-				<control type="image">
-					<include>CaseDimAndPosSets</include>
-					<texture background="true" fallback="thumbs/boxes/p.png">$VAR[CaseTypePathVar]$INFO[Window(home).Property(Set.movie.1.VideoResolution)]p.png</texture>
-				</control>
-			</control>
-		</control>
 	</include>
 </includes>
