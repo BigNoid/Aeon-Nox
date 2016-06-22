@@ -228,5 +228,96 @@
 				<visible>[!Skin.HasSetting(Disable.Wall.MovieInfo) + Container.Content(movies)] | [!Skin.HasSetting(Disable.Wall.TVInfo) + Container.Content(tvshows)] | [Skin.HasSetting(Enable.Wall.FloorInfo.seasons) + Container.Content(seasons)] | [Skin.HasSetting(Enable.Wall.AlbumLabels) + Container.Content(albums)] | [!String.IsEqual(Skin.String(503.Movies.ViewFlags),$LOCALIZE[1223]) + Container.Content(movies)] | [!String.IsEqual(Skin.String(503.TV.ViewFlags),$LOCALIZE[1223]) + Container.Content(tvshows)] | [!String.IsEmpty(Skin.String(503.Seasons.MediaflagsLayout)) + Container.Content(seasons)] | Skin.HasSetting(Enable.Wall.Logo)</visible>
 			</control>
 		</control>
+		<control type="group">
+			<left>310</left>
+			<top>85</top>
+			<visible>!ListItem.IsParentFolder</visible>
+			<visible>[Container.Content(movies) | Container.Content(tvshows)]</visible>
+			<visible>Skin.HasSetting(503.InfoPanel) + System.IdleTime(1)</visible>
+			<animation effect="fade" time="100" delay="200">Visible</animation>
+			<animation effect="slide" end="0,460" time="300" tween="cubic" easing="inout" condition="Container(503).Row(1)">Conditional</animation>
+			<animation effect="slide" end="320,0" time="300" tween="cubic" easing="inout" condition="Container(503).Column(3)">Conditional</animation>
+			<animation effect="slide" end="320,0" time="300" tween="cubic" easing="inout" condition="Container(503).Column(5) | Container(503).Column(3) | Container(503).Column(2)">Conditional</animation>
+			<animation effect="slide" end="320,0" time="300" tween="cubic" easing="inout" condition="Container(503).Column(5) | Container(503).Column(4) | Container(503).Column(3) | Container(503).Column(2) | Container(503).Column(1)">Conditional</animation>
+			<control type="image">
+				<left>6</left>
+				<top>-24</top>
+				<width>650</width>
+				<height>470</height>
+				<texture border="40">dialog_back3.png</texture>
+			</control>
+			<control type="image">
+				<left>0</left>
+				<top>192</top>
+				<width>19</width>
+				<height>36</height>
+				<texture colordiffuse="FF060b0e">views/wall/arrow.png</texture>
+				<visible>Integer.IsLessOrEqual(Container(503).Column,3)</visible>
+			</control>
+			<control type="image">
+				<left>644</left>
+				<top>192</top>
+				<width>19</width>
+				<height>36</height>
+				<texture colordiffuse="FF060b0e" flipx="true">views/wall/arrow.png</texture>
+				<visible>Integer.IsGreater(Container(503).Column,3)</visible>
+			</control>
+			<control type="label">
+				<left>50</left>
+				<top>20</top>
+				<width>550</width>
+				<height>20</height>
+				<font>font15</font>
+				<textcolor>grey</textcolor>
+				<label>$INFO[ListItem.Label]</label>
+			</control>
+			<control type="image">
+				<left>50</left>
+				<top>46</top>
+				<width>180</width>
+				<height>70</height>
+				<aspectratio>keep</aspectratio>
+				<colordiffuse>grey</colordiffuse>
+				<texture>$INFO[ListItem.Rating,flags/rating/,.png]</texture>
+				<visible>!String.IsEmpty(ListItem.Title) + String.IsEmpty(ListItem.UserRating)</visible>
+			</control>
+			<control type="image">
+				<left>50</left>
+				<top>46</top>
+				<width>180</width>
+				<height>70</height>
+				<aspectratio>keep</aspectratio>
+				<colordiffuse>$VAR[ThemeLabelColor]</colordiffuse>
+				<texture>$INFO[ListItem.UserRating,flags/rating/,.png]</texture>
+				<visible>!String.IsEmpty(ListItem.Title) + !String.IsEmpty(ListItem.UserRating)</visible>
+			</control>
+			<control type="textbox">
+				<left>50</left>
+				<top>110</top>
+				<width>550</width>
+				<height>210</height>
+				<font>font15</font>
+				<textcolor>grey</textcolor>
+				<label>$VAR[503.InfoPanelTextboxVar]</label>
+			</control>
+			<control type="label">
+				<left>50</left>
+				<top>330</top>
+				<width>550</width>
+				<height>20</height>
+				<font>font15</font>
+				<textcolor>$VAR[ThemeLabelColor]</textcolor>
+				<label>$INFO[ListItem.Year]$INFO[ListItem.Duration, - , $LOCALIZE[12391]]</label>
+			</control>
+			<control type="label">
+				<left>50</left>
+				<top>375</top>
+				<width>550</width>
+				<height>20</height>
+				<font>font15</font>
+				<textcolor>grey</textcolor>
+				<label>$VAR[503.InfoPanelLabel2Var]</label>
+			</control>
+		</control>
 	</include>
 </includes>
