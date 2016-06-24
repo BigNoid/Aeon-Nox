@@ -9,12 +9,12 @@
 			<!-- FIX ME Music Visualization needs to have an id of 2 in this window to be able to lock or change preset -->
 			<description>visualisation</description>
 			<include>FullscreenDimensions</include>
-			<visible>!Skin.HasSetting(hidevizbehindfanart) + [Player.HasAudio + ![String.IsEqual(Visualisation.Name,waveform) | String.IsEqual(Visualisation.Name,opengl spectrum) | String.IsEqual(Visualisation.Name,directx spectrum)]]</visible>
+			<visible>!Skin.HasSetting(hidevizbehindfanart) + Player.HasAudio + ![String.IsEqual(Visualisation.Name,waveform) | String.Contains(Visualisation.Name,spectrum)]</visible>
 		</control>
 		<control type="group">
 			<visible>!String.IsEqual(Skin.String(Viz.Background),1)</visible>
 			<visible>[Visualisation.Enabled + !Skin.HasSetting(HideVisualizationFanart)] | !Visualisation.Enabled</visible>
-			<include>SettingsFadeEffect</include>
+			<include>SettingsFadeAnimation</include>
 			<control type="image">
 				<include>FullscreenDimensions</include>
 				<include>AnimatedBackgroundAnimation</include>
@@ -38,14 +38,14 @@
 				<include condition="String.IsEqual(Skin.String(FanartTimePerImage),30)">FanartTimePerImage30</include>
 				<include condition="String.IsEqual(Skin.String(FanartTimePerImage),60)">FanartTimePerImage60</include>
 				<include condition="String.IsEqual(Skin.String(FanartTimePerImage),90)">FanartTimePerImage90</include>
-				<animation effect="fade" start="100" end="20" time="0" condition="![String.IsEqual(Visualisation.Name,waveform) | String.IsEqual(Visualisation.Name,opengl spectrum) | String.IsEqual(Visualisation.Name,directx spectrum) | String.IsEmpty(Visualisation.Name)] + !Skin.HasSetting(HideVisualizationFanart)">Conditional</animation>
+				<animation effect="fade" start="100" end="20" time="0" condition="![String.IsEqual(Visualisation.Name,waveform) | String.Contains(Visualisation.Name,spectrum) | String.IsEmpty(Visualisation.Name)] + !Skin.HasSetting(HideVisualizationFanart)">Conditional</animation>
 			</control>
 		</control>
 		<control type="group">
 			<visible>String.IsEqual(Skin.String(Viz.Background),1)</visible>
 			<visible>[Visualisation.Enabled + !Skin.HasSetting(HideVisualizationFanart)] | !Visualisation.Enabled</visible>
-			<include>SettingsFadeEffect</include>
-			<animation effect="fade" start="100" end="20" time="0" condition="![String.IsEqual(Visualisation.Name,waveform) | String.IsEqual(Visualisation.Name,opengl spectrum) | String.IsEqual(Visualisation.Name,directx spectrum) | String.IsEmpty(Visualisation.Name)] + !Skin.HasSetting(HideVisualizationFanart)">Conditional</animation>
+			<include>SettingsFadeAnimation</include>
+			<animation effect="fade" start="100" end="20" time="0" condition="![String.IsEqual(Visualisation.Name,waveform) | String.Contains(Visualisation.Name,spectrum) | String.IsEmpty(Visualisation.Name)] + !Skin.HasSetting(HideVisualizationFanart)">Conditional</animation>
 			<control type="panel" id="9032">
 				<left>0</left>
 				<top>0</top>
@@ -215,8 +215,8 @@
 		<control type="group">
 			<top>520</top>
 			<visible>[Player.ShowInfo | Window.IsActive(MusicOSD)] + ![Window.IsVisible(AddonSettings) | Window.IsVisible(SelectDialog) | Window.IsVisible(VisualisationPresetList)]</visible>
-			<include>VisibleFadeEffect</include>
-			<include>Window_OpenClose_Animation</include>
+			<include>VisibleFadeAnimation</include>
+			<include>WindowOpenCloseAnimation</include>
 			<control type="image">
 				<top>-200</top>
 				<width>FullScreenWidth</width>
@@ -335,7 +335,7 @@
 					<top>150</top>
 					<animation effect="slide" end="-485,0" time="400" condition="Skin.HasSetting(HideMusicVizAlbum) + Skin.HasSetting(HideMusicVizCD) + Skin.HasSetting(SlideMusicLabelsLeft)">Conditional</animation>
 					<animation effect="slide" end="-205,0" time="400" condition="[Skin.HasSetting(HideMusicVizAlbum) | Skin.HasSetting(HideMusicVizCD)] + Skin.HasSetting(SlideMusicLabelsLeft)">Conditional</animation>
-					<include>VisibleFadeEffect</include>
+					<include>VisibleFadeAnimation</include>
 					<control type="label">
 						<left>478</left>
 						<top>-80</top>
@@ -437,7 +437,7 @@
 				<control type="group">
 					<visible>String.IsEqual(Skin.String(MusicVizLayout),2)</visible>
 					<top>150</top>
-					<include>VisibleFadeEffect</include>
+					<include>VisibleFadeAnimation</include>
 					<control type="label">
 						<top>-80</top>
 						<width>FullScreenWidth</width>
@@ -538,7 +538,7 @@
 					<animation effect="slide" end="-1090,0" time="0" condition="String.IsEqual(Skin.String(MusicVizLayout),1)">Conditional</animation>
 					<animation effect="slide" end="235,0" time="400" condition="String.IsEmpty(Skin.String(MusicVizLayout)) + Skin.HasSetting(HideMusicVizCD) + Skin.HasSetting(SlideMusicLabelsRight)">Conditional</animation>
 					<animation effect="slide" end="-235,0" time="400" condition="!Skin.HasSetting(HideMusicVizCD) + Skin.HasSetting(HideMusicVizAlbum) + String.IsEqual(Skin.String(MusicVizLayout),1) + Skin.HasSetting(SlideMusicLabelsLeft)">Conditional</animation>
-					<include>VisibleFadeEffect</include>
+					<include>VisibleFadeAnimation</include>
 					<control type="image" id="88888">
 						<left>220</left>
 						<top>3</top>
@@ -586,7 +586,7 @@
 						<description>Cover image</description>
 						<width>550</width>
 						<height>550</height>
-						<aspectratio align="right">keep</aspectratio>
+						<aspectratio align="right">scale</aspectratio>
 						<texture diffuse="thumbs/cdcover_mask2.png" fallback="DefaultAlbumCover.png">$INFO[Player.Art(thumb)]</texture>
 						<bordertexture border="28">thumbs/cd_shadow2.png</bordertexture>
 						<bordersize>28</bordersize>
@@ -600,7 +600,7 @@
 					<animation effect="rotate" end="-2" center="auto" condition="true">Conditional</animation>
 					<animation effect="rotatey" end="45" center="auto" condition="true">Conditional</animation>
 					<visible>MusicPlayer.Offset(1).Exists + !Skin.HasSetting(Disable.MusicPlayerNextTrack)</visible>
-					<include>VisibleFadeEffect</include>
+					<include>VisibleFadeAnimation</include>
 					<control type="group">
 						<control type="image">
 							<top>78</top>
@@ -743,7 +743,7 @@
 		<control type="group" id="0">
 			<animation effect="slide" start="0,-340" end="0,0" time="200">VisibleChange</animation>
 			<animation effect="fade" time="200">VisibleChange</animation>
-			<visible>Player.ShowCodec + ![Window.IsVisible(script-cu-lrclyrics-main.xml) | Window.IsVisible(script-XBMC_Lyrics-main.xml) | Window.IsVisible(addonsettings) | Window.IsVisible(VisualisationPresetList)]</visible>
+			<visible>Player.ShowCodec + ![Window.IsVisible(script-cu-lrclyrics-main.xml) | Window.IsVisible(selectdialog)]</visible>
 			<control type="image">
 				<left>0</left>
 				<top>0</top>
