@@ -18,21 +18,21 @@
 				<height>729</height>
 				<aspectratio aligny="top">keep</aspectratio>
 				<texture background="true" fallback="special://skin/extras/cdart/default.png">$INFO[ListItem.FileNameAndPath,,/cdart.png]</texture>
-				<visible>Container.Content(albums) | Container.Content(songs)</visible>
+				<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
 			</control>
 			<control type="image" id="55555">
 				<width>729</width>
 				<height>351</height>
 				<aspectratio>keep</aspectratio>
 				<texture background="true" fallback="empty.png">$INFO[ListItem.Path]$INFO[ListItem.Artist,,/logo.png]</texture>
-				<visible>Container.Content(artists)</visible>
+				<visible>String.IsEqual(ListItem.DBType,artist)</visible>
 			</control>
 			<control type="image">
 				<width>729</width>
 				<height>351</height>
 				<aspectratio>keep</aspectratio>
 				<texture background="true">$INFO[Window(Home).Property(SkinHelper.Music.ClearLogo)]</texture>
-				<visible>String.Contains(Control.GetLabel(55555),empty.png) + Container.Content(artists)</visible>
+				<visible>String.Contains(Control.GetLabel(55555),empty.png) + String.IsEqual(ListItem.DBType,artist)</visible>
 			</control>
 			<control type="image">
 				<top>311</top>
@@ -98,7 +98,7 @@
 					<height>110</height>
 					<itemgap>0</itemgap>
 					<align>center</align>
-					<visible>Container.Content(songs)</visible>
+					<visible>String.IsEqual(ListItem.DBType,song)</visible>
 					<control type="label">
 						<width>1100</width>
 						<height>60</height>
@@ -127,7 +127,7 @@
 					<height>110</height>
 					<itemgap>0</itemgap>
 					<align>center</align>
-					<visible>Container.Content(albums)</visible>
+					<visible>String.IsEqual(ListItem.DBType,album)</visible>
 					<control type="label">
 						<width>1100</width>
 						<height>60</height>
@@ -156,7 +156,7 @@
 					<height>110</height>
 					<itemgap>0</itemgap>
 					<align>center</align>
-					<visible>Container.Content(artists)</visible>
+					<visible>String.IsEqual(ListItem.DBType,artist)</visible>
 					<control type="label">
 						<width>1100</width>
 						<height>60</height>
@@ -205,7 +205,7 @@
 						<label>$INFO[ListItem.Property(Artist_YearsActive),[B][LOWERCASE],[/LOWERCASE][/B]]</label>Artist_YearsActive
 						<font>font35_title</font>
 						<textcolor>grey</textcolor>
-						<visible>!String.IsEmpty(ListItem.Property(Artist_YearsActive)) + Container.Content(artists)</visible>
+						<visible>!String.IsEmpty(ListItem.Property(Artist_YearsActive)) + String.IsEqual(ListItem.DBType,artist)</visible>
 					</control>
 					<control type="group">
 						<width>198</width>
@@ -236,7 +236,7 @@
 						<texture border="1">separator3.png</texture>
 					</control>
 					<control type="group">
-						<visible>!String.IsEmpty(Container(50).NumItems) + !Container.Content(songs)</visible>
+						<visible>!String.IsEmpty(Container(50).NumItems) + !String.IsEqual(ListItem.DBType,song)</visible>
 						<width>160</width>
 						<control type="label">
 							<left>0</left>
@@ -256,7 +256,7 @@
 							<label>[LOWERCASE]$LOCALIZE[182][/LOWERCASE]</label>
 							<font>font12</font>
 							<textcolor>grey</textcolor>
-							<visible>Container.Content(albums) | Container.Content(songs)</visible>
+							<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
 						</control>
 						<control type="label">
 							<top>52</top>
@@ -266,7 +266,7 @@
 							<label>[LOWERCASE]$LOCALIZE[132][/LOWERCASE]</label>
 							<font>font12</font>
 							<textcolor>grey</textcolor>
-							<visible>Container.Content(artists)</visible>
+							<visible>String.IsEqual(ListItem.DBType,artist)</visible>
 						</control>
 					</control>
 					<control type="image">
@@ -279,13 +279,13 @@
 						<aspectratio>keep</aspectratio>
 						<colordiffuse>$VAR[StarRatingDiffuseVar]</colordiffuse>
 						<texture fallback="rating0.png">$INFO[ListItem.UserRating,flags/rating/,.png]</texture>
-						<visible>!Container.Content(artists)</visible>
+						<visible>!String.IsEqual(ListItem.DBType,artist)</visible>
 					</control>
 					<control type="image">
 						<width>2</width>
 						<height>90</height>
 						<texture border="1">separator3.png</texture>
-						<visible>!Container.Content(artists)</visible>
+						<visible>!String.IsEqual(ListItem.DBType,artist)</visible>
 					</control>
 				</control>
 				<control type="image">
@@ -377,7 +377,7 @@
 							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[369],Home)</onclick>
 							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Title],Home)</onclick>
 							<onclick>ActivateWindow(1112)</onclick>
-							<visible>!String.IsEmpty(ListItem.Title) + !Container.Content(songs)</visible>
+							<visible>!String.IsEmpty(ListItem.Title) + !String.IsEqual(ListItem.DBType,song)</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.AlbumArtist]</label>
@@ -401,7 +401,7 @@
 							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[554],Home)</onclick>
 							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.TrackNumber],Home)</onclick>
 							<onclick>ActivateWindow(1112)</onclick>
-							<visible>!String.IsEmpty(ListItem.TrackNumber) + Container.Content(songs)</visible>
+							<visible>!String.IsEmpty(ListItem.TrackNumber) + String.IsEqual(ListItem.DBType,song)</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.Duration]</label>
@@ -457,7 +457,7 @@
 							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[21898],Home)</onclick>
 							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Property(Artist_YearsActive)],Home)</onclick>
 							<onclick>ActivateWindow(1112)</onclick>
-							<visible>!String.IsEmpty(ListItem.Property(Artist_YearsActive)) + !Container.Content(artists)</visible>
+							<visible>!String.IsEmpty(ListItem.Property(Artist_YearsActive)) + !String.IsEqual(ListItem.DBType,artist)</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.Property(Artist_Instrument)]</label>
@@ -473,7 +473,7 @@
 							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[175],Home)</onclick>
 							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Property(Artist_Mood)],Home)</onclick>
 							<onclick>ActivateWindow(1112)</onclick>
-							<visible>!String.IsEmpty(ListItem.Property(Artist_Mood)) + !Container.Content(songs)</visible>
+							<visible>!String.IsEmpty(ListItem.Property(Artist_Mood)) + !String.IsEqual(ListItem.DBType,song)</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.Property(Artist_Style)]</label>
@@ -481,7 +481,7 @@
 							<onclick>SetProperty(TextViewerHeader,$LOCALIZE[175],Home)</onclick>
 							<onclick>SetProperty(TextViewerContent,$ESCINFO[ListItem.Property(Artist_Style)],Home)</onclick>
 							<onclick>ActivateWindow(1112)</onclick>
-							<visible>!String.IsEmpty(ListItem.Property(Artist_Style)) + !Container.Content(songs)</visible>
+							<visible>!String.IsEmpty(ListItem.Property(Artist_Style)) + !String.IsEqual(ListItem.DBType,song)</visible>
 						</item>
 						<item>
 							<label>$INFO[ListItem.Property(Album_Mood)]</label>
@@ -668,10 +668,10 @@
 							<onup>9000</onup>
 							<ondown>50</ondown>
 							<include>ButtonInfoDialogsCommonValues</include>
-							<onclick condition="Container.Content(artists) | Container.Content(albums) | Container.Content(songs)">SetProperty(TextViewerHeader,$ESCINFO[ListItem.Artist,[B],[/B]],Home)</onclick>
-							<onclick condition="Container.Content(albums) | Container.Content(songs)">SetProperty(TextViewerSubHeader,$ESCINFO[ListItem.Album,[I],[/I]],Home)</onclick>
-							<onclick condition="Container.Content(albums)">SetProperty(TextViewerContent,$ESCINFO[ListItem.Property(Album_Description)],home)</onclick>
-							<onclick condition="Container.Content(artists) | Container.Content(songs)">SetProperty(TextViewerContent,$ESCINFO[ListItem.Property(Artist_Description)],home)</onclick>
+							<onclick condition="String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)">SetProperty(TextViewerHeader,$ESCINFO[ListItem.Artist,[B],[/B]],Home)</onclick>
+							<onclick condition="String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)">SetProperty(TextViewerSubHeader,$ESCINFO[ListItem.Album,[I],[/I]],Home)</onclick>
+							<onclick condition="String.IsEqual(ListItem.DBType,album)">SetProperty(TextViewerContent,$ESCINFO[ListItem.Property(Album_Description)],home)</onclick>
+							<onclick condition="String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,song)">SetProperty(TextViewerContent,$ESCINFO[ListItem.Property(Artist_Description)],home)</onclick>
 							<onclick>ActivateWindow(1112)</onclick>
 						</control>
 						<control type="textbox" id="4">
@@ -702,7 +702,7 @@
 						<pagecontrol>61</pagecontrol>
 						<scrolltime tween="quadratic" easing="out">200</scrolltime>
 						<orientation>horizontal</orientation>
-						<itemlayout height="84" width="593" condition="Container.Content(artists)">
+						<itemlayout height="84" width="593" condition="String.IsEqual(ListItem.DBType,artist)">
 							<control type="image">
 								<top>24</top>
 								<width>593</width>
@@ -729,7 +729,7 @@
 								<label>$INFO[ListItem.Label2]</label>
 							</control>
 						</itemlayout>
-						<focusedlayout height="84" width="593" condition="Container.Content(artists)">
+						<focusedlayout height="84" width="593" condition="String.IsEqual(ListItem.DBType,artist)">
 							<control type="image">
 								<top>24</top>
 								<width>593</width>
@@ -764,7 +764,7 @@
 								<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
 							</control>
 						</focusedlayout>
-						<itemlayout height="84" width="593" condition="Container.Content(albums) | Container.Content(songs)">
+						<itemlayout height="84" width="593" condition="String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)">
 							<control type="image">
 								<top>24</top>
 								<width>593</width>
@@ -791,7 +791,7 @@
 								<label>$INFO[ListItem.Duration]</label>
 							</control>
 						</itemlayout>
-						<focusedlayout height="84" width="593" condition="Container.Content(albums) | Container.Content(songs)">
+						<focusedlayout height="84" width="593" condition="String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)">
 							<control type="image">
 								<top>24</top>
 								<width>593</width>
@@ -914,7 +914,7 @@
 						<include>ButtonInfoDialogsCommonValues</include>
 						<label>20413</label>
 						<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
-						<visible>!Container.Content(songs)</visible>
+						<visible>!String.IsEqual(ListItem.DBType,song)</visible>
 					</control>
 					<control type="togglebutton" id="7">
 						<description>Set rating</description>
@@ -938,7 +938,7 @@
 						<width>2</width>
 						<height>58</height>
 						<texture border="1">separator3.png</texture>
-						<visible>!Container.Content(songs)</visible>
+						<visible>!String.IsEqual(ListItem.DBType,song)</visible>
 					</control>
 					<control type="button" id="204">
 						<description>filler</description>
