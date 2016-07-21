@@ -499,7 +499,7 @@
 								<label>$VAR[FloorSubLabelVar]</label>
 								<font>font13_bold</font>
 								<textcolor>white</textcolor>
-								<visible>!ListItem.IsCollection + [Container.Content(movies) + !String.IsEmpty(ListItem.Title)]</visible>
+								<visible>!ListItem.IsCollection + [Container.Content(movies) + !ListItem.IsParentFolder]</visible>
 							</control>
 						</control>
 						<!-- Movie Set Title List -->
@@ -548,7 +548,7 @@
 								<label>$LOCALIZE[20360]: $INFO[ListItem.Property(TotalEpisodes)][COLOR $VAR[LogoUnWatchedEpColor]]$INFO[ListItem.Property(UnWatchedEpisodes),  ($LOCALIZE[16101]: ,)][/COLOR]</label>
 								<font>font14_bold</font>
 								<textcolor>white</textcolor>
-								<visible>Container.Content(tvshows) + !String.IsEmpty(ListItem.Title)</visible>
+								<visible>Container.Content(tvshows) + !ListItem.IsParentFolder</visible>
 							</control>
 							<!-- Rating and Votes -->
 							<control type="label">
@@ -598,13 +598,13 @@
 								<left>230</left>
 								<include>MediaFlagVars</include>
 								<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
-								<visible>!String.IsEmpty(ListItem.Title) + !Skin.HasSetting(coloredflags)</visible>
+								<visible>!ListItem.IsParentFolder + !Skin.HasSetting(coloredflags)</visible>
 							</control>
 							<control type="image">
 								<left>230</left>
 								<include>MediaFlagVars</include>
 								<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
-								<visible>!String.IsEmpty(ListItem.Title) + Skin.HasSetting(coloredflags)</visible>
+								<visible>!ListItem.IsParentFolder + Skin.HasSetting(coloredflags)</visible>
 							</control>
 						</control>
 					</control>
@@ -715,13 +715,13 @@
 							<left>1690</left>
 							<include>MediaFlagVars</include>
 							<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
-							<visible>!String.IsEmpty(ListItem.Title) + !ListItem.IsCollection + !Skin.HasSetting(coloredflags)</visible>
+							<visible>!ListItem.IsParentFolder + !ListItem.IsCollection + !Skin.HasSetting(coloredflags)</visible>
 						</control>
 						<control type="image">
 							<left>1690</left>
 							<include>MediaFlagVars</include>
 							<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
-							<visible>!String.IsEmpty(ListItem.Title) + !ListItem.IsCollection + Skin.HasSetting(coloredflags)</visible>
+							<visible>!ListItem.IsParentFolder + !ListItem.IsCollection + Skin.HasSetting(coloredflags)</visible>
 						</control>
 					</control>
 					<control type="grouplist">
@@ -832,7 +832,7 @@
 					<colordiffuse>grey</colordiffuse>
 					<include>MediaFlagVars</include>
 					<texture fallback="flags/mpaa/NR.png">$VAR[ColoredRatingFlagVar]</texture>
-					<visible>Skin.HasSetting(coloredflags) + !String.IsEmpty(ListItem.Title) + !ListItem.IsCollection</visible>
+					<visible>Skin.HasSetting(coloredflags) + !ListItem.IsParentFolder + !ListItem.IsCollection</visible>
 				</control>
 				<control type="image">
 					<left>165</left>
@@ -840,7 +840,7 @@
 					<colordiffuse>grey</colordiffuse>
 					<include>MediaFlagVars</include>
 					<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
-					<visible>!Skin.HasSetting(coloredflags)	 + !String.IsEmpty(ListItem.Title) + !ListItem.IsCollection</visible>
+					<visible>!Skin.HasSetting(coloredflags)	 + !ListItem.IsParentFolder + !ListItem.IsCollection</visible>
 				</control>
 				<control type="image">
 					<left>400</left>
@@ -918,7 +918,7 @@
 					<colordiffuse>grey</colordiffuse>
 					<include>MediaFlagVars</include>
 					<texture fallback="flags/colored/rating/NR.png">$VAR[ColoredRatingFlagVar]</texture>
-					<visible>Skin.HasSetting(coloredflags) + !String.IsEmpty(ListItem.Title)</visible>
+					<visible>Skin.HasSetting(coloredflags) + !ListItem.IsParentFolder</visible>
 				</control>
 				<control type="image">
 					<left>165</left>
@@ -926,7 +926,7 @@
 					<colordiffuse>grey</colordiffuse>
 					<include>MediaFlagVars</include>
 					<texture fallback="flags/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
-					<visible>!Skin.HasSetting(coloredflags) + !String.IsEmpty(ListItem.Title)</visible>
+					<visible>!Skin.HasSetting(coloredflags) + !ListItem.IsParentFolder</visible>
 				</control>
 				<control type="grouplist">
 					<orientation>horizontal</orientation>
@@ -1200,6 +1200,20 @@
 					<label>13350</label>
 					<onclick>ActivateWindow(videoplaylist)</onclick>
 					<visible>!String.IsEqual(Playlist.Length(video),0)</visible>
+				</control>
+				<control type="button" id="613">
+					<description>Get more</description>
+					<include>ButtonCommonValues</include>
+					<label>$LOCALIZE[21452]</label>
+					<onclick>ActivateWindow(addonbrowser,addons://more/video/,return)</onclick>
+					<visible>Container.Content(addons)</visible>
+				</control>
+				<control type="button" id="614">
+					<description>Add-on settings</description>
+					<include>ButtonCommonValues</include>
+					<label>$LOCALIZE[10140]</label>
+					<onclick>Addon.OpenSettings($INFO[Container.PluginName])</onclick>
+					<visible>!String.IsEmpty(Container.PluginName)</visible>
 				</control>
 				<control type="button" id="699">
 					<description>Enable fullscreen</description>
