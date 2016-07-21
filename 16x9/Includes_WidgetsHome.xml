@@ -127,6 +127,7 @@
 				<top>50</top>
 				<visible>VideoPlayer.Content(musicvideos) | VideoPlayer.Content(livetv) | Player.IsInternetStream</visible>
 				<control type="group">
+					<!-- disabled on LiveTV - ChannelLogo looks IMHO ugly with this enabled and transparent Picons -->
 					<control type="image">
 						<description>Cover image</description>
 						<top>-20</top>
@@ -136,6 +137,7 @@
 						<texture colordiffuse="11FFFFFF">back.png</texture>
 						<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
 						<bordersize>20</bordersize>
+						<visible>!VideoPlayer.Content(livetv)</visible>
 					</control>
 					<control type="image">
 						<description>Cover image</description>
@@ -144,37 +146,84 @@
 						<aspectratio>keep</aspectratio>
 						<texture fallback="DefaultVideoCover.png">$VAR[HomeNowPlayingThumbVar]</texture>
 					</control>
-					<control type="grouplist">
+					<control type="group">
 						<left>340</left>
 						<height>300</height>
-						<itemgap>10</itemgap>
 						<align>center</align>
-						<control type="label">
-							<width>840</width>
-							<height>40</height>
-							<font>font48</font>
-							<textcolor>white2</textcolor>
-							<shadowcolor>black</shadowcolor>
-							<label>$INFO[VideoPlayer.ChannelName]</label>
+						<!-- Live-TV Group -->
+						<control type="group">
 							<visible>VideoPlayer.Content(livetv)</visible>
+							<control type="label">
+								<width>840</width>
+								<height>40</height>
+								<font>font48</font>
+								<textcolor>white2</textcolor>
+								<shadowcolor>black</shadowcolor>
+								<label>$INFO[VideoPlayer.ChannelName]</label>
+							</control>
+							<!-- Player.Title with RecordingIcon -->
+							<control type="group">
+								<visible>String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
+								<top>50</top>
+								<height>80</height>
+								<!-- RecordingIcon -->
+								<control type="group">
+									<include>NowRecordingIcon</include>
+								</control>
+								<control type="label">
+									<width>840</width>
+									<top>0</top>
+									<left>40</left>
+									<height>40</height>
+									<font>font48</font>
+									<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
+									<shadowcolor>black</shadowcolor>
+									<label>$INFO[Player.Title]</label>
+								</control>
+							</control>
+							<control type="label">
+								<width>840</width>
+								<height>40</height>
+								<top>50</top>
+								<font>font48</font>
+								<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
+								<shadowcolor>black</shadowcolor>
+								<label>$INFO[Player.Title]</label>
+								<visible>!String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
+							</control>
+							<control type="grouplist">
+								<top>100</top>
+								<itemgap>10</itemgap>
+								<control type="textbox">
+									<width>840</width>
+									<height max="120">auto</height>
+									<font>font15</font>
+									<textcolor>white</textcolor>
+									<shadowcolor>black</shadowcolor>
+									<label>$INFO[VideoPlayer.Plot]</label>
+									<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
+								</control>
+								<control type="label">
+									<description>Time Label</description>
+									<height>50</height>
+									<width>840</width>
+									<top>-20</top>
+									<label>[COLOR white2]+$VAR[PlayerTimeRemainingTVVar][/COLOR]$INFO[VideoPlayer.NextStartTime, endet: [COLOR=white2],[/COLOR]]</label> 
+									<font>font48</font>
+									<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
+									<shadowcolor>black</shadowcolor>
+								</control>
+							</control>
 						</control>
 						<control type="label">
 							<width>840</width>
 							<height>40</height>
-							<font>font48</font>
-							<textcolor>white2</textcolor>
-							<shadowcolor>black</shadowcolor>
-							<label>$INFO[Player.Title]</label>
-							<visible>!VideoPlayer.Content(livetv)</visible>
-						</control>
-						<control type="label">
-							<width>840</width>
-							<height>40</height>
+							<top>0</top>
 							<font>font48</font>
 							<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
 							<shadowcolor>black</shadowcolor>
 							<label>$INFO[Player.Title]</label>
-							<visible>VideoPlayer.Content(livetv)</visible>
+							<visible>!VideoPlayer.Content(livetv)</visible>
 						</control>
 						<control type="label">
 							<width>840</width>
@@ -202,25 +251,6 @@
 							<shadowcolor>black</shadowcolor>
 							<label>$INFO[VideoPlayer.Studio]</label>
 							<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(musicvideos)</visible>
-						</control>
-						<control type="textbox">
-							<width>840</width>
-							<height max="120">auto</height>
-							<font>font15</font>
-							<textcolor>white</textcolor>
-							<shadowcolor>black</shadowcolor>
-							<label>$INFO[VideoPlayer.Plot]</label>
-							<visible>VideoPlayer.Content(livetv)</visible>
-							<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
-						</control>
-						<control type="label">
-							<description>Time Label</description>
-							<height>50</height>
-							<width>840</width>
-							<label>[COLOR white2]$INFO[Player.Time][/COLOR]$INFO[Player.Duration, / [COLOR=white2],[/COLOR]]</label>
-							<font>font48</font>
-							<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
-							<shadowcolor>black</shadowcolor>
 						</control>
 					</control>
 				</control>
@@ -904,7 +934,32 @@
 				</control>
 			</control>
 			<control type="group">
+				<include>NowRecordingBar</include>
+			</control>
+		</control>
+	</include>
+
+	<!-- add new include: RecordingIcon -->
+	<!-- I was too lazy to edit pulse-time in all XMLs ;) -->
+	<include name="NowRecordingIcon">
+		<control type="image" id="1">
+			<visible>PVR.IsRecording</visible>
+			<width>40</width>
+			<height>40</height>
+			<texture>new_pvr/PVR-IsRecording.png</texture>
+			<animation effect="fade" start="100" end="50" time="2000" pulse="true" condition="true">conditional</animation>
+		</control>
+	</include>
+	
+	<!-- added new include: Recording Info -->
+	<include name="NowRecordingBar">
+		<control type="group">
+			<left>490r</left>
+			<animation effect="fade" end="95" condition="true">Conditional</animation>
+			<control type="group">
 				<visible>PVR.IsRecording</visible>
+				<!-- Don't display, if the actual channel is recorded -->
+				<visible>!String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
 				<height>150</height>
 				<control type="image">
 					<left>-200</left>
@@ -921,23 +976,18 @@
 					<aspectratio>keep</aspectratio>
 					<texture background="true" fallback="DefaultTVShows.png">$INFO[PVR.NowRecordingChannelIcon]</texture>
 				</control>
-				<control type="label">
+				<control type="group">
 					<left>340</left>
-					<top>12</top>
-					<height>26</height>
-					<width>26</width>
-					<textoffsetx>15</textoffsetx>
-					<font>IconTiny</font>
-					<textcolor>red</textcolor>
-					<label></label>
+					<top>4</top>
+					<include>NowRecordingIcon</include>
 				</control>
 				<control type="label">
 					<description>Is Recording Header label</description>
-					<left>-55</left>
+					<left>-155</left>
 					<top>12</top>
 					<height>25</height>
-					<width>400</width>
-					<label>$LOCALIZE[19158][COLOR=grey]$INFO[PVR.NowRecordingChannel, - ,][/COLOR]</label>
+					<width>500</width>
+					<label>$LOCALIZE[19158][COLOR=grey]$INFO[PVR.NowRecordingChannel, - ,][/COLOR] $INFO[VideoPlayer.ChannelName]</label>
 					<align>right</align>
 					<aligny>center</aligny>
 					<font>font13</font>
