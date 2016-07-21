@@ -127,7 +127,6 @@
 				<top>50</top>
 				<visible>VideoPlayer.Content(musicvideos) | VideoPlayer.Content(livetv) | Player.IsInternetStream</visible>
 				<control type="group">
-					<!-- disabled on LiveTV - ChannelLogo looks IMHO ugly with this enabled and transparent Picons -->
 					<control type="image">
 						<description>Cover image</description>
 						<top>-20</top>
@@ -149,8 +148,6 @@
 					<control type="group">
 						<left>340</left>
 						<height>300</height>
-						<align>center</align>
-						<!-- Live-TV Group -->
 						<control type="group">
 							<visible>VideoPlayer.Content(livetv)</visible>
 							<control type="label">
@@ -167,8 +164,12 @@
 								<top>50</top>
 								<height>80</height>
 								<!-- RecordingIcon -->
-								<control type="group">
-									<include>NowRecordingIcon</include>
+								<control type="image">
+									<width>40</width>
+									<height>40</height>
+									<texture>new_pvr/PVR-IsRecording.png</texture>
+									<animation effect="fade" start="100" end="50" time="2000" pulse="true" condition="true">conditional</animation>
+									<visible>PVR.IsRecording</visible>
 								</control>
 								<control type="label">
 									<width>840</width>
@@ -208,7 +209,7 @@
 									<height>50</height>
 									<width>840</width>
 									<top>-20</top>
-									<label>[COLOR white2]+$VAR[PlayerTimeRemainingTVVar][/COLOR]$INFO[VideoPlayer.NextStartTime, endet: [COLOR=white2],[/COLOR]]</label> 
+									<label>[COLOR white2]+$VAR[PlayerTimeRemainingTVVar][/COLOR]$INFO[VideoPlayer.NextStartTime, endet: [COLOR=white2],[/COLOR]]</label>
 									<font>font48</font>
 									<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
 									<shadowcolor>black</shadowcolor>
@@ -857,13 +858,16 @@
 		<control type="group">
 			<left>490r</left>
 			<top>45</top>
-			<visible>!String.IsEmpty(Container(9000).ListItem.Property(widgetLiveTV))</visible>
-			<include>VisibleFadeAnimation</include>
-			<include>WindowOpenCloseAnimation</include>
+			<visible>!String.IsEmpty(Container(9000).ListItem.Property(widgetLiveTV)) | [VideoPlayer.Content(LiveTV) + Window.IsActive(fullscreeninfo)]</visible>
+			<animation effect="fade" time="300">Visible</animation>
+			<include condition="Window.IsActive(home)">WindowOpenCloseAnimation</include>
 			<animation effect="fade" start="100" end="0" time="200" condition="ControlGroup(90020).HasFocus">Conditional</animation>
-			<animation effect="slide" end="0,735" time="0" tween="cubic" easing="inout" condition="!Skin.HasSetting(lowermainmenu) | String.IsEqual(Skin.String(MainMenu.Layout),$LOCALIZE[31994])">Conditional</animation>
+			<animation effect="slide" end="0,735" time="0" tween="cubic" easing="inout" condition="[!Skin.HasSetting(lowermainmenu) | String.IsEqual(Skin.String(MainMenu.Layout),$LOCALIZE[31994])] + Window.IsActive(home)">Conditional</animation>
+			<animation effect="slide" end="0,50" time="0" condition="Window.IsActive(fullscreeninfo) + String.IsEqual(Skin.String(LiveTV.InfobarType),1)">Conditional</animation>
+			<!-- NextRecording -->
 			<control type="group">
-				<animation effect="slide" start="0,0" end="0,100" time="0" condition="PVR.IsRecording">conditional</animation>
+				<animation effect="slide" end="-31,-177" time="0" condition="Window.IsActive(fullscreeninfo)">Conditional</animation>
+				<animation effect="slide" start="0,0" end="0,100" time="0" condition="Window.IsActive(home) + PVR.IsRecording + !String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)">Conditional</animation>
 				<visible>PVR.HasNonRecordingTimer</visible>
 				<height>120</height>
 				<top>30</top>
@@ -933,33 +937,10 @@
 					<scroll>true</scroll>
 				</control>
 			</control>
+			<!-- CurrentlyRecording -->
 			<control type="group">
-				<include>NowRecordingBar</include>
-			</control>
-		</control>
-	</include>
-
-	<!-- add new include: RecordingIcon -->
-	<!-- I was too lazy to edit pulse-time in all XMLs ;) -->
-	<include name="NowRecordingIcon">
-		<control type="image" id="1">
-			<visible>PVR.IsRecording</visible>
-			<width>40</width>
-			<height>40</height>
-			<texture>new_pvr/PVR-IsRecording.png</texture>
-			<animation effect="fade" start="100" end="50" time="2000" pulse="true" condition="true">conditional</animation>
-		</control>
-	</include>
-	
-	<!-- added new include: Recording Info -->
-	<include name="NowRecordingBar">
-		<control type="group">
-			<left>490r</left>
-			<animation effect="fade" end="95" condition="true">Conditional</animation>
-			<control type="group">
-				<visible>PVR.IsRecording</visible>
-				<!-- Don't display, if the actual channel is recorded -->
-				<visible>!String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
+				<animation effect="slide" end="-31,539" time="0" condition="Window.IsActive(fullscreeninfo)">Conditional</animation>
+				<visible>PVR.IsRecording + !String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
 				<height>150</height>
 				<control type="image">
 					<left>-200</left>
@@ -976,10 +957,14 @@
 					<aspectratio>keep</aspectratio>
 					<texture background="true" fallback="DefaultTVShows.png">$INFO[PVR.NowRecordingChannelIcon]</texture>
 				</control>
-				<control type="group">
+				<control type="image">
 					<left>340</left>
-					<top>4</top>
-					<include>NowRecordingIcon</include>
+					<top>6</top>
+					<visible>PVR.IsRecording</visible>
+					<width>40</width>
+					<height>40</height>
+					<texture>new_pvr/PVR-IsRecording.png</texture>
+					<animation effect="fade" start="100" end="50" time="2000" pulse="true" condition="true">conditional</animation>
 				</control>
 				<control type="label">
 					<description>Is Recording Header label</description>
@@ -996,10 +981,10 @@
 				</control>
 				<control type="label">
 					<description>NowRecordingDateTime</description>
-					<left>-20</left>
+					<left>-120</left>
 					<top>48</top>
 					<height>25</height>
-					<width>400</width>
+					<width>500</width>
 					<label>$INFO[PVR.NowRecordingDateTime,$LOCALIZE[19126] - ]</label>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -1009,10 +994,10 @@
 				</control>
 				<control type="label">
 					<description>NowRecordingTitle Channel</description>
-					<left>-420</left>
+					<left>-120</left>
 					<top>85</top>
 					<height>25</height>
-					<width>800</width>
+					<width>500</width>
 					<label>$INFO[PVR.NowRecordingTitle]</label>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -1022,6 +1007,16 @@
 					<scroll>true</scroll>
 				</control>
 			</control>
+		</control>
+	</include>
+	<!-- RecordingIcon -->
+	<include name="NowRecordingIcon">
+		<control type="image" id="1">
+			<visible>PVR.IsRecording</visible>
+			<width>40</width>
+			<height>40</height>
+			<texture>new_pvr/PVR-IsRecording.png</texture>
+			<animation effect="fade" start="100" end="50" time="2000" pulse="true" condition="true">conditional</animation>
 		</control>
 	</include>
 	<include name="FanartTitle">
