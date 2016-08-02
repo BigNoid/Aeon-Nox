@@ -149,7 +149,7 @@
 			<control type="label" id="1">
 				<left>380</left>
 				<top>895</top>
-				<width>150</width>
+				<width>200</width>
 				<height>38</height>
 				<font>font16</font>
 				<align>left</align>
@@ -157,7 +157,7 @@
 				<visible>!String.IsEmpty(VideoPlayer.Title)</visible>
 			</control>
 			<control type="label" id="1">
-				<left>520</left>
+				<left>580</left>
 				<top>895</top>
 				<width>880</width>
 				<height>38</height>
@@ -166,28 +166,15 @@
 				<scroll>true</scroll>
 				<label>[B]$INFO[VideoPlayer.Title][/B]</label>
 				<visible>!String.IsEmpty(VideoPlayer.Title)</visible>
-				<visible>![VideoPlayer.Content(LiveTV) + Player.Recording]</visible>
 			</control>
-			<control type="group"> <!-- Recording logo and labels -->
-				<!-- PVR.IsRecording -->
-				<control type="group">
-					<visible>VideoPlayer.Content(LiveTV) + PVR.IsRecording</visible>
-					<visible>String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
-					<top>896</top>
-					<left>479</left>
-					<include>NowRecordingIcon</include>
-				</control>
-				<control type="label" id="1">
-					<left>480</left>
-					<top>895</top>
-					<width>880</width>
-					<height>38</height>
-					<font>font16</font>
-					<align>left</align>
-					<scroll>true</scroll>
-					<label>[B]$INFO[VideoPlayer.Title][/B]</label>
-					<visible>!String.IsEmpty(VideoPlayer.Title)</visible>
-				</control>
+			<control type="image" id="1">
+				<top>896</top>
+				<left>1580</left>
+				<width>40</width>
+				<height>40</height>
+				<texture>new_pvr/PVR-IsRecording.png</texture>
+				<animation effect="fade" start="100" end="50" time="2000" pulse="true" condition="true">conditional</animation>
+				<visible>VideoPlayer.Content(LiveTV) + PVR.IsRecording + String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
 			</control>
 			<control type="label" id="1">
 				<left>1300</left>
@@ -391,7 +378,7 @@
 				<width>110</width>
 				<height>80</height>
 				<aspectratio align="center">keep</aspectratio>
-				<texture colordiffuse="grey">$INFO[VideoPlayer.VideoAspect,new_pvr/flags/aspectratio/,.png]</texture>
+				<texture colordiffuse="grey">$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
 			</control>
 			<control type="image" id="1">
 				<left>85</left>
@@ -399,7 +386,7 @@
 				<width>110</width>
 				<height>80</height>
 				<aspectratio align="center">keep</aspectratio>
-				<texture colordiffuse="grey">$INFO[VideoPlayer.VideoResolution,new_pvr/flags/resolution/,.png]</texture>
+				<texture colordiffuse="grey">$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
 			</control>
 			<control type="image" id="1">
 				<left>200</left>
@@ -407,7 +394,7 @@
 				<width>110</width>
 				<height>80</height>
 				<aspectratio align="center">keep</aspectratio>
-				<texture colordiffuse="grey">$INFO[VideoPlayer.VideoCodec,new_pvr/flags/videocodec/,.png]</texture>
+				<texture colordiffuse="grey">$INFO[VideoPlayer.VideoCodec,flags/video/,.png]</texture>
 			</control>
 			<control type="image" id="1">
 				<left>85</left>
@@ -415,7 +402,7 @@
 				<width>110</width>
 				<height>80</height>
 				<aspectratio align="center">keep</aspectratio>
-				<texture colordiffuse="grey">$INFO[VideoPlayer.AudioCodec,new_pvr/flags/audiocodec/,.png]</texture>
+				<texture colordiffuse="grey">$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
 			</control>
 			<control type="image" id="1">
 				<left>200</left>
@@ -423,7 +410,7 @@
 				<width>110</width>
 				<height>80</height>
 				<aspectratio align="center">keep</aspectratio>
-				<texture colordiffuse="grey">$INFO[VideoPlayer.AudioChannels,new_pvr/flags/audiochannels/,ch.png]</texture>
+				<texture colordiffuse="grey">$INFO[VideoPlayer.AudioChannels,flags/channels/,.png]</texture>
 			</control>
 		</control>
 		<!-- Encryption -->
@@ -609,21 +596,13 @@
 				<texture border="35">dialogs/default/bg.png</texture>
 				<animation effect="fade" end="95" condition="true">Conditional</animation>
 			</control>
-			<control type="image" id="1">
-				<top>100</top>
-				<left>380</left>
-				<width>1480</width>
-				<height>3</height>
-				<texture border="0">new_pvr/osd_line_white.png</texture>
-				<colordiffuse>white2</colordiffuse>
-			</control>
 		</control>
 		<control type="group" id="2">
 			<control type="image" id="3">
-				<left>100</left>
+				<left>50</left>
 				<top>26</top>
-				<width>220</width>
-				<height>190</height>
+				<width>200</width>
+				<height>200</height>
 				<align>center</align>
 				<texture>$INFO[VideoPlayer.Cover]</texture>
 				<aspectratio>keep</aspectratio>
@@ -632,29 +611,32 @@
 		<!-- Top Info (ChannelNr, Name, Date, Time) -->
 		<control type="group" id="1">
 			<top>18</top>
-			<control type="label" id="1">
-				<left>380</left>
-				<width>350</width>
-				<height>68</height>
-				<align>left</align>
-				<font>font65</font>
-				<textcolor>$VAR[ThemeLabelColor]</textcolor>
-				<label>$INFO[VideoPlayer.ChannelNumberLabel]</label>
-				<scroll>true</scroll>
-			</control>
-			<control type="label" id="1">
-				<left>480</left>
-				<width>1000</width>
-				<height>68</height>
-				<align>left</align>
-				<font>font65</font>
-				<textcolor>$VAR[ThemeLabelColor]</textcolor>
-				<label>$INFO[VideoPlayer.ChannelName]</label>
-				<scroll>true</scroll>
+			<control type="grouplist">
+				<left>300</left>
+				<width>700</width>
+				<itemgap>20</itemgap>
+				<orientation>horizontal</orientation>
+				<control type="label" id="1">
+					<width>auto</width>
+					<height>68</height>
+					<align>left</align>
+					<font>font65</font>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$INFO[VideoPlayer.ChannelNumberLabel]</label>
+					<scroll>true</scroll>
+				</control>
+				<control type="label" id="1">
+					<width>auto</width>
+					<height>68</height>
+					<align>left</align>
+					<font>font65</font>
+					<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<label>$INFO[VideoPlayer.ChannelName]</label>
+					<scroll>true</scroll>
+				</control>
 			</control>
 			<control type="group" id="1">
-				<left>1100</left>
-				<height>70</height>
+				<left>1000</left>
 				<control type="image" id="1">
 					<left>10</left>
 					<width>100</width>
@@ -667,131 +649,112 @@
 					<width>100</width>
 					<height>80</height>
 					<aspectratio align="center" aligny="center">keep</aspectratio>
-					<texture colordiffuse="white" fallback="flags/audio/defaultscreen.png">$INFO[VideoPlayer.AudioChannels,new_pvr/flags/audiochannels/,ch.png]</texture>
+					<texture colordiffuse="white" fallback="flags/audio/defaultscreen.png">$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
 				</control>
 				<control type="image" id="1">
 					<left>200</left>
 					<width>100</width>
 					<height>80</height>
 					<aspectratio align="center" aligny="center">keep</aspectratio>
-					<texture colordiffuse="white" fallback="flags/audio/defaultscreen.png">$INFO[VideoPlayer.AudioCodec,new_pvr/flags/audiocodec/,.png]</texture>
+					<texture colordiffuse="white" fallback="flags/audio/defaultscreen.png">$INFO[VideoPlayer.AudioChannels,flags/channels/,.png]</texture>
 				</control>
 				<control type="image" id="1">
 					<left>300</left>
 					<width>100</width>
 					<height>80</height>
 					<aspectratio align="center" aligny="center">keep</aspectratio>
-					<texture colordiffuse="white" fallback="flags/source/defaultsource.png">$INFO[VideoPlayer.VideoCodec,new_pvr/flags/videocodec/,.png]</texture>
+					<texture colordiffuse="white" fallback="flags/audio/defaultscreen.png">$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
 				</control>
 				<control type="image" id="1">
 					<left>400</left>
 					<width>100</width>
 					<height>80</height>
 					<aspectratio align="center" aligny="center">keep</aspectratio>
-					<texture colordiffuse="white" fallback="flags/audio/defaultscreen.png">$INFO[VideoPlayer.VideoResolution,new_pvr/flags/resolution/,.png]</texture>
+					<texture colordiffuse="white" fallback="flags/source/defaultsource.png">$INFO[VideoPlayer.VideoCodec,flags/video/,.png]</texture>
+				</control>
+				<control type="image" id="1">
+					<left>500</left>
+					<top>21</top>
+					<width>40</width>
+					<height>40</height>
+					<texture>new_pvr/PVR-IsRecording.png</texture>
+					<animation effect="fade" start="100" end="50" time="2000" pulse="true" condition="true">conditional</animation>
+					<visible>String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
 				</control>
 			</control>
 			<control type="group" id="1">
-				<visible>!String.IsEmpty(Weather.Plugin)</visible>
+				<left>1550</left>
+				<visible>String.IsEmpty(Weather.IsFetched)</visible>
 				<control type="label" id="1">
-					<left>1610</left>
 					<top>10</top>
-					<width>250</width>
+					<width>300</width>
 					<height>30</height>
 					<align>center</align>
 					<font>font24_bold</font>
 					<textcolor>$VAR[ThemeLabelColor]</textcolor>
-					<label>$INFO[System.Date(DDD)]   $INFO[System.Date(dd.mm)]</label>
+					<label>$INFO[System.Date]</label>
 				</control>
 				<control type="label" id="1">
-					<left>1610</left>
 					<top>40</top>
-					<width>250</width>
+					<width>300</width>
 					<height>30</height>
 					<align>center</align>
 					<font>font24_bold</font>
 					<textcolor>$VAR[ThemeLabelColor]</textcolor>
-					<label>$INFO[Weather.Temperature]  $INFO[Weather.Conditions]</label>
+					<label>$INFO[Weather.Temperature]$INFO[Weather.Conditions,  ,]</label>
 				</control>
 			</control>
 			<control type="group" id="1">
-				<visible>String.IsEmpty(Weather.Plugin)</visible>
+				<left>1550</left>
+				<visible>!String.IsEmpty(Weather.IsFetched)</visible>
 				<control type="label" id="1">
-					<left>1610</left>
-					<top>10</top>
-					<width>250</width>
+					<top>20</top>
+					<width>300</width>
 					<height>30</height>
 					<align>center</align>
-					<font>font13b</font>
+					<font>font24_bold</font>
 					<textcolor>$VAR[ThemeLabelColor]</textcolor>
-					<label>$INFO[System.Date(DDD)]</label>
-				</control>
-				<control type="label" id="1">
-					<left>1610</left>
-					<top>40</top>
-					<width>250</width>
-					<height>30</height>
-					<align>center</align>
-					<font>font13b</font>
-					<textcolor>$VAR[ThemeLabelColor]</textcolor>
-					<label>$INFO[System.Date(dd.mm.yyyy)]</label>
+					<label>$INFO[System.Date]</label>
 				</control>
 			</control>
 			<control type="label" id="1">
-				<left>1610</left>
+				<left>1550</left>
 				<top>115</top>
-				<width>250</width>
+				<width>300</width>
 				<height>60</height>
 				<align>center</align>
 				<font>font65</font>
 				<textcolor>white2</textcolor>
-				<label>[B]$INFO[System.Time(hh:mm xx)][/B]</label>
+				<label>[B]$INFO[System.Time][/B]</label>
 			</control>
+		</control>
+		<control type="image" id="1">
+			<top>100</top>
+			<left>300</left>
+			<width>1550</width>
+			<height>3</height>
+			<texture border="0">new_pvr/osd_line_white.png</texture>
+			<colordiffuse>white2</colordiffuse>
 		</control>
 		<!-- Middle Info (Start\End times, Current\Next EPG, Progress-bar, Recording) -->
 		<control type="group" id="1">
 			<visible>VideoPlayer.HasEpg</visible>
 			<top>112</top>
-			<control type="label" id="1">
-				<left>380</left>
-				<width>150</width>
-				<height>38</height>
-				<font>font16</font>
-				<align>left</align>
-				<label>[B]$INFO[VideoPlayer.StartTime][/B]</label>
-				<visible>!String.IsEmpty(VideoPlayer.Title)</visible>
-			</control>
-			<control type="label" id="1">
-				<left>535</left>
-				<width>865</width>
-				<height>38</height>
-				<font>font16</font>
-				<align>left</align>
-				<scroll>true</scroll>
-				<label>[B]$INFO[VideoPlayer.Title][/B]</label>
-				<visible>!String.IsEmpty(VideoPlayer.Title)</visible>
-				<visible>![VideoPlayer.Content(LiveTV) + PVR.IsRecording]</visible>
-			</control>
-			<control type="label" id="1">
-				<left>1400</left>
-				<width>200</width>
-				<height>38</height>
-				<font>font16</font>
-				<align>right</align>
-				<label>[COLOR white2]+$VAR[PlayerTimeRemainingTVVar][/COLOR]</label>
-				<visible>!String.IsEmpty(VideoPlayer.Title)</visible>
-			</control>
-			<!-- PVR.IsRecording -->
-			<control type="group" id="1">
-				<control type="group">
-					<left>479</left>
-					<include>NowRecordingIcon</include>
-					<visible>VideoPlayer.Content(LiveTV) + PVR.IsRecording</visible>
-					<visible>String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
+			<control type="grouplist">
+				<left>300</left>
+				<width>700</width>
+				<itemgap>20</itemgap>
+				<orientation>horizontal</orientation>
+				<control type="label" id="1">
+					<width>auto</width>
+					<height>38</height>
+					<font>font16</font>
+					<align>left</align>
+					<label>[B]$INFO[VideoPlayer.StartTime][/B]</label>
+					<visible>!String.IsEmpty(VideoPlayer.StartTime)</visible>
 				</control>
 				<control type="label" id="1">
-					<left>535</left>
-					<width>865</width>
+					<width>auto</width>
 					<height>38</height>
 					<font>font16</font>
 					<align>left</align>
@@ -801,32 +764,44 @@
 				</control>
 			</control>
 			<control type="label" id="1">
-				<left>380</left>
-				<top>70</top>
-				<width>150</width>
+				<left>1350</left>
+				<width>200</width>
 				<height>38</height>
 				<font>font16</font>
-				<align>left</align>
-				<textcolor>grey</textcolor>
-				<label>$INFO[VideoPlayer.NextStartTime]</label>
-				<visible>!String.IsEmpty(VideoPlayer.NextTitle)</visible>
+				<align>right</align>
+				<label>[COLOR white2]+$VAR[PlayerTimeRemainingTVVar][/COLOR]</label>
+				<visible>!String.IsEmpty(Player.TimeRemaining)</visible>
+			</control>
+			<control type="grouplist">
+				<left>300</left>
+				<top>70</top>
+				<width>700</width>
+				<itemgap>20</itemgap>
+				<orientation>horizontal</orientation>
+				<control type="label" id="1">
+					<width>auto</width>
+					<height>38</height>
+					<font>font16</font>
+					<align>left</align>
+					<textcolor>grey</textcolor>
+					<label>$INFO[VideoPlayer.NextStartTime]</label>
+					<visible>!String.IsEmpty(VideoPlayer.NextTitle)</visible>
+				</control>
+				<control type="label" id="1">
+					<width>auto</width>
+					<height>38</height>
+					<font>font16</font>
+					<align>left</align>
+					<textcolor>grey</textcolor>
+					<scroll>true</scroll>
+					<label>$INFO[VideoPlayer.NextTitle]</label>
+					<visible>!String.IsEmpty(VideoPlayer.NextTitle)</visible>
+				</control>
 			</control>
 			<control type="label" id="1">
-				<left>535</left>
+				<left>1350</left>
 				<top>70</top>
-				<width>880</width>
-				<height>38</height>
-				<font>font16</font>
-				<align>left</align>
-				<textcolor>grey</textcolor>
-				<scroll>true</scroll>
-				<label>$INFO[VideoPlayer.NextTitle]</label>
-				<visible>!String.IsEmpty(VideoPlayer.NextTitle)</visible>
-			</control>
-			<control type="label" id="1">
-				<left>1450</left>
-				<top>70</top>
-				<width>150</width>
+				<width>200</width>
 				<height>38</height>
 				<font>font16</font>
 				<align>right</align>
@@ -835,9 +810,9 @@
 				<visible>!String.IsEmpty(VideoPlayer.NextTitle)</visible>
 			</control>
 			<control type="progress" id="1">
-				<left>380</left>
+				<left>300</left>
 				<top>50</top>
-				<width>1225</width>
+				<width>1255</width>
 				<height>10</height>
 				<info>Pvr.Progress</info>
 				<midtexture border="0" colordiffuse="$VAR[ThemeLabelColor]">new_pvr/texturebg_white.png</midtexture>
