@@ -5,16 +5,14 @@
 		<control type="group">
 			<visible>Control.IsVisible(506) + !Window.IsActive(addoninformation)</visible>
 			<include>ViewAnimation</include>
-			<control type="group">
+			<control type="image">
 				<left>30</left>
 				<top>70</top>
 				<width>390</width>
 				<height>164</height>
+				<aspectratio aligny="bottom">keep</aspectratio>
+				<texture background="true">$VAR[ArtworkLogoVar]</texture>
 				<visible>[Skin.HasSetting(rightlistlogomovie) + Container.Content(movies)] | [Skin.HasSetting(rightlistlogotv) + [Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]]</visible>
-				<control type="image">
-					<aspectratio aligny="bottom">keep</aspectratio>
-					<texture background="true">$VAR[ArtworkLogoVar]</texture>
-				</control>
 			</control>
 			<control type="group">
 				<left>5</left>
@@ -27,23 +25,17 @@
 					<height>380</height>
 					<visible>Container.Content(movies) + Skin.HasSetting(discrightlist)</visible>
 					<animation effect="slide" end="0,30" time="0" tween="cubic" easing="inout" condition="!Skin.HasSetting(rightlistcovers) + Skin.HasSetting(discrightlist)">Conditional</animation>
+					<include>SlideLeftSpinningDiscAnimation</include>
 					<control type="image">
 						<aspectratio align="right">keep</aspectratio>
 						<texture background="true">$INFO[ListItem.Art(discart)]</texture>
 						<fadetime>IconCrossfadeTime</fadetime>
-						<include>SlideLeftSpinningDiscAnimation</include>
+						<visible>!String.IsEmpty(ListItem.Art(discart))</visible>
 					</control>
 					<control type="image">
 						<aspectratio align="right">keep</aspectratio>
 						<texture background="true">$INFO[Window(home).Property(Set.Movie.1.Art(discart))]</texture>
 						<fadetime>IconCrossfadeTime</fadetime>
-						<animation type="WindowOpen" reversible="false">
-							<effect type="slide" tween="cubic" easing="inout" time="1500" delay="100" start="-800" end="0" />
-							<effect type="rotate" end="-360" center="auto" time="2000" delay="0" loop="false" tween="cubic" easing="inout" />
-						</animation>
-						<animation type="Conditional" reversible="false" condition="!Container.OnNext + !Container.OnPrevious">
-							<effect type="rotate" end="-360" center="auto" time="6400" delay="1200" loop="false" tween="cubic" easing="inout" />
-						</animation>
 						<visible>ListItem.IsCollection</visible>
 					</control>
 				</control>
@@ -226,32 +218,20 @@
 						<param name="width">700</param>
 					</include>
 				</itemlayout>
-				<itemlayout height="90" width="806" condition="[!Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)]">
-					<include content="RightListItemLayout">
-						<param name="width">700</param>
-					</include>
+				<itemlayout height="90" width="806" condition="[Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + !Skin.HasSetting(rightlistalternatetv)">
+					<control type="group">
+						<animation effect="slide" end="70" time="0" condition="Container.Content(episodes)">Conditional</animation>
+						<include content="RightListItemLayout">
+							<param name="width">700</param>
+						</include>
+					</control>
 				</itemlayout>
 				<itemlayout height="90" width="806" condition="[Skin.HasSetting(rightlistalternate) + Container.Content(movies)]">
 					<include content="RightListItemLayout">
 						<param name="width">770</param>
 					</include>
 				</itemlayout>
-				<itemlayout height="90" width="806" condition="[Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)]">
-					<include content="RightListItemLayout">
-						<param name="width">770</param>
-					</include>
-				</itemlayout>
-				<itemlayout height="90" width="806" condition="[Container.Content(seasons)]">
-					<include content="RightListItemLayout">
-						<param name="width">770</param>
-					</include>
-				</itemlayout>
-				<itemlayout height="90" width="806" condition="[Container.Content(episodes) + !Skin.HasSetting(rightlistalternateepisode)]">
-					<include content="RightListItemLayout">
-						<param name="width">770</param>
-					</include>
-				</itemlayout>
-				<itemlayout height="90" width="806" condition="[Container.Content(episodes) + Skin.HasSetting(rightlistalternateepisode)]">
+				<itemlayout height="90" width="806" condition="[Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + Skin.HasSetting(rightlistalternatetv)">
 					<include content="RightListItemLayout">
 						<param name="width">770</param>
 					</include>
@@ -265,14 +245,17 @@
 						<param name="width">700</param>
 					</include>
 				</focusedlayout>
-				<focusedlayout height="90" width="806" condition="[!Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)]">
+				<focusedlayout height="90" width="806" condition="[Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + !Skin.HasSetting(rightlistalternatetv)">
 					<control type="image">
 						<include>RightListFocusedHighLightContent</include>
 						<include>VisibleFadeAnimation</include>
 					</control>
-					<include content="RightListFocusedLayout">
-						<param name="width">700</param>
-					</include>
+					<control type="group">
+						<animation effect="slide" end="70" time="0" condition="Container.Content(episodes)">Conditional</animation>
+						<include content="RightListFocusedLayout">
+							<param name="width">700</param>
+						</include>
+					</control>
 				</focusedlayout>
 				<focusedlayout height="90" width="806" condition="[Skin.HasSetting(rightlistalternate) + Container.Content(movies)]">
 					<include content="RightListFocusedLayout">
@@ -280,40 +263,10 @@
 						<param name="labelColor">$VAR[RightListThemeLabelColor]</param>
 					</include>
 				</focusedlayout>
-				<focusedlayout height="90" width="806" condition="[Skin.HasSetting(rightlistalternatetv) + Container.Content(tvshows)]">
+				<focusedlayout height="90" width="806" condition="[Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + Skin.HasSetting(rightlistalternatetv)">
 					<include content="RightListFocusedLayout">
 						<param name="width">770</param>
 						<param name="labelColor">$VAR[RightListThemeLabelColor]</param>
-					</include>
-				</focusedlayout>
-				<focusedlayout height="90" width="806" condition="[Container.Content(episodes) + Skin.HasSetting(rightlistalternateepisode)]">
-					<include content="RightListFocusedLayout">
-						<param name="width">770</param>
-						<param name="labelColor">$VAR[RightListThemeLabelColor]</param>
-					</include>
-				</focusedlayout>
-				<focusedlayout height="90" width="806" condition="[Container.Content(seasons) + !Skin.HasSetting(rightlistalternateseasons)]">
-					<control type="image">
-						<include>RightListFocusedHighLightContent</include>
-						<include>VisibleFadeAnimation</include>
-					</control>
-					<include content="RightListItemLayout">
-						<param name="width">770</param>
-					</include>
-				</focusedlayout>
-				<focusedlayout height="90" width="806" condition="[Container.Content(seasons) + Skin.HasSetting(rightlistalternateseasons)]">
-					<include content="RightListItemLayout">
-						<param name="width">770</param>
-						<param name="labelColor">$VAR[RightListThemeLabelColor]</param>
-					</include>
-				</focusedlayout>
-				<focusedlayout height="90" width="806" condition="Container.Content(episodes) + !Skin.HasSetting(rightlistalternateepisode)">
-					<control type="image">
-						<include>RightListFocusedHighLightContent</include>
-						<include>VisibleFadeAnimation</include>
-					</control>
-					<include content="RightListFocusedLayout">
-						<param name="width">770</param>
 					</include>
 				</focusedlayout>
 			</control>
@@ -562,7 +515,7 @@
 	</include>
 	<!-- PARAM Includes -->
 	<include name="RightListFocusedLayout">
-		<param name="visibleSubLabelNoYear" default="[Container.Content(movies) + !Skin.HasSetting(rightlistalternate)] | [Container.Content(tvshows) + !Skin.HasSetting(rightlistalternatetv)] | [Container.Content(episodes) + !Skin.HasSetting(rightlistalternateepisode)]" />
+		<param name="visibleSubLabelNoYear" default="[Container.Content(movies) + !Skin.HasSetting(rightlistalternate)] | [!Container.Content(movies) + !Skin.HasSetting(rightlistalternatetv)]" />
 		<param name="visibleListItem.Overlay" default="true" />
 		<param name="width" />
 		<param name="labelColor" default="white" />
@@ -578,7 +531,7 @@
 				<selectedcolor>$VAR[RightListThemeLabelColor]</selectedcolor>
 				<label>$VAR[RightListItemLabelVar]</label>
 				<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(506)">Conditional</animation>
-				<visible>!ListItem.IsCollection + !Container.Content(seasons)</visible>
+				<visible>!ListItem.IsCollection + !Container.Content(seasons)  + !String.IsEqual(ListItem.DBType,season)</visible>
 			</control>
 			<control type="label">
 				<top>25</top>
@@ -591,7 +544,7 @@
 				<selectedcolor>$VAR[RightListThemeLabelColor]</selectedcolor>
 				<label>$INFO[ListItem.Label]</label>
 				<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(506)">Conditional</animation>
-				<visible>ListItem.IsCollection | Container.Content(seasons)</visible>
+				<visible>ListItem.IsCollection | Container.Content(seasons) | String.IsEqual(ListItem.DBType,season)</visible>
 			</control>
 			<control type="group">
 				<left>45</left>
@@ -628,7 +581,7 @@
 				<label>$INFO[ListItem.Year]</label>
 				<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(506)">Conditional</animation>
 				<visible>$PARAM[visibleSubLabelNoYear]</visible>
-				<visible>!Container.Content(seasons) + !Container.Content(episodes)</visible>
+				<visible>!Container.Content(episodes)</visible>
 			</control>
 			<control type="image">
 				<left>832</left>
@@ -638,6 +591,7 @@
 				<aspectratio>keep</aspectratio>
 				<texture colordiffuse="$VAR[RightListThemeLabelColor]">$VAR[ListItem.Overlay]</texture>
 				<visible>$PARAM[visibleListItem.Overlay]</visible>
+				<animation effect="slide" end="-70" time="0" condition="Container.Content(episodes) + !Skin.HasSetting(rightlistalternatetv)">Conditional</animation>
 			</control>
 			<control type="group">
 				<description>Unwatched episodes</description>
@@ -668,7 +622,7 @@
 		</definition>
 	</include>
 	<include name="RightListItemLayout">
-		<param name="visibleSubLabelNoYear" default="[Container.Content(movies) + !Skin.HasSetting(rightlistalternate)] | [Container.Content(tvshows) + !Skin.HasSetting(rightlistalternatetv)] | [Container.Content(seasons)] | [Container.Content(episodes) + !Skin.HasSetting(rightlistalternateepisode)]" />
+		<param name="visibleSubLabelNoYear" default="[Container.Content(movies) + !Skin.HasSetting(rightlistalternate)] | [!Container.Content(movies) + !Skin.HasSetting(rightlistalternatetv)]" />
 		<param name="width" />
 		<param name="labelColor" default="white" />
 		<definition>
@@ -692,7 +646,7 @@
 				<align>right</align>
 				<textcolor>$VAR[RightListThemeLabelColor]</textcolor>
 				<label>$INFO[ListItem.Year]</label>
-				<visible>!Container.Content(seasons) + !Container.Content(episodes)</visible>
+				<visible>!Container.Content(episodes)</visible>
 				<visible>$PARAM[visibleSubLabelNoYear]</visible>
 			</control>
 			<control type="image">
@@ -702,6 +656,7 @@
 				<height>64</height>
 				<aspectratio>keep</aspectratio>
 				<texture colordiffuse="$VAR[RightListThemeLabelColor]">$VAR[ListItem.Overlay]</texture>
+				<animation effect="slide" end="-70" time="0" condition="Container.Content(episodes) + !Skin.HasSetting(rightlistalternatetv)">Conditional</animation>
 			</control>
 			<control type="group">
 				<description>Unwatched episodes</description>
