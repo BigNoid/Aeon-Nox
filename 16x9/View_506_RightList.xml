@@ -309,7 +309,8 @@
 				<height>155</height>
 				<aspectratio aligny="bottom">keep</aspectratio>
 				<texture background="true" fallback="empty.png">$INFO[Skin.String(pathlogosartists)]$INFO[ListItem.Artist,,/logo.png]</texture>
-				<visible>Skin.HasSetting(rightlistlogoartist) + [Container.Content(albums) | Container.Content(artists) | Container.Content(songs) | Window.IsActive(music)]</visible>
+				<include>VisibleFadeAnimation</include>
+				<visible>Skin.HasSetting(rightlistlogoartist) + !String.IsEmpty(Skin.String(pathlogosartists))</visible>
 			</control>
 			<control type="image">
 				<left>35</left>
@@ -318,7 +319,8 @@
 				<height>155</height>
 				<aspectratio aligny="bottom">keep</aspectratio>
 				<texture background="true">$INFO[Window(Home).Property(SkinHelper.Music.ClearLogo)]</texture>
-				<visible>String.Contains(Control.GetLabel(506999),empty.png) + Skin.HasSetting(rightlistlogoartist) | [System.HasAddon(script.skin.helper.service) + String.IsEmpty(Skin.String(pathlogosartists))]</visible>
+				<include>VisibleFadeAnimation</include>
+				<visible>[String.IsEmpty(Skin.String(pathlogosartists)) | String.IsEqual(Control.GetLabel(506999),empty.png)] + !String.IsEmpty(Window(Home).Property(SkinHelper.Music.ClearLogo))</visible>
 			</control>
 			<control type="group">
 				<visible>!Skin.HasSetting(Disable.RightlistAlbum)</visible>
@@ -513,6 +515,14 @@
 			</control>
 		</control>
 	</include>
+	<include name="RightListFocusedHighLightContent">
+		<top>0</top>
+		<left>30</left>
+		<width>880</width>
+		<height>90</height>
+		<texture colordiffuse="$VAR[HighlightBarColor]" border="4">listselect_fo.png</texture>
+		<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(506)">Conditional</animation>
+	</include>
 	<!-- PARAM Includes -->
 	<include name="RightListFocusedLayout">
 		<param name="visibleSubLabelNoYear" default="[Container.Content(movies) + !Skin.HasSetting(rightlistalternate)] | [!Container.Content(movies) + !Skin.HasSetting(rightlistalternatetv)]" />
@@ -685,13 +695,5 @@
 				</control>
 			</control>
 		</definition>
-	</include>
-	<include name="RightListFocusedHighLightContent">
-		<top>0</top>
-		<left>30</left>
-		<width>880</width>
-		<height>90</height>
-		<texture colordiffuse="$VAR[HighlightBarColor]" border="4">listselect_fo.png</texture>
-		<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(506)">Conditional</animation>
 	</include>
 </includes>
