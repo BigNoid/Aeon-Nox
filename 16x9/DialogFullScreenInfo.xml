@@ -11,817 +11,820 @@
 			<ondown>$VAR[OSDRightLabelOnDownVar]</ondown>
 			<onclick>Skin.ToggleSetting(ShowPlotCast)</onclick>
 		</control>
-		<!-- Panel Background (Movies + Episodes) -->
-		<control type="image">
-			<visible>[VideoPlayer.Content(episodes) | VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
-			<width>1920</width>
-			<height>150</height>
-			<texture border="1,1,1,40">topbar.png</texture>
-		</control>
-		<control type="label">
-			<left>0</left>
-			<top>-475</top>
-			<label>$VAR[PlayerTimeRemainingVar]</label>
-			<width>100%</width>
-			<align>center</align>
-			<font>BigAssTimeFont</font>
-			<textcolor>D0FFFFFF</textcolor>
-			<shadowcolor>black</shadowcolor>
-			<visible>String.IsEqual(Skin.String(Onup.TimeRemaining),1) + !VideoPlayer.Content(LiveTV) + Skin.HasSetting(Display.PlayerTimeRemaining)</visible>
-		</control>
-		<control type="label">
-			<left>0</left>
-			<top>-760</top>
-			<label>$VAR[PlayerTimeRemainingSmallVar]</label>
-			<width>100%</width>
-			<align>center</align>
-			<font>font48</font>
-			<textcolor>D0FFFFFF</textcolor>
-			<shadowcolor>black</shadowcolor>
-			<visible>String.IsEqual(Skin.String(Onup.TimeRemaining),2) + !VideoPlayer.Content(LiveTV) + Skin.HasSetting(Display.PlayerTimeRemaining)</visible>
-		</control>
-		<!-- Plot + Cast -->
 		<control type="group">
-			<visible>Skin.HasSetting(ShowPlotCast) + !Skin.HasSetting(AlternateVideoOSD)</visible>
-			<control type="group">
-				<visible>[!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
-				<control type="image">
-					<top>540</top>
-					<width>1920</width>
-					<height>540</height>
-					<texture border="2">gradient_floor.png</texture>
-					<visible>[!String.IsEmpty(VideoPlayer.Plot) | !String.IsEmpty(VideoPlayer.PlotOutline) | !String.IsEmpty(VideoPlayer.CastandRole)]</visible>
-				</control>
-				<!-- Cast -->
-				<control type="textbox">
-					<description>Cast</description>
-					<align>center</align>
-					<left>1200</left>
-					<top>778</top>
-					<width>700</width>
-					<height>252</height>
-					<font>font15</font>
-					<textcolor>white</textcolor>
-					<pagecontrol>63</pagecontrol>
-					<label>$INFO[VideoPlayer.CastandRole]</label>
-					<visible>!String.IsEmpty(VideoPlayer.CastandRole)</visible>
-					<animation type="VisibleChange" reversible="false">
-						<effect type="fade" start="0" end="100" time="500" />
-					</animation>
-					<animation type="WindowOpen" reversible="false">
-						<effect type="fade" start="0" end="100" time="400" />
-					</animation>
-					<animation type="WindowClose" reversible="false">
-						<effect type="fade" start="100" end="0" time="000" />
-					</animation>
-					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(63)</autoscroll>
-				</control>
-				<!-- Plot -->
-				<control type="textbox">
-					<label>$VAR[VideoPlayerPlotVar]</label>
-					<left>20</left>
-					<top>778</top>
-					<width>645</width>
-					<height>252</height>
-					<font>font15</font>
-					<pagecontrol>65</pagecontrol>
-					<textcolor>white</textcolor>
-					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(65)</autoscroll>
-					<animation type="VisibleChange" reversible="false">
-						<effect type="fade" start="0" end="100" time="500" />
-					</animation>
-					<animation type="WindowOpen" reversible="false">
-						<effect type="fade" start="0" end="100" time="400" />
-					</animation>
-					<animation type="WindowClose" reversible="false">
-						<effect type="fade" start="100" end="0" time="000" />
-					</animation>
-				</control>
-			</control>
-			<control type="scrollbar" id="63">
-				<left>1900</left>
-				<top>778</top>
-				<width>14</width>
-				<height>252</height>
-				<texturesliderbackground>-</texturesliderbackground>
-				<texturesliderbar border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
-				<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
-				<showonepage>false</showonepage>
-				<orientation>vertical</orientation>
-				<onup>63</onup>
-				<ondown>63</ondown>
-				<onleft>64</onleft>
-				<onright>64</onright>
-				<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(63) + !Container.Scrolling">Conditional</animation>
-			</control>
-			<control type="scrollbar" id="65">
-				<left>685</left>
-				<top>778</top>
-				<width>14</width>
-				<height>252</height>
-				<texturesliderbackground>-</texturesliderbackground>
-				<texturesliderbar border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
-				<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
-				<showonepage>false</showonepage>
-				<orientation>vertical</orientation>
-				<onup>65</onup>
-				<ondown>65</ondown>
-				<onleft>64</onleft>
-				<onright>64</onright>
-				<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(65) + !Container.Scrolling">Conditional</animation>
-			</control>
-		</control>
-		<!-- Movies -->
-		<control type="group">
-			<visible>VideoPlayer.Content(movies) + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
-			<control type="group">
-				<control type="label">
-					<align>center</align>
-					<label>[B]$INFO[Player.Title][/B]$INFO[VideoPlayer.Year, (,)]</label>
-					<left>505</left>
-					<width>910</width>
-					<font>font28_title</font>
-					<include>DefaultButtonsValues</include>
-					<visible>!String.IsEmpty(Player.Title)</visible>
-					<scroll>true</scroll>
-				</control>
-				<control type="label">
-					<align>center</align>
-					<top>55</top>
-					<left>500</left>
-					<label>[COLOR $VAR[ThemeLabelColor]]$INFO[VideoPlayer.Tagline][/COLOR]</label>
-					<font>font16</font>
-					<width>920</width>
-					<include>DefaultButtonsValues</include>
-					<visible>!String.IsEmpty(VideoPlayer.Tagline)</visible>
-					<scroll>true</scroll>
-				</control>
-				<control type="label">
-					<left>15</left>
-					<top>-1050</top>
-					<label>$INFO[VideoPlayer.Director,$LOCALIZE[20339]: [COLOR grey2],[/COLOR]]</label>
-					<align>left</align>
-					<width>550</width>
-					<font>font13</font>
-					<textcolor>$VAR[ThemeLabelColor]</textcolor>
-					<scroll>true</scroll>
-					<visible>!String.IsEmpty(VideoPlayer.Director)</visible>
-				</control>
-				<control type="label">
-					<top>-1050</top>
-					<align>right</align>
-					<label>$INFO[VideoPlayer.RatingAndVotes,IMDb: [COLOR grey2],[/COLOR] ]$INFO[VideoPlayer.Top250,$LOCALIZE[13409][COLOR grey2] #, [/COLOR]]</label>
-					<left>1365</left>
-					<width>550</width>
-					<font>font13</font>
-					<textcolor>$VAR[ThemeLabelColor]</textcolor>
-					<visible>!String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
-				</control>
-			</control>
-		</control>
-		<!-- Episodes -->
-		<control type="group">
-			<visible>VideoPlayer.Content(episodes) + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
-			<control type="group">
-				<control type="label">
-					<top>0</top>
-					<left>475</left>
-					<width>970</width>
-					<font>font28_title</font>
-					<include>DefaultButtonsValues</include>
-					<label>[B]$INFO[VideoPlayer.TvShowTitle][/B]</label>
-					<visible>!String.IsEmpty(VideoPlayer.TvShowTitle)</visible>
-					<align>center</align>
-					<scroll>true</scroll>
-				</control>
-				<control type="label">
-					<top>55</top>
-					<left>500</left>
-					<width>920</width>
-					<font>font16</font>
-					<label>[COLOR $VAR[ThemeLabelColor]]$INFO[Player.Title][/COLOR]</label>
-					<include>DefaultButtonsValues</include>
-					<visible>!String.IsEmpty(Player.Title)</visible>
-					<align>center</align>
-					<scroll>true</scroll>
-				</control>
-				<control type="grouplist">
-					<left>15</left>
-					<top>-1050</top>
-					<width>610</width>
-					<itemgap>0</itemgap>
-					<orientation>horizontal</orientation>
-					<control type="label">
-						<label>[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[20339]: [/COLOR]</label>
-						<width>auto</width>
-						<font>font13</font>
-						<visible>!String.IsEmpty(VideoPlayer.Director)</visible>
-					</control>
-					<control type="label">
-						<label>$INFO[VideoPlayer.Director, ]</label>
-						<width min="0" max="245">auto</width>
-						<textcolor>grey2</textcolor>
-						<font>font13</font>
-						<scroll>true</scroll>
-						<visible>!String.IsEmpty(VideoPlayer.Director)</visible>
-					</control>
-					<control type="label">
-						<label>[COLOR $VAR[ThemeLabelColor]] • [/COLOR]</label>
-						<font>font13</font>
-						<width min="0" max="100">auto</width>
-						<visible>!String.IsEmpty(VideoPlayer.Director) + !String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
-					</control>
-					<control type="label">
-						<label>[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[563]: [/COLOR]</label>
-						<font>font13</font>
-						<width min="0" max="110">auto</width>
-						<visible>String.IsEmpty(VideoPlayer.Director) + !String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
-					</control>
-					<control type="label">
-						<label>[COLOR grey2]$INFO[VideoPlayer.Rating][/COLOR]</label>
-						<font>font13</font>
-						<width min="0" max="200">auto</width>
-						<visible>!String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
-					</control>
-					<control type="label">
-						<label>[COLOR $VAR[ThemeLabelColor]]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,]$INFO[VideoPlayer.Episode,$COMMA $LOCALIZE[36906] ,][/COLOR]</label>
-						<font>font13</font>
-						<visible>String.IsEmpty(VideoPlayer.Director) + String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
-						<align>left</align>
-						<width>auto</width>
-					</control>
-				</control>
-				<control type="label">
-					<top>-1050</top>
-					<label>[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[20416]:[/COLOR] [COLOR grey2]($INFO[VideoPlayer.Premiered])[/COLOR]</label>
-					<left>1305</left>
-					<width>600</width>
-					<font>font13</font>
-					<align>right</align>
-					<visible>String.IsEmpty(VideoPlayer.Director) + String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
-				</control>
-				<control type="label">
-					<top>-1050</top>
-					<label>[COLOR $VAR[ThemeLabelColor]]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,]$INFO[VideoPlayer.Episode,$COMMA $LOCALIZE[36906] ,][/COLOR] [COLOR grey2]($INFO[VideoPlayer.Premiered])[/COLOR]</label>
-					<left>1305</left>
-					<width>600</width>
-					<font>font13</font>
-					<align>right</align>
-					<visible>[!String.IsEmpty(VideoPlayer.Director) | !String.IsEmpty(VideoPlayer.RatingAndVotes)]</visible>
-				</control>
-			</control>
-		</control>
-		<!-- MediaFlags -->
-		<control type="group">
-			<visible>[VideoPlayer.Content(episodes) | VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
-			<left>10</left>
-			<top>32</top>
-			<height>90</height>
-			<!-- Left -->
-			<control type="image" id="142999">
-				<width>175</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<bordersize>2</bordersize>
-				<texture>$INFO[VideoPlayer.Studio,resource://resource.images.studios.white/,.png]</texture>
-				<visible>!Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image" id="1429999">
-				<width>175</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<bordersize>2</bordersize>
-				<texture>$INFO[VideoPlayer.Studio,resource://resource.images.studios.coloured/,.png]</texture>
-				<visible>Skin.HasSetting(coloredflags)</visible>
+		<visible>![Skin.HasSetting(Enable.UsePausedOverlay) + [VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]]</visible>
+			<!-- Panel Background (Movies + Episodes) -->
+			<control type="image">
+				<visible>[VideoPlayer.Content(episodes) | VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
+				<width>1920</width>
+				<height>150</height>
+				<texture border="1,1,1,40">topbar.png</texture>
 			</control>
 			<control type="label">
 				<left>0</left>
-				<width>175</width>
-				<height>90</height>
+				<top>-475</top>
+				<label>$VAR[PlayerTimeRemainingVar]</label>
+				<width>100%</width>
 				<align>center</align>
-				<label>$INFO[VideoPlayer.Studio]</label>
-				<font>font10</font>
-				<textcolor>grey2</textcolor>
-				<wrapmultiline>true</wrapmultiline>
-				<visible>[String.IsEmpty(Control.GetLabel(142999)) + !Skin.HasSetting(coloredflags)] | [String.IsEmpty(Control.GetLabel(1429999)) + Skin.HasSetting(coloredflags)]</visible>
+				<font>BigAssTimeFont</font>
+				<textcolor>D0FFFFFF</textcolor>
+				<shadowcolor>black</shadowcolor>
+				<visible>String.IsEqual(Skin.String(Onup.TimeRemaining),1) + !VideoPlayer.Content(LiveTV) + Skin.HasSetting(Display.PlayerTimeRemaining)</visible>
 			</control>
-			<control type="image">
-				<left>152</left>
-				<width>175</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture fallback="flags/mpaa/NR.png">$VAR[VideoRatingFlagVar]</texture>
-				<visible>!Skin.HasSetting(coloredflags)</visible>
+			<control type="label">
+				<left>0</left>
+				<top>-760</top>
+				<label>$VAR[PlayerTimeRemainingSmallVar]</label>
+				<width>100%</width>
+				<align>center</align>
+				<font>font48</font>
+				<textcolor>D0FFFFFF</textcolor>
+				<shadowcolor>black</shadowcolor>
+				<visible>String.IsEqual(Skin.String(Onup.TimeRemaining),2) + !VideoPlayer.Content(LiveTV) + Skin.HasSetting(Display.PlayerTimeRemaining)</visible>
 			</control>
-			<control type="image">
-				<left>152</left>
-				<width>175</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture fallback="flags/mpaa/NR.png">$VAR[ColoredVideoRatingFlagVar]</texture>
-				<visible>Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<left>310</left>
-				<width>175</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
-				<visible>!Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<left>310</left>
-				<width>155</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.AudioCodec,flags/colored/audio/,.png]</texture>
-				<visible>Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<!-- Right -->
-			<control type="image">
-				<left>1435</left>
-				<width>175</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$VAR[VideoSourceFlagVar,flags/video/,.png]</texture>
-				<visible>!Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<top>8</top>
-				<left>1445</left>
-				<width>155</width>
-				<height>80</height>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$VAR[VideoSourceFlagVar,flags/colored/source/,.png]</texture>
-				<visible>Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<left>1585</left>
-				<width>175</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
-				<visible>!Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<left>1600</left>
-				<top>4</top>
-				<width>155</width>
-				<height>85</height>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.VideoResolution,flags/colored/resolution/,.png]</texture>
-				<visible>Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<left>1740</left>
-				<width>175</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
-				<visible>!Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<left>1750</left>
-				<top>2</top>
-				<width>155</width>
-				<height>85</height>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.VideoAspect,flags/colored/aspectratio/,.png]</texture>
-				<visible>Skin.HasSetting(coloredflags)</visible>
-			</control>
-		</control>
-		<!-- Media Flag Bar Background (Files & Addons) -->
-		<control type="image">
-			<visible>[!VideoPlayer.Content(episodes) + !VideoPlayer.Content(movies) + !Window.IsActive(videoosd) + !Window.IsActive(1118) + !VideoPlayer.Content(LiveTV)]</visible>
-			<width>1920</width>
-			<height>120</height>
-			<texture border="1,1,1,40">topbar.png</texture>
-		</control>
-		<!-- Media Flag Bar (Files & Addons) -->
-		<control type="grouplist">
-			<visible>[!VideoPlayer.Content(episodes) + !VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !Window.IsActive(1118) + !VideoPlayer.Content(LiveTV)]</visible>
-			<width>1920</width>
-			<height>100</height>
-			<align>center</align>
-			<itemgap>0</itemgap>
-			<orientation>horizontal</orientation>
-			<control type="image">
-				<width>320</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$VAR[VideoSourceFlagVar,flags/video/,.png]</texture>
-				<visible>!Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<width>320</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$VAR[VideoSourceFlagVar,flags/colored/source/,.png]</texture>
-				<visible>Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<width>320</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
-				<visible>!Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<width>320</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.VideoAspect,flags/colored/aspectratio/,.png]</texture>
-				<visible>Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<width>320</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
-				<visible>!Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<width>320</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.VideoResolution,flags/colored/resolution/,.png]</texture>
-				<visible>Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<width>320</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
-				<visible>!Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<width>320</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.AudioCodec,flags/colored/audio/,.png]</texture>
-				<visible>Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<width>320</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.AudioChannels,flags/channels/,.png]</texture>
-				<visible>!Skin.HasSetting(coloredflags)</visible>
-			</control>
-			<control type="image">
-				<width>320</width>
-				<colordiffuse>grey2</colordiffuse>
-				<include>MediaFlagVars</include>
-				<texture>$INFO[VideoPlayer.AudioChannels,flags/colored/channels/,.png]</texture>
-				<visible>Skin.HasSetting(coloredflags)</visible>
-			</control>
-		</control>
-		<!-- New DialogInfo for LiveTV -->
-		<control type="group" id="9006">
-			<top>90</top>
-			<animation effect="fade" start="0" end="100" time="400">WindowOpen</animation>
-			<animation effect="fade" start="100" end="0" time="400">WindowClose</animation>
-			<visible>VideoPlayer.Content(LiveTV) + !Window.IsActive(notification) + !Control.IsVisible(9001) + !Control.IsVisible(9002)</visible>
+			<!-- Plot + Cast -->
 			<control type="group">
-				<animation effect="slide" end="0,50" time="0" condition="String.IsEqual(Skin.String(LiveTV.InfobarType),1) + [PVR.HasNonRecordingTimer | [PVR.IsRecording + !String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)]]">Conditional</animation>
-				<control type="image">
-					<left>260</left>
-					<width>1400</width>
-					<height>600</height>
-					<texture border="40">dialogs/default/bg.png</texture>
-					<animation effect="fade" end="95" condition="true">Conditional</animation>
-				</control>
+				<visible>Skin.HasSetting(ShowPlotCast) + !Skin.HasSetting(AlternateVideoOSD)</visible>
 				<control type="group">
-					<left>300</left>
-					<top>20</top>
-					<width>1320</width>
-					<height>780</height>
-					<control type="label"> <!-- Channel name -->
-						<top>0</top>
-						<width>1050</width>
-						<height>50</height>
-						<label>$INFO[VideoPlayer.ChannelName]</label>
-						<font>font16</font>
-						<textcolor>$VAR[ThemeLabelColor]</textcolor>
+					<visible>[!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
+					<control type="image">
+						<top>540</top>
+						<width>1920</width>
+						<height>540</height>
+						<texture border="2">gradient_floor.png</texture>
+						<visible>[!String.IsEmpty(VideoPlayer.Plot) | !String.IsEmpty(VideoPlayer.PlotOutline) | !String.IsEmpty(VideoPlayer.CastandRole)]</visible>
 					</control>
-					<control type="label"> <!-- Current EPG -->
-						<top>50</top>
-						<width>1320</width>
-						<height>50</height>
-						<label>$INFO[VideoPlayer.Title]</label>
-						<font>font48</font>
+					<!-- Cast -->
+					<control type="textbox">
+						<description>Cast</description>
+						<align>center</align>
+						<left>1200</left>
+						<top>778</top>
+						<width>700</width>
+						<height>252</height>
+						<font>font15</font>
+						<textcolor>white</textcolor>
+						<pagecontrol>63</pagecontrol>
+						<label>$INFO[VideoPlayer.CastandRole]</label>
+						<visible>!String.IsEmpty(VideoPlayer.CastandRole)</visible>
+						<animation type="VisibleChange" reversible="false">
+							<effect type="fade" start="0" end="100" time="500" />
+						</animation>
+						<animation type="WindowOpen" reversible="false">
+							<effect type="fade" start="0" end="100" time="400" />
+						</animation>
+						<animation type="WindowClose" reversible="false">
+							<effect type="fade" start="100" end="0" time="0" />
+						</animation>
+						<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(63)</autoscroll>
+					</control>
+					<!-- Plot -->
+					<control type="textbox">
+						<label>$VAR[VideoPlayerPlotVar]</label>
+						<left>20</left>
+						<top>778</top>
+						<width>645</width>
+						<height>252</height>
+						<font>font15</font>
+						<pagecontrol>65</pagecontrol>
+						<textcolor>white</textcolor>
+						<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(65)</autoscroll>
+						<animation type="VisibleChange" reversible="false">
+							<effect type="fade" start="0" end="100" time="500" />
+						</animation>
+						<animation type="WindowOpen" reversible="false">
+							<effect type="fade" start="0" end="100" time="400" />
+						</animation>
+						<animation type="WindowClose" reversible="false">
+							<effect type="fade" start="100" end="0" time="000" />
+						</animation>
+					</control>
+				</control>
+				<control type="scrollbar" id="63">
+					<left>1900</left>
+					<top>778</top>
+					<width>14</width>
+					<height>252</height>
+					<texturesliderbackground>-</texturesliderbackground>
+					<texturesliderbar border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
+					<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
+					<showonepage>false</showonepage>
+					<orientation>vertical</orientation>
+					<onup>63</onup>
+					<ondown>63</ondown>
+					<onleft>64</onleft>
+					<onright>64</onright>
+					<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(63) + !Container.Scrolling">Conditional</animation>
+				</control>
+				<control type="scrollbar" id="65">
+					<left>685</left>
+					<top>778</top>
+					<width>14</width>
+					<height>252</height>
+					<texturesliderbackground>-</texturesliderbackground>
+					<texturesliderbar border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
+					<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
+					<showonepage>false</showonepage>
+					<orientation>vertical</orientation>
+					<onup>65</onup>
+					<ondown>65</ondown>
+					<onleft>64</onleft>
+					<onright>64</onright>
+					<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(65) + !Container.Scrolling">Conditional</animation>
+				</control>
+			</control>
+			<!-- Movies -->
+			<control type="group">
+				<visible>VideoPlayer.Content(movies) + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
+				<control type="group">
+					<control type="label">
+						<align>center</align>
+						<label>[B]$INFO[Player.Title][/B]$INFO[VideoPlayer.Year, (,)]</label>
+						<left>505</left>
+						<width>910</width>
+						<font>font28_title</font>
+						<include>DefaultButtonsValues</include>
+						<visible>!String.IsEmpty(Player.Title)</visible>
 						<scroll>true</scroll>
 					</control>
-					<control type="image"> <!-- pvr line -->
-						<top>110</top>
-						<width>1320</width>
-						<height>2</height>
-						<texture>new_pvr/osd_line_white.png</texture>
-						<colordiffuse>$VAR[ThemeLabelColor]</colordiffuse>
+					<control type="label">
+						<align>center</align>
+						<top>55</top>
+						<left>500</left>
+						<label>[COLOR $VAR[ThemeLabelColor]]$INFO[VideoPlayer.Tagline][/COLOR]</label>
+						<font>font16</font>
+						<width>920</width>
+						<include>DefaultButtonsValues</include>
+						<visible>!String.IsEmpty(VideoPlayer.Tagline)</visible>
+						<scroll>true</scroll>
 					</control>
 					<control type="label">
-						<top>120</top>
-						<width>1000</width>
-						<height>30</height>
-						<label>$LOCALIZE[515]: $INFO[VideoPlayer.Genre]</label>
+						<left>15</left>
+						<top>-1050</top>
+						<label>$INFO[VideoPlayer.Director,$LOCALIZE[20339]: [COLOR grey2],[/COLOR]]</label>
+						<align>left</align>
+						<width>550</width>
 						<font>font13</font>
-						<textcolor>grey</textcolor>
+						<textcolor>$VAR[ThemeLabelColor]</textcolor>
+						<scroll>true</scroll>
+						<visible>!String.IsEmpty(VideoPlayer.Director)</visible>
 					</control>
-					<control type="textbox">
-						<left>4</left>
-						<top>160</top>
-						<width>1000</width>
-						<height>400</height>
-						<label>$INFO[VideoPlayer.Plot]</label>
-						<font>font15_textbox</font>
-						<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
-						<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
-					</control>
-					<control type="textbox">
-						<left>4</left>
-						<top>160</top>
-						<width>1320</width>
-						<height>400</height>
-						<label>$INFO[VideoPlayer.PlotOutline] $INFO[VideoPlayer.Plot]</label>
-						<font>font15_textbox</font>
-						<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
-						<visible>![String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
-					</control>
-					<control type="image"> <!-- Logo background -->
-						<left>1050</left>
-						<top>-20</top>
-						<width>250</width>
-						<height>200</height>
-						<texture>pvr/bg_channel_icon.png</texture>
-						<align>center</align>
-						<visible>false</visible>
-					</control>
-					<control type="image"> <!-- Show\Movie poster -->
-						<left>1050</left>
-						<top>160</top>
-						<width>250</width>
-						<height>440</height>
-						<align>center</align>
-						<aspectratio>keep</aspectratio>
-						<texture>$INFO[VideoPlayer.PlotOutline]</texture>
-						<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
+					<control type="label">
+						<top>-1050</top>
+						<align>right</align>
+						<label>$INFO[VideoPlayer.RatingAndVotes,IMDb: [COLOR grey2],[/COLOR] ]$INFO[VideoPlayer.Top250,$LOCALIZE[13409][COLOR grey2] #, [/COLOR]]</label>
+						<left>1365</left>
+						<width>550</width>
+						<font>font13</font>
+						<textcolor>$VAR[ThemeLabelColor]</textcolor>
+						<visible>!String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
 					</control>
 				</control>
 			</control>
-		</control>
-		<!-- PlayerControls On Info -->
-		<control type="group">
-			<visible>Skin.HasSetting(AlternateVideoOSD) + !VideoPlayer.Content(LiveTV) + !Skin.HasSetting(Enable.ScreenshotMode)</visible>
-			<animation effect="slide" start="0,0" end="0,-80" time="240" tween="quadratic">WindowOpen</animation>
-			<top>1100</top>
+			<!-- Episodes -->
 			<control type="group">
-				<top>-86</top>
+				<visible>VideoPlayer.Content(episodes) + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
+				<control type="group">
+					<control type="label">
+						<top>0</top>
+						<left>475</left>
+						<width>970</width>
+						<font>font28_title</font>
+						<include>DefaultButtonsValues</include>
+						<label>[B]$INFO[VideoPlayer.TvShowTitle][/B]</label>
+						<visible>!String.IsEmpty(VideoPlayer.TvShowTitle)</visible>
+						<align>center</align>
+						<scroll>true</scroll>
+					</control>
+					<control type="label">
+						<top>55</top>
+						<left>500</left>
+						<width>920</width>
+						<font>font16</font>
+						<label>[COLOR $VAR[ThemeLabelColor]]$INFO[Player.Title][/COLOR]</label>
+						<include>DefaultButtonsValues</include>
+						<visible>!String.IsEmpty(Player.Title)</visible>
+						<align>center</align>
+						<scroll>true</scroll>
+					</control>
+					<control type="grouplist">
+						<left>15</left>
+						<top>-1050</top>
+						<width>610</width>
+						<itemgap>0</itemgap>
+						<orientation>horizontal</orientation>
+						<control type="label">
+							<label>[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[20339]: [/COLOR]</label>
+							<width>auto</width>
+							<font>font13</font>
+							<visible>!String.IsEmpty(VideoPlayer.Director)</visible>
+						</control>
+						<control type="label">
+							<label>$INFO[VideoPlayer.Director, ]</label>
+							<width min="0" max="245">auto</width>
+							<textcolor>grey2</textcolor>
+							<font>font13</font>
+							<scroll>true</scroll>
+							<visible>!String.IsEmpty(VideoPlayer.Director)</visible>
+						</control>
+						<control type="label">
+							<label>[COLOR $VAR[ThemeLabelColor]] • [/COLOR]</label>
+							<font>font13</font>
+							<width min="0" max="100">auto</width>
+							<visible>!String.IsEmpty(VideoPlayer.Director) + !String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
+						</control>
+						<control type="label">
+							<label>[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[563]: [/COLOR]</label>
+							<font>font13</font>
+							<width min="0" max="110">auto</width>
+							<visible>String.IsEmpty(VideoPlayer.Director) + !String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
+						</control>
+						<control type="label">
+							<label>[COLOR grey2]$INFO[VideoPlayer.Rating][/COLOR]</label>
+							<font>font13</font>
+							<width min="0" max="200">auto</width>
+							<visible>!String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
+						</control>
+						<control type="label">
+							<label>[COLOR $VAR[ThemeLabelColor]]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,]$INFO[VideoPlayer.Episode,$COMMA $LOCALIZE[36906] ,][/COLOR]</label>
+							<font>font13</font>
+							<visible>String.IsEmpty(VideoPlayer.Director) + String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
+							<align>left</align>
+							<width>auto</width>
+						</control>
+					</control>
+					<control type="label">
+						<top>-1050</top>
+						<label>[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[20416]:[/COLOR] [COLOR grey2]($INFO[VideoPlayer.Premiered])[/COLOR]</label>
+						<left>1305</left>
+						<width>600</width>
+						<font>font13</font>
+						<align>right</align>
+						<visible>String.IsEmpty(VideoPlayer.Director) + String.IsEmpty(VideoPlayer.RatingAndVotes)</visible>
+					</control>
+					<control type="label">
+						<top>-1050</top>
+						<label>[COLOR $VAR[ThemeLabelColor]]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,]$INFO[VideoPlayer.Episode,$COMMA $LOCALIZE[36906] ,][/COLOR] [COLOR grey2]($INFO[VideoPlayer.Premiered])[/COLOR]</label>
+						<left>1305</left>
+						<width>600</width>
+						<font>font13</font>
+						<align>right</align>
+						<visible>[!String.IsEmpty(VideoPlayer.Director) | !String.IsEmpty(VideoPlayer.RatingAndVotes)]</visible>
+					</control>
+				</control>
+			</control>
+			<!-- MediaFlags -->
+			<control type="group">
+				<visible>[VideoPlayer.Content(episodes) | VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
+				<left>10</left>
+				<top>32</top>
+				<height>90</height>
+				<!-- Left -->
+				<control type="image" id="142999">
+					<width>175</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<bordersize>2</bordersize>
+					<texture>$INFO[VideoPlayer.Studio,resource://resource.images.studios.white/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image" id="1429999">
+					<width>175</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<bordersize>2</bordersize>
+					<texture>$INFO[VideoPlayer.Studio,resource://resource.images.studios.coloured/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="label">
+					<left>0</left>
+					<width>175</width>
+					<height>90</height>
+					<align>center</align>
+					<label>$INFO[VideoPlayer.Studio]</label>
+					<font>font10</font>
+					<textcolor>grey2</textcolor>
+					<wrapmultiline>true</wrapmultiline>
+					<visible>[String.IsEmpty(Control.GetLabel(142999)) + !Skin.HasSetting(coloredflags)] | [String.IsEmpty(Control.GetLabel(1429999)) + Skin.HasSetting(coloredflags)]</visible>
+				</control>
 				<control type="image">
-					<left>0</left>
+					<left>152</left>
+					<width>175</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture fallback="flags/mpaa/NR.png">$VAR[VideoRatingFlagVar]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<left>152</left>
+					<width>175</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture fallback="flags/mpaa/NR.png">$VAR[ColoredVideoRatingFlagVar]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<left>310</left>
+					<width>175</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<left>310</left>
+					<width>155</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.AudioCodec,flags/colored/audio/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<!-- Right -->
+				<control type="image">
+					<left>1435</left>
+					<width>175</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[VideoSourceFlagVar,flags/video/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<top>8</top>
+					<left>1445</left>
+					<width>155</width>
+					<height>80</height>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[VideoSourceFlagVar,flags/colored/source/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<left>1585</left>
+					<width>175</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<left>1600</left>
 					<top>4</top>
-					<width>100%</width>
-					<height>300</height>
-					<texture border="1,32,1,1">bottombar.png</texture>
+					<width>155</width>
+					<height>85</height>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoResolution,flags/colored/resolution/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
 				</control>
-				<control type="progress">
-					<left>0</left>
-					<top>25</top>
-					<width>100%</width>
-					<height>40</height>
-					<texturebg border="2">osd/texturebg.png</texturebg>
-					<lefttexture>-</lefttexture>
-					<midtexture border="2">osd/midtexture_cache.png</midtexture>
-					<righttexture>-</righttexture>
-					<overlaytexture>-</overlaytexture>
-					<info>Player.ProgressCache</info>
+				<control type="image">
+					<left>1740</left>
+					<width>175</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
 				</control>
-				<control type="progress">
-					<left>0</left>
-					<top>25</top>
-					<width>100%</width>
-					<height>36</height>
-					<texturebg border="1">osd/texturebg_cache.png</texturebg>
-					<lefttexture>-</lefttexture>
-					<midtexture colordiffuse="$VAR[ThemeLabelColor]" border="2">osd/midtexture.png</midtexture>
-					<righttexture>-</righttexture>
-					<overlaytexture>-</overlaytexture>
-					<info>Player.Progress</info>
+				<control type="image">
+					<left>1750</left>
+					<top>2</top>
+					<width>155</width>
+					<height>85</height>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoAspect,flags/colored/aspectratio/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
 				</control>
-				<control type="label">
-					<top>24</top>
-					<left>0</left>
-					<width>100%</width>
-					<height>90</height>
-					<font>font14_title</font>
-					<textoffsetx>15</textoffsetx>
-					<textcolor>grey</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<align>center</align>
-					<aligny>top</aligny>
-					<textoffsety>-2</textoffsety>
-					<label>$VAR[SeekLabelVar]</label>
-					<visible>!VideoPlayer.Content(LiveTV)</visible>
+			</control>
+			<!-- Media Flag Bar Background (Files & Addons) -->
+			<control type="image">
+				<visible>[!VideoPlayer.Content(episodes) + !VideoPlayer.Content(movies) + !Window.IsActive(videoosd) + !Window.IsActive(1118) + !VideoPlayer.Content(LiveTV)]</visible>
+				<width>1920</width>
+				<height>120</height>
+				<texture border="1,1,1,40">topbar.png</texture>
+			</control>
+			<!-- Media Flag Bar (Files & Addons) -->
+			<control type="grouplist">
+				<visible>[!VideoPlayer.Content(episodes) + !VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !Window.IsActive(1118) + !VideoPlayer.Content(LiveTV)]</visible>
+				<width>1920</width>
+				<height>100</height>
+				<align>center</align>
+				<itemgap>0</itemgap>
+				<orientation>horizontal</orientation>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[VideoSourceFlagVar,flags/video/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
 				</control>
-				<control type="label">
-					<top>24</top>
-					<left>0</left>
-					<width>100%</width>
-					<height>90</height>
-					<font>font14_title</font>
-					<textoffsetx>15</textoffsetx>
-					<textcolor>grey</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<align>center</align>
-					<aligny>top</aligny>
-					<textoffsety>-2</textoffsety>
-					<label>$INFO[System.Time]$INFO[VideoPlayer.EndTime, / ]</label>
-					<visible>VideoPlayer.Content(LiveTV)</visible>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$VAR[VideoSourceFlagVar,flags/colored/source/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
 				</control>
-				<control type="label">
-					<top>24</top>
-					<left>1020</left>
-					<width>900</width>
-					<height>90</height>
-					<font>font14_title</font>
-					<textoffsetx>15</textoffsetx>
-					<textcolor>grey</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<align>right</align>
-					<aligny>top</aligny>
-					<textoffsety>-2</textoffsety>
-					<label>$VAR[OSDRightLabelVar]</label>
-					<animation effect="fade" start="100" end="50" time="240" condition="Player.Seeking">Conditional</animation>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
 				</control>
-				<control type="grouplist" id="90001">
-					<top>60</top>
-					<height>144</height>
-					<width>100%</width>
-					<align>center</align>
-					<itemgap>0</itemgap>
-					<onup>64</onup>
-					<scrolltime tween="sine">200</scrolltime>
-					<orientation>horizontal</orientation>
-					<visible>!VideoPlayer.Content(LiveTV)</visible>
-					<control type="button" id="96401">
-						<textoffsety>60</textoffsety>
-						<texturefocus>osd/buttons/OSDBookMarksFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDBookMarksNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>ActivateWindow(videobookmarks)</onclick>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoAspect,flags/colored/aspectratio/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoResolution,flags/colored/resolution/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.AudioCodec,flags/colored/audio/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.AudioChannels,flags/channels/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.AudioChannels,flags/colored/channels/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+			</control>
+			<!-- New DialogInfo for LiveTV -->
+			<control type="group" id="9006">
+				<top>90</top>
+				<animation effect="fade" start="0" end="100" time="400">WindowOpen</animation>
+				<animation effect="fade" start="100" end="0" time="400">WindowClose</animation>
+				<visible>VideoPlayer.Content(LiveTV) + !Window.IsActive(notification) + !Control.IsVisible(9001) + !Control.IsVisible(9002)</visible>
+				<control type="group">
+					<animation effect="slide" end="0,50" time="0" condition="String.IsEqual(Skin.String(LiveTV.InfobarType),1) + [PVR.HasNonRecordingTimer | [PVR.IsRecording + !String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)]]">Conditional</animation>
+					<control type="image">
+						<left>260</left>
+						<width>1400</width>
+						<height>600</height>
+						<texture border="40">dialogs/default/bg.png</texture>
+						<animation effect="fade" end="95" condition="true">Conditional</animation>
 					</control>
-					<control type="button" id="96402">
-						<texturefocus>osd/buttons/OSDAudioFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDAudioNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>ActivateWindow(osdaudiosettings)</onclick>
+					<control type="group">
+						<left>300</left>
+						<top>20</top>
+						<width>1320</width>
+						<height>780</height>
+						<control type="label"> <!-- Channel name -->
+							<top>0</top>
+							<width>1050</width>
+							<height>50</height>
+							<label>$INFO[VideoPlayer.ChannelName]</label>
+							<font>font16</font>
+							<textcolor>$VAR[ThemeLabelColor]</textcolor>
+						</control>
+						<control type="label"> <!-- Current EPG -->
+							<top>50</top>
+							<width>1320</width>
+							<height>50</height>
+							<label>$INFO[VideoPlayer.Title]</label>
+							<font>font48</font>
+							<scroll>true</scroll>
+						</control>
+						<control type="image"> <!-- pvr line -->
+							<top>110</top>
+							<width>1320</width>
+							<height>2</height>
+							<texture>new_pvr/osd_line_white.png</texture>
+							<colordiffuse>$VAR[ThemeLabelColor]</colordiffuse>
+						</control>
+						<control type="label">
+							<top>120</top>
+							<width>1000</width>
+							<height>30</height>
+							<label>$LOCALIZE[515]: $INFO[VideoPlayer.Genre]</label>
+							<font>font13</font>
+							<textcolor>grey</textcolor>
+						</control>
+						<control type="textbox">
+							<left>4</left>
+							<top>160</top>
+							<width>1000</width>
+							<height>400</height>
+							<label>$INFO[VideoPlayer.Plot]</label>
+							<font>font15_textbox</font>
+							<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
+							<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
+						</control>
+						<control type="textbox">
+							<left>4</left>
+							<top>160</top>
+							<width>1320</width>
+							<height>400</height>
+							<label>$INFO[VideoPlayer.PlotOutline] $INFO[VideoPlayer.Plot]</label>
+							<font>font15_textbox</font>
+							<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
+							<visible>![String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
+						</control>
+						<control type="image"> <!-- Logo background -->
+							<left>1050</left>
+							<top>-20</top>
+							<width>250</width>
+							<height>200</height>
+							<texture>pvr/bg_channel_icon.png</texture>
+							<align>center</align>
+							<visible>false</visible>
+						</control>
+						<control type="image"> <!-- Show\Movie poster -->
+							<left>1050</left>
+							<top>160</top>
+							<width>250</width>
+							<height>440</height>
+							<align>center</align>
+							<aspectratio>keep</aspectratio>
+							<texture>$INFO[VideoPlayer.PlotOutline]</texture>
+							<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
+						</control>
 					</control>
-					<control type="button" id="96403">
-						<texturefocus>osd/buttons/OSDVideoFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDVideoNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>ActivateWindow(osdvideosettings)</onclick>
+				</control>
+			</control>
+			<!-- PlayerControls On Info -->
+			<control type="group">
+				<visible>Skin.HasSetting(AlternateVideoOSD) + !VideoPlayer.Content(LiveTV) + !Skin.HasSetting(Enable.ScreenshotMode)</visible>
+				<animation effect="slide" start="0,0" end="0,-80" time="240" tween="quadratic">WindowOpen</animation>
+				<top>1100</top>
+				<control type="group">
+					<top>-86</top>
+					<control type="image">
+						<left>0</left>
+						<top>4</top>
+						<width>100%</width>
+						<height>300</height>
+						<texture border="1,32,1,1">bottombar.png</texture>
 					</control>
-					<control type="button" id="96410">
-						<texturefocus>osd/buttons/OSDSubtitlesFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDSubtitlesNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>Close</onclick>
-						<onclick>ActivateWindow(SubtitleSearch)</onclick>
+					<control type="progress">
+						<left>0</left>
+						<top>25</top>
+						<width>100%</width>
+						<height>40</height>
+						<texturebg border="2">osd/texturebg.png</texturebg>
+						<lefttexture>-</lefttexture>
+						<midtexture border="2">osd/midtexture_cache.png</midtexture>
+						<righttexture>-</righttexture>
+						<overlaytexture>-</overlaytexture>
+						<info>Player.ProgressCache</info>
 					</control>
-					<control type="button" id="96404">
-						<texturefocus>osd/buttons/OSDPrevTrackFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDPrevTrackNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>PlayerControl(Previous)</onclick>
-						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					<control type="progress">
+						<left>0</left>
+						<top>25</top>
+						<width>100%</width>
+						<height>36</height>
+						<texturebg border="1">osd/texturebg_cache.png</texturebg>
+						<lefttexture>-</lefttexture>
+						<midtexture colordiffuse="$VAR[ThemeLabelColor]" border="2">osd/midtexture.png</midtexture>
+						<righttexture>-</righttexture>
+						<overlaytexture>-</overlaytexture>
+						<info>Player.Progress</info>
 					</control>
-					<control type="button" id="96405">
-						<texturefocus>osd/buttons/OSDRewindFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDRewindNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>PlayerControl(Rewind)</onclick>
-						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					<control type="label">
+						<top>24</top>
+						<left>0</left>
+						<width>100%</width>
+						<height>90</height>
+						<font>font14_title</font>
+						<textoffsetx>15</textoffsetx>
+						<textcolor>grey</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<align>center</align>
+						<aligny>top</aligny>
+						<textoffsety>-2</textoffsety>
+						<label>$VAR[SeekLabelVar]</label>
+						<visible>!VideoPlayer.Content(LiveTV)</visible>
 					</control>
-					<control type="togglebutton" id="96406">
-						<texturefocus>osd/buttons/OSDPauseFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDPauseNF.png</texturenofocus>
-						<alttexturefocus>osd/buttons/OSDPlayFO.png</alttexturefocus>
-						<alttexturenofocus>osd/buttons/OSDPlayNF.png</alttexturenofocus>
-						<label>-</label>
-						<altlabel>208</altlabel>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<usealttexture>Player.Paused | Player.Forwarding | Player.Rewinding</usealttexture>
-						<onclick>PlayerControl(Play)</onclick>
-						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					<control type="label">
+						<top>24</top>
+						<left>0</left>
+						<width>100%</width>
+						<height>90</height>
+						<font>font14_title</font>
+						<textoffsetx>15</textoffsetx>
+						<textcolor>grey</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<align>center</align>
+						<aligny>top</aligny>
+						<textoffsety>-2</textoffsety>
+						<label>$INFO[System.Time]$INFO[VideoPlayer.EndTime, / ]</label>
+						<visible>VideoPlayer.Content(LiveTV)</visible>
 					</control>
-					<control type="button" id="96407">
-						<texturefocus>osd/buttons/OSDStopFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDStopNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>PlayerControl(Stop)</onclick>
-						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					<control type="label">
+						<top>24</top>
+						<left>1020</left>
+						<width>900</width>
+						<height>90</height>
+						<font>font14_title</font>
+						<textoffsetx>15</textoffsetx>
+						<textcolor>grey</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<align>right</align>
+						<aligny>top</aligny>
+						<textoffsety>-2</textoffsety>
+						<label>$VAR[OSDRightLabelVar]</label>
+						<animation effect="fade" start="100" end="50" time="240" condition="Player.Seeking">Conditional</animation>
 					</control>
-					<control type="button" id="96408">
-						<texturefocus>osd/buttons/OSDForwardFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDForwardNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>PlayerControl(Forward)</onclick>
-						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
-					</control>
-					<control type="button" id="96409">
-						<texturefocus>osd/buttons/OSDNextTrackFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDNextTrackNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>PlayerControl(Next)</onclick>
-						<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
-					</control>
-					<control type="button" id="96411">
-						<texturefocus>osd/buttons/OSDDvdFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDDvdNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>PlayerControl(ShowVideoMenu)</onclick>
-						<visible>VideoPlayer.HasMenu</visible>
-					</control>
-					<control type="button" id="96412">
-						<texturefocus>osd/buttons/OSDStereoscopicFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDStereoscopicNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>StereoMode</onclick>
-						<visible>VideoPlayer.IsStereoscopic</visible>
-					</control>
-					<control type="button" id="96413">
-						<texturefocus>osd/buttons/OSDInfoFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDInfoNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>Close</onclick>
-						<onclick>ActivateWindow(1118)</onclick>
-						<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)</visible>
-					</control>
-					<control type="button" id="96414">
-						<texturefocus>osd/buttons/OSDChannelListFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDChannelListNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>Close</onclick>
-						<onclick>Skin.ToggleSetting(Enable.ScreenshotMode)</onclick>
-						<onclick>Notification($LOCALIZE[19098]:,$LOCALIZE[31329],1500,icon.png)</onclick>
-						<onclick>AlarmClock(Take a Screenshot,TakeScreenshot,00:03,silent)</onclick>
-						<onclick>AlarmClock(Reset ScreenshotMode,Skin.Reset(Enable.ScreenshotMode),00:04,silent)</onclick>
-						<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)</visible>
-					</control>
-					<control type="button" id="96415">
-						<texturefocus>osd/buttons/OSDSkinFO.png</texturefocus>
-						<texturenofocus>osd/buttons/OSDSkinNF.png</texturenofocus>
-						<label>-</label>
-						<width>100</width>
-						<height>100</height>
-						<font>-</font>
-						<onclick>Dialog.Close(videoosd)</onclick>
-						<onclick>ActivateWindow(1115)</onclick>
-						<onclick>SetProperty(OSD.Settings,True,home)</onclick>
+					<control type="grouplist" id="90001">
+						<top>60</top>
+						<height>144</height>
+						<width>100%</width>
+						<align>center</align>
+						<itemgap>0</itemgap>
+						<onup>64</onup>
+						<scrolltime tween="sine">200</scrolltime>
+						<orientation>horizontal</orientation>
+						<visible>!VideoPlayer.Content(LiveTV)</visible>
+						<control type="button" id="96401">
+							<textoffsety>60</textoffsety>
+							<texturefocus>osd/buttons/OSDBookMarksFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDBookMarksNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>ActivateWindow(videobookmarks)</onclick>
+						</control>
+						<control type="button" id="96402">
+							<texturefocus>osd/buttons/OSDAudioFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDAudioNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>ActivateWindow(osdaudiosettings)</onclick>
+						</control>
+						<control type="button" id="96403">
+							<texturefocus>osd/buttons/OSDVideoFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDVideoNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>ActivateWindow(osdvideosettings)</onclick>
+						</control>
+						<control type="button" id="96410">
+							<texturefocus>osd/buttons/OSDSubtitlesFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDSubtitlesNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>Close</onclick>
+							<onclick>ActivateWindow(SubtitleSearch)</onclick>
+						</control>
+						<control type="button" id="96404">
+							<texturefocus>osd/buttons/OSDPrevTrackFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDPrevTrackNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>PlayerControl(Previous)</onclick>
+							<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+						</control>
+						<control type="button" id="96405">
+							<texturefocus>osd/buttons/OSDRewindFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDRewindNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>PlayerControl(Rewind)</onclick>
+							<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+						</control>
+						<control type="togglebutton" id="96406">
+							<texturefocus>osd/buttons/OSDPauseFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDPauseNF.png</texturenofocus>
+							<alttexturefocus>osd/buttons/OSDPlayFO.png</alttexturefocus>
+							<alttexturenofocus>osd/buttons/OSDPlayNF.png</alttexturenofocus>
+							<label>-</label>
+							<altlabel>208</altlabel>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<usealttexture>Player.Paused | Player.Forwarding | Player.Rewinding</usealttexture>
+							<onclick>PlayerControl(Play)</onclick>
+							<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+						</control>
+						<control type="button" id="96407">
+							<texturefocus>osd/buttons/OSDStopFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDStopNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>PlayerControl(Stop)</onclick>
+							<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+						</control>
+						<control type="button" id="96408">
+							<texturefocus>osd/buttons/OSDForwardFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDForwardNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>PlayerControl(Forward)</onclick>
+							<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+						</control>
+						<control type="button" id="96409">
+							<texturefocus>osd/buttons/OSDNextTrackFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDNextTrackNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>PlayerControl(Next)</onclick>
+							<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+						</control>
+						<control type="button" id="96411">
+							<texturefocus>osd/buttons/OSDDvdFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDDvdNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>PlayerControl(ShowVideoMenu)</onclick>
+							<visible>VideoPlayer.HasMenu</visible>
+						</control>
+						<control type="button" id="96412">
+							<texturefocus>osd/buttons/OSDStereoscopicFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDStereoscopicNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>StereoMode</onclick>
+							<visible>VideoPlayer.IsStereoscopic</visible>
+						</control>
+						<control type="button" id="96413">
+							<texturefocus>osd/buttons/OSDInfoFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDInfoNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>Close</onclick>
+							<onclick>ActivateWindow(1118)</onclick>
+							<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)</visible>
+						</control>
+						<control type="button" id="96414">
+							<texturefocus>osd/buttons/OSDChannelListFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDChannelListNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>Close</onclick>
+							<onclick>Skin.ToggleSetting(Enable.ScreenshotMode)</onclick>
+							<onclick>Notification($LOCALIZE[19098]:,$LOCALIZE[31329],1500,icon.png)</onclick>
+							<onclick>AlarmClock(Take a Screenshot,TakeScreenshot,00:03,silent)</onclick>
+							<onclick>AlarmClock(Reset ScreenshotMode,Skin.Reset(Enable.ScreenshotMode),00:04,silent)</onclick>
+							<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)</visible>
+						</control>
+						<control type="button" id="96415">
+							<texturefocus>osd/buttons/OSDSkinFO.png</texturefocus>
+							<texturenofocus>osd/buttons/OSDSkinNF.png</texturenofocus>
+							<label>-</label>
+							<width>100</width>
+							<height>100</height>
+							<font>-</font>
+							<onclick>Dialog.Close(videoosd)</onclick>
+							<onclick>ActivateWindow(1115)</onclick>
+							<onclick>SetProperty(OSD.Settings,True,home)</onclick>
+						</control>
 					</control>
 				</control>
 			</control>
