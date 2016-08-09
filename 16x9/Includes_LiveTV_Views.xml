@@ -143,6 +143,7 @@
 						<height>60</height>
 						<aspectratio>stretch</aspectratio>
 						<texture border="3">$INFO[ListItem.Property(GenreType),new_pvr/epg-genres/,.png]</texture>
+						<visible>Skin.HasSetting(Enable.PVRGenreColors)</visible>
 					</control>
 					<control type="image" id="2">
 						<width>120</width>
@@ -150,40 +151,33 @@
 						<aspectratio>stretch</aspectratio>
 						<texture border="3" fallback="new_pvr/epg-genres/0.png">new_pvr/epg-genres/$INFO[ListItem.Genre].png</texture>
 						<visible>!Control.IsVisible(1)</visible>
+						<visible>Skin.HasSetting(Enable.PVRGenreColors) + Skin.HasSetting(Enable.LighterPVRGenreColors)</visible>
 					</control>
-					<control type="group">
-						<visible>[ListItem.HasTimer | ListItem.IsRecording]</visible>
-						<control type="label">
-							<posy>0</posy>
-							<width>120</width>
-							<height>60</height>
-							<font>IconSmall</font>
-							<textoffsetx>14</textoffsetx>
-							<textcolor>$VAR[ThemeLabelColor]</textcolor>
-							<selectedcolor>$VAR[ThemeLabelColor]</selectedcolor>
-							<label></label>
-							<align>left</align>
-							<visible>ListItem.HasTimer + !ListItem.IsRecording</visible>
-						</control>
-						<control type="label">
-							<posy>0</posy>
-							<width>120</width>
-							<height>60</height>
-							<font>IconSmall</font>
-							<textoffsetx>14</textoffsetx>
-							<textcolor>DDFF0000</textcolor>
-							<selectedcolor>$VAR[ThemeLabelColor]</selectedcolor>
-							<label></label>
-							<visible>ListItem.IsRecording</visible>
-							<align>left</align>
-						</control>
+					<control type="label">
+						<width>120</width>
+						<height>60</height>
+						<font>IconSmall</font>
+						<textoffsetx>14</textoffsetx>
+						<textcolor>$VAR[ThemeLabelColor]</textcolor>
+						<selectedcolor>$VAR[ThemeLabelColor]</selectedcolor>
+						<label></label>
+						<align>left</align>
+						<visible>ListItem.HasTimer + !ListItem.IsRecording</visible>
+					</control>
+					<control type="image">
+						<top>7</top>
+						<width>50</width>
+						<height>50</height>
+						<texture>new_pvr/PVR-IsRecording.png</texture>
+						<animation effect="fade" start="100" end="40" time="2000" pulse="true" condition="true">Conditional</animation>
+						<visible>ListItem.IsRecording</visible>
 					</control>
 					<control type="label" id="1">
 						<width>120</width>
 						<height>60</height>
 						<font>font15</font>
 						<textoffsetx>15</textoffsetx>
-						<textcolor>grey2</textcolor>
+						<textcolor>grey</textcolor>
 						<selectedcolor>$VAR[ThemeLabelColor]</selectedcolor>
 						<label>$INFO[ListItem.Label]</label>
 						<animation effect="slide" start="0,0" end="40,0" time="0" tween="sine" easing="in" condition="[ListItem.HasTimer | ListItem.IsRecording]">Conditional</animation>
@@ -193,32 +187,25 @@
 					<control type="image" id="14">
 						<texture colordiffuse="$VAR[HighlightBarColor]" border="4">listselect_fo.png</texture>
 					</control>
-					<control type="group">
-						<!-- <visible>[ListItem.HasTimer | ListItem.IsRecording]</visible> -->
-						<control type="label">
-							<posy>0</posy>
-							<width>120</width>
-							<height>60</height>
-							<font>IconSmall</font>
-							<textoffsetx>15</textoffsetx>
-							<textcolor>$VAR[ThemeLabelColor]</textcolor>
-							<selectedcolor>$VAR[ThemeLabelColor]</selectedcolor>
-							<label></label>
-							<visible>ListItem.HasTimer + !ListItem.IsRecording</visible>
-							<align>left</align>
-						</control>
-						<control type="label">
-							<posy>0</posy>
-							<width>120</width>
-							<height>60</height>
-							<font>IconSmall</font>
-							<textoffsetx>14</textoffsetx>
-							<textcolor>DDFF0000</textcolor>
-							<selectedcolor>DDFF0000</selectedcolor>
-							<label></label>
-							<visible>ListItem.IsRecording</visible>
-							<align>left</align>
-						</control>
+					<control type="label">
+						<posy>0</posy>
+						<width>120</width>
+						<height>60</height>
+						<font>IconSmall</font>
+						<textoffsetx>15</textoffsetx>
+						<textcolor>$VAR[ThemeLabelColor]</textcolor>
+						<selectedcolor>$VAR[ThemeLabelColor]</selectedcolor>
+						<label></label>
+						<visible>ListItem.HasTimer + !ListItem.IsRecording</visible>
+						<align>left</align>
+					</control>
+					<control type="image">
+						<top>7</top>
+						<width>50</width>
+						<height>50</height>
+						<texture>new_pvr/PVR-IsRecording.png</texture>
+						<animation effect="fade" start="100" end="40" time="2000" pulse="true" condition="true">Conditional</animation>
+						<visible>ListItem.IsRecording</visible>
 					</control>
 					<control type="label" id="1">
 						<width>120</width>
@@ -227,7 +214,7 @@
 						<textoffsetx>15</textoffsetx>
 						<selectedcolor>$VAR[ThemeLabelColor]</selectedcolor>
 						<label>$INFO[ListItem.Label]</label>
-						<animation effect="slide" start="0,0" end="40,0" time="0" tween="sine" easing="in" condition="[ListItem.HasTimer | ListItem.IsRecording]">Conditional</animation>
+						<animation effect="slide" end="40" condition="[ListItem.HasTimer | ListItem.IsRecording]">Conditional</animation>
 					</control>
 				</focusedlayout>
 			</control>
@@ -277,9 +264,9 @@
 				<control type="textbox" id="81">
 					<label>$INFO[ListItem.Plot]</label>
 					<posx>15</posx>
-					<posy>50</posy>
+					<posy>70</posy>
 					<width>1286</width>
-					<height>200</height>
+					<height>175</height>
 					<font>font15_textbox</font>
 					<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
 					<visible>![String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
@@ -693,7 +680,7 @@
 						<label>[B][COLOR white]$INFO[ListItem.Label][/COLOR][/B] $INFO[ListItem.Title, ]</label>
 					</control>
 					<control type="image">
-						<animation effect="fade" start="100" end="40" time="1200" pulse="true" condition="true">conditional</animation>
+						<animation effect="fade" start="100" end="40" time="1200" pulse="true" condition="true">Conditional</animation>
 						<left>840</left>
 						<top>10</top>
 						<width>40</width>
@@ -752,7 +739,7 @@
 						<label>[B]$INFO[ListItem.Label][/B] $INFO[ListItem.Title, ]</label>
 					</control>
 					<control type="image">
-						<animation effect="fade" start="100" end="40" time="1200" pulse="true" condition="true">conditional</animation>
+						<animation effect="fade" start="100" end="40" time="1200" pulse="true" condition="true">Conditional</animation>
 						<left>840</left>
 						<top>12</top>
 						<width>40</width>
