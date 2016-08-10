@@ -5,14 +5,15 @@
 	<controls>
 		<control type="button" id="64">
 			<include>HiddenObject</include>
-			<onleft>65</onleft>
-			<onright>63</onright>
-			<onup>Skin.ToggleSetting(Display.PlayerTimeRemaining)</onup>
-			<ondown>$VAR[OSDRightLabelOnDownVar]</ondown>
-			<onclick>Skin.ToggleSetting(ShowPlotCast)</onclick>
+			<onleft condition="!VideoPlayer.Content(livetv)">65</onleft>
+			<onright condition="!VideoPlayer.Content(livetv)">63</onright>
+			<onup condition="!VideoPlayer.Content(livetv)">Skin.ToggleSetting(Display.PlayerTimeRemaining)</onup>
+			<ondown condition="!VideoPlayer.Content(livetv)">$VAR[OSDRightLabelOnDownVar]</ondown>
+			<onclick condition="!VideoPlayer.Content(livetv)">Skin.ToggleSetting(ShowPlotCast)</onclick>
+			<onclick condition="VideoPlayer.Content(livetv)">Skin.ToggleSetting(TogglePlotLiveTV)</onclick>
 		</control>
 		<control type="group">
-		<visible>![Skin.HasSetting(Enable.UsePausedOverlay) + [VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]]</visible>
+			<visible>![Skin.HasSetting(Enable.UsePausedOverlay) + [VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]]</visible>
 			<!-- Panel Background (Movies + Episodes) -->
 			<control type="image">
 				<visible>[VideoPlayer.Content(episodes) | VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !VideoPlayer.Content(LiveTV) + !Window.IsActive(1118) + !Window.IsActive(subtitlesearch)]</visible>
@@ -355,7 +356,7 @@
 					<height>80</height>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
-					<texture>flags/default/videocodec/$VAR[VideoSourceFlagVar,,.png]</texture>
+					<texture>flags/colored/videocodec/$VAR[VideoSourceFlagVar,,.png]</texture>
 					<visible>Skin.HasSetting(coloredflags)</visible>
 				</control>
 				<control type="image">
@@ -363,7 +364,7 @@
 					<width>175</width>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
+					<texture>$INFO[VideoPlayer.VideoResolution,flags/default/resolution/,.png]</texture>
 					<visible>!Skin.HasSetting(coloredflags)</visible>
 				</control>
 				<control type="image">
@@ -421,14 +422,14 @@
 					<width>320</width>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
-					<texture>flags/default/videocodec/$VAR[VideoSourceFlagVar,,.png]</texture>
+					<texture>flags/colored/videocodec/$VAR[VideoSourceFlagVar,,.png]</texture>
 					<visible>Skin.HasSetting(coloredflags)</visible>
 				</control>
 				<control type="image">
 					<width>320</width>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.VideoAspect,flags/aspectratio/,.png]</texture>
+					<texture>$INFO[VideoPlayer.VideoAspect,flags/default/aspectratio/,.png]</texture>
 					<visible>!Skin.HasSetting(coloredflags)</visible>
 				</control>
 				<control type="image">
@@ -442,7 +443,7 @@
 					<width>320</width>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.VideoResolution,flags/resolution/,.png]</texture>
+					<texture>$INFO[VideoPlayer.VideoResolution,flag/default/resolution/,.png]</texture>
 					<visible>!Skin.HasSetting(coloredflags)</visible>
 				</control>
 				<control type="image">
@@ -456,122 +457,29 @@
 					<width>320</width>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.AudioCodec,flags/audio/,.png]</texture>
+					<texture>$INFO[VideoPlayer.AudioCodec,flags/default/audiocodec/,.png]</texture>
 					<visible>!Skin.HasSetting(coloredflags)</visible>
 				</control>
 				<control type="image">
 					<width>320</width>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.AudioCodec,flags/colored/audio/,.png]</texture>
+					<texture>$INFO[VideoPlayer.AudioCodec,flags/colored/audiocodec/,.png]</texture>
 					<visible>Skin.HasSetting(coloredflags)</visible>
 				</control>
 				<control type="image">
 					<width>320</width>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.AudioChannels,flags/channels/,.png]</texture>
+					<texture>$INFO[VideoPlayer.AudioChannels,flags/default/audiochannels/,.png]</texture>
 					<visible>!Skin.HasSetting(coloredflags)</visible>
 				</control>
 				<control type="image">
 					<width>320</width>
 					<colordiffuse>grey2</colordiffuse>
 					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.AudioChannels,flags/colored/channels/,.png]</texture>
+					<texture>$INFO[VideoPlayer.AudioChannels,flags/colored/audiochannels/,.png]</texture>
 					<visible>Skin.HasSetting(coloredflags)</visible>
-				</control>
-			</control>
-			<!-- New DialogInfo for LiveTV -->
-			<control type="group" id="9006">
-				<top>90</top>
-				<animation effect="fade" start="0" end="100" time="400">WindowOpen</animation>
-				<animation effect="fade" start="100" end="0" time="400">WindowClose</animation>
-				<visible>VideoPlayer.Content(LiveTV) + !Window.IsActive(notification) + !Control.IsVisible(9001) + !Control.IsVisible(9002)</visible>
-				<control type="group">
-					<animation effect="slide" end="0,50" time="0" condition="String.IsEqual(Skin.String(LiveTV.InfobarType),1) + [PVR.HasNonRecordingTimer | [PVR.IsRecording + !String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)]]">Conditional</animation>
-					<control type="image">
-						<left>260</left>
-						<width>1400</width>
-						<height>600</height>
-						<texture border="40">dialogs/default/bg.png</texture>
-						<animation effect="fade" end="95" condition="true">Conditional</animation>
-					</control>
-					<control type="group">
-						<left>300</left>
-						<top>20</top>
-						<width>1320</width>
-						<height>780</height>
-						<control type="label"> <!-- Channel name -->
-							<top>0</top>
-							<width>1050</width>
-							<height>50</height>
-							<label>$INFO[VideoPlayer.ChannelName]</label>
-							<font>font16</font>
-							<textcolor>$VAR[ThemeLabelColor]</textcolor>
-						</control>
-						<control type="label"> <!-- Current EPG -->
-							<top>50</top>
-							<width>1320</width>
-							<height>50</height>
-							<label>$INFO[VideoPlayer.Title]</label>
-							<font>font48</font>
-							<scroll>true</scroll>
-						</control>
-						<control type="image"> <!-- pvr line -->
-							<top>110</top>
-							<width>1320</width>
-							<height>2</height>
-							<texture>new_pvr/osd_line_white.png</texture>
-							<colordiffuse>$VAR[ThemeLabelColor]</colordiffuse>
-						</control>
-						<control type="label">
-							<top>120</top>
-							<width>1000</width>
-							<height>30</height>
-							<label>$LOCALIZE[515]: $INFO[VideoPlayer.Genre]</label>
-							<font>font13</font>
-							<textcolor>grey</textcolor>
-						</control>
-						<control type="textbox">
-							<left>4</left>
-							<top>160</top>
-							<width>1000</width>
-							<height>400</height>
-							<label>$INFO[VideoPlayer.Plot]</label>
-							<font>font15_textbox</font>
-							<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
-							<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
-						</control>
-						<control type="textbox">
-							<left>4</left>
-							<top>160</top>
-							<width>1320</width>
-							<height>400</height>
-							<label>$INFO[VideoPlayer.PlotOutline] $INFO[VideoPlayer.Plot]</label>
-							<font>font15_textbox</font>
-							<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
-							<visible>![String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
-						</control>
-						<control type="image"> <!-- Logo background -->
-							<left>1050</left>
-							<top>-20</top>
-							<width>250</width>
-							<height>200</height>
-							<texture>pvr/bg_channel_icon.png</texture>
-							<align>center</align>
-							<visible>false</visible>
-						</control>
-						<control type="image"> <!-- Show\Movie poster -->
-							<left>1050</left>
-							<top>160</top>
-							<width>250</width>
-							<height>440</height>
-							<align>center</align>
-							<aspectratio>keep</aspectratio>
-							<texture>$INFO[VideoPlayer.PlotOutline]</texture>
-							<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
-						</control>
-					</control>
 				</control>
 			</control>
 			<!-- PlayerControls On Info -->
@@ -829,5 +737,98 @@
 				</control>
 			</control>
 		</control>
+			<!-- New DialogInfo for LiveTV -->
+			<control type="group" id="9006">
+				<top>90</top>
+				<animation effect="fade" start="0" end="100" time="400">WindowOpen</animation>
+				<animation effect="fade" start="100" end="0" time="400">WindowClose</animation>
+				<visible>VideoPlayer.Content(LiveTV) + !Window.IsActive(notification) + !Control.IsVisible(9001) + !Control.IsVisible(9002) + !Skin.HasSetting(TogglePlotLiveTV)</visible>
+				<control type="group">
+					<animation effect="slide" end="0,50" time="0" condition="String.IsEqual(Skin.String(LiveTV.InfobarType),1) + [PVR.HasNonRecordingTimer | [PVR.IsRecording + !String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)]]">Conditional</animation>
+					<control type="image">
+						<left>260</left>
+						<width>1400</width>
+						<height>600</height>
+						<texture border="40">dialogs/default/bg.png</texture>
+						<animation effect="fade" end="95" condition="true">Conditional</animation>
+					</control>
+					<control type="group">
+						<left>300</left>
+						<top>20</top>
+						<width>1320</width>
+						<height>780</height>
+						<control type="label"> <!-- Channel name -->
+							<top>0</top>
+							<width>1050</width>
+							<height>50</height>
+							<label>$INFO[VideoPlayer.ChannelName]</label>
+							<font>font16</font>
+							<textcolor>$VAR[ThemeLabelColor]</textcolor>
+						</control>
+						<control type="label"> <!-- Current EPG -->
+							<top>50</top>
+							<width>1320</width>
+							<height>50</height>
+							<label>$INFO[VideoPlayer.Title]</label>
+							<font>font48</font>
+							<scroll>true</scroll>
+						</control>
+						<control type="image"> <!-- pvr line -->
+							<top>110</top>
+							<width>1320</width>
+							<height>2</height>
+							<texture>new_pvr/osd_line_white.png</texture>
+							<colordiffuse>$VAR[ThemeLabelColor]</colordiffuse>
+						</control>
+						<control type="label">
+							<top>120</top>
+							<width>1000</width>
+							<height>30</height>
+							<label>$LOCALIZE[515]: $INFO[VideoPlayer.Genre]</label>
+							<font>font13</font>
+							<textcolor>grey</textcolor>
+						</control>
+						<control type="textbox">
+							<left>4</left>
+							<top>160</top>
+							<width>1000</width>
+							<height>400</height>
+							<label>$INFO[VideoPlayer.Plot]</label>
+							<font>font15_textbox</font>
+							<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
+							<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
+						</control>
+						<control type="textbox">
+							<left>4</left>
+							<top>160</top>
+							<width>1320</width>
+							<height>400</height>
+							<label>$INFO[VideoPlayer.PlotOutline] $INFO[VideoPlayer.Plot]</label>
+							<font>font15_textbox</font>
+							<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
+							<visible>![String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
+						</control>
+						<control type="image"> <!-- Logo background -->
+							<left>1050</left>
+							<top>-20</top>
+							<width>250</width>
+							<height>200</height>
+							<texture>pvr/bg_channel_icon.png</texture>
+							<align>center</align>
+							<visible>false</visible>
+						</control>
+						<control type="image"> <!-- Show\Movie poster -->
+							<left>1050</left>
+							<top>160</top>
+							<width>250</width>
+							<height>440</height>
+							<align>center</align>
+							<aspectratio>keep</aspectratio>
+							<texture>$INFO[VideoPlayer.PlotOutline]</texture>
+							<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
+						</control>
+					</control>
+				</control>
+			</control>
 	</controls>
 </window>
