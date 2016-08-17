@@ -17,7 +17,7 @@
 			</animation>
 			<animation effect="fade" end="0">WindowClose</animation>
 			<control type="image">
-				<left>1470</left>
+				<left>1430</left>
 				<top>773</top>
 				<width>450</width>
 				<height>260</height>
@@ -36,9 +36,9 @@
 			</control>
 			<control type="grouplist">
 				<left>100</left>
-				<top>340</top>
+				<top>210</top>
 				<width>1720</width>
-				<height>660</height>
+				<height>800</height>
 				<usecontrolcoords>true</usecontrolcoords>
 				<control type="label">
 					<width>1720</width>
@@ -46,22 +46,22 @@
 					<font>font16_title</font>
 					<textoffsetx>15</textoffsetx>
 					<textcolor>$VAR[ThemeLabelColor]</textcolor>
-					<label>$LOCALIZE[31355]</label>
+					<label>$LOCALIZE[31355]...</label>
 				</control>
 				<control type="textbox">
 					<left>15</left>
-					<width>1690</width>
-					<height>auto</height>
-					<font>WeatherTemp</font>
+					<width>1720</width>
+					<height min="125" max="250">auto</height>
+					<font>font100caps_title</font>
 					<textcolor>grey</textcolor>
 					<label>$INFO[Player.Title]</label>
 					<visible>VideoPlayer.Content(movies)</visible>
 				</control>
 				<control type="textbox">
 					<left>15</left>
-					<width>1690</width>
-					<height>auto</height>
-					<font>WeatherTemp</font>
+					<width>1720</width>
+					<height min="125" max="250">auto</height>
+					<font>font100caps_title</font>
 					<textcolor>grey</textcolor>
 					<label>$INFO[VideoPlayer.TvShowTitle]</label>
 					<visible>VideoPlayer.Content(episodes)</visible>
@@ -72,7 +72,8 @@
 					<font>font15</font>
 					<textoffsetx>15</textoffsetx>
 					<textcolor>grey</textcolor>
-					<label>$VAR[PlayerTimeRemainingSmallVar]$INFO[Player.FinishTime,      $LOCALIZE[31393]: ,]</label>
+					<label>[B]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,: ]$INFO[VideoPlayer.Episode,$LOCALIZE[20359] ]$INFO[VideoPlayer.Title,  -  ][/B]</label>
+					<visible>VideoPlayer.Content(episodes)</visible>
 				</control>
 				<control type="label">
 					<width>1720</width>
@@ -80,8 +81,7 @@
 					<font>font15</font>
 					<textoffsetx>15</textoffsetx>
 					<textcolor>grey</textcolor>
-					<label>$INFO[VideoPlayer.Director,$LOCALIZE[31000]: ,]</label>
-					<visible>!String.IsEmpty(VideoPlayer.Director)</visible>
+					<label>$VAR[PlayerDurationVar]$INFO[Player.FinishTime,  •  $LOCALIZE[31393]: ,]$VAR[PlayerTimeRemainingSmallVar,  •  ]</label>
 				</control>
 				<control type="group">
 					<height>60</height>
@@ -106,14 +106,23 @@
 						<texture>$INFO[VideoPlayer.UserRating,flags/rating/,.png]</texture>
 						<visible>!String.IsEmpty(VideoPlayer.UserRating)</visible>
 					</control>
-					<control type="label">
+					<control type="image">
 						<left>210</left>
+						<top>13</top>
+						<width>75</width>
+						<height>38</height>
+						<texture colordiffuse="grey">IMDb_bw.png</texture>
+						<visible>!String.IsEmpty(VideoPlayer.Top250)</visible>
+					</control>
+					<control type="label">
+						<left>281</left>
 						<width>1720</width>
 						<height>60</height>
 						<font>font15</font>
 						<textoffsetx>15</textoffsetx>
 						<textcolor>grey</textcolor>
-						<label>$INFO[VideoPlayer.Year]$INFO[VideoPlayer.MPAA,    ]$INFO[VideoPlayer.Duration(H),    ,h]$INFO[VideoPlayer.Duration(MM),,m]</label>
+						<label>$INFO[VideoPlayer.Top250,$LOCALIZE[13409]  #,  •  ]$INFO[VideoPlayer.Year,]$INFO[VideoPlayer.MPAA,  •  ]</label>
+						<animation effect="slide" end="-71" time="0" condition="String.IsEmpty(VideoPlayer.Top250)">Conditional</animation>
 					</control>
 				</control>
 				<control type="label">
@@ -122,34 +131,29 @@
 					<font>font15</font>
 					<textoffsetx>15</textoffsetx>
 					<textcolor>grey</textcolor>
-					<label>[B]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,: ]$INFO[VideoPlayer.Episode,$LOCALIZE[20359] ][/B]</label>
-					<visible>VideoPlayer.Content(episodes)</visible>
-				</control>
-				<control type="label">
-					<width>1720</width>
-					<height>60</height>
-					<font>font15</font>
-					<textoffsetx>15</textoffsetx>
-					<textcolor>grey</textcolor>
-					<label>[B]$INFO[VideoPlayer.Title][/B]</label>
-					<visible>VideoPlayer.Content(episodes)</visible>
+					<label>$INFO[VideoPlayer.Director,$LOCALIZE[31000]: ,]</label>
+					<visible>!String.IsEmpty(VideoPlayer.Director)</visible>
 				</control>
 				<control type="textbox">
 					<left>15</left>
-					<width>860</width>
+					<top>10</top>
+					<width>900</width>
 					<height>290</height>
 					<font>font15_textbox</font>
 					<textcolor>grey</textcolor>
 					<label>$INFO[VideoPlayer.PlotOutline]</label>
+					<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
 					<visible>!IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A)</visible>
 				</control>
 				<control type="textbox">
 					<left>15</left>
+					<top>10</top>
 					<width>1200</width>
 					<height>290</height>
 					<font>font15_textbox</font>
 					<textcolor>grey</textcolor>
 					<label>$INFO[VideoPlayer.Plot]</label>
+					<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
 					<visible>IsEmpty(VideoPlayer.PlotOutline) | String.IsEqual(VideoPlayer.PlotOutline,N/A)</visible>
 				</control>
 			</control>
