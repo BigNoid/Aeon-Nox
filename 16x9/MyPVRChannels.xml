@@ -9,6 +9,13 @@
 	<views>50,51,52</views>
 	<menucontrol>9051</menucontrol>
 	<controls>
+		<control type="button" id="64">
+			<include>HiddenObject</include>
+			<onclick>fullscreen</onclick>
+			<onleft condition="Control.IsVisible(50)">SetFocus(50)</onleft>
+			<onleft condition="Control.IsVisible(51)">SetFocus(51)</onleft>
+			<onleft condition="Control.IsVisible(52)">SetFocus(52)</onleft>
+		</control>
 		<include>CommonBackground</include>
 		<!-- Default Channel List -->
 		<control type="group">
@@ -681,7 +688,7 @@
 						<height>882</height>
 						<onleft>SetProperty(MediaMenu,True,home)</onleft>
 						<onleft>SetFocus(9050)</onleft>
-						<onright>80</onright>
+						<onright condition="Player.HasVideo">64</onright>
 						<onup>52</onup>
 						<ondown>52</ondown>
 						<pagecontrol>80</pagecontrol>
@@ -710,7 +717,7 @@
 								<height>12</height>
 								<info>ListItem.Progress</info>
 								<texturebg border="2">osd/texturebg2.png</texturebg>
-								<midtexture colordiffuse="$VAR[ThemeLabelColor]" border="2">osd/midtexture2.png</midtexture>
+								<midtexture colordiffuse="$VAR[ThemeLabelColor]" border="2">osd/midtexture.png</midtexture>
 								<visible>!String.IsEmpty(ListItem.Title)</visible>
 							</control>
 							<control type="label">
@@ -748,6 +755,7 @@
 								<width>970</width>
 								<height>63</height>
 								<texture colordiffuse="$VAR[HighlightBarColor]" border="4">listselect_fo.png</texture>
+								<animation effect="fade" start="100" end="0" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(52)">Conditional</animation>
 							</control>
 							<control type="label">
 								<left>2</left>
@@ -834,27 +842,37 @@
 						<height>40</height>
 						<control type="image">
 							<width>720</width>
-							<height>40</height>
+							<height>50</height>
 							<texture>back.png</texture>
 							<animation effect="fade" end="50" time="500" condition="true">Conditional</animation>
 						</control>
-						<control type="label">
-							<left>20</left>
-							<top>-2</top>
-							<width>700</width>
-							<height>40</height>
-							<align>left</align>
-							<label>[I]$INFO[VideoPlayer.Title,$LOCALIZE[31040]:  ][/I]</label>
-							<font>font11</font>
-							<scroll>true</scroll>
+						<control type="group">
+							<top>10</top>
+							<control type="label">
+								<left>20</left>
+								<top>-2</top>
+								<width>700</width>
+								<height>40</height>
+								<align>left</align>
+								<label>[I]$INFO[VideoPlayer.Title,$LOCALIZE[31040]:  ][/I]</label>
+								<font>font11</font>
+								<scroll>true</scroll>
+							</control>
+							<control type="image">
+								<left>650</left>
+								<top>5</top>
+								<width>50</width>
+								<height>30</height>
+								<aspectratio>keep</aspectratio>
+								<texture>$INFO[VideoPlayer.Cover]</texture>
+							</control>
 						</control>
 						<control type="image">
-							<left>650</left>
-							<top>5</top>
-							<width>50</width>
-							<height>30</height>
-							<aspectratio>keep</aspectratio>
-							<texture>$INFO[VideoPlayer.Cover]</texture>
+							<width>720</width>
+							<height>405</height>
+							<texture colordiffuse="$VAR[ThemeLabelColor]" border="9">thumbs/thumbnail_focused.png</texture>
+							<include>VisibleFadeAnimation</include>
+							<visible>Control.HasFocus(64)</visible>
 						</control>
 					</control>
 					<control type="group">
