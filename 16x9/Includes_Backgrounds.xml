@@ -5,7 +5,6 @@
 			<animation effect="fade" time="600">WindowOpen</animation>
 			<animation effect="fade" time="600">WindowClose</animation>
 			<include condition="Window.IsActive(home)">HomeFanart</include>
-			<include condition="!Window.IsActive(home)">GlobalFanart</include>
 			<include condition="Window.IsActive(home)">LiveCasesBackground</include>
 			<include condition="Window.IsActive(home)">skinshortcuts-template-widget.1.backgroundFanart</include>
 			<include condition="Window.IsActive(home)">skinshortcuts-template-widget.1b.backgroundFanart</include>
@@ -15,10 +14,10 @@
 			<include condition="Window.IsActive(home)">skinshortcuts-template-widget.2b.backgroundFanart</include>
 			<include condition="Window.IsActive(home)">skinshortcuts-template-widget.2c.backgroundFanart</include>
 			<include condition="Window.IsActive(home)">skinshortcuts-template-widget.2d.backgroundFanart</include>
+			<include condition="!Window.IsActive(home)">GlobalFanart</include>
 			<include condition="Window.IsActive(videos) + !String.IsEmpty(Skin.String(VideoGenreFanartPath))">VideoGenreFanart</include>
 			<include condition="Window.IsActive(music) + !String.IsEmpty(Skin.String(MusicGenreFanartPath))">MusicGenreFanart</include>
 			<include condition="Window.IsActive(script-NextAired-TVGuide.xml) | Window.IsActive(script-NextAired-TVGuide2.xml)">TVShowNextAiredBackground</include>
-			<include condition="Window.IsActive(weather)">WeatherBackground</include>
 			<include condition="Window.IsActive(script-globalsearch-main.xml)">GlobalSearchBG</include>
 			<control type="visualisation">
 				<include>FullscreenDimensions</include>
@@ -115,6 +114,7 @@
 		<control type="list" id="9033">
 			<include>HiddenList</include>
 			<content>
+				<include condition="Window.IsActive(weather)">WeatherFallback</include>
 				<include condition="Window.IsActive(profiles)">ProfilesFallback</include>
 				<include condition="Window.IsActive(pictures)">PicturesFallback</include>
 				<include condition="Window.IsActive(music) | Window.IsActive(musicplaylist)">MusicFallback</include>
@@ -135,7 +135,7 @@
 				<description>Normal Default Background Image</description>
 				<include>FullscreenDimensions</include>
 				<include>AnimatedBackgroundAnimation</include>
-				<imagepath fallback="$INFO[Skin.String(CustomDefaultBackground)]" background="true">$VAR[GlobalBackgroundVar]</imagepath>
+				<imagepath background="true">$VAR[GlobalBackgroundVar]</imagepath>
 				<include condition="String.IsEqual(Skin.String(FanartTimePerImage),5)">FanartTimePerImage5</include>
 				<include condition="String.IsEqual(Skin.String(FanartTimePerImage),6)">FanartTimePerImage6</include>
 				<include condition="String.IsEmpty(Skin.String(FanartTimePerImage))">FanartTimePerImage7</include>
@@ -163,7 +163,7 @@
 				<left>412</left>
 				<width>1520</width>
 				<height>855</height>
-				<imagepath fallback="$INFO[Skin.String(CustomDefaultBackground)]" background="true" diffuse="views/myflix/fanart_diffuse.png">$VAR[GlobalBackgroundVar]</imagepath>
+				<imagepath background="true" diffuse="views/myflix/fanart_diffuse.png">$VAR[GlobalBackgroundVar]</imagepath>
 				<include condition="String.IsEqual(Skin.String(FanartTimePerImage),5)">FanartTimePerImage5</include>
 				<include condition="String.IsEqual(Skin.String(FanartTimePerImage),6)">FanartTimePerImage6</include>
 				<include condition="String.IsEmpty(Skin.String(FanartTimePerImage))">FanartTimePerImage7</include>
@@ -183,7 +183,7 @@
 			<description>Normal Default Background Image</description>
 			<include>FullscreenDimensions</include>
 			<include>AnimatedBackgroundAnimation</include>
-			<imagepath fallback="$INFO[Skin.String(CustomDefaultBackground)]" background="true">$VAR[HomeBackgroundVar]</imagepath>
+			<imagepath background="true">$VAR[HomeBackgroundVar]</imagepath>
 			<include condition="String.IsEqual(Skin.String(FanartTimePerImage),5)">FanartTimePerImage5</include>
 			<include condition="String.IsEqual(Skin.String(FanartTimePerImage),6)">FanartTimePerImage6</include>
 			<include condition="String.IsEmpty(Skin.String(FanartTimePerImage))">FanartTimePerImage7</include>
@@ -242,6 +242,16 @@
 		</control>
 	</include>
 	<include name="TVShowNextAiredBackground">
+		<control type="image">
+			<include>AnimatedBackgroundAnimation</include>
+			<texture background="true" fallback="special://skin/backgrounds/fallback_movies.jpg">$INFO[Skin.String(CustomDefaultBackground)]</texture>
+			<aspectratio>scale</aspectratio>
+			<fadetime>600</fadetime>
+			<visible>Control.HasFocus(9000) | Control.HasFocus(61) | Control.HasFocus(8)</visible>
+			<animation effect="fade" time="600">Visible</animation>
+			<animation effect="fade" time="600">Hidden</animation>
+			<animation effect="fade" time="200">WindowClose</animation>
+		</control>
 		<control type="group">
 			<visible>!String.IsEmpty(Window(home).Property(TVGuide.BackgroundFanart))</visible>
 			<include content="TVGuideFanart">
@@ -312,7 +322,6 @@
 			<include condition="String.IsEqual(Skin.String(FanartTimePerImage),90)">FanartTimePerImage90</include>
 			<randomize>true</randomize>
 			<fadetime>1000</fadetime>
-			<include>VisibleFadeAnimation</include>
 			<visible>!String.IsEmpty(Skin.String(weatherfanart.path))</visible>
 			<animation effect="fade" time="200">WindowClose</animation>
 		</control>
@@ -563,6 +572,12 @@
 			</control>
 		</control>
 	</include>
+	<include name="WeatherFallback">
+		<item>
+			<onclick>noop</onclick>
+			<thumb>$INFO[Skin.String(weatherfanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]$VAR[WeatherBackgroundTypeVar]</thumb>
+		</item>
+	</include>
 	<include name="MusicFallback">
 		<item>
 			<onclick>noop</onclick>
@@ -627,6 +642,7 @@
 			<texture background="true" fallback="special://skin/backgrounds/fallback_movies.jpg">$INFO[Skin.String(CustomDefaultBackground)]</texture>
 			<aspectratio>scale</aspectratio>
 			<fadetime>600</fadetime>
+			<visible>Control.HasFocus(9000) | Control.HasFocus(60)</visible>
 			<animation effect="fade" time="600">Visible</animation>
 			<animation effect="fade" time="600">Hidden</animation>
 			<animation effect="fade" time="200">WindowClose</animation>
