@@ -256,7 +256,7 @@
 		<value>$INFO[ListItem.Votes,, $LOCALIZE[205]]</value>
 	</variable>
 	<variable name="DurationVar">
-		<value condition="Container.Content(tvshows) + !String.IsEmpty(Window(Home).Property(NextAired.Runtime))">$INFO[Window(Home).Property(NextAired.Runtime)]</value>
+		<value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(Window(Home).Property(NextAired.Runtime))">$INFO[Window(Home).Property(NextAired.Runtime)]</value>
 		<value condition="!String.IsEmpty(ListItem.Duration)">$INFO[ListItem.Duration]</value>
 		<value>?</value>
 	</variable>
@@ -1106,7 +1106,9 @@
 		<value>$INFO[ListItem.Season,S]$INFO[ListItem.Episode,E]</value>
 	</variable>
 	<variable name="PlayerDurationVar">
-		<value condition="Integer.IsGreater(VideoPlayer.Duration(h),0)">$INFO[VideoPlayer.Duration(h),,h]$INFO[VideoPlayer.Duration(mm),,m]</value>
+		<value condition="Integer.IsGreater(VideoPlayer.Duration(h),0) + Integer.IsGreater(VideoPlayer.Duration(mm),00)">$INFO[VideoPlayer.Duration(h),,h]$INFO[VideoPlayer.Duration(mm),,m]</value>
+		<value condition="Integer.IsGreater(VideoPlayer.Duration(h),0) + Integer.IsEqual(VideoPlayer.Duration(mm),00)">$INFO[VideoPlayer.Duration(h),,h]</value>
+		<value condition="Integer.IsLessOrEqual(VideoPlayer.Duration(h),0) + Integer.IsGreaterOrEqual(VideoPlayer.Duration(mm),10)">$INFO[VideoPlayer.Duration(mm),,m]</value>
 		<value condition="Integer.IsEqual(VideoPlayer.Duration(mm),09)">$LOCALIZE[12319]m</value>
 		<value condition="Integer.IsEqual(VideoPlayer.Duration(mm),08)">$LOCALIZE[12318]m</value>
 		<value condition="Integer.IsEqual(VideoPlayer.Duration(mm),07)">$LOCALIZE[12317]m</value>

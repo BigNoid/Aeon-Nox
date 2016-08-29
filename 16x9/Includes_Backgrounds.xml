@@ -183,6 +183,7 @@
 			<description>Normal Default Background Image</description>
 			<include>FullscreenDimensions</include>
 			<include>AnimatedBackgroundAnimation</include>
+			<include>VisibleFadeAnimation</include>
 			<imagepath background="true">$VAR[HomeBackgroundVar]</imagepath>
 			<include condition="String.IsEqual(Skin.String(FanartTimePerImage),5)">FanartTimePerImage5</include>
 			<include condition="String.IsEqual(Skin.String(FanartTimePerImage),6)">FanartTimePerImage6</include>
@@ -196,10 +197,12 @@
 			<include condition="String.IsEqual(Skin.String(FanartTimePerImage),60)">FanartTimePerImage60</include>
 			<include condition="String.IsEqual(Skin.String(FanartTimePerImage),90)">FanartTimePerImage90</include>
 			<visible>[!Control.IsVisible(8660) + !Control.IsVisible(8661) + !Player.HasAudio + Skin.HasSetting(Enable.ArtistSlideshowOnHome)] | [!Control.IsVisible(8660) + !Control.IsVisible(8661) + !Skin.HasSetting(Enable.ArtistSlideshowOnHome)]</visible>
+			<visible>!ControlGroup(90010).HasFocus + !ControlGroup(90020).HasFocus</visible>
 		</control>
 		<control type="multiimage">
 			<include>FullscreenDimensions</include>
 			<include>AnimatedBackgroundAnimation</include>
+			<include>VisibleFadeAnimation</include>
 			<imagepath background="true">$INFO[Window(Visualisation).Property(ArtistSlideshow)]</imagepath>
 			<include condition="String.IsEqual(Skin.String(FanartTimePerImage),5)">FanartTimePerImage5</include>
 			<include condition="String.IsEqual(Skin.String(FanartTimePerImage),6)">FanartTimePerImage6</include>
@@ -213,6 +216,33 @@
 			<include condition="String.IsEqual(Skin.String(FanartTimePerImage),60)">FanartTimePerImage60</include>
 			<include condition="String.IsEqual(Skin.String(FanartTimePerImage),90)">FanartTimePerImage90</include>
 			<visible>!Control.IsVisible(8660) + !Control.IsVisible(8661) + Player.HasAudio + Skin.HasSetting(Enable.ArtistSlideshowOnHome) + String.IsEmpty(Window(Home).Property(script.cinemavision.running))</visible>
+			<visible>!ControlGroup(90010).HasFocus + !ControlGroup(90020).HasFocus</visible>
+		</control>
+		<control type="multiimage" id="8660">
+			<include>FullscreenDimensions</include>
+			<include>AnimatedBackgroundAnimation</include>
+			<include>VisibleFadeAnimation</include>
+			<imagepath background="true">$PARAM[imagePath]</imagepath>
+			<visible>$PARAM[Visible] + !$PARAM[isWeather] + ![Container($PARAM[id]).OnNext | Container($PARAM[id]).OnPrevious]</visible>
+			<visible>ControlGroup(90010).HasFocus | ControlGroup(90020).HasFocus</visible>
+		</control>
+		<control type="group" id="8661">
+			<visible>ControlGroup(90010).HasFocus | ControlGroup(90020).HasFocus</visible>
+			<visible>$PARAM[Visible] + $PARAM[isWeather]</visible>
+			<control type="multiimage">
+				<include>FullscreenDimensions</include>
+				<include>AnimatedBackgroundAnimation</include>
+				<include>VisibleFadeAnimation</include>
+				<imagepath background="true">$PARAM[imagePath]</imagepath>
+				<visible>!Skin.HasSetting(weatherfanart.multi) + ![Container($PARAM[id]).OnNext | Container($PARAM[id]).OnPrevious]</visible>
+			</control>
+			<control type="multiimage">
+				<include>FullscreenDimensions</include>
+				<include>AnimatedBackgroundAnimation</include>
+				<include>VisibleFadeAnimation</include>
+				<imagepath background="true">$PARAM[imagePathMulti]</imagepath>
+				<visible>Skin.HasSetting(weatherfanart.multi) + ![Container($PARAM[id]).OnNext | Container($PARAM[id]).OnPrevious]</visible>
+			</control>
 		</control>
 		<!-- <control type="image">
 			<include>FullscreenDimensions</include>
@@ -220,7 +250,7 @@
 			<animation effect="fade" start="100" end="55" time="0" condition="true">Conditional</animation>
 		</control> -->
 	</include>
-	<include name="WidgetHomeFanart">
+	<!-- <include name="WidgetHomeFanart">
 		<control type="multiimage" id="8660">
 			<include>FullscreenDimensions</include>
 			<include>AnimatedBackgroundAnimation</include>
@@ -245,7 +275,7 @@
 				<visible>Skin.HasSetting(weatherfanart.multi) + ![Container($PARAM[id]).OnNext | Container($PARAM[id]).OnPrevious]</visible>
 			</control>
 		</control>
-	</include>
+	</include> -->
 	<include name="TVShowNextAiredBackground">
 		<control type="image">
 			<include>AnimatedBackgroundAnimation</include>
