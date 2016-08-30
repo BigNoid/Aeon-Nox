@@ -3,6 +3,8 @@
 	<onload condition="!Skin.HasSetting(AlternateVideoOSD)">SetFocus(64)</onload>
 	<onload condition="Skin.HasSetting(AlternateVideoOSD)">SetFocus(96406)</onload>
 	<onunload>Skin.Reset(PausedOverlayCast)</onunload>
+	<onunload>Skin.Reset(ShowPausedOverlayFlags)</onunload>
+	<zorder>10</zorder>
 	<controls>
 		<control type="button" id="64">
 			<include>HiddenObject</include>
@@ -12,6 +14,7 @@
 			<ondown condition="!VideoPlayer.Content(livetv) + !Skin.HasSetting(Enable.UsePausedOverlay)">$VAR[OSDRightLabelOnDownVar]</ondown>
 			<onclick condition="!VideoPlayer.Content(livetv) + !Skin.HasSetting(Enable.UsePausedOverlay)">Skin.ToggleSetting(ShowPlotCast)</onclick>
 			<onclick condition="!VideoPlayer.Content(livetv) + Skin.HasSetting(Enable.UsePausedOverlay)">Skin.ToggleSetting(PausedOverlayCast)</onclick>
+			<onup condition="!VideoPlayer.Content(livetv) + Skin.HasSetting(Enable.UsePausedOverlay)">Skin.ToggleSetting(ShowPausedOverlayFlags)</onup>
 			<onclick condition="VideoPlayer.Content(livetv)">Skin.ToggleSetting(TogglePlotLiveTV)</onclick>
 			<onup condition="VideoPlayer.Content(livetv)">Skin.ToggleSetting(Enable.LiveTVFullPlot)</onup>
 		</control>
@@ -399,92 +402,6 @@
 					<visible>Skin.HasSetting(coloredflags)</visible>
 				</control>
 			</control>
-			<!-- Media Flag Bar Background (Files & Addons) -->
-			<control type="image">
-				<visible>[!VideoPlayer.Content(episodes) + !VideoPlayer.Content(movies) + !Window.IsActive(videoosd) + !Window.IsActive(1118) + !VideoPlayer.Content(LiveTV)]</visible>
-				<width>1920</width>
-				<height>120</height>
-				<texture border="1,1,1,40">topbar.png</texture>
-			</control>
-			<!-- Media Flag Bar (Files & Addons) -->
-			<control type="grouplist">
-				<visible>[!VideoPlayer.Content(episodes) + !VideoPlayer.Content(movies)] + [!Window.IsActive(videoosd) + !Window.IsActive(1118) + !VideoPlayer.Content(LiveTV)]</visible>
-				<width>1920</width>
-				<height>100</height>
-				<align>center</align>
-				<itemgap>0</itemgap>
-				<orientation>horizontal</orientation>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>flags/default/videocodec/$VAR[VideoSourceFlagVar,,.png]</texture>
-					<visible>!Skin.HasSetting(coloredflags)</visible>
-				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>flags/colored/videocodec/$VAR[VideoSourceFlagVar,,.png]</texture>
-					<visible>Skin.HasSetting(coloredflags)</visible>
-				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.VideoAspect,flags/default/aspectratio/,.png]</texture>
-					<visible>!Skin.HasSetting(coloredflags)</visible>
-				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.VideoAspect,flags/colored/aspectratio/,.png]</texture>
-					<visible>Skin.HasSetting(coloredflags)</visible>
-				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.VideoResolution,flag/default/resolution/,.png]</texture>
-					<visible>!Skin.HasSetting(coloredflags)</visible>
-				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.VideoResolution,flags/colored/resolution/,.png]</texture>
-					<visible>Skin.HasSetting(coloredflags)</visible>
-				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.AudioCodec,flags/default/audiocodec/,.png]</texture>
-					<visible>!Skin.HasSetting(coloredflags)</visible>
-				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.AudioCodec,flags/colored/audiocodec/,.png]</texture>
-					<visible>Skin.HasSetting(coloredflags)</visible>
-				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.AudioChannels,flags/default/audiochannels/,.png]</texture>
-					<visible>!Skin.HasSetting(coloredflags)</visible>
-				</control>
-				<control type="image">
-					<width>320</width>
-					<colordiffuse>grey2</colordiffuse>
-					<include>MediaFlagVars</include>
-					<texture>$INFO[VideoPlayer.AudioChannels,flags/colored/audiochannels/,.png]</texture>
-					<visible>Skin.HasSetting(coloredflags)</visible>
-				</control>
-			</control>
 			<!-- PlayerControls On Info -->
 			<control type="group">
 				<visible>Skin.HasSetting(AlternateVideoOSD) + !VideoPlayer.Content(LiveTV) + !Skin.HasSetting(Enable.ScreenshotMode)</visible>
@@ -737,6 +654,121 @@
 							<onclick>SetProperty(OSD.Settings,True,home)</onclick>
 						</control>
 					</control>
+				</control>
+			</control>
+		</control>
+		<control type="group">
+			<visible>[!Window.IsActive(videoosd) + !Window.IsActive(1118) + !VideoPlayer.Content(LiveTV)]</visible>
+			<visible>[!VideoPlayer.Content(episodes) + !VideoPlayer.Content(movies) + !Skin.HasSetting(Enable.UsePausedOverlay)] | [Skin.HasSetting(Enable.UsePausedOverlay) + Skin.HasSetting(ShowPausedOverlayFlags)]</visible>
+			<!-- Media Flag Bar Background (Files & Addons) -->
+			<control type="image">
+				<width>1920</width>
+				<height>120</height>
+				<texture border="1,1,1,40">topbar.png</texture>
+			</control>
+			<!-- Media Flag Bar (Files & Addons) -->
+			<control type="grouplist">
+				<width>1920</width>
+				<height>100</height>
+				<align>center</align>
+				<itemgap>0</itemgap>
+				<orientation>horizontal</orientation>
+				<control type="image" id="142099">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<bordersize>2</bordersize>
+					<texture>$INFO[VideoPlayer.Studio,resource://resource.images.studios.white/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags) + !String.IsEmpty(VideoPlayer.Studio)</visible>
+				</control>
+				<control type="image" id="142009">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<bordersize>2</bordersize>
+					<texture>$INFO[VideoPlayer.Studio,resource://resource.images.studios.coloured/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags) + !String.IsEmpty(VideoPlayer.Studio)</visible>
+				</control>
+				<control type="label">
+					<width>320</width>
+					<height>90</height>
+					<align>center</align>
+					<label>$INFO[VideoPlayer.Studio]</label>
+					<font>font10</font>
+					<textcolor>grey2</textcolor>
+					<wrapmultiline>true</wrapmultiline>
+					<visible>[String.IsEmpty(Control.GetLabel(142099)) + !Skin.HasSetting(coloredflags)] | [String.IsEmpty(Control.GetLabel(142009)) + Skin.HasSetting(coloredflags)]</visible>
+					<visible>!String.IsEmpty(VideoPlayer.Studio)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>flags/default/videocodec/$VAR[VideoSourceFlagVar,,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>flags/colored/videocodec/$VAR[VideoSourceFlagVar,,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoResolution,flag/default/resolution/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoResolution,flags/colored/resolution/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoAspect,flags/default/aspectratio/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.VideoAspect,flags/colored/aspectratio/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.AudioCodec,flags/default/audiocodec/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.AudioCodec,flags/colored/audiocodec/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.AudioChannels,flags/default/audiochannels/,.png]</texture>
+					<visible>!Skin.HasSetting(coloredflags)</visible>
+				</control>
+				<control type="image">
+					<width>320</width>
+					<colordiffuse>grey2</colordiffuse>
+					<include>MediaFlagVars</include>
+					<texture>$INFO[VideoPlayer.AudioChannels,flags/colored/audiochannels/,.png]</texture>
+					<visible>Skin.HasSetting(coloredflags)</visible>
 				</control>
 			</control>
 		</control>
