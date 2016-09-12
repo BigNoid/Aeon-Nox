@@ -2,6 +2,7 @@
 <window id="1126" type="dialog">
 	<onload condition="String.IsEmpty(Window(Home).Property(Notify))">SetFocus(901002)</onload>
 	<onload condition="!String.IsEmpty(Window(Home).Property(Notify))">SetFocus(901003)</onload>
+	<onunload>ClearProperty(ResetSkinSettings,home)</onunload>
 	<onunload>ClearProperty(MissingDependency,home)</onunload>
 	<onunload>ClearProperty(WidgetUpdate,home)</onunload>
 	<onunload>ClearProperty(NotWarnedOnHidingViz,home)</onunload>
@@ -79,6 +80,7 @@
 				<onup>noop</onup>
 				<ondown>noop</ondown>
 				<onclick>Dialog.Close(1126)</onclick>
+				<onclick condition="!String.IsEmpty(Window(Home).Property(ResetSkinSettings))">Skin.ResetSettings</onclick>
 				<onclick condition="!String.IsEmpty(Window(Home).Property(MissingDependency)) + !System.HasAddon(script.skinshortcuts)">InstallAddon(script.skinshortcuts)</onclick>
 				<onclick condition="!Skin.HasSetting(WarnedOnHidingViz) + !String.IsEmpty(Window(Home).Property(NotWarnedOnHidingViz))">Skin.ToggleSetting(hidevizbehindfanart)</onclick>
 				<onclick condition="!Skin.HasSetting(WarnedOnHidingViz) + !String.IsEmpty(Window(Home).Property(NotWarnedOnHidingViz))">Skin.SetBool(WarnedOnHidingViz)</onclick>
@@ -102,9 +104,8 @@
 				<onright>noop</onright>
 				<onup>noop</onup>
 				<ondown>noop</ondown>
-				<onclick>Dialog.Close(1126)</onclick>
 				<onclick condition="!String.IsEmpty(Window(Home).Property(MissingDependency))">ActivateWindow(settings)</onclick>
-				<onclick condition="!Skin.HasSetting(WarnedOnHidingViz) + !String.IsEmpty(Window(Home).Property(NotWarnedOnHidingViz))">Dialog.Close(1126)</onclick>
+				<onclick condition="String.IsEmpty(Window(Home).Property(MissingDependency))">Dialog.Close(1126)</onclick>
 				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="5">listselect_fo.png</texturefocus>
 				<texturenofocus border="5">dialogs/default/inner.png</texturenofocus>
 				<visible>String.IsEmpty(Window(Home).Property(Notify))</visible>
