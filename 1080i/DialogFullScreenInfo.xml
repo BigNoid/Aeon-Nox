@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window>
+	<onload>SetFocus(64)</onload>
 	<onload condition="[VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]">SetFocus(5000)</onload>
+	<!-- this switches back to "You are watching ..." -->
+	<onunload condition="VideoPlayer.Content(livetv) + !Skin.HasSetting(ToggleLiveTVNext)">Skin.ToggleSetting(ToggleLiveTVNext)</onunload>
 	<controls>
+		<control type="button" id="64">
+			<include>HiddenObject</include>
+			<onclick condition="VideoPlayer.Content(livetv)">Skin.ToggleSetting(TogglePlotLiveTV)</onclick>
+			<onup condition="VideoPlayer.Content(livetv)">Skin.ToggleSetting(Enable.LiveTVFullPlot)</onup>
+			<!-- this switches back to NOW -->
+			<!-- Skin.HasSetting(ToggleLiveTVNext)  = Now -->
+			<!-- !Skin.HasSetting(ToggleLiveTVNext) = Next -->
+			<onclick condition="VideoPlayer.Content(livetv) + !Skin.HasSetting(ToggleLiveTVNext)">Skin.ToggleSetting(ToggleLiveTVNext)</onclick>
+			<!-- onleft and onright are toggling between NOW and NEXT -->
+			<onright condition="VideoPlayer.Content(livetv)">Skin.ToggleSetting(ToggleLiveTVNext)</onright>
+			<onleft condition="VideoPlayer.Content(livetv)">Skin.ToggleSetting(ToggleLiveTVNext)</onleft>
+		</control>
 		<control type="group">
 			<animation effect="slide" start="0,-100" end="0,0" time="200">WindowOpen</animation>
 			<visible>!Window.IsActive(videoosd) + !VideoPlayer.Content(episodes) + !VideoPlayer.Content(movies) + !VideoPlayer.Content(LiveTV)</visible>
@@ -336,98 +351,179 @@
 				</control>
 			</control>
 		</control>
-		<!-- New DialogInfo for LiveTV -->
+		<!-- LiveTV Plot -->
 		<control type="group" id="9006">
-			<top>90</top>
-			<animation effect="fade" start="0" end="100" time="400">WindowOpen</animation>
-			<animation effect="fade" start="100" end="0" time="400">WindowClose</animation>
-			<visible>VideoPlayer.Content(LiveTV) + !Window.IsActive(infodialog) + !Control.IsVisible(9001) + !Control.IsVisible(9002)</visible>
+			<top>10</top>
+			<visible>VideoPlayer.Content(LiveTV) + !Window.IsActive(notification) + !Control.IsVisible(9001) + !Control.IsVisible(9002) + !Skin.HasSetting(TogglePlotLiveTV)</visible>			
+			<!-- Small PlotInfo BG -->
 			<control type="image">
-				<left>260</left>
-				<width>1400</width>
-				<height>600</height>
+				<left>17</left>
+				<width>1885</width>
+				<height>300</height>
 				<texture border="40">dialogs/default/bg.png</texture>
-				<animation effect="fade" end="95" condition="true">Conditional</animation>
+				<animation effect="fade" end="90" condition="true">Conditional</animation>
+				<visible>!IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A) + !Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
 			</control>
-			<control type="group">
-				<left>300</left>
-				<top>20</top>
-				<width>1320</width>
-				<height>780</height>
+			<!-- Big PlotInfo BG -->
+			<control type="image">
+				<left>17</left>
+				<width>1885</width>
+				<height>720</height>
+				<texture border="40">dialogs/default/bg.png</texture>
+				<animation effect="fade" end="90" condition="true">Conditional</animation>
+				<visible>IsEmpty(VideoPlayer.PlotOutline) | String.IsEqual(VideoPlayer.PlotOutline,N/A) | Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
+			</control>
+			<!-- NOW playing in channel -->
+			<control type="grouplist">
+				<top>50</top>
+				<left>57</left>
+				<height>650</height>
+				<width>1805</width>
+				<itemgap>10</itemgap>
+				<usecontrolcoords>true</usecontrolcoords>
+				<orientation>vertical</orientation>
+				<visible>Skin.HasSetting(ToggleLiveTVNext)</visible>
 				<control type="label">
-					<!-- Channel name -->
-					<top>0</top>
-					<width>1050</width>
-					<height>50</height>
+					<height>30</height>
 					<label>$INFO[VideoPlayer.ChannelName]</label>
 					<font>font16</font>
 					<textcolor>themecolor</textcolor>
 				</control>
 				<control type="label">
-					<!-- Current EPG -->
-					<top>50</top>
-					<width>1320</width>
+					<width>auto</width>
 					<height>50</height>
-					<label>$INFO[VideoPlayer.Title]</label>
+					<label>[B]$INFO[VideoPlayer.Title][/B]</label>
 					<font>font48</font>
 					<scroll>true</scroll>
 				</control>
+				<control type="label">
+					<width>auto</width>
+					<height>35</height>
+					<label>[B]($INFO[VideoPlayer.PlotOutline])[/B]</label>
+					<font>font14</font>
+					<scroll>true</scroll>
+					<visible>Skin.HasSetting(Enable.LiveTVFullPlot) + !IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A)</visible>
+				</control>
 				<control type="image">
-					<!-- pvr line -->
-					<top>110</top>
-					<width>1320</width>
+					<width>1809</width>
 					<height>2</height>
 					<texture>new_pvr/osd_line_white.png</texture>
 					<colordiffuse>themecolor</colordiffuse>
 				</control>
 				<control type="label">
-					<top>120</top>
 					<width>1000</width>
 					<height>30</height>
-					<label>$LOCALIZE[515]: $INFO[VideoPlayer.Genre]</label>
+					<label>$INFO[VideoPlayer.Genre,$LOCALIZE[515]: ]</label>
 					<font>font13</font>
 					<textcolor>grey</textcolor>
 				</control>
 				<control type="textbox">
-					<left>4</left>
-					<top>160</top>
-					<width>1000</width>
-					<height>400</height>
+					<width>1805</width>
+					<height>174</height>
+					<label>$INFO[VideoPlayer.PlotOutline]</label>
+					<font>font15_textbox</font>
+					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
+					<visible>!IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A) + !Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
+				</control>
+				<control type="textbox">
+					<width>1805</width>
+					<height>774</height>
 					<label>$INFO[VideoPlayer.Plot]</label>
 					<font>font15_textbox</font>
 					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
-					<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
+					<visible>Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
 				</control>
+				<!-- Plot only one line -->
 				<control type="textbox">
-					<left>4</left>
-					<top>160</top>
-					<width>1320</width>
-					<height>400</height>
-					<label>$INFO[VideoPlayer.PlotOutline] $INFO[VideoPlayer.Plot]</label>
+					<width>1805</width>
+					<height>50</height>
+					<label>$INFO[VideoPlayer.Plot]</label>
 					<font>font15_textbox</font>
 					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
-					<visible>![String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
+					<visible>[IsEmpty(VideoPlayer.PlotOutline) | String.IsEqual(VideoPlayer.PlotOutline,N/A)] + !Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
+				</control>
+			</control>
+			<!-- NEXT playing on channel -->
+			<control type="grouplist">
+				<top>50</top>
+				<left>57</left>
+				<height>650</height>
+				<width>1805</width>
+				<itemgap>10</itemgap>
+				<usecontrolcoords>true</usecontrolcoords>
+				<orientation>vertical</orientation>
+				<visible>!Skin.HasSetting(ToggleLiveTVNext)</visible>
+				<control type="label">
+					<height>30</height>
+					<label>$INFO[VideoPlayer.ChannelName]</label>
+					<font>font16</font>
+					<textcolor>themecolor</textcolor>
+				</control>
+				<control type="grouplist">
+					<width>1805</width>
+					<height>50</height>
+					<itemgap>50</itemgap>
+					<orientation>horizontal</orientation>
+					<control type="label">
+						<width>auto</width>
+						<height>50</height>
+						<label>[B][COLOR themecolor]$LOCALIZE[19031]:[/COLOR] $INFO[VideoPlayer.NextTitle][/B]</label>
+						<font>font48</font>
+						<scroll>true</scroll>
+					</control>
+					<control type="label">
+						<width>auto</width>
+						<height>60</height>
+						<label>[COLOR themecolor]$LOCALIZE[180]:[/COLOR] $INFO[VideoPlayer.NextDuration]</label>
+						<font>font15</font>
+						<scroll>true</scroll>
+					</control>
+				</control>
+				<control type="label">
+					<width>auto</width>
+					<height>35</height>
+					<label>[B]($INFO[VideoPlayer.NextPlotOutline])[/B]</label>
+					<font>font14</font>
+					<scroll>true</scroll>
+					<visible>Skin.HasSetting(Enable.LiveTVFullPlot) + !IsEmpty(VideoPlayer.NextPlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A)</visible>
 				</control>
 				<control type="image">
-					<!-- Logo background -->
-					<left>1050</left>
-					<top>-20</top>
-					<width>250</width>
-					<height>200</height>
-					<texture>pvr/bg_channel_icon.png</texture>
-					<align>center</align>
-					<visible>false</visible>
+					<width>1809</width>
+					<height>2</height>
+					<texture>new_pvr/osd_line_white.png</texture>
+					<colordiffuse>themecolor</colordiffuse>
 				</control>
-				<control type="image">
-					<!-- Show\Movie poster -->
-					<left>1050</left>
-					<top>160</top>
-					<width>250</width>
-					<height>440</height>
-					<align>center</align>
-					<aspectratio>keep</aspectratio>
-					<texture>$INFO[VideoPlayer.PlotOutline]</texture>
-					<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
+				<control type="label">
+					<width>1000</width>
+					<height>30</height>
+					<label>$INFO[VideoPlayer.NextGenre,$LOCALIZE[515]: ]</label>
+					<font>font13</font>
+					<textcolor>grey</textcolor>
+				</control>
+				<control type="textbox">
+					<width>1805</width>
+					<height>174</height>
+					<label>$INFO[VideoPlayer.NextPlotOutline]</label>
+					<font>font15_textbox</font>
+					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
+					<visible>!IsEmpty(VideoPlayer.NextPlotOutline) + !String.IsEqual(VideoPlayer.NextPlotOutline,N/A) + !Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
+				</control>
+				<control type="textbox">
+					<width>1805</width>
+					<label>$INFO[VideoPlayer.NextPlot]</label>
+					<height>774</height>
+					<font>font15_textbox</font>
+					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
+					<visible>Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
+				</control>
+				<!-- NextPlot only one line -->
+				<control type="textbox">
+					<width>1805</width>
+					<height>50</height>
+					<label>$INFO[VideoPlayer.NextPlot]</label>
+					<font>font15_textbox</font>
+					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
+					<visible>[IsEmpty(VideoPlayer.NextPlotOutline) | String.IsEqual(VideoPlayer.NextPlotOutline,N/A)] + !Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
 				</control>
 			</control>
 		</control>
