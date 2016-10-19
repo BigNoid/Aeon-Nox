@@ -19,10 +19,10 @@
 		</control>
 		<control type="button" id="4401">
 			<include>HiddenObject</include>
-			<onfocus condition="!Skin.HasSetting(Enable.ManualNewInfoPanel) | !Control.IsVisible(4421) | String.IsEmpty(Control.GetLabel(4421))">SetProperty(MediaMenu,True,home)</onfocus>
-			<onfocus condition="!Skin.HasSetting(Enable.ManualNewInfoPanel) | !Control.IsVisible(4421) | String.IsEmpty(Control.GetLabel(4421))">SetFocus(9050)</onfocus>
-			<onup condition="Skin.HasSetting(Enable.ManualNewInfoPanel) + Control.IsVisible(4421)">SetProperty(MediaMenu,True,home)</onup>
-			<onup condition="Skin.HasSetting(Enable.ManualNewInfoPanel) + Control.IsVisible(4421)">SetFocus(9050)</onup>
+			<onfocus condition="!Skin.HasSetting(Enable.ManualInfoPanel) | String.IsEmpty(Control.GetLabel(4421))">SetProperty(MediaMenu,True,home)</onfocus>
+			<onfocus condition="!Skin.HasSetting(Enable.ManualInfoPanel) | String.IsEmpty(Control.GetLabel(4421))">SetFocus(9050)</onfocus>
+			<onup>SetProperty(MediaMenu,True,home)</onup>
+			<onup>SetFocus(9050)</onup>
 			<ondown>50</ondown>
 			<onleft>50</onleft>
 			<onright>50</onright>
@@ -62,13 +62,13 @@
 		<control type="label" id="4420">
 			<label>$VAR[VideoInfoPanelVar]</label>
 			<include>HiddenObject</include>
-			<visible>Control.IsVisible(52) | Control.IsVisible(53) | Control.IsVisible(57) | Control.IsVisible(601)</visible>
+			<visible>Control.IsVisible(52) | Control.IsVisible(53) | Control.IsVisible(57) | Control.IsVisible(59) | Control.IsVisible(601)</visible>
 			<include condition="!String.IsEmpty(Skin.String(InfoPanel.Delay))">InfoPanelDelayAnimation</include>
 		</control>
 		<control type="label" id="4421">
 			<label>$VAR[NewInfoPanelVar]</label>
 			<include>HiddenObject</include>
-			<visible>Control.IsVisible(53) | Control.IsVisible(57) | Control.IsVisible(59) | Control.IsVisible(601)</visible>
+			<visible>Control.IsVisible(59)</visible>
 			<include condition="!String.IsEmpty(Skin.String(InfoPanel.Delay))">InfoPanelDelayAnimation</include>
 		</control>
 		<control type="label" id="4444">
@@ -118,7 +118,7 @@
 		</control>
 		<include>CommonBackground</include>
 		<control type="group">
-			<visible>Control.IsVisible(52) | Control.IsVisible(53) | Control.IsVisible(57) | Control.IsVisible(601)</visible>
+			<visible>Control.IsVisible(52) | Control.IsVisible(53) | Control.IsVisible(57) | Control.IsVisible(59) | Control.IsVisible(601)</visible>
 			<top>-30</top>
 			<include>InfoPanel</include>
 		</control>
@@ -1027,30 +1027,32 @@
 					<onclick condition="Control.IsVisible(52)">$VAR[52VideoInfoPanelVar]</onclick>
 					<onclick condition="Control.IsVisible(53)">$VAR[53VideoInfoPanelVar]</onclick>
 					<onclick condition="Control.IsVisible(57)">$VAR[57VideoInfoPanelVar]</onclick>
+					<onclick condition="Control.IsVisible(59)">$VAR[59VideoInfoPanelVar]</onclick>
 					<onclick condition="Control.IsVisible(601)">$VAR[601VideoInfoPanelVar]</onclick>
 					<onclick condition="Control.IsVisible(503)">Skin.ToggleSetting(503.InfoPanel)</onclick>
 					<visible>!Container.Content(genres)</visible>
-					<visible>Control.IsVisible(52) | Control.IsVisible(53) | Control.IsVisible(57) | Control.IsVisible(601) | Control.IsVisible(503)</visible>
+					<visible>Control.IsVisible(52) | Control.IsVisible(53) | Control.IsVisible(57) | Control.IsVisible(59) | Control.IsVisible(601) | Control.IsVisible(503)</visible>
 				</control>
-				<control type="button" id="6052">
-					<description>New InfoPanel Settings button</description>
+				<control type="radiobutton" id="6052">
+					<description>InfoPanel Settings button</description>
 					<textwidth>352</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>$LOCALIZE[31311]</label>
-					<label2>[COLOR $VAR[ThemeLabelColor]]$VAR[NewInfoPanelLabelVar][/COLOR]</label2>
-					<onclick>$VAR[NewInfoPanelOnClickVar]</onclick>
-					<visible>!Container.Content(genres) + Window.IsActive(videos)</visible>
-					<visible>Control.IsVisible(53) | Control.IsVisible(59) | Control.IsVisible(601)</visible>
+					<label>   - $LOCALIZE[413]</label>
+					<onclick>Skin.ToggleSetting(Enable.ManualInfoPanel)</onclick>
+					<onclick condition="!Skin.HasSetting(Enable.ManualInfoPanel)">Skin.Reset(InfoPanel.Delay)</onclick>
+					<selected>Skin.HasSetting(Enable.ManualInfoPanel)</selected>
+					<visible>!Container.Content(genres) + Window.IsActive(videos) + Control.IsVisible(6051) + [!String.IsEmpty(Control.GetLabel(4420)) | !String.IsEmpty(Control.GetLabel(4421))]</visible>
 				</control>
 				<control type="radiobutton" id="6053">
 					<description>New InfoPanel Settings button</description>
 					<textwidth>352</textwidth>
 					<include>ButtonCommonValues</include>
-					<label>   - $LOCALIZE[413]</label>
-					<onclick>Skin.ToggleSetting(Enable.ManualNewInfoPanel)</onclick>
-					<onclick condition="!Skin.HasSetting(Enable.ManualNewInfoPanel)">Skin.Reset(InfoPanel.Delay)</onclick>
-					<selected>Skin.HasSetting(Enable.ManualNewInfoPanel)</selected>
-					<visible>!Container.Content(genres) + Window.IsActive(videos) + !String.IsEmpty(Control.GetLabel(4421)) + Control.IsVisible(6052) + !Control.IsVisible(601)</visible>
+					<label>   - Alternate layout</label>
+					<onclick>Skin.ToggleSetting(Enable.NewInfoPanel)</onclick>
+					<onclick condition="!Skin.HasSetting(Enable.NewInfoPanel)">Skin.Reset(InfoPanel.Delay)</onclick>
+					<selected>Skin.HasSetting(Enable.NewInfoPanel)</selected>
+					<visible>!Control.IsVisible(57) + !Container.Content(genres) + Window.IsActive(videos)</visible>
+					<visible>[!String.IsEmpty(Control.GetLabel(4420)) + Control.IsVisible(6051)]</visible>
 				</control>
 				<control type="togglebutton" id="6054">
 					<description>LowList Toggle</description>

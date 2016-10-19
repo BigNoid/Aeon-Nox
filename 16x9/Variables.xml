@@ -176,7 +176,8 @@
 	</variable>
 	<variable name="BreadcrumbsVar">
 		<value condition="Window.IsActive(videos) + Container.Filtered">$VAR[BreadcrumbsFillerVar]$INFO[Container.FolderName]$INFO[Control.GetLabel(10),[COLOR grey2] | ,: $LOCALIZE[587][/COLOR]]</value>
-		<value condition="Window.IsActive(videos)">$VAR[BreadcrumbsFillerVar]$INFO[Container.FolderName]$INFO[Control.GetLabel(10),[COLOR grey2] | ,[/COLOR]]</value>
+		<value condition="Window.IsActive(videos) + !String.IsEqual(Control.GetLabel(10),$LOCALIZE[16100])">$VAR[BreadcrumbsFillerVar]$INFO[Container.FolderName]$INFO[Control.GetLabel(10),[COLOR grey2] | ,[/COLOR]]</value>
+		<value condition="Window.IsActive(videos)">$VAR[BreadcrumbsFillerVar]$INFO[Container.FolderName]</value>
 		<value condition="Window.IsActive(addoninformation) + !Window.IsActive(textviewer)">$VAR[BreadcrumbsFillerVar]$INFO[ListItem.AddonName]</value>
 		<value condition="Window.IsActive(textviewer)">$VAR[BreadcrumbsFillerVar]</value>
 		<value condition="Window.IsActive(script-globalsearch-main.xml)">$INFO[System.AddonTitle(script.globalsearch)]$INFO[Control.GetLabel(190),: ]$INFO[Control.GetLabel(191), ]</value>
@@ -359,6 +360,8 @@
 		<value condition="Control.IsVisible(57) + Container.Content(tvshows)">$INFO[Skin.String(57.TVShows.InfoPanel)]</value>
 		<value condition="Control.IsVisible(57) + Container.Content(seasons)">$INFO[Skin.String(57.Seasons.InfoPanel)]</value>
 		<value condition="Control.IsVisible(57) + Container.Content(sets)">$INFO[Skin.String(57.Sets.InfoPanel)]</value>
+		<value condition="Control.IsVisible(59) + Container.Content(movies)">$INFO[Skin.String(59.Movies.InfoPanel)]</value>
+		<value condition="Control.IsVisible(59) + Container.Content(tvshows)">$INFO[Skin.String(59.TVShows.InfoPanel)]</value>
 		<value condition="Control.IsVisible(601) + Container.Content(movies)">$INFO[Skin.String(601.Movies.InfoPanel)]</value>
 		<value condition="Control.IsVisible(601) + Container.Content(tvshows)">$INFO[Skin.String(601.TVShows.InfoPanel)]</value>
 	</variable>
@@ -412,6 +415,14 @@
 		<value condition="Container.Content(sets) + String.IsEqual(Skin.String(57.Sets.InfoPanel),3)">Skin.SetString(57.Sets.InfoPanel,4)</value>
 		<value condition="Container.Content(sets) + String.IsEqual(Skin.String(57.Sets.InfoPanel),4)">Skin.Reset(57.Sets.InfoPanel)</value>
 	</variable>
+	<variable name="59VideoInfoPanelVar">
+		<value condition="Control.IsVisible(59) + Container.Content(movies) + String.IsEmpty(Skin.String(59.Movies.InfoPanel))">Skin.SetString(59.Movies.InfoPanel,1)</value>
+		<value condition="Control.IsVisible(59) + Container.Content(movies) + String.IsEqual(Skin.String(59.Movies.InfoPanel),1)">Skin.SetString(59.Movies.InfoPanel,2)</value>
+		<value condition="Control.IsVisible(59) + Container.Content(movies) + String.IsEqual(Skin.String(59.Movies.InfoPanel),2)">Skin.Reset(59.Movies.InfoPanel)</value>
+		<value condition="Control.IsVisible(59) + Container.Content(tvshows) + String.IsEmpty(Skin.String(59.TVShows.InfoPanel))">Skin.SetString(59.TVShows.InfoPanel,1)</value>
+		<value condition="Control.IsVisible(59) + Container.Content(tvshows) + String.IsEqual(Skin.String(59.TVShows.InfoPanel),1)">Skin.SetString(59.TVShows.InfoPanel,2)</value>
+		<value condition="Control.IsVisible(59) + Container.Content(tvshows) + String.IsEqual(Skin.String(59.TVShows.InfoPanel),2)">Skin.Reset(59.TVShows.InfoPanel)</value>
+	</variable>
 	<variable name="601VideoInfoPanelVar">
 		<value condition="Container.Content(movies) + String.IsEmpty(Skin.String(601.Movies.InfoPanel))">Skin.SetString(601.Movies.InfoPanel,1)</value>
 		<value condition="Container.Content(movies) + String.IsEqual(Skin.String(601.Movies.InfoPanel),1)">Skin.SetString(601.Movies.InfoPanel,2)</value>
@@ -431,11 +442,13 @@
 		<value condition="Container.Content(artists) + String.IsEqual(Skin.String(54.Artists.InfoPanel),1)">Skin.Reset(54.Artists.InfoPanel)</value>
 	</variable>
 	<variable name="InfoPanelLabelVar">
-		<value condition="String.IsEqual(Control.GetLabel(4420),1)">$LOCALIZE[20445]</value>
-		<value condition="String.IsEqual(Control.GetLabel(4420),2)">$LOCALIZE[31086]</value>
-		<value condition="String.IsEqual(Control.GetLabel(4420),3)">$LOCALIZE[20445]</value>
-		<value condition="String.IsEqual(Control.GetLabel(4420),4)">$LOCALIZE[31086]</value>
-		<value condition="Control.IsVisible(503) + Skin.HasSetting(503.InfoPanel)">$LOCALIZE[16041]</value>
+		<value condition="!Control.IsVisible(59) + String.IsEqual(Control.GetLabel(4420),1)">$LOCALIZE[20445]</value>
+		<value condition="!Control.IsVisible(59) + String.IsEqual(Control.GetLabel(4420),2)">$LOCALIZE[31086]</value>
+		<value condition="!Control.IsVisible(59) + String.IsEqual(Control.GetLabel(4420),3)">$LOCALIZE[20445]</value>
+		<value condition="!Control.IsVisible(59) + String.IsEqual(Control.GetLabel(4420),4)">$LOCALIZE[31086]</value>
+		<value condition="Control.IsVisible(59) + String.IsEqual(Control.GetLabel(4421),1)">$LOCALIZE[20445]</value>
+		<value condition="Control.IsVisible(59) + String.IsEqual(Control.GetLabel(4421),2)">$LOCALIZE[31086]</value>
+		<value condition="Control.IsVisible(59) + Skin.HasSetting(503.InfoPanel)">$LOCALIZE[16041]</value>
 		<value>$LOCALIZE[351]</value>
 	</variable>
 	<variable name="InfoPanelDelayOnClickVar">
@@ -447,16 +460,8 @@
 	</variable>
 	<!-- New InfoPanel -->
 	<variable name="NewInfoPanelVar">
-		<value condition="Control.IsVisible(53) + Container.Content(movies)">$INFO[Skin.String(53.Movies.NewInfoPanel)]</value>
-		<value condition="Control.IsVisible(53) + Container.Content(tvshows)">$INFO[Skin.String(53.TVShows.NewInfoPanel)]</value>
-		<value condition="Control.IsVisible(53) + Container.Content(seasons)">$INFO[Skin.String(53.Seasons.NewInfoPanel)]</value>
-		<value condition="Control.IsVisible(53) + Container.Content(sets)">$INFO[Skin.String(53.Sets.NewInfoPanel)]</value>
-		<value condition="Control.IsVisible(57) + Container.Content(movies)">$INFO[Skin.String(57.Movies.NewInfoPanel)]</value>
-		<value condition="Control.IsVisible(57) + Container.Content(tvshows)">$INFO[Skin.String(57.TVShows.NewInfoPanel)]</value>
-		<value condition="Control.IsVisible(59) + Container.Content(movies)">$INFO[Skin.String(59.Movies.NewInfoPanel)]</value>
-		<value condition="Control.IsVisible(59) + Container.Content(tvshows)">$INFO[Skin.String(59.TVShows.NewInfoPanel)]</value>
-		<value condition="Control.IsVisible(601) + Container.Content(movies)">$INFO[Skin.String(601.Movies.NewInfoPanel)]</value>
-		<value condition="Control.IsVisible(601) + Container.Content(tvshows)">$INFO[Skin.String(601.TVShows.NewInfoPanel)]</value>
+		<value condition="Control.IsVisible(59) + Container.Content(movies)">$INFO[Skin.String(59.Movies.InfoPanel)]</value>
+		<value condition="Control.IsVisible(59) + Container.Content(tvshows)">$INFO[Skin.String(59.TVShows.InfoPanel)]</value>
 	</variable>
 	<variable name="NewInfoPanelOnClickVar">
 		<value condition="Control.IsVisible(53) + Container.Content(movies) + String.IsEmpty(Skin.String(53.Movies.NewInfoPanel))">Skin.SetString(53.Movies.NewInfoPanel,fanart)</value>
@@ -478,12 +483,6 @@
 		<value condition="Control.IsVisible(57) + Container.Content(tvshows) + String.IsEmpty(Skin.String(57.TVShows.NewInfoPanel))">Skin.SetString(57.TVShows.NewInfoPanel,fanart)</value>
 		<value condition="Control.IsVisible(57) + Container.Content(tvshows) + String.IsEqual(Skin.String(57.TVShows.NewInfoPanel),fanart)">Skin.SetString(57.TVShows.NewInfoPanel,poster)</value>
 		<value condition="Control.IsVisible(57) + Container.Content(tvshows) + String.IsEqual(Skin.String(57.TVShows.NewInfoPanel),poster)">Skin.Reset(57.TVShows.NewInfoPanel)</value>
-		<value condition="Control.IsVisible(59) + Container.Content(movies) + String.IsEmpty(Skin.String(59.Movies.NewInfoPanel))">Skin.SetString(59.Movies.NewInfoPanel,fanart)</value>
-		<value condition="Control.IsVisible(59) + Container.Content(movies) + String.IsEqual(Skin.String(59.Movies.NewInfoPanel),fanart)">Skin.SetString(59.Movies.NewInfoPanel,poster)</value>
-		<value condition="Control.IsVisible(59) + Container.Content(movies) + String.IsEqual(Skin.String(59.Movies.NewInfoPanel),poster)">Skin.Reset(59.Movies.NewInfoPanel)</value>
-		<value condition="Control.IsVisible(59) + Container.Content(tvshows) + String.IsEmpty(Skin.String(59.TVShows.NewInfoPanel))">Skin.SetString(59.TVShows.NewInfoPanel,fanart)</value>
-		<value condition="Control.IsVisible(59) + Container.Content(tvshows) + String.IsEqual(Skin.String(59.TVShows.NewInfoPanel),fanart)">Skin.SetString(59.TVShows.NewInfoPanel,poster)</value>
-		<value condition="Control.IsVisible(59) + Container.Content(tvshows) + String.IsEqual(Skin.String(59.TVShows.NewInfoPanel),poster)">Skin.Reset(59.TVShows.NewInfoPanel)</value>
 		<value condition="Control.IsVisible(601) + Container.Content(movies) + String.IsEmpty(Skin.String(601.Movies.NewInfoPanel))">Skin.SetString(601.Movies.NewInfoPanel,fanart)</value>
 		<value condition="Control.IsVisible(601) + Container.Content(movies) + String.IsEqual(Skin.String(601.Movies.NewInfoPanel),fanart)">Skin.SetString(601.Movies.NewInfoPanel,poster)</value>
 		<value condition="Control.IsVisible(601) + Container.Content(movies) + String.IsEqual(Skin.String(601.Movies.NewInfoPanel),poster)">Skin.Reset(601.Movies.NewInfoPanel)</value>
