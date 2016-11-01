@@ -687,7 +687,7 @@
 	</include>
 	<include name="ExtendedVideoInfoLists">
 		<include condition="String.IsEqual(ListItem.DBType,movie)">ExtendedInfoMovieLists</include>
-		<include condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">ExtendedInfoSeriesLists</include>
+		<include condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">ExtendedInfoSeriesLists</include>
 	</include>
 	<include name="DefaultActorList">
 		<control type="panel" id="50">
@@ -793,7 +793,6 @@
 			<description>Similar movies</description>
 			<include content="ExtendedInfoListLayout">
 				<param name="PanelID">90011</param>
-				<param name="overlayVisibility" value="true" />
 				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(SimilarMovies.Count),0)" />
 			</include>
 			<content>plugin://script.extendedinfo?info=similarmovies&amp;&amp;imdb_id=$INFO[ListItem.IMDBNumber]&amp;&amp;dbid=$INFO[ListItem.DBID]</content>
@@ -803,7 +802,6 @@
 			<include content="ExtendedInfoListLayout">
 				<param name="PanelID">90012</param>
 				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(DirectorMovies.Count),0)" />
-				<param name="overlayVisibility" value="true" />
 			</include>
 			<content target="video">plugin://script.extendedinfo?info=personmovies&amp;&amp;person=$INFO[ListItem.Director]</content>
 		</control>
@@ -812,7 +810,6 @@
 			<include content="ExtendedInfoListLayout">
 				<param name="PanelID">90013</param>
 				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(WriterMovies.Count),0)" />
-				<param name="overlayVisibility" value="true" />
 			</include>
 			<content target="video">plugin://script.extendedinfo?info=personmovies&amp;&amp;person=$INFO[ListItem.Writer]</content>
 		</control>
@@ -821,7 +818,6 @@
 			<include content="ExtendedInfoListLayout">
 				<param name="PanelID">90014</param>
 				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(StudioMovies.Count),0)" />
-				<param name="overlayVisibility" value="true" />
 			</include>
 			<content target="video">plugin://script.extendedinfo?info=studio&amp;&amp;studio=$INFO[ListItem.Studio]</content>
 		</control>
@@ -831,10 +827,46 @@
 			<description>Similar TV Shows</description>
 			<include content="ExtendedInfoListLayout">
 				<param name="PanelID">90015</param>
-				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(SimilarTVShows.Count),0)" />
-				<param name="overlayVisibility" value="true" />
+				<param name="label2" value="$INFO[ListItem.Year]" />
+				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(SimilarTVShows.Count),0) + !String.IsEqual(ListItem.DBType,episode)" />
 			</include>
 			<content target="video">plugin://script.extendedinfo?info=similartvshows&amp;&amp;dbid=$INFO[ListItem.DBID]</content>
+		</control>
+		<control type="panel" id="90019">
+			<description>Popluar TV Shows</description>
+			<include content="ExtendedInfoListLayout">
+				<param name="PanelID">90019</param>
+				<param name="label2" value="$INFO[ListItem.Year]" />
+				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(PopularTVShows.Count),0)" />
+			</include>
+			<content target="video">plugin://script.extendedinfo?info=populartvshows</content>
+		</control>
+		<control type="panel" id="90020">
+			<description>Top Rated TV Shows</description>
+			<include content="ExtendedInfoListLayout">
+				<param name="PanelID">90020</param>
+				<param name="label2" value="$INFO[ListItem.Year]" />
+				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(TopRatedTVShows.Count),0)" />
+			</include>
+			<content target="video">plugin://script.extendedinfo?info=topratedtvshows</content>
+		</control>
+		<control type="panel" id="90021">
+			<description>TV shows airing today</description>
+			<include content="ExtendedInfoListLayout">
+				<param name="PanelID">90021</param>
+				<param name="label2" value="$INFO[ListItem.Year]" />
+				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(AiringTodayTVShows.Count),0)" />
+			</include>
+			<content target="video">plugin://script.extendedinfo?info=airingtodaytvshows</content>
+		</control>
+		<control type="panel" id="90022">
+			<description>On-the-air TV shows</description>
+			<include content="ExtendedInfoListLayout">
+				<param name="PanelID">90022</param>
+				<param name="label2" value="$INFO[ListItem.Year]" />
+				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(OnAirTVShows.Count),0)" />
+			</include>
+			<content target="video">plugin://script.extendedinfo?info=onairtvshows</content>
 		</control>
 	</include>
 	<!-- InfoPanel -->
