@@ -4,14 +4,14 @@
 	<onload condition="!String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | !System.HasAddon(script.cinemavision)">SetFocus(8)</onload>
 	<onload condition="String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) + System.HasAddon(script.cinemavision)">SetFocus(909)</onload>
 	<onload condition="System.HasAddon(script.colorbox) + Skin.HasSetting(Enable.BlurredVideoInfo)">RunScript(script.colorbox,info=blur,id='"$VAR[PosterVar]"',radius=50,prefix=DialogVideoInfo)</onload>
-	<onload condition="Skin.HasSetting(Enable.ReplaceExtendedInfo) + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)]">Action(close)</onload>
-	<onload condition="Skin.HasSetting(Enable.ReplaceExtendedInfo) + String.IsEqual(ListItem.DBType,movie)">RunScript(script.extendedinfo,info=extendedinfo,dbid=$INFO[ListItem.DBID],name=$INFO[ListItem.Title])</onload>
-	<onload condition="Skin.HasSetting(Enable.ReplaceExtendedInfo) + String.IsEqual(ListItem.DBType,tvshow)">RunScript(script.extendedinfo,info=extendedtvinfo,dbid=$INFO[ListItem.DBID],name=$INFO[ListItem.Title])</onload>
+	<onload condition="Window.IsActive(videos) + Skin.HasSetting(Enable.ReplaceExtendedInfo) + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)]">Action(close)</onload>
+	<onload condition="Window.IsActive(videos) + Skin.HasSetting(Enable.ReplaceExtendedInfo) + String.IsEqual(ListItem.DBType,movie)">RunScript(script.extendedinfo,info=extendedinfo,dbid=$INFO[ListItem.DBID],name=$INFO[ListItem.Title])</onload>
+	<onload condition="Window.IsActive(videos) + Skin.HasSetting(Enable.ReplaceExtendedInfo) + String.IsEqual(ListItem.DBType,tvshow)">RunScript(script.extendedinfo,info=extendedtvinfo,dbid=$INFO[ListItem.DBID],name=$INFO[ListItem.Title])</onload>
 	<onunload>ClearProperty(DialogVideoInfo.ImageFilter,home)</onunload>
 	<controls>
 		<include condition="System.HasAddon(script.extendedinfo)">HiddenActorList</include>
 		<control type="group">
-			<visible>!Skin.HasSetting(Enable.ReplaceExtendedInfo) | [String.IsEqual(ListItem.DBType,episode)]</visible>
+			<visible>![Skin.HasSetting(Enable.ReplaceExtendedInfo) + Window.IsActive(videos)] | [String.IsEqual(ListItem.DBType,episode)]</visible>
 			<control type="group">
 				<animation effect="slide" start="-729,0" end="0,0" time="500" tween="quadratic" condition="!Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
 				<animation effect="slide" start="-729,0" end="0,0" delay="500" time="500" tween="quadratic" condition="Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
@@ -173,7 +173,6 @@
 						<texture border="1">separator2.png</texture>
 					</control>
 					<control type="grouplist">
-						<left>0</left>
 						<top>80</top>
 						<width>1188</width>
 						<height>85</height>
@@ -218,7 +217,6 @@
 								<texture>$INFO[ListItem.Studio,resource://resource.images.studios.white/,.png]</texture>
 							</control>
 							<control type="label">
-								<left>0</left>
 								<width>198</width>
 								<height>90</height>
 								<align>center</align>
@@ -242,7 +240,6 @@
 								<texture>$INFO[ListItem.Studio,resource://resource.images.studios.coloured/,.png]</texture>
 							</control>
 							<control type="label">
-								<left>0</left>
 								<width>198</width>
 								<height>90</height>
 								<align>center</align>
@@ -292,7 +289,6 @@
 							<width>180</width>
 							<visible>![String.IsEqual(ListItem.DBType,tvshow) + Skin.HasSetting(Disable.NextAired)]</visible>
 							<control type="label">
-								<left>0</left>
 								<top>2</top>
 								<width>180</width>
 								<height>60</height>
@@ -303,7 +299,6 @@
 								<visible>!Skin.HasSetting(Enable.HourMinuteDuration) | String.IsEqual(ListItem.DBType,tvshow)</visible>
 							</control>
 							<control type="label">
-								<left>0</left>
 								<top>18</top>
 								<width>180</width>
 								<height>60</height>
@@ -334,7 +329,6 @@
 							<visible>!String.IsEmpty(ListItem.Rating)</visible>
 							<width>200</width>
 							<control type="label">
-								<left>0</left>
 								<top>2</top>
 								<width>200</width>
 								<height>60</height>
@@ -364,7 +358,6 @@
 							<visible>!String.IsEmpty(ListItem.UserRating)</visible>
 							<width>120</width>
 							<control type="label">
-								<left>0</left>
 								<top>2</top>
 								<width>120</width>
 								<height>60</height>
@@ -749,8 +742,6 @@
 						<usecontrolcoords>true</usecontrolcoords>
 						<scrolltime tween="quadratic" easing="out">300</scrolltime>
 						<control type="group" id="90017">
-							<left>0</left>
-							<top>0</top>
 							<width>1188</width>
 							<height>420</height>
 							<control type="button" id="900171">
@@ -847,7 +838,6 @@
 						<top>1010</top>
 						<visible>!ControlGroup(9001).HasFocus</visible>
 						<control type="grouplist">
-							<left>0</left>
 							<top>-25</top>
 							<width>1188</width>
 							<height>90</height>
@@ -881,7 +871,6 @@
 								<width>200</width>
 								<left>-20</left>
 								<control type="label">
-									<left>0</left>
 									<top>2</top>
 									<width>200</width>
 									<height>60</height>
@@ -912,7 +901,6 @@
 								<visible>String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Property(TotalEpisodes))</visible>
 								<width>200</width>
 								<control type="label">
-									<left>0</left>
 									<top>2</top>
 									<width>200</width>
 									<height>60</height>
@@ -943,7 +931,6 @@
 								<visible>String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Property(UnWatchedEpisodes))</visible>
 								<width>200</width>
 								<control type="label">
-									<left>0</left>
 									<top>2</top>
 									<width>200</width>
 									<height>60</height>
@@ -973,7 +960,6 @@
 						</control>
 					</control>
 					<control type="group" id="71">
-						<left>0</left>
 						<top>985</top>
 						<visible>ControlGroup(9001).HasFocus</visible>
 						<include>SettingsFadeAnimation</include>
