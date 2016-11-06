@@ -13,23 +13,8 @@
 			<include condition="Window.IsActive(weather)">WeatherBackground</include>
 			<include condition="Window.IsActive(script-globalsearch-main.xml)">GlobalSearchBG</include>
 			<include condition="Window.IsActive(service-LibreELEC-Settings-mainWindow.xml)">LibreELECBG</include>
-			<control type="visualisation">
-				<include>FullscreenDimensions</include>
-				<visible>Player.HasAudio</visible>
-				<visible>!Skin.HasSetting(Disable.ShowBackgroundVis)</visible>
-				<visible>!Window.IsVisible(TVChannels) + !Window.IsVisible(RadioChannels) + !SlideShow.IsActive</visible>
-				<visible>String.IsEmpty(Window(Videos).Property(PlayingBackgroundMedia))</visible>
-			</control>
-			<control type="image">
-				<include>FullscreenDimensions</include>
-				<texture>black.png</texture>
-				<visible>[Player.HasVideo + !Skin.HasSetting(Disable.ShowBackgroundVideo) + !Window.IsVisible(TVChannels) + !Window.IsVisible(RadioChannels) + !SlideShow.IsActive] | Control.IsVisible(502)</visible>
-				<animation effect="fade" start="100" end="70" time="300" condition="Control.IsVisible(502)">conditional</animation>
-			</control>
-			<control type="videowindow">
-				<include>FullscreenDimensions</include>
-				<visible>Player.HasVideo + !Skin.HasSetting(Disable.ShowBackgroundVideo) + !Window.IsVisible(TVChannels) + !Window.IsVisible(RadioChannels) + !SlideShow.IsActive</visible>
-			</control>
+			<include condition="!Skin.HasSetting(Disable.ShowBackgroundVis)+ !Window.IsActive(TVChannels) + !Window.IsActive(RadioChannels)">BackgroundVisualization</include>
+			<include condition="!Skin.HasSetting(Disable.ShowBackgroundVideo)+ !Window.IsActive(TVChannels) + !Window.IsActive(RadioChannels)">BackgroundVideo</include>
 		</control>
 		<control type="group">
 			<visible>![Window.IsActive(home) | Window.IsActive(startup)] | Window.IsActive(script-globalsearch-main.xml)</visible>
@@ -73,6 +58,27 @@
 			<texture border="1">logo_back.png</texture>
 			<visible>Control.IsVisible(59)</visible>
 			<include>ViewAnimation</include>
+		</control>
+	</include>
+	<include name="BackgroundVideo">
+		<control type="group">
+			<visible>![Control.IsVisible(52) | Control.IsVisible(53)] + String.IsEqual(Control.GetLabel(4420),1)</visible>
+			<control type="image">
+				<include>FullscreenDimensions</include>
+				<texture>black.png</texture>
+				<visible>Player.HasVideo + !SlideShow.IsActive</visible>
+			</control>
+			<control type="videowindow">
+				<include>FullscreenDimensions</include>
+				<visible>Player.HasVideo + !SlideShow.IsActive</visible>
+			</control>
+		</control>
+	</include>
+	<include name="BackgroundVisualization">
+		<control type="visualisation">
+			<include>FullscreenDimensions</include>
+			<visible>Player.HasAudio</visible>
+			<visible>String.IsEmpty(Window(Videos).Property(PlayingBackgroundMedia))</visible>
 		</control>
 	</include>
 	<include name="VideoGenreFanart">
