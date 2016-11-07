@@ -714,32 +714,92 @@
 							<animation effect="fade" start="100" end="78" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(900171)">Conditional</animation>
 						</control>
 					</control>
-					<control type="panel" id="50">
-						<include content="ExtendedInfoListLayout">
-							<param name="label2" value="$INFO[ListItem.Label2]" />
-							<param name="overlayVisibility" value="false" />
-						</include>
-					</control>
-					<control type="panel" id="90016">
-						<description>Seasons</description>
-						<include content="ExtendedInfoListLayout">
-							<param name="label2" value="$INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20453]]" />
-							<param name="overlayVisibility" value="false" />
-							<param name="listVisible" value="Integer.IsGreater(ListItem.Property(TotalSeasons),0) + String.IsEqual(ListItem.DBType,tvshow)" />
-						</include>
-						<content target="video">videodb://tvshows/titles/$INFO[ListItem.DBID]/</content>
-					</control>
-					<include condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,movie)">ExtendedInfoMovieLists</include>
-					<include condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">ExtendedInfoSeriesLists</include>
-					<control type="panel" id="90018">
+					<include content="ExtendedInfoListLayout">
+						<description>Cast</description>
+						<param name="controlId" value="50" />
+						<param name="label2" value="$INFO[ListItem.Label2]" />
+						<param name="overlayVisibility" value="false" />
+						<param name="includeContent" value="false" />
+					</include>
+					<include content="ExtendedInfoListLayout" condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,movie)">
+						<description>Similar movies</description>
+						<param name="controlId" value="90011" />
+						<param name="label2" value="$INFO[ListItem.Year]" />
+						<param name="listVisible" value="!String.IsEqual(Window(Home).Property(SimilarMovies.Count),0)" />
+						<param name="content" value="plugin://script.extendedinfo?info=similarmovies&amp;&amp;imdb_id=$INFO[ListItem.IMDBNumber]&amp;&amp;dbid=$INFO[ListItem.DBID]" />
+					</include>
+					<include content="ExtendedInfoListLayout" condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,movie)">
+						<description>Movies from director</description>
+						<param name="controlId" value="90012" />
+						<param name="label2" value="$INFO[ListItem.Year]" />
+						<param name="listVisible" value="!String.IsEqual(Window(Home).Property(DirectorMovies.Count),0)" />
+						<param name="content" value="plugin://script.extendedinfo?info=personmovies&amp;&amp;person=$INFO[ListItem.Director]" />
+					</include>
+					<include content="ExtendedInfoListLayout" condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,movie)">
+						<description>Movies from writers</description>
+						<param name="controlId" value="90013" />
+						<param name="label2" value="$INFO[ListItem.Year]" />
+						<param name="listVisible" value="!String.IsEqual(Window(Home).Property(WriterMovies.Count),0)" />
+						<param name="content" value="plugin://script.extendedinfo?info=personmovies&amp;&amp;person=$INFO[ListItem.Writer]" />
+					</include>
+					<include content="ExtendedInfoListLayout" condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,movie)">
+						<description>Movies from studio</description>
+						<param name="controlId" value="90014" />
+						<param name="label2" value="$INFO[ListItem.Year]" />
+						<param name="listVisible" value="!String.IsEqual(Window(Home).Property(StudioInfo.Count),0)" />
+						<param name="content" value="plugin://script.extendedinfo?info=studio&amp;&amp;studio=$INFO[ListItem.Studio]" />
+					</include>
+					<include content="ExtendedInfoListLayout" condition="String.IsEqual(ListItem.DBType,movie)">
 						<description>Movies from Set</description>
-						<include content="ExtendedInfoListLayout">
-							<param name="label2" value="$INFO[ListItem.Year]" />
-							<param name="overlayVisibility" value="false" />
-							<param name="listVisible" value="!String.IsEmpty(ListItem.SetID) + String.IsEqual(ListItem.DBType,movie)" />
-						</include>
-						<content target="video">videodb://movies/sets/$INFO[ListItem.SetID]</content>
-					</control>
+						<param name="controlId" value="90018" />
+						<param name="label2" value="$INFO[ListItem.Year]" />
+						<param name="overlayVisibility" value="false" />
+						<param name="listVisible" value="!String.IsEmpty(ListItem.SetID)" />
+						<param name="content" value="videodb://movies/sets/$INFO[ListItem.SetID]" />
+					</include>
+					<include content="ExtendedInfoListLayout" condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">
+						<description>Seasons</description>
+						<param name="controlId" value="90016" />
+						<param name="label2" value="$INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20453]]" />
+						<param name="overlayVisibility" value="false" />
+						<param name="listVisible" value="Integer.IsGreater(ListItem.Property(TotalSeasons),0) + String.IsEqual(ListItem.DBType,tvshow)" />
+						<param name="content" value="videodb://tvshows/titles/$INFO[ListItem.DBID]/" />
+					</include>
+					<include content="ExtendedInfoListLayout" condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">
+						<description>Similar TV Shows</description>
+						<param name="controlId" value="90015" />
+						<param name="label2" value="$INFO[ListItem.Year]" />
+						<param name="listVisible" value="Integer.IsGreater(Container(90015).NumItems,0) | Container(90015).IsUpdating" />
+						<param name="content" value="plugin://script.extendedinfo?info=similartvshows&amp;&amp;$VAR[SimilarShowsIDVar]" />
+					</include>
+					<include content="ExtendedInfoListLayout" condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">
+						<description>Popluar TV Shows</description>
+						<param name="controlId" value="90019" />
+						<param name="label2" value="$INFO[ListItem.Year]" />
+						<param name="listVisible" value="!String.IsEqual(Window(Home).Property(PopularTVShows.Count),0)" />
+						<param name="content" value="plugin://script.extendedinfo?info=populartvshows" />
+					</include>
+					<include content="ExtendedInfoListLayout" condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">
+						<description>Top Rated TV Shows</description>
+						<param name="controlId" value="90020" />
+						<param name="label2" value="$INFO[ListItem.Year]" />
+						<param name="listVisible" value="!String.IsEqual(Window(Home).Property(TopRatedTVShows.Count),0)" />
+						<param name="content" value="plugin://script.extendedinfo?info=topratedtvshows" />
+					</include>
+					<include content="ExtendedInfoListLayout" condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">
+						<description>TV shows airing today</description>
+						<param name="controlId" value="90021" />
+						<param name="label2" value="$INFO[ListItem.Year]" />
+						<param name="listVisible" value="!String.IsEqual(Window(Home).Property(AiringTodayTVShows.Count),0)" />
+						<param name="content" value="plugin://script.extendedinfo?info=airingtodaytvshows" />
+					</include>
+					<include content="ExtendedInfoListLayout" condition="System.HasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">
+						<description>On-the-air TV shows</description>
+						<param name="controlId" value="90022" />
+						<param name="label2" value="$INFO[ListItem.Year]" />
+						<param name="listVisible" value="!String.IsEqual(Window(Home).Property(OnAirTVShows.Count),0)" />
+						<param name="content" value="plugin://script.extendedinfo?info=onairtvshows" />
+					</include>
 				</control>
 				<control type="scrollbar" id="70">
 					<include>HiddenObject</include>

@@ -588,82 +588,6 @@
 			</control>
 		</control>
 	</include>
-	<include name="ExtendedInfoMovieLists">
-		<control type="panel" id="90011">
-			<description>Similar movies</description>
-			<include content="ExtendedInfoListLayout">
-				<param name="label2" value="$INFO[ListItem.Year]" />
-				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(SimilarMovies.Count),0)" />
-			</include>
-			<content>plugin://script.extendedinfo?info=similarmovies&amp;&amp;imdb_id=$INFO[ListItem.IMDBNumber]&amp;&amp;dbid=$INFO[ListItem.DBID]</content>
-		</control>
-		<control type="panel" id="90012">
-			<description>Movies from director</description>
-			<include content="ExtendedInfoListLayout">
-				<param name="label2" value="$INFO[ListItem.Year]" />
-				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(DirectorMovies.Count),0)" />
-			</include>
-			<content target="video">plugin://script.extendedinfo?info=personmovies&amp;&amp;person=$INFO[ListItem.Director]</content>
-		</control>
-		<control type="panel" id="90013">
-			<description>Movies from writers</description>
-			<include content="ExtendedInfoListLayout">
-				<param name="label2" value="$INFO[ListItem.Year]" />
-				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(WriterMovies.Count),0)" />
-			</include>
-			<content target="video">plugin://script.extendedinfo?info=personmovies&amp;&amp;person=$INFO[ListItem.Writer]</content>
-		</control>
-		<control type="panel" id="90014">
-			<description>Movies from studio</description>
-			<include content="ExtendedInfoListLayout">
-				<param name="label2" value="$INFO[ListItem.Year]" />
-				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(StudioInfo.Count),0)" />
-			</include>
-			<content target="video">plugin://script.extendedinfo?info=studio&amp;&amp;studio=$INFO[ListItem.Studio]</content>
-		</control>
-	</include>
-	<include name="ExtendedInfoSeriesLists">
-		<control type="panel" id="90015">
-			<description>Similar TV Shows</description>
-			<include content="ExtendedInfoListLayout">
-				<param name="label2" value="$INFO[ListItem.Year]" />
-				<param name="listVisible" value="Integer.IsGreater(Container(90015).NumItems,0) | Container(90015).IsUpdating" />
-			</include>
-			<content target="video">plugin://script.extendedinfo?info=similartvshows&amp;&amp;$VAR[SimilarShowsIDVar]</content>
-		</control>
-		<control type="panel" id="90019">
-			<description>Popluar TV Shows</description>
-			<include content="ExtendedInfoListLayout">
-				<param name="label2" value="$INFO[ListItem.Year]" />
-				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(PopularTVShows.Count),0)" />
-			</include>
-			<content target="video">plugin://script.extendedinfo?info=populartvshows</content>
-		</control>
-		<control type="panel" id="90020">
-			<description>Top Rated TV Shows</description>
-			<include content="ExtendedInfoListLayout">
-				<param name="label2" value="$INFO[ListItem.Year]" />
-				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(TopRatedTVShows.Count),0)" />
-			</include>
-			<content target="video">plugin://script.extendedinfo?info=topratedtvshows</content>
-		</control>
-		<control type="panel" id="90021">
-			<description>TV shows airing today</description>
-			<include content="ExtendedInfoListLayout">
-				<param name="label2" value="$INFO[ListItem.Year]" />
-				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(AiringTodayTVShows.Count),0)" />
-			</include>
-			<content target="video">plugin://script.extendedinfo?info=airingtodaytvshows</content>
-		</control>
-		<control type="panel" id="90022">
-			<description>On-the-air TV shows</description>
-			<include content="ExtendedInfoListLayout">
-				<param name="label2" value="$INFO[ListItem.Year]" />
-				<param name="listVisible" value="!String.IsEqual(Window(Home).Property(OnAirTVShows.Count),0)" />
-			</include>
-			<content target="video">plugin://script.extendedinfo?info=onairtvshows</content>
-		</control>
-	</include>
 	<include name="ExtendedInfoListLayout">
 		<param name="width">280</param>
 		<param name="label">$INFO[ListItem.Label]</param>
@@ -671,177 +595,190 @@
 		<param name="textOverlay">true</param>
 		<param name="fallbackIcon">DefaultVideoCover.png</param>
 		<param name="overlayVisibility">true</param>
+		<param name="includeContent">true</param>
 		<definition>
-			<width>1190</width>
-			<height>420</height>
-			<orientation>horizontal</orientation>
-			<visible>$PARAM[listVisible]</visible>
-			<scrolltime tween="quadratic" easing="out">300</scrolltime>
-			<itemlayout height="420" width="$PARAM[width]">
-				<control type="image">
-					<width>$PARAM[width]</width>
-					<height>420</height>
-					<aspectratio aligny="top">scale</aspectratio>
-					<texture background="true" fallback="$PARAM[fallbackIcon]">$INFO[ListItem.Icon]</texture>
-					<bordertexture border="2">thumbs/panel_border3.png</bordertexture>
-					<bordersize>2</bordersize>
-				</control>
-				<control type="image">
-					<top>322</top>
-					<width>$PARAM[width]</width>
-					<height>98</height>
-					<texture>black.png</texture>
-					<colordiffuse>88ffffff</colordiffuse>
-					<bordersize>2</bordersize>
-					<visible>$PARAM[textOverlay]</visible>
-				</control>
-				<control type="image">
-					<left>180</left>
-					<width>100</width>
-					<height>100</height>
-					<texture>overlays/addons/enabled.png</texture>
-					<bordersize>2</bordersize>
-					<visible>$PARAM[overlayVisibility]</visible>
-					<visible>!String.IsEmpty(ListItem.DBID) | !String.IsEmpty(ListItem.Property(DBID))</visible>
-				</control>
-				<control type="image">
-					<width>$PARAM[width]</width>
-					<height>420</height>
-					<aspectratio>scale</aspectratio>
-					<texture border="1" colordiffuse="44FFFFFF">black.png</texture>
-					<bordersize>2</bordersize>
-				</control>
-				<control type="label">
-					<top>325</top>
-					<width>$PARAM[width]</width>
-					<height>43</height>
-					<align>center</align>
-					<font>font14</font>
-					<textoffsetx>10</textoffsetx>
-					<shadowcolor>shadow</shadowcolor>
-					<selectedcolor>selected</selectedcolor>
-					<label>$PARAM[label]</label>
-					<visible>!$PARAM[textboxLabel]</visible>
-					<visible>$PARAM[textOverlay]</visible>
-					<animation effect="fade" start="100" end="70" time="0" condition="true">Conditional</animation>
-				</control>
-				<control type="label">
-					<top>368</top>
-					<width>$PARAM[width]</width>
-					<height>43</height>
-					<align>center</align>
-					<font>font14</font>
-					<textoffsetx>10</textoffsetx>
-					<shadowcolor>shadow</shadowcolor>
-					<selectedcolor>selected</selectedcolor>
-					<label>$PARAM[label2]</label>
-					<visible>!$PARAM[textboxLabel]</visible>
-					<visible>$PARAM[textOverlay]</visible>
-					<animation effect="fade" start="100" end="70" time="0" condition="true">Conditional</animation>
-				</control>
-				<control type="textbox">
-					<left>10</left>
-					<top>325</top>
-					<width>574</width>
-					<height>86</height>
-					<align>center</align>
-					<font>font14</font>
-					<shadowcolor>shadow</shadowcolor>
-					<selectedcolor>selected</selectedcolor>
-					<label>$PARAM[label]</label>
-					<visible>$PARAM[textboxLabel]</visible>
-					<visible>$PARAM[textOverlay]</visible>
-					<animation effect="fade" start="100" end="70" time="0" condition="true">Conditional</animation>
-				</control>
-			</itemlayout>
-			<focusedlayout height="420" width="$PARAM[width]">
-				<control type="image">
-					<width>$PARAM[width]</width>
-					<height>420</height>
-					<aspectratio aligny="top">scale</aspectratio>
-					<texture background="true" fallback="$PARAM[fallbackIcon]">$INFO[ListItem.Icon]</texture>
-					<bordertexture border="2">thumbs/panel_border3.png</bordertexture>
-					<bordersize>2</bordersize>
-				</control>
-				<control type="image">
-					<top>322</top>
-					<width>$PARAM[width]</width>
-					<height>98</height>
-					<texture>black.png</texture>
-					<colordiffuse>88ffffff</colordiffuse>
-					<bordersize>2</bordersize>
-					<visible>$PARAM[textOverlay]</visible>
-				</control>
-				<control type="image">
-					<left>180</left>
-					<width>100</width>
-					<height>100</height>
-					<texture>overlays/addons/enabled.png</texture>
-					<bordersize>2</bordersize>
-					<visible>$PARAM[overlayVisibility]</visible>
-					<visible>!String.IsEmpty(ListItem.DBID) | !String.IsEmpty(ListItem.Property(DBID))</visible>
-				</control>
-				<control type="image">
-					<width>$PARAM[width]</width>
-					<height>420</height>
-					<aspectratio>scale</aspectratio>
-					<texture border="1" colordiffuse="44FFFFFF">black.png</texture>
-					<bordersize>2</bordersize>
-					<include>FocusFadeOutAnimation</include>
-				</control>
-				<control type="label">
-					<top>325</top>
-					<width>$PARAM[width]</width>
-					<height>43</height>
-					<align>center</align>
-					<font>font14</font>
-					<textoffsetx>10</textoffsetx>
-					<selectedcolor>selected</selectedcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<label>$PARAM[label]</label>
-					<visible>!$PARAM[textboxLabel]</visible>
-					<visible>$PARAM[textOverlay]</visible>
-					<animation effect="fade" end="100" start="70" time="200" tween="sine" easing="inout">Focus</animation>
-					<animation effect="fade" start="100" end="70" time="200" tween="sine" easing="inout">UnFocus</animation>
-				</control>
-				<control type="label">
-					<top>368</top>
-					<width>$PARAM[width]</width>
-					<height>43</height>
-					<align>center</align>
-					<font>font14</font>
-					<textoffsetx>10</textoffsetx>
-					<selectedcolor>selected</selectedcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<label>$PARAM[label2]</label>
-					<visible>!$PARAM[textboxLabel]</visible>
-					<visible>$PARAM[textOverlay]</visible>
-					<animation effect="fade" end="100" start="70" time="200" tween="sine" easing="inout">Focus</animation>
-					<animation effect="fade" start="100" end="70" time="200" tween="sine" easing="inout">UnFocus</animation>
-				</control>
-				<control type="textbox">
-					<left>10</left>
-					<top>325</top>
-					<width>574</width>
-					<height>86</height>
-					<align>center</align>
-					<font>font14</font>
-					<selectedcolor>selected</selectedcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<label>$INFO[ListItem.Label]</label>
-					<visible>$PARAM[textboxLabel]</visible>
-					<visible>$PARAM[textOverlay]</visible>
-					<autoscroll time="3000" delay="100" repeat="5000">true</autoscroll>
-					<animation effect="fade" end="100" start="70" time="200" tween="sine" easing="inout">Focus</animation>
-					<animation effect="fade" start="100" end="70" time="200" tween="sine" easing="inout">UnFocus</animation>
-				</control>
-				<control type="image">
-					<width>$PARAM[width]</width>
-					<height>420</height>
-					<texture border="10">thumbs/thumbnail_focused.png</texture>
-					<include>FocusFadeInAnimation</include>
-				</control>
-			</focusedlayout>
+			<control type="panel" id="$PARAM[controlId]">
+				<width>1190</width>
+				<height>420</height>
+				<orientation>horizontal</orientation>
+				<visible>$PARAM[listVisible]</visible>
+				<scrolltime tween="quadratic" easing="out">300</scrolltime>
+				<itemlayout height="420" width="$PARAM[width]">
+					<control type="image">
+						<width>$PARAM[width]</width>
+						<height>420</height>
+						<aspectratio aligny="top">scale</aspectratio>
+						<texture background="true" fallback="$PARAM[fallbackIcon]">$INFO[ListItem.Icon]</texture>
+						<bordertexture border="2">thumbs/panel_border3.png</bordertexture>
+						<bordersize>2</bordersize>
+					</control>
+					<control type="image">
+						<top>322</top>
+						<width>$PARAM[width]</width>
+						<height>98</height>
+						<texture>black.png</texture>
+						<colordiffuse>88ffffff</colordiffuse>
+						<bordersize>2</bordersize>
+						<visible>$PARAM[textOverlay]</visible>
+					</control>
+					<control type="image">
+						<left>180</left>
+						<width>100</width>
+						<height>100</height>
+						<texture>overlays/addons/enabled.png</texture>
+						<bordersize>2</bordersize>
+						<visible>$PARAM[overlayVisibility]</visible>
+						<visible>!String.IsEmpty(ListItem.DBID) | !String.IsEmpty(ListItem.Property(DBID))</visible>
+					</control>
+					<control type="image">
+						<width>$PARAM[width]</width>
+						<height>420</height>
+						<aspectratio>scale</aspectratio>
+						<texture border="1" colordiffuse="44FFFFFF">black.png</texture>
+						<bordersize>2</bordersize>
+					</control>
+					<control type="label">
+						<top>325</top>
+						<width>$PARAM[width]</width>
+						<height>43</height>
+						<align>center</align>
+						<font>font14</font>
+						<textoffsetx>10</textoffsetx>
+						<shadowcolor>shadow</shadowcolor>
+						<selectedcolor>selected</selectedcolor>
+						<label>$PARAM[label]</label>
+						<visible>!$PARAM[textboxLabel]</visible>
+						<visible>$PARAM[textOverlay]</visible>
+						<animation effect="fade" start="100" end="70" time="0" condition="true">Conditional</animation>
+					</control>
+					<control type="label">
+						<top>368</top>
+						<width>$PARAM[width]</width>
+						<height>43</height>
+						<align>center</align>
+						<font>font14</font>
+						<textoffsetx>10</textoffsetx>
+						<shadowcolor>shadow</shadowcolor>
+						<selectedcolor>selected</selectedcolor>
+						<label>$PARAM[label2]</label>
+						<visible>!$PARAM[textboxLabel]</visible>
+						<visible>$PARAM[textOverlay]</visible>
+						<animation effect="fade" start="100" end="70" time="0" condition="true">Conditional</animation>
+					</control>
+					<control type="textbox">
+						<left>10</left>
+						<top>325</top>
+						<width>574</width>
+						<height>86</height>
+						<align>center</align>
+						<font>font14</font>
+						<shadowcolor>shadow</shadowcolor>
+						<selectedcolor>selected</selectedcolor>
+						<label>$PARAM[label]</label>
+						<visible>$PARAM[textboxLabel]</visible>
+						<visible>$PARAM[textOverlay]</visible>
+						<animation effect="fade" start="100" end="70" time="0" condition="true">Conditional</animation>
+					</control>
+				</itemlayout>
+				<focusedlayout height="420" width="$PARAM[width]">
+					<control type="image">
+						<width>$PARAM[width]</width>
+						<height>420</height>
+						<aspectratio aligny="top">scale</aspectratio>
+						<texture background="true" fallback="$PARAM[fallbackIcon]">$INFO[ListItem.Icon]</texture>
+						<bordertexture border="2">thumbs/panel_border3.png</bordertexture>
+						<bordersize>2</bordersize>
+					</control>
+					<control type="image">
+						<top>322</top>
+						<width>$PARAM[width]</width>
+						<height>98</height>
+						<texture>black.png</texture>
+						<colordiffuse>88ffffff</colordiffuse>
+						<bordersize>2</bordersize>
+						<visible>$PARAM[textOverlay]</visible>
+					</control>
+					<control type="image">
+						<left>180</left>
+						<width>100</width>
+						<height>100</height>
+						<texture>overlays/addons/enabled.png</texture>
+						<bordersize>2</bordersize>
+						<visible>$PARAM[overlayVisibility]</visible>
+						<visible>!String.IsEmpty(ListItem.DBID) | !String.IsEmpty(ListItem.Property(DBID))</visible>
+					</control>
+					<control type="image">
+						<width>$PARAM[width]</width>
+						<height>420</height>
+						<aspectratio>scale</aspectratio>
+						<texture border="1" colordiffuse="44FFFFFF">black.png</texture>
+						<bordersize>2</bordersize>
+						<include>FocusFadeOutAnimation</include>
+					</control>
+					<control type="label">
+						<top>325</top>
+						<width>$PARAM[width]</width>
+						<height>43</height>
+						<align>center</align>
+						<font>font14</font>
+						<textoffsetx>10</textoffsetx>
+						<selectedcolor>selected</selectedcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<label>$PARAM[label]</label>
+						<visible>!$PARAM[textboxLabel]</visible>
+						<visible>$PARAM[textOverlay]</visible>
+						<animation effect="fade" end="100" start="70" time="200" tween="sine" easing="inout">Focus</animation>
+						<animation effect="fade" start="100" end="70" time="200" tween="sine" easing="inout">UnFocus</animation>
+					</control>
+					<control type="label">
+						<top>368</top>
+						<width>$PARAM[width]</width>
+						<height>43</height>
+						<align>center</align>
+						<font>font14</font>
+						<textoffsetx>10</textoffsetx>
+						<selectedcolor>selected</selectedcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<label>$PARAM[label2]</label>
+						<visible>!$PARAM[textboxLabel]</visible>
+						<visible>$PARAM[textOverlay]</visible>
+						<animation effect="fade" end="100" start="70" time="200" tween="sine" easing="inout">Focus</animation>
+						<animation effect="fade" start="100" end="70" time="200" tween="sine" easing="inout">UnFocus</animation>
+					</control>
+					<control type="textbox">
+						<left>10</left>
+						<top>325</top>
+						<width>574</width>
+						<height>86</height>
+						<align>center</align>
+						<font>font14</font>
+						<selectedcolor>selected</selectedcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<visible>$PARAM[textboxLabel]</visible>
+						<visible>$PARAM[textOverlay]</visible>
+						<autoscroll time="3000" delay="100" repeat="5000">true</autoscroll>
+						<animation effect="fade" end="100" start="70" time="200" tween="sine" easing="inout">Focus</animation>
+						<animation effect="fade" start="100" end="70" time="200" tween="sine" easing="inout">UnFocus</animation>
+					</control>
+					<control type="image">
+						<width>$PARAM[width]</width>
+						<height>420</height>
+						<texture border="10">thumbs/thumbnail_focused.png</texture>
+						<include>FocusFadeInAnimation</include>
+					</control>
+				</focusedlayout>
+				<include content="InfoListContent" condition="$PARAM[includeContent]">
+					<param name="target">$PARAM[target]</param>
+					<param name="content">$PARAM[content]</param>
+				</include>
+			</control>
+		</definition>
+	</include>
+	<include name="InfoListContent">
+		<param name="target">video</param>
+		<definition>
+			<content target="$PARAM[target]">$PARAM[content]</content>
 		</definition>
 	</include>
 </includes>
