@@ -1042,9 +1042,10 @@
 					<onup>60</onup>
 					<ondown>60</ondown>
 					<onleft>50</onleft>
-					<onright condition="!Control.IsVisible(62)">SetProperty(MediaMenu,True,home)</onright>
-					<onright condition="!Control.IsVisible(62)">SetFocus(9050)</onright>
-					<onright condition="Control.IsVisible(62)">62</onright>
+					<onright condition="!Control.IsVisible(62) + !Control.IsVisible(8000)">SetProperty(MediaMenu,True,home)</onright>
+					<onright condition="!Control.IsVisible(62) + !Control.IsVisible(8000)">SetFocus(9050)</onright>
+					<onright condition="Control.IsVisible(62) + !Control.IsVisible(8000)">62</onright>
+					<onright condition="Control.IsVisible(8000)">8000</onright>
 					<texturesliderbackground />
 					<texturesliderbar colordiffuse="55ffffff" border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
 					<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
@@ -1055,13 +1056,13 @@
 			<control type="group">
 				<left>1296</left>
 				<top>155</top>
-				<visible>![Container.Content(genres) | Container.Content(episodes) | Container.Content(videos)]</visible>
+				<visible>Container.Content(movies) | Container.Content(genres) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(musicvideos) | Container.Content()</visible>
 				<include>VisibleFadeAnimation</include>
 				<control type="image">
 					<width>570</width>
 					<height>835</height>
 					<aspectratio aligny="bottom">keep</aspectratio>
-					<texture background="true">$VAR[PosterThumb]</texture>
+					<texture background="true" fallback="special://skin/extras/moviegenres/Default.jpg">$VAR[PosterVar]</texture>
 					<fadetime>IconCrossfadeTime</fadetime>
 					<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
 					<bordersize>20</bordersize>
@@ -1072,38 +1073,14 @@
 					<height>835</height>
 					<aspectratio aligny="top">keep</aspectratio>
 					<fadetime>IconCrossfadeTime</fadetime>
-					<texture diffuse="thumbs/thumb_reflect.png" flipy="true" background="true">$VAR[PosterThumb]</texture>
-					<bordersize>20</bordersize>
-				</control>
-			</control>
-			<control type="group">
-				<left>1296</left>
-				<top>155</top>
-				<visible>Container.Content(genres)</visible>
-				<include>VisibleFadeAnimation</include>
-				<control type="image">
-					<width>570</width>
-					<height>835</height>
-					<aspectratio aligny="bottom">keep</aspectratio>
-					<texture background="true" fallback="special://skin/extras/moviegenres/Default.jpg">$INFO[ListItem.Label,special://skin/extras/moviegenres/,.jpg]</texture>
-					<fadetime>IconCrossfadeTime</fadetime>
-					<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
-					<bordersize>20</bordersize>
-				</control>
-				<control type="image">
-					<top>795</top>
-					<width>570</width>
-					<height>835</height>
-					<aspectratio aligny="top">keep</aspectratio>
-					<fadetime>IconCrossfadeTime</fadetime>
-					<texture diffuse="thumbs/thumb_reflect.png" flipy="true" background="true" fallback="special://skin/extras/moviegenres/Default.jpg">$INFO[ListItem.Label,special://skin/extras/moviegenres/,.jpg]</texture>
+					<texture diffuse="thumbs/thumb_reflect.png" flipy="true" background="true" fallback="special://skin/extras/moviegenres/Default.jpg">$VAR[PosterVar]</texture>
 					<bordersize>20</bordersize>
 				</control>
 			</control>
 			<control type="group">
 				<left>1280</left>
 				<top>-40</top>
-				<visible>Container.Content(episodes) | Container.Content(videos)</visible>
+				<visible>![Container.Content(movies) | Container.Content(genres) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(musicvideos) | Container.Content()]</visible>
 				<include>VisibleFadeAnimation</include>
 				<control type="image">
 					<description>background image</description>
@@ -1127,6 +1104,7 @@
 					<texture background="true">$INFO[ListItem.Icon]</texture>
 					<fadetime>IconCrossfadeTime</fadetime>
 					<bordersize>32</bordersize>
+					<visible>Container.Content(episodes) | Container.Content(videos)</visible>
 				</control>
 				<control type="image">
 					<left>32</left>
@@ -1134,6 +1112,7 @@
 					<width>506</width>
 					<height>60</height>
 					<texture border="1">separator2.png</texture>
+					<visible>Container.Content(episodes) | Container.Content(videos)</visible>
 				</control>
 				<control type="button">
 					<top>465</top>
@@ -1154,6 +1133,7 @@
 					<width>506</width>
 					<height>60</height>
 					<texture border="1">separator2.png</texture>
+					<visible>Container.Content(episodes) | Container.Content(videos)</visible>
 				</control>
 				<control type="group">
 					<top>465</top>
@@ -1190,6 +1170,7 @@
 					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll) + !Control.HasFocus(62)</autoscroll>
 					<include>ShowCaseInfoPanelButtonsValues</include>
 					<pagecontrol>62</pagecontrol>
+					<visible>Container.Content(episodes) | Container.Content(videos)</visible>
 				</control>
 				<control type="scrollbar" id="62">
 					<left>538</left>
@@ -1206,6 +1187,109 @@
 					<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
 					<showonepage>false</showonepage>
 					<orientation>vertical</orientation>
+					<visible>Container.Content(episodes) | Container.Content(videos)</visible>
+				</control>
+				<control type="scrollbar" id="63">
+					<left>538</left>
+					<top>180</top>
+					<width>14</width>
+					<height>840</height>
+					<onleft>8000</onleft>
+					<onright>SetProperty(MediaMenu,True,home)</onright>
+					<onright>SetFocus(9050)</onright>
+					<texturesliderbackground />
+					<texturesliderbar colordiffuse="55ffffff" border="1">scrollbar/texturesliderbar2.png</texturesliderbar>
+					<texturesliderbarfocus border="1">scrollbar/texturesliderbar2.png</texturesliderbarfocus>
+					<showonepage>false</showonepage>
+					<orientation>vertical</orientation>
+					<visible>![Container.Content(episodes) | Container.Content(videos)]</visible>
+				</control>
+				<control type="panel" id="8000">
+					<left>31</left>
+					<top>180</top>
+					<width>506</width>
+					<height>840</height>
+					<onleft>50</onleft>
+					<onright>63</onright>
+					<viewtype label="535">list</viewtype>
+					<pagecontrol>63</pagecontrol>
+					<orientation>vertical</orientation>
+					<scrolltime tween="quadratic" easing="out">200</scrolltime>
+					<visible>![Container.Content(episodes) | Container.Content(videos)]</visible>
+					<animation effect="fade" start="100" end="0" time="150" condition="Container(8000).IsUpdating">Conditional</animation>
+					<itemlayout height="60" width="506">
+						<control type="image">
+							<width>506</width>
+							<height>60</height>
+							<texture border="1">separator2.png</texture>
+						</control>
+						<control type="label">
+							<width>506</width>
+							<height>60</height>
+							<font>font14</font>
+							<textcolor>grey2</textcolor>
+							<selectedcolor>selected</selectedcolor>
+							<textoffsetx>15</textoffsetx>
+							<label>$INFO[ListItem.Label]</label>
+						</control>
+						<control type="label">
+							<width>506</width>
+							<height>60</height>
+							<font>font14</font>
+							<align>right</align>
+							<textcolor>grey2</textcolor>
+							<selectedcolor>selected</selectedcolor>
+							<textoffsetx>15</textoffsetx>
+							<label>$INFO[ListItem.Year]</label>
+						</control>
+					</itemlayout>
+					<focusedlayout height="60" width="506">
+						<control type="image">
+							<width>506</width>
+							<height>60</height>
+							<texture border="5">listselect_fo.png</texture>
+						</control>
+						<control type="label">
+							<width>506</width>
+							<height>60</height>
+							<font>font14</font>
+							<selectedcolor>selected</selectedcolor>
+							<textoffsetx>15</textoffsetx>
+							<label>$INFO[ListItem.Label]</label>
+						</control>
+						<control type="label">
+							<width>506</width>
+							<height>60</height>
+							<font>font14</font>
+							<align>right</align>
+							<selectedcolor>selected</selectedcolor>
+							<textoffsetx>15</textoffsetx>
+							<label>$INFO[ListItem.Year]</label>
+						</control>
+					</focusedlayout>
+					<content target="videos" sortby="$VAR[ListSortByVar]" sortorder="ascending">$INFO[Container(50).ListItem.FolderPath]</content>
+				</control>
+				<control type="group">
+					<visible>Container(8000).IsUpdating</visible>
+					<include>SettingsFadeAnimation</include>
+					<left>236</left>
+					<top>552</top>
+					<control type="image">
+						<description>Busy animation</description>
+						<width>96</width>
+						<height>96</height>
+						<texture>android/spinner_48_inner_holo.png</texture>
+						<aspectratio>keep</aspectratio>
+						<animation effect="rotate" start="0" end="360" center="auto" time="2000" loop="true" condition="true">conditional</animation>
+					</control>
+					<control type="image">
+						<description>Busy animation</description>
+						<width>96</width>
+						<height>96</height>
+						<texture>android/spinner_48_outer_holo.png</texture>
+						<aspectratio>keep</aspectratio>
+						<animation effect="rotate" start="360" end="0" center="auto" time="2000" loop="true" condition="true">conditional</animation>
+					</control>
 				</control>
 			</control>
 		</control>
