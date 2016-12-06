@@ -2,6 +2,7 @@
 <window>
 	<defaultcontrol always="true">9000</defaultcontrol>
 	<allowoverlay>no</allowoverlay>
+	<onload condition="Window.Previous(startup)">SetFocus(9000,2,absolute)</onload>
 	<onload>ClearProperty(HomeWidget,Home)</onload>
 	<onload>RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=9000&amp;group=x1|x2|x3|x4|x5|x6|x7|x8|x9|x10|x11|x12|x13|x101|x202|x303|x404|x505|x606)</onload>
 	<controls>
@@ -17,17 +18,25 @@
 			<depth>MaxDepth</depth>
 			<control type="group">
 				<animation effect="slide" end="0,338" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
-				<animation effect="slide" end="-1870,0" time="240">WindowClose</animation>
-				<animation effect="slide" start="-1870,0" end="0,0" delay="300" time="240" condition="!Window.Previous(startup)">WindowOpen</animation>
-				<animation effect="slide" start="-1870" end="0" time="240">VisibleChange</animation>
-				<animation effect="slide" start="-1870,0" end="0,0" delay="800" time="480" condition="Window.Previous(startup)">WindowOpen</animation>
+				<animation type="WindowClose" reversible="false">
+					<effect type="slide" end="-1870" time="240" />
+					<effect type="fade" end="0" time="240" />
+				</animation>
+				<animation type="WindowOpen" reversible="false" condition="!Window.Previous(startup)">
+					<effect type="slide" start="-1870" time="240" delay="300" />
+					<effect type="fade" end="100" time="240" delay="300"/>
+				</animation>
+				<animation type="WindowOpen" reversible="false" condition="Window.Previous(startup)">
+					<effect type="slide" start="-1870" time="240" delay="800" />
+					<effect type="fade" end="100" time="240" delay="800" />
+				</animation>
 				<control type="image">
-					<width>1780</width>
+					<right>140</right>
 					<height>87</height>
 					<texture flipy="true">submenu_bar.png</texture>
 				</control>
 				<control type="image">
-					<left>1780</left>
+					<right>50</right>
 					<width>90</width>
 					<height>87</height>
 					<texture flipx="true" flipy="true">submenu_end.png</texture>
@@ -44,6 +53,7 @@
 					<shadowcolor>shadow</shadowcolor>
 				</control>
 				<control type="grouplist" id="9020">
+					<right>140</right>
 					<top>46</top>
 					<width>1780</width>
 					<height>41</height>
@@ -128,15 +138,15 @@
 			<depth>MaxDepth</depth>
 			<animation effect="slide" end="0,338" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
 			<animation type="WindowOpen" reversible="false" condition="Window.Previous(Startup)">
-				<effect type="zoom" start="0" end="100" center="960,540" delay="500" time="300" tween="cubic" />
+				<effect type="zoom" start="0" end="100" center="CenterWidth,CenterHeight" delay="500" time="300" tween="cubic" />
 			</animation>
 			<animation type="WindowOpen" reversible="false" condition="!Window.Previous(Startup)">
-				<effect type="zoom" start="150" end="100" center="960,540" time="300" tween="cubic" />
+				<effect type="zoom" start="150" end="100" center="CenterWidth,CenterHeight" time="300" tween="cubic" />
 				<effect type="fade" start="50" end="100" time="300" />
 			</animation>
 			<animation type="WindowClose" reversible="false">
 				<effect type="fade" start="100" end="0" time="300" />
-				<effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" />
+				<effect type="zoom" start="100" end="130" center="CenterWidth,CenterHeight" time="300" tween="cubic" easing="in" />
 			</animation>
 			<control type="group" id="9001">
 				<top>159</top>
@@ -151,20 +161,18 @@
 				</control>
 				<control type="image">
 					<left>140</left>
-					<width>1780</width>
 					<height>87</height>
 					<texture>submenu_bar.png</texture>
 				</control>
 				<control type="fixedlist" id="9010">
-					<left>210</left>
-					<width>1500</width>
+					<left>HomeSubMenuLeft</left>
+					<right>210</right>
 					<height>87</height>
 					<onup>9000</onup>
 					<ondown>9004</ondown>
 					<pagecontrol />
 					<scrolltime tween="quadratic" easing="out">300</scrolltime>
-					<focusposition>2</focusposition>
-					<movement>2</movement>
+					<include>HomeSubMenuPos</include>
 					<orientation>Horizontal</orientation>
 					<itemlayout height="87" width="300">
 						<control type="label">
@@ -221,7 +229,7 @@
 					<onclick>Control.Move(9010,-1)</onclick>
 				</control>
 				<control type="button">
-					<left>1800</left>
+					<right>120</right>
 					<top>6</top>
 					<width>30</width>
 					<height>30</height>
@@ -257,7 +265,7 @@
 				<texture border="1">side_fade.png</texture>
 			</control>
 			<control type="image">
-				<left>1822</left>
+				<right>-2</right>
 				<top>58</top>
 				<width>100</width>
 				<height>104</height>
