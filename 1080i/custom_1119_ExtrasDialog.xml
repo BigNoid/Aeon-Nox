@@ -2,6 +2,12 @@
 <window id="1119" type="dialog">
 	<defaultcontrol always="true">90200</defaultcontrol>
 	<include>DialogOpenCloseAnimation</include>
+	<onunload>ClearProperty(Info.DBID,movieinformation)</onunload>
+	<onunload>ClearProperty(Info.FileNameAndPath,movieinformation)</onunload>
+	<onunload>ClearProperty(Info.Path,movieinformation)</onunload>
+	<onunload>ClearProperty(Info.Fanart,movieinformation)</onunload>
+	<onunload>ClearProperty(Info.Artist,movieinformation)</onunload>
+	<onunload>ClearProperty(Info.DBType,movieinformation)</onunload>
 	<controls>
 		<control type="grouplist" id="90200">
 			<centerleft>50%</centerleft>
@@ -27,10 +33,10 @@
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<onclick>Dialog.Close(1119)</onclick>
 				<onclick>Dialog.Close(MovieInformation)</onclick>
-				<onclick>RunScript(script.cinema.experience,movieid=$INFO[ListItem.DBID])</onclick>
+				<onclick>RunScript(script.cinema.experience,movieid=$INFO[Window(movieinformation).Property(Info.DBID)])</onclick>
 				<label>$INFO[System.AddonTitle(script.cinema.experience)]</label>
 				<visible>System.HasAddon(script.cinema.experience)</visible>
-				<visible>Container.Content(movies) + !String.Contains(Window(videos).Property(CinemaExperienceRunning),True)</visible>
+				<visible>String.IsEqual(Window(movieinformation).Property(Info.DBType),movie) + !String.Contains(Window(videos).Property(CinemaExperienceRunning),True)</visible>
 			</control>
 			<control type="button" id="90203">
 				<description>CinemaVision button</description>
@@ -44,7 +50,7 @@
 				<onclick>RunScript(script.cinemavision,experience)</onclick>
 				<label>$INFO[System.AddonTitle(script.cinemavision)]</label>
 				<visible>System.HasAddon(script.cinemavision)</visible>
-				<visible>String.IsEqual(ListItem.DBType,movie) | String.Equals(ListItem.DBType,tvshow) | String.Equals(ListItem.DBType,season) | String.Equals(ListItem.DBType,episode)</visible>
+				<visible>String.IsEqual(Window(movieinformation).Property(Info.DBType),movie) | String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow) | String.IsEqual(Window(movieinformation).Property(Info.DBType),season) | String.IsEqual(Window(movieinformation).Property(Info.DBType),episode)</visible>
 			</control>
 			<control type="button" id="90204">
 				<description>Artwork downloader button</description>
@@ -54,10 +60,10 @@
 				<texturefocus border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<onclick>Dialog.Close(1119)</onclick>
-				<onclick condition="Container.Content(movies)">RunScript(script.artwork.downloader, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
-				<onclick condition="Container.Content(tvshows)">RunScript(script.artwork.downloader, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(Window(movieinformation).Property(Info.DBType),movie)">RunScript(script.artwork.downloader, mediatype=movie, dbid=$INFO[Window(movieinformation).Property(Info.DBID)])</onclick>
+				<onclick condition="String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow)">RunScript(script.artwork.downloader, mediatype=tvshow, dbid=$INFO[Window(movieinformation).Property(Info.DBID)])</onclick>
 				<label>$INFO[System.AddonTitle(script.artwork.downloader)]</label>
-				<visible>System.HasAddon(script.artwork.downloader) + [Container.Content(movies) | Container.Content(tvshows)]</visible>
+				<visible>System.HasAddon(script.artwork.downloader) + [String.IsEqual(Window(movieinformation).Property(Info.DBType),movie) | String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow)]</visible>
 			</control>
 			<control type="button" id="90205">
 				<description>Artwork downloader button</description>
@@ -67,10 +73,10 @@
 				<texturefocus border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<onclick>Dialog.Close(1119)</onclick>
-				<onclick condition="Container.Content(movies)">RunScript(script.artwork.downloader, mode=gui, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
-				<onclick condition="Container.Content(tvshows)">RunScript(script.artwork.downloader,mode=gui, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(Window(movieinformation).Property(Info.DBType),movie)">RunScript(script.artwork.downloader, mode=gui, mediatype=movie, dbid=$INFO[Window(movieinformation).Property(Info.DBID)])</onclick>
+				<onclick condition="String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow)">RunScript(script.artwork.downloader,mode=gui, mediatype=tvshow, dbid=$INFO[Window(movieinformation).Property(Info.DBID)])</onclick>
 				<label>$INFO[System.AddonTitle(script.artwork.downloader),,: $LOCALIZE[413]]</label>
-				<visible>System.HasAddon(script.artwork.downloader) + [Container.Content(movies) | Container.Content(tvshows)]</visible>
+				<visible>System.HasAddon(script.artwork.downloader) + [String.IsEqual(Window(movieinformation).Property(Info.DBType),movie) | String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow)]</visible>
 			</control>
 			<control type="button" id="90206">
 				<description>Edit button</description>
@@ -80,7 +86,7 @@
 				<texturefocus border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<onclick>Dialog.Close(1119)</onclick>
-				<onclick>RunScript(script.libraryeditor,DBID=$INFO[ListItem.DBID])</onclick>
+				<onclick>RunScript(script.libraryeditor,DBID=$INFO[Window(movieinformation).Property(Info.DBID)])</onclick>
 				<label>21435</label>
 				<visible>System.HasAddon(script.libraryeditor)</visible>
 			</control>
@@ -95,7 +101,7 @@
 				<onclick>RunScript(script.ratingupdate,Single=Movie)</onclick>
 				<label>31067</label>
 				<visible>System.HasAddon(script.ratingupdate)</visible>
-				<visible>Container.Content(movies) | Container.Content(tvshows)</visible>
+				<visible>String.IsEqual(Window(movieinformation).Property(Info.DBType),movie) | String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow)</visible>
 			</control>
 			<control type="button" id="90208">
 				<description>TvTunes button</description>
@@ -108,7 +114,7 @@
 				<onclick>RunScript(script.tvtunes,mode=solo)</onclick>
 				<label>$INFO[System.AddonTitle(script.tvtunes)]</label>
 				<visible>System.HasAddon(script.tvtunes)</visible>
-				<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(musicvideos)] + String.IsEmpty(Window(movieinformation).Property("TvTunes_HideVideoInfoButton"))</visible>
+				<visible>[String.IsEqual(Window(movieinformation).Property(Info.DBType),movie) | String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow) | Container.Content(musicvideos)] + String.IsEmpty(Window(movieinformation).Property("TvTunes_HideVideoInfoButton"))</visible>
 			</control>
 			<control type="button" id="90209">
 				<description>VideoExtras button</description>
@@ -118,11 +124,11 @@
 				<texturefocus border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<onclick>Dialog.Close(1119)</onclick>
-				<onclick condition="!Container.Content(tvshows)">RunScript(script.videoextras,display,"$INFO[ListItem.FilenameAndPath]")</onclick>
-				<onclick condition="Container.Content(tvshows)">RunScript(script.videoextras,display,"$INFO[ListItem.Path]")</onclick>
+				<onclick condition="!String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow)">RunScript(script.videoextras,display,"$INFO[Window(movieinformation).Property(Info.FileNameAndPath)]")</onclick>
+				<onclick condition="String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow)">RunScript(script.videoextras,display,"$INFO[Window(movieinformation).Property(Info.Path)]")</onclick>
 				<label>$INFO[System.AddonTitle(script.videoextras)]</label>
 				<visible>System.HasAddon(script.videoextras)</visible>
-				<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(musicvideos)]</visible>
+				<visible>[String.IsEqual(Window(movieinformation).Property(Info.DBType),movie) | String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow) | Container.Content(episodes) | Container.Content(musicvideos)]</visible>
 			</control>
 			<control type="button" id="90210">
 				<description>Search YouTube button</description>
@@ -132,7 +138,7 @@
 				<texturefocus border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<onclick>Dialog.Close(all,true)</onclick>
-				<onclick>ActivateWindow(videos,$ESCINFO[ListItem.Label,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=],return)</onclick>
+				<onclick>ActivateWindow(videos,$ESCINFO[Window(movieinformation).Property(Info.Label),plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=],return)</onclick>
 				<label>$INFO[System.AddonTitle(plugin.video.youtube)]</label>
 				<visible>System.HasAddon(plugin.video.youtube) + [Container.Content(albums) | Container.Content(songs)]</visible>
 			</control>
@@ -143,10 +149,10 @@
 				<textoffsetx>45</textoffsetx>
 				<texturefocus border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
-				<onclick>SetProperty(FSFanart,$INFO[ListItem.Art(fanart)],movieinformation)</onclick>
+				<onclick>SetProperty(FSFanart,$INFO[Window(movieinformation).Property(Info.Fanart)],movieinformation)</onclick>
 				<onclick>ActivateWindow(1131)</onclick>
 				<label>$LOCALIZE[31092]</label>
-				<visible>!IsEmpty(ListItem.Art(fanart))</visible>
+				<visible>!String.IsEmpty(Window(movieinformation).Property(Info.Fanart))</visible>
 			</control>
 			<control type="button" id="90213">
 				<description>Concerts in google maps addon</description>
@@ -155,7 +161,7 @@
 				<textoffsetx>45</textoffsetx>
 				<texturefocus border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
-				<onclick>RunScript(script.maps.browser,artist=$INFO[ListItem.Artist])</onclick>
+				<onclick>RunScript(script.maps.browser,artist=$INFO[Window(movieinformation).Property(Info.Artist)])</onclick>
 				<onclick>Dialog.Close(1119)</onclick>
 				<label>$LOCALIZE[31096]</label>
 				<visible>Container.Content(artists) + System.HasAddon(script.maps.browser)</visible>
@@ -167,11 +173,11 @@
 				<textoffsetx>45</textoffsetx>
 				<texturefocus border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
-				<onclick condition="Container.Content(movies)">RunScript(script.extendedinfo,info=extendedinfo,dbid=$INFO[ListItem.DBID])</onclick>
-				<onclick condition="Container.Content(tvshows)">RunScript(script.extendedinfo,info=extendedtvinfo,dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(Window(movieinformation).Property(Info.DBType),movie)">RunScript(script.extendedinfo,info=extendedinfo,dbid=$INFO[Window(movieinformation).Property(Info.DBID)])</onclick>
+				<onclick condition="String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow)">RunScript(script.extendedinfo,info=extendedtvinfo,dbid=$INFO[Window(movieinformation).Property(Info.DBID)])</onclick>
 				<onclick>Dialog.Close(1119)</onclick>
 				<label>$INFO[System.AddonTitle(script.extendedinfo)]</label>
-				<visible>[Container.Content(movies) | Container.Content(tvshows)] + System.HasAddon(script.extendedinfo)</visible>
+				<visible>[String.IsEqual(Window(movieinformation).Property(Info.DBType),movie) | String.IsEqual(Window(movieinformation).Property(Info.DBType),tvshow)] + System.HasAddon(script.extendedinfo)</visible>
 			</control>
 			<control type="button" id="90215">
 				<description>No extra feautures button</description>
