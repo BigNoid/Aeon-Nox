@@ -755,14 +755,13 @@
 		<control type="group">
 			<visible>!Window.IsActive(addoninformation)</visible>
 			<include>WindowOpenCloseAnimation</include>
-			<include>ViewAnimation</include>
 			<control type="group">
 				<left>550</left>
 				<top>990</top>
 				<width>1840</width>
 				<height>90</height>
 				<visible>[Container.Content(movies) + Control.IsVisible(506) + !Skin.HasSetting(Disable.RightList.Mediaflags)] | [Container.Content(episodes) + Control.IsVisible(506) + !Skin.HasSetting(Disable.RightList.EpisodeMediaflags)] | [Control.IsVisible(591) + [Container.Content(movies) | Container.Content(episodes)]] | [Control.IsVisible(509) + !Skin.HasSetting(Disable.MyFlix.Mediaflags) + [Container.Content(movies) | Container.Content(episodes)]]</visible>
-				<animation effect="slide" tween="cubic" time="720" start="0,806" end="0,0">VisibleChange</animation>
+				<include>ViewAnimation</include>
 				<animation effect="slide" end="-500,10" time="320" tween="cubic" easing="inout" condition="Control.IsVisible(509) + [Container.Content(movies) | Container.Content(episodes)]">Conditional</animation>
 				<control type="image" id="900017">
 					<top>2</top>
@@ -838,48 +837,47 @@
 				<top>990</top>
 				<width>1840</width>
 				<height>90</height>
-				<animation effect="slide" tween="cubic" time="720" start="0,806" end="0,0">VisibleChange</animation>
-				<animation effect="slide" start="0,0" end="162.5" time="640" tween="cubic" easing="inout" condition="[Control.IsVisible(591) | Control.IsVisible(506)] + Container.Content(seasons)">Conditional</animation>
 				<animation effect="slide" start="0,0" end="-1000,10" time="720" tween="cubic" easing="inout" condition="Control.IsVisible(509) + Container.Content(tvshows)">Conditional</animation>
 				<visible>[Control.IsVisible(591) + [Container.Content(tvshows) | Container.Content(seasons)]] | [Control.IsVisible(506) + !Skin.HasSetting(Disable.RightList.TVMediaflags) + [Container.Content(tvshows) | Container.Content(seasons)]] | [Control.IsVisible(509) + [Container.Content(tvshows) | Container.Content(seasons)]]</visible>
-				<control type="image" id="900018">
-					<top>2</top>
-					<colordiffuse>grey</colordiffuse>
-					<include>MediaFlagValues</include>
-					<texture>$VAR[PathFlagsStudios]$INFO[ListItem.Studio,,.png]</texture>
-					<visible>!String.IsEmpty(ListItem.Studio)</visible>
+				<include>ViewAnimation</include>
+				<control type="group">
+					<animation effect="slide" start="0,0" end="162.5" time="120" delay="150" condition="Container.Content(seasons)">Conditional</animation>
+					<control type="image" id="900018">
+						<top>2</top>
+						<include>MediaFlagValues</include>
+						<texture>$VAR[PathFlagsStudios]$INFO[ListItem.Studio,,.png]</texture>
+						<visible>!String.IsEmpty(ListItem.Studio)</visible>
+					</control>
+					<control type="label">
+						<width>155</width>
+						<height>90</height>
+						<align>center</align>
+						<label>$INFO[ListItem.Studio]</label>
+						<font>font10</font>
+						<textcolor>grey</textcolor>
+						<wrapmultiline>true</wrapmultiline>
+						<visible>String.IsEmpty(Control.GetLabel(900018))</visible>
+					</control>
+					<control type="image">
+						<left>165</left>
+						<width>200</width>
+						<include>MediaFlagValues</include>
+						<texture fallback="flags/colored/rating/NR.png">$VAR[ColoredRatingFlagVar]</texture>
+						<visible>Skin.HasSetting(coloredflags) + !ListItem.IsParentFolder</visible>
+					</control>
+					<control type="image">
+						<left>165</left>
+						<width>200</width>
+						<include>MediaFlagValues</include>
+						<texture fallback="flags/default/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
+						<visible>!Skin.HasSetting(coloredflags) + !ListItem.IsParentFolder</visible>
+					</control>
 				</control>
-				<control type="label">
-					<width>155</width>
-					<height>90</height>
-					<align>center</align>
-					<label>$INFO[ListItem.Studio]</label>
-					<font>font10</font>
-					<textcolor>grey</textcolor>
-					<wrapmultiline>true</wrapmultiline>
-					<visible>String.IsEmpty(Control.GetLabel(900018))</visible>
-				</control>
-				<control type="image">
-					<left>165</left>
-					<width>200</width>
-					<colordiffuse>grey</colordiffuse>
-					<include>MediaFlagValues</include>
-					<texture fallback="flags/colored/rating/NR.png">$VAR[ColoredRatingFlagVar]</texture>
-					<visible>Skin.HasSetting(coloredflags) + !ListItem.IsParentFolder</visible>
-				</control>
-				<control type="image">
-					<left>165</left>
-					<width>200</width>
-					<colordiffuse>grey</colordiffuse>
-					<include>MediaFlagValues</include>
-					<texture fallback="flags/default/mpaa/NR.png">$VAR[RatingFlagVar]</texture>
-					<visible>!Skin.HasSetting(coloredflags) + !ListItem.IsParentFolder</visible>
-				</control>
-				<control type="grouplist">
-					<orientation>horizontal</orientation>
+				<control type="group">
 					<left>350</left>
+					<visible>Container.Content(tvshows) | Container.Content(seasons)</visible>
+					<include>VisibleFadeAnimation</include>
 					<control type="group">
-						<top>-6</top>
 						<width>162.5</width>
 						<visible>!String.IsEmpty(ListItem.Property(TotalSeasons))</visible>
 						<control type="label">
@@ -903,7 +901,7 @@
 					<control type="group">
 						<visible>!String.IsEmpty(ListItem.Property(TotalEpisodes))</visible>
 						<width>162.5</width>
-						<top>-6</top>
+						<left>162.5</left>
 						<control type="label">
 							<top>2</top>
 							<height>60</height>
@@ -925,7 +923,7 @@
 					<control type="group">
 						<visible>!String.IsEmpty(ListItem.Property(UnWatchedEpisodes)) + Control.IsVisible(591)</visible>
 						<width>162.5</width>
-						<top>-6</top>
+						<left>325</left>
 						<control type="label">
 							<height>60</height>
 							<align>center</align>
@@ -946,7 +944,7 @@
 					<control type="group">
 						<visible>!String.IsEmpty(ListItem.Property(UnWatchedEpisodes)) + Control.IsVisible(506)</visible>
 						<width>162.5</width>
-						<top>-6</top>
+						<left>325</left>
 						<control type="label">
 							<height>60</height>
 							<align>center</align>
@@ -967,7 +965,7 @@
 					<control type="group">
 						<visible>!String.IsEmpty(ListItem.Property(UnWatchedEpisodes)) + Control.IsVisible(509)</visible>
 						<width>162.5</width>
-						<top>-6</top>
+						<left>325</left>
 						<control type="label">
 							<height>60</height>
 							<align>center</align>
