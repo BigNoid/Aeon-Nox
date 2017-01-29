@@ -5,6 +5,7 @@
 # Aeon Nox: A skin for XBMC/Kodi
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DYAH75J73YP36)
+bitcoin donation: 16H2h3RvouuL3wSeJoujk7YtzFEnCaa1z3
 
 ## Main features:
 - Customisable main menu/submenu
@@ -16,7 +17,7 @@
 
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/BigNoid/Aeon-Nox/master/fanart.jpg">
+<img src="https://raw.githubusercontent.com/BigNoid/Aeon-Nox/master/resources/fanart.jpg">
 </p>
 
 
