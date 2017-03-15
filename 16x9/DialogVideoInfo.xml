@@ -138,7 +138,7 @@
 						<label>$INFO[ListItem.Year,(,)]</label>
 						<font>font35_title_bold</font>
 						<textcolor>grey</textcolor>
-						<visible>!String.IsEqual(ListItem.DBType,episode)</visible>
+						<visible>![String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow)]</visible>
 					</control>
 					<control type="image">
 						<left>-37</left>
@@ -154,6 +154,15 @@
 						<height>85</height>
 						<orientation>horizontal</orientation>
 						<usecontrolcoords>true</usecontrolcoords>
+						<control type="label">
+							<left>10</left>
+							<width min="198" max="300">auto</width>
+							<height>90</height>
+							<label>$VAR[EpisodeCountVar]</label>
+							<font>font35_title_bold</font>
+							<textcolor>grey</textcolor>
+							<visible>String.IsEqual(ListItem.DBType,episode)</visible>
+						</control>
 						<control type="group">
 							<visible>!Skin.HasSetting(Enable.HourMinuteDuration) | String.IsEqual(ListItem.DBType,tvshow)</visible>
 							<width>198</width>
@@ -183,14 +192,6 @@
 							<font>font52_bold</font>
 							<textcolor>grey</textcolor>
 							<visible>Skin.HasSetting(Enable.HourMinuteDuration) + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)]</visible>
-						</control>
-						<control type="label">
-							<width min="198" max="300">auto</width>
-							<height>90</height>
-							<label>$VAR[EpisodeCountVar]</label>
-							<font>font35_title_bold</font>
-							<textcolor>grey</textcolor>
-							<visible>String.IsEqual(ListItem.DBType,episode)</visible>
 						</control>
 						<control type="image">
 							<top>10</top>
@@ -427,6 +428,12 @@
 								<visible>!String.IsEmpty(ListItem.Writer)</visible>
 							</item>
 							<item>
+								<label>$INFO[ListItem.Premiered]</label>
+								<label2>$LOCALIZE[20416]:</label2>
+								<onclick>noop</onclick>
+								<visible>!String.IsEmpty(ListItem.Premiered) + !String.IsEqual(ListItem.DBType,movie)</visible>
+							</item>
+							<item>
 								<label>$INFO[Window(Home).Property(NextAired.LatestNumber)]$INFO[Window(Home).Property(NextAired.LatestTitle), - ]</label>
 								<label2>$LOCALIZE[31374]:</label2>
 								<onclick>noop</onclick>
@@ -451,22 +458,10 @@
 								<visible>String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(Window(Home).Property(NextAired.NextDay))</visible>
 							</item>
 							<item>
-								<label>$INFO[ListItem.Premiered]</label>
-								<label2>$LOCALIZE[20416]:</label2>
-								<onclick>noop</onclick>
-								<visible>!String.IsEmpty(ListItem.Premiered) + !String.IsEqual(ListItem.DBType,movie)</visible>
-							</item>
-							<item>
 								<label>$INFO[ListItem.Genre]</label>
 								<label2>$LOCALIZE[515]:</label2>
 								<onclick>noop</onclick>
 								<visible>!String.IsEmpty(ListItem.Genre)</visible>
-							</item>
-							<item>
-								<label>$INFO[Window(Home).Property(SkinHelper.ListItem.RottenTomatoesAwards)]</label>
-								<label2>$LOCALIZE[31272]</label2>
-								<onclick>noop</onclick>
-								<visible>!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.RottenTomatoesAwards)) + String.IsEqual(ListItem.DBType,movie)</visible>
 							</item>
 							<item>
 								<label>$INFO[Window(Home).Property(SkinHelper.ListItem.Budget.formatted),$,]</label>
@@ -479,6 +474,12 @@
 								<label2>$LOCALIZE[31851]:</label2>
 								<onclick>noop</onclick>
 								<visible>!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Revenue.formatted)) + String.IsEqual(ListItem.DBType,movie)</visible>
+							</item>
+							<item>
+								<label>$INFO[Window(Home).Property(SkinHelper.ListItem.RottenTomatoesAwards)]</label>
+								<label2>$LOCALIZE[31272]</label2>
+								<onclick>noop</onclick>
+								<visible>!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.RottenTomatoesAwards))</visible>
 							</item>
 							<item>
 								<label>[UPPERCASE]$INFO[ListItem.Property(AudioLanguage.1)]$INFO[ListItem.Property(AudioLanguage.2), / ]$INFO[ListItem.Property(AudioLanguage.3), / ]$INFO[ListItem.Property(AudioLanguage.4), / ]$INFO[ListItem.Property(AudioLanguage.5), / ]$INFO[ListItem.Property(AudioLanguage.6), / ]$INFO[ListItem.Property(AudioLanguage.7), / ][/UPPERCASE]</label>
@@ -611,7 +612,7 @@
 							</control>
 							<control type="button" id="211">
 								<description>filler</description>
-								<width>252</width>
+								<width>254</width>
 								<texturenofocus />
 								<include>ButtonInfoDialogsCommonValues</include>
 								<label />
@@ -621,7 +622,7 @@
 							</control>
 							<control type="button" id="212">
 								<description>filler</description>
-								<width>170</width>
+								<width>172</width>
 								<texturenofocus />
 								<include>ButtonInfoDialogsCommonValues</include>
 								<label />
@@ -631,13 +632,13 @@
 							</control>
 							<control type="button" id="213">
 								<description>filler</description>
-								<width>78</width>
+								<width>84</width>
 								<texturenofocus />
 								<include>ButtonInfoDialogsCommonValues</include>
 								<label />
 								<onclick>noop</onclick>
 								<enable>no</enable>
-								<visible>String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode)</visible>
+								<visible>!String.IsEqual(ListItem.DBType,movie)</visible>
 							</control>
 							<control type="image" id="200">
 								<width>2</width>
@@ -678,11 +679,6 @@
 								<texture border="1">separator3.png</texture>
 								<visible>Control.IsVisible(909)</visible>
 							</control>
-							<control type="image" id="203">
-								<width>2</width>
-								<height>60</height>
-								<texture border="1">separator3.png</texture>
-							</control>
 							<control type="button" id="11">
 								<description>Play Trailer</description>
 								<font>IconMediumMD</font>
@@ -695,7 +691,7 @@
 								<onclick condition="String.IsEmpty(ListItem.Trailer)">ActivateWindow(videos,plugin://plugin.video.youtube/kodion/search/query/?q=$INFO[ListItem.OriginalTitle]+Trailer)</onclick>
 								<visible>String.IsEqual(ListItem.DBType,movie)</visible>
 							</control>
-							<control type="image" id="204">
+							<control type="image" id="203">
 								<width>2</width>
 								<height>60</height>
 								<texture border="1">separator3.png</texture>
@@ -712,7 +708,7 @@
 								<altlabel></altlabel>
 								<usealttexture>!String.IsEmpty(ListItem.UserRating)</usealttexture>
 							</control>
-							<control type="image" id="205">
+							<control type="image" id="204">
 								<width>2</width>
 								<height>60</height>
 								<texture border="1">separator3.png</texture>
@@ -723,10 +719,10 @@
 								<width>80</width>
 								<texturenofocus />
 								<include>ButtonInfoDialogsCommonValues</include>
-								<label></label>
+								<label></label>
 								<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
 							</control>
-							<control type="image" id="206">
+							<control type="image" id="205">
 								<width>2</width>
 								<height>60</height>
 								<texture border="1">separator3.png</texture>
@@ -740,7 +736,7 @@
 								<label></label>
 								<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
 							</control>
-							<control type="image" id="207">
+							<control type="image" id="206">
 								<width>2</width>
 								<height>60</height>
 								<texture border="1">separator3.png</texture>
@@ -820,8 +816,8 @@
 								<visible>!Skin.HasSetting(discartoninfo) | String.IsEmpty(ListItem.Art(discart))</visible>
 							</control>
 							<control type="image">
-								<left>1520</left>
-								<top>20</top>
+								<left>1525</left>
+								<top>40</top>
 								<width>350</width>
 								<height>350</height>
 								<texture background="true">$INFO[ListItem.Art(discart)]</texture>
@@ -879,6 +875,7 @@
 									<texture>$VAR[PathFlagsStudios]$INFO[ListItem.Studio,,.png]</texture>
 								</control>
 								<control type="label">
+									<left>15</left>
 									<width>169.7</width>
 									<height>90</height>
 									<align>center</align>
