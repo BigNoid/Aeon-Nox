@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-	<zorder>5</zorder>
 	<defaultcontrol>1</defaultcontrol>
-	<visible>!Skin.HasSetting(Enable.ScreenshotMode) + [Window.IsActive(videoosd) | [Window.IsActive(fullscreeninfo) + ![VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]] | [Window.IsActive(fullscreeninfo) + !Skin.HasSetting(Enable.UsePausedOverlay) + [VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]] | Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding] + !Window.IsVisible(MusicOSD) + VideoPlayer.IsFullscreen + ![Player.Paused + Window.IsActive(1134) + !Skin.HasSetting(Disable.Netflix.Pause)] | [Window.IsActive(fullscreeninfo) + Skin.HasSetting(ShowSeekbar) + Skin.HasSetting(Enable.UsePausedOverlay) + [VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]]</visible>
+	<visible>!Skin.HasSetting(Enable.ScreenshotMode)</visible>
+	<visible>[Window.IsActive(videoosd) | Window.IsActive(fullscreeninfo) | Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding] + VideoPlayer.IsFullscreen + ![Player.Paused + Window.IsActive(1134) + !Skin.HasSetting(Disable.Netflix.Pause)]</visible>
 	<controls>
 		<control type="group">
 			<top>1014</top>
-			<visible>!VideoPlayer.Content(LiveTV) + ![Skin.HasSetting(AlternateVideoOSD) + Window.IsActive(fullscreeninfo)]</visible>
+			<visible>!VideoPlayer.Content(LiveTV)</visible>
 			<animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
 			<animation effect="fade" end="0" start="100" time="200">WindowClose</animation>
 			<animation effect="fade" end="0" start="100" time="200">VisibleChange</animation>
@@ -92,12 +92,10 @@
 			</control>
 		</control>
 		<control type="group">
-			<visible>![Window.IsActive(1134) + !Skin.HasSetting(Disable.Netflix.Pause) + [VideoPlayer.Content(episodes) | VideoPlayer.Content(movies)]]</visible>
-			<visible>![Window.IsActive(1134) + Skin.HasSetting(Enable.UsePausedOverlay) + [VideoPlayer.Content(episodes) |  VideoPlayer.Content(movies)]]</visible>
-			<visible>!Skin.HasSetting(HideVideoOSDImage)</visible>
 			<animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
 			<animation effect="fade" end="0" start="100" time="200">WindowClose</animation>
-			<animation effect="fade" end="0" start="100" time="200">Visible</animation>
+			<animation effect="fade" end="0" start="100" time="200">VisibleChange</animation>
+			<animation effect="slide" end="0,-370" time="230" tween="quadratic" condition="Window.IsVisible(fullscreeninfo)">Conditional</animation>
 			<control type="image">
 				<left>1470</left>
 				<top>773</top>
@@ -105,7 +103,6 @@
 				<height>260</height>
 				<aspectratio aligny="bottom" align="center">keep</aspectratio>
 				<texture background="true">$VAR[PlayerArtworkVar]</texture>
-				<animation effect="slide" end="-735" time="0" condition="[Window.IsActive(fullscreeninfo) + Skin.HasSetting(ShowPlotCast) + !Skin.HasSetting(Enable.UsePausedOverlay)]">Conditional</animation>
 			</control>
 			<control type="image">
 				<left>1636</left>
@@ -116,11 +113,9 @@
 				<bordertexture border="20">thumbs/thumb_shadow_aa.png</bordertexture>
 				<bordersize>20</bordersize>
 				<texture background="true">$VAR[PlayerPosterArtworkVar]</texture>
-				<animation effect="slide" end="-818" time="0" condition="[Window.IsActive(fullscreeninfo) + Skin.HasSetting(ShowPlotCast) + !Skin.HasSetting(Enable.UsePausedOverlay)]">Conditional</animation>
 			</control>
 		</control>
 		<control type="group">
-			<animation effect="slide" start="0,0" end="0,-80" time="240" condition="Skin.HasSetting(AlternateVideoOSD) + Window.IsActive(fullscreeninfo)">Conditional</animation>
 			<animation type="WindowOpen" reversible="false">
 				<effect type="fade" start="0" end="100" time="500" />
 			</animation>
@@ -132,8 +127,8 @@
 			</animation>
 			<control type="group">
 				<left>867</left>
-				<top>447</top>
-				<visible>[Player.Paused + !Window.IsVisible(1134)] + !Window.IsActive(subtitlesearch) + !Skin.HasSetting(PausedLabel)</visible>
+				<top>410</top>
+				<visible>Player.Paused + !Window.IsActive(subtitlesearch) + !Skin.HasSetting(PausedLabel)</visible>
 				<control type="image">
 					<width>186</width>
 					<height>186</height>
@@ -146,13 +141,13 @@
 				</control>
 			</control>
 			<control type="label">
-				<top>-10</top>
+				<top>-70</top>
 				<width>1920</width>
 				<align>center</align>
 				<label>[UPPERCASE][B]$LOCALIZE[112][/B][/UPPERCASE]</label>
 				<font>BigAssTimeFont</font>
 				<textcolor>66FFFFFF</textcolor>
-				<visible>[Player.Paused + !Window.IsVisible(1134)] + !Window.IsActive(subtitlesearch) + Skin.HasSetting(PausedLabel)</visible>
+				<visible>Player.Paused + !Window.IsActive(subtitlesearch) + Skin.HasSetting(PausedLabel)</visible>
 			</control>
 		</control>
 		<control type="grouplist">
@@ -194,65 +189,6 @@
 				<animation effect="fade" start="100" end="60" time="800" pulse="true" condition="true">Conditional</animation>
 				<visible>Player.Forwarding</visible>
 			</control>
-		</control>
-		<control type="group">
-			<visible>[Window.IsActive(videoosd) | Window.IsActive(fullscreeninfo) | Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding] + VideoPlayer.IsFullscreen + VideoPlayer.Content(LiveTV) + !Window.IsVisible(pvrosdguide)</visible>
-			<control type="group">
-				<left>867</left>
-				<top>447</top>
-				<visible>Player.Paused</visible>
-				<control type="image">
-					<width>186</width>
-					<height>186</height>
-					<texture>osd/bg_play_large.png</texture>
-				</control>
-				<control type="image">
-					<width>186</width>
-					<height>186</height>
-					<texture>osd/btn_pause.png</texture>
-				</control>
-			</control>
-			<control type="grouplist">
-				<left>30</left>
-				<top>120</top>
-				<width>748</width>
-				<height>150</height>
-				<itemgap>10</itemgap>
-				<orientation>horizontal</orientation>
-				<include>VisibleFadeAnimation</include>
-				<visible>Player.Forwarding | Player.Rewinding</visible>
-				<usecontrolcoords>true</usecontrolcoords>
-				<control type="image">
-					<top>3</top>
-					<width>90</width>
-					<height>87</height>
-					<aspectratio>keep</aspectratio>
-					<texture flipx="true">osd/ff.png</texture>
-					<colordiffuse>FFe5e5e5</colordiffuse>
-					<animation effect="fade" start="100" end="60" time="800" pulse="true" condition="true">Conditional</animation>
-					<visible>Player.Rewinding</visible>
-				</control>
-				<control type="label">
-					<label>$VAR[VideoPlayerForwardRewindVar]</label>
-					<width min="10" max="300">auto</width>
-					<height>90</height>
-					<textoffsetx>0</textoffsetx>
-					<font>font_MainMenu</font>
-					<shadowcolor>44000000</shadowcolor>
-					<textcolor>DDe5e5e5</textcolor>
-				</control>
-				<control type="image">
-					<top>3</top>
-					<width>90</width>
-					<height>87</height>
-					<aspectratio>keep</aspectratio>
-					<texture>osd/ff.png</texture>
-					<colordiffuse>FFe5e5e5</colordiffuse>
-					<animation effect="fade" start="100" end="60" time="800" pulse="true" condition="true">Conditional</animation>
-					<visible>Player.Forwarding</visible>
-				</control>
-			</control>
-			<include>FullScreenInfoBarLiveTV</include>
 		</control>
 	</controls>
 </window>
