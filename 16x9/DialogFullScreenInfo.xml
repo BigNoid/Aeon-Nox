@@ -28,58 +28,70 @@
 					<texture colordiffuse="E6FFFFFF" border="1,1,1,40">topbar.png</texture>
 				</control>
 				<!-- Media Flags -->
-				<control type="group">
+				<control type="grouplist">
 					<width>1920</width>
 					<height>100</height>
-					<animation effect="slide" end="-160" time="0" condition="String.IsEmpty(VideoPlayer.Studio)">Conditional</animation>
+					<align>center</align>
+					<orientation>horizontal</orientation>
+					<usecontrolcoords>true</usecontrolcoords>
 					<control type="image" id="142099">
-						<width>320</width>
+						<width>274</width>
 						<colordiffuse>grey2</colordiffuse>
 						<include>MediaFlagValues</include>
 						<bordersize>2</bordersize>
 						<texture background="true" fallback="empty.png">$VAR[PathFlagsStudios]$INFO[VideoPlayer.Studio,,.png]</texture>
+						<visible>!String.IsEmpty(VideoPlayer.Studio)</visible>
 					</control>
 					<control type="label">
-						<width>320</width>
+						<width>274</width>
 						<height>90</height>
 						<align>center</align>
 						<label>$INFO[VideoPlayer.Studio]</label>
 						<font>font10</font>
 						<textcolor>grey2</textcolor>
 						<wrapmultiline>true</wrapmultiline>
-						<visible>String.EndsWith(Control.GetLabel(142099),empty.png)</visible>
+						<visible>String.EndsWith(Control.GetLabel(142099),empty.png) + !String.IsEmpty(VideoPlayer.Studio)</visible>
 					</control>
 					<control type="image">
-						<left>320</left>
-						<width>320</width>
+						<width>274</width>
+						<colordiffuse>grey2</colordiffuse>
+						<include>MediaFlagValues</include>
+						<texture>$VAR[VideoRatingFlagVar]</texture>
+						<visible>!Skin.HasSetting(coloredflags) + !String.IsEmpty(VideoPlayer.MPAA)</visible>
+					</control>
+					<control type="image">
+						<width>274</width>
+						<colordiffuse>grey2</colordiffuse>
+						<include>MediaFlagValues</include>
+						<texture>$VAR[ColoredVideoRatingFlagVar]</texture>
+						<visible>Skin.HasSetting(coloredflags) + !String.IsEmpty(VideoPlayer.MPAA)</visible>
+					</control>
+					<control type="image">
+						<width>274</width>
 						<colordiffuse>grey2</colordiffuse>
 						<include>MediaFlagValues</include>
 						<texture>$VAR[MediaFlagsPathVar]/videocodec/$VAR[VideoSourceFlagVar]</texture>
 					</control>
 					<control type="image">
-						<left>640</left>
-						<width>320</width>
+						<width>274</width>
 						<colordiffuse>grey2</colordiffuse>
 						<include>MediaFlagValues</include>
 						<texture>$VAR[MediaFlagsPathVar]/resolution/$INFO[VideoPlayer.VideoResolution,,.png]</texture>
 					</control>
 					<control type="image">
-						<left>980</left>
-						<width>320</width>
+						<width>274</width>
 						<colordiffuse>grey2</colordiffuse>
 						<include>MediaFlagValues</include>
 						<texture>$VAR[MediaFlagsPathVar]/aspectratio/$INFO[VideoPlayer.VideoAspect,,.png]</texture>
 					</control>
 					<control type="image">
-						<left>1300</left>
-						<width>320</width>
+						<width>274</width>
 						<colordiffuse>grey2</colordiffuse>
 						<include>MediaFlagValues</include>
 						<texture>$VAR[MediaFlagsPathVar]/audiocodec/$INFO[VideoPlayer.AudioCodec,,.png]</texture>
 					</control>
 					<control type="image">
-						<left>1620</left>
-						<width>320</width>
+						<width>274</width>
 						<colordiffuse>grey2</colordiffuse>
 						<include>MediaFlagValues</include>
 						<texture>$VAR[MediaFlagsPathVar]/audiochannels/$INFO[VideoPlayer.AudioChannels,,.png]</texture>
@@ -121,7 +133,7 @@
 							<usecontrolcoords>true</usecontrolcoords>
 							<control type="label">
 								<width>1210</width>
-								<height>55</height>
+								<height>60</height>
 								<font>font30_title_bold</font>
 								<textcolor>grey</textcolor>
 								<scroll>true</scroll>
@@ -130,7 +142,7 @@
 							</control>
 							<control type="label">
 								<width>1550</width>
-								<height>40</height>
+								<height>35</height>
 								<font>font15</font>
 								<textcolor>$VAR[ThemeLabelColor]</textcolor>
 								<scroll>true</scroll>
@@ -139,7 +151,7 @@
 							</control>
 							<control type="label">
 								<width>1550</width>
-								<height>55</height>
+								<height>60</height>
 								<font>font30_title_bold</font>
 								<textcolor>grey</textcolor>
 								<scroll>true</scroll>
@@ -148,11 +160,11 @@
 							</control>
 							<control type="label">
 								<width>1550</width>
-								<height>40</height>
+								<height>35</height>
 								<font>font15</font>
 								<textcolor>$VAR[ThemeLabelColor]</textcolor>
 								<scroll>true</scroll>
-								<label>[B]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,: ]$INFO[VideoPlayer.Episode,$LOCALIZE[20359] ]$INFO[VideoPlayer.Title,  -  ][/B]</label>
+								<label>$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,: ]$INFO[VideoPlayer.Episode,$LOCALIZE[20359] ]$INFO[VideoPlayer.Title,  -  ]</label>
 								<visible>VideoPlayer.Content(episodes)</visible>
 							</control>
 							<control type="grouplist">
@@ -169,6 +181,7 @@
 									<height>60</height>
 									<font>font15</font>
 									<textcolor>grey</textcolor>
+									<texturenofocus />
 									<label>$INFO[Player.FinishTime,$LOCALIZE[31393]: ,]  •  $VAR[PlayerTimeRemainingHourVar,, ]$VAR[PlayerTimeRemainingMinuteVar]</label>
 									<onclick>noop</onclick>
 								</control>
