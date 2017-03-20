@@ -5,14 +5,15 @@
 	<controls>
 		<control type="button" id="64">
 			<include>HiddenObject</include>
-			<onleft condition="!VideoPlayer.Content(livetv)">65</onleft>
-			<onright condition="!VideoPlayer.Content(livetv)">63</onright>
-			<onup condition="!VideoPlayer.Content(livetv)">Skin.ToggleSetting(Display.PlayerTimeRemaining)</onup>
-			<ondown condition="!VideoPlayer.Content(livetv)">$VAR[OSDRightLabelOnDownVar]</ondown>
+			<!-- <onleft condition="!VideoPlayer.Content(livetv)">65</onleft> -->
+			<!-- <onright condition="!VideoPlayer.Content(livetv)">63</onright> -->
+			<!-- <onup condition="!VideoPlayer.Content(livetv)"></onup> -->
+			<!-- <ondown condition="!VideoPlayer.Content(livetv)"></ondown> -->
 			<onclick condition="!VideoPlayer.Content(livetv) + String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))">SetProperty(ShowCast,True,fullscreeninfo)</onclick>
 			<onclick condition="!VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))">ClearProperty(ShowCast,fullscreeninfo)</onclick>
+			<onup condition="VideoPlayer.Content(livetv) + String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))">SetProperty(LiveTVFullPlot,True,fullscreeninfo)</onup>
+			<onup condition="VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))">ClearProperty(LiveTVFullPlot,fullscreeninfo)</onup>
 			<onclick condition="VideoPlayer.Content(livetv)">Skin.ToggleSetting(TogglePlotLiveTV)</onclick>
-			<onup condition="VideoPlayer.Content(livetv)">Skin.ToggleSetting(Enable.LiveTVFullPlot)</onup>
 		</control>
 		<control type="group">
 			<visible>!VideoPlayer.Content(LiveTV)</visible>
@@ -56,15 +57,8 @@
 						<width>274</width>
 						<colordiffuse>grey2</colordiffuse>
 						<include>MediaFlagValues</include>
-						<texture>$VAR[VideoRatingFlagVar]</texture>
-						<visible>!Skin.HasSetting(coloredflags) + !String.IsEmpty(VideoPlayer.MPAA)</visible>
-					</control>
-					<control type="image">
-						<width>274</width>
-						<colordiffuse>grey2</colordiffuse>
-						<include>MediaFlagValues</include>
-						<texture>$VAR[ColoredVideoRatingFlagVar]</texture>
-						<visible>Skin.HasSetting(coloredflags) + !String.IsEmpty(VideoPlayer.MPAA)</visible>
+						<texture>$VAR[MediaFlagsPathVar]/mpaa/$VAR[VideoRatingFlagVar]</texture>
+						<visible>!String.IsEmpty(VideoPlayer.MPAA)</visible>
 					</control>
 					<control type="image">
 						<width>274</width>
@@ -341,7 +335,7 @@
 				<height>385</height>
 				<texture border="40">dialogs/default/bg.png</texture>
 				<animation effect="fade" end="85" condition="true">Conditional</animation>
-				<visible>!IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A) + !Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
+				<visible>!IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A) + String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
 			</control>
 			<control type="image">
 				<left>17</left>
@@ -349,7 +343,7 @@
 				<height>500</height>
 				<texture border="40">dialogs/default/bg.png</texture>
 				<animation effect="fade" end="85" condition="true">Conditional</animation>
-				<visible>String.IsEmpty(VideoPlayer.PlotOutline) | String.IsEqual(VideoPlayer.PlotOutline,N/A) | Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
+				<visible>String.IsEmpty(VideoPlayer.PlotOutline) | String.IsEqual(VideoPlayer.PlotOutline,N/A) | !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
 			</control>
 			<control type="group">
 				<left>57</left>
@@ -394,7 +388,7 @@
 					<label>$INFO[VideoPlayer.PlotOutline]</label>
 					<font>font15_textbox</font>
 					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
-					<visible>!IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A) + !Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
+					<visible>!IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A) + String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
 				</control>
 				<control type="textbox">
 					<left>4</left>
@@ -404,7 +398,7 @@
 					<label>$INFO[VideoPlayer.Plot]</label>
 					<font>font15_textbox</font>
 					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
-					<visible>String.IsEmpty(VideoPlayer.PlotOutline) | String.IsEqual(VideoPlayer.PlotOutline,N/A) | Skin.HasSetting(Enable.LiveTVFullPlot)</visible>
+					<visible>String.IsEmpty(VideoPlayer.PlotOutline) | String.IsEqual(VideoPlayer.PlotOutline,N/A) | !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
 				</control>
 			</control>
 		</control>
