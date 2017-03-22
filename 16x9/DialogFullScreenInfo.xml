@@ -2,6 +2,7 @@
 <window>
 	<onload>SetFocus(64)</onload>
 	<onunload>ClearProperty(ShowCast,fullscreeninfo)</onunload>
+	<onunload>ClearProperty(LiveTVNext,fullscreeninfo)</onunload>
 	<controls>
 		<control type="button" id="64">
 			<include>HiddenObject</include>
@@ -14,6 +15,11 @@
 			<onup condition="VideoPlayer.Content(livetv) + String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))">SetProperty(LiveTVFullPlot,True,fullscreeninfo)</onup>
 			<onup condition="VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))">ClearProperty(LiveTVFullPlot,fullscreeninfo)</onup>
 			<onclick condition="VideoPlayer.Content(livetv)">Skin.ToggleSetting(TogglePlotLiveTV)</onclick>
+			<onclick condition="VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVNext))">ClearProperty(LiveTVNext,fullscreeninfo)</onclick>
+			<onright condition="VideoPlayer.Content(livetv) + String.IsEmpty(Window(fullscreeninfo).Property(LiveTVNext))">SetProperty(LiveTVNext,True,fullscreeninfo)</onright>
+			<onright condition="VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVNext))">ClearProperty(LiveTVNext,fullscreeninfo)</onright>
+			<onleft condition="VideoPlayer.Content(livetv) + String.IsEmpty(Window(fullscreeninfo).Property(LiveTVNext))">SetProperty(LiveTVNext,True,fullscreeninfo)</onleft>
+			<onleft condition="VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVNext))">ClearProperty(LiveTVNext,fullscreeninfo)</onleft>
 		</control>
 		<control type="group">
 			<visible>!VideoPlayer.Content(LiveTV)</visible>
@@ -327,52 +333,82 @@
 			<animation effect="slide" end="0,100" time="240" tween="quadratic" condition="Window.IsActive(videoosd)">Conditional</animation>
 			<animation effect="fade" start="0" end="100" time="400">WindowOpen</animation>
 			<animation effect="fade" start="100" end="0" time="400">WindowClose</animation>
-			<visible>VideoPlayer.Content(LiveTV) + !Window.IsActive(notification) + !Control.IsVisible(9001) + !Control.IsVisible(9002) + !Skin.HasSetting(TogglePlotLiveTV)</visible>
+			<visible>VideoPlayer.Content(LiveTV) + !Control.IsVisible(9001) + !Control.IsVisible(9002) + Skin.HasSetting(TogglePlotLiveTV)</visible>
+			<!-- PlotOutLine BG -->
 			<control type="image">
 				<left>17</left>
 				<width>1885</width>
-				<height>385</height>
+				<height>300</height>
 				<texture border="40">dialogs/default/bg.png</texture>
 				<animation effect="fade" end="85" condition="true">Conditional</animation>
-				<visible>!IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A) + String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
+				<visible>!IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A) + !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
 			</control>
+			<!-- FullPlot BG -->
 			<control type="image">
 				<left>17</left>
 				<width>1885</width>
-				<height>500</height>
+				<height>720</height>
 				<texture border="40">dialogs/default/bg.png</texture>
 				<animation effect="fade" end="85" condition="true">Conditional</animation>
-				<visible>String.IsEmpty(VideoPlayer.PlotOutline) | String.IsEqual(VideoPlayer.PlotOutline,N/A) | !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
+				<visible>[IsEmpty(VideoPlayer.PlotOutline) | String.IsEqual(VideoPlayer.PlotOutline,N/A)] | String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
 			</control>
-			<control type="group">
+			<control type="grouplist">
+				<top>50</top>
 				<left>57</left>
-				<top>20</top>
-				<width>1845</width>
-				<height>780</height>
+				<height>650</height>
+				<width>1805</width>
+				<itemgap>10</itemgap>
+				<orientation>vertical</orientation>
 				<control type="label">
-					<width>1050</width>
-					<height>50</height>
+					<height>30</height>
 					<label>$INFO[VideoPlayer.ChannelName]</label>
 					<font>font16</font>
 					<textcolor>$VAR[ThemeLabelColor]</textcolor>
 				</control>
 				<control type="label">
-					<top>50</top>
-					<width>1805</width>
-					<height>50</height>
-					<label>$INFO[VideoPlayer.Title]</label>
+					<width>auto</width>
+					<height>55</height>
+					<label>[B]$INFO[VideoPlayer.Title][/B]</label>
 					<font>font48</font>
 					<scroll>true</scroll>
+					<visible>String.IsEmpty(Window(fullscreeninfo).Property(LiveTVNext))</visible>
+				</control>
+				<control type="grouplist">
+					<width>1805</width>
+					<height>55</height>
+					<itemgap>50</itemgap>
+					<orientation>horizontal</orientation>
+					<visible>!String.IsEmpty(Window(fullscreeninfo).Property(LiveTVNext))</visible>
+					<control type="label">
+						<width>auto</width>
+						<height>55</height>
+						<label>[B][COLOR $VAR[ThemeLabelColor]]$LOCALIZE[19031]:[/COLOR] $INFO[VideoPlayer.NextTitle][/B]</label>
+						<font>font48</font>
+						<scroll>true</scroll>
+					</control>
+					<control type="label">
+						<width>auto</width>
+						<height>65</height>
+						<label>[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[180]:[/COLOR] $INFO[VideoPlayer.NextDuration]</label>
+						<font>font15</font>
+						<scroll>true</scroll>
+					</control>
+				</control>
+				<control type="label">
+					<width>auto</width>
+					<height>35</height>
+					<label>[B]($INFO[VideoPlayer.PlotOutline])[/B]</label>
+					<font>font14</font>
+					<scroll>true</scroll>
+					<visible>String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot)) + !String.IsEmpty(VideoPlayer.PlotOutline)</visible>
 				</control>
 				<control type="image">
-					<top>110</top>
 					<width>1809</width>
 					<height>2</height>
 					<texture>new_pvr/osd_line_white.png</texture>
 					<colordiffuse>$VAR[ThemeLabelColor]</colordiffuse>
 				</control>
 				<control type="label">
-					<top>120</top>
 					<width>1000</width>
 					<height>30</height>
 					<label>$INFO[VideoPlayer.Genre,$LOCALIZE[515]: ]</label>
@@ -380,24 +416,28 @@
 					<textcolor>grey</textcolor>
 				</control>
 				<control type="textbox">
-					<left>4</left>
-					<top>160</top>
 					<width>1805</width>
 					<height>174</height>
 					<label>$INFO[VideoPlayer.PlotOutline]</label>
 					<font>font15_textbox</font>
 					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
-					<visible>!IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A) + String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
+					<visible>!String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot)) + !String.IsEmpty(VideoPlayer.PlotOutline)</visible>
 				</control>
 				<control type="textbox">
-					<left>4</left>
-					<top>160</top>
 					<width>1805</width>
-					<height>290</height>
+					<height>774</height>
 					<label>$INFO[VideoPlayer.Plot]</label>
 					<font>font15_textbox</font>
 					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
-					<visible>String.IsEmpty(VideoPlayer.PlotOutline) | String.IsEqual(VideoPlayer.PlotOutline,N/A) | !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
+					<visible>String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
+				</control>
+				<control type="textbox">
+					<width>1805</width>
+					<height>50</height>
+					<label>$INFO[VideoPlayer.Plot]</label>
+					<font>font15_textbox</font>
+					<autoscroll delay="6000" time="3000" repeat="6000">true</autoscroll>
+					<visible>String.IsEmpty(VideoPlayer.PlotOutline) + !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))</visible>
 				</control>
 			</control>
 		</control>
