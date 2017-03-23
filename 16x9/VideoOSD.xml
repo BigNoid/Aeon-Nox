@@ -6,8 +6,10 @@
 		<top>0</top>
 	</coordinates>
 	<onload condition="VideoPlayer.Content(livetv)">SetFocus(808)</onload>
-	<onload condition="!VideoPlayer.Content(livetv) + Skin.HasSetting(Disable.PlayerControlButtons)">SetFocus(703)</onload>
+	<onload condition="!VideoPlayer.Content(livetv) + Skin.HasSetting(Disable.PlayerControlButtons)">SetFocus(706)</onload>
 	<onload condition="!VideoPlayer.Content(livetv) + !Skin.HasSetting(Disable.PlayerControlButtons)">SetFocus(602)</onload>
+	<animation effect="fade" end="100" time="260">WindowOpen</animation>
+	<animation effect="fade" end="0" start="100" time="200">WindowClose</animation>
 	<controls>
 		<control type="slider">
 			<description>Seek Slider</description>
@@ -21,15 +23,7 @@
 			<visible>!VideoPlayer.Content(LiveTV)</visible>
 		</control>
 		<control type="group">
-			<animation effect="slide" end="0,-238" time="240" tween="quadratic" condition="Window.IsVisible(SliderDialog) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(VideoBookmarks)">Conditional</animation>
-			<animation effect="slide" start="0,-238" end="0,0" time="240" tween="quadratic">WindowOpen</animation>
-			<animation effect="slide" end="0,-238" start="0,0" time="240" tween="quadratic">WindowClose</animation>
-			<control type="image">
-				<width>100%</width>
-				<height>136</height>
-				<texture colordiffuse="E6FFFFFF" border="1,1,1,40">topbar.png</texture>
-				<visible>!Window.IsActive(fullscreeninfo)</visible>
-			</control>
+			<top>985</top>
 			<control type="grouplist" id="202">
 				<height>144</height>
 				<width>100%</width>
@@ -50,6 +44,7 @@
 					<height>100</height>
 					<font />
 					<onclick>ActivateWindow(videobookmarks)</onclick>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 				<control type="button" id="701">
 					<texturefocus>osd/buttons/OSDAudioFO.png</texturefocus>
@@ -59,6 +54,7 @@
 					<height>100</height>
 					<font />
 					<onclick>ActivateWindow(osdaudiosettings)</onclick>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 				<control type="button" id="702">
 					<texturefocus>osd/buttons/OSDVideoFO.png</texturefocus>
@@ -68,13 +64,8 @@
 					<height>100</height>
 					<font />
 					<onclick>ActivateWindow(osdvideosettings)</onclick>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
-				<!-- <control type="label">
-					<width>300</width>
-					<height>100</height>
-					<include>HiddenObject</include>
-					<visible>Skin.HasSetting(Disable.PlayerControlButtons)</visible>
-				</control> -->
 				<control type="button" id="600">
 					<texturefocus>osd/buttons/OSDPrevTrackFO.png</texturefocus>
 					<texturenofocus>osd/buttons/OSDPrevTrackNF.png</texturenofocus>
@@ -84,6 +75,7 @@
 					<font />
 					<onclick>PlayerControl(Previous)</onclick>
 					<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 				<control type="button" id="601">
 					<texturefocus>osd/buttons/OSDRewindFO.png</texturefocus>
@@ -95,6 +87,7 @@
 					<onclick condition="!Player.TempoEnabled">PlayerControl(Rewind)</onclick>
 					<onclick condition="Player.TempoEnabled">PlayerControl(tempodown)</onclick>
 					<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 				<control type="button" id="603">
 					<texturefocus>osd/buttons/OSDStopFO.png</texturefocus>
@@ -105,6 +98,7 @@
 					<font />
 					<onclick>PlayerControl(Stop)</onclick>
 					<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 				<control type="togglebutton" id="602">
 					<texturefocus>osd/buttons/OSDPauseFO.png</texturefocus>
@@ -119,6 +113,7 @@
 					<usealttexture>Player.Paused | Player.Forwarding | Player.Rewinding</usealttexture>
 					<onclick>PlayerControl(Play)</onclick>
 					<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 				<control type="button" id="604">
 					<texturefocus>osd/buttons/OSDForwardFO.png</texturefocus>
@@ -130,6 +125,7 @@
 					<onclick condition="!Player.TempoEnabled">PlayerControl(Forward)</onclick>
 					<onclick condition="Player.TempoEnabled">PlayerControl(tempoup)</onclick>
 					<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 				<control type="button" id="605">
 					<texturefocus>osd/buttons/OSDNextTrackFO.png</texturefocus>
@@ -140,12 +136,20 @@
 					<font />
 					<onclick>PlayerControl(Next)</onclick>
 					<visible>!Skin.HasSetting(Disable.PlayerControlButtons)</visible>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
-				<!-- <control type="label">
-					<width>300</width>
+				<control type="button" id="706">
+					<texturefocus>osd/buttons/OSDInfoFO.png</texturefocus>
+					<texturenofocus>osd/buttons/OSDInfoNF.png</texturenofocus>
+					<label />
+					<width>100</width>
 					<height>100</height>
-					<include>HiddenObject</include>
-				</control> -->
+					<font />
+					<onclick>Close</onclick>
+					<onclick condition="!Window.IsActive(fullscreeninfo)">ActivateWindow(fullscreeninfo)</onclick>
+					<onclick condition="Window.IsActive(fullscreeninfo)">Dialog.Close(all,true)</onclick>
+					<oninfo>Dialog.Close(all,true)</oninfo>
+				</control>
 				<control type="button" id="703">
 					<texturefocus>osd/buttons/OSDSubtitlesFO.png</texturefocus>
 					<texturenofocus>osd/buttons/OSDSubtitlesNF.png</texturenofocus>
@@ -155,6 +159,7 @@
 					<font />
 					<onclick>Close</onclick>
 					<onclick>ActivateWindow(SubtitleSearch)</onclick>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 				<control type="button" id="704">
 					<texturefocus>osd/buttons/OSDDvdFO.png</texturefocus>
@@ -165,6 +170,7 @@
 					<font />
 					<onclick>PlayerControl(ShowVideoMenu)</onclick>
 					<visible>VideoPlayer.HasMenu</visible>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 				<control type="button" id="705">
 					<texturefocus>osd/buttons/OSDStereoscopicFO.png</texturefocus>
@@ -175,16 +181,7 @@
 					<font />
 					<onclick>StereoMode</onclick>
 					<visible>VideoPlayer.IsStereoscopic</visible>
-				</control>
-				<control type="button" id="706">
-					<texturefocus>osd/buttons/OSDInfoFO.png</texturefocus>
-					<texturenofocus>osd/buttons/OSDInfoNF.png</texturenofocus>
-					<label />
-					<width>100</width>
-					<height>100</height>
-					<font />
-					<onclick>Close</onclick>
-					<onclick>ActivateWindow(fullscreeninfo)</onclick>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 				<control type="button" id="707">
 					<texturefocus>osd/buttons/OSDChannelListFO.png</texturefocus>
@@ -199,6 +196,7 @@
 					<onclick>AlarmClock(Take a Screenshot,TakeScreenshot,00:03,silent)</onclick>
 					<onclick>AlarmClock(Reset ScreenshotMode,Skin.Reset(Enable.ScreenshotMode),00:04,silent)</onclick>
 					<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)</visible>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 				<control type="button" id="709">
 					<texturefocus>osd/buttons/OSDSkinFO.png</texturefocus>
@@ -210,6 +208,7 @@
 					<onclick>Dialog.Close(videoosd)</onclick>
 					<onclick>ActivateWindow(1115)</onclick>
 					<onclick>SetProperty(OSD.Settings,True,home)</onclick>
+					<oninfo>Dialog.Close(all,true)</oninfo>
 				</control>
 			</control>
 			<control type="grouplist" id="202">
