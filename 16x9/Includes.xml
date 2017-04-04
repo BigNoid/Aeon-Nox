@@ -60,7 +60,7 @@
 		</control>
 		<control type="button" id="8999">
 			<description>Close Window button</description>
-			<left>350</left>
+			<left>365</left>
 			<width>64</width>
 			<height>48</height>
 			<label></label>
@@ -98,8 +98,8 @@
 		<onright>ClearProperty(MediaMenu,Home)</onright>
 		<onright>50</onright>
 		<onup>9050</onup>
-		<ondown condition="Control.IsVisible(9050)">9950</ondown>
-		<ondown condition="!Control.IsVisible(9050)">9050</ondown>
+		<ondown condition="Player.HasMedia">9950</ondown>
+		<ondown condition="!Player.HasMedia">9050</ondown>
 		<onback>ClearProperty(MediaMenu,Home)</onback>
 		<onback>50</onback>
 		<include condition="Skin.HasSetting(KioskMode.Enabled)">KioskModeButton</include>
@@ -194,7 +194,8 @@
 				<onright condition="!Window.IsVisible(tvguide) + Control.IsVisible(52)">52</onright>
 				<onright condition="Window.IsVisible(tvguide)">10</onright>
 				<onup>9050</onup>
-				<ondown>9050</ondown>
+				<ondown condition="Player.HasMedia">9950</ondown>
+				<ondown condition="!Player.HasMedia">9050</ondown>
 				<onback>ClearProperty(MediaMenu,Home)</onback>
 				<onback>50</onback>
 				<include condition="Skin.HasSetting(KioskMode.Enabled)">KioskModeButton</include>
@@ -322,6 +323,7 @@
 					<onclick>ActivateWindow(1150)</onclick>
 				</control>
 			</control>
+			<include>MediaMenuPlayerControls</include>
 		</control>
 	</include>
 	<include name="NoMediaMenu">
@@ -334,7 +336,8 @@
 		<onright condition="Window.IsActive(SettingsCategory.xml)">3</onright>
 		<onright condition="Window.IsActive(profiles)">2</onright>
 		<onup>9050</onup>
-		<ondown>9950</ondown>
+		<ondown condition="Player.HasMedia">9950</ondown>
+		<ondown condition="!Player.HasMedia">9050</ondown>
 		<onback>ClearProperty(MediaMenu,Home)</onback>
 		<onback>50</onback>
 		<include condition="Skin.HasSetting(KioskMode.Enabled)">KioskModeButton</include>
@@ -383,6 +386,7 @@
 	</include>
 	<include name="MediaMenuPlayerControls">
 		<control type="grouplist" id="9950">
+			<defaultcontrol always="true">9957</defaultcontrol>
 			<top>1023</top>
 			<left>-20</left>
 			<height>67</height>
@@ -391,12 +395,17 @@
 			<scrolltime tween="sine">200</scrolltime>
 			<orientation>horizontal</orientation>
 			<onup>9050</onup>
-			<ondown>2000</ondown>
+			<itemgap>-10</itemgap>
+			<ondown condition="Window.IsActive(profiles)">2002</ondown>
+			<ondown condition="!Window.IsActive(profiles) + Control.IsVisible(2000)">2000</ondown>
+			<ondown condition="!Window.IsActive(profiles) + Control.IsVisible(28)">28</ondown>
+			<ondown condition="!Window.IsActive(profiles) + !Control.IsVisible(28) + Control.IsVisible(3) + !Control.IsVisible(2)">3</ondown>
+			<ondown condition="!Window.IsActive(profiles) + !Control.IsVisible(28) + Control.IsVisible(2) + !Control.IsVisible(3) | [Control.IsVisible(2) + Control.IsVisible(3)]">2</ondown>
 			<onleft>9950</onleft>
 			<onright>9950</onright>
 			<onback>ClearProperty(MediaMenu,Home)</onback>
 			<onback>50</onback>
-			<visible>Player.HasMedia + Control.IsVisible(9050) + !Window.IsVisible(1128) + !Window.IsVisible(1130) + !Window.IsVisible(1131) + !Window.IsVisible(1132)</visible>
+			<visible>Player.HasMedia + !String.IsEmpty(Window(Home).Property(MediaMenu)) + !Window.IsVisible(1128) + !Window.IsVisible(1130) + !Window.IsVisible(1131) + !Window.IsVisible(1132)</visible>
 			<control type="button" id="9951">
 				<texturefocus>osd/buttons/OSDPrevTrackFO.png</texturefocus>
 				<texturenofocus>osd/buttons/OSDPrevTrackNF.png</texturenofocus>
@@ -423,6 +432,15 @@
 				<height>67</height>
 				<font />
 				<onclick>PlayerControl(Stop)</onclick>
+			</control>
+			<control type="button" id="9957">
+				<texturefocus>osd/buttons/OSDChannelListFO.png</texturefocus>
+				<texturenofocus>osd/buttons/OSDChannelListNF.png</texturenofocus>
+				<label />
+				<width>67</width>
+				<height>67</height>
+				<font />
+				<onclick>fullscreen</onclick>
 			</control>
 			<control type="togglebutton" id="9954">
 				<texturefocus>osd/buttons/OSDPauseFO.png</texturefocus>
