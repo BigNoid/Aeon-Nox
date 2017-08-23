@@ -85,7 +85,7 @@
 			</control>
 		</control>
 		<control type="group">
-			<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)</visible>
+			<visible>VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)| VideoPlayer.Content(musicvideos)</visible>
 			<animation effect="slide" end="0,0" start="0,-540" time="200" tween="quadratic" easing="out">WindowOpen</animation>
 			<animation effect="slide" start="0,0" end="0,-540" time="200" tween="quadratic" easing="out">WindowClose</animation>
 			<control type="image">
@@ -158,6 +158,71 @@
 				</control>
 			</control>
 			<control type="group">
+				<visible>VideoPlayer.Content(musicvideos)</visible>
+				<control type="image">
+					<width>338</width>
+					<height>508</height>
+					<aspectratio align="left">keep</aspectratio>
+					<texture background="true">$INFO[Player.Art(poster)]</texture>
+					<fadetime>400</fadetime>
+					<bordertexture border="1,1,2,1">thumbs/panel_border3.png</bordertexture>
+					<bordersize>1,1,2,1</bordersize>
+				</control>
+				<control type="grouplist">
+					<left>340</left>
+					<width>1580</width>
+					<height>508</height>
+					<control type="button">
+						<label>$INFO[Player.Title]</label>
+						<width>760</width>
+						<font>font30_title</font>
+						<height>60</height>
+						<include>ShowCaseInfoPanelButtonsValues</include>
+						<visible>!String.IsEmpty(Player.Title)</visible>
+					</control>
+					<control type="button">
+						<label>[COLOR labelheader]$LOCALIZE[557]:[/COLOR][CR]$INFO[VideoPlayer.Artist]</label>
+						<width>760</width>
+						<include>ShowCaseInfoPanelButtonsValues</include>
+						<visible>!String.IsEmpty(VideoPlayer.Artist)</visible>
+					</control>
+					<control type="button">
+						<label>[COLOR labelheader]$LOCALIZE[558]:[/COLOR][CR]$INFO[VideoPlayer.Album]</label>
+						<width>760</width>
+						<include>ShowCaseInfoPanelButtonsValues</include>
+						<visible>!String.IsEmpty(VideoPlayer.Album)</visible>
+					</control>
+					<control type="button">
+						<label>[COLOR labelheader]$LOCALIZE[20339]:[/COLOR][CR]$INFO[VideoPlayer.Director]</label>
+						<width>760</width>
+						<include>ShowCaseInfoPanelButtonsValues</include>
+						<visible>!String.IsEmpty(VideoPlayer.Director)</visible>
+					</control>
+					<control type="group">
+						<control type="button">
+							<label>[COLOR labelheader]$LOCALIZE[515]:[/COLOR][CR]$INFO[VideoPlayer.Genre]</label>
+							<width>570</width>
+							<include>ShowCaseInfoPanelButtonsValues</include>
+							<visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
+						</control>
+						<control type="image">
+							<left>569</left>
+							<height>89</height>
+							<width>2</width>
+							<texture border="1">separator3.png</texture>
+						</control>
+						<control type="button">
+							<label>[COLOR labelheader]$LOCALIZE[345]:[/COLOR][CR]$INFO[VideoPlayer.Year]</label>
+							<left>570</left>
+							<width>190</width>
+							<include>ShowCaseInfoPanelButtonsValues</include>
+							<visible>!String.IsEmpty(VideoPlayer.Year)</visible>
+						</control>
+					</control>
+					
+				</control>
+			</control>
+			<control type="group">
 				<visible>VideoPlayer.Content(episodes)</visible>
 				<control type="image">
 					<width>338</width>
@@ -226,12 +291,25 @@
 				<height>90</height>
 				<itemgap>PlayerInfoItemGap</itemgap>
 				<orientation>horizontal</orientation>
-				<control type="image">
-					<colordiffuse>$VAR[StudioFlagColorVar]</colordiffuse>
+				<control type="group">
 					<width>260</width>
-					<include>MediaFlagVars</include>
-					<bordersize>2</bordersize>
-					<texture fallback="flags/studios/default-studio.png">$VAR[StudioFlagPathVar]$INFO[VideoPlayer.Studio,,.png]</texture>
+					<control type="image" id="800012">
+						<colordiffuse>$VAR[StudioFlagColorVar]</colordiffuse>
+						<width>260</width>
+						<include>MediaFlagVars</include>
+						<bordersize>2</bordersize>
+						<texture>$VAR[StudioFlagPathVar]$INFO[VideoPlayer.Studio,,.png]</texture>
+					</control>
+					<control type="label">
+						<width>260</width>
+						<height>90</height>
+						<align>center</align>
+						<label>$INFO[VideoPlayer.Studio]</label>
+						<font>font12</font>
+						<textcolor>grey</textcolor>
+						<wrapmultiline>true</wrapmultiline>
+						<visible>String.IsEmpty(Control.GetLabel(800012))</visible>
+					</control>
 				</control>
 				<control type="image">
 					<width>260</width>
@@ -334,6 +412,7 @@
 				<ondown>PageDown(62)</ondown>
 				<onclick>noop</onclick>
 			</control>
+			<visible>!VideoPlayer.Content(musicvideos)</visible>
 		</control>
 		</control>
 		<!-- LiveTV Plot -->
