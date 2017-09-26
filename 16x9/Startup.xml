@@ -4,7 +4,7 @@
 	<onload condition="System.HasAddon(script.skin.info.service)">RunScript(script.skin.info.service)</onload>
 	<onload condition="System.HasAddon(script.skin.helper.service)">Skin.SetBool(SkinHelper.EnableMusicArt)</onload>
 	<onload condition="!System.HasAddon(script.tv.show.next.aired)">Skin.SetBool(Disable.NextAired)</onload>
-	<onload condition="System.HasAddon(script.tv.show.next.aired) + !Skin.HasSetting(Disable.NextAired)">RunScript(script.tv.show.next.aired,silent=True)</onload>
+	<onload condition="System.HasAddon(script.tv.show.next.aired) + !Skin.HasSetting(Disable.NextAired)">AlarmClock(TVShowNextAiredonStartup,RunScript(script.tv.show.next.aired,silent=True),10:00,silent)</onload>
 	<onload condition="System.HasAddon(script.toolbox)">RunScript(script.toolbox,daemon=True,radius=5)</onload>
 	<onload condition="String.IsEmpty(Skin.String(Overlay.Toggle))">SetProperty(Overlay.Path,overlays/showcase/,Home)</onload>
 	<onload condition="String.IsEqual(Skin.String(Overlay.Toggle),both) + !Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/1/,Home)</onload>
@@ -15,7 +15,8 @@
 	<onload condition="String.IsEqual(Skin.String(Overlay.Toggle),unwatched) + Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/6/,Home)</onload>
 	<onload condition="!Skin.HasSetting(Disable.Resumable)">SetProperty(Overlay.Resumable,True,Home)</onload>
 	<!-- Intro -->
-	<onload condition="Skin.HasSetting(Enable.StartupIntro)">AlarmClock(Play Intro,PlayMedia(special://skin/extras/intro.mp4,1),00:01,silent)</onload>
+	<onload condition="Skin.HasSetting(Enable.StartupIntro) + System.Platform.Windows">AlarmClock(Play Intro,PlayMedia(special://skin/extras/intro.mp4,1),00:01,silent)</onload>
+	<onload condition="Skin.HasSetting(Enable.StartupIntro) + !System.Platform.Windows">AlarmClock(Play Intro,PlayMedia(special://skin/extras/intro.mp4),00:03,silent)</onload>
 	<onload condition="!Skin.HasSetting(Enable.StartupIntro)">ReplaceWindow($INFO[System.StartupWindow])</onload>
 	<onunload condition="Skin.HasSetting(Enable.StartupIntro)">PlayerControl(Stop)</onunload>
 	<defaultcontrol condition="Skin.HasSetting(Enable.StartupIntro)">10</defaultcontrol>
@@ -28,7 +29,8 @@
 			<onright>ReplaceWindow($INFO[System.StartupWindow])</onright>
 			<onclick>ReplaceWindow($INFO[System.StartupWindow])</onclick>
 			<onfocus>ReplaceWindow($INFO[System.StartupWindow])</onfocus>
-			<animation effect="fade" end="100" time="16000">Focus</animation>
+			<animation effect="fade" end="100" time="17500" condition="System.Platform.Windows">Focus</animation>
+			<animation effect="fade" end="100" time="19500" condition="!System.Platform.Windows">Focus</animation>
 		</control>
 		<control type="videowindow">
 			<include>FullscreenDimensions</include>
