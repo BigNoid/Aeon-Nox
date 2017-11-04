@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <window>
+	<onload condition="!Skin.HasSetting(WarnedOnFullscreenInfo)">SetProperty(Notify,True,Home)</onload>
+	<onload condition="!Skin.HasSetting(WarnedOnFullscreenInfo)">SetProperty(NotWarnedOnFullscreenInfo,True,Home)</onload>
+	<onload condition="!Skin.HasSetting(WarnedOnFullscreenInfo)">ActivateWindow(1126)</onload>
 	<onload>SetFocus(64)</onload>
 	<onload>SetProperty(FullscreenInfoIsActive,fullscreeninfo)</onload>
 	<onunload>ClearProperty(FullscreenInfoIsActive,fullscreeninfo)</onunload>
@@ -10,12 +13,16 @@
 	<controls>
 		<control type="button" id="64">
 			<include>HiddenObject</include>
-			<onclick condition="!VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))">ClearProperty(ShowCast,fullscreeninfo)</onclick>
-			<ondown condition="!VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot)) + !Skin.HasSetting(MiniInfo)">ClearProperty(ShowMiniPlot,fullscreeninfo)</ondown>
-			<ondown condition="!VideoPlayer.Content(livetv) + String.IsEmpty(Window(fullscreeninfo).Property(ShowCast)) + !Skin.HasSetting(MiniInfo)">SetProperty(ShowCast,True,fullscreeninfo)</ondown>
-			<ondown condition="!VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(ShowCast)) + !Skin.HasSetting(MiniInfo)">ClearProperty(ShowCast,fullscreeninfo)</ondown>
-			<onclick condition="!VideoPlayer.Content(livetv) + String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot))">SetProperty(ShowMiniPlot,True,fullscreeninfo)</onclick>
 			<onclick condition="!VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot))">ClearProperty(ShowMiniPlot,fullscreeninfo)</onclick>
+			<onclick condition="!VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))">ClearProperty(ShowCast,fullscreeninfo)</onclick>
+			<onleft condition="!VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))">ClearProperty(ShowCast,fullscreeninfo)</onleft>
+			<onright condition="!VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot)) + !Skin.HasSetting(MiniInfo)">ClearProperty(ShowMiniPlot,fullscreeninfo)</onright>
+			<onright condition="!VideoPlayer.Content(livetv) + String.IsEmpty(Window(fullscreeninfo).Property(ShowCast)) + !Skin.HasSetting(MiniInfo)">SetProperty(ShowCast,True,fullscreeninfo)</onright>
+			<onright condition="!VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(ShowCast)) + !Skin.HasSetting(MiniInfo)">ClearProperty(ShowCast,fullscreeninfo)</onright>
+			<onleft condition="!VideoPlayer.Content(livetv) + String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot))">SetProperty(ShowMiniPlot,True,fullscreeninfo)</onleft>
+			<onleft condition="!VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot))">ClearProperty(ShowMiniPlot,fullscreeninfo)</onleft>
+			<onup condition="!VideoPlayer.Content(livetv) + [!String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot)) | !String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))]">PageUp(61)</onup>
+			<ondown condition="!VideoPlayer.Content(livetv) + [!String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot)) | !String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))]">PageDown(61)</ondown>
 			<onup condition="VideoPlayer.Content(livetv) + String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))">SetProperty(LiveTVFullPlot,True,fullscreeninfo)</onup>
 			<onup condition="VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVFullPlot))">ClearProperty(LiveTVFullPlot,fullscreeninfo)</onup>
 			<onclick condition="VideoPlayer.Content(livetv)">Skin.ToggleSetting(TogglePlotLiveTV)</onclick>
@@ -157,6 +164,7 @@
 								<width>1720</width>
 								<height>500</height>
 								<usecontrolcoords>true</usecontrolcoords>
+								<visible>String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot)) + String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))</visible>
 								<control type="label">
 									<top>-5</top>
 									<width>1120</width>
@@ -166,27 +174,7 @@
 									<scroll>true</scroll>
 									<label>$INFO[Player.Title]$INFO[VideoPlayer.Year, (,)]</label>
 									<visible>!VideoPlayer.Content(episodes)</visible>
-									<visible>String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot)) + String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))</visible>
 								</control>
-								<!-- <control type="radiobutton">
-									<textureradioonfocus />
-									<textureradioonnofocus />
-									<textureradioofffocus />
-									<textureradiooffnofocus />
-									<radiowidth />
-									<radioheight />
-									<texturenofocus />
-									<textoffsetx />
-									<align>left</align>
-									<top>-5</top>
-									<width>1580</width>
-									<height>60</height>
-									<font>font30_title_bold</font>
-									<textcolor>grey</textcolor>
-									<label>$INFO[Player.Title]</label>
-									<label2>$INFO[VideoPlayer.Year,(,)]</label2>
-									<visible>String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot))</visible>
-								</control> -->
 								<control type="label">
 									<top>-5</top>
 									<width>1120</width>
@@ -195,23 +183,7 @@
 									<textcolor>grey</textcolor>
 									<scroll>true</scroll>
 									<label>$INFO[VideoPlayer.TvShowTitle]</label>
-									<visible>VideoPlayer.Content(episodes) + String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot))</visible>
-								</control>
-								<control type="label">
-									<width>1120</width>
-									<height>35</height>
-									<font>font15</font>
-									<textcolor>$VAR[ThemeLabelColor]</textcolor>
-									<label>$LOCALIZE[206]</label>
-									<visible>!String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))</visible>
-								</control>
-								<control type="label">
-									<width>1120</width>
-									<height>45</height>
-									<font>font15</font>
-									<textcolor>$VAR[ThemeLabelColor]</textcolor>
-									<label>$LOCALIZE[207]</label>
-									<visible>!String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot))</visible>
+									<visible>VideoPlayer.Content(episodes)</visible>
 								</control>
 								<control type="label">
 									<width>1120</width>
@@ -220,7 +192,7 @@
 									<textcolor>$VAR[ThemeLabelColor]</textcolor>
 									<scroll>true</scroll>
 									<label>$INFO[VideoPlayer.Tagline]</label>
-									<visible>!String.IsEmpty(VideoPlayer.Tagline) + String.IsEmpty(Window(fullscreeninfo).Property(ShowCast)) + String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot))</visible>
+									<visible>!String.IsEmpty(VideoPlayer.Tagline)</visible>
 								</control>
 								<control type="label">
 									<width>1120</width>
@@ -228,7 +200,7 @@
 									<font>font15</font>
 									<textcolor>$VAR[ThemeLabelColor]</textcolor>
 									<label>$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,: ]$INFO[VideoPlayer.Episode,$LOCALIZE[20359] ]$INFO[VideoPlayer.Title,  -  ]$INFO[VideoPlayer.Premiered, (,)]</label>
-									<visible>VideoPlayer.Content(episodes) + String.IsEmpty(Window(fullscreeninfo).Property(ShowCast)) + String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot))</visible>
+									<visible>VideoPlayer.Content(episodes)</visible>
 								</control>
 								<control type="grouplist">
 									<width>1720</width>
@@ -250,6 +222,7 @@
 									<control type="group">
 										<width>165</width>
 										<height>70</height>
+										<visible>!String.IsEmpty(VideoPlayer.Top250)</visible>
 										<control type="image">
 											<top>25</top>
 											<width>75</width>
@@ -264,16 +237,6 @@
 											<label>$INFO[VideoPlayer.Top250,#]</label>
 											<font>font16</font>
 											<textcolor>grey</textcolor>
-											<visible>!String.IsEmpty(VideoPlayer.Top250)</visible>
-										</control>
-										<control type="label">
-											<left>85</left>
-											<top>25</top>
-											<height>30</height>
-											<label>$INFO[VideoPlayer.Rating]</label>
-											<font>font16</font>
-											<textcolor>grey</textcolor>
-											<visible>String.IsEmpty(VideoPlayer.Top250)</visible>
 										</control>
 									</control>
 									<control type="group">
@@ -326,14 +289,54 @@
 									<label>$INFO[VideoPlayer.Director,$LOCALIZE[31000]:[COLOR grey] ,[/COLOR]]$INFO[VideoPlayer.Writer, [COLOR grey] • [/COLOR] $LOCALIZE[31001]:[COLOR grey] ,[/COLOR]]</label>
 									<visible>!String.IsEmpty(VideoPlayer.Director) + String.IsEmpty(Window(fullscreeninfo).Property(ShowCast)) + String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot))</visible>
 								</control>
+								<control type="grouplist">
+									<width>1120</width>
+									<height>48</height>
+									<orientation>horizontal</orientation>
+									<control type="label">
+										<width>auto</width>
+										<height>48</height>
+										<label>$INFO[VideoPlayer.Rating,$LOCALIZE[31146]: ,]</label>
+										<font>font15</font>
+										<textcolor>grey</textcolor>
+									</control>
+									<control type="image">
+										<height>48</height>
+										<aspectratio aligny="center" align="left">keep</aspectratio>
+										<colordiffuse>$VAR[ThemeLabelColor]</colordiffuse>
+										<texture fallback="rating0.png">$INFO[VideoPlayer.UserRating,flags/rating/,.png]</texture>
+									</control>
+								</control>
+							</control>
+							<control type="grouplist">
+								<top>-20</top>
+								<width>1720</width>
+								<height>500</height>
+								<usecontrolcoords>true</usecontrolcoords>
+								<control type="label">
+									<width>1120</width>
+									<height>35</height>
+									<font>font15</font>
+									<textcolor>$VAR[ThemeLabelColor]</textcolor>
+									<label>$LOCALIZE[206]</label>
+									<visible>!String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))</visible>
+								</control>
+								<control type="label">
+									<width>1120</width>
+									<height>45</height>
+									<font>font15</font>
+									<textcolor>$VAR[ThemeLabelColor]</textcolor>
+									<label>$LOCALIZE[207]</label>
+									<visible>!String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot))</visible>
+								</control>
 								<control type="textbox" id="400">
 									<description>Plot</description>
 									<width>1120</width>
-									<height>170</height>
+									<height>220</height>
 									<font>font15_textbox2</font>
 									<label>$VAR[VideoPlayerPlotVar]</label>
 									<textcolor>grey</textcolor>
-									<pagecontrol />
+									<pagecontrol>61</pagecontrol>
 									<align>justify</align>
 									<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
 									<visible>!String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot)) + String.IsEmpty(Window(fullscreeninfo).Property(ShowCast)) + !Skin.HasSetting(Disable.FullscreenInfoLogo) + !String.IsEmpty(Control.GetLabel(999149))</visible>
@@ -341,11 +344,11 @@
 								<control type="textbox" id="402">
 									<description>Plot</description>
 									<width>1580</width>
-									<height>170</height>
+									<height>220</height>
 									<font>font15_textbox2</font>
 									<label>$VAR[VideoPlayerPlotVar]</label>
 									<textcolor>grey</textcolor>
-									<pagecontrol />
+									<pagecontrol>61</pagecontrol>
 									<align>justify</align>
 									<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
 									<visible>!String.IsEmpty(Window(fullscreeninfo).Property(ShowMiniPlot)) + String.IsEmpty(Window(fullscreeninfo).Property(ShowCast)) + [Skin.HasSetting(Disable.FullscreenInfoLogo) | String.IsEmpty(Control.GetLabel(999149))]</visible>
@@ -354,14 +357,17 @@
 									<description>Plot</description>
 									<top>10</top>
 									<width>1120</width>
-									<height>170</height>
+									<height>220</height>
 									<font>font15_textbox2</font>
 									<label>$INFO[VideoPlayer.CastAndRole]</label>
 									<textcolor>grey</textcolor>
-									<pagecontrol />
+									<pagecontrol>61</pagecontrol>
 									<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
 									<visible>!String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))</visible>
 								</control>
+							</control>
+							<control type="scrollbar" id="61">
+								<include>HiddenObject</include>
 							</control>
 							<!-- End -->
 						</control>
