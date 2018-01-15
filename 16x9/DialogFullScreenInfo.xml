@@ -8,6 +8,7 @@
 	<onunload>ClearProperty(ShowMiniPlot,fullscreeninfo)</onunload>
 	<onunload>ClearProperty(LiveTVNext,fullscreeninfo)</onunload>
 	<onunload>Dialog.Close(all,true)</onunload>
+	<zorder>0</zorder>
 	<controls>
 		<control type="button" id="64">
 			<include>HiddenObject</include>
@@ -31,9 +32,8 @@
 			<onleft condition="VideoPlayer.Content(livetv) + !String.IsEmpty(Window(fullscreeninfo).Property(LiveTVNext))">ClearProperty(LiveTVNext,fullscreeninfo)</onleft>
 		</control>
 		<control type="group">
-			<animation effect="fade" start="0" end="100" time="200" condition="!Window.IsVisible(videoosd)">WindowOpen</animation>
-			<animation effect="fade" start="0" end="100" time="200" delay="160" condition="Window.Isvisible(videoosd)">WindowOpen</animation>
-			<animation effect="fade" end="0" start="100" time="240">WindowClose</animation>
+			<animation effect="fade" end="100" time="200" delay="200">WindowOpen</animation>
+			<animation effect="fade" start="100" time="200" delay="200">WindowClose</animation>
 			<visible>!VideoPlayer.Content(LiveTV)</visible>
 			<control type="group">
 				<!-- Media Flag Bar Background -->
@@ -106,7 +106,7 @@
 			</control>
 			<control type="group">
 				<animation effect="slide" end="0,-90" time="240" tween="quadratic" condition="Window.IsActive(videoosd)">Conditional</animation>
-				<animation effect="slide" end="0,90" time="240" tween="quadratic" condition="Window.IsVisible(SliderDialog) | Window.IsVisible(PVROSDGuide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(subtitlesearch) | Window.IsVisible(1115)">Conditional</animation>
+				<animation effect="slide" end="0,90" time="240" tween="quadratic" condition="Window.IsVisible(SliderDialog) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(subtitlesearch) | Window.IsVisible(1115)">Conditional</animation>
 				<control type="image">
 					<left>-50</left>
 					<top>735</top>
@@ -126,7 +126,8 @@
 						<aspectratio aligny="top">keep</aspectratio>
 						<texture background="true">$INFO[Player.Art(discart)]</texture>
 						<!-- <animation effect="rotate" reversible="false" start="360" end="0" center="auto" time="18000" loop="true" condition="Player.Playing">Conditional</animation> -->
-						<visible>!VideoPlayer.Content(musicvideos)</visible>
+						<animation effect="fade" end="100" time="200">WindowOpen</animation>
+						<animation effect="fade" start="100" time="200">WindowClose</animation>
 					</control>
 					<control type="image">
 						<top>30</top>
@@ -383,7 +384,7 @@
 			<top>5</top>
 			<animation effect="fade" start="0" end="100" time="400">WindowOpen</animation>
 			<animation effect="fade" start="100" end="0" time="400">WindowClose</animation>
-			<visible>VideoPlayer.Content(LiveTV) + Skin.HasSetting(TogglePlotLiveTV)</visible>
+			<visible>VideoPlayer.Content(LiveTV) + Skin.HasSetting(TogglePlotLiveTV) + !Window.IsActive(notification)</visible>
 			<!-- PlotOutLine BG -->
 			<control type="image">
 				<left>17</left>

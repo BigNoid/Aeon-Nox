@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
 	<defaultcontrol>1</defaultcontrol>
-	<zorder>5</zorder>
 	<visible>!Skin.HasSetting(Enable.ScreenshotMode)</visible>
 	<visible>![Player.Paused + Window.IsActive(1134) + !Skin.HasSetting(Disable.Netflix.Pause)]</visible>
 	<visible>[Window.IsVisible(videoosd) | [Window.IsVisible(fullscreeninfo) + !VideoPlayer.Content(LiveTV)] | [Window.IsActive(fullscreeninfo) + VideoPlayer.Content(LiveTV)] | Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.Caching] + VideoPlayer.IsFullscreen | [[Window.IsActive(fullscreenvideo) | Window.IsActive(visualisation)] + !Window.IsActive(pvrosdchannels) + !String.IsEmpty(PVR.ChannelNumberInput)]</visible>
+	<zorder>1</zorder>
 	<controls>
 		<control type="label">
 			<left>60</left>
@@ -24,7 +24,7 @@
 				<animation effect="fade" end="0" start="100" time="200">WindowClose</animation>
 				<control type="group">
 					<animation effect="slide" end="0,-90" time="240" tween="quadratic" condition="Window.IsActive(videoosd)">Conditional</animation>
-					<animation effect="slide" end="0,90" time="240" tween="quadratic" condition="Window.IsVisible(SliderDialog) | Window.IsVisible(PVROSDGuide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(subtitlesearch) | Window.IsVisible(1115)">Conditional</animation>
+					<animation effect="slide" end="0,90" time="240" tween="quadratic" condition="Window.IsVisible(SliderDialog) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(subtitlesearch) | Window.IsVisible(1115)">Conditional</animation>
 					<control type="image">
 						<top>25</top>
 						<width>2100</width>
@@ -123,7 +123,7 @@
 					<height>260</height>
 					<aspectratio aligny="bottom" align="center">keep</aspectratio>
 					<texture background="true">$VAR[PlayerArtworkVar]</texture>
-					<visible>![Window.IsActive(DialogSettings.xml) | Window.IsActive(subtitlesearch) | Window.IsActive(1115)]</visible>
+					<visible>![Window.IsVisible(DialogSettings.xml) | Window.IsVisible(subtitlesearch) | Window.IsVisible(1115) | Window.IsVisible(fullscreeninfo)]</visible>
 					<animation effect="slide" end="0,-90" time="240" tween="quadratic" condition="Window.IsActive(videoosd)">Conditional</animation>
 				</control>
 			</control>
@@ -203,6 +203,9 @@
 				<visible>Player.Forwarding</visible>
 			</control>
 		</control>
-		<include condition="VideoPlayer.Content(LiveTV)">FullScreenInfoBarLiveTV</include>
+		<control type="group">
+			<visible>!Window.IsVisible(pvrchannelguide) + !Window.IsVisible(pvrosdchannels)</visible>
+			<include condition="VideoPlayer.Content(LiveTV)">FullScreenInfoBarLiveTV</include>
+		</control>
 	</controls>
 </window>
