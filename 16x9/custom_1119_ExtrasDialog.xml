@@ -18,7 +18,6 @@
 			<ondown>90200</ondown>
 			<align>center</align>
 			<control type="image" id="90201">
-				<description>background image</description>
 				<width>510</width>
 				<height>34</height>
 				<texture border="30,20,30,2">dialog_top2.png</texture>
@@ -59,36 +58,8 @@
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<label>$INFO[System.AddonTitle(script.cinemavision)]</label>
 				<onclick>Dialog.Close(1119)</onclick>
-				<onclick>RunScript(script.cinemavision,dbtype=$INFO[ListItem.DBType],dbid=$INFO[ListItem.DBID])</onclick>
-				<visible>System.HasAddon(script.cinemavision) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31014]) + String.IsEmpty(Window(Home).Property(script.cinemavision.running))</visible>
-			</control>
-			<control type="button" id="90204">
-				<description>Artwork downloader button</description>
-				<width>510</width>
-				<textwidth>435</textwidth>
-				<textoffsetx>45</textoffsetx>
-				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
-				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
-				<onclick>Dialog.Close(1119)</onclick>
-				<onclick condition="Container.Content(movies)">RunScript(script.artwork.downloader, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
-				<onclick condition="Container.Content(tvshows)">RunScript(script.artwork.downloader, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
-				<label>$INFO[System.AddonTitle(script.artwork.downloader)]</label>
-				<visible>!Skin.HasSetting(KioskMode.Enabled)</visible>
-				<visible>System.HasAddon(script.artwork.downloader) + [Container.Content(movies) | Container.Content(tvshows)]</visible>
-			</control>
-			<control type="button" id="90205">
-				<description>Artwork downloader button</description>
-				<width>510</width>
-				<textwidth>435</textwidth>
-				<textoffsetx>45</textoffsetx>
-				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
-				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
-				<onclick>Dialog.Close(1119)</onclick>
-				<onclick condition="Container.Content(movies)">RunScript(script.artwork.downloader, mode=gui, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
-				<onclick condition="Container.Content(tvshows)">RunScript(script.artwork.downloader,mode=gui, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
-				<label>$INFO[System.AddonTitle(script.artwork.downloader),,: $LOCALIZE[413]]</label>
-				<visible>!Skin.HasSetting(KioskMode.Enabled)</visible>
-				<visible>System.HasAddon(script.artwork.downloader) + [Container.Content(movies) | Container.Content(tvshows)]</visible>
+				<onclick>RunScript(script.cinemavision,dbtype=$INFO[ListItem.DBTYPE],dbid=$INFO[ListItem.DBID])</onclick>
+				<visible>System.HasAddon(script.cinemavision) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season) | String.IsEqual(ListItem.DBTYPE,episode)] + String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31014]) + String.IsEmpty(Window(Home).Property(script.cinemavision.running))</visible>
 			</control>
 			<control type="button" id="90905">
 				<description>Artwork beef button</description>
@@ -97,13 +68,16 @@
 				<textoffsetx>45</textoffsetx>
 				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
-				<onclick>Dialog.Close(1119)</onclick>RunScript(script.artwork.beef, mode=gui, mediatype=movie, dbid=$INFO[ListItem.DBID])
+				<onclick>Dialog.Close(1119)</onclick>
 				<onclick condition="Container.Content(movies)">RunScript(script.artwork.beef, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
 				<onclick condition="Container.Content(tvshows)">RunScript(script.artwork.beef, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
 				<onclick condition="Container.Content(episodes)">RunScript(script.artwork.beef, mediatype=episode, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,artist)">RunScript(script.artwork.beef, mediatype=artist, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,album)">RunScript(script.artwork.beef, mediatype=album, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,song)">RunScript(script.artwork.beef, mediatype=song, dbid=$INFO[ListItem.DBID])</onclick>
 				<label>$INFO[System.AddonTitle(script.artwork.beef)]</label>
 				<visible>!Skin.HasSetting(KioskMode.Enabled)</visible>
-				<visible>System.HasAddon(script.artwork.beef) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)]</visible>
+				<visible>System.HasAddon(script.artwork.beef) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,artist) | String.IsEqual(ListItem.DBTYPE,album) | String.IsEqual(ListItem.DBTYPE,song)]</visible>
 			</control>
 			<control type="button" id="90906">
 				<description>Artwork beef button</description>
@@ -113,12 +87,15 @@
 				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<onclick>Dialog.Close(1119)</onclick>
-				<onclick condition="Container.Content(movies)">RunScript(script.artwork.beef, mode=gui, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
-				<onclick condition="Container.Content(tvshows)">RunScript(script.artwork.beef, mode=gui, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
-				<onclick condition="Container.Content(episodes)">RunScript(script.artwork.beef, mode=gui, mediatype=episode, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,movie)">RunScript(script.artwork.beef, mode=gui, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,tvshow)">RunScript(script.artwork.beef, mode=gui, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,episode)">RunScript(script.artwork.beef, mode=gui, mediatype=episode, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,artist)">RunScript(script.artwork.beef, mode=gui, mediatype=artist, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,album)">RunScript(script.artwork.beef, mode=gui, mediatype=album, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,song)">RunScript(script.artwork.beef, mode=gui, mediatype=song, dbid=$INFO[ListItem.DBID])</onclick>
 				<label>$INFO[System.AddonTitle(script.artwork.beef),,: $LOCALIZE[413]]</label>
 				<visible>!Skin.HasSetting(KioskMode.Enabled)</visible>
-				<visible>System.HasAddon(script.artwork.beef) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)]</visible>
+				<visible>System.HasAddon(script.artwork.beef) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,artist) | String.IsEqual(ListItem.DBTYPE,album) | String.IsEqual(ListItem.DBTYPE,song)]</visible>
 			</control>
 			<control type="button" id="90206">
 				<description>Edit button</description>
@@ -147,21 +124,8 @@
 				<visible>System.HasAddon(script.ratingupdate)</visible>
 				<visible>Container.Content(movies) | Container.Content(tvshows)</visible>
 			</control>
-			<control type="button" id="90208">
-				<description>TvTunes button</description>
-				<width>510</width>
-				<textwidth>435</textwidth>
-				<textoffsetx>45</textoffsetx>
-				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
-				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
-				<onclick>Dialog.Close(1119)</onclick>
-				<onclick>RunScript(script.tvtunes,mode=solo)</onclick>
-				<label>$INFO[System.AddonTitle(script.tvtunes)]</label>
-				<visible>System.HasAddon(script.tvtunes)</visible>
-				<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(musicvideos)] + String.IsEmpty(Window(movieinformation).Property("TvTunes_HideVideoInfoButton"))</visible>
-			</control>
 			<control type="button" id="90209">
-				<description>VideoExtras button</description>
+				<description>Extras button</description>
 				<width>510</width>
 				<textwidth>435</textwidth>
 				<textoffsetx>45</textoffsetx>
@@ -245,7 +209,6 @@
 				<visible>![Control.IsVisible(90202) | Control.IsVisible(90901) | Control.IsVisible(90904) | Control.IsVisible(90204) | Control.IsVisible(90205) | Control.IsVisible(90206) | Control.IsVisible(90207) | Control.IsVisible(90208) | Control.IsVisible(90209) | Control.IsVisible(90210) | Control.IsVisible(90211) | Control.IsVisible(90212) | Control.IsVisible(90213) | Control.IsVisible(90913)]</visible>
 			</control>
 			<control type="image" id="90215">
-				<description>background image</description>
 				<width>510</width>
 				<height>34</height>
 				<texture border="30,2,30,20">dialog_bottom2.png</texture>

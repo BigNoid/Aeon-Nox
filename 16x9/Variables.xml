@@ -222,7 +222,6 @@
 		<value condition="Window.IsActive(videos)">$VAR[BreadcrumbsFillerVar]$INFO[Container.FolderName]</value>
 		<value condition="Window.IsActive(addoninformation) + !Window.IsActive(textviewer)">$VAR[BreadcrumbsFillerVar]$INFO[ListItem.AddonName]</value>
 		<value condition="Window.IsActive(textviewer)">$VAR[BreadcrumbsFillerVar]</value>
-		<value condition="Window.IsActive(script-globalsearch-main.xml)">$INFO[System.AddonTitle(script.globalsearch)]$INFO[Control.GetLabel(190),: ]$INFO[Control.GetLabel(191), ]</value>
 		<value condition="Window.IsActive(script-globalsearch.xml)">$INFO[System.AddonTitle(script.globalsearch)]$INFO[Window.Property(GlobalSearch.SearchString),: $LOCALIZE[194]]</value>
 		<value condition="Window.IsActive(TVGuide) | Window.IsActive(RadioGuide)">$VAR[BreadcrumbsFillerVar,, $LOCALIZE[19069]]</value>
 		<value condition="Window.IsActive(TVRecordings) | Window.IsActive(RadioRecordings)">$VAR[BreadcrumbsFillerVar,, $LOCALIZE[19163]]</value>
@@ -331,7 +330,7 @@
 		<value>$INFO[ListItem.Votes,, $LOCALIZE[205]]</value>
 	</variable>
 	<variable name="DurationVar">
-		<value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(Window(Home).Property(NextAired.Runtime))">$INFO[Window(Home).Property(NextAired.Runtime)]</value>
+		<value condition="String.IsEqual(ListItem.DBTYPE,tvshow) + !String.IsEmpty(Window(Home).Property(NextAired.Runtime))">$INFO[Window(Home).Property(NextAired.Runtime)]</value>
 		<value condition="!String.IsEmpty(ListItem.Duration)">$VAR[DurationMinutesVar]</value>
 		<value>?</value>
 	</variable>
@@ -361,10 +360,10 @@
 		<value condition="Container.Content(artists)">$LOCALIZE[547]</value>
 	</variable>
 	<variable name="MusicInfoPlotVar">
-		<value condition="String.IsEqual(ListItem.DBType,album) + !String.IsEmpty(ListItem.Property(Album_Description))">$INFO[ListItem.Property(Album_Description)]</value>
-		<value condition="String.IsEqual(ListItem.DBType,album)">$LOCALIZE[414]</value>
-		<value condition="[String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,song)] + !String.IsEmpty(ListItem.Property(Artist_Description))">$INFO[ListItem.Property(Artist_Description)]</value>
-		<value condition="String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,song)">$LOCALIZE[547]</value>
+		<value condition="String.IsEqual(ListItem.DBTYPE,album) + !String.IsEmpty(ListItem.Property(Album_Description))">$INFO[ListItem.Property(Album_Description)]</value>
+		<value condition="String.IsEqual(ListItem.DBTYPE,album)">$LOCALIZE[414]</value>
+		<value condition="[String.IsEqual(ListItem.DBTYPE,artist) | String.IsEqual(ListItem.DBTYPE,song)] + !String.IsEmpty(ListItem.Property(Artist_Description))">$INFO[ListItem.Property(Artist_Description)]</value>
+		<value condition="String.IsEqual(ListItem.DBTYPE,artist) | String.IsEqual(ListItem.DBTYPE,song)">$LOCALIZE[547]</value>
 	</variable>
 	<variable name="VideoPlayerPlotVar">
 		<value condition="!String.IsEmpty(VideoPlayer.PlotOutline)">$INFO[VideoPlayer.PlotOutline]</value>
@@ -1050,7 +1049,7 @@
 	</variable>
 	<variable name="VideoInfoButtonLabelVar">
 		<value condition="Control.HasFocus(300) | Control.HasFocus(64)">$LOCALIZE[31271]</value>
-		<value condition="Control.HasFocus(8) + String.IsEqual(ListItem.DBType,tvshow)">$LOCALIZE[1024]</value>
+		<value condition="Control.HasFocus(8) + String.IsEqual(ListItem.DBTYPE,tvshow)">$LOCALIZE[1024]</value>
 		<value condition="Control.HasFocus(8)">$LOCALIZE[208]</value>
 		<value condition="Control.HasFocus(909)">$INFO[System.AddonTitle(script.cinemavision)]</value>
 		<value condition="Control.HasFocus(910)">$LOCALIZE[206]</value>
@@ -1060,8 +1059,8 @@
 		<value condition="Control.HasFocus(10) | Control.HasFocus(5010)">$LOCALIZE[13511]</value>
 		<value condition="Control.HasFocus(6) | Control.HasFocus(5006)">$LOCALIZE[184]</value>
 		<value condition="Control.HasFocus(208)">$LOCALIZE[31014]</value>
-		<value condition="[ControlGroup(9001).HasFocus + [Container(9001).HasNext + !Container(9001).HasPrevious]] + !String.IsEqual(ListItem.DBType,song)">$LOCALIZE[31453]</value>
-		<value condition="[ControlGroup(9001).HasFocus + [Container(9001).HasPrevious + Container(9001).HasNext]] + ![Skin.HasSetting(Disable.ExtendedInfoIntergration) + ![String.IsEqual(ListItem.DBType,tvshow) | !String.IsEmpty(ListItem.SetID)]]">$LOCALIZE[31454]</value>
+		<value condition="[ControlGroup(9001).HasFocus + [Container(9001).HasNext + !Container(9001).HasPrevious]] + !String.IsEqual(ListItem.DBTYPE,song)">$LOCALIZE[31453]</value>
+		<value condition="[ControlGroup(9001).HasFocus + [Container(9001).HasPrevious + Container(9001).HasNext]] + ![Skin.HasSetting(Disable.ExtendedInfoIntergration) + ![String.IsEqual(ListItem.DBTYPE,tvshow) | !String.IsEmpty(ListItem.SetID)]]">$LOCALIZE[31454]</value>
 		<value condition="[ControlGroup(9001).HasFocus + [Container(9001).HasPrevious + !Container(9001).HasNext]] | [ControlGroup(9001).HasFocus + Skin.HasSetting(Disable.ExtendedInfoIntergration)]">$LOCALIZE[31455]</value>
 	</variable>
 	<!-- <variable name="PVRInfoButtonLabelVar">
@@ -1160,18 +1159,18 @@
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),ShowCase) + Container.Content(tvshows) + String.IsEqual(Skin.String(53.TV.ViewFlags),$LOCALIZE[1223])">Skin.Reset(53.TV.ViewFlags)</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),ShowCase) + Container.Content(seasons) + String.IsEmpty(Skin.String(53.Seasons.ViewFlags))">Skin.SetString(53.Seasons.ViewFlags,$LOCALIZE[1223])</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),ShowCase) + Container.Content(seasons) + String.IsEqual(Skin.String(53.Seasons.ViewFlags),$LOCALIZE[1223])">Skin.Reset(53.Seasons.ViewFlags)</value>
-		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(movies)  + String.IsEmpty(Skin.String(503.Movies.ViewFlags))">Skin.SetString(503.Movies.ViewFlags,$LOCALIZE[31160])</value>
-		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(movies)  + String.IsEqual(Skin.String(503.Movies.ViewFlags),$LOCALIZE[31160])">Skin.SetString(503.Movies.ViewFlags,$LOCALIZE[1223])</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(movies) + String.IsEmpty(Skin.String(503.Movies.ViewFlags))">Skin.SetString(503.Movies.ViewFlags,$LOCALIZE[31160])</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(movies) + String.IsEqual(Skin.String(503.Movies.ViewFlags),$LOCALIZE[31160])">Skin.SetString(503.Movies.ViewFlags,$LOCALIZE[1223])</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(movies) + String.IsEqual(Skin.String(503.Movies.ViewFlags),$LOCALIZE[1223])">Skin.Reset(503.Movies.ViewFlags)</value>
-		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(tvshows)  + String.IsEmpty(Skin.String(503.TV.ViewFlags))">Skin.SetString(503.TV.ViewFlags,$LOCALIZE[1223])</value>
-		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(tvshows)  + String.IsEqual(Skin.String(503.TV.ViewFlags),$LOCALIZE[1223])">Skin.Reset(503.TV.ViewFlags)</value>
-		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(seasons)  + String.IsEmpty(Skin.String(503.Seasons.ViewFlags))">Skin.SetString(503.Seasons.ViewFlags,$LOCALIZE[1223])</value>
-		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(seasons)  + String.IsEqual(Skin.String(503.Seasons.ViewFlags),$LOCALIZE[1223])">Skin.Reset(503.Seasons.ViewFlags)</value>
-		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Logo) + Container.Content(movies)  + String.IsEmpty(Skin.String(59.Movies.ViewFlags))">Skin.SetString(59.Movies.ViewFlags,$LOCALIZE[31160])</value>
-		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Logo) + Container.Content(movies)  + String.IsEqual(Skin.String(59.Movies.ViewFlags),$LOCALIZE[31160])">Skin.SetString(59.Movies.ViewFlags,$LOCALIZE[1223])</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(tvshows) + String.IsEmpty(Skin.String(503.TV.ViewFlags))">Skin.SetString(503.TV.ViewFlags,$LOCALIZE[1223])</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(tvshows) + String.IsEqual(Skin.String(503.TV.ViewFlags),$LOCALIZE[1223])">Skin.Reset(503.TV.ViewFlags)</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(seasons) + String.IsEmpty(Skin.String(503.Seasons.ViewFlags))">Skin.SetString(503.Seasons.ViewFlags,$LOCALIZE[1223])</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Wall) + Container.Content(seasons) + String.IsEqual(Skin.String(503.Seasons.ViewFlags),$LOCALIZE[1223])">Skin.Reset(503.Seasons.ViewFlags)</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Logo) + Container.Content(movies) + String.IsEmpty(Skin.String(59.Movies.ViewFlags))">Skin.SetString(59.Movies.ViewFlags,$LOCALIZE[31160])</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Logo) + Container.Content(movies) + String.IsEqual(Skin.String(59.Movies.ViewFlags),$LOCALIZE[31160])">Skin.SetString(59.Movies.ViewFlags,$LOCALIZE[1223])</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Logo) + Container.Content(movies) + String.IsEqual(Skin.String(59.Movies.ViewFlags),$LOCALIZE[1223])">Skin.Reset(59.Movies.ViewFlags)</value>
-		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Logo) + Container.Content(tvshows)  + String.IsEmpty(Skin.String(59.TV.ViewFlags))">Skin.SetString(59.TV.ViewFlags,$LOCALIZE[1223])</value>
-		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Logo) + Container.Content(tvshows)  + String.IsEqual(Skin.String(59.TV.ViewFlags),$LOCALIZE[1223])">Skin.Reset(59.TV.ViewFlags)</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Logo) + Container.Content(tvshows) + String.IsEmpty(Skin.String(59.TV.ViewFlags))">Skin.SetString(59.TV.ViewFlags,$LOCALIZE[1223])</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Logo) + Container.Content(tvshows) + String.IsEqual(Skin.String(59.TV.ViewFlags),$LOCALIZE[1223])">Skin.Reset(59.TV.ViewFlags)</value>
 	</variable>
 	<variable name="NoTopBarLabelVar">
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),List) + !String.IsEmpty(Skin.String(50.NoTopBar))">$INFO[Skin.String(50.NoTopBar)]</value>
