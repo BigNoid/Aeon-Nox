@@ -180,7 +180,7 @@
 					<width>60</width>
 					<height>40</height>
 					<aspectratio>keep</aspectratio>
-					<texture fallback="$VAR[WeatherIconsPathVar]na.png">$VAR[WeatherIconsPathVar]$INFO[Weather.FanartCode,,.png]</texture>
+					<texture>$VAR[WeatherIconsPathVar]$INFO[Weather.FanartCode,,.png]</texture>
 					<visible>Weather.IsFetched + !String.IsEmpty(Weather.Plugin)</visible>
 				</control>
 				<control type="label">
@@ -227,7 +227,7 @@
 					<aspectratio align="left">keep</aspectratio>
 					<fadetime>300</fadetime>
 					<animation effect="rotate" end="-360" center="auto" time="4800" loop="true" reversible="false" condition="!Player.Paused">Conditional</animation>
-					<texture background="true" fallback="special://skin/extras/cdart/default.png" diffuse="thumbs/boxes/cdart_mask.png">$INFO[Player.FolderPath]cdart.png</texture>
+					<texture background="true" diffuse="thumbs/boxes/cdart_mask.png">$VAR[PlayerArtworkDiscVar]</texture>
 					<bordersize>30</bordersize>
 				</control>
 				<control type="image">
@@ -257,7 +257,8 @@
 						<visible>[String.IsEmpty(Player.Art(artist.clearlogo)) + String.IsEmpty(Player.Art(clearlogo))] | Skin.HasSetting(Disable.MusicVizLogo)</visible>
 					</control>
 					<control type="image">
-						<top>-120</top>
+						<left>-65</left>
+						<top>20</top>
 						<width>100%</width>
 						<height>155</height>
 						<aspectratio aligny="bottom" align="center">keep</aspectratio>
@@ -302,6 +303,15 @@
 						<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
 						<shadowcolor>black</shadowcolor>
 						<label>$INFO[MusicPlayer.Genre,$LOCALIZE[515]: [COLOR white2],[/COLOR]]</label>
+						<visible>!String.IsEmpty(MusicPlayer.Genre)</visible>
+					</control>
+					<control type="image">
+						<width>400</width>
+						<height>45</height>
+						<colordiffuse>$VAR[ThemeLabelColor]</colordiffuse>
+						<texture fallback="rating0.png">$INFO[MusicPlayer.UserRating,flags/rating/,.png]</texture>
+						<aspectratio align="left" aligny="bottom">keep</aspectratio>
+						<visible>!Player.IsInternetStream</visible>
 					</control>
 				</control>
 				<control type="textbox">
@@ -629,7 +639,7 @@
 						<animation effect="slide" end="235,0" time="400" condition="String.IsEmpty(Skin.String(MusicVizLayout)) + Skin.HasSetting(HideMusicVizCD) + Skin.HasSetting(SlideMusicLabelsRight)">Conditional</animation>
 						<animation effect="slide" end="-235,0" time="400" condition="!Skin.HasSetting(HideMusicVizCD) + Skin.HasSetting(HideMusicVizAlbum) + String.IsEqual(Skin.String(MusicVizLayout),1) + Skin.HasSetting(SlideMusicLabelsLeft)">Conditional</animation>
 						<include>VisibleFadeAnimation</include>
-						<control type="image" id="88888">
+						<control type="image">
 							<left>220</left>
 							<top>3</top>
 							<width>545</width>
@@ -638,13 +648,13 @@
 							<aspectratio align="left">keep</aspectratio>
 							<fadetime>300</fadetime>
 							<animation effect="rotate" end="-360" center="auto" time="8000" loop="true" reversible="false" condition="!Player.Paused">Conditional</animation>
-							<texture background="true" fallback="special://skin/extras/cdart/blank.png" diffuse="thumbs/boxes/cdart_mask.png">$VAR[PlayerArtworkDiscVar]</texture>
+							<texture background="true" diffuse="thumbs/boxes/cdart_mask.png">$VAR[PlayerArtworkDiscVar]</texture>
 							<bordersize>30</bordersize>
 							<visible>!Skin.HasSetting(HideMusicVizCD)</visible>
 						</control>
 						<control type="group">
 							<visible>String.IsEmpty(Player.Art(album.discart)) + String.IsEmpty(Player.Art(discart))</visible>
-							<visible>!Skin.HasSetting(HideMusicVizCD)</visible>
+							<visible>!Skin.HasSetting(HideMusicVizCD) + !Skin.HasSetting(MusicDiscFallback.Vinyl)</visible>
 							<control type="label">
 								<left>360</left>
 								<top>80</top>
