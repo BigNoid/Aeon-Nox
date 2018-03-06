@@ -291,24 +291,130 @@
 			</control>
 		</control>
 	</include>
+	<include name="HorizontalMenu">
+		<control type="group">
+			<top>453</top>
+			<animation effect="slide" end="0,338" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu)">Conditional</animation>
+			<animation type="WindowOpen" reversible="false" condition="Window.Previous(Startup)">
+				<effect type="zoom" start="0" end="100" center="960,540" delay="500" time="300" tween="cubic" />
+			</animation>
+			<animation type="WindowOpen" reversible="false" condition="!Window.Previous(Startup)">
+				<effect type="zoom" start="150" end="100" center="960,540" time="300" tween="cubic" />
+				<effect type="fade" start="50" end="100" time="300" />
+			</animation>
+			<animation type="WindowClose" reversible="false">
+				<effect type="fade" start="100" end="0" time="300" />
+				<effect type="zoom" start="100" end="130" center="960,540" time="300" tween="cubic" easing="in" />
+			</animation>
+			<include condition="system.getbool(input.enablemouse)">SubmenuMouseButton</include>
+			<control type="group">
+				<width>100%</width>
+				<control type="group" id="9001">
+					<top>159</top>
+					<include condition="[String.IsEqual(Skin.String(RSS.Position),$LOCALIZE[571]) | !String.IsEqual(Skin.String(RSS.Position),$LOCALIZE[571]) + !Skin.HasSetting(Enable.VisibleSubmenu)] + system.getbool(lookandfeel.enablerssfeeds) | [!system.getbool(lookandfeel.enablerssfeeds) + !Skin.HasSetting(Enable.VisibleSubmenu)]">SubMenuAnimation</include>
+					<animation effect="slide" start="1870,0" end="0,0" delay="300" time="240" condition="!Window.Previous(startup)">WindowOpen</animation>
+					<animation effect="slide" start="1870,0" end="0,0" delay="200" time="480" condition="Window.Previous(startup)">WindowOpen</animation>
+					<control type="image">
+						<height>87</height>
+						<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]">submenu_bar.png</texture>
+						<visible>[String.IsEmpty(Skin.String(ThemeHomeMenuBarColor)) | String.IsEqual(Skin.String(ThemeHomeMenuBarColor),None)] + [String.IsEmpty(Skin.String(ThemeHomeSystemBarsColor)) | String.IsEqual(Skin.String(ThemeHomeSystemBarsColor),None)]</visible>
+					</control>
+					<control type="image">
+						<height>87</height>
+						<texture colordiffuse="$VAR[ThemeHomeSystemBarsColor]">submenu_bar_white.png</texture>
+						<visible>[!String.IsEmpty(Skin.String(ThemeHomeMenuBarColor)) + !String.IsEqual(Skin.String(ThemeHomeMenuBarColor),None)] | [!String.IsEmpty(Skin.String(ThemeHomeSystemBarsColor)) + !String.IsEqual(Skin.String(ThemeHomeSystemBarsColor),None)]</visible>
+					</control>
+					<include>HorizontalSubMenu</include>
+				</control>
+				<control type="image">
+					<top>-4</top>
+					<height>230</height>
+					<texture>homemenu_back.png</texture>
+				</control>
+				<control type="image">
+					<top>-4</top>
+					<height>230</height>
+					<texture colordiffuse="$VAR[ThemeHomeMenuBarColor]">homemenu_back_white.png</texture>
+					<visible>!String.IsEmpty(Skin.String(ThemeHomeMenuBarColor)) + !String.IsEqual(Skin.String(ThemeHomeMenuBarColor),None)</visible>
+				</control>
+			</control>
+			<!-- Horizontal Menu Content -->
+			<include condition="Skin.HasSetting(HomeMenuNavVar) + !String.IsEqual(Skin.String(MainMenu.Layout),1)">MainMenuListFixed</include>
+			<include condition="!Skin.HasSetting(HomeMenuNavVar) | String.IsEqual(Skin.String(MainMenu.Layout),1)">MainMenuListWrapped</include>
+			<control type="image">
+				<top>58</top>
+				<width>100</width>
+				<height>104</height>
+				<texture border="1">side_fade.png</texture>
+			</control>
+			<control type="image">
+				<left>1820</left>
+				<top>58</top>
+				<width>100</width>
+				<height>104</height>
+				<texture flipx="true" border="1">side_fade.png</texture>
+			</control>
+			<control type="image">
+				<top>90</top>
+				<width>100%</width>
+				<height>72</height>
+				<texture border="1">gradient_floor.png</texture>
+				<visible>!String.IsEqual(Skin.String(MainMenu.Layout),icons)</visible>
+			</control>
+		</control>
+	</include>
+	<include name="VerticalMenu">
+		<control type="group">
+			<animation effect="slide" end="-480,0" time="240">WindowClose</animation>
+			<animation effect="slide" start="-480,0" end="0,0" delay="300" time="240" condition="!Window.Previous(startup)">WindowOpen</animation>
+			<animation effect="slide" start="-480,0" end="0,0" delay="800" time="480" condition="Window.Previous(startup)">WindowOpen</animation>
+			<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="$EXP[HasVerticalMenuWithExtended]">Conditional</animation>
+			<control type="group">
+				<width>455</width>
+				<height>1080</height>
+				<control type="image">
+					<texture border="40">mediamenu_back.png</texture>
+					<animation effect="fade" start="100" end="80" condition="true">Conditional</animation>
+					<visible>[String.IsEmpty(Skin.String(ThemeHomeMenuBarColor)) | String.IsEqual(Skin.String(ThemeHomeMenuBarColor),None)]</visible>
+				</control>
+				<control type="image">
+					<texture colordiffuse="$VAR[ThemeHomeMenuBarColor]" border="40">mediamenu_back_white.png</texture>
+					<animation effect="fade" start="100" end="80" condition="true">Conditional</animation>
+					<visible>!String.IsEmpty(Skin.String(ThemeHomeMenuBarColor)) + !String.IsEqual(Skin.String(ThemeHomeMenuBarColor),None)</visible>
+				</control>
+			</control>
+			<control type="button">
+				<top>528</top>
+				<width>25</width>
+				<height>25</height>
+				<texturefocus flipx="true" colordiffuse="white">arrowright2.png</texturefocus>
+				<texturenofocus flipx="true" colordiffuse="grey">arrowright2.png</texturenofocus>
+				<onclick>90001</onclick>
+				<visible>String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True)</visible>
+				<include>VisibleFadeAnimation</include>
+			</control>
+			<include condition="Skin.HasSetting(HomeMenuNavVar)">MainMenuListFixed</include>
+			<include condition="!Skin.HasSetting(HomeMenuNavVar)">MainMenuListWrapped</include>
+		</control>
+	</include>
 	<include name="VerticalSubMenu">
 		<control type="group" id="90001">
 			<animation effect="slide" end="-500,0" time="240">WindowClose</animation>
-			<animation effect="slide" end="350,0" time="280" condition="Control.HasFocus(90100)">Conditional</animation>
+			<animation effect="slide" end="350,0" time="280" condition="Control.HasFocus(9010)">Conditional</animation>
 			<left>-350</left>
 			<control type="image">
 				<width>350</width>
 				<height>1080</height>
 				<texture>verticalsubmenu_back.png</texture>
 			</control>
-			<control type="list" id="90100">
-				<animation effect="slide" end="0,300" time="1" condition="Integer.IsLessOrEqual(Container(90100).NumItems,7)">Conditional</animation>
-				<animation effect="slide" end="0,200" time="1" condition="Integer.IsGreaterOrEqual(Container(90100).NumItems,8) + Integer.IsLess(Container(90100).NumItems,10)">Conditional</animation>
+			<control type="list" id="9010">
+				<animation effect="slide" end="0,300" time="1" condition="Integer.IsLessOrEqual(Container(9010).NumItems,7)">Conditional</animation>
+				<animation effect="slide" end="0,200" time="1" condition="Integer.IsGreaterOrEqual(Container(9010).NumItems,8) + Integer.IsLess(Container(9010).NumItems,10)">Conditional</animation>
 				<top>210</top>
 				<width>380</width>
 				<height>840</height>
-				<onup>90100</onup>
-				<ondown>90100</ondown>
+				<onup>9010</onup>
+				<ondown>9010</ondown>
 				<onright>9000</onright>
 				<pagecontrol />
 				<scrolltime tween="quadratic" easing="out">300</scrolltime>
@@ -347,8 +453,8 @@
 	<include name="VerticalMenuSystemBars">
 		<control type="group">
 			<animation effect="slide" end="1870,0" time="240">WindowClose</animation>
-			<animation effect="slide" start="1400,0" end="0,0" delay="300" time="240" condition="!window.previous(startup)">WindowOpen</animation>
-			<animation effect="slide" start="1400,0" end="0,0" delay="800" time="480" condition="window.previous(startup)">WindowOpen</animation>
+			<animation effect="slide" start="1400,0" end="0,0" delay="300" time="240" condition="!Window.Previous(startup)">WindowOpen</animation>
+			<animation effect="slide" start="1400,0" end="0,0" delay="800" time="480" condition="Window.Previous(startup)">WindowOpen</animation>
 			<animation effect="slide" end="0,993" time="320" tween="cubic" easing="inout" condition="system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419]) | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]">Conditional</animation>
 			<control type="group">
 				<animation effect="slide" end="-410,0" time="320" tween="cubic" easing="inout" condition="$EXP[HasVerticalMenuWithExtended]">Conditional</animation>
@@ -475,13 +581,6 @@
 		<onleft>9000</onleft>
 		<onright>9000</onright>
 		<movement>1</movement>
-		<onup condition="System.HasMediaDVD | Control.IsVisible(9027)">9020</onup>
-		<onup condition="Control.IsVisible(90010) + ![System.HasMediaDVD | Control.IsVisible(9027)]">90010</onup>
-		<onup condition="!Control.IsVisible(90010) + Control.IsVisible(90020) + ![System.HasMediaDVD | Control.IsVisible(9027)] + Skin.HasSetting(lowermainmenu)">90020</onup>
-		<ondown condition="String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True)">9001</ondown>
-		<ondown condition="!String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True) + !Skin.HasSetting(lowermainmenu) + Control.IsVisible(90020)">90020</ondown>
-		<onback condition="Skin.HasSetting(Home.Hide) + !Player.Playing">SetFocus(64)</onback>
-		<pagecontrol />
 		<scrolltime tween="quadratic" easing="out">300</scrolltime>
 		<include condition="String.IsEqual(Skin.String(MainMenu.Layout),icons)">FocusPosition4</include>
 		<include condition="!String.IsEqual(Skin.String(MainMenu.Layout),icons)">FocusPosition2</include>
@@ -489,6 +588,13 @@
 		<animation effect="slide" start="0" end="-350,0" time="320" tween="cubic" easing="inout" condition="String.IsEqual(Skin.String(MainMenu.Layout),3)">Conditional</animation>
 		<animation effect="slide" start="0" end="126,0" time="320" tween="cubic" easing="inout" condition="String.IsEqual(Skin.String(MainMenu.Layout),icons)">Conditional</animation>
 		<animation effect="slide" start="0" end="0,20" time="320" tween="cubic" easing="inout" condition="String.IsEqual(Skin.String(MainMenu.Layout),icons) + Skin.HasSetting(Disable.IconsMenuLabel)">Conditional</animation>
+		<onup condition="System.HasMediaDVD | Control.IsVisible(9027)">9020</onup>
+		<onup condition="Control.IsVisible(90010) + ![System.HasMediaDVD | Control.IsVisible(9027)]">90010</onup>
+		<onup condition="!Control.IsVisible(90010) + Control.IsVisible(90020) + ![System.HasMediaDVD | Control.IsVisible(9027)] + Skin.HasSetting(lowermainmenu)">90020</onup>
+		<ondown condition="String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True)">9001</ondown>
+		<ondown condition="!String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True) + !Skin.HasSetting(lowermainmenu) + Control.IsVisible(90020)">90020</ondown>
+		<onback condition="Skin.HasSetting(Home.Hide) + !Player.Playing">SetFocus(64)</onback>
+		<pagecontrol />
 		<itemlayout height="100" width="500" condition="String.IsEmpty(Skin.String(MainMenu.Layout))">
 			<control type="label">
 				<width>500</width>
@@ -614,55 +720,53 @@
 		</content>
 	</include>
 	<include name="OneMainMenuItemListContent">
-		<control type="wraplist" id="9000">
-			<top>62</top>
-			<width>1920</width>
-			<height>100</height>
-			<onleft>9000</onleft>
-			<onright>9000</onright>
-			<onup condition="System.HasMediaDVD | Control.IsVisible(9027)">9020</onup>
-			<onup condition="Control.IsVisible(90010) + ![System.HasMediaDVD | Control.IsVisible(9027)]">90010</onup>
-			<onup condition="!Control.IsVisible(90010) + Control.IsVisible(90020) + ![System.HasMediaDVD | Control.IsVisible(9027)] + Skin.HasSetting(lowermainmenu)">90020</onup>
-			<ondown condition="String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True)">9001</ondown>
-			<ondown condition="!String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True) + !Skin.HasSetting(lowermainmenu) + Control.IsVisible(90020)">90020</ondown>
-			<onback condition="Skin.HasSetting(Home.Hide) + !Player.Playing">SetFocus(64)</onback>
-			<pagecontrol />
-			<scrolltime tween="quadratic" easing="out">400</scrolltime>
-			<orientation>horizontal</orientation>
-			<itemlayout height="100" width="1920">
-				<control type="label">
-					<width>100%</width>
-					<height>90</height>
-					<font>font_MainMenu</font>
-					<textcolor>$VAR[UnfocusedMainMenuColor]</textcolor>
-					<align>center</align>
-					<label>$INFO[ListItem.Label]</label>
-				</control>
-			</itemlayout>
-			<focusedlayout height="100" width="1920">
-				<control type="label">
-					<width>100%</width>
-					<height>90</height>
-					<font>font_MainMenu</font>
-					<textcolor>$VAR[UnfocusedMainMenuColor]</textcolor>
-					<align>center</align>
-					<label>$INFO[ListItem.Label]</label>
-				</control>
-				<control type="label">
-					<width>100%</width>
-					<height>90</height>
-					<font>font_MainMenu</font>
-					<textcolor>$VAR[FocusedMainMenuColor]</textcolor>
-					<align>center</align>
-					<label>$INFO[ListItem.Label]</label>
-					<visible>Control.HasFocus(9000)</visible>
-					<include>VisibleFadeAnimation</include>
-				</control>
-			</focusedlayout>
-			<content>
-				<include>skinshortcuts-mainmenu</include>
-			</content>
-		</control>
+		<top>62</top>
+		<width>1920</width>
+		<height>100</height>
+		<onleft>9000</onleft>
+		<onright>9000</onright>
+		<onup condition="System.HasMediaDVD | Control.IsVisible(9027)">9020</onup>
+		<onup condition="Control.IsVisible(90010) + ![System.HasMediaDVD | Control.IsVisible(9027)]">90010</onup>
+		<onup condition="!Control.IsVisible(90010) + Control.IsVisible(90020) + ![System.HasMediaDVD | Control.IsVisible(9027)] + Skin.HasSetting(lowermainmenu)">90020</onup>
+		<ondown condition="String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True)">9001</ondown>
+		<ondown condition="!String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True) + !Skin.HasSetting(lowermainmenu) + Control.IsVisible(90020)">90020</ondown>
+		<onback condition="Skin.HasSetting(Home.Hide) + !Player.Playing">SetFocus(64)</onback>
+		<pagecontrol />
+		<scrolltime tween="quadratic" easing="out">400</scrolltime>
+		<orientation>horizontal</orientation>
+		<itemlayout height="100" width="1920">
+			<control type="label">
+				<width>100%</width>
+				<height>90</height>
+				<font>font_MainMenu</font>
+				<textcolor>$VAR[UnfocusedMainMenuColor]</textcolor>
+				<align>center</align>
+				<label>$INFO[ListItem.Label]</label>
+			</control>
+		</itemlayout>
+		<focusedlayout height="100" width="1920">
+			<control type="label">
+				<width>100%</width>
+				<height>90</height>
+				<font>font_MainMenu</font>
+				<textcolor>$VAR[UnfocusedMainMenuColor]</textcolor>
+				<align>center</align>
+				<label>$INFO[ListItem.Label]</label>
+			</control>
+			<control type="label">
+				<width>100%</width>
+				<height>90</height>
+				<font>font_MainMenu</font>
+				<textcolor>$VAR[FocusedMainMenuColor]</textcolor>
+				<align>center</align>
+				<label>$INFO[ListItem.Label]</label>
+				<visible>Control.HasFocus(9000)</visible>
+				<include>VisibleFadeAnimation</include>
+			</control>
+		</focusedlayout>
+		<content>
+			<include>skinshortcuts-mainmenu</include>
+		</content>
 	</include>
 	<include name="VerticalMainMenuListContent">
 		<left>37</left>
@@ -716,22 +820,15 @@
 	</include>
 	<include name="MainMenuListFixed">
 		<control type="fixedlist" id="9000">
-			<include>MainMenuListContent</include>
+			<include condition="!String.IsEqual(Skin.String(MainMenu.Layout),vertical)">MainMenuListContent</include>
+			<include condition="String.IsEqual(Skin.String(MainMenu.Layout),vertical)">VerticalMainMenuListContent</include>
 		</control>
 	</include>
 	<include name="MainMenuListWrapped">
 		<control type="wraplist" id="9000">
-			<include>MainMenuListContent</include>
-		</control>
-	</include>
-	<include name="VerticalMainMenuListFixed">
-		<control type="fixedlist" id="9000">
-			<include>VerticalMainMenuListContent</include>
-		</control>
-	</include>
-	<include name="VerticalMainMenuListWrapped">
-		<control type="wraplist" id="9000">
-			<include>VerticalMainMenuListContent</include>
+			<include condition="!String.IsEqual(Skin.String(MainMenu.Layout),vertical) + !String.IsEqual(Skin.String(MainMenu.Layout),1)">MainMenuListContent</include>
+			<include condition="String.IsEqual(Skin.String(MainMenu.Layout),1)">OneMainMenuItemListContent</include>
+			<include condition="String.IsEqual(Skin.String(MainMenu.Layout),vertical)">VerticalMainMenuListContent</include>
 		</control>
 	</include>
 	<include name="FocusPosition4">
@@ -784,7 +881,7 @@
 			<font />
 		</control>
 	</include>
-	<!-- Home Widgets -->
+	<!-- SiLVO Widgets -->
 	<include name="NowPlayingVideoWidget">
 		<!-- Video Info -->
 		<control type="group">
@@ -1225,12 +1322,12 @@
 			</control>
 		</control>
 	</include>
-	<include name="RSSFeedWidget">
+	<include name="RSSFeed">
 		<control type="group">
 			<animation effect="slide" end="1945,0" time="240">WindowClose</animation>
-			<animation effect="slide" start="1945,0" end="0,0" delay="300" time="240" condition="!window.previous(startup)">WindowOpen</animation>
+			<animation effect="slide" start="1945,0" end="0,0" delay="300" time="240" condition="!Window.Previous(startup)">WindowOpen</animation>
 			<animation effect="slide" start="1945" end="0" time="240">VisibleChange</animation>
-			<animation effect="slide" start="1945,0" end="0,0" delay="800" time="480" condition="window.previous(startup)">WindowOpen</animation>
+			<animation effect="slide" start="1945,0" end="0,0" delay="800" time="480" condition="Window.Previous(startup)">WindowOpen</animation>
 			<animation effect="slide" end="0,-90" time="300" tween="cubic" easing="inout" condition="ControlGroup(9001).HasFocus() + String.IsEqual(Skin.String(RSS.Position),$LOCALIZE[571])">Conditional</animation>
 			<animation effect="fade" start="100" end="0" time="300" condition="ControlGroup(9001).HasFocus() + String.IsEqual(Skin.String(RSS.Position),$LOCALIZE[571])">Conditional</animation>
 			<animation effect="slide" end="0,340" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu) | [!Skin.HasSetting(lowermainmenu) + String.IsEqual(Skin.String(RSS.Position),$LOCALIZE[418])]">Conditional</animation>
@@ -1349,12 +1446,12 @@
 			</control>
 		</control>
 	</include>
-	<include name="RSSFeedWidget2">
+	<include name="RSSFeed2">
 		<control type="group">
 			<animation effect="slide" end="1870,0" time="240">WindowClose</animation>
-			<animation effect="slide" start="1870,0" end="0,0" delay="300" time="240" condition="!window.previous(startup)">WindowOpen</animation>
+			<animation effect="slide" start="1870,0" end="0,0" delay="300" time="240" condition="!Window.Previous(startup)">WindowOpen</animation>
 			<animation effect="slide" start="1870" end="0" time="240">VisibleChange</animation>
-			<animation effect="slide" start="1870,0" end="0,0" delay="800" time="480" condition="window.previous(startup)">WindowOpen</animation>
+			<animation effect="slide" start="1870,0" end="0,0" delay="800" time="480" condition="Window.Previous(startup)">WindowOpen</animation>
 			<animation effect="slide" end="0,-946" time="320" tween="cubic" easing="inout" condition="Skin.HasSetting(lowermainmenu) | [!Skin.HasSetting(lowermainmenu) + String.IsEqual(Skin.String(RSS.Position),$LOCALIZE[419])]">Conditional</animation>
 			<top>993</top>
 			<height>87</height>
@@ -1413,11 +1510,11 @@
 			</control>
 		</control>
 	</include>
-	<include name="RSSFeedWidgetVerticalMenu">
+	<include name="RSSFeedVerticalMenu">
 		<control type="group">
 			<animation effect="slide" end="1870,0" time="240">WindowClose</animation>
-			<animation effect="slide" start="1400,0" end="0,0" delay="300" time="240" condition="!window.previous(startup)">WindowOpen</animation>
-			<animation effect="slide" start="1400,0" end="0,0" delay="800" time="480" condition="window.previous(startup)">WindowOpen</animation>
+			<animation effect="slide" start="1400,0" end="0,0" delay="300" time="240" condition="!Window.Previous(startup)">WindowOpen</animation>
+			<animation effect="slide" start="1400,0" end="0,0" delay="800" time="480" condition="Window.Previous(startup)">WindowOpen</animation>
 			<animation effect="slide" end="0,-993" time="320" tween="cubic" easing="inout" condition="[system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuRSS.Position),$LOCALIZE[419])] | [!system.getbool(lookandfeel.enablerssfeeds) + String.IsEqual(Skin.String(VerticalMenuSystemBar.Position),$LOCALIZE[418])]">Conditional</animation>
 			<animation effect="slide" end="1250,0" time="320" tween="cubic" easing="inout" condition="!system.getbool(lookandfeel.enablerssfeeds)">Conditional</animation>
 			<animation effect="slide" end="100,0" time="320" tween="cubic" easing="inout" condition="!system.getbool(lookandfeel.enablerssfeeds) + !Skin.HasSetting(Disable.SearchButton) + !System.HasMediaDVD">Conditional</animation>
@@ -1565,7 +1662,7 @@
 						<shadowcolor>shadow</shadowcolor>
 						<visible>system.getbool(lookandfeel.enablerssfeeds)</visible>
 						<animation effect="slide" end="-410,0" condition="[!ControlGroup(90010).HasFocus + !ControlGroup(90020).HasFocus] | [!String.Contains(Container(9000).ListItem.Property(widgetStyle),Extended) + ControlGroup(90010).HasFocus] | [!String.Contains(Container(9000).ListItem.Property(widgetStyle.2),Extended) + ControlGroup(90020).HasFocus]">Conditional</animation>
-						</control>
+					</control>
 				</control>
 				<control type="label">
 					<left>1880</left>
@@ -1583,7 +1680,7 @@
 		<control type="group">
 			<left>490r</left>
 			<top>45</top>
-			<visible>!String.IsEmpty(Container(9000).ListItem.Property(widgetLiveTV)) | [VideoPlayer.Content(LiveTV) + Window.IsActive(fullscreeninfo)]</visible>
+			<visible>!String.IsEmpty(Container(9000).ListItem.Property(widgetLiveTV))</visible>
 			<include>WindowOpenCloseAnimation</include>
 			<animation effect="fade" time="300">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="200" condition="ControlGroup(90020).HasFocus">Conditional</animation>
@@ -1720,11 +1817,12 @@
 			<textoffsety>5</textoffsety>
 			<label>$VAR[FanartTitleVar]</label>
 			<texturenofocus border="30,0,30,30">text_shadow.png</texturenofocus>
-			<visible>![ControlGroup(90010).HasFocus() | ControlGroup(90020).HasFocus()] | [!String.IsEmpty(Container(9000).ListItem.Property(widgetDisableFanart)) + ControlGroup(90010).HasFocus() | !ControlGroup(90010).HasFocus()] + [!String.IsEmpty(Container(9000).ListItem.Property(widgetDisableFanart.2)) + ControlGroup(90020).HasFocus() | !ControlGroup(90020).HasFocus()]</visible>
 			<include>VisibleFadeAnimation</include>
 			<animation effect="fade" time="600">WindowOpen</animation>
 			<animation effect="fade" time="600">WindowClose</animation>
 			<animation effect="slide" end="0,40" time="300" tween="cubic" easing="inout" condition="String.IsEqual(Skin.String(MainMenu.Layout),vertical)">Conditional</animation>
+			<visible>![ControlGroup(90010).HasFocus() | ControlGroup(90020).HasFocus()] | [!String.IsEmpty(Container(9000).ListItem.Property(widgetDisableFanart)) + ControlGroup(90010).HasFocus() | !ControlGroup(90010).HasFocus()] + [!String.IsEmpty(Container(9000).ListItem.Property(widgetDisableFanart.2)) + ControlGroup(90020).HasFocus() | !ControlGroup(90020).HasFocus()]</visible>
+			<visible>String.Contains(Container(9000).ListItem.Property(background),.Fanart) + !String.IsEqual(Container(9000).ListItem.Property(background),Weather.Fanart) + ![Player.HasVideo + !Skin.HasSetting(Disable.ShowBackgroundVideo)]</visible>
 		</control>
 	</include>
 </includes>

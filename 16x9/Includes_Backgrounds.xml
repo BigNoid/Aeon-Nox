@@ -23,11 +23,6 @@
 		</control>
 		<control type="group">
 			<include>FullscreenDimensions</include>
-			<control type="image">
-				<include>AnimatedBackgroundAnimation</include>
-				<texture background="true">special://skin/backgrounds/default_settings.jpg</texture>
-				<visible>Window.IsVisible(settings)</visible>
-			</control>
 			<control type="group">
 				<visible>[Player.HasVideo + !Skin.HasSetting(Disable.ShowBackgroundVideo) + !Window.IsVisible(TVChannels) + !Window.IsVisible(RadioChannels) + !SlideShow.IsActive]</visible>
 				<control type="image">
@@ -104,13 +99,14 @@
 		<control type="list" id="9033">
 			<include>HiddenList</include>
 			<content>
+				<include condition="Window.IsActive(settings)">SettingsBackground</include>
 				<include condition="Window.IsActive(weather)">WeatherFallback</include>
 				<include condition="Window.IsActive(profiles)">ProfilesFallback</include>
 				<include condition="Window.IsActive(pictures)">PicturesFallback</include>
 				<include condition="Window.IsActive(music) | Window.IsActive(musicplaylist)">MusicFallback</include>
 				<include condition="Window.IsActive(tvchannels) | Window.IsActive(tvguide) | Window.IsActive(tvrecordings) | Window.IsActive(tvsearch) | Window.IsActive(tvtimers)">LiveTVFallback</include>
 				<include condition="Window.IsActive(programs) | Window.IsActive(1133)">AppsFallback</include>
-				<include condition="Window.IsActive(SettingsCategory.xml) | Window.IsActive(systeminfo) | Window.IsActive(skinsettings) | Window.IsActive(settings) | Window.IsActive(addonbrowser) | Window.IsActive(filemanager) | Window.IsActive(eventlog)">SystemFallback</include>
+				<include condition="Window.IsActive(SettingsCategory.xml) | Window.IsActive(systeminfo) | Window.IsActive(skinsettings) | Window.IsActive(addonbrowser) | Window.IsActive(filemanager) | Window.IsActive(eventlog)">SystemFallback</include>
 				<include condition="Window.IsActive(videos) | Window.IsActive(videoplaylist)">VideoFallback</include>
 				<include condition="Window.IsActive(games)">GamesFallback</include>
 				<item>
@@ -130,6 +126,7 @@
 		<control type="group">
 			<visible>!Control.IsVisible(509)</visible>
 			<control type="multiimage">
+				<include>FullscreenDimensions</include>
 				<include>AnimatedBackgroundAnimation</include>
 				<imagepath background="true">$VAR[GlobalBackgroundVar]</imagepath>
 			</control>
@@ -142,18 +139,10 @@
 			<control type="image">
 				<texture>black.png</texture>
 			</control>
-			<control type="group">
+			<control type="multiimage">
+				<include>VisibleFadeAnimation</include>
+				<imagepath background="true">$VAR[HomeBackgroundVar]</imagepath>
 				<include>AnimatedBackgroundAnimation</include>
-				<control type="multiimage">
-					<visible>![Player.HasAudio + Skin.HasSetting(Enable.ArtistSlideshowOnHome)]</visible>
-					<include>VisibleFadeAnimation</include>
-					<imagepath background="true">$VAR[HomeBackgroundVar]</imagepath>
-				</control>
-				<control type="multiimage">
-					<visible>Player.HasAudio + Skin.HasSetting(Enable.ArtistSlideshowOnHome) + String.IsEmpty(Window(Home).Property(script.cinemavision.running))</visible>
-					<include>VisibleFadeAnimation</include>
-					<imagepath background="true">$VAR[ArtistSlideshowOnHomeBackgroundVar]</imagepath>
-				</control>
 			</control>
 		</control>
 	</include>
@@ -445,6 +434,11 @@
 				</control>
 			</control>
 		</control>
+	</include>
+	<include name="SettingsBackground">
+		<item>
+			<thumb>special://skin/backgrounds/default_settings.jpg</thumb>
+		</item>
 	</include>
 	<include name="WeatherFallback">
 		<item>
