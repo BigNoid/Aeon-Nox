@@ -1129,9 +1129,56 @@
 		<include>ScrollOffsetLabel</include>
 		<control type="group">
 			<left>-440</left>
-			<include>SideBladeLeft</include>
+			<animation effect="slide" start="440,0" end="0,0" time="400" tween="quadratic" easing="out" condition="String.IsEmpty(Window(home).Property(MediaMenu))">Conditional</animation>
+			<animation effect="slide" start="0,0" end="-440,0" time="400" tween="quadratic" easing="out">WindowClose</animation>
+			<!-- <top>44</top> -->
+			<control type="image">
+				<width>432</width>
+				<height>1080</height>
+				<texture border="40">mediamenu_back.png</texture>
+			</control>
+			<control type="button" id="9051">
+				<include>HiddenObject</include>
+				<onfocus condition="String.IsEmpty(Window(Home).Property(MediaMenu))">SetProperty(MediaMenu,True,home)</onfocus>
+				<onfocus condition="String.IsEmpty(Window(Home).Property(MediaMenu))">SetFocus(9050)</onfocus>
+				<onfocus condition="!String.IsEmpty(Window(Home).Property(MediaMenu))">ClearProperty(MediaMenu,Home)</onfocus>
+				<onfocus condition="!String.IsEmpty(Window(Home).Property(MediaMenu))">SetFocus(50)</onfocus>
+			</control>
+			<control type="button" id="8999">
+				<description>Close Window button</description>
+				<left>350</left>
+				<width>64</width>
+				<height>48</height>
+				<label></label>
+				<font>CloseButton</font>
+				<textcolor>grey</textcolor>
+				<focusedcolor>themecolor</focusedcolor>
+				<onclick>ClearProperty(MediaMenu,Home)</onclick>
+				<onclick>SetFocus(50)</onclick>
+				<texturefocus />
+				<texturenofocus />
+				<visible>system.getbool(input.enablemouse)</visible>
+			</control>
+			<control type="image">
+				<description>LOGO</description>
+				<width>400</width>
+				<height>120</height>
+				<aspectratio>keep</aspectratio>
+				<texture>aeon-nox-logo.png</texture>
+			</control>
 			<control type="grouplist" id="9050">
-				<include>MediaMenuTop</include>
+				<top>100</top>
+				<width>400</width>
+				<height>1080</height>
+				<onleft>9050</onleft>
+				<onright>ClearProperty(MediaMenu,Home)</onright>
+				<onright>50</onright>
+				<onup>9050</onup>
+				<ondown>9050</ondown>
+				<onback>ClearProperty(MediaMenu,Home)</onback>
+				<onback>50</onback>
+				<include condition="Skin.HasSetting(KioskMode.Enabled)">KioskModeButton</include>
+				<animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1129)" reversible="true">conditional</animation>
 				<control type="button" id="203">
 					<description>View options</description>
 					<textwidth>352</textwidth>
@@ -1183,7 +1230,7 @@
 				</control>
 				<control type="panel" id="9000">
 					<width>400</width>
-					<height>420</height>
+					<height>600</height>
 					<onleft>noop</onleft>
 					<onright>ClearProperty(MediaMenu,Home)</onright>
 					<onright>50</onright>
