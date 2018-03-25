@@ -60,10 +60,11 @@
 	<include name="Info">
 		<!-- Poster -->
 		<control type="group">
-			<visible>String.IsEmpty(Container($PARAM[id]).ListItem.Property(Label3)) + String.IsEmpty(Container($PARAM[id]).ListItem.ChannelName) + String.IsEmpty(Container($PARAM[id]).ListItem.Artist) + String.IsEmpty(Container($PARAM[id]).ListItem.AlbumArtist) + String.IsEmpty(Container($PARAM[id]).ListItem.AddonName) + !$PARAM[widgetSquare] + ![ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType),pvr)] + ![ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType.2),pvr)]</visible>
+			<visible>String.IsEmpty(Container.ListItem.Property(Label3)) + String.IsEmpty(Container.ListItem.ChannelName) + String.IsEmpty(Container.ListItem.Artist) + String.IsEmpty(Container.ListItem.AlbumArtist) + String.IsEmpty(Container.ListItem.AddonName) + !$PARAM[widgetSquare] + ![ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType),pvr)] + ![ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType.2),pvr)]</visible>
 			<include content="InfoContent">
 				<param name="id">$PARAM[id]</param>
 				<param name="widthBack">$PARAM[widthBack]</param>
+				<param name="Aspect">$PARAM[Aspect]</param>
 				<param name="isSquare">false</param>
 				<param name="Left">$PARAM[Left1]</param>
 				<param name="Width">$PARAM[Width1]</param>
@@ -71,24 +72,11 @@
 		</control>
 		<!-- Square -->
 		<control type="group">
-			<visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Property(Label3)) | !String.IsEmpty(Container($PARAM[id]).ListItem.Artist) | !String.IsEmpty(Container($PARAM[id]).ListItem.AlbumArtist) | !String.IsEmpty(Container($PARAM[id]).ListItem.AddonName) | $PARAM[widgetSquare]</visible>
+			<visible>!String.IsEmpty(Container.ListItem.Property(Label3)) | !String.IsEmpty(Container.ListItem.Artist) | !String.IsEmpty(Container.ListItem.AlbumArtist) | !String.IsEmpty(Container.ListItem.AddonName) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType),pvr)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType.2),pvr)] | $PARAM[widgetSquare]</visible>
 			<include content="InfoContent">
 				<param name="id">$PARAM[id]</param>
 				<param name="widthBack">$PARAM[widthBack]</param>
-				<param name="Aspect">scale</param>
-				<param name="Align">center</param>
-				<param name="isSquare">true</param>
-				<param name="Left">$PARAM[Left2]</param>
-				<param name="Width">$PARAM[Width2]</param>
-			</include>
-		</control>
-		<!-- Square - Keep Aspect -->
-		<control type="group">
-			<visible>[ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType),pvr)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType.2),pvr)]</visible>
-			<include content="InfoContent">
-				<param name="id">$PARAM[id]</param>
-				<param name="widthBack">$PARAM[widthBack]</param>
-				<param name="Aspect">keep</param>
+				<param name="Aspect">$PARAM[Aspect]</param>
 				<param name="Align">center</param>
 				<param name="isSquare">true</param>
 				<param name="Left">$PARAM[Left2]</param>
@@ -107,121 +95,41 @@
 			<!-- Poster Art -->
 			<control type="group">
 				<visible>!$PARAM[isSquare]</visible>
-				<control type="group">
-					<visible>String.IsEmpty(Skin.String(Widget.CaseInfo)) | [ControlGroup(90010).HasFocus + String.IsEmpty(Container(9000).ListItem.Property(widgetCase)) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEmpty(Container(9000).ListItem.Property(widgetCase.2)) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]</visible>
-					<control type="image">
-						<width>226</width>
-						<height>310</height>
-						<texture background="true" fallback="homewidgets/DefaultMovies_poster.png">$VAR[HomeWidgetPosterVar]</texture>
-						<fadetime>IconCrossfadeTime</fadetime>
-						<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
-						<bordersize>20</bordersize>
-					</control>
-					<!-- <control type="image">
-						<width>206</width>
-						<height>310</height>
-						<texture background="true" fallback="homewidgets/DefaultMovies_poster.png">$VAR[HomeWidgetPosterVar]</texture>
-						<fadetime>IconCrossfadeTime</fadetime>
-					</control> -->
-				</control>
+				<animation effect="slide" end="0,15" condition="String.IsEqual(Skin.String(Widget.CaseInfo),Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]">Conditional</animation>
 				<control type="image">
-					<left>5</left>
-					<top>6</top>
-					<width>196</width>
-					<height>298</height>
-					<texture background="true" fallback="homewidgets/DefaultMovies_poster.png">$VAR[HomeWidgetPosterVar]</texture>
+					<width>200</width>
+					<height>300</height>
 					<fadetime>IconCrossfadeTime</fadetime>
-					<visible>String.IsEqual(Skin.String(Widget.CaseInfo),Glass) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]</visible>
+					<texture background="true" diffuse="thumbs/movieposter_mask.png"  fallback="homewidgets/DefaultMovies_poster.png">$VAR[HomeWidgetPosterVar]</texture>
 				</control>
 				<control type="image">
-					<left>5</left>
-					<top>26</top>
-					<width>196</width>
-					<height>279</height>
-					<texture background="true" fallback="homewidgets/DefaultMovies_poster.png">$VAR[HomeWidgetPosterVar]</texture>
-					<fadetime>IconCrossfadeTime</fadetime>
-					<visible>String.IsEqual(Skin.String(Widget.CaseInfo),Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]</visible>
-				</control>
-				<control type="image">
-					<left>7</left>
-					<top>6</top>
-					<width>192</width>
-					<height>298</height>
-					<texture background="true" fallback="homewidgets/DefaultMovies_poster.png">$VAR[HomeWidgetPosterVar]</texture>
-					<fadetime>IconCrossfadeTime</fadetime>
-					<visible>String.IsEqual(Skin.String(Widget.CaseInfo),Clear Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]</visible>
-				</control>
-				<control type="image">
-					<width>206</width>
-					<height>310</height>
+					<left>-30</left>
+					<top>-45</top>
+					<width>260</width>
+					<height>390</height>
 					<texture background="true">$VAR[HomeWidgetInfoCaseVar]</texture>
 					<fadetime>IconCrossfadeTime</fadetime>
-					<visible>!String.IsEmpty(Skin.String(Widget.CaseInfo))</visible>
+					<animation effect="slide" end="0,-11" condition="String.IsEqual(Skin.String(Widget.CaseInfo),Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]">Conditional</animation>
+					<animation effect="zoom" end="80" center="auto" condition="[String.IsEqual(Skin.String(Widget.CaseInfo),Glass) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]] | [String.IsEqual(Skin.String(Widget.CaseInfo),Clear Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]]">Conditional</animation>
 				</control>
 			</control>
 			<!-- Square Art -->
 			<control type="group">
 				<visible>$PARAM[isSquare]</visible>
-				<control type="image">
-					<left>-20</left>
-					<top>-20</top>
-					<width>350</width>
-					<height>350</height>
-					<texture colordiffuse="11FFFFFF">back.png</texture>
-					<fadetime>IconCrossfadeTime</fadetime>
-					<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
-					<bordersize>20</bordersize>
-					<visible>String.IsEmpty(Skin.String(Widget.CaseInfo)) | [ControlGroup(90010).HasFocus + String.IsEmpty(Container(9000).ListItem.Property(widgetCase)) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEmpty(Container(9000).ListItem.Property(widgetCase.2)) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]</visible>
-				</control>
 				<control type="multiimage">
 					<width>310</width>
 					<height>310</height>
 					<aspectratio aligny="$PARAM[Align]">$PARAM[Aspect]</aspectratio>
-					<imagepath background="true" fallback="DefaultMovies.png">$VAR[HomeWidgetPosterVar]</imagepath>
+					<imagepath background="true">$VAR[HomeWidgetPosterVar]</imagepath>
 					<aspectratio>keep</aspectratio>
 					<timeperimage>70</timeperimage>
 					<fadetime>1</fadetime>
 					<randomize>false</randomize>
-					<visible>String.IsEmpty(Skin.String(Widget.CaseInfo)) | [ControlGroup(90010).HasFocus + String.IsEmpty(Container(9000).ListItem.Property(widgetCase)) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEmpty(Container(9000).ListItem.Property(widgetCase.2)) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]</visible>
-				</control>
-				<control type="multiimage">
-					<left>6</left>
-					<top>6</top>
-					<width>298</width>
-					<height>298</height>
-					<aspectratio aligny="$PARAM[Align]">$PARAM[Aspect]</aspectratio>
-					<imagepath background="true" fallback="DefaultMovies.png">$VAR[HomeWidgetPosterVar]</imagepath>
-					<aspectratio>keep</aspectratio>
-					<timeperimage>70</timeperimage>
-					<fadetime>1</fadetime>
-					<randomize>false</randomize>
-					<visible>String.IsEqual(Skin.String(Widget.CaseInfo),Glass) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]</visible>
-				</control>
-				<control type="multiimage">
-					<left>28</left>
-					<top>4</top>
-					<width>278</width>
-					<height>302</height>
-					<aspectratio aligny="$PARAM[Align]">$PARAM[Aspect]</aspectratio>
-					<imagepath background="true" fallback="DefaultMovies.png">$VAR[HomeWidgetPosterVar]</imagepath>
-					<aspectratio>keep</aspectratio>
-					<timeperimage>70</timeperimage>
-					<fadetime>1</fadetime>
-					<randomize>false</randomize>
-					<visible>String.IsEqual(Skin.String(Widget.CaseInfo),Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]</visible>
-				</control>
-				<control type="multiimage">
-					<left>28</left>
-					<top>4</top>
-					<width>278</width>
-					<height>302</height>
-					<aspectratio aligny="$PARAM[Align]">$PARAM[Aspect]</aspectratio>
-					<imagepath background="true" fallback="DefaultMovies.png">$VAR[HomeWidgetPosterVar]</imagepath>
-					<aspectratio>keep</aspectratio>
-					<timeperimage>70</timeperimage>
-					<fadetime>1</fadetime>
-					<randomize>false</randomize>
-					<visible>String.IsEqual(Skin.String(Widget.CaseInfo),Clear Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]</visible>
+					<animation effect="zoom" end="95" center="auto" condition="[String.IsEqual(Skin.String(Widget.CaseInfo),Glass) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]] | [String.IsEqual(Skin.String(Widget.CaseInfo),Clear Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]]">Conditional</animation>
+					<animation type="Conditional" condition="String.IsEqual(Skin.String(Widget.CaseInfo),Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]">
+						<effect type="zoom" end="90" center="auto" />
+						<effect type="slide" end="12" />
+					</animation>
 				</control>
 				<control type="image">
 					<width>310</width>
@@ -234,6 +142,7 @@
 			<control type="grouplist">
 				<left>$PARAM[Left]</left>
 				<top>-2</top>
+				<width>$PARAM[Width]</width>
 				<height>312</height>
 				<itemgap>10</itemgap>
 				<!-- Title -->
