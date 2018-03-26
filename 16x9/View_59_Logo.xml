@@ -2,43 +2,43 @@
 <includes>
 	<!-- Logo -->
 	<include name="LandscapeLogoLayout">
-		<control type="image">
+		<control type="group">
 			<left>52</left>
 			<top>178</top>
-			<width>390</width>
-			<height>164</height>
-			<aspectratio aligny="bottom">keep</aspectratio>
-			<texture background="true">$VAR[ArtworkLogoVar]</texture>
-			<visible>!Skin.HasSetting(Enable.Logo.clearart) | [Skin.HasSetting(Enable.Logo.clearart) + String.IsEmpty(ListItem.Art(clearart))]</visible>
-		</control>
-		<control type="image">
-			<left>52</left>
-			<top>345</top>
-			<width>390</width>
-			<height>164</height>
-			<aspectratio aligny="top">keep</aspectratio>
-			<texture background="true" flipy="true">$VAR[ArtworkLogoVar]</texture>
-			<animation effect="fade" start="15" end="15" time="160" tween="cubic" easing="inout" condition="true">Conditional</animation>
-			<visible>!Skin.HasSetting(Enable.Logo.clearart) | [Skin.HasSetting(Enable.Logo.clearart) + String.IsEmpty(ListItem.Art(clearart))]</visible>
-		</control>
-		<control type="image">
-			<left>52</left>
-			<top>178</top>
-			<width>390</width>
-			<height>164</height>
-			<aspectratio aligny="bottom">keep</aspectratio>
-			<texture background="true">$INFO[ListItem.Art(clearart)]</texture>
-			<visible>Skin.HasSetting(Enable.Logo.clearart)</visible>
-		</control>
-		<control type="image">
-			<left>52</left>
-			<top>345</top>
-			<width>390</width>
-			<height>164</height>
-			<aspectratio aligny="top">keep</aspectratio>
-			<texture background="true" flipy="true">$INFO[ListItem.Art(clearart)]</texture>
-			<animation effect="fade" start="15" end="15" time="160" tween="cubic" easing="inout" condition="true">Conditional</animation>
-			<visible>Skin.HasSetting(Enable.Logo.clearart)</visible>
+			<control type="group">
+				<visible>!Skin.HasSetting(Enable.Logo.clearart) | [Skin.HasSetting(Enable.Logo.clearart) + String.IsEmpty(ListItem.Art(clearart))]</visible>
+				<control type="image">
+					<width>390</width>
+					<height>164</height>
+					<aspectratio aligny="bottom">keep</aspectratio>
+					<texture background="true">$VAR[ArtworkLogoVar]</texture>
+				</control>
+				<control type="image">
+					<top>167</top>
+					<width>390</width>
+					<height>164</height>
+					<aspectratio aligny="top">keep</aspectratio>
+					<texture background="true" flipy="true">$VAR[ArtworkLogoVar]</texture>
+					<animation effect="fade" start="15" end="15" time="160" tween="cubic" easing="inout" condition="true">Conditional</animation>
+				</control>
+			</control>
+			<control type="group">
+				<visible>Skin.HasSetting(Enable.Logo.clearart)</visible>
+				<control type="image">
+					<width>390</width>
+					<height>164</height>
+					<aspectratio aligny="bottom">keep</aspectratio>
+					<texture background="true">$INFO[ListItem.Art(clearart)]</texture>
+				</control>
+				<control type="image">
+					<top>167</top>
+					<width>390</width>
+					<height>164</height>
+					<aspectratio aligny="top">keep</aspectratio>
+					<texture background="true" flipy="true">$INFO[ListItem.Art(clearart)]</texture>
+					<animation effect="fade" start="15" end="15" time="160" tween="cubic" easing="inout" condition="true">Conditional</animation>
+				</control>
+			</control>
 		</control>
 		<control type="group">
 			<visible>String.IsEmpty(ListItem.Art(clearlogo))</visible>
@@ -88,9 +88,11 @@
 		<scrolltime tween="quadratic" easing="out">300</scrolltime>
 		<visible>Container.Content(tvshows) | Container.Content(movies) | Container.Content(artists)</visible>
 		<orientation>horizontal</orientation>
+		<animation effect="slide" end="0,80" time="320" tween="cubic" easing="inout" condition="[Container.Content(movies) + Skin.HasSetting(noextendedinfomovies)] | [Container.Content(tvshows) + Skin.HasSetting(noextendedinfotvshows)]">Conditional</animation>
 		<itemlayout width="495" height="450">
 			<control type="group">
-				<animation effect="fade" start="100" end="0" time="600" condition="System.IdleTime(10) + Skin.HasSetting(Enable.Logo.UnfocusFade)">Conditional</animation>
+				<animation effect="fade" start="100" end="0" time="600" condition="!Skin.HasSetting(Logo.SingleLayout) + Skin.HasSetting(Enable.Logo.UnfocusFade) + System.IdleTime(5)">Conditional</animation>
+				<animation effect="fade" start="100" end="0" condition="Skin.HasSetting(Logo.SingleLayout)">Conditional</animation>
 				<include>LandscapeLogoLayout</include>
 			</control>
 		</itemlayout>
