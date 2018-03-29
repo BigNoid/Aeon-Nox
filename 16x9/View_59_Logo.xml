@@ -77,8 +77,8 @@
 		<onleft>59</onleft>
 		<onright>59</onright>
 		<onup condition="!ListItem.IsParentFolder">4401</onup>
-		<onup condition="String.IsEmpty(ListItem.Title)">SetProperty(MediaMenu,True,Home)</onup>
-		<onup condition="String.IsEmpty(ListItem.Title)">SetFocus(9050)</onup>
+		<onup condition="ListItem.IsParentFolder">SetProperty(MediaMenu,True,Home)</onup>
+		<onup condition="ListItem.IsParentFolder">SetFocus(9050)</onup>
 		<ondown condition="Control.IsVisible(59060)">59060</ondown>
 		<ondown condition="!Control.IsVisible(59060)">4400</ondown>
 		<pagecontrol>59060</pagecontrol>
@@ -128,6 +128,86 @@
 				<orientation>horizontal</orientation>
 				<animation effect="fade" start="100" end="0" time="500" delay="500" condition="!Control.HasFocus(59060) + !Container.Scrolling">Conditional</animation>
 				<animation effect="zoom" start="100,100" end="100,200" center="auto" tween="sine" easing="inout" time="500" pulse="true" condition="Control.HasFocus(59060)">Conditional</animation>
+			</control>
+			<control type="group">
+				<top>880</top>
+				<control type="group">
+					<visible>[Container.Content(movies) + !Skin.HasSetting(noextendedinfomovies)]</visible>
+					<include>VisibleFadeAnimation</include>
+					<control type="label">
+						<left>827</left>
+						<width>250</width>
+						<align>center</align>
+						<label>$INFO[ListItem.Top250,$LOCALIZE[13409] # ,]</label>
+						<visible>!String.IsEmpty(ListItem.Top250)</visible>
+					</control>
+					<control type="label">
+						<left>535</left>
+						<top>75</top>
+						<width>850</width>
+						<label>$INFO[ListItem.Tagline]</label>
+						<align>center</align>
+						<font>font14_bold</font>
+						<scroll>true</scroll>
+						<visible>!String.IsEmpty(ListItem.Tagline)</visible>
+					</control>
+					<control type="label">
+						<left>450</left>
+						<top>150</top>
+						<width>1020</width>
+						<align>center</align>
+						<label>$VAR[FloorSubLabelVar]</label>
+						<font>font13_bold</font>
+						<visible>!ListItem.IsCollection + [Container.Content(movies) + !ListItem.IsParentFolder]</visible>
+					</control>
+				</control>
+				<control type="textbox">
+					<label>[B]$INFO[Window(Home).Property(Set.Movies.Title)][/B]</label>
+					<align>center</align>
+					<left>160</left>
+					<top>100</top>
+					<width>1600</width>
+					<height>130</height>
+					<font>font14_textbox2</font>
+					<autoscroll time="2500" delay="2500" repeat="3000">true</autoscroll>
+					<visible>ListItem.IsCollection + Skin.HasSetting(Enable.Logo.MovieSetList)</visible>
+				</control>
+				<control type="group">
+					<visible>[Container.Content(tvshows) + !Skin.HasSetting(noextendedinfotvshows)]</visible>
+					<include>VisibleFadeAnimation</include>
+					<control type="label">
+						<left>350</left>
+						<width>1220</width>
+						<align>center</align>
+						<label>$LOCALIZE[31010]: $INFO[Window(Home).Property(NextAired.NextNumber)] - $INFO[Window(Home).Property(NextAired.NextTitle)] ($INFO[Window(Home).Property(NextAired.NextDay)])</label>
+						<visible>!String.IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
+					</control>
+					<control type="label">
+						<left>350</left>
+						<width>1220</width>
+						<align>center</align>
+						<label>$INFO[Window(Home).Property(NextAired.Status)]</label>
+						<visible>String.IsEmpty(Window(Home).Property(NextAired.NextDate)) + !String.IsEmpty(Window(Home).Property(NextAired.Status))</visible>
+					</control>
+					<control type="label">
+						<left>400</left>
+						<top>75</top>
+						<width>1120</width>
+						<align>center</align>
+						<label>$LOCALIZE[20360]: $INFO[ListItem.Property(TotalEpisodes)][COLOR $VAR[UnWatchedEpColor]]$INFO[ListItem.Property(UnWatchedEpisodes),  ($LOCALIZE[16101]: ,)][/COLOR]</label>
+						<font>font14_bold</font>
+						<visible>Container.Content(tvshows) + !ListItem.IsParentFolder</visible>
+					</control>
+					<control type="label">
+						<left>460</left>
+						<top>150</top>
+						<width>1000</width>
+						<align>center</align>
+						<label>$INFO[ListItem.RatingAndVotes]</label>
+						<font>font13_bold</font>
+						<visible>Container.Content(tvshows) + !String.IsEmpty(ListItem.RatingAndVotes)</visible>
+					</control>
+				</control>
 			</control>
 		</control>
 	</include>
