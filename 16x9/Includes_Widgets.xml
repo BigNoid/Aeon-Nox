@@ -57,156 +57,116 @@
 		<animation effect="fade" end="55" condition="String.IsEqual(Skin.String(Widget.Trans),55)">Conditional</animation>
 		<animation effect="fade" end="50" condition="String.IsEqual(Skin.String(Widget.Trans),50)">Conditional</animation>
 	</include>
-	<include name="Info">
-		<control type="group">
-			<animation effect="fade" end="0">WindowClose</animation>
-			<!-- Poster -->
-			<control type="group">
-				<visible>String.IsEmpty(Container.ListItem.Property(Label3)) + String.IsEmpty(Container.ListItem.ChannelName) + String.IsEmpty(Container.ListItem.Artist) + String.IsEmpty(Container.ListItem.AlbumArtist) + String.IsEmpty(Container.ListItem.AddonName) + !$PARAM[widgetSquare] + ![ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType),pvr)] + ![ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType.2),pvr)]</visible>
-				<include content="InfoContent">
-					<param name="id">$PARAM[id]</param>
-					<param name="widthBack">$PARAM[widthBack]</param>
-					<param name="Aspect">$PARAM[Aspect]</param>
-					<param name="isSquare">false</param>
-					<param name="Left">$PARAM[Left1]</param>
-					<param name="Width">$PARAM[Width1]</param>
-				</include>
+	<include name="InfoTextContent">
+		<control type="grouplist">
+			<left>$PARAM[left]</left>
+			<top>-2</top>
+			<width>$PARAM[width]</width>
+			<height>312</height>
+			<itemgap>10</itemgap>
+			<!-- Title -->
+			<control type="label">
+				<width>$PARAM[width]</width>
+				<height>27</height>
+				<font>font14</font>
+				<textcolor>white2</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<scroll>true</scroll>
+				<label>$VAR[HomeWidgetInfoTitleVar]</label>
 			</control>
-			<!-- Square -->
-			<control type="group">
-				<visible>!String.IsEmpty(Container.ListItem.Property(Label3)) | !String.IsEmpty(Container.ListItem.Artist) | !String.IsEmpty(Container.ListItem.AlbumArtist) | !String.IsEmpty(Container.ListItem.AddonName) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType),pvr)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(WidgetType.2),pvr)] | $PARAM[widgetSquare]</visible>
-				<include content="InfoContent">
-					<param name="id">$PARAM[id]</param>
-					<param name="widthBack">$PARAM[widthBack]</param>
-					<param name="Aspect">$PARAM[Aspect]</param>
-					<param name="Align">center</param>
-					<param name="isSquare">true</param>
-					<param name="Left">$PARAM[Left2]</param>
-					<param name="Width">$PARAM[Width2]</param>
-				</include>
+			<!-- SubTitle -->
+			<control type="label">
+				<width>$PARAM[width]</width>
+				<height>27</height>
+				<font>font14_title</font>
+				<textcolor>$VAR[ThemeLabelColor]</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<scroll>true</scroll>
+				<label>$VAR[HomeWidgetSubTitleVar]</label>
+			</control>
+			<control type="label">
+				<height>1</height>
+				<label />
+			</control>
+			<!-- Info 1 -->
+			<control type="label">
+				<width>$PARAM[width]</width>
+				<height>27</height>
+				<font>font14</font>
+				<textcolor>white2</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$VAR[HomeWidgetInfo1Var]</label>
+				<scroll>true</scroll>
+			</control>
+			<!-- Info 2 -->
+			<control type="label">
+				<width>$PARAM[width]</width>
+				<height>27</height>
+				<font>font14</font>
+				<textcolor>white2</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<label>$VAR[HomeWidgetInfo2Var]</label>
+			</control>
+			<control type="label">
+				<height>1</height>
+				<label />
+			</control>
+			<!-- Plot -->
+			<control type="textbox">
+				<width>$PARAM[width]</width>
+				<height>149</height>
+				<font>font14_textbox</font>
+				<align>justify</align>
+				<textcolor>white2</textcolor>
+				<shadowcolor>shadow</shadowcolor>
+				<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
+				<label>$VAR[HomeWidgetPlotVar]</label>
 			</control>
 		</control>
 	</include>
-	<include name="InfoContent">
+	<include name="InfoPosterContent">
 		<control type="group">
+			<animation effect="slide" end="0,15" condition="String.IsEqual(Skin.String(Widget.CaseInfo),Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]">Conditional</animation>
 			<control type="image">
-				<top>-40</top>
-				<width>$PARAM[widthBack]</width>
-				<height>391</height>
-				<texture colordiffuse="BFFFFFFF">homewidgets/list_shadow.png</texture>
+				<width>200</width>
+				<height>300</height>
+				<fadetime>IconCrossfadeTime</fadetime>
+				<texture background="true" diffuse="thumbs/movieposter_mask.png"  fallback="homewidgets/DefaultMovies_poster.png">$VAR[HomeWidgetPosterVar]</texture>
 			</control>
-			<!-- Poster Art -->
-			<control type="group">
-				<visible>!$PARAM[isSquare]</visible>
-				<animation effect="slide" end="0,15" condition="String.IsEqual(Skin.String(Widget.CaseInfo),Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]">Conditional</animation>
-				<control type="image">
-					<width>200</width>
-					<height>300</height>
-					<fadetime>IconCrossfadeTime</fadetime>
-					<texture background="true" diffuse="thumbs/movieposter_mask.png"  fallback="homewidgets/DefaultMovies_poster.png">$VAR[HomeWidgetPosterVar]</texture>
-				</control>
-				<control type="image">
-					<left>-30</left>
-					<top>-45</top>
-					<width>260</width>
-					<height>390</height>
-					<texture background="true">$VAR[HomeWidgetInfoCaseVar]</texture>
-					<fadetime>IconCrossfadeTime</fadetime>
-					<animation effect="slide" end="0,-11" condition="String.IsEqual(Skin.String(Widget.CaseInfo),Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]">Conditional</animation>
-					<animation effect="zoom" end="80" center="auto" condition="[String.IsEqual(Skin.String(Widget.CaseInfo),Glass) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]] | [String.IsEqual(Skin.String(Widget.CaseInfo),Clear Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]]">Conditional</animation>
-				</control>
+			<control type="image">
+				<left>-30</left>
+				<top>-45</top>
+				<width>260</width>
+				<height>390</height>
+				<texture background="true">$VAR[HomeWidgetInfoCaseVar]</texture>
+				<fadetime>IconCrossfadeTime</fadetime>
+				<animation effect="slide" end="0,-11" condition="String.IsEqual(Skin.String(Widget.CaseInfo),Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]">Conditional</animation>
+				<animation effect="zoom" end="80" center="auto" condition="[String.IsEqual(Skin.String(Widget.CaseInfo),Glass) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]] | [String.IsEqual(Skin.String(Widget.CaseInfo),Clear Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]]">Conditional</animation>
 			</control>
-			<!-- Square Art -->
-			<control type="group">
-				<visible>$PARAM[isSquare]</visible>
-				<control type="multiimage">
-					<width>310</width>
-					<height>310</height>
-					<aspectratio aligny="$PARAM[Align]">$PARAM[Aspect]</aspectratio>
-					<imagepath background="true">$VAR[HomeWidgetPosterVar]</imagepath>
-					<aspectratio>keep</aspectratio>
-					<timeperimage>70</timeperimage>
-					<fadetime>1</fadetime>
-					<randomize>false</randomize>
-					<animation effect="zoom" end="95" center="auto" condition="[String.IsEqual(Skin.String(Widget.CaseInfo),Glass) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]] | [String.IsEqual(Skin.String(Widget.CaseInfo),Clear Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]]">Conditional</animation>
-					<animation type="Conditional" condition="String.IsEqual(Skin.String(Widget.CaseInfo),Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]">
-						<effect type="zoom" end="90" center="auto" />
-						<effect type="slide" end="12" />
-					</animation>
-				</control>
-				<control type="image">
-					<width>310</width>
-					<height>310</height>
-					<texture background="true">$VAR[HomeWidgetInfoCaseVar]</texture>
-					<fadetime>IconCrossfadeTime</fadetime>
-					<visible>!String.IsEmpty(Skin.String(Widget.CaseInfo))</visible>
-				</control>
-			</control>
-			<control type="grouplist">
-				<left>$PARAM[Left]</left>
-				<top>-2</top>
-				<width>$PARAM[Width]</width>
-				<height>312</height>
-				<itemgap>10</itemgap>
-				<!-- Title -->
-				<control type="label">
-					<width>$PARAM[Width]</width>
-					<height>27</height>
-					<font>font14</font>
-					<textcolor>white2</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<scroll>true</scroll>
-					<label>$VAR[HomeWidgetTitleVar]</label>
-				</control>
-				<!-- SubTitle -->
-				<control type="label">
-					<width>$PARAM[Width]</width>
-					<height>27</height>
-					<font>font14_title</font>
-					<textcolor>$VAR[ThemeLabelColor]</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<scroll>true</scroll>
-					<label>$VAR[HomeWidgetSubTitleVar]</label>
-				</control>
-				<control type="label">
-					<height>1</height>
-					<label />
-				</control>
-				<!-- Info 1 -->
-				<control type="label">
-					<width>$PARAM[Width]</width>
-					<height>27</height>
-					<font>font14</font>
-					<textcolor>white2</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<label>$VAR[HomeWidgetInfo1Var]</label>
-					<scroll>true</scroll>
-				</control>
-				<!-- Info 2 -->
-				<control type="label">
-					<width>$PARAM[Width]</width>
-					<height>27</height>
-					<font>font14</font>
-					<textcolor>white2</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<label>$VAR[HomeWidgetInfo2Var]</label>
-				</control>
-				<control type="label">
-					<height>1</height>
-					<label />
-				</control>
-				<!-- Plot -->
-				<control type="textbox">
-					<width>$PARAM[Width]</width>
-					<height>149</height>
-					<font>font14_textbox</font>
-					<align>justify</align>
-					<textcolor>white2</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
-					<label>$VAR[HomeWidgetPlotVar]</label>
-				</control>
-			</control>
+		</control>
+	</include>
+	<include name="InfoSquareContent">
+		<control type="multiimage">
+			<width>310</width>
+			<height>310</height>
+			<aspectratio aligny="$PARAM[Align]">$PARAM[Aspect]</aspectratio>
+			<imagepath background="true">$VAR[HomeWidgetPosterVar]</imagepath>
+			<aspectratio>keep</aspectratio>
+			<timeperimage>70</timeperimage>
+			<fadetime>1</fadetime>
+			<randomize>false</randomize>
+			<animation effect="zoom" end="95" center="auto" condition="[String.IsEqual(Skin.String(Widget.CaseInfo),Glass) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Glass) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]] | [String.IsEqual(Skin.String(Widget.CaseInfo),Clear Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Clear Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]]">Conditional</animation>
+			<animation type="Conditional" condition="String.IsEqual(Skin.String(Widget.CaseInfo),Case) | [ControlGroup(90010).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)] | [ControlGroup(90020).HasFocus + String.IsEqual(Container(9000).ListItem.Property(widgetCase.2),Case) + String.IsEqual(Skin.String(Widget.CaseInfo),Match widget panel)]">
+				<effect type="zoom" end="90" center="auto" />
+				<effect type="slide" end="12" />
+			</animation>
+		</control>
+		<control type="image">
+			<width>310</width>
+			<height>310</height>
+			<texture background="true">$VAR[HomeWidgetInfoCaseVar]</texture>
+			<fadetime>IconCrossfadeTime</fadetime>
+			<visible>!String.IsEmpty(Skin.String(Widget.CaseInfo))</visible>
 		</control>
 	</include>
 	<!-- List WIDGETS -->
@@ -516,10 +476,14 @@
 			<width>$PARAM[backWidth]</width>
 			<height>$PARAM[backHeight]</height>
 			<control type="image">
+				<width>$PARAM[backWidth]</width>
+				<height>$PARAM[backHeight]</height>
 				<texture colordiffuse="$VAR[HomeWidgetBackColor]" border="40">$VAR[HomeWidgetBackgroundVar]</texture>
 				<visible>Skin.HasSetting(Enable.GlobalWidgetBack)</visible>
 			</control>
 			<control type="image">
+				<width>$PARAM[backWidth]</width>
+				<height>$PARAM[backHeight]</height>
 				<texture colordiffuse="$PARAM[backColor]" border="40">$PARAM[Texture]</texture>
 				<visible>!Skin.HasSetting(Enable.GlobalWidgetBack)</visible>
 			</control>
@@ -592,43 +556,45 @@
 	<!-- Panel Container Content -->
 	<include name="PortraitArt">
 		<itemlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]">
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<aspectratio aligny="$PARAM[Aligny]">$PARAM[Aspect]</aspectratio>
-				<texture fallback="homewidgets/DefaultMovies_poster.png">$PARAM[Texture]</texture>
+			<control type="group">
 				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<texture>homewidgets/label_back_poster.png</texture>
-				<visible>$PARAM[labelVisible]</visible>
-			</control>
-			<control type="label">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]r</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[labelHeight]</height>
-				<align>center</align>
-				<textoffsetx>7</textoffsetx>
-				<font>$PARAM[labelFont]</font>
-				<textcolor>lightgrey</textcolor>
-				<label>$VAR[HomeWidgetTitleVar]</label>
-				<visible>$PARAM[labelVisible]</visible>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftCase]</left>
-				<top>$PARAM[topCase]</top>
-				<width>$PARAM[widthCase]</width>
-				<height>$PARAM[heightCase]</height>
-				<aspectratio aligny="$PARAM[caseAligny]">$PARAM[caseAspect]</aspectratio>
-				<texture>$PARAM[Case]</texture>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
+				<control type="group">
+					<left>$PARAM[leftArt]</left>
+					<control type="image">
+						<top>$PARAM[topArt]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>$PARAM[heightArt]</height>
+						<aspectratio aligny="$PARAM[Aligny]">$PARAM[Aspect]</aspectratio>
+						<texture fallback="homewidgets/DefaultMovies_poster.png">$PARAM[Texture]</texture>
+					</control>
+					<control type="group">
+						<visible>$PARAM[labelVisible]</visible>
+						<control type="image">
+							<top>$PARAM[topArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[heightArt]</height>
+							<texture>homewidgets/label_back_poster.png</texture>
+						</control>
+						<control type="label">
+							<top>$PARAM[topArt]r</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[labelHeight]</height>
+							<align>center</align>
+							<textoffsetx>7</textoffsetx>
+							<font>$PARAM[labelFont]</font>
+							<textcolor>lightgrey</textcolor>
+							<label>$VAR[HomeWidgetTitleVar]</label>
+						</control>
+					</control>
+				</control>
+				<control type="image">
+					<left>$PARAM[leftCase]</left>
+					<top>$PARAM[topCase]</top>
+					<width>$PARAM[widthCase]</width>
+					<height>$PARAM[heightCase]</height>
+					<aspectratio aligny="$PARAM[caseAligny]">$PARAM[caseAspect]</aspectratio>
+					<texture>$PARAM[Case]</texture>
+				</control>
 			</control>
 		</itemlayout>
 		<focusedlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]">
@@ -636,40 +602,36 @@
 				<animation type="Focus" reversible="false">
 					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
 				</animation>
-				<control type="image">
+				<control type="group">
 					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[topArt]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[heightArt]</height>
-					<aspectratio aligny="$PARAM[Aligny]">$PARAM[Aspect]</aspectratio>
-					<texture fallback="homewidgets/DefaultMovies_poster.png">$PARAM[Texture]</texture>
-				</control>
-				<control type="image">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[topArt]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[heightArt]</height>
-					<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
-				</control>
-				<control type="image">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[topArt]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[heightArt]</height>
-					<texture>homewidgets/label_back_poster.png</texture>
-					<visible>$PARAM[labelFocusVisible]</visible>
-				</control>
-				<control type="label">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[topArt]r</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[labelHeight]</height>
-					<align>center</align>
-					<textoffsetx>7</textoffsetx>
-					<font>$PARAM[labelFont]</font>
-					<textcolor>$VAR[ThemeLabelColor]</textcolor>
-					<label>$VAR[HomeWidgetTitleVar]</label>
-					<visible>$PARAM[labelFocusVisible]</visible>
+					<control type="image">
+						<top>$PARAM[topArt]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>$PARAM[heightArt]</height>
+						<aspectratio aligny="$PARAM[Aligny]">$PARAM[Aspect]</aspectratio>
+						<texture fallback="homewidgets/DefaultMovies_poster.png">$PARAM[Texture]</texture>
+						<bordertexture colordiffuse="$VAR[ThemeLabelColor]" border="4">thumbs/thumbnail_focused.png</bordertexture>
+						<bordersize>4</bordersize>
+					</control>
+					<control type="group">
+						<visible>$PARAM[labelFocusVisible]</visible>
+						<control type="image">
+							<top>$PARAM[topArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[heightArt]</height>
+							<texture>homewidgets/label_back_poster.png</texture>
+						</control>
+						<control type="label">
+							<top>$PARAM[topArt]r</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[labelHeight]</height>
+							<align>center</align>
+							<textoffsetx>7</textoffsetx>
+							<font>$PARAM[labelFont]</font>
+							<textcolor>$VAR[ThemeLabelColor]</textcolor>
+							<label>$VAR[HomeWidgetTitleVar]</label>
+						</control>
+					</control>
 				</control>
 				<control type="image">
 					<left>$PARAM[leftCase]</left>
@@ -683,250 +645,310 @@
 		</focusedlayout>
 	</include>
 	<include name="SquareArt">
-		<itemlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]">
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<aspectratio aligny="$PARAM[Aligny]">$PARAM[Aspect]</aspectratio>
-				<texture fallback="DefaultMovies.png">$PARAM[Texture]</texture>
-				<visible>!$PARAM[fallbackVisible] + !$PARAM[isWeather]</visible>
+		<itemlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]" condition="!$PARAM[isWeather]">
+			<control type="group">
 				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="multiimage">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[weatherTop]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[weatherHeight]</height>
-				<aspectratio aligny="center">keep</aspectratio>
-				<imagepath>$PARAM[Texture]</imagepath>
-				<visible>$PARAM[isWeather]</visible>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-				<aspectratio>keep</aspectratio>
-				<timeperimage>70</timeperimage>
-				<fadetime>1</fadetime>
-				<randomize>false</randomize>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topFakeDiscArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[widthArt]</height>
-				<aspectratio aligny="top" scalediffuse="false">scale</aspectratio>
-				<texture diffuse="homewidgets/cdart-mask.png" fallback="DefaultMovies.png">$INFO[ListItem.Art(thumb)]</texture>
-				<visible>$PARAM[fallbackVisible]</visible>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topFakeDiscArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[widthArt]</height>
-				<aspectratio>$PARAM[Aspect]</aspectratio>
-				<texture>homewidgets/cdarttop.png</texture>
-				<visible>$PARAM[fallbackVisible]</visible>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<aspectratio>$PARAM[Aspect]</aspectratio>
-				<texture>$VAR[HomeWidgetFakeDiscArtVar]</texture>
-				<visible>$PARAM[fallbackVisible]</visible>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<texture>homewidgets/label_back_square.png</texture>
-				<visible>$PARAM[labelVisible] + !$PARAM[isWeather]</visible>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="label">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]r</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[labelHeight]</height>
-				<align>center</align>
-				<textoffsetx>7</textoffsetx>
-				<font>$PARAM[labelFont]</font>
-				<textcolor>lightgrey</textcolor>
-				<label>$VAR[HomeWidgetTitleVar]</label>
-				<visible>$PARAM[labelVisible] + !$PARAM[isWeather]</visible>
-			</control>
-			<control type="label">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[weatherTop1]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>30</height>
-				<font>$PARAM[weatherFont]</font>
-				<align>center</align>
-				<textcolor>white2</textcolor>
-				<shadowcolor>shadow</shadowcolor>
-				<textoffsetx>7</textoffsetx>
-				<label>$INFO[ListItem.Label]</label>
-				<visible>$PARAM[isWeather]</visible>
-			</control>
-			<control type="label">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[weatherTop2]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>30</height>
-				<font>$PARAM[weatherFont]</font>
-				<align>center</align>
-				<textcolor>white2</textcolor>
-				<shadowcolor>shadow</shadowcolor>
-				<textoffsetx>7</textoffsetx>
-				<label>$INFO[ListItem.Label2]</label>
-				<visible>$PARAM[isWeather]</visible>
-			</control>
-			<control type="label">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[weatherTop3]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>30</height>
-				<font>$PARAM[weatherFont]</font>
-				<align>center</align>
-				<textcolor>white2</textcolor>
-				<shadowcolor>shadow</shadowcolor>
-				<textoffsetx>7</textoffsetx>
-				<label>$INFO[ListItem.Property(Label3)]$INFO[ListItem.Property(Label4), ]</label>
-				<visible>$PARAM[isWeather]</visible>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftCase]</left>
-				<top>$PARAM[topCase]</top>
-				<width>$PARAM[widthCase]</width>
-				<height>$PARAM[heightCase]</height>
-				<texture>$PARAM[Case]</texture>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
+				<control type="group">
+					<left>$PARAM[leftArt]</left>
+					<control type="image">
+						<top>$PARAM[topArt]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>$PARAM[heightArt]</height>
+						<aspectratio aligny="$PARAM[Aligny]">$PARAM[Aspect]</aspectratio>
+						<texture fallback="DefaultMovies.png">$PARAM[Texture]</texture>
+						<visible>!$PARAM[fallbackVisible]</visible>
+					</control>
+					<control type="group">
+						<visible>$PARAM[fallbackVisible]</visible>
+						<control type="image">
+							<top>$PARAM[topFakeDiscArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[widthArt]</height>
+							<aspectratio aligny="top" scalediffuse="false">scale</aspectratio>
+							<texture diffuse="homewidgets/cdart-mask.png" fallback="DefaultMovies.png">$INFO[ListItem.Art(thumb)]</texture>
+						</control>
+						<control type="image">
+							<top>$PARAM[topFakeDiscArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[widthArt]</height>
+							<aspectratio>$PARAM[Aspect]</aspectratio>
+							<texture>homewidgets/cdarttop.png</texture>
+						</control>
+						<control type="image">
+							<top>$PARAM[topArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[heightArt]</height>
+							<aspectratio>$PARAM[Aspect]</aspectratio>
+							<texture>$VAR[HomeWidgetFakeDiscArtVar]</texture>
+						</control>
+					</control>
+					<control type="group">
+						<visible>$PARAM[labelVisible]</visible>
+						<control type="image">
+							<top>$PARAM[topArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[heightArt]</height>
+							<texture>homewidgets/label_back_square.png</texture>
+						</control>
+						<control type="label">
+							<top>$PARAM[topArt]r</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[labelHeight]</height>
+							<align>center</align>
+							<textoffsetx>7</textoffsetx>
+							<font>$PARAM[labelFont]</font>
+							<textcolor>lightgrey</textcolor>
+							<label>$VAR[HomeWidgetTitleVar]</label>
+						</control>
+					</control>
+				</control>
+				<control type="image">
+					<left>$PARAM[leftCase]</left>
+					<top>$PARAM[topCase]</top>
+					<width>$PARAM[widthCase]</width>
+					<height>$PARAM[heightCase]</height>
+					<texture>$PARAM[Case]</texture>
+				</control>
 			</control>
 		</itemlayout>
-		<focusedlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]">
+		<focusedlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]" condition="!$PARAM[isWeather]">
 			<control type="group">
 				<animation type="Focus" reversible="false">
 					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
 				</animation>
+				<control type="group">
+					<left>$PARAM[leftArt]</left>
+					<control type="image">
+						<top>$PARAM[topArt]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>$PARAM[heightArt]</height>
+						<aspectratio aligny="$PARAM[Aligny]">$PARAM[Aspect]</aspectratio>
+						<texture fallback="DefaultMovies.png">$PARAM[Texture]</texture>
+						<visible>!$PARAM[fallbackVisible]</visible>
+					</control>
+					<control type="group">
+						<visible>$PARAM[fallbackVisible]</visible>
+						<control type="image">
+							<top>$PARAM[topFakeDiscArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[widthArt]</height>
+							<aspectratio aligny="top" scalediffuse="false">scale</aspectratio>
+							<texture diffuse="homewidgets/cdart-mask.png" fallback="DefaultMovies.png">$INFO[ListItem.Art(thumb)]</texture>
+						</control>
+						<control type="image">
+							<top>$PARAM[topFakeDiscArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[widthArt]</height>
+							<aspectratio>$PARAM[Aspect]</aspectratio>
+							<texture>homewidgets/cdarttop.png</texture>
+						</control>
+						<control type="image">
+							<top>$PARAM[topArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[heightArt]</height>
+							<aspectratio>$PARAM[Aspect]</aspectratio>
+							<texture>$VAR[HomeWidgetFakeDiscArtVar]</texture>
+						</control>
+					</control>
+					<control type="image">
+						<top>$PARAM[topArt]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>$PARAM[heightArt]</height>
+						<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
+					</control>
+					<control type="group">
+						<visible>$PARAM[labelVisible]</visible>
+						<control type="image">
+							<top>$PARAM[topArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[heightArt]</height>
+							<texture>homewidgets/label_back_square.png</texture>
+						</control>
+						<control type="label">
+							<top>$PARAM[topArt]r</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[labelHeight]</height>
+							<align>center</align>
+							<textoffsetx>7</textoffsetx>
+							<font>$PARAM[labelFont]</font>
+							<textcolor>lightgrey</textcolor>
+							<label>$VAR[HomeWidgetTitleVar]</label>
+						</control>
+					</control>
+				</control>
 				<control type="image">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[topArt]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[heightArt]</height>
-					<aspectratio aligny="$PARAM[Aligny]">$PARAM[Aspect]</aspectratio>
-					<texture fallback="DefaultMovies.png">$PARAM[Texture]</texture>
-					<visible>!$PARAM[fallbackVisible] + !$PARAM[isWeather]</visible>
+					<left>$PARAM[leftCase]</left>
+					<top>$PARAM[topCase]</top>
+					<width>$PARAM[widthCase]</width>
+					<height>$PARAM[heightCase]</height>
+					<texture>$PARAM[Case]</texture>
 				</control>
-				<control type="multiimage">
+			</control>
+		</focusedlayout>
+		<itemlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]" condition="$PARAM[isWeather]">
+			<control type="group">
+				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
+				<control type="group">
 					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[weatherTop]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[weatherHeight]</height>
-					<aspectratio aligny="center">keep</aspectratio>
-					<imagepath>$PARAM[Texture]</imagepath>
-					<visible>$PARAM[isWeather]</visible>
-					<aspectratio>keep</aspectratio>
-					<timeperimage>70</timeperimage>
-					<fadetime>1</fadetime>
-					<randomize>false</randomize>
+					<control type="multiimage">
+						<top>$PARAM[weatherTop]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>$PARAM[weatherHeight]</height>
+						<aspectratio aligny="center">keep</aspectratio>
+						<imagepath>$PARAM[Texture]</imagepath>
+						<aspectratio>keep</aspectratio>
+						<timeperimage>70</timeperimage>
+						<fadetime>1</fadetime>
+						<randomize>false</randomize>
+					</control>
+					<control type="group">
+						<visible>$PARAM[fallbackVisible]</visible>
+						<control type="image">
+							<top>$PARAM[topFakeDiscArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[widthArt]</height>
+							<aspectratio aligny="top" scalediffuse="false">scale</aspectratio>
+							<texture diffuse="homewidgets/cdart-mask.png" fallback="DefaultMovies.png">$INFO[ListItem.Art(thumb)]</texture>
+						</control>
+						<control type="image">
+							<top>$PARAM[topFakeDiscArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[widthArt]</height>
+							<aspectratio>$PARAM[Aspect]</aspectratio>
+							<texture>homewidgets/cdarttop.png</texture>
+						</control>
+						<control type="image">
+							<top>$PARAM[topArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[heightArt]</height>
+							<aspectratio>$PARAM[Aspect]</aspectratio>
+							<texture>$VAR[HomeWidgetFakeDiscArtVar]</texture>
+						</control>
+					</control>
+					<control type="label">
+						<top>$PARAM[weatherTop1]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>30</height>
+						<font>$PARAM[weatherFont]</font>
+						<align>center</align>
+						<textcolor>white2</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<textoffsetx>7</textoffsetx>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+					<control type="label">
+						<top>$PARAM[weatherTop2]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>30</height>
+						<font>$PARAM[weatherFont]</font>
+						<align>center</align>
+						<textcolor>white2</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<textoffsetx>7</textoffsetx>
+						<label>$INFO[ListItem.Label2]</label>
+					</control>
+					<control type="label">
+						<top>$PARAM[weatherTop3]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>30</height>
+						<font>$PARAM[weatherFont]</font>
+						<align>center</align>
+						<textcolor>white2</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<textoffsetx>7</textoffsetx>
+						<label>$INFO[ListItem.Property(Label3)]$INFO[ListItem.Property(Label4), ]</label>
+					</control>
 				</control>
 				<control type="image">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[topFakeDiscArt]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[widthArt]</height>
-					<aspectratio aligny="top" scalediffuse="false">scale</aspectratio>
-					<texture diffuse="homewidgets/cdart-mask.png" fallback="DefaultMovies.png">$INFO[ListItem.Art(thumb)]</texture>
-					<visible>$PARAM[fallbackVisible]</visible>
+					<left>$PARAM[leftCase]</left>
+					<top>$PARAM[topCase]</top>
+					<width>$PARAM[widthCase]</width>
+					<height>$PARAM[heightCase]</height>
+					<texture>$PARAM[Case]</texture>
 				</control>
-				<control type="image">
+			</control>
+		</itemlayout>
+		<focusedlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]" condition="$PARAM[isWeather]">
+			<control type="group">
+				<animation type="Focus" reversible="false">
+					<effect type="zoom" start="95" end="100" time="300" tween="sine" easing="inout" center="auto" />
+				</animation>
+				<control type="group">
 					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[topFakeDiscArt]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[widthArt]</height>
-					<aspectratio>$PARAM[Aspect]</aspectratio>
-					<texture>homewidgets/cdarttop.png</texture>
-					<visible>$PARAM[fallbackVisible]</visible>
-				</control>
-				<control type="image">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[topArt]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[heightArt]</height>
-					<aspectratio>$PARAM[Aspect]</aspectratio>
-					<texture>$VAR[HomeWidgetFakeDiscArtVar]</texture>
-					<visible>$PARAM[fallbackVisible]</visible>
-				</control>
-				<control type="image">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[topArt]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[heightArt]</height>
-					<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
-				</control>
-				<control type="image">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[topArt]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[heightArt]</height>
-					<texture>homewidgets/label_back_square.png</texture>
-					<visible>$PARAM[labelFocusVisible] + !$PARAM[isWeather]</visible>
-				</control>
-				<control type="label">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[topArt]r</top>
-					<width>$PARAM[widthArt]</width>
-					<height>$PARAM[labelHeight]</height>
-					<align>center</align>
-					<textoffsetx>7</textoffsetx>
-					<font>$PARAM[labelFont]</font>
-					<textcolor>$VAR[ThemeLabelColor]</textcolor>
-					<label>$VAR[HomeWidgetTitleVar]</label>
-					<visible>$PARAM[labelFocusVisible] + !$PARAM[isWeather]</visible>
-				</control>
-				<control type="label">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[weatherTop1]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>30</height>
-					<font>$PARAM[weatherFont]</font>
-					<align>center</align>
-					<textcolor>white2</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<textoffsetx>7</textoffsetx>
-					<label>$INFO[ListItem.Label]</label>
-					<visible>$PARAM[isWeather]</visible>
-				</control>
-				<control type="label">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[weatherTop2]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>30</height>
-					<font>$PARAM[weatherFont]</font>
-					<align>center</align>
-					<textcolor>white2</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<scroll>true</scroll>
-					<textoffsetx>7</textoffsetx>
-					<label>$INFO[ListItem.Label2]</label>
-					<visible>$PARAM[isWeather]</visible>
-				</control>
-				<control type="label">
-					<left>$PARAM[leftArt]</left>
-					<top>$PARAM[weatherTop3]</top>
-					<width>$PARAM[widthArt]</width>
-					<height>30</height>
-					<font>$PARAM[weatherFont]</font>
-					<align>center</align>
-					<textcolor>white2</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<textoffsetx>7</textoffsetx>
-					<label>$INFO[ListItem.Property(Label3)]$INFO[ListItem.Property(Label4), ]</label>
-					<visible>$PARAM[isWeather]</visible>
+					<control type="multiimage">
+						<top>$PARAM[weatherTop]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>$PARAM[weatherHeight]</height>
+						<aspectratio aligny="center">keep</aspectratio>
+						<imagepath>$PARAM[Texture]</imagepath>
+						<aspectratio>keep</aspectratio>
+						<timeperimage>70</timeperimage>
+						<fadetime>1</fadetime>
+						<randomize>false</randomize>
+					</control>
+					<control type="group">
+						<visible>$PARAM[fallbackVisible]</visible>
+						<control type="image">
+							<top>$PARAM[topFakeDiscArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[widthArt]</height>
+							<aspectratio aligny="top" scalediffuse="false">scale</aspectratio>
+							<texture diffuse="homewidgets/cdart-mask.png" fallback="DefaultMovies.png">$INFO[ListItem.Art(thumb)]</texture>
+						</control>
+						<control type="image">
+							<top>$PARAM[topFakeDiscArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[widthArt]</height>
+							<aspectratio>$PARAM[Aspect]</aspectratio>
+							<texture>homewidgets/cdarttop.png</texture>
+						</control>
+						<control type="image">
+							<top>$PARAM[topArt]</top>
+							<width>$PARAM[widthArt]</width>
+							<height>$PARAM[heightArt]</height>
+							<aspectratio>$PARAM[Aspect]</aspectratio>
+							<texture>$VAR[HomeWidgetFakeDiscArtVar]</texture>
+						</control>
+					</control>
+					<control type="image">
+						<top>$PARAM[topArt]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>$PARAM[heightArt]</height>
+						<texture colordiffuse="$VAR[WidgetHighlightBarColor]" border="4">listselect_fo.png</texture>
+					</control>
+					<control type="label">
+						<top>$PARAM[weatherTop1]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>30</height>
+						<font>$PARAM[weatherFont]</font>
+						<align>center</align>
+						<textcolor>white2</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<textoffsetx>7</textoffsetx>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+					<control type="label">
+						<top>$PARAM[weatherTop2]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>30</height>
+						<font>$PARAM[weatherFont]</font>
+						<align>center</align>
+						<textcolor>white2</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<textoffsetx>7</textoffsetx>
+						<label>$INFO[ListItem.Label2]</label>
+					</control>
+					<control type="label">
+						<top>$PARAM[weatherTop3]</top>
+						<width>$PARAM[widthArt]</width>
+						<height>30</height>
+						<font>$PARAM[weatherFont]</font>
+						<align>center</align>
+						<textcolor>white2</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<textoffsetx>7</textoffsetx>
+						<label>$INFO[ListItem.Property(Label3)]$INFO[ListItem.Property(Label4), ]</label>
+					</control>
 				</control>
 				<control type="image">
 					<left>$PARAM[leftCase]</left>
@@ -940,57 +962,57 @@
 	</include>
 	<include name="LandscapeArt">
 		<itemlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]">
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<aspectratio aligny="$PARAM[Aligny]">$PARAM[Aspect]</aspectratio>
-				<texture fallback="homewidgets/DefaultMovies_landscape.png">$PARAM[Texture]</texture>
-				<visible>![$PARAM[fallbackVisible]]</visible>
+			<control type="group">
 				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="label">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<align>center</align>
-				<textoffsetx>7</textoffsetx>
-				<font>$PARAM[fallbackFont]</font>
-				<textcolor>white2</textcolor>
-				<shadowcolor>shadow</shadowcolor>
-				<label>$VAR[HomeWidgetTitle2Var]</label>
-				<visible>$PARAM[fallbackVisible]</visible>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<texture>homewidgets/label_back_landscape.png</texture>
-				<visible>$PARAM[labelVisible]</visible>
-			</control>
-			<control type="label">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]r</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[labelHeight]</height>
-				<align>center</align>
-				<textoffsetx>7</textoffsetx>
-				<font>$PARAM[labelFont]</font>
-				<textcolor>lightgrey</textcolor>
-				<label>$VAR[HomeWidgetTitleVar]</label>
-				<visible>$PARAM[labelVisible]</visible>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftCase]</left>
-				<top>$PARAM[topCase]</top>
-				<width>$PARAM[widthCase]</width>
-				<height>$PARAM[heightCase]</height>
-				<texture>$PARAM[Case]</texture>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
+				<control type="image">
+					<left>$PARAM[leftArt]</left>
+					<top>$PARAM[topArt]</top>
+					<width>$PARAM[widthArt]</width>
+					<height>$PARAM[heightArt]</height>
+					<aspectratio aligny="$PARAM[Aligny]">$PARAM[Aspect]</aspectratio>
+					<texture fallback="homewidgets/DefaultMovies_landscape.png">$PARAM[Texture]</texture>
+					<visible>![$PARAM[fallbackVisible]]</visible>
+				</control>
+				<control type="label">
+					<left>$PARAM[leftArt]</left>
+					<top>$PARAM[topArt]</top>
+					<width>$PARAM[widthArt]</width>
+					<height>$PARAM[heightArt]</height>
+					<align>center</align>
+					<textoffsetx>7</textoffsetx>
+					<font>$PARAM[fallbackFont]</font>
+					<textcolor>white2</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+					<label>$VAR[HomeWidgetTitle2Var]</label>
+					<visible>$PARAM[fallbackVisible]</visible>
+				</control>
+				<control type="image">
+					<left>$PARAM[leftArt]</left>
+					<top>$PARAM[topArt]</top>
+					<width>$PARAM[widthArt]</width>
+					<height>$PARAM[heightArt]</height>
+					<texture>homewidgets/label_back_landscape.png</texture>
+					<visible>$PARAM[labelVisible]</visible>
+				</control>
+				<control type="label">
+					<left>$PARAM[leftArt]</left>
+					<top>$PARAM[topArt]r</top>
+					<width>$PARAM[widthArt]</width>
+					<height>$PARAM[labelHeight]</height>
+					<align>center</align>
+					<textoffsetx>7</textoffsetx>
+					<font>$PARAM[labelFont]</font>
+					<textcolor>lightgrey</textcolor>
+					<label>$VAR[HomeWidgetTitleVar]</label>
+					<visible>$PARAM[labelVisible]</visible>
+				</control>
+				<control type="image">
+					<left>$PARAM[leftCase]</left>
+					<top>$PARAM[topCase]</top>
+					<width>$PARAM[widthCase]</width>
+					<height>$PARAM[heightCase]</height>
+					<texture>$PARAM[Case]</texture>
+				</control>
 			</control>
 		</itemlayout>
 		<focusedlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]">
@@ -1059,76 +1081,74 @@
 	</include>
 	<include name="BannerArt">
 		<itemlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]">
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<aspectratio>$PARAM[Aspect]</aspectratio>
-				<texture>$PARAM[Texture]</texture>
+			<control type="group">
 				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<aspectratio aligny="top">scale</aspectratio>
-				<texture fallback="homewidgets/DefaultMovies_banner.png">$VAR[HomeWidgetFanArtVar]</texture>
-				<visible>String.IsEmpty(ListItem.Art(banner)) + String.IsEmpty(ListItem.Art(tvshow.banner))</visible>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<aspectratio>keep</aspectratio>
-				<texture>$VAR[HomeWidgetClearLogoVar]</texture>
-				<visible>String.IsEmpty(ListItem.Art(banner)) + String.IsEmpty(ListItem.Art(tvshow.banner))</visible>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="label">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<align>center</align>
-				<textoffsetx>7</textoffsetx>
-				<font>$PARAM[fallbackFont]</font>
-				<textcolor>white2</textcolor>
-				<shadowcolor>shadow</shadowcolor>
-				<label>$VAR[HomeWidgetTitle2Var]</label>
-				<visible>String.IsEmpty(ListItem.Art(banner)) + String.IsEmpty(ListItem.Art(tvshow.banner)) + String.IsEmpty(ListItem.Art(clearlogo)) + String.IsEmpty(ListItem.Art(tvshow.clearlogo))</visible>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[heightArt]</height>
-				<texture>homewidgets/label_back_banner.png</texture>
-				<visible>$PARAM[labelVisible]</visible>
-			</control>
-			<control type="label">
-				<left>$PARAM[leftArt]</left>
-				<top>$PARAM[topArt]r</top>
-				<width>$PARAM[widthArt]</width>
-				<height>$PARAM[labelHeight]</height>
-				<align>center</align>
-				<textoffsetx>7</textoffsetx>
-				<font>$PARAM[labelFont]</font>
-				<textcolor>lightgrey</textcolor>
-				<label>$VAR[HomeWidgetTitleVar]</label>
-				<visible>$PARAM[labelVisible]</visible>
-			</control>
-			<control type="image">
-				<left>$PARAM[leftCase]</left>
-				<top>$PARAM[topCase]</top>
-				<width>$PARAM[widthCase]</width>
-				<height>$PARAM[heightCase]</height>
-				<texture>$PARAM[Case]</texture>
-				<include condition="!String.IsEmpty(Skin.String(Widget.Trans))">HomeWidgetFade</include>
+				<control type="image">
+					<left>$PARAM[leftArt]</left>
+					<top>$PARAM[topArt]</top>
+					<width>$PARAM[widthArt]</width>
+					<height>$PARAM[heightArt]</height>
+					<aspectratio>$PARAM[Aspect]</aspectratio>
+					<texture>$PARAM[Texture]</texture>
+				</control>
+				<control type="image">
+					<left>$PARAM[leftArt]</left>
+					<top>$PARAM[topArt]</top>
+					<width>$PARAM[widthArt]</width>
+					<height>$PARAM[heightArt]</height>
+					<aspectratio aligny="top">scale</aspectratio>
+					<texture fallback="homewidgets/DefaultMovies_banner.png">$VAR[HomeWidgetFanArtVar]</texture>
+					<visible>String.IsEmpty(ListItem.Art(banner)) + String.IsEmpty(ListItem.Art(tvshow.banner))</visible>
+				</control>
+				<control type="image">
+					<left>$PARAM[leftArt]</left>
+					<top>$PARAM[topArt]</top>
+					<width>$PARAM[widthArt]</width>
+					<height>$PARAM[heightArt]</height>
+					<aspectratio>keep</aspectratio>
+					<texture>$VAR[HomeWidgetClearLogoVar]</texture>
+					<visible>String.IsEmpty(ListItem.Art(banner)) + String.IsEmpty(ListItem.Art(tvshow.banner))</visible>
+				</control>
+				<control type="label">
+					<left>$PARAM[leftArt]</left>
+					<top>$PARAM[topArt]</top>
+					<width>$PARAM[widthArt]</width>
+					<height>$PARAM[heightArt]</height>
+					<align>center</align>
+					<textoffsetx>7</textoffsetx>
+					<font>$PARAM[fallbackFont]</font>
+					<textcolor>white2</textcolor>
+					<shadowcolor>shadow</shadowcolor>
+					<label>$VAR[HomeWidgetTitle2Var]</label>
+					<visible>String.IsEmpty(ListItem.Art(banner)) + String.IsEmpty(ListItem.Art(tvshow.banner)) + String.IsEmpty(ListItem.Art(clearlogo)) + String.IsEmpty(ListItem.Art(tvshow.clearlogo))</visible>
+				</control>
+				<control type="image">
+					<left>$PARAM[leftArt]</left>
+					<top>$PARAM[topArt]</top>
+					<width>$PARAM[widthArt]</width>
+					<height>$PARAM[heightArt]</height>
+					<texture>homewidgets/label_back_banner.png</texture>
+					<visible>$PARAM[labelVisible]</visible>
+				</control>
+				<control type="label">
+					<left>$PARAM[leftArt]</left>
+					<top>$PARAM[topArt]r</top>
+					<width>$PARAM[widthArt]</width>
+					<height>$PARAM[labelHeight]</height>
+					<align>center</align>
+					<textoffsetx>7</textoffsetx>
+					<font>$PARAM[labelFont]</font>
+					<textcolor>lightgrey</textcolor>
+					<label>$VAR[HomeWidgetTitleVar]</label>
+					<visible>$PARAM[labelVisible]</visible>
+				</control>
+				<control type="image">
+					<left>$PARAM[leftCase]</left>
+					<top>$PARAM[topCase]</top>
+					<width>$PARAM[widthCase]</width>
+					<height>$PARAM[heightCase]</height>
+					<texture>$PARAM[Case]</texture>
+				</control>
 			</control>
 		</itemlayout>
 		<focusedlayout width="$PARAM[containerWidth]" height="$PARAM[containerHeight]">
