@@ -87,6 +87,7 @@
 								<pauseatend>4500</pauseatend>
 								<label>$INFO[ListItem.Tagline]</label>
 								<label>$INFO[Window(Home).Property(SkinHelper.ListItem.Awards)]</label>
+								<label>$INFO[ListItem.EndTime,$LOCALIZE[31393]: ,]</label>
 								<visible>String.IsEqual(ListItem.DBTYPE,movie) + [!String.IsEmpty(ListItem.Tagline) | !String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Awards))]</visible>
 							</control>
 							<control type="group">
@@ -331,7 +332,7 @@
 							<visible allowhiddenfocus="true">!Control.HasFocus(64)</visible>
 							<include>VisibleFadeAnimation</include>
 							<scrolltime tween="quadratic" easing="out">200</scrolltime>
-							<itemlayout height="72" width="1196">
+							<itemlayout height="72" width="1196" condition="!Skin.HasSetting(MoreVideoInfoDetails)">
 								<control type="label">
 									<width>1196</width>
 									<height>70</height>
@@ -341,7 +342,7 @@
 									<textoffsetx>20</textoffsetx>
 								</control>
 							</itemlayout>
-							<focusedlayout height="72" width="1196">
+							<focusedlayout height="72" width="1196" condition="!Skin.HasSetting(MoreVideoInfoDetails)">
 								<control type="image">
 									<top>5</top>
 									<width>1196</width>
@@ -352,6 +353,34 @@
 								</control>
 								<control type="label">
 									<width>1196</width>
+									<height>70</height>
+									<font>font15</font>
+									<label>$INFO[ListItem.Label2,, ]$INFO[ListItem.Label]</label>
+									<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(300)">Conditional</animation>
+									<textoffsetx>20</textoffsetx>
+								</control>
+							</focusedlayout>
+							<itemlayout height="72" width="596" condition="Skin.HasSetting(MoreVideoInfoDetails)">
+								<control type="label">
+									<width>596</width>
+									<height>70</height>
+									<font>font15</font>
+									<textcolor>$VAR[ThemeLabelColor]</textcolor>
+									<label>$INFO[ListItem.Label2,, ]$INFO[ListItem.Label,[COLOR grey], [/COLOR]]</label>
+									<textoffsetx>20</textoffsetx>
+								</control>
+							</itemlayout>
+							<focusedlayout height="72" width="596" condition="Skin.HasSetting(MoreVideoInfoDetails)">
+								<control type="image">
+									<top>5</top>
+									<width>596</width>
+									<height>62</height>
+									<texture colordiffuse="$VAR[HighlightBarColor]" border="4">listselect_fo.png</texture>
+									<visible>Control.HasFocus(300)</visible>
+									<include>VisibleFadeAnimation</include>
+								</control>
+								<control type="label">
+									<width>596</width>
 									<height>70</height>
 									<font>font15</font>
 									<label>$INFO[ListItem.Label2,, ]$INFO[ListItem.Label]</label>
@@ -646,10 +675,18 @@
 								<texturenofocus />
 								<include>ButtonInfoDialogsCommonValues</include>
 								<label></label>
-								<onclick>Dialog.Close(MovieInformation)</onclick>
-								<onclick condition="!String.IsEmpty(ListItem.Trailer)">PlayMedia($INFO[ListItem.Trailer])</onclick>
-								<onclick condition="String.IsEmpty(ListItem.Trailer)">ActivateWindow(videos,plugin://plugin.video.youtube/kodion/search/query/?q=$INFO[ListItem.OriginalTitle]+Trailer)</onclick>
-								<visible>String.IsEqual(ListItem.DBTYPE,movie)</visible>
+								<visible>!String.IsEmpty(ListItem.Trailer) + ![String.StartsWith(Container.FolderPath,plugin://) + String.Contains(Container.FolderPath,trailer)]</visible>
+							</control>
+							<control type="button" id="911">
+								<description>Search Trailer</description>
+								<font>IconMediumMD</font>
+								<width>70</width>
+								<texturenofocus />
+								<include>ButtonInfoDialogsCommonValues</include>
+								<label></label>
+								<onclick>Action(close)</onclick>
+								<onclick>RunScript(script.extendedinfo,info=youtubebrowser,id=$INFO[ListItem.Title] $INFO[ListItem.Year])</onclick>
+								<visible>System.hasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,movie) + !Control.IsVisible(11)</visible>
 							</control>
 							<control type="togglebutton" id="7">
 								<description>Set rating</description>
