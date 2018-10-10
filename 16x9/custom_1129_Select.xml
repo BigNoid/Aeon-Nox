@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window id="1129" type="dialog">
-	<defaultcontrol always="true">90100</defaultcontrol>
+	<defaultcontrol condition="String.IsEmpty(Window(Home).Property(CustomSelectGameOSDSettings))">90100</defaultcontrol>
+	<defaultcontrol condition="!String.IsEmpty(Window(Home).Property(CustomSelectGameOSDSettings))">90101</defaultcontrol>
 	<onunload condition="!String.IsEmpty(Window(movieinformation).Property(ActorID)) + !String.IsEmpty(Window(movieinformation).Property(DoAction))">SetFocus(50,$INFO[Window(movieinformation).Property(ActorID)])</onunload>
 	<onunload condition="!String.IsEmpty(Window(movieinformation).Property(ActorID)) + !String.IsEmpty(Window(movieinformation).Property(DoAction))">Action(select)</onunload>
 	<onunload condition="!String.IsEmpty(Window(movieinformation).Property(ActorID)) + !String.IsEmpty(Window(movieinformation).Property(DoAction))">Control.Move(50,-$INFO[Window(movieinformation).Property(ActorID)])</onunload>
 	<onunload condition="!String.IsEmpty(Window(movieinformation).Property(ActorID)) + !String.IsEmpty(Window(movieinformation).Property(DoAction))">SetFocus(90050)</onunload>
 	<onunload condition="!String.IsEmpty(Window(movieinformation).Property(DirectorID)) + !String.IsEmpty(Window(movieinformation).Property(DoAction))">SendClick(2003,13)</onunload>
+	<onunload>ClearProperty(CustomSelectGameOSDSettings,Home)</onunload>
 	<onunload>ClearProperty(CustomSelectSearch,Home)</onunload>
 	<onunload>ClearProperty(ActorID,movieinformation)</onunload>
 	<onunload>ClearProperty(ActorName,movieinformation)</onunload>
@@ -27,45 +29,77 @@
 			<top>240</top>
 			<animation effect="slide" end="0,-100" time="0" condition="!String.IsEmpty(Window(Home).Property(CustomSelectSearch)) + !Skin.HasSetting(lowermainmenu)">Conditional</animation>
 			<animation effect="slide" end="0,100" time="0" condition="!String.IsEmpty(Window(Home).Property(CustomSelectSearch)) + Skin.HasSetting(lowermainmenu)">Conditional</animation>
-			<control type="image">
-				<left>157</left>
-				<width>692</width>
-				<height>600</height>
-				<texture border="40">dialogs/default/bg.png</texture>
-				<visible>String.IsEmpty(Window(Home).Property(CustomSelectSearch))</visible>
+			<control type="group">
+				<visible>String.IsEmpty(Window(Home).Property(CustomSelectGameOSDSettings))</visible>
+				<control type="group">
+					<visible>String.IsEmpty(Window(Home).Property(CustomSelectSearch))</visible>
+					<control type="image">
+						<left>157</left>
+						<width>692</width>
+						<height>600</height>
+						<texture border="40">dialogs/default/bg.png</texture>
+					</control>
+					<control type="image">
+						<left>187</left>
+						<top>86</top>
+						<width>632</width>
+						<height>482</height>
+						<texture border="5">dialogs/default/inner.png</texture>
+					</control>
+				</control>
+				<control type="group">
+					<visible>!String.IsEmpty(Window(Home).Property(CustomSelectSearch))</visible>
+					<control type="image">
+						<left>157</left>
+						<width>692</width>
+						<height>360</height>
+						<texture border="40">dialogs/default/bg.png</texture>
+					</control>
+					<control type="image">
+						<left>187</left>
+						<top>86</top>
+						<width>632</width>
+						<height>242</height>
+						<texture border="5">dialogs/default/inner.png</texture>
+					</control>
+				</control>
+				<control type="label" id="1">
+					<left>30</left>
+					<top>32</top>
+					<width>940</width>
+					<height>40</height>
+					<font>font15_title</font>
+					<label>$VAR[CustomSelectLabelVar]</label>
+					<align>center</align>
+					<textcolor>dialogheader</textcolor>
+				</control>
 			</control>
-			<control type="image">
-				<left>187</left>
-				<top>86</top>
-				<width>632</width>
-				<height>482</height>
-				<texture border="5">dialogs/default/inner.png</texture>
-				<visible>String.IsEmpty(Window(Home).Property(CustomSelectSearch))</visible>
-			</control>
-			<control type="image">
-				<left>157</left>
-				<width>692</width>
-				<height>360</height>
-				<texture border="40">dialogs/default/bg.png</texture>
-				<visible>!String.IsEmpty(Window(Home).Property(CustomSelectSearch))</visible>
-			</control>
-			<control type="image">
-				<left>187</left>
-				<top>86</top>
-				<width>632</width>
-				<height>242</height>
-				<texture border="5">dialogs/default/inner.png</texture>
-				<visible>!String.IsEmpty(Window(Home).Property(CustomSelectSearch))</visible>
-			</control>
-			<control type="label" id="1">
-				<left>30</left>
-				<top>32</top>
-				<width>940</width>
-				<height>40</height>
-				<font>font15_title</font>
-				<label>$VAR[CustomSelectLabelVar]</label>
-				<align>center</align>
-				<textcolor>dialogheader</textcolor>
+			<control type="group">
+				<visible>!String.IsEmpty(Window(Home).Property(CustomSelectGameOSDSettings))</visible>
+				<control type="image">
+					<left>98</left>
+					<width>820</width>
+					<height>470</height>
+					<texture border="40">dialogs/default/bg.png</texture>
+				</control>
+				<control type="image">
+					<left>115</left>
+					<top>80</top>
+					<width>785</width>
+					<height>1</height>
+					<texture colordiffuse="$VAR[ThemeLabelColor]">new_pvr/osd_line_white.png</texture>
+				</control>
+				<control type="label">
+					<left>120</left>
+					<top>30</top>
+					<width>760</width>
+					<height>40</height>
+					<font>font16_title_bold</font>
+					<label>$LOCALIZE[35221]</label>
+					<textcolor>dialogheader</textcolor>
+					<align>center</align>
+					<scroll>true</scroll>
+				</control>
 			</control>
 			<control type="list" id="90100">
 				<left>189</left>
@@ -78,6 +112,7 @@
 				<onright>60</onright>
 				<pagecontrol>60</pagecontrol>
 				<scrolltime tween="quadratic" easing="out">200</scrolltime>
+				<visible>String.IsEmpty(Window(Home).Property(CustomSelectGameOSDSettings))</visible>
 				<itemlayout height="60" width="628">
 					<control type="label">
 						<width>628</width>
@@ -117,6 +152,70 @@
 					<include condition="!String.IsEmpty(Window(skinsettings).Property(CustomSelectWidgetCaseInfo))">SelectWidgetCaseInfo</include>
 					<include condition="!String.IsEmpty(Window(1131).Property(CustomSelectMyFlixDimmer))">SelectMyFlixDimmer</include>
 					<include condition="!String.IsEmpty(Window(1120).Property(CustomSelectMusicVizBackground))">SelectMusicVizBackground</include>
+				</content>
+			</control>
+			<control type="list" id="90101">
+				<left>118</left>
+				<top>88</top>
+				<width>800</width>
+				<height>360</height>
+				<onup>90101</onup>
+				<ondown>90101</ondown>
+				<onleft>60</onleft>
+				<pagecontrol>60</pagecontrol>
+				<scrolltime tween="quadratic" easing="out">200</scrolltime>
+				<visible>!String.IsEmpty(Window(Home).Property(CustomSelectGameOSDSettings))</visible>
+				<itemlayout height="60" width="800">
+					<control type="label">
+						<left>4</left>
+						<width>776</width>
+						<height>60</height>
+						<textoffsetx>15</textoffsetx>
+						<font>font14</font>
+						<textcolor>grey2</textcolor>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+					<control type="label">
+						<width>776</width>
+						<height>60</height>
+						<textoffsetx>15</textoffsetx>
+						<font>font14</font>
+						<textcolor>grey2</textcolor>
+						<align>right</align>
+						<label>$INFO[ListItem.Label2]</label>
+					</control>
+				</itemlayout>
+				<focusedlayout height="60" width="800">
+					<control type="image">
+						<width>780</width>
+						<height>60</height>
+						<texture colordiffuse="$VAR[HighlightBarColor]" border="5">listselect_fo.png</texture>
+						<visible>Control.HasFocus(90101)</visible>
+						<include>VisibleFadeAnimation</include>
+					</control>
+					<control type="group">
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(90101)">Conditional</animation>
+						<control type="label">
+							<left>4</left>
+							<width>776</width>
+							<height>60</height>
+							<textoffsetx>15</textoffsetx>
+							<font>font14</font>
+							<scroll>true</scroll>
+							<label>$INFO[ListItem.Label]</label>
+						</control>
+						<control type="label">
+							<width>776</width>
+							<height>60</height>
+							<textoffsetx>15</textoffsetx>
+							<font>font14</font>
+							<align>right</align>
+							<label>$INFO[ListItem.Label2]</label>
+						</control>
+					</control>
+				</focusedlayout>
+				<content>
+					<include condition="!String.IsEmpty(Window(Home).Property(CustomSelectGameOSDSettings))">SelectGameOSDSettings</include>
 				</content>
 			</control>
 		</control>
