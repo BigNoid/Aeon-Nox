@@ -580,14 +580,51 @@
 	<include name="EpgTimelineStandard">
 		<control type="group">
 			<description>TV Guide Timeline</description>
-			<include>WindowOpenCloseAnimation</include>
 			<top>128</top>
+			<include>DialogOpenCloseAnimation</include>
 			<control type="image">
 				<left>50</left>
+				<top>-70</top>
 				<width>1820</width>
-				<height>904</height>
+				<height>979</height>
 				<texture border="40">listpanel_back.png</texture>
-				<visible>Control.IsVisible(10)</visible>
+			</control>
+			<control type="fixedlist" id="11">
+				<left>80</left>
+				<top>-38</top>
+				<width>1760</width>
+				<height>60</height>
+				<onup>10</onup>
+				<ondown>10</ondown>
+				<orientation>horizontal</orientation>
+				<itemlayout height="60" width="352">
+					<control type="label">
+						<width>352</width>
+						<height>60</height>
+						<textoffsetx>15</textoffsetx>
+						<font>font14</font>
+						<textcolor>grey2</textcolor>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+				</itemlayout>
+				<focusedlayout height="60" width="352">
+					<control type="image">
+						<width>353</width>
+						<height>60</height>
+						<texture colordiffuse="$VAR[HighlightBarColor]" border="5">listselect_fo.png</texture>
+						<visible>Control.HasFocus(11)</visible>
+						<include>VisibleFadeAnimation</include>
+					</control>
+					<control type="label">
+						<width>352</width>
+						<height>60</height>
+						<textoffsetx>15</textoffsetx>
+						<font>font14</font>
+						<scroll>true</scroll>
+						<label>$INFO[ListItem.Label]</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(11)">Conditional</animation>
+					</control>
+				</focusedlayout>
 			</control>
 			<control type="epggrid" id="10">
 				<description>EPG Grid</description>
@@ -602,8 +639,8 @@
 				<rulerunit>6</rulerunit>
 				<onleft>10</onleft>
 				<onright>10</onright>
-				<onup>10</onup>
-				<ondown>10</ondown>
+				<onup>11</onup>
+				<ondown>11</ondown>
 				<onback>SetProperty(MediaMenu,True,Home)</onback>
 				<onback>28</onback>
 				<viewtype label="19032">list</viewtype>
@@ -612,7 +649,7 @@
 						<width>60</width>
 						<height>45</height>
 						<textcolor>$VAR[ThemeLabelColor]</textcolor>
-						<textoffsetx>5</textoffsetx>
+						<textoffsetx>15</textoffsetx>
 						<label>$INFO[ListItem.Label]</label>
 					</control>
 				</rulerlayout>
@@ -659,6 +696,8 @@
 						<width>440</width>
 						<height>60</height>
 						<texture colordiffuse="$VAR[HighlightBarColor]" border="4">listselect_fo.png</texture>
+						<visible>Control.HasFocus(10)</visible>
+						<include>VisibleFadeAnimation</include>
 					</control>
 					<control type="label">
 						<width>80</width>
@@ -746,6 +785,8 @@
 				<focusedlayout height="60" width="120">
 					<control type="image" id="14">
 						<texture colordiffuse="$VAR[HighlightBarColor]" border="4">listselect_fo.png</texture>
+						<visible>Control.HasFocus(10)</visible>
+						<include>VisibleFadeAnimation</include>
 					</control>
 					<control type="label">
 						<width>120</width>
@@ -775,24 +816,18 @@
 				</focusedlayout>
 			</control>
 			<control type="group">
-				<visible>Control.IsVisible(10)</visible>
-				<control type="group">
-					<visible>!String.IsEmpty(ListItem.Icon)</visible>
-					<left>83</left>
-					<top>617</top>
-					<control type="image">
-						<left>110</left>
-						<top>30</top>
-						<width>200</width>
-						<height>200</height>
-						<aspectratio>keep</aspectratio>
-						<fadetime>400</fadetime>
-						<texture>$INFO[ListItem.Icon]</texture>
-					</control>
+				<top>617</top>
+				<left>193</left>
+				<control type="image">
+					<top>30</top>
+					<width>200</width>
+					<height>200</height>
+					<aspectratio>keep</aspectratio>
+					<fadetime>400</fadetime>
+					<texture background="true">$INFO[ListItem.Icon]</texture>
 				</control>
 				<control type="group">
-					<left>522</left>
-					<top>617</top>
+					<left>329</left>
 					<control type="label">
 						<top>15</top>
 						<width>1316</width>
@@ -802,33 +837,14 @@
 						<textoffsetx>15</textoffsetx>
 						<label>$INFO[ListItem.StartTime]$INFO[ListItem.EndTime, - ,: ]$INFO[ListItem.Title,[COLOR grey2],[/COLOR]]$INFO[ListItem.Genre,     $LOCALIZE[515]: [COLOR grey2],[/COLOR]]</label>
 					</control>
-					<control type="textbox" id="81">
-						<label>$INFO[ListItem.Plot]</label>
+					<control type="textbox">
 						<left>15</left>
 						<top>70</top>
 						<width>1286</width>
 						<height>175</height>
-						<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
-						<visible>![String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
-					</control>
-					<control type="textbox" id="81">
-						<left>15</left>
-						<top>50</top>
-						<width>985</width>
-						<height>200</height>
+						<align>justify</align>
 						<label>$INFO[ListItem.Plot]</label>
 						<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
-						<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
-					</control>
-					<control type="image">
-						<left>1000</left>
-						<top>15</top>
-						<width>300</width>
-						<height>220</height>
-						<align>center</align>
-						<aspectratio>keep</aspectratio>
-						<texture>$INFO[ListItem.PlotOutline]</texture>
-						<visible>[String.StartsWith(ListItem.PlotOutline,"http://") | String.StartsWith(ListItem.PlotOutline,"https://")]</visible>
 					</control>
 				</control>
 			</control>
@@ -837,14 +853,51 @@
 	<include name="EpgTimelineMinified">
 		<control type="group">
 			<description>TV Guide Timeline</description>
-			<animation condition="Skin.HasSetting(alternatetvosd)" effect="fade" start="0" end="100" time="300" easing="out">WindowOpen</animation>
-			<animation condition="Skin.HasSetting(alternatetvosd)" effect="fade" start="100" end="0" time="300" easing="in">WindowClose</animation>
+			<include>DialogOpenCloseAnimation</include>
 			<top>750</top>
 			<control type="image">
 				<left>-40</left>
+				<top>-60</top>
 				<width>2000</width>
-				<height>350</height>
+				<height>410</height>
 				<texture border="35">dialogs/default/bg2.png</texture>
+			</control>
+			<control type="fixedlist" id="11">
+				<left>380</left>
+				<top>-38</top>
+				<width>1540</width>
+				<height>60</height>
+				<onup>10</onup>
+				<ondown>10</ondown>
+				<orientation>horizontal</orientation>
+				<itemlayout height="60" width="308">
+					<control type="label">
+						<width>308</width>
+						<height>60</height>
+						<textoffsetx>15</textoffsetx>
+						<font>font14</font>
+						<textcolor>grey2</textcolor>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+				</itemlayout>
+				<focusedlayout height="60" width="308">
+					<control type="image">
+						<width>308</width>
+						<height>60</height>
+						<texture colordiffuse="$VAR[HighlightBarColor]" border="5">listselect_fo.png</texture>
+						<visible>Control.HasFocus(11)</visible>
+						<include>VisibleFadeAnimation</include>
+					</control>
+					<control type="label">
+						<width>308</width>
+						<height>60</height>
+						<textoffsetx>15</textoffsetx>
+						<font>font14</font>
+						<scroll>true</scroll>
+						<label>$INFO[ListItem.Label]</label>
+						<animation effect="fade" start="100" end="70" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(11)">Conditional</animation>
+					</control>
+				</focusedlayout>
 			</control>
 			<control type="epggrid" id="10">
 				<description>EPG Grid</description>
@@ -859,8 +912,8 @@
 				<rulerunit>6</rulerunit>
 				<onleft>10</onleft>
 				<onright>10</onright>
-				<onup>10</onup>
-				<ondown>10</ondown>
+				<onup>11</onup>
+				<ondown>11</ondown>
 				<onback>SetProperty(MediaMenu,True,Home)</onback>
 				<onback>28</onback>
 				<viewtype label="19032">list</viewtype>
@@ -871,7 +924,7 @@
 						<top>5</top>
 						<font>font11</font>
 						<textcolor>$VAR[ThemeLabelColor]</textcolor>
-						<textoffsetx>0</textoffsetx>
+						<textoffsetx>5</textoffsetx>
 						<label>$INFO[ListItem.Label]</label>
 					</control>
 				</rulerlayout>
@@ -931,7 +984,9 @@
 					<control type="image">
 						<width>400</width>
 						<height>55</height>
-						<texture border="0" colordiffuse="33FFFFFF">new_pvr/epg-channels.png</texture>
+						<texture colordiffuse="$VAR[HighlightBarColor]" border="4">listselect_fo.png</texture>
+						<visible>Control.HasFocus(10)</visible>
+						<include>VisibleFadeAnimation</include>
 					</control>
 					<control type="label">
 						<width>80</width>
@@ -1031,6 +1086,8 @@
 				<focusedlayout height="55" width="120">
 					<control type="image" id="14">
 						<texture colordiffuse="$VAR[HighlightBarColor]" border="4">listselect_fo.png</texture>
+						<visible>Control.HasFocus(10)</visible>
+						<include>VisibleFadeAnimation</include>
 					</control>
 					<control type="group">
 						<visible>[ListItem.HasTimer | ListItem.IsRecording]</visible>
@@ -1066,7 +1123,7 @@
 			</control>
 			<control type="group">
 				<left>15</left>
-				<top>25</top>
+				<top>-25</top>
 				<control type="label">
 					<width>360</width>
 					<height>30</height>
@@ -1091,22 +1148,11 @@
 				<control type="textbox">
 					<top>110</top>
 					<width>360</width>
-					<height>179</height>
-					<font>font13</font>
-					<textcolor>grey</textcolor>
-					<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
-					<label>$INFO[ListItem.PlotOutline]</label>
-					<visible>!String.IsEmpty(VideoPlayer.PlotOutline) + !String.IsEqual(VideoPlayer.PlotOutline,N/A)</visible>
-				</control>
-				<control type="textbox">
-					<top>110</top>
-					<width>360</width>
-					<height>179</height>
+					<height>220</height>
 					<font>font13</font>
 					<textcolor>grey</textcolor>
 					<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
 					<label>$INFO[ListItem.Plot]</label>
-					<visible>String.IsEmpty(VideoPlayer.PlotOutline) | String.IsEqual(VideoPlayer.PlotOutline,N/A)</visible>
 				</control>
 			</control>
 		</control>
