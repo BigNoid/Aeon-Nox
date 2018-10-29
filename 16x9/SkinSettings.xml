@@ -3,9 +3,9 @@
 	<defaultcontrol always="true">9000</defaultcontrol>
 	<onload>SetProperty(Window.HasSettings,True,Home)</onload>
 	<onload>ClearProperty(MediaMenu,Home)</onload>
+	<!-- <onunload condition="System.HasAddon(script.skinshortcuts)">RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=9000&amp;levels=2&amp;options=noGroups)</onunload> -->
 	<onunload>ClearProperty(MediaMenu,Home)</onunload>
 	<onunload>ClearProperty(Window.HasSettings,Home)</onunload>
-	<onunload condition="System.HasAddon(script.skinshortcuts)">RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=9000&amp;levels=2&amp;options=noGroups)</onunload>
 	<onunload condition="System.HasAddon(script.colorbox)">RunScript(script.colorbox,daemon=True)</onunload>
 	<onunload condition="!String.IsEmpty(Skin.String(FanartTimePerImage))">RunScript(script.grab.fanart,mode=random,refresh=$INFO[Skin.String(FanartTimePerImage)])</onunload>
 	<onunload condition="String.IsEmpty(Skin.String(FanartTimePerImage))">RunScript(script.grab.fanart,mode=random,refresh=7)</onunload>
@@ -16,15 +16,32 @@
 	<onunload condition="!String.IsEmpty(Window(Home).Property(OverlayUnwatched)) + String.IsEmpty(Window(Home).Property(OverlayWatched)) + !Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/3/,Home)</onunload>
 	<onunload condition="!String.IsEmpty(Window(Home).Property(OverlayUnwatched)) + String.IsEmpty(Window(Home).Property(OverlayWatched)) + Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/6/,Home)</onunload>
 	<controls>
-		<include>CommonBackground</include>
-		<control type="group">
-			<visible>Skin.HasSetting(MakeItSnow)</visible>
-			<include>SnowBackground</include>
+		<include>GlobalFanart</include>
+		<control type="visualisation">
+			<include>FullscreenDimensions</include>
+			<visible>Player.HasAudio</visible>
+			<visible>!Skin.HasSetting(Disable.ShowBackgroundVis)</visible>
+			<visible>!Window.IsVisible(TVChannels) + !Window.IsVisible(RadioChannels) + !SlideShow.IsActive</visible>
+			<visible>String.IsEmpty(Window(Videos).Property(PlayingBackgroundMedia))</visible>
 		</control>
+		<include>SnowBackground</include>
 		<include>Topbar</include>
 		<control type="group">
 			<include>WindowOpenCloseAnimation</include>
 			<top>64</top>
+			<control type="image">
+				<top>334</top>
+				<width>100%</width>
+				<height>820</height>
+				<texture colordiffuse="$VAR[ThemeLabelColor]">floor.png</texture>
+			</control>
+			<control type="image">
+				<left>55</left>
+				<top>900</top>
+				<width>400</width>
+				<height>130</height>
+				<texture>aeon-nox-logo.png</texture>
+			</control>
 			<include>SystemPanel</include>
 			<control type="group">
 				<visible>!Window.IsActive(script-skinshortcuts.xml)</visible>
@@ -105,14 +122,6 @@
 							<icon />
 						</item>
 					</content>
-				</control>
-				<control type="textbox">
-					<include>SettingsTextboxValues</include>
-					<label>$VAR[SkinSettingsDescriptionVar]</label>
-					<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
-					<animation effect="fade" start="0" end="100" time="300" tween="sine" easing="inout">Visible</animation>
-					<animation effect="fade" start="100" end="0" time="0" tween="sine" easing="inout">Hidden</animation>
-					<visible>ControlGroup(9010).HasFocus() + !Window.IsActive(1140) + !Window.IsActive(1117)</visible>
 				</control>
 				<control type="group" id="9010">
 					<visible>!Window.IsActive(1140) + !Window.IsActive(1117)</visible>
@@ -727,6 +736,14 @@
 							<onclick>ActivateWindow(1112)</onclick>
 						</control>
 					</control>
+				</control>
+				<control type="textbox">
+					<include>SettingsTextboxValues</include>
+					<label>$VAR[SkinSettingsDescriptionVar]</label>
+					<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
+					<animation effect="fade" start="0" end="100" time="300" tween="sine" easing="inout">Visible</animation>
+					<animation effect="fade" start="100" end="0" time="0" tween="sine" easing="inout">Hidden</animation>
+					<visible>ControlGroup(9010).HasFocus() + !Window.IsActive(1140) + !Window.IsActive(1117)</visible>
 				</control>
 			</control>
 		</control>
