@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-	<onload condition="System.HasAddon(script.artistslideshow)">RunScript(script.artistslideshow,daemon=True)</onload>
-	<onload condition="System.HasAddon(script.skin.info.service)">RunScript(script.skin.info.service)</onload>
+	<defaultcontrol condition="Skin.HasSetting(Enable.StartupIntro)">10</defaultcontrol>
 	<onload condition="!System.HasAddon(script.tv.show.next.aired)">Skin.SetBool(Disable.NextAired)</onload>
-	<onload>SetProperty(FIVE_daemon_set,True,Home)</onload>
-	<onload>SetProperty(cfa_daemon_set,blur,Home)</onload>
-	<onload>SetProperty(FIVE_daemon_set,blur,Home)</onload>
 	<onload>Skin.SetString(ColorboxMain,main:)</onload>
 	<onload>Skin.SetString(ColorboxComp,comp:)</onload>
 	<onload>Skin.SetString(ColorboxBlursize,10)</onload>
+	<onload>SetProperty(FIVE_daemon_set,True,Home)</onload>
+	<onload>SetProperty(cfa_daemon_set,blur,Home)</onload>
+	<onload>SetProperty(FIVE_daemon_set,blur,Home)</onload>
 	<onload>SetProperty(NINE_manual_set,"var=main,set=$INFO[Skin.String(ColorboxMain)]|var=comp,set=$INFO[Skin.String(ColorboxComp)]|var=blursize,set=$INFO[Skin.String(ColorboxBlursize)]",Home)</onload>
-	<onload condition="System.HasAddon(script.colorbox)">RunScript(script.colorbox,daemon=True)</onload>
 	<onload condition="String.IsEmpty(Skin.String(Overlay.Toggle))">SetProperty(Overlay.Path,overlays/showcase/,Home)</onload>
 	<onload condition="String.IsEqual(Skin.String(Overlay.Toggle),both) + !Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/1/,Home)</onload>
 	<onload condition="String.IsEqual(Skin.String(Overlay.Toggle),both) + Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/4/,Home)</onload>
@@ -19,14 +17,22 @@
 	<onload condition="String.IsEqual(Skin.String(Overlay.Toggle),unwatched) + !Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/3/,Home)</onload>
 	<onload condition="String.IsEqual(Skin.String(Overlay.Toggle),unwatched) + Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/6/,Home)</onload>
 	<onload condition="!Skin.HasSetting(Disable.Resumable)">SetProperty(Overlay.Resumable,True,Home)</onload>
+	<onload condition="System.HasAddon(script.skin.info.service)">RunScript(script.skin.info.service)</onload>
+	<onload condition="System.HasAddon(script.colorbox)">RunScript(script.colorbox,daemon=True)</onload>
+	<onload condition="System.HasAddon(script.artistslideshow)">RunScript(script.artistslideshow,daemon=True)</onload>
 	<!-- Intro -->
-	<onload condition="Skin.HasSetting(Enable.StartupIntro) + System.Platform.Windows">AlarmClock(Play Intro,PlayMedia(special://skin/extras/intro.mp4,1),00:01,silent)</onload>
-	<onload condition="Skin.HasSetting(Enable.StartupIntro) + !System.Platform.Windows">PlayMedia(special://skin/extras/intro.mp4,1)</onload>
-	<onunload condition="Skin.HasSetting(Enable.StartupIntro)">PlayerControl(Stop)</onunload>
 	<onload condition="!Skin.HasSetting(Enable.StartupIntro)">ReplaceWindow($INFO[System.StartupWindow])</onload>
-	<defaultcontrol condition="Skin.HasSetting(Enable.StartupIntro)">10</defaultcontrol>
+	<onunload condition="Skin.HasSetting(Enable.StartupIntro)">PlayerControl(Stop)</onunload>
 	<controls>
 		<control type="button" id="10">
+			<include>HiddenObject</include>
+			<onfocus>PlayMedia(special://skin/extras/intro.mp4,1)</onfocus>
+			<!-- <onfocus condition="System.Platform.Windows">PlayMedia(special://skin/extras/intro.mp4,1)</onfocus> -->
+			<!-- <onfocus condition="!System.Platform.Windows">PlayMedia(special://skin/extras/intro.mp4)</onfocus> -->
+			<onfocus>SetFocus(11)</onfocus>
+			<animation effect="fade" end="100" time="100">Focus</animation>
+		</control>
+		<control type="button" id="11">
 			<include>HiddenObject</include>
 			<onup>ReplaceWindow($INFO[System.StartupWindow])</onup>
 			<ondown>ReplaceWindow($INFO[System.StartupWindow])</ondown>
@@ -34,12 +40,17 @@
 			<onright>ReplaceWindow($INFO[System.StartupWindow])</onright>
 			<onclick>ReplaceWindow($INFO[System.StartupWindow])</onclick>
 			<onfocus>ReplaceWindow($INFO[System.StartupWindow])</onfocus>
-			<animation effect="fade" end="100" time="17500" condition="System.Platform.Windows">Focus</animation>
-			<animation effect="fade" end="100" time="17000" condition="!System.Platform.Windows">Focus</animation>
+			<animation effect="fade" end="100" time="17100">Focus</animation>
 		</control>
-		<control type="videowindow">
-			<include>FullscreenDimensions</include>
+		<control type="group">
 			<visible>Player.HasVideo</visible>
+			<control type="image">
+				<include>FullscreenDimensions</include>
+				<texture>black.png</texture>
+			</control>
+			<control type="videowindow">
+				<include>FullscreenDimensions</include>
+			</control>
 		</control>
 	</controls>
 </window>

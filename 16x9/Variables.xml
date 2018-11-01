@@ -16,6 +16,10 @@
 		<value condition="!String.IsEmpty(ListItem.Art(poster))">$INFO[ListItem.Art(poster)]</value>
 		<value>$INFO[ListItem.Icon]</value>
 	</variable>
+	<variable name="MusicPlayerCodecVar">
+		<value condition="String.Contains(MusicPlayer.Codec,mp3)">mp3</value>
+		<value>$INFO[MusicPlayer.Codec]</value>
+	</variable>
 	<variable name="CustomConfirmTextboxVar">
 		<value condition="!String.IsEmpty(Window(Home).Property(ResetSkinSettings))">$LOCALIZE[31398]</value>
 		<value condition="!String.IsEmpty(Window(Home).Property(MissingDependency))">$LOCALIZE[31315]</value>
@@ -136,7 +140,7 @@
 		<value condition="!String.IsEmpty(Control.GetLabel(4410)) + String.IsEqual(Skin.String(Viz.Background),7)">$INFO[Control.GetLabel(4410)]</value>
 		<value condition="String.IsEqual(Skin.String(Viz.Background),2)">$INFO[Window(Home).Property(script.grab.fanart.Music.FanArt)]</value>
 		<value condition="String.IsEqual(Skin.String(Viz.Background),3)">$INFO[Window(Visualisation).Property(ArtistSlideshow)]</value>
-		<value condition="String.IsEqual(Skin.String(Viz.Background),4) + !String.IsEmpty(Window(Home).Property(ImageColorFIVE)))">$INFO[Window(Home).Property(ImageFilterFIVE)]</value>
+		<value condition="String.IsEqual(Skin.String(Viz.Background),4) + !String.IsEmpty(Window(Home).Property(ImageColorFIVE))">$INFO[Window(Home).Property(ImageFilterFIVE)]</value>
 		<value condition="[String.IsEqual(Skin.String(Viz.Background),5) | String.IsEqual(Skin.String(Viz.Background),6)] + !String.IsEmpty(Skin.String(CustomMusicBackground.path))">$INFO[Skin.String(CustomMusicBackground.path)]</value>
 		<value condition="!String.IsEmpty(Player.Art(fanart))">$INFO[Player.Art(fanart)]</value>
 		<value>$INFO[Window(Home).Property(script.grab.fanart.Music.FanArt)]</value>
@@ -211,8 +215,16 @@
 		<value condition="Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99)">   99 +</value>
 		<value>$INFO[ListItem.Property(UnWatchedEpisodes)]</value>
 	</variable>
+	<variable name="PlayerProgressIconVar">
+		<value condition="Player.Playing + Player.HasVideo + VideoPlayer.Content(movies)"> </value>
+		<value condition="Player.Paused + Player.HasVideo + VideoPlayer.Content(movies)"> </value>
+		<value condition="Player.Playing + Player.HasVideo + [VideoPlayer.Content(episodes) | VideoPlayer.Content(livetv)]"> </value>
+		<value condition="Player.Paused + Player.HasVideo + [VideoPlayer.Content(episodes) | VideoPlayer.Content(livetv)]"> </value>
+		<value condition="Player.Playing + Player.HasAudio"> </value>
+		<value condition="Player.Paused + Player.HasAudio"> </value>
+	</variable>
 	<variable name="BreadcrumbsIconVar">
-		<value condition="Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)"> </value>
+		<value condition="Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | Window.IsActive(tvchannels) | Window.IsActive(TVGuide) | Window.IsActive(TVRecordings) | Window.IsActive(TVTimers) | Window.IsActive(TVSearch)"> </value>
 		<value condition="Container.Content(movies)"> </value>
 		<value condition="Window.IsActive(videos)">  </value>
 		<value condition="Container.Content(artists) | Container.Content(albums) | Container.Content(songs)">  </value>
@@ -226,6 +238,7 @@
 		<value condition="Container.Content(movies)" />
 		<value condition="Window.IsActive(music)" />
 		<value condition="Window.IsActive(Games)" />
+		<value condition="Window.IsActive(tvchannels) | Window.IsActive(TVRecordings) | Window.IsActive(TVTimers) | Window.IsActive(TVSearch)" />
 		<value condition="Window.IsActive(profiles)">$LOCALIZE[13200]</value>
 		<value condition="Window.IsActive(1133)">$LOCALIZE[31957]</value>
 		<value condition="Window.IsActive(script-skinshortcuts.xml)">$LOCALIZE[20077]: $LOCALIZE[31345]</value>
@@ -235,7 +248,6 @@
 		<value condition="Window.IsActive(textviewer)">$INFO[Control.GetLabel(1)]</value>
 		<value condition="Window.IsActive(script-NextAired-TVGuide.xml) | Window.IsActive(script-NextAired-TVGuide2.xml)">$INFO[System.AddonTitle(script.tv.show.next.aired)]</value>
 		<value condition="Window.IsActive(skinsettings)">$LOCALIZE[20077]</value>
-		<value condition="Window.IsActive(tvchannels) | Window.IsActive(TVGuide) | Window.IsActive(TVRecordings) | Window.IsActive(TVTimers) | Window.IsActive(TVSearch)">$LOCALIZE[19020]: </value>
 		<value condition="Window.IsActive(RadioChannels) | Window.IsActive(RadioGuide) | Window.IsActive(RadioRecordings) | Window.IsActive(RadioSearch)">$LOCALIZE[19183]: </value>
 		<value condition="!String.IsEmpty(Container.FolderName) + !Window.IsActive(profiles) + !String.IsEqual(System.CurrentWindow,Container.FolderName)">$INFO[System.CurrentWindow]: </value>
 		<value condition="!Window.IsActive(settings) + !String.IsEqual(System.CurrentWindow,Container.FolderName)">$INFO[System.CurrentWindow]</value>
@@ -247,10 +259,9 @@
 		<value condition="Window.IsActive(addoninformation) + !Window.IsActive(textviewer)">$VAR[BreadcrumbsFillerVar]$INFO[ListItem.AddonName]</value>
 		<value condition="Window.IsActive(textviewer)">$VAR[BreadcrumbsFillerVar]</value>
 		<value condition="Window.IsActive(script-globalsearch.xml)">$INFO[System.AddonTitle(script.globalsearch)]$INFO[Window.Property(GlobalSearch.SearchString),: $LOCALIZE[194]]</value>
-		<value condition="Window.IsActive(TVGuide) | Window.IsActive(RadioGuide)">$VAR[BreadcrumbsFillerVar,, $LOCALIZE[19069]]</value>
-		<value condition="Window.IsActive(TVRecordings) | Window.IsActive(RadioRecordings)">$VAR[BreadcrumbsFillerVar,, $LOCALIZE[19163]]</value>
-		<value condition="Window.IsActive(TVTimers) | Window.IsActive(RadioTimers)">$VAR[BreadcrumbsFillerVar,, $LOCALIZE[19040]]</value>
-		<value condition="Window.IsActive(TVSearch) | Window.IsActive(RadioSearch)">$VAR[BreadcrumbsFillerVar,, $LOCALIZE[137]]</value>
+		<value condition="Window.IsActive(TVGuide) | Window.IsActive(RadioGuide)">$VAR[BreadcrumbsFillerVar]</value>
+		<value condition="Window.IsActive(TVRecordings) | Window.IsActive(RadioRecordings)">$LOCALIZE[19163]</value>
+		<value condition="Window.IsActive(TVSearch) | Window.IsActive(RadioSearch)">$LOCALIZE[137]</value>
 		<value condition="Window.IsActive(eventlog)">$LOCALIZE[14111]$INFO[Control.GetLabel(21),[COLOR grey2] | , [/COLOR]]</value>
 		<value condition="Window.IsActive(weather)">$VAR[BreadcrumbsFillerVar]$INFO[Weather.Location,: ]</value>
 		<value condition="Window.IsActive(SettingsCategory.xml)">$INFO[Control.GetLabel(2)]</value>
@@ -914,8 +925,8 @@
 		<value condition="String.Contains(ListItem.MPAA,Brazil:14) | String.Contains(ListItem.MPAA,14 anos)">MPAA_Brazil_14.png</value>
 		<value condition="String.Contains(ListItem.MPAA,Brazil:16) | String.Contains(ListItem.MPAA,16 anos)">MPAA_Brazil_16.png</value>
 		<value condition="String.Contains(ListItem.MPAA,Brazil:18) | String.Contains(ListItem.MPAA,18 anos)">MPAA_Brazil_18.png</value>
-		<value condition="String.Contains(ListItem.MPAA,Australia:R) | String.Contains(ListItem.MPAA,Australia:R18+)">australia_R.png</value>
-		<value condition="String.Contains(ListItem.MPAA,Australia:MA) | String.Contains(ListItem.MPAA,Australia:MA15+)">australia_MA.png</value>
+		<value condition="String.Contains(ListItem.MPAA,Australia:R) | String.Contains(ListItem.MPAA,Australia:R18)">australia_R.png</value>
+		<value condition="String.Contains(ListItem.MPAA,Australia:MA) | String.Contains(ListItem.MPAA,Australia:MA15)">australia_MA.png</value>
 		<value condition="String.Contains(ListItem.MPAA,Australia:M)">australia_M.png</value>
 		<value condition="String.Contains(ListItem.MPAA,Australia:PG)">australia_PG.png</value>
 		<value condition="String.Contains(ListItem.MPAA,Australia:G)">australia_G.png</value>
@@ -1601,14 +1612,6 @@
 		<value condition="String.IsEqual(Skin.String(VideoInfo.Dimmer),55%)">Skin.SetString(VideoInfo.Dimmer,50%)</value>
 		<value condition="String.IsEqual(Skin.String(VideoInfo.Dimmer),50%)">Skin.SetString(VideoInfo.Dimmer,90%)</value>
 		<value condition="String.IsEqual(Skin.String(VideoInfo.Dimmer),90%)">Skin.Reset(VideoInfo.Dimmer)</value>
-	</variable>
-	<variable name="PlayerProgressLabelVar">
-		<value condition="Player.Playing + Player.HasVideo + VideoPlayer.Content(movies)"> </value>
-		<value condition="Player.Paused + Player.HasVideo + VideoPlayer.Content(movies)"> </value>
-		<value condition="Player.Playing + Player.HasVideo + VideoPlayer.Content(episodes)"> </value>
-		<value condition="Player.Paused + Player.HasVideo + VideoPlayer.Content(episodes)"> </value>
-		<value condition="Player.Playing + Player.HasAudio"> </value>
-		<value condition="Player.Paused + Player.HasAudio"> </value>
 	</variable>
 	<!-- Color Picker VARs -->
 	<variable name="FocusedMainMenuColor">

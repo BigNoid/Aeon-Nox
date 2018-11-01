@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
 	<zorder>2</zorder>
-	<defaultcontrol />
 	<onload condition="!Skin.HasSetting(WarnedOnMusicVizInfo)">SetProperty(Notify,True,Home)</onload>
 	<onload condition="!Skin.HasSetting(WarnedOnMusicVizInfo)">SetProperty(NotWarnedOnMuzicVizInfo,True,Home)</onload>
 	<onload condition="!Skin.HasSetting(WarnedOnMusicVizInfo)">ActivateWindow(1126)</onload>
 	<onload>ClearProperty(Music.FullscreenParty,Home)</onload>
+	<onunload>ClearProperty(Music.FullscreenParty,Home)</onunload>
 	<controls>
 		<control type="fadelabel" id="4410">
 			<top>-100</top>
@@ -169,15 +169,16 @@
 		</control>
 		<include condition="Skin.HasSetting(MakeItSnow)">SnowBackground</include>
 		<control type="group">
-			<visible>Player.ShowInfo + !Skin.HasSetting(Disable.MusicVizTime) + !Window.IsVisible(musicosd)</visible>
-			<animation effect="slide" end="575" time="300" condition="String.IsEmpty(Skin.String(MusicVizLayout)) + [Skin.HasSetting(HideMusicVizAlbum) | Skin.HasSetting(HideMusicVizCD)] + Skin.HasSetting(SlideMusicLabelsRight)">Conditional</animation>
-			<animation effect="slide" end="-575" time="300" condition="String.IsEqual(Skin.String(MusicVizLayout),1) + [Skin.HasSetting(HideMusicVizAlbum) | Skin.HasSetting(HideMusicVizCD)] + Skin.HasSetting(SlideMusicLabelsLeft)">Conditional</animation>
 			<animation type="WindowOpen" reversible="false">
 				<effect type="slide" start="0,-540" end="0" tween="cubic" easing="inout" time="720" />
 			</animation>
 			<animation type="WindowClose" reversible="false">
 				<effect type="slide" end="0,-540" start="0" tween="cubic" easing="inout" time="720" />
 			</animation>
+			<animation effect="slide" end="575" time="300" condition="String.IsEmpty(Skin.String(MusicVizLayout)) + [Skin.HasSetting(HideMusicVizAlbum) | Skin.HasSetting(HideMusicVizCD)] + Skin.HasSetting(SlideMusicLabelsRight)">Conditional</animation>
+			<animation effect="slide" end="-575" time="300" condition="String.IsEqual(Skin.String(MusicVizLayout),1) + [Skin.HasSetting(HideMusicVizAlbum) | Skin.HasSetting(HideMusicVizCD)] + Skin.HasSetting(SlideMusicLabelsLeft)">Conditional</animation>
+			<visible>Player.ShowInfo + !Skin.HasSetting(Disable.MusicVizTime) + !Window.IsVisible(musicosd)</visible>
+			<include>VisibleFadeAnimation</include>
 			<control type="image">
 				<left>610</left>
 				<width>700</width>
@@ -257,9 +258,9 @@
 		</control>
 		<control type="group">
 			<top>520</top>
-			<visible>[Player.ShowInfo | Window.IsActive(MusicOSD)] + ![Window.IsVisible(AddonSettings) | Window.IsVisible(SelectDialog) | Window.IsVisible(VisualisationPresetList)]</visible>
-			<include>VisibleFadeAnimation</include>
 			<include>WindowOpenCloseAnimation</include>
+			<include>VisibleFadeAnimation</include>
+			<visible>[Player.ShowInfo | Window.IsActive(MusicOSD)] + ![Window.IsVisible(AddonSettings) | Window.IsVisible(SelectDialog) | Window.IsVisible(VisualisationPresetList)]</visible>
 			<!-- Test Layout -->
 			<control type="group">
 				<top>-470</top>
@@ -459,7 +460,7 @@
 							<textcolor>$VAR[ThemeLabelColor]</textcolor>
 							<scroll>true</scroll>
 							<scrollsuffix>  -  </scrollsuffix>
-							<label>$INFO[MusicPlayer.Genre,[COLOR white][LOWERCASE], [/LOWERCASE]· [/COLOR]]$INFO[MusicPlayer.Codec,,[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Bitrate,[COLOR white] , [/COLOR]kbps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.BitsPerSample,[COLOR white] ,[/COLOR] bps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Samplerate,[COLOR white] ,[/COLOR] kHz]</label>
+							<label>$INFO[MusicPlayer.Genre,[COLOR white][LOWERCASE], [/LOWERCASE]· [/COLOR]]$VAR[MusicPlayerCodecVar]$INFO[MusicPlayer.Bitrate,[COLOR white] · , [/COLOR]kbps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.BitsPerSample,[COLOR white] ,[/COLOR] bps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Samplerate,[COLOR white] ,[/COLOR] kHz]</label>
 						</control>
 						<control type="image">
 							<left>745</left>
@@ -524,7 +525,7 @@
 								<textcolor>$VAR[ThemeLabelColor]</textcolor>
 								<scroll>true</scroll>
 								<scrollsuffix>  -  </scrollsuffix>
-								<label>$INFO[MusicPlayer.Genre,[COLOR white][LOWERCASE], [/LOWERCASE]· [/COLOR]]$INFO[MusicPlayer.Codec,,[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Bitrate,[COLOR white] , [/COLOR]kbps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.BitsPerSample,[COLOR white] ,[/COLOR] bps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Samplerate,[COLOR white] ,[/COLOR] kHz]</label>
+								<label>$INFO[MusicPlayer.Genre,[COLOR white][LOWERCASE], [/LOWERCASE]· [/COLOR]]$VAR[MusicPlayerCodecVar]$INFO[MusicPlayer.Bitrate,[COLOR white] · , [/COLOR]kbps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.BitsPerSample,[COLOR white] ,[/COLOR] bps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Samplerate,[COLOR white] ,[/COLOR] kHz]</label>
 							</control>
 						</control>
 						<control type="group">
@@ -571,7 +572,7 @@
 								<textcolor>$VAR[ThemeLabelColor]</textcolor>
 								<scroll>true</scroll>
 								<scrollsuffix>  -  </scrollsuffix>
-								<label>$INFO[MusicPlayer.Genre,[COLOR white][LOWERCASE], [/LOWERCASE]· [/COLOR]]$INFO[MusicPlayer.Codec,,[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Bitrate,[COLOR white] , [/COLOR]kbps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.BitsPerSample,[COLOR white] ,[/COLOR] bps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Samplerate,[COLOR white] ,[/COLOR] kHz]</label>
+								<label>$INFO[MusicPlayer.Genre,[COLOR white][LOWERCASE], [/LOWERCASE]· [/COLOR]]$VAR[MusicPlayerCodecVar]$INFO[MusicPlayer.Bitrate,[COLOR white] · , [/COLOR]kbps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.BitsPerSample,[COLOR white] ,[/COLOR] bps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Samplerate,[COLOR white] ,[/COLOR] kHz]</label>
 							</control>
 						</control>
 						<control type="image">
@@ -669,7 +670,7 @@
 							<textcolor>$VAR[ThemeLabelColor]</textcolor>
 							<scroll>true</scroll>
 							<scrollsuffix>  -  </scrollsuffix>
-							<label>$INFO[MusicPlayer.Genre,[COLOR white][LOWERCASE], [/LOWERCASE]· [/COLOR]]$INFO[MusicPlayer.Codec,,[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Bitrate,[COLOR white] , [/COLOR]kbps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.BitsPerSample,[COLOR white] ,[/COLOR] bps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Samplerate,[COLOR white] ,[/COLOR] kHz]</label>
+							<label>$INFO[MusicPlayer.Genre,[COLOR white][LOWERCASE], [/LOWERCASE]· [/COLOR]]$VAR[MusicPlayerCodecVar]$INFO[MusicPlayer.Bitrate,[COLOR white] · , [/COLOR]kbps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.BitsPerSample,[COLOR white] ,[/COLOR] bps[COLOR white] ·[/COLOR]]$INFO[MusicPlayer.Samplerate,[COLOR white] ,[/COLOR] kHz]</label>
 						</control>
 						<control type="image">
 							<left>854</left>
