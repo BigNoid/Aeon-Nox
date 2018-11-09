@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
 	<onload>SetFocus(90003)</onload>
-	<onload condition="!String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | !System.HasAddon(script.cinemavision)">SetFocus(8)</onload>
-	<onload condition="String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) + System.HasAddon(script.cinemavision)">SetFocus(909)</onload>
+	<onload condition="!Window.IsActive(home) + ![String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | System.HasAddon(script.cinemavision)]">SetFocus(8)</onload>
+	<onload condition="!Window.IsActive(home) + String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) + System.HasAddon(script.cinemavision)">SetFocus(909)</onload>
+	<onload condition="Window.IsActive(home)">SetFocus(808)</onload>
 	<controls>
 		<control type="button" id="64">
 			<include>HiddenObject</include>
@@ -634,6 +635,19 @@
 								<altlabel></altlabel>
 								<usealttexture>String.IsEqual(ListItem.DBTYPE,tvshow)</usealttexture>
 								<visible>[System.HasAddon(script.cinemavision) + !String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232])] | !System.HasAddon(script.cinemavision)</visible>
+								<visible>![Window.IsActive(home) + String.IsEqual(ListItem.DBTYPE,tvshow)]</visible>
+							</control>
+							<control type="button" id="808">
+								<description>Browse to Show</description>
+								<font>IconMediumMD</font>
+								<width>80</width>
+								<texturenofocus />
+								<include>ButtonInfoDialogsCommonValues</include>
+								<label></label>
+								<onclick>SetProperty(TVDBID,$INFO[ListItem.DBID])</onclick>
+								<onclick>Dialog.Close(movieinformation)</onclick>
+								<onclick>ActivateWindow(Videos,videodb://tvshows/titles/$INFO[Window(Home).Property(TVDBID)],return)</onclick>
+								<visible>Window.IsActive(home) + String.IsEqual(ListItem.DBTYPE,tvshow)</visible>
 							</control>
 							<control type="button" id="909">
 								<description>CinemaVision</description>
