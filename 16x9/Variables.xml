@@ -645,7 +645,8 @@
 		<value>$INFO[ListItem.Label]</value>
 	</variable>
 	<variable name="FloorSubLabelVar">
-		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR white]$INFO[ListItem.Year]$INFO[ListItem.RatingAndVotes, • , • ]$INFO[ListItem.Duration(mins),, $LOCALIZE[12391]][/COLOR]</value>
+		<value condition="Window.IsVisible(movieinformation)" />
+		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR white]$INFO[ListItem.Year]$INFO[ListItem.RatingAndVotes,, • ]$INFO[ListItem.Duration(mins),, $LOCALIZE[12391]][/COLOR]</value>
 		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR white]$INFO[ListItem.Year]$INFO[ListItem.RatingAndVotes, • , • ]$VAR[ItemDurationVar][/COLOR]</value>
 		<value condition="Container.Content(episodes)">[COLOR white]$INFO[ListItem.TvShowTitle][/COLOR]</value>
 		<value condition="Container.Content(addons)">[COLOR white]$INFO[ListItem.AddonSummary][/COLOR]</value>
@@ -654,7 +655,6 @@
 		<value condition="ListItem.IsResumable + Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR white]$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$VAR[ItemDurationVar]$INFO[ListItem.EndTimeResume, • $LOCALIZE[31393]: ,][/COLOR]</value>
 		<value condition="!Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR white]$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$INFO[ListItem.Duration(mins),, $LOCALIZE[12391]]$INFO[ListItem.Endtime, • $LOCALIZE[31393]: ,][/COLOR]</value>
 		<value condition="Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR white]$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$VAR[ItemDurationVar]$INFO[ListItem.Endtime, • $LOCALIZE[31393]: ,][/COLOR]</value>
-		<!-- <value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !ListItem.IsParentFolder">[COLOR white]$LOCALIZE[20360]: $INFO[ListItem.Property(TotalEpisodes)][/COLOR] $INFO[ListItem.Property(UnWatchedEpisodes), ($LOCALIZE[16101]: ,)]</value> -->
 	</variable>
 	<variable name="FloorLabel2Var">
 		<value condition="Container.Content(artists)">$INFO[ListItem.Property(Artist_Genre)]</value>
@@ -1341,6 +1341,7 @@
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),InfoWall) + Container.Content(tvshows) + !String.IsEmpty(Skin.String(51.TV.DisableOverlay))">$INFO[Skin.String(51.TV.DisableOverlay)]</value>
 		<!-- Landscape -->
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Container.Content(movies) + !String.IsEmpty(Skin.String(52.Movies.DisableOverlay))">$INFO[Skin.String(52.Movies.DisableOverlay)]</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Container.Content(sets) + !String.IsEmpty(Skin.String(52.Sets.DisableOverlay))">$INFO[Skin.String(52.Sets.DisableOverlay)]</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Container.Content(tvshows) + !String.IsEmpty(Skin.String(52.TV.DisableOverlay))">$INFO[Skin.String(52.TV.DisableOverlay)]</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Container.Content(episodes) + !String.IsEmpty(Skin.String(52.Episodes.DisableOverlay))">$INFO[Skin.String(52.Episodes.DisableOverlay)]</value>
 		<!-- ShowCase -->
@@ -1400,6 +1401,8 @@
 		<!-- Landscape -->
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Container.Content(movies) + String.IsEmpty(Skin.String(52.Movies.DisableOverlay))">Skin.SetString(52.Movies.DisableOverlay,$LOCALIZE[305])</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Container.Content(movies) + String.IsEqual(Skin.String(52.Movies.DisableOverlay),$LOCALIZE[305])">Skin.Reset(52.Movies.DisableOverlay)</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Container.Content(sets) + String.IsEmpty(Skin.String(52.Sets.DisableOverlay))">Skin.SetString(52.Sets.DisableOverlay,$LOCALIZE[305])</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Container.Content(sets) + String.IsEqual(Skin.String(52.Sets.DisableOverlay),$LOCALIZE[305])">Skin.Reset(52.Sets.DisableOverlay)</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Container.Content(tvshows) + String.IsEmpty(Skin.String(52.TV.DisableOverlay))">Skin.SetString(52.TV.DisableOverlay,$LOCALIZE[305])</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Container.Content(tvshows) + String.IsEqual(Skin.String(52.TV.DisableOverlay),$LOCALIZE[305])">Skin.Reset(52.TV.DisableOverlay)</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Container.Content(episodes) + String.IsEmpty(Skin.String(52.Episodes.DisableOverlay))">Skin.SetString(52.Episodes.DisableOverlay,$LOCALIZE[305])</value>
@@ -1554,7 +1557,7 @@
 	<variable name="DisableHDIndicatorsLabelVar">
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),FanartList) + Container.Content(episodes) + Skin.HasSetting(noindicatorfanartlistepisodes)">$LOCALIZE[16041]</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),FanartList) + Container.Content(movies) + Skin.HasSetting(noindicatorfanartlistmovies)">$LOCALIZE[16041]</value>
-		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + Skin.HasSetting(noindicatorlandscape)">$LOCALIZE[16041]</value>
+		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Landscape) + !Skin.HasSetting(noindicatorlandscape)">$LOCALIZE[16041]</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),ShowCase) + Skin.HasSetting(noindicatorshowcase)">$LOCALIZE[16041]</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),Gallery) + Container.Content(movies) + Skin.HasSetting(noindicatorgallerymovies)">$LOCALIZE[16041]</value>
 		<value condition="String.IsEqual(Window(Home).Property(actualViewtype),BigList) + Container.Content(movies) + Skin.HasSetting(noindicatorbiglist)">$LOCALIZE[16041]</value>
