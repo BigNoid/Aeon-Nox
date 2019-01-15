@@ -91,11 +91,26 @@
 								<textcolor>$VAR[ThemeLabelColor]</textcolor>
 								<scroll>true</scroll>
 								<scrollout>false</scrollout>
+								<pauseatend>5500</pauseatend>
+								<label>$INFO[ListItem.Tagline]</label>
+								<label>$INFO[Window(Home).Property(SkinHelper.ListItem.Awards)]</label>
+								<label>$INFO[ListItem.EndTime,$LOCALIZE[31393]: ,]</label>
+								<visible>String.IsEqual(ListItem.DBTYPE,movie) + [String.IsEmpty(ListItem.OriginalTitle) | String.IsEqual(ListItem.OriginalTitle,ListItem.Title)]</visible>
+							</control>
+							<control type="fadelabel">
+								<height>30</height>
+								<align>left</align>
+								<aligny>center</aligny>
+								<font>font15</font>
+								<textcolor>$VAR[ThemeLabelColor]</textcolor>
+								<scroll>true</scroll>
+								<scrollout>false</scrollout>
 								<pauseatend>4500</pauseatend>
 								<label>$INFO[ListItem.Tagline]</label>
 								<label>$INFO[Window(Home).Property(SkinHelper.ListItem.Awards)]</label>
 								<label>$INFO[ListItem.EndTime,$LOCALIZE[31393]: ,]</label>
-								<visible>String.IsEqual(ListItem.DBTYPE,movie) + [!String.IsEmpty(ListItem.Tagline) | !String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Awards))]</visible>
+								<label>$INFO[ListItem.OriginalTitle]</label>
+								<visible>String.IsEqual(ListItem.DBTYPE,movie) + [!String.IsEmpty(ListItem.OriginalTitle) + !String.IsEqual(ListItem.OriginalTitle,ListItem.Title)]</visible>
 							</control>
 							<control type="group">
 								<height>30</height>
@@ -127,13 +142,20 @@
 									<visible>String.IsEmpty(ListItem.Status) + [!String.IsEmpty(Window(Home).Property(NextAired.Status)) | !String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Awards))]</visible>
 								</control>
 							</control>
-							<control type="label">
+							<control type="fadelabel">
 								<height>30</height>
+								<align>left</align>
+								<aligny>center</aligny>
 								<font>font15</font>
 								<textcolor>$VAR[ThemeLabelColor]</textcolor>
 								<scroll>true</scroll>
+								<scrollout>false</scrollout>
+								<pauseatend>4500</pauseatend>
 								<label>$INFO[ListItem.TvShowTitle]</label>
-								<visible>String.IsEqual(ListItem.DBTYPE,episode) + !String.IsEmpty(ListItem.TvShowTitle)</visible>
+								<label>$INFO[ListItem.EndTime,$LOCALIZE[31393]: ,]</label>
+								<label>$INFO[Window(Home).Property(NextAired.Status)]</label>
+								<label>$INFO[Window(Home).Property(NextAired.NextNumber)]$INFO[Window(Home).Property(NextAired.NextTitle), - ]$INFO[Window(Home).Property(NextAired.Nextday), (,)]</label>
+								<visible>String.IsEqual(ListItem.DBTYPE,episode)</visible>
 							</control>
 							<control type="label">
 								<height>30</height>
@@ -161,11 +183,12 @@
 							<height>90</height>
 							<orientation>horizontal</orientation>
 							<usecontrolcoords>true</usecontrolcoords>
-							<itemgap>10</itemgap>
+							<itemgap>6</itemgap>
 							<animation effect="slide" end="-30" condition="!Skin.HasSetting(Enable.HourMinuteDuration)">Conditional</animation>
 							<control type="group">
 								<visible>!Skin.HasSetting(Enable.HourMinuteDuration)</visible>
 								<width>175</width>
+								<height>90</height>
 								<control type="label">
 									<width>auto</width>
 									<height>60</height>
@@ -185,10 +208,9 @@
 								</control>
 							</control>
 							<control type="label">
-								<top>15</top>
 								<width>auto</width>
-								<height>60</height>
-								<label>$VAR[ItemDurationVar]</label>
+								<height>90</height>
+								<label>$VAR[ItemDurationVar,, ]</label>
 								<font>font52_bold</font>
 								<textcolor>grey</textcolor>
 								<visible>Skin.HasSetting(Enable.HourMinuteDuration)</visible>
@@ -202,12 +224,14 @@
 								<visible>String.IsEqual(ListItem.DBTYPE,episode)</visible>
 							</control>
 							<control type="image">
+								<align>center</align>
+								<aligny>center</aligny>
 								<include>MediaFlagValues</include>
 								<texture fallback="flags/default/mpaa/NR.png">$VAR[MediaFlagsPathVar]/mpaa/$VAR[RatingFlagVar]</texture>
 							</control>
 							<control type="group">
 								<visible>!String.IsEmpty(ListItem.Rating)</visible>
-								<width>165</width>
+								<width>170</width>
 								<control type="label">
 									<width>auto</width>
 									<height>60</height>
@@ -227,70 +251,67 @@
 								</control>
 							</control>
 							<control type="grouplist">
-								<top>20</top>
-								<width>175</width>
+								<width>925</width>
 								<orientation>horizontal</orientation>
+								<itemgap>10</itemgap>
 								<usecontrolcoords>true</usecontrolcoords>
-								<visible>!String.IsEmpty(ListItem.UserRating)</visible>
-								<control type="image">
-									<width>45</width>
-									<height>45</height>
-									<texture colordiffuse="$VAR[ThemeLabelColor]">favourites.png</texture>
-									<animation effect="fade" end="80" condition="true">Conditional</animation>
-								</control>
-								<control type="label">
-									<left>5</left>
-									<top>10</top>
-									<height>30</height>
-									<width>auto</width>
-									<label>$INFO[ListItem.UserRating]</label>
-									<font>font48_bold</font>
-									<textcolor>grey</textcolor>
-								</control>
-							</control>
-							<control type="grouplist">
-								<visible>!String.IsEmpty(ListItem.Top250)</visible>
-								<width>190</width>
-								<orientation>horizontal</orientation>
-								<usecontrolcoords>true</usecontrolcoords>
-								<control type="image">
-									<width>75</width>
-									<height>93</height>
-									<align>center</align>
-									<aspectratio>keep</aspectratio>
-									<texture>logos/imdb.png</texture>
-									<colordiffuse>grey</colordiffuse>
-								</control>
-								<control type="label">
-									<width>auto</width>
-									<height>90</height>
-									<align>center</align>
-									<label>$INFO[ListItem.Top250,#]</label>
-									<font>font48_bold</font>
-									<textcolor>grey</textcolor>
-								</control>
-							</control>
-							<control type="grouplist">
-								<width>390</width>
-								<orientation>horizontal</orientation>
-								<usecontrolcoords>true</usecontrolcoords>
-								<itemgap>5</itemgap>
 								<control type="grouplist">
-									<top>20</top>
+									<width>175</width>
+									<orientation>horizontal</orientation>
+									<usecontrolcoords>true</usecontrolcoords>
+									<visible>!String.IsEmpty(ListItem.UserRating)</visible>
+									<itemgap>2</itemgap>
+									<control type="image">
+										<width>44</width>
+										<height>85</height>
+										<aspectratio>keep</aspectratio>
+										<texture colordiffuse="$VAR[ThemeLabelColor]">favourites.png</texture>
+										<animation effect="fade" end="67" condition="true">Conditional</animation>
+									</control>
+									<control type="label">
+										<height>90</height>
+										<width>auto</width>
+										<label>$INFO[ListItem.UserRating]</label>
+										<font>font48_bold</font>
+										<textcolor>grey</textcolor>
+									</control>
+								</control>
+								<control type="grouplist">
+									<visible>!String.IsEmpty(ListItem.Top250)</visible>
+									<width>190</width>
+									<orientation>horizontal</orientation>
+									<control type="image">
+										<width>72</width>
+										<height>90</height>
+										<aspectratio>keep</aspectratio>
+										<texture>logos/imdb.png</texture>
+										<colordiffuse>grey</colordiffuse>
+									</control>
+									<control type="label">
+										<width>auto</width>
+										<height>90</height>
+										<align>center</align>
+										<label>$INFO[ListItem.Top250,#]</label>
+										<font>font48_bold</font>
+										<textcolor>grey</textcolor>
+									</control>
+								</control>
+								<control type="grouplist">
 									<width>175</width>
 									<orientation>horizontal</orientation>
 									<usecontrolcoords>true</usecontrolcoords>
 									<visible>!String.IsEmpty(ListItem.Rating(tomatometerallcritics))</visible>
 									<control type="image">
-										<width>50</width>
-										<height>50</height>
-										<texture background="true">$VAR[RottenFreshLogoVar]</texture>
+										<top>18</top>
+										<width>54</width>
+										<height>54</height>
+										<aspectratio>keep</aspectratio>
+										<texture>$VAR[RottenFreshLogoVar]</texture>
 										<colordiffuse>grey</colordiffuse>
 									</control>
 									<control type="label">
 										<left>5</left>
-										<top>10</top>
-										<height>30</height>
+										<height>90</height>
 										<width>auto</width>
 										<label>$VAR[RottenFreshLabelVar]</label>
 										<font>font48_bold</font>
@@ -298,21 +319,20 @@
 									</control>
 								</control>
 								<control type="grouplist">
-									<top>20</top>
 									<width>175</width>
 									<orientation>horizontal</orientation>
 									<usecontrolcoords>true</usecontrolcoords>
 									<visible>!String.IsEmpty(ListItem.Rating(tomatometerallaudience))</visible>
 									<control type="image">
-										<width>50</width>
-										<height>50</height>
+										<top>15</top>
+										<width>58</width>
+										<height>60</height>
+										<aspectratio>keep</aspectratio>
 										<texture>$VAR[RottenFreshAudienceLogoVar]</texture>
 										<colordiffuse>grey</colordiffuse>
 									</control>
 									<control type="label">
-										<left>5</left>
-										<top>10</top>
-										<height>30</height>
+										<height>90</height>
 										<width>auto</width>
 										<label>$VAR[RottenFreshAudienceLabelVar]</label>
 										<font>font48_bold</font>
@@ -320,22 +340,21 @@
 									</control>
 								</control>
 								<control type="grouplist">
-									<left>5</left>
-									<top>20</top>
 									<width>200</width>
 									<orientation>horizontal</orientation>
 									<usecontrolcoords>true</usecontrolcoords>
 									<visible>!String.IsEmpty(ListItem.Rating(metacritic))</visible>
+									<itemgap>4</itemgap>
 									<control type="image">
-										<width>50</width>
-										<height>50</height>
+										<top>19</top>
+										<width>52</width>
+										<height>52</height>
+										<aspectratio>keep</aspectratio>
 										<texture>logos/metacritic.png</texture>
 										<colordiffuse>grey</colordiffuse>
 									</control>
 									<control type="label">
-										<left>5</left>
-										<top>10</top>
-										<height>30</height>
+										<height>90</height>
 										<width>auto</width>
 										<label>$VAR[MetacriticLabelVar]</label>
 										<font>font48_bold</font>
@@ -910,7 +929,7 @@
 					</control>
 					<control type="group">
 						<top>985</top>
-						<visible>!ControlGroup(90001).HasFocus</visible>
+						<visible>!ControlGroup(90001).HasFocus + !Window.IsVisible(1129) + !Window.IsVisible(selectdialog) + !Window.IsVisible(progressdialog)</visible>
 						<include>SettingsFadeAnimation</include>
 						<control type="grouplist">
 							<width>1200</width>
