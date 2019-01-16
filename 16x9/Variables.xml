@@ -1112,7 +1112,7 @@
 		<value>$INFO[ListItem.Icon]</value>
 	</variable>
 	<variable name="VideoInfoButtonLabelVar">
-		<value condition="Control.HasFocus(300) | Control.HasFocus(64)">$LOCALIZE[31271]</value>
+		<value condition="Control.HasFocus(300) | Control.HasFocus(64) | [Control.HasFocus(9003) + String.IsEqual(ListItem.DBTYPE,song)]">$LOCALIZE[31271]</value>
 		<value condition="[Control.HasFocus(8) + String.IsEqual(ListItem.DBTYPE,tvshow)] | Control.HasFocus(808)">$LOCALIZE[1024]</value>
 		<value condition="Control.HasFocus(8)">$LOCALIZE[208]</value>
 		<value condition="Control.HasFocus(908)">$INFO[System.AddonTitle(plugin.video.specialfeatures)]</value>
@@ -1126,7 +1126,10 @@
 		<value condition="Control.HasFocus(5012) | Control.HasFocus(50012)">$INFO[Control.GetLabel(12)]</value>
 		<value condition="Control.HasFocus(6) | Control.HasFocus(5006)">$LOCALIZE[184]</value>
 		<value condition="Control.HasFocus(208)">$LOCALIZE[31014]</value>
-		<value condition="Control.HasFocus(90003) | [Container(90001).HasNext + !Container(90001).HasPrevious]">$LOCALIZE[31453]</value>
+		<value condition="Control.HasFocus(50) + [Window.IsActive(musicinformation) + String.IsEqual(ListItem.DBTYPE,artist)]">$LOCALIZE[21888]</value>
+		<value condition="Control.HasFocus(50) + [Window.IsActive(musicinformation) + String.IsEqual(ListItem.DBTYPE,album)]">$LOCALIZE[182]</value>
+		<value condition="[Control.HasFocus(9003) + !String.IsEqual(ListItem.DBTYPE,song)] | [Container(9001).HasNext + !Container(9001).HasPrevious] + Window.IsActive(musicinformation)">$LOCALIZE[31453]</value>
+		<value condition="Control.HasFocus(90003) | [Container(90001).HasNext + !Container(90001).HasPrevious] + !Window.IsActive(musicinformation)">$LOCALIZE[31453]</value>
 		<value condition="[Container(90001).HasNext + !Container(90001).HasPrevious] + !String.IsEqual(ListItem.DBTYPE,song)">$LOCALIZE[31453]</value>
 		<value condition="[Container(90001).HasPrevious + Container(90001).HasNext] + !String.IsEqual(ListItem.DBTYPE,episode) + ![String.IsEqual(ListItem.DBTYPE,movie) + Skin.HasSetting(Disable.ExtendedInfoIntergration) + String.IsEmpty(ListItem.SetID)]">$LOCALIZE[31454]</value>
 		<value condition="[Container(90001).HasPrevious + !Container(90001).HasNext] | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,movie) + Skin.HasSetting(Disable.ExtendedInfoIntergration)">$LOCALIZE[31455]</value>
@@ -1137,63 +1140,66 @@
 		<value>$LOCALIZE[19055]</value>
 	</variable>
 	<variable name="RottenFreshLogoVar">
-		<value condition="Integer.IsGreaterOrEqual(ListItem.Rating(tomatometerallcritics),8.0)">logos/rottentomatoes/certified.png</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.9)">logos/rottentomatoes/certified.png</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.8)">logos/rottentomatoes/certified.png</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.7)">logos/rottentomatoes/certified.png</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.6)">logos/rottentomatoes/certified.png</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.5)">logos/rottentomatoes/certified.png</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.4)">logos/rottentomatoes/fresh.png</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.3)">logos/rottentomatoes/fresh.png</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.2)">logos/rottentomatoes/fresh.png</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.1)">logos/rottentomatoes/fresh.png</value>
-		<value condition="Integer.IsLess(ListItem.Rating(tomatometerallcritics),6.0)">logos/rottentomatoes/rotten.png</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + Integer.IsGreaterOrEqual(ListItem.Rating(tomatometerallcritics),8.0)] | [Window.IsVisible(fullscreeninfo) + Integer.IsGreaterOrEqual(VideoPlayer.Rating(tomatometerallcritics),8.0)]">logos/rottentomatoes/certified.png</value>
+		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.9) | String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),7.9)">logos/rottentomatoes/certified.png</value>
+		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.8) | String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),7.8)">logos/rottentomatoes/certified.png</value>
+		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.7) | String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),7.7)">logos/rottentomatoes/certified.png</value>
+		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.6) | String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),7.6)">logos/rottentomatoes/certified.png</value>
+		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.5) | String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),7.5)">logos/rottentomatoes/certified.png</value>
+		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.4) | String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),7.4)">logos/rottentomatoes/fresh.png</value>
+		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.3) | String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),7.3)">logos/rottentomatoes/fresh.png</value>
+		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.2) | String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),7.2)">logos/rottentomatoes/fresh.png</value>
+		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),7.1) | String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),7.1)">logos/rottentomatoes/fresh.png</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + Integer.IsLess(ListItem.Rating(tomatometerallcritics),6.0)] | [Window.IsVisible(fullscreeninfo) + Integer.IsLess(VideoPlayer.Rating(tomatometerallcritics),6.0)]">logos/rottentomatoes/rotten.png</value>
 		<value>logos/rottentomatoes/fresh.png</value>
 	</variable>
 	<variable name="RottenFreshLabelVar">
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),10.0)">10</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),0.9)">.9</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),0.8)">.8</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),0.7)">.7</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),0.6)">.6</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),0.5)">.6</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),0.4)">.4</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),0.3)">.3</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),0.2)">.2</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),0.1)">.1</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),0.0)">0</value>
+		<value condition="String.IsEqual(ListItem.Rating(tomatometerallcritics),10.0) | String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),10.0)">10</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallcritics),0.9)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),0.9)]">.9</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallcritics),0.8)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),0.8)]">.8</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallcritics),0.7)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),0.7)]">.7</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallcritics),0.6)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),0.6)]">.6</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallcritics),0.5)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),0.5)]">.6</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallcritics),0.4)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),0.4)]">.4</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallcritics),0.3)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),0.3)]">.3</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallcritics),0.2)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),0.2)]">.2</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallcritics),0.1)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),0.1)]">.1</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallcritics),0.0)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallcritics),0.0)]">0</value>
+		<value condition="!String.IsEmpty(VideoPlayer.Rating(tomatometerallcritics))">$INFO[VideoPlayer.Rating(tomatometerallcritics)]</value>
 		<value>$INFO[ListItem.Rating(tomatometerallcritics)]</value>
 	</variable>
 	<variable name="RottenFreshAudienceLogoVar">
-		<value condition="Integer.IsGreaterOrEqual(ListItem.Rating(tomatometerallaudience),6.0)">logos/rottentomatoes/popcornfresh.png</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + Integer.IsGreaterOrEqual(ListItem.Rating(tomatometerallaudience),6.0)] | [Window.IsVisible(fullscreeninfo) + Integer.IsGreaterOrEqual(VideoPlayer.Rating(tomatometerallaudience),6.0)]">logos/rottentomatoes/popcornfresh.png</value>
 		<value>logos/rottentomatoes/popcornrotten.png</value>
 	</variable>
 	<variable name="RottenFreshAudienceLabelVar">
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallaudience),10.0)">10</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallaudience),0.9)">.9</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallaudience),0.8)">.8</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallaudience),0.7)">.7</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallaudience),0.6)">.6</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallaudience),0.5)">.6</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallaudience),0.4)">.4</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallaudience),0.3)">.3</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallaudience),0.2)">.2</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallaudience),0.1)">.1</value>
-		<value condition="String.IsEqual(ListItem.Rating(tomatometerallaudience),0.0)">0</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallaudience),10.0)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallaudience),10.0)]">10</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallaudience),0.9)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallaudience),0.9)]">.9</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallaudience),0.8)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallaudience),0.8)]">.8</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallaudience),0.7)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallaudience),0.7)]">.7</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallaudience),0.6)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallaudience),0.6)]">.6</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallaudience),0.5)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallaudience),0.5)]">.5</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallaudience),0.4)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallaudience),0.4)]">.4</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallaudience),0.3)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallaudience),0.3)]">.3</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallaudience),0.2)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallaudience),0.2)]">.2</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallaudience),0.1)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallaudience),0.1)]">.1</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(tomatometerallaudience),0.0)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(tomatometerallaudience),0.0)]">0</value>
+		<value condition="[Window.IsVisible(fullscreeninfo) + !String.IsEmpty(VideoPlayer.Rating(tomatometerallaudience))]">$INFO[VideoPlayer.Rating(tomatometerallaudience)]</value>
 		<value>$INFO[ListItem.Rating(tomatometerallaudience)]</value>
 	</variable>
 	<variable name="MetacriticLabelVar">
-		<value condition="String.IsEqual(ListItem.Rating(metacritic),10.0)">10</value>
-		<value condition="String.IsEqual(ListItem.Rating(metacritic),0.9)">.9</value>
-		<value condition="String.IsEqual(ListItem.Rating(metacritic),0.8)">.8</value>
-		<value condition="String.IsEqual(ListItem.Rating(metacritic),0.7)">.7</value>
-		<value condition="String.IsEqual(ListItem.Rating(metacritic),0.6)">.6</value>
-		<value condition="String.IsEqual(ListItem.Rating(metacritic),0.5)">.6</value>
-		<value condition="String.IsEqual(ListItem.Rating(metacritic),0.4)">.4</value>
-		<value condition="String.IsEqual(ListItem.Rating(metacritic),0.3)">.3</value>
-		<value condition="String.IsEqual(ListItem.Rating(metacritic),0.2)">.2</value>
-		<value condition="String.IsEqual(ListItem.Rating(metacritic),0.1)">.1</value>
-		<value condition="String.IsEqual(ListItem.Rating(metacritic),0.0)">0</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(metacritic),10.0) | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(metacritic),10.0)]">10</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(metacritic),0.9)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(metacritic),0.9)]">.9</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(metacritic),0.8)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(metacritic),0.8)]">.8</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(metacritic),0.7)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(metacritic),0.7)]">.7</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(metacritic),0.6)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(metacritic),0.6)]">.6</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(metacritic),0.5)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(metacritic),0.5)]">.6</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(metacritic),0.4)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(metacritic),0.4)]">.4</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(metacritic),0.3)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(metacritic),0.3)]">.3</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(metacritic),0.2)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(metacritic),0.2)]">.2</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(metacritic),0.1)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(metacritic),0.1)]">.1</value>
+		<value condition="[!Window.IsVisible(fullscreeninfo) + String.IsEqual(ListItem.Rating(metacritic),0.0)] | [Window.IsVisible(fullscreeninfo) + String.IsEqual(VideoPlayer.Rating(metacritic),0.0)]">0</value>
+		<value condition="[Window.IsVisible(fullscreeninfo) + !String.IsEmpty(VideoPlayer.Rating(metacritic))]">$INFO[VideoPlayer.Rating(metacritic)]</value>
 		<value>$INFO[ListItem.Rating(metacritic)]</value>
 	</variable>
 	<!-- DialogMusicInfo -->
