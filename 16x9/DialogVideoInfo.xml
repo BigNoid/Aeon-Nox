@@ -8,9 +8,6 @@
 		<control type="textbox" id="4">
 			<include>HiddenObject</include>
 		</control>
-		<control type="scrollbar" id="70">
-			<include>HiddenObject</include>
-		</control>
 		<include condition="System.HasAddon(script.extendedinfo)">HiddenActorList</include>
 		<control type="button" id="64">
 			<include>HiddenObject</include>
@@ -29,6 +26,7 @@
 			<include>HiddenObject</include>
 			<imagepath background="true">$VAR[PosterVar]</imagepath>
 		</control>
+		<!-- Poster Side -->
 		<control type="group">
 			<animation effect="slide" start="-730,0" end="0,0" delay="250" time="500" tween="quadratic" condition="!Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
 			<animation effect="slide" start="-730,0" end="0,0" delay="500" time="500" tween="quadratic" condition="Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
@@ -45,6 +43,7 @@
 				<texture background="true">$VAR[VideoInfoPosterVar]</texture>
 			</control>
 		</control>
+		<!-- Details Side -->
 		<control type="group">
 			<animation effect="slide" start="1210,0" end="0,0" delay="250" time="500" tween="quadratic" condition="!Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
 			<animation effect="slide" start="1210,0" end="0,0" delay="500" time="500" tween="quadratic" condition="Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
@@ -90,8 +89,8 @@
 								<label>$INFO[ListItem.Title]</label>
 							</control>
 							<control type="label">
-								<left>1070</left>
-								<width>115</width>
+								<left>1065</left>
+								<width>120</width>
 								<height>65</height>
 								<align>right</align>
 								<font>font_kodiversion</font>
@@ -196,7 +195,7 @@
 							<visible>String.IsEqual(ListItem.DBTYPE,musicvideo) + !String.IsEmpty(ListItem.Artist)</visible>
 						</control>
 					</control>
-					<!-- Separator Top -->
+					<!-- Separator -->
 					<control type="image">
 						<left>-7</left>
 						<top>105</top>
@@ -459,7 +458,7 @@
 							</control>
 						</control>
 					</control>
-					<!-- Separator Bottom -->
+					<!-- Separator -->
 					<control type="image">
 						<left>-7</left>
 						<height>1</height>
@@ -471,11 +470,6 @@
 				<control type="group">
 					<left>3</left>
 					<top>110</top>
-					<control type="image">
-						<top>433</top>
-						<height>1</height>
-						<texture colordiffuse="$VAR[ThemeLabelColor]">new_pvr/osd_line_white.png</texture>
-					</control>
 					<control type="panel" id="300">
 						<top>78</top>
 						<height>360</height>
@@ -740,18 +734,19 @@
 							<include>VisibleFadeAnimation</include>
 						</control>
 					</control>
+					<!-- Separator -->
 					<control type="image">
+						<top>433</top>
 						<height>1</height>
-						<top>495</top>
 						<texture colordiffuse="$VAR[ThemeLabelColor]">new_pvr/osd_line_white.png</texture>
 					</control>
 				</control>
+				<!-- Buttons LABELS -->
 				<control type="group">
-					<left>-7</left>
-					<top>26</top>
+					<left>-5</left>
+					<top>542</top>
 					<control type="button">
-						<top>516</top>
-						<width>600</width>
+						<width>650</width>
 						<texturenofocus />
 						<disabledcolor>grey</disabledcolor>
 						<font>font30_title_bold</font>
@@ -764,8 +759,7 @@
 						<visible>![ControlGroup(90001).HasFocus() + Control(90003).HasFocus]</visible>
 					</control>
 					<control type="button">
-						<top>516</top>
-						<width>600</width>
+						<width>650</width>
 						<texturenofocus />
 						<disabledcolor>grey</disabledcolor>
 						<font>font15_bold</font>
@@ -775,140 +769,148 @@
 						<label>$VAR[DialogInfoDetailsLabelVar]</label>
 						<enable>no</enable>
 						<include>SettingsFadeAnimation</include>
-						<visible>ControlGroup(90001).HasFocus()</visible>
-					</control>
-					<control type="grouplist" id="9000">
-						<left>545</left>
-						<top>518</top>
-						<width>666</width>
-						<height>60</height>
-						<onleft>9000</onleft>
-						<onright>9000</onright>
-						<onup>300</onup>
-						<ondown>90001</ondown>
-						<align>right</align>
-						<orientation>horizontal</orientation>
-						<control type="togglebutton" id="8">
-							<description>Play/browse to Show</description>
-							<font>IconMediumMD</font>
-							<width>80</width>
-							<texturenofocus />
-							<include>ButtonInfoDialogsCommonValues</include>
-							<label></label>
-							<altlabel></altlabel>
-							<usealttexture>String.IsEqual(ListItem.DBTYPE,tvshow)</usealttexture>
-							<visible>[System.HasAddon(script.cinemavision) + !String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232])] | !System.HasAddon(script.cinemavision)</visible>
-							<visible>![Window.IsActive(home) + String.IsEqual(ListItem.DBTYPE,tvshow)]</visible>
-						</control>
-						<control type="button" id="808">
-							<description>Browse to Item</description>
-							<font>IconMediumMD</font>
-							<width>80</width>
-							<texturenofocus />
-							<include>ButtonInfoDialogsCommonValues</include>
-							<label></label>
-							<onclick>SetProperty(TVDBID,$INFO[ListItem.DBID],Home)</onclick>
-							<onclick>Dialog.Close(movieinformation)</onclick>
-							<onclick condition="String.IsEqual(ListItem.DBTYPE,movie)">ActivateWindow(Videos,videodb://movies/titles/$INFO[Window(Home).Property(TVDBID)],return)</onclick>
-							<onclick condition="String.IsEqual(ListItem.DBTYPE,tvshow)">ActivateWindow(Videos,videodb://tvshows/titles/$INFO[Window(Home).Property(TVDBID)],return)</onclick>
-							<visible>Window.IsActive(home) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)]</visible>
-						</control>
-						<control type="button" id="909">
-							<description>CinemaVision</description>
-							<font>IconMediumMD</font>
-							<width>80</width>
-							<texturenofocus />
-							<include>ButtonInfoDialogsCommonValues</include>
-							<label></label>
-							<onclick>RunScript(script.cinemavision,dbtype=$INFO[ListItem.DBTYPE],dbid=$INFO[ListItem.DBID])</onclick>
-							<visible>System.HasAddon(script.cinemavision) + String.IsEmpty(Window(Home).Property(script.cinemavision.running)) + !String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31014])</visible>
-							<visible>[String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season) | String.IsEqual(ListItem.DBTYPE,episode)]</visible>
-						</control>
-						<control type="button" id="910">
-							<description>Cast</description>
-							<font>IconMediumMD</font>
-							<width>70</width>
-							<texturenofocus />
-							<include>ButtonInfoDialogsCommonValues</include>
-							<label></label>
-							<onclick condition="!System.HasAddon(script.extendedinfo)">SetFocus(50)</onclick>
-							<onclick condition="System.HasAddon(script.extendedinfo)">SetFocus(90050)</onclick>
-							<visible>!String.IsEmpty(ListItem.Cast)</visible>
-						</control>
-						<control type="button" id="908">
-							<description>Special Features</description>
-							<font>IconMediumMD</font>
-							<width>70</width>
-							<texturenofocus />
-							<include>ButtonInfoDialogsCommonValues</include>
-							<label></label>
-							<onclick>Dialog.Close(MovieInformation)</onclick>
-							<onclick>RunScript(plugin.video.specialfeatures,listitem)</onclick>
-							<visible>System.HasAddon(plugin.video.specialfeatures) + String.IsEqual(Window(home).Property(SpecialFeatures.Visible),true)</visible>
-						</control>
-						<control type="button" id="11">
-							<description>Play Trailer</description>
-							<font>IconMediumMD</font>
-							<width>70</width>
-							<texturenofocus />
-							<include>ButtonInfoDialogsCommonValues</include>
-							<label></label>
-							<visible>!String.IsEmpty(ListItem.Trailer) + ![String.StartsWith(Container.FolderPath,plugin://) + String.Contains(Container.FolderPath,trailer)]</visible>
-						</control>
-						<control type="button" id="911">
-							<description>Search Trailer</description>
-							<font>IconMediumMD</font>
-							<width>70</width>
-							<texturenofocus />
-							<include>ButtonInfoDialogsCommonValues</include>
-							<label></label>
-							<onclick>Action(close)</onclick>
-							<onclick>RunScript(script.extendedinfo,info=youtubebrowser,id=$INFO[ListItem.Title] $INFO[ListItem.Year])</onclick>
-							<visible>System.hasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,movie) + !Control.IsVisible(11)</visible>
-						</control>
-						<control type="togglebutton" id="7">
-							<description>Set rating</description>
-							<font>IconMediumMD</font>
-							<width>70</width>
-							<include>ButtonInfoDialogsCommonValues</include>
-							<texturenofocus />
-							<alttexturenofocus />
-							<label></label>
-							<altlabel></altlabel>
-							<usealttexture>!String.IsEmpty(ListItem.UserRating)</usealttexture>
-						</control>
-						<control type="button" id="10">
-							<description>Get Thumb</description>
-							<font>IconMediumMD</font>
-							<width>70</width>
-							<texturenofocus />
-							<include>ButtonInfoDialogsCommonValues</include>
-							<label></label>
-							<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
-						</control>
-						<control type="button" id="6">
-							<description>Refresh</description>
-							<font>IconMediumMD</font>
-							<width>70</width>
-							<texturenofocus />
-							<include>ButtonInfoDialogsCommonValues</include>
-							<label></label>
-							<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
-						</control>
-						<control type="button" id="208">
-							<description>Extras</description>
-							<font>IconMediumMD</font>
-							<width>68</width>
-							<texturenofocus />
-							<include>ButtonInfoDialogsCommonValues</include>
-							<label></label>
-							<onclick>ActivateWindow(1119)</onclick>
-						</control>
+						<visible>ControlGroup(90001).HasFocus() + !Control(90003).HasFocus</visible>
 					</control>
 				</control>
+				<!-- Buttons -->
+				<control type="grouplist" id="9000">
+					<right>0</right>
+					<top>544</top>
+					<width>585</width>
+					<height>60</height>
+					<onleft>9000</onleft>
+					<onright>9000</onright>
+					<onup>300</onup>
+					<ondown>90001</ondown>
+					<align>right</align>
+					<orientation>horizontal</orientation>
+					<control type="togglebutton" id="8">
+						<description>Play/browse to Show</description>
+						<font>IconMediumMD</font>
+						<width>65</width>
+						<texturenofocus />
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label></label>
+						<altlabel></altlabel>
+						<usealttexture>String.IsEqual(ListItem.DBTYPE,tvshow)</usealttexture>
+						<visible>[System.HasAddon(script.cinemavision) + !String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232])] | !System.HasAddon(script.cinemavision)</visible>
+						<visible>![Window.IsActive(home) + String.IsEqual(ListItem.DBTYPE,tvshow)]</visible>
+					</control>
+					<control type="button" id="808">
+						<description>Browse to Item</description>
+						<font>IconMediumMD</font>
+						<width>65</width>
+						<texturenofocus />
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label></label>
+						<onclick>SetProperty(TVDBID,$INFO[ListItem.DBID],Home)</onclick>
+						<onclick>Dialog.Close(movieinformation)</onclick>
+						<onclick condition="String.IsEqual(ListItem.DBTYPE,movie)">ActivateWindow(Videos,videodb://movies/titles/$INFO[Window(Home).Property(TVDBID)],return)</onclick>
+						<onclick condition="String.IsEqual(ListItem.DBTYPE,tvshow)">ActivateWindow(Videos,videodb://tvshows/titles/$INFO[Window(Home).Property(TVDBID)],return)</onclick>
+						<visible>Window.IsActive(home) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)]</visible>
+					</control>
+					<control type="button" id="909">
+						<description>CinemaVision</description>
+						<font>IconMediumMD</font>
+						<width>65</width>
+						<texturenofocus />
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label></label>
+						<onclick>RunScript(script.cinemavision,dbtype=$INFO[ListItem.DBTYPE],dbid=$INFO[ListItem.DBID])</onclick>
+						<visible>System.HasAddon(script.cinemavision) + String.IsEmpty(Window(Home).Property(script.cinemavision.running)) + !String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31014])</visible>
+						<visible>[String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season) | String.IsEqual(ListItem.DBTYPE,episode)]</visible>
+					</control>
+					<control type="button" id="910">
+						<description>Cast</description>
+						<font>IconMediumMD</font>
+						<width>65</width>
+						<texturenofocus />
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label></label>
+						<onclick condition="!System.HasAddon(script.extendedinfo)">SetFocus(50)</onclick>
+						<onclick condition="System.HasAddon(script.extendedinfo)">SetFocus(90050)</onclick>
+						<visible>!String.IsEmpty(ListItem.Cast)</visible>
+					</control>
+					<control type="button" id="908">
+						<description>Special Features</description>
+						<font>IconMediumMD</font>
+						<width>65</width>
+						<texturenofocus />
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label></label>
+						<onclick>Dialog.Close(MovieInformation)</onclick>
+						<onclick>RunScript(plugin.video.specialfeatures,listitem)</onclick>
+						<visible>System.HasAddon(plugin.video.specialfeatures) + String.IsEqual(Window(home).Property(SpecialFeatures.Visible),true)</visible>
+					</control>
+					<control type="button" id="11">
+						<description>Play Trailer</description>
+						<font>IconMediumMD</font>
+						<width>65</width>
+						<texturenofocus />
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label></label>
+						<visible>!String.IsEmpty(ListItem.Trailer) + ![String.StartsWith(Container.FolderPath,plugin://) + String.Contains(Container.FolderPath,trailer)]</visible>
+					</control>
+					<control type="button" id="911">
+						<description>Search Trailer</description>
+						<font>IconMediumMD</font>
+						<width>65</width>
+						<texturenofocus />
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label></label>
+						<onclick>Action(close)</onclick>
+						<onclick>RunScript(script.extendedinfo,info=youtubebrowser,id=$INFO[ListItem.Title] $INFO[ListItem.Year])</onclick>
+						<visible>System.hasAddon(script.extendedinfo) + String.IsEqual(ListItem.DBType,movie) + !Control.IsVisible(11)</visible>
+					</control>
+					<control type="togglebutton" id="7">
+						<description>Set rating</description>
+						<font>IconMediumMD</font>
+						<width>65</width>
+						<include>ButtonInfoDialogsCommonValues</include>
+						<texturenofocus />
+						<alttexturenofocus />
+						<label></label>
+						<altlabel></altlabel>
+						<usealttexture>!String.IsEmpty(ListItem.UserRating)</usealttexture>
+					</control>
+					<control type="button" id="10">
+						<description>Get Thumb</description>
+						<font>IconMediumMD</font>
+						<width>65</width>
+						<texturenofocus />
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label></label>
+						<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
+					</control>
+					<control type="button" id="6">
+						<description>Refresh</description>
+						<font>IconMediumMD</font>
+						<width>65</width>
+						<texturenofocus />
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label></label>
+						<enable>!Skin.HasSetting(KioskMode.Enabled)</enable>
+					</control>
+					<control type="button" id="208">
+						<description>Extras</description>
+						<font>IconMediumMD</font>
+						<width>65</width>
+						<texturenofocus />
+						<include>ButtonInfoDialogsCommonValues</include>
+						<label></label>
+						<onclick>ActivateWindow(1119)</onclick>
+					</control>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>604</top>
+					<height>1</height>
+					<texture colordiffuse="$VAR[ThemeLabelColor]">new_pvr/osd_line_white.png</texture>
+				</control>
+				<!-- Bottom Section -->
 				<control type="grouplist" id="90001">
 					<left>-7</left>
-					<top>608</top>
+					<top>606</top>
 					<width>2800</width>
 					<height>500</height>
 					<onup>9000</onup>
@@ -934,9 +936,10 @@
 							<onclick>SetProperty(TextViewerContent,$ESCVAR[VideoInfoPlotVar],Home)</onclick>
 							<onclick>ActivateWindow(1112)</onclick>
 						</control>
+						<!-- Plot -->
 						<control type="group">
 							<left>26</left>
-							<top>5</top>
+							<top>22</top>
 							<control type="textbox" id="400">
 								<width>780</width>
 								<height>345</height>
@@ -957,6 +960,7 @@
 								<visible>!Skin.HasSetting(discartoninfo) | String.IsEmpty(ListItem.Art(discart))</visible>
 							</control>
 						</control>
+						<!-- Discart -->
 						<control type="image">
 							<left>820</left>
 							<top>10</top>
@@ -1160,7 +1164,9 @@
 					<include condition="!System.HasAddon(script.extendedinfo)">DefaultActorList</include>
 					<include condition="System.HasAddon(script.extendedinfo)">CustomActorList</include>
 					<include condition="System.HasAddon(script.extendedinfo) + !Skin.HasSetting(Disable.ExtendedInfoIntergration) + String.IsEqual(ListItem.DBTYPE,movie)">ExtendedInfoMovieLists</include>
+					<include condition="String.IsEqual(ListItem.DBTYPE,movie) + !String.IsEmpty(ListItem.SetID)">ExtendedMovieSetPanel</include>
 					<include condition="System.HasAddon(script.extendedinfo) + !Skin.HasSetting(Disable.ExtendedInfoIntergration) + String.IsEqual(ListItem.DBTYPE,tvshow)">ExtendedInfoSeriesLists</include>
+					<include condition="String.IsEqual(ListItem.DBTYPE,tvshow) + Integer.IsGreater(ListItem.Property(TotalSeasons),0)">ExtendedSeasonPanel</include>
 				</control>
 			</control>
 		</control>
