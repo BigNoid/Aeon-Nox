@@ -1155,7 +1155,8 @@
 				<animation effect="slide" start="0,0" end="0,-1080" time="720" tween="cubic">Hidden</animation>
 				<animation effect="slide" start="0,-1200" end="0,0" time="720" tween="cubic">WindowOpen</animation>
 				<animation effect="slide" end="0,-1200" start="0,0" time="720" tween="cubic">WindowClose</animation>
-				<animation effect="slide" start="0,0" end="0,195" time="0" tween="cubic" condition="[Control.IsVisible(57) + Skin.HasSetting(Enable.Shift.Small)] | Control.IsVisible(59)">Conditional</animation>
+				<animation effect="slide" end="0,16" condition="[Control.IsVisible(57) + !Skin.HasSetting(Enable.Shift.Small)]">Conditional</animation>
+				<animation effect="slide" start="0,0" end="0,220" condition="[Control.IsVisible(57) + Skin.HasSetting(Enable.Shift.Small)] | Control.IsVisible(59)">Conditional</animation>
 				<animation effect="slide" start="0,0" end="0,20" time="720" tween="cubic" condition="Control.IsVisible(52)">Conditional</animation>
 				<animation effect="slide" start="0,0" end="0,80" time="720" tween="cubic" condition="Control.IsVisible(601)">Conditional</animation>
 				<top>5</top>
@@ -1176,20 +1177,12 @@
 					<visible>!Control.IsVisible(57)</visible>
 				</control>
 				<control type="image">
-					<left>120</left>
+					<left>50</left>
 					<top>60</top>
-					<width>1680</width>
+					<width>1820</width>
 					<height>860</height>
 					<texture colordiffuse="B3FFFFFF" border="40">listpanel_back.png</texture>
-					<visible>Control.IsVisible(57) + !Skin.HasSetting(Enable.Shift.Small)</visible>
-				</control>
-				<control type="image">
-					<left>120</left>
-					<top>60</top>
-					<width>1680</width>
-					<height>630</height>
-					<texture colordiffuse="B3FFFFFF" border="40">listpanel_back.png</texture>
-					<visible>Control.IsVisible(57) + Skin.HasSetting(Enable.Shift.Small)</visible>
+					<visible>Control.IsVisible(57)</visible>
 				</control>
 				<control type="group">
 					<visible>String.IsEqual(Control.GetLabel(4420),1)</visible>
@@ -1341,48 +1334,56 @@
 					<visible>String.IsEqual(Control.GetLabel(4420),3) + Control.IsVisible(57)</visible>
 					<include>SettingsFadeAnimation</include>
 					<control type="grouplist">
-						<left>150</left>
+						<left>70</left>
 						<top>90</top>
+						<width>1200</width>
 						<orientation>horizontal</orientation>
-						<visible>Skin.HasSetting(Enable.Shift.Discart) + !Skin.HasSetting(Enable.Shift.Small) + !ListItem.IsCollection + !Skin.HasSetting(Enable.ManualInfoPanel) + ![Container.Content(tvshows) | Container.Content(seasons)]</visible>
+						<visible>Skin.HasSetting(Enable.Shift.Discart) + !Skin.HasSetting(Enable.Shift.Small) + ![ListItem.IsCollection + String.IsEmpty(ListItem.Art(discart))] + !Skin.HasSetting(Enable.ManualInfoPanel) + ![Container.Content(tvshows) | Container.Content(seasons)]</visible>
 						<control type="button">
 							<label>$VAR[InfoPanelLabel1Var]</label>
-							<width>280</width>
+							<width min="100" max="332">auto</width>
 							<include>ShowCaseInfoPanelButtonsValues</include>
 						</control>
 						<control type="button">
 							<label>$VAR[InfoPanelLabel2Var]</label>
-							<width>280</width>
+							<width min="100" max="332">auto</width>
 							<include>ShowCaseInfoPanelButtonsValues</include>
 						</control>
 						<control type="button">
 							<label>$VAR[InfoPanelLabel3Var]</label>
-							<width>300</width>
+							<width min="100" max="500">auto</width>
 							<include>ShowCaseInfoPanelButtonsValues</include>
+							<visible>!String.IsEmpty(ListItem.Top250)</visible>
+						</control>
+						<control type="button">
+							<label>$VAR[InfoPanelLabel3Var]</label>
+							<width min="100" max="332">auto</width>
+							<include>ShowCaseInfoPanelButtonsValues</include>
+							<visible>String.IsEmpty(ListItem.Top250)</visible>
 						</control>
 						<control type="button">
 							<label>$VAR[InfoPanelLabel4Var]</label>
-							<width>224</width>
+							<width>auto</width>
 							<include>ShowCaseInfoPanelButtonsValues</include>
 						</control>
 					</control>
 					<control type="grouplist">
-						<left>150</left>
+						<left>70</left>
 						<top>95</top>
-						<visible>!Skin.HasSetting(Enable.Shift.Discart) | Skin.HasSetting(Enable.Shift.Small) | ListItem.IsCollection | Skin.HasSetting(Enable.ManualInfoPanel) | [Container.Content(tvshows) | Container.Content(seasons)]</visible>
+						<visible>!Skin.HasSetting(Enable.Shift.Discart) | Skin.HasSetting(Enable.Shift.Small) | [ListItem.IsCollection + String.IsEmpty(ListItem.Art(discart))] | Skin.HasSetting(Enable.ManualInfoPanel) | [Container.Content(tvshows) | Container.Content(seasons)]</visible>
 						<control type="button">
 							<label>$VAR[InfoPanelLabel1Var]</label>
-							<width>443</width>
+							<width>540</width>
 							<include>ShowCaseInfoPanelButtonsValues</include>
 						</control>
 						<control type="button">
 							<label>$VAR[InfoPanelLabel2Var]</label>
-							<width>443</width>
+							<width>540</width>
 							<include>ShowCaseInfoPanelButtonsValues</include>
 						</control>
 						<control type="button">
 							<label>$VAR[InfoPanelLabel3Var]</label>
-							<width>443</width>
+							<width>540</width>
 							<include>ShowCaseInfoPanelButtonsValues</include>
 						</control>
 					</control>
@@ -1390,29 +1391,28 @@
 						<label>$VAR[VideoPlotVar]</label>
 						<top>95</top>
 						<left>610</left>
-						<width>600</width>
+						<width>660</width>
 						<height>308</height>
 						<font>font14_textbox2</font>
 						<align>justify</align>
-						<pagecontrol />
 						<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
 						<include>ShowCaseInfoPanelButtonsValues</include>
-						<visible>!Skin.HasSetting(Enable.Shift.Discart) | Skin.HasSetting(Enable.Shift.Small) | ListItem.IsCollection | Skin.HasSetting(Enable.ManualInfoPanel) | [Container.Content(tvshows) | Container.Content(seasons)]</visible>
+						<visible>!Skin.HasSetting(Enable.Shift.Discart) | Skin.HasSetting(Enable.Shift.Small) | [ListItem.IsCollection + String.IsEmpty(ListItem.Art(discart))] | Skin.HasSetting(Enable.ManualInfoPanel) | [Container.Content(tvshows) | Container.Content(seasons)]</visible>
 					</control>
 					<control type="textbox">
 						<label>$VAR[VideoPlotVar]</label>
 						<top>195</top>
-						<left>550</left>
-						<width>650</width>
+						<left>500</left>
+						<width>770</width>
 						<height>218</height>
 						<font>font14_textbox2</font>
-						<pagecontrol />
+						<align>justify</align>
 						<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
 						<include>ShowCaseInfoPanelButtonsValues</include>
-						<visible>Skin.HasSetting(Enable.Shift.Discart) + !Skin.HasSetting(Enable.Shift.Small) + !ListItem.IsCollection + !Skin.HasSetting(Enable.ManualInfoPanel) + ![Container.Content(tvshows) | Container.Content(seasons)]</visible>
+						<visible>Skin.HasSetting(Enable.Shift.Discart) + !Skin.HasSetting(Enable.Shift.Small) + ![ListItem.IsCollection + String.IsEmpty(ListItem.Art(discart))] + !Skin.HasSetting(Enable.ManualInfoPanel) + ![Container.Content(tvshows) | Container.Content(seasons)]</visible>
 					</control>
 					<control type="image">
-						<left>1229</left>
+						<left>1298</left>
 						<top>92</top>
 						<width>540</width>
 						<height>330</height>
