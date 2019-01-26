@@ -47,10 +47,7 @@
 			<label>$LOCALIZE[31005]</label>
 			<selected>Skin.HasSetting(LandscapeWrapList)</selected>
 			<onclick>Skin.ToggleSetting(LandscapeWrapList)</onclick>
-			<onclick>SetProperty(ContainerPath,$ESCINFO[Container.FolderPath],Home)</onclick>
-			<onclick>SetProperty(ReplaceWindow,Path,Home)</onclick>
-			<onclick>Dialog.Close(1131)</onclick>
-			<onclick>ReplaceWindow(1135)</onclick>
+			<include>ReloadWindowOnClick</include>
 		</control>
 		<control type="radiobutton" id="1510">
 			<include>ButtonCommonValues</include>
@@ -136,10 +133,7 @@
 			<label>$LOCALIZE[31005]</label>
 			<selected>Skin.HasSetting(ShowCaseWrapList)</selected>
 			<onclick>Skin.ToggleSetting(ShowCaseWrapList)</onclick>
-			<onclick>SetProperty(ContainerPath,$ESCINFO[Container.FolderPath],Home)</onclick>
-			<onclick>SetProperty(ReplaceWindow,Path,Home)</onclick>
-			<onclick>Dialog.Close(1131)</onclick>
-			<onclick>ReplaceWindow(1135)</onclick>
+			<include>ReloadWindowOnClick</include>
 		</control>
 		<control type="radiobutton" id="1510">
 			<include>ButtonCommonValues</include>
@@ -283,10 +277,7 @@
 			<label>$LOCALIZE[31005]</label>
 			<selected>Skin.HasSetting(ShowCaseWrapList)</selected>
 			<onclick>Skin.ToggleSetting(ShowCaseWrapList)</onclick>
-			<onclick>SetProperty(ContainerPath,$ESCINFO[Container.FolderPath],Home)</onclick>
-			<onclick>SetProperty(ReplaceWindow,MusicPath,Home)</onclick>
-			<onclick>Dialog.Close(1131)</onclick>
-			<onclick>ReplaceWindow(1135)</onclick>
+			<include>ReloadWindowOnClick</include>
 		</control>
 		<control type="radiobutton" id="1511">
 			<include>ButtonCommonValues</include>
@@ -314,10 +305,7 @@
 			<label>$LOCALIZE[31005]</label>
 			<selected>Skin.HasSetting(PostersWrapList)</selected>
 			<onclick>Skin.ToggleSetting(PostersWrapList)</onclick>
-			<onclick>SetProperty(ContainerPath,$ESCINFO[Container.FolderPath],Home)</onclick>
-			<onclick>SetProperty(ReplaceWindow,Path,Home)</onclick>
-			<onclick>Dialog.Close(1131)</onclick>
-			<onclick>ReplaceWindow(1135)</onclick>
+			<include>ReloadWindowOnClick</include>
 		</control>
 	</include>
 	<include name="ShiftViewSettings">
@@ -350,7 +338,7 @@
 			<include>ButtonCommonValues</include>
 			<label>$LOCALIZE[31604]</label>
 			<onclick>Skin.ToggleSetting(Disable.BannerWallInfo)</onclick>
-			<onclick>ReloadSkin()</onclick>
+			<include>ReloadWindowOnClick</include>
 			<selected>!Skin.HasSetting(Disable.BannerWallInfo)</selected>
 		</control>
 		<control type="radiobutton" id="1511">
@@ -369,10 +357,7 @@
 			<label>$LOCALIZE[31005]</label>
 			<selected>Skin.HasSetting(LogoWrapList)</selected>
 			<onclick>Skin.ToggleSetting(LogoWrapList)</onclick>
-			<onclick>SetProperty(ContainerPath,$ESCINFO[Container.FolderPath],Home)</onclick>
-			<onclick>SetProperty(ReplaceWindow,Path,Home)</onclick>
-			<onclick>Dialog.Close(1131)</onclick>
-			<onclick>ReplaceWindow(1135)</onclick>
+			<include>ReloadWindowOnClick</include>
 		</control>
 		<control type="radiobutton" id="1510">
 			<include>ButtonCommonValues</include>
@@ -412,7 +397,7 @@
 			<label>$LOCALIZE[31257]</label>
 			<onclick>Skin.ToggleSetting(Enable.Logo.MovieSetList)</onclick>
 			<selected>Skin.HasSetting(Enable.Logo.MovieSetList)</selected>
-			<visible>Container.Content(movies)</visible>
+			<visible>System.GetBool(videolibrary.groupmoviesets) + Container.Content(movies)</visible>
 		</control>
 	</include>
 	<include name="SmallIconsViewSettings">
@@ -440,6 +425,24 @@
 	</include>
 	<include name="LowListViewSettings">
 		<!-- LowList -->
+		<control type="radiobutton" id="1517">
+			<description>LowList Toggle</description>
+			<include>ButtonCommonValues</include>
+			<label>$LOCALIZE[31499]</label>
+			<onclick>Skin.ToggleSetting(nohighlist)</onclick>
+			<selected>Skin.HasSetting(nohighlist)</selected>
+			<include>ReloadWindowOnClick</include>
+			<visible>![Control.IsVisible(501) + String.Contains(Container.FolderPath,plugin.program.advanced.launcher)]</visible>
+		</control>
+		<control type="radiobutton" id="1518">
+			<description>LowList Toggle</description>
+			<include>ButtonCommonValues</include>
+			<label>$LOCALIZE[31499]</label>
+			<onclick>Skin.ToggleSetting(nohighlistgame)</onclick>
+			<selected>Skin.HasSetting(nohighlistgame)</selected>
+			<include>ReloadWindowOnClick</include>
+			<visible>Control.IsVisible(501) + String.Contains(Container.FolderPath,plugin.program.advanced.launcher)</visible>
+		</control>
 		<control type="radiobutton" id="1510">
 			<include>ButtonCommonValues</include>
 			<label>$LOCALIZE[31606]</label>
@@ -782,6 +785,7 @@
 		<control type="radiobutton" id="1531">
 			<include>ButtonCommonValues</include>
 			<label>   - InfoPopup</label>
+			<onclick condition="String.IsEmpty(Skin.String(InfoPopup.Delay))">Skin.SetString(InfoPopup.Delay,3)</onclick>
 			<onclick>Skin.ToggleSetting(Enable.RightListInfoPopup)</onclick>
 			<selected>Skin.HasSetting(Enable.RightListInfoPopup)</selected>
 			<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)] + Skin.HasSetting(inforightlist)</visible>
@@ -913,5 +917,16 @@
 			<selected>Skin.HasSetting(Enable.FullscreenWallInfoPopup)</selected>
 			<visible>!Window.IsActive(music)</visible>
 		</control>
+	</include>
+	<include name="ReloadWindowOnClick">
+		<onclick condition="Window.IsActive(addonbrowser)">SetProperty(ActiveWindow,addons,home)</onclick>
+		<onclick condition="Window.IsActive(music)">SetProperty(ActiveWindow,musiclibrary,home)</onclick>
+		<onclick condition="Window.IsActive(musicplaylist)">SetProperty(ActiveWindow,musicplaylist,home)</onclick>
+		<onclick condition="Window.IsActive(videoplaylist)">SetProperty(ActiveWindow,videoplaylist,home)</onclick>
+		<onclick condition="Window.IsActive(videos)">SetProperty(ActiveWindow,videos,home)</onclick>
+		<onclick condition="Window.IsActive(programs)">SetProperty(ActiveWindow,programs,home)</onclick>
+		<onclick>SetProperty(ContainerPath,$ESCINFO[Container.FolderPath],home)</onclick>
+		<onclick>Dialog.Close(1131)</onclick>
+		<onclick>ReplaceWindow(1135)</onclick>
 	</include>
 </includes>
