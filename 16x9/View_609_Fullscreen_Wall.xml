@@ -20,8 +20,7 @@
 				</control>
 			</control>
 			<control type="panel" id="609">
-				<width>1920</width>
-				<height>1080</height>
+				<include>FullscreenDimensions</include>
 				<onleft>SetProperty(MediaMenu,True,Home)</onleft>
 				<onleft>SetFocus(9050)</onleft>
 				<onright>60960</onright>
@@ -87,7 +86,7 @@
 						</control>
 					</control>
 				</focusedlayout>
-				<itemlayout width="192" height="270" condition="[Container.Content(movies) | Container.Content(tvshows) | Container.Content(sets)] + Skin.HasSetting(Enable.SmallerFullscreenWallPosters)">
+				<itemlayout width="192" height="270" condition="[Container.Content(movies) | Container.Content(tvshows) | Container.Content(sets)] + Skin.HasSetting(Enable.SmallerFullscreenWallPosters) + !Skin.HasSetting(Enable.TinyFullscreenWallPosters)">
 					<control type="group">
 						<control type="image">
 							<width>192</width>
@@ -114,7 +113,7 @@
 						</control>
 					</control>
 				</itemlayout>
-				<focusedlayout width="192" height="270" condition="[Container.Content(movies) | Container.Content(tvshows) | Container.Content(sets)] + Skin.HasSetting(Enable.SmallerFullscreenWallPosters)">
+				<focusedlayout width="192" height="270" condition="[Container.Content(movies) | Container.Content(tvshows) | Container.Content(sets)] + Skin.HasSetting(Enable.SmallerFullscreenWallPosters) + !Skin.HasSetting(Enable.TinyFullscreenWallPosters)">
 					<control type="group">
 						<animation effect="zoom" start="95" end="100" time="200" tween="sine" easing="inout" center="auto" reversible="false">Focus</animation>
 						<control type="image">
@@ -137,6 +136,86 @@
 							<left>10</left>
 							<top>20</top>
 							<include condition="Skin.HasSetting(Disable.UnwatchedIcon)">UnwatchedIcon</include>
+						</control>
+					</control>
+				</focusedlayout>
+				<itemlayout width="128" height="180" condition="[Container.Content(movies) | Container.Content(tvshows) | Container.Content(sets)] + Skin.HasSetting(Enable.SmallerFullscreenWallPosters) + Skin.HasSetting(Enable.TinyFullscreenWallPosters)">
+					<control type="group">
+						<control type="image">
+							<width>128</width>
+							<height>180</height>
+							<texture background="true">$VAR[PosterThumbVar]</texture>
+						</control>
+						<control type="image">
+							<width>128</width>
+							<height>180</height>
+							<texture>thumbs/diffuse.png</texture>
+						</control>
+						<control type="image">
+							<left>106</left>
+							<width>25</width>
+							<height>25</height>
+							<texture>$VAR[OverlayVar]</texture>
+							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<visible>[!String.IsEmpty(Skin.String(609.Movies.DisableOverlay)) + Container.Content(movies)] | [!String.IsEmpty(Skin.String(609.TV.DisableOverlay)) + Container.Content(tvshows)] | [!String.IsEmpty(Skin.String(609.Sets.DisableOverlay)) + Container.Content(sets)]</visible>
+						</control>
+						<control type="group">
+							<left>-2</left>
+							<top>-5</top>
+							<visible>Skin.HasSetting(Disable.UnwatchedIcon)</visible>
+							<visible>[Container.Content(tvshows) | Container.Content(seasons)] + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0)</visible>
+							<control type="image">
+								<top>4</top>
+								<width>26</width>
+								<height>26</height>
+								<aspectratio>keep</aspectratio>
+								<texture>circle.png</texture>
+							</control>
+							<control type="label">
+								<width>25</width>
+								<height>25</height>
+								<include>UnwatchedIconVars</include>
+								<label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+							</control>
+						</control>
+					</control>
+				</itemlayout>
+				<focusedlayout width="128" height="180" condition="[Container.Content(movies) | Container.Content(tvshows) | Container.Content(sets)] + Skin.HasSetting(Enable.SmallerFullscreenWallPosters) + Skin.HasSetting(Enable.TinyFullscreenWallPosters)">
+					<control type="group">
+						<animation effect="zoom" start="95" end="100" time="200" tween="sine" easing="inout" center="auto" reversible="false">Focus</animation>
+						<control type="image">
+							<width>128</width>
+							<height>180</height>
+							<texture background="true">$VAR[PosterThumbVar]</texture>
+							<bordertexture colordiffuse="$VAR[ThemeLabelColor]" border="4">thumbs/thumbnail_focused.png</bordertexture>
+							<bordersize>4</bordersize>
+						</control>
+						<control type="image">
+							<left>102</left>
+							<top>4</top>
+							<width>25</width>
+							<height>25</height>
+							<texture>$VAR[OverlayVar]</texture>
+							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<visible>[!String.IsEmpty(Skin.String(609.Movies.DisableOverlay)) + Container.Content(movies)] | [!String.IsEmpty(Skin.String(609.TV.DisableOverlay)) + Container.Content(tvshows)] | [!String.IsEmpty(Skin.String(609.Sets.DisableOverlay)) + Container.Content(sets)]</visible>
+						</control>
+						<control type="group">
+							<left>2</left>
+							<visible>Skin.HasSetting(Disable.UnwatchedIcon)</visible>
+							<visible>[Container.Content(tvshows) | Container.Content(seasons)] + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0)</visible>
+							<control type="image">
+								<top>4</top>
+								<width>26</width>
+								<height>26</height>
+								<aspectratio>keep</aspectratio>
+								<texture>circle.png</texture>
+							</control>
+							<control type="label">
+								<width>25</width>
+								<height>25</height>
+								<include>UnwatchedIconVars</include>
+								<label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+							</control>
 						</control>
 					</control>
 				</focusedlayout>
