@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-	<defaultcontrol>1</defaultcontrol>
-	<visible>!Skin.HasSetting(Enable.ScreenshotMode) + !Player.HasGame + !Player.FrameAdvance</visible>
-	<visible>![Player.Paused + Window.IsActive(1134) + !Skin.HasSetting(Disable.Netflix.Pause)]</visible>
-	<visible>[Window.IsVisible(videoosd) | [Window.IsVisible(fullscreeninfo) + !VideoPlayer.Content(LiveTV)] | [Window.IsActive(fullscreeninfo) + VideoPlayer.Content(LiveTV)] | Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.Caching] + VideoPlayer.IsFullscreen | [[Window.IsActive(fullscreenvideo) | Window.IsActive(visualisation)] + !Window.IsActive(pvrosdchannels) + !String.IsEmpty(PVR.ChannelNumberInput)]</visible>
+	<visible>String.IsEmpty(Window(Home).Property(Enable.ScreenshotMode)) + !Window.IsActive(visualisation) + !Player.HasGame + !Player.FrameAdvance + !Window.IsActive(pvrosdchannels) + ![Player.Paused + Window.IsActive(1134) + !Skin.HasSetting(Disable.Netflix.Pause)]</visible>
+	<visible>VideoPlayer.IsFullscreen + [Window.IsVisible(videoosd) | Window.IsVisible(fullscreeninfo) | Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.Caching] | [Window.IsActive(fullscreenvideo) + !String.IsEmpty(PVR.ChannelNumberInput)]</visible>
 	<zorder>1</zorder>
 	<controls>
 		<control type="label">
@@ -24,10 +22,10 @@
 				<animation effect="fade" end="0" start="100" time="200">WindowClose</animation>
 				<control type="group">
 					<animation effect="slide" end="0,-90" time="240" tween="quadratic" condition="Window.IsActive(videoosd) + !Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
-					<animation effect="slide" end="0,90" time="240" tween="quadratic" condition="[Window.IsVisible(SliderDialog) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(OSDSubtitleSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(SubtitleSearch) | Window.IsVisible(1115)] + !Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
+					<animation effect="slide" end="0,90" time="240" tween="quadratic" condition="!Skin.HasSetting(VideoOSDOnTop) + [Window.IsVisible(SliderDialog) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(OSDSubtitleSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(SubtitleSearch) | Window.IsVisible(1115)]">Conditional</animation>
 					<control type="image">
 						<top>25</top>
-						<width>2100</width>
+						<width>100.1%</width>
 						<height>135</height>
 						<texture>osd/texturebg.png</texture>
 					</control>
@@ -68,19 +66,34 @@
 					<textureslidernibfocus colordiffuse="$VAR[ThemeOSDProgressColor]">slidernib_alt.png</textureslidernibfocus>
 					<visible>Player.Seeking</visible>
 				</control>
-				<control type="label">
+				<control type="group">
 					<top>24</top>
-					<width>830</width>
-					<height>90</height>
-					<font>font14_title</font>
-					<textoffsetx>15</textoffsetx>
-					<textcolor>grey</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<aligny>top</aligny>
-					<textoffsety>-2</textoffsety>
-					<label>$VAR[PlayerTitleLabelVar]</label>
-					<scroll>true</scroll>
 					<animation effect="fade" start="100" end="50" time="240" condition="Player.Seeking">Conditional</animation>
+					<control type="label">
+						<width>830</width>
+						<height>90</height>
+						<font>font14_title</font>
+						<textoffsetx>15</textoffsetx>
+						<textcolor>grey</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<aligny>top</aligny>
+						<textoffsety>-2</textoffsety>
+						<label>$VAR[PlayerTitleLabelVar]</label>
+						<scroll>true</scroll>
+					</control>
+					<control type="label">
+						<left>1020</left>
+						<width>900</width>
+						<height>90</height>
+						<font>font14_title</font>
+						<textoffsetx>15</textoffsetx>
+						<textcolor>grey</textcolor>
+						<shadowcolor>shadow</shadowcolor>
+						<align>right</align>
+						<aligny>top</aligny>
+						<textoffsety>-2</textoffsety>
+						<label>$VAR[OSDRightLabelVar]</label>
+					</control>
 				</control>
 				<control type="label">
 					<top>24</top>
@@ -94,21 +107,6 @@
 					<aligny>top</aligny>
 					<textoffsety>-2</textoffsety>
 					<label>$VAR[SeekLabelVar]</label>
-				</control>
-				<control type="label">
-					<top>24</top>
-					<left>1020</left>
-					<width>900</width>
-					<height>90</height>
-					<font>font14_title</font>
-					<textoffsetx>15</textoffsetx>
-					<textcolor>grey</textcolor>
-					<shadowcolor>shadow</shadowcolor>
-					<align>right</align>
-					<aligny>top</aligny>
-					<textoffsety>-2</textoffsety>
-					<label>$VAR[OSDRightLabelVar]</label>
-					<animation effect="fade" start="100" end="50" time="240" condition="Player.Seeking">Conditional</animation>
 				</control>
 				<control type="image">
 					<left>1460</left>
@@ -131,10 +129,11 @@
 				<animation type="VisibleChange" reversible="false">
 					<effect type="fade" start="0" end="100" time="500" />
 				</animation>
+				<visible>Player.Paused + !Window.IsActive(subtitlesearch)</visible>
 				<control type="group">
 					<left>867</left>
 					<top>410</top>
-					<visible>Player.Paused + !Window.IsActive(subtitlesearch) + !Skin.HasSetting(PausedLabel)</visible>
+					<visible>!Skin.HasSetting(PausedLabel)</visible>
 					<control type="image">
 						<width>186</width>
 						<height>186</height>
@@ -148,13 +147,12 @@
 				</control>
 				<control type="label">
 					<top>-70</top>
-					<width>1920</width>
+					<width>100%</width>
 					<align>center</align>
 					<label>[UPPERCASE][B]$LOCALIZE[112][/B][/UPPERCASE]</label>
 					<font>BigAssTimeFont</font>
 					<textcolor>B3FFFFFF</textcolor>
-					<!-- <shadowcolor>shadow</shadowcolor> -->
-					<visible>Player.Paused + !Window.IsActive(subtitlesearch) + Skin.HasSetting(PausedLabel)</visible>
+					<visible>Skin.HasSetting(PausedLabel)</visible>
 				</control>
 			</control>
 		</control>
