@@ -342,72 +342,73 @@
 				<control type="group">
 					<visible>Control.IsVisible(57) | [Control.IsVisible(58) + Skin.HasSetting(Disable.BannerWallInfo)] | Control.IsVisible(499) | Control.IsVisible(500) | Control.IsVisible(601)</visible>
 					<include>ViewAnimation</include>
+					<animation effect="slide" end="0,25" condition="Control.IsVisible(57) + [Container.Content(tvshows) | Container.Content(seasons)]">Conditional</animation>
 					<animation effect="slide" end="-40,16" condition="Control.IsVisible(57) + Container.Content(movies)">Conditional</animation>
 					<animation effect="slide" end="-40,-20" condition="Control.IsVisible(57) + [Container.Content(tvshows) | Container.Content(seasons)]">Conditional</animation>
 					<animation effect="slide" end="0,-65" time="720" tween="cubic" easing="inout" condition="[Control.IsVisible(58) + Skin.HasSetting(Disable.BannerWallInfo)] | Control.IsVisible(499) | Control.IsVisible(500) | Control.IsVisible(601)">Conditional</animation>
 					<control type="group">
 						<left>90</left>
 						<top>1000</top>
-						<visible>!Container.Content(tags)</visible>
-						<control type="grouplist">
+						<visible>!ListItem.IsParentFolder + !Container.Content(tags) + !Container.Content(genres)</visible>
+						<!-- Main Label -->
+						<control type="label">
 							<width>1800</width>
-							<height>132</height>
-							<itemgap>5</itemgap>
-							<!-- Main Label -->
-							<control type="label">
-								<width>1800</width>
-								<height>42</height>
-								<aligny>top</aligny>
-								<font>font16_title_bold</font>
-								<scroll>true</scroll>
-								<label>$INFO[ListItem.Label]</label>
-								<textoffsety>-2</textoffsety>
-								<textoffsetx>30</textoffsetx>
-								<visible>!Container.Content(genres)</visible>
-								<visible>!Container.Content(sets) | [Control.IsVisible(57) + Container.Content(sets)]</visible>
-							</control>
+							<height>42</height>
+							<aligny>top</aligny>
+							<font>font16_title_bold</font>
+							<scroll>true</scroll>
+							<label>$INFO[ListItem.Label]</label>
+							<textoffsety>-2</textoffsety>
+							<textoffsetx>30</textoffsetx>
+							<visible>!Container.Content(sets) | [Control.IsVisible(57) + Container.Content(sets)]</visible>
+						</control>
+						<control type="grouplist">
+							<top>50</top>
+							<width>1800</width>
+							<height>40</height>
+							<orientation>horizontal</orientation>
 							<!-- Sub Label -->
 							<control type="label">
-								<width>1820</width>
+								<width min="0" max="600">auto</width>
 								<height>30</height>
 								<font>font13_bold</font>
 								<textcolor>$VAR[UnWatchedEpColor]</textcolor>
 								<label>$VAR[FloorSubLabelVar]</label>
 								<textoffsetx>30</textoffsetx>
-								<visible>!Container.Content(Genres) + !ListItem.IsCollection + !ListItem.IsParentFolder</visible>
+								<visible>!ListItem.IsCollection</visible>
 							</control>
 							<!-- Next Aired -->
 							<control type="group">
 								<visible>[Container.Content(tvshows) | Container.Content(seasons)]</visible>
+								<width>1200</width>
 								<height>30</height>
-								<control type="group">
-									<visible>[System.HasAddon(script.tv.show.next.aired) + !Skin.HasSetting(Disable.NextAired)]</visible>
+								<control type="label">
+									<width>1200</width>
 									<height>30</height>
-									<control type="label">
-										<width>1800</width>
-										<height>30</height>
-										<font>font13_bold</font>
-										<label>$LOCALIZE[31010]: $INFO[Window(Home).Property(NextAired.NextNumber)] - $INFO[Window(Home).Property(NextAired.NextTitle)] ($INFO[Window(Home).Property(NextAired.NextDay)])</label>
-										<textoffsetx>30</textoffsetx>
-										<visible>!String.IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
-									</control>
-									<control type="label">
-										<width>1800</width>
-										<height>30</height>
-										<font>font13_bold</font>
-										<label>$INFO[Window(Home).Property(NextAired.Status)]</label>
-										<textoffsetx>30</textoffsetx>
-										<visible>String.IsEmpty(Window(Home).Property(NextAired.NextDate)) + !String.IsEmpty(Window(Home).Property(NextAired.Status))</visible>
-									</control>
+									<font>font13_bold</font>
+									<textcolor>grey</textcolor>
+									<label>$INFO[Window(Home).Property(NextAired.NextNumber), •  $LOCALIZE[31010]: ]$INFO[Window(Home).Property(NextAired.NextTitle), - ]$INFO[Window(Home).Property(NextAired.NextDay), (,)]</label>
+									<textoffsetx>30</textoffsetx>
+									<visible>System.HasAddon(script.tv.show.next.aired) + !Skin.HasSetting(Disable.NextAired) + !String.IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
 								</control>
 								<control type="label">
-									<width>1820</width>
+									<width>1200</width>
+									<height>30</height>
+									<font>font13_bold</font>
+									<textcolor>grey</textcolor>
+									<label>$INFO[Window(Home).Property(NextAired.Status), • ]</label>
+									<textoffsetx>30</textoffsetx>
+									<visible>System.HasAddon(script.tv.show.next.aired) + !Skin.HasSetting(Disable.NextAired) + String.IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
+								</control>
+								<control type="label">
+									<width>1200</width>
 									<height>30</height>
 									<label>$INFO[ListItem.Genre]</label>
 									<font>font13_bold</font>
+									<textcolor>grey</textcolor>
 									<textoffsetx>30</textoffsetx>
 									<scroll>true</scroll>
-									<visible>!String.IsEmpty(ListItem.Genre) + ![System.HasAddon(script.tv.show.next.aired) + !Skin.HasSetting(Disable.NextAired)]</visible>
+									<visible>!String.IsEmpty(ListItem.Genre) + [!System.HasAddon(script.tv.show.next.aired) | System.HasAddon(script.tv.show.next.aired) + Skin.HasSetting(Disable.NextAired)]</visible>
 								</control>
 							</control>
 						</control>
@@ -423,7 +424,7 @@
 				</control>
 				<!-- MEDIAFLAGS -->
 				<control type="group">
-					<visible>!Container.Content(Genres) + !ListItem.IsParentFolder + !ListItem.IsCollection</visible>
+					<visible>!ListItem.IsParentFolder + !ListItem.IsCollection + !Container.Content(genres)</visible>
 					<!-- (Landscape - ShowCase - Logo - Wall) -->
 					<control type="group">
 						<top>1010</top>
