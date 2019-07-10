@@ -83,7 +83,7 @@
 								<font>font_kodiversion</font>
 								<textcolor>grey</textcolor>
 								<label>$INFO[ListItem.Year,(,)]</label>
-								<visible>!String.IsEqual(ListItem.DBTYPE,episode)</visible>
+								<visible>!String.IsEqual(ListItem.DBTYPE,set) + !String.IsEqual(ListItem.DBTYPE,episode)</visible>
 							</control>
 						</control>
 						<!-- Movie Fadelabels -->
@@ -119,6 +119,19 @@
 								<label>$INFO[ListItem.EndTime,$LOCALIZE[31393]: ,]</label>
 								<label>$INFO[ListItem.OriginalTitle]</label>
 								<visible>!String.IsEmpty(ListItem.OriginalTitle) + !String.IsEqual(ListItem.OriginalTitle,ListItem.Title)</visible>
+							</control>
+						</control>
+						<!-- Set labels -->
+						<control type="group">
+							<visible>String.IsEqual(ListItem.DBTYPE,set)</visible>
+							<control type="label">
+								<width>1180</width>
+								<height>30</height>
+								<align>left</align>
+								<aligny>center</aligny>
+								<font>font15</font>
+								<textcolor>$VAR[ThemeLabelColor]</textcolor>
+								<label>$INFO[Window(Home).Property(Set.Movies.Count),, $LOCALIZE[342]]</label>
 							</control>
 						</control>
 						<!-- TV Show Fadelabels -->
@@ -200,7 +213,7 @@
 						<animation effect="slide" end="-40" condition="!Skin.HasSetting(Enable.HourMinuteDuration)">Conditional</animation>
 						<!-- Minute Duration -->
 						<control type="group">
-							<visible>!Skin.HasSetting(Enable.HourMinuteDuration)</visible>
+							<visible>!String.IsEqual(ListItem.DBTYPE,set) + !Skin.HasSetting(Enable.HourMinuteDuration)</visible>
 							<width>175</width>
 							<height>90</height>
 							<control type="label">
@@ -238,7 +251,7 @@
 							<font>font52_bold</font>
 							<textcolor>grey</textcolor>
 							<label>$VAR[ItemDurationVar]</label>
-							<visible>Skin.HasSetting(Enable.HourMinuteDuration)</visible>
+							<visible>!String.IsEqual(ListItem.DBTYPE,set) + Skin.HasSetting(Enable.HourMinuteDuration)</visible>
 						</control>
 						<control type="label">
 							<width>auto</width>
@@ -252,10 +265,11 @@
 							<width>130</width>
 							<include>MediaFlagValues</include>
 							<texture fallback="flags/default/mpaa/NR.png">$VAR[MediaFlagsPathVar]/mpaa/$VAR[RatingFlagVar]</texture>
+							<visible>!String.IsEqual(ListItem.DBTYPE,set)</visible>
 						</control>
 						<!-- Main Rating -->
 						<control type="group">
-							<visible>!String.IsEmpty(ListItem.Rating)</visible>
+							<visible>!String.IsEqual(ListItem.DBTYPE,set) + !String.IsEmpty(ListItem.Rating)</visible>
 							<width>170</width>
 							<control type="label">
 								<width>auto</width>
@@ -272,6 +286,18 @@
 								<align>center</align>
 								<label>[LOWERCASE]$VAR[RatingAndVotesVar][/LOWERCASE]</label>
 								<font>font12</font>
+								<textcolor>grey</textcolor>
+							</control>
+						</control>
+						<control type="group">
+							<visible>String.IsEqual(ListItem.DBTYPE,set) + !String.IsEmpty(ListItem.Rating)</visible>
+							<control type="label">
+								<top>15</top>
+								<width>auto</width>
+								<height>60</height>
+								<align>center</align>
+								<label>$INFO[ListItem.Rating,$LOCALIZE[31146] ]</label>
+								<font>font48_bold</font>
 								<textcolor>grey</textcolor>
 							</control>
 						</control>
@@ -537,6 +563,14 @@
 						</focusedlayout>
 						<content>
 							<item>
+								<label>$INFO[Window(Home).Property(Set.Movies.Years)]</label>
+								<label2>$LOCALIZE[652]:</label2>
+								<onclick>SetProperty(MoreInfoTitle,$LOCALIZE[652])</onclick>
+								<onclick>SetProperty(MoreInfoContent,$ESCINFO[Window(Home).Property(Set.Movies.Years)])</onclick>
+								<onclick>SetFocus(64)</onclick>
+								<visible>!String.IsEmpty(Window(Home).Property(Set.Movies.Years))</visible>
+							</item>
+							<item>
 								<label>$INFO[ListItem.Director]</label>
 								<label2>$LOCALIZE[20339]:</label2>
 								<onclick condition="!System.HasAddon(script.extendedinfo)">SetProperty(MoreInfoTitle,$LOCALIZE[20339])</onclick>
@@ -549,6 +583,14 @@
 								<visible>!String.IsEmpty(ListItem.Director)</visible>
 							</item>
 							<item>
+								<label>$INFO[Window(Home).Property(Set.Movies.Director)]</label>
+								<label2>$LOCALIZE[20339]:</label2>
+								<onclick>SetProperty(MoreInfoTitle,$LOCALIZE[20339])</onclick>
+								<onclick>SetProperty(MoreInfoContent,$ESCINFO[Window(Home).Property(Set.Movies.Director)])</onclick>
+								<onclick>SetFocus(64)</onclick>
+								<visible>!String.IsEmpty(Window(Home).Property(Set.Movies.Director))</visible>
+							</item>
+							<item>
 								<label>$INFO[ListItem.Writer]</label>
 								<label2>$LOCALIZE[20417]:</label2>
 								<onclick condition="!System.HasAddon(script.extendedinfo)">SetProperty(MoreInfoTitle,$LOCALIZE[20417])</onclick>
@@ -556,6 +598,14 @@
 								<onclick condition="!System.HasAddon(script.extendedinfo)">SetFocus(64)</onclick>
 								<onclick condition="System.HasAddon(script.extendedinfo)">RunScript(script.extendedinfo,info=extendedactorinfo,name=$INFO[ListItem.Writer])</onclick>
 								<visible>!String.IsEmpty(ListItem.Writer)</visible>
+							</item>
+							<item>
+								<label>$INFO[Window(Home).Property(Set.Movies.Writer)]</label>
+								<label2>$LOCALIZE[20417]:</label2>
+								<onclick>SetProperty(MoreInfoTitle,$LOCALIZE[20417])</onclick>
+								<onclick>SetProperty(MoreInfoContent,$ESCINFO[Window(Home).Property(Set.Movies.Writer)])</onclick>
+								<onclick>SetFocus(64)</onclick>
+								<visible>!String.IsEmpty(Window(Home).Property(Set.Movies.Writer))</visible>
 							</item>
 							<item>
 								<label>$INFO[Window(Home).Property(NextAired.LatestNumber)]$INFO[Window(Home).Property(NextAired.LatestTitle), - ]$INFO[Window(Home).Property(NextAired.LatestDay), (,)]</label>
@@ -580,6 +630,14 @@
 								<onclick>SetProperty(MoreInfoContent,$ESCINFO[ListItem.Genre])</onclick>
 								<onclick>SetFocus(64)</onclick>
 								<visible>!String.IsEmpty(ListItem.Genre) + !String.IsEqual(ListItem.DBTYPE,episode)</visible>
+							</item>
+							<item>
+								<label>$INFO[Window(Home).Property(Set.Movies.Genre)]</label>
+								<label2>$LOCALIZE[515]:</label2>
+								<onclick>SetProperty(MoreInfoTitle,$LOCALIZE[515])</onclick>
+								<onclick>SetProperty(MoreInfoContent,$ESCINFO[Window(Home).Property(Set.Movies.Genre)])</onclick>
+								<onclick>SetFocus(64)</onclick>
+								<visible>!String.IsEmpty(Window(Home).Property(Set.Movies.Genre))</visible>
 							</item>
 							<item>
 								<label>$INFO[ListItem.Premiered]</label>
@@ -674,7 +732,7 @@
 								<label2>$LOCALIZE[573]:</label2>
 								<onclick>Dialog.Close(movieinformation)</onclick>
 								<onclick>ActivateWindow(Videos,$INFO[ListItem.Path],return)</onclick>
-								<visible>!String.IsEmpty(ListItem.Path) + !Skin.HasSetting(Disable.VideoInfoPathDetails)</visible>
+								<visible>!String.IsEqual(ListItem.DBTYPE,set) + !String.IsEmpty(ListItem.Path) + !Skin.HasSetting(Disable.VideoInfoPathDetails)</visible>
 							</item>
 							<item>
 								<label>$INFO[ListItem.Filename]</label>
