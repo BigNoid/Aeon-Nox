@@ -390,6 +390,7 @@
 		<value condition="String.IsEqual(ListItem.DBTYPE,artist) | String.IsEqual(ListItem.DBTYPE,song)">$LOCALIZE[547]</value>
 	</variable>
 	<variable name="VideoPlayerPlotVar">
+		<value condition="!String.IsEmpty(Window(fullscreeninfo).Property(ShowCast))">$INFO[VideoPlayer.CastAndRole]</value>
 		<value condition="!String.IsEmpty(VideoPlayer.PlotOutline)">$INFO[VideoPlayer.PlotOutline]</value>
 		<value condition="!String.IsEmpty(VideoPlayer.Plot)">$INFO[VideoPlayer.Plot]</value>
 		<value>$LOCALIZE[19055]</value>
@@ -669,16 +670,20 @@
 		<value>$INFO[ListItem.Label]</value>
 	</variable>
 	<variable name="FloorSubLabelVar">
-		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR grey]$INFO[ListItem.Year]$INFO[ListItem.RatingAndVotes, • ]$INFO[ListItem.Duration(mins),, $LOCALIZE[12391]][/COLOR]</value>
-		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR grey]$INFO[ListItem.Year]$INFO[ListItem.RatingAndVotes, • ]$VAR[ItemDurationVar, • ][/COLOR]</value>
-		<value condition="Container.Content(episodes)">[COLOR grey]$INFO[ListItem.TvShowTitle][/COLOR]</value>
-		<value condition="Container.Content(addons)">[COLOR grey]$INFO[ListItem.AddonSummary][/COLOR]</value>
-		<value condition="Container.Content(musicvideos)">[COLOR grey]$INFO[ListItem.Artist][/COLOR]</value>
-		<value condition="ListItem.IsResumable + !Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR grey]$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$INFO[ListItem.Duration(mins),, $LOCALIZE[12391]]$INFO[ListItem.EndTimeResume, • $LOCALIZE[31393]: ][/COLOR]</value>
-		<value condition="ListItem.IsResumable + Skin.HasSetting(Enable.HourMinuteDuration)">[COLOR grey]$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$VAR[ItemDurationVar]$INFO[ListItem.EndTimeResume, • $LOCALIZE[31393]: ][/COLOR]</value>
-		<value condition="!Skin.HasSetting(Enable.HourMinuteDuration) + !String.IsEmpty(ListItem.Duration)">[COLOR grey]$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$INFO[ListItem.Duration(mins),, $LOCALIZE[12391]]$INFO[ListItem.Endtime, • $LOCALIZE[31393]: ][/COLOR]</value>
-		<value condition="Skin.HasSetting(Enable.HourMinuteDuration) + !String.IsEmpty(ListItem.Duration)">[COLOR grey]$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$VAR[ItemDurationVar]$INFO[ListItem.Endtime, • $LOCALIZE[31393]: ][/COLOR]</value>
-		<value condition="!String.IsEmpty(ListItem.Year)">[COLOR grey]$INFO[ListItem.Year][/COLOR]</value>
+		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !Skin.HasSetting(Enable.HourMinuteDuration)">$INFO[ListItem.Year]$INFO[ListItem.RatingAndVotes, • ]$INFO[ListItem.Duration(mins),, $LOCALIZE[12391]]</value>
+		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + Skin.HasSetting(Enable.HourMinuteDuration)">$INFO[ListItem.Year]$INFO[ListItem.RatingAndVotes, • ]$VAR[ItemDurationVar, • ]</value>
+		<value condition="Container.Content(episodes)">$INFO[ListItem.TvShowTitle]</value>
+		<value condition="Container.Content(addons)">$INFO[ListItem.AddonSummary]</value>
+		<value condition="Container.Content(musicvideos)">$INFO[ListItem.Artist]</value>
+		<value condition="ListItem.IsResumable + !Skin.HasSetting(Enable.HourMinuteDuration)">$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$INFO[ListItem.Duration(mins),, $LOCALIZE[12391]]$INFO[ListItem.EndTimeResume, • $LOCALIZE[31393]: ]</value>
+		<value condition="ListItem.IsResumable + Skin.HasSetting(Enable.HourMinuteDuration)">$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$VAR[ItemDurationVar]$INFO[ListItem.EndTimeResume, • $LOCALIZE[31393]: ]</value>
+		<value condition="!Skin.HasSetting(Enable.HourMinuteDuration) + !String.IsEmpty(ListItem.Duration)">$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$INFO[ListItem.Duration(mins),, $LOCALIZE[12391]]$INFO[ListItem.Endtime, • $LOCALIZE[31393]: ]</value>
+		<value condition="Skin.HasSetting(Enable.HourMinuteDuration) + !String.IsEmpty(ListItem.Duration)">$INFO[ListItem.Year,, • ]$INFO[ListItem.RatingAndVotes,, • ]$VAR[ItemDurationVar]$INFO[ListItem.Endtime, • $LOCALIZE[31393]: ]</value>
+		<value condition="!String.IsEmpty(ListItem.Year)">$INFO[ListItem.Year]</value>
+	</variable>
+	<variable name="NextAiredSubLabelVar">
+		<value condition="!String.IsEmpty(Window(Home).Property(NextAired.NextDate))">$INFO[Window(Home).Property(NextAired.NextNumber), •  $LOCALIZE[31010]: ]$INFO[Window(Home).Property(NextAired.NextTitle), - ]$INFO[Window(Home).Property(NextAired.NextDay), (,)]</value>
+		<value condition="String.IsEmpty(Window(Home).Property(NextAired.NextDate)) + !String.IsEmpty(Window(Home).Property(NextAired.Status))">$INFO[Window(Home).Property(NextAired.Status)]</value>
 	</variable>
 	<variable name="FloorLabel2Var">
 		<value condition="Container.Content(artists)">$INFO[ListItem.Property(Artist_Genre)]</value>
@@ -1118,10 +1123,10 @@
 		<value condition="String.IsEqual(ListItem.DBTYPE,artist) + ControlGroup(90001).HasFocus(50)">$LOCALIZE[21888]$INFO[Container(50).NumItems, [COLOR grey](,)[/COLOR]]</value>
 		<value condition="!String.IsEqual(ListItem.DBTYPE,set) + [Window.IsActive(home) | Window.IsActive(videos)] + ControlGroup(90001).HasFocus(90050) | !String.IsEqual(ListItem.DBTYPE,set) + ControlGroup(90001).HasFocus(50)">$LOCALIZE[206]$INFO[Container(50).NumItems, [COLOR grey](,)[/COLOR]]</value>
 		<value condition="String.IsEqual(ListItem.DBTYPE,movie) + ControlGroup(90001).HasFocus(90011)">$LOCALIZE[31111]$INFO[Container(90011).NumItems, [COLOR grey](,)[/COLOR]]</value>
-		<value condition="String.IsEqual(ListItem.DBTYPE,movie) + ControlGroup(90001).HasFocus(90012)">$INFO[ListItem.Director,$LOCALIZE[31112] ]$INFO[Container(90012).NumItems, [COLOR grey](,)[/COLOR]]</value>
-		<!-- <value condition="String.IsEqual(ListItem.DBTYPE,movie) + ControlGroup(90001).HasFocus(90013)">$INFO[ListItem.Writer,$LOCALIZE[31113] ]$INFO[Container(90013).NumItems, [COLOR grey](,)[/COLOR]]</value> -->
-		<value condition="String.IsEqual(ListItem.DBTYPE,movie) + ControlGroup(90001).HasFocus(90014)">$INFO[ListItem.Studio,$LOCALIZE[31114] ]$INFO[Container(90014).NumItems, [COLOR grey](,)[/COLOR]]</value>
-		<value condition="String.IsEqual(ListItem.DBTYPE,tvshow) + ControlGroup(90001).HasFocus(90015)">$LOCALIZE[31115]$INFO[Container(90015).NumItems, [COLOR grey](,)[/COLOR]]</value>
+		<value condition="String.IsEqual(ListItem.DBTYPE,movie) + ControlGroup(90001).HasFocus(90012)">$LOCALIZE[31112]$INFO[ListItem.Director, ]$INFO[Container(90012).NumItems, [COLOR grey](,)[/COLOR]]</value>
+		<!-- <value condition="String.IsEqual(ListItem.DBTYPE,movie) + ControlGroup(90001).HasFocus(90013)">$LOCALIZE[31521]$INFO[Container(90013).ListItem.Property(searchstring), ]$INFO[Container(90013).NumItems, [COLOR grey](,)[/COLOR]]</value> -->
+		<value condition="String.IsEqual(ListItem.DBTYPE,tvshow) + ControlGroup(90001).HasFocus(90014)">$LOCALIZE[31115]$INFO[Container(90014).NumItems, [COLOR grey](,)[/COLOR]]</value>
+		<!-- <value condition="String.IsEqual(ListItem.DBTYPE,tvshow) + ControlGroup(90001).HasFocus(90015)">$LOCALIZE[31521]$INFO[Container(90015).ListItem.Property(searchstring), ]$INFO[Container(90015).NumItems, [COLOR grey](,)[/COLOR]]</value> -->
 		<value condition="String.IsEqual(ListItem.DBTYPE,tvshow) + ControlGroup(90001).HasFocus(90016)">$LOCALIZE[33054]$INFO[Container(90016).NumItems, [COLOR grey](,)[/COLOR]]</value>
 		<value condition="String.IsEqual(ListItem.DBTYPE,movie) + ControlGroup(90001).HasFocus(90017)">$INFO[ListItem.Set]$INFO[Container(90017).NumItems, [COLOR grey](,)[/COLOR]]</value>
 	</variable>
@@ -1131,7 +1136,7 @@
 		<value condition="ControlGroup(90001).HasFocus(90050) + !String.IsEmpty(Container(90050).ListItem.Icon)">$INFO[Container(90050).ListItem.Icon]</value>
 		<value condition="ControlGroup(90001).HasFocus(90011) + !String.IsEmpty(Container(90011).ListItem.Art(poster))">$INFO[Container(90011).ListItem.Art(poster)]</value>
 		<value condition="ControlGroup(90001).HasFocus(90012) + !String.IsEmpty(Container(90012).ListItem.Art(poster))">$INFO[Container(90012).ListItem.Art(poster)]</value>
-		<!-- <value condition="ControlGroup(90001).HasFocus(90013) + !String.IsEmpty(Container(90013).ListItem.Art(poster))">$INFO[Container(90013).ListItem.Art(poster)]</value> -->
+		<value condition="ControlGroup(90001).HasFocus(90013) + !String.IsEmpty(Container(90013).ListItem.Art(poster))">$INFO[Container(90013).ListItem.Art(poster)]</value>
 		<value condition="ControlGroup(90001).HasFocus(90014) + !String.IsEmpty(Container(90014).ListItem.Art(poster))">$INFO[Container(90014).ListItem.Art(poster)]</value>
 		<value condition="ControlGroup(90001).HasFocus(90015) + !String.IsEmpty(Container(90015).ListItem.Art(poster))">$INFO[Container(90015).ListItem.Art(poster)]</value>
 		<value condition="ControlGroup(90001).HasFocus(90016) + !String.IsEmpty(Container(90016).ListItem.Icon)">$INFO[Container(90016).ListItem.Icon]</value>
