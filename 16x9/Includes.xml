@@ -1156,7 +1156,7 @@
 			<onright>202</onright>
 			<onup>703</onup>
 			<ondown>706</ondown>
-			<animation effect="slide" end="0,-948" time="0" condition="Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
+			<animation effect="slide" end="0,-940" time="0" condition="Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
 			<control type="button" id="701">
 				<texturefocus>osd/buttons/OSDAudioFO.png</texturefocus>
 				<texturenofocus>osd/buttons/OSDAudioNF.png</texturenofocus>
@@ -2841,78 +2841,85 @@
 	</include>
 	<!-- Fullscreen Info -->
 	<include name="FullscreenInfo">
-		<control type="group">
-			<!-- Media Flag Bar Background -->
-			<control type="image">
-				<top>-240</top>
-				<width>100%</width>
-				<height>360</height>
-				<texture border="1,1,1,40">topbar.png</texture>
+		<control type="image">
+			<left>-5%</left>
+			<top>-30</top>
+			<width>110%</width>
+			<height>145</height>
+			<texture border="40" colordiffuse="E6FFFFFF">dialogs/default/bg.png</texture>
+			<animation effect="fade" end="100" time="239.76">Visible</animation>
+			<animation effect="fade" end="100" time="239.76">WindowOpen</animation>
+			<animation effect="fade" end="0" time="239.76" delay="239.73">WindowClose</animation>
+		</control>
+		<!-- Media Flags -->
+		<control type="grouplist">
+			<width>1920</width>
+			<height>100</height>
+			<align>center</align>
+			<orientation>horizontal</orientation>
+			<visible>![Skin.HasSetting(VideoOSDOnTop) + Window.IsVisible(videoosd)] | [Window.IsVisible(SliderDialog) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(OSDSubtitleSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(SubtitleSearch) | Window.IsVisible(1115)]</visible>
+			<animation effect="fade" end="100" time="239.76" delay="119.88">Visible</animation>
+			<animation effect="fade" end="100" time="239.76" delay="119.88">WindowOpen</animation>
+			<animation effect="fade" end="0" time="239.76" delay="119.88">WindowClose</animation>
+			<control type="group">
+				<visible>!String.IsEmpty(VideoPlayer.Studio)</visible>
+				<width>274</width>
+				<control type="image" id="142099">
+					<width>274</width>
+					<include>MediaFlagValues</include>
+					<bordersize>2</bordersize>
+					<texture>$VAR[PathFlagsStudios]$INFO[VideoPlayer.Studio,,.png]</texture>
+				</control>
+				<control type="label">
+					<width>274</width>
+					<height>90</height>
+					<align>center</align>
+					<label>$INFO[VideoPlayer.Studio]</label>
+					<font>font10</font>
+					<textcolor>grey2</textcolor>
+					<wrapmultiline>true</wrapmultiline>
+					<animation effect="fade" time="359.64">Visible</animation>
+					<visible>String.IsEmpty(Control.GetLabel(142099))</visible>
+				</control>
 			</control>
-			<!-- Media Flags -->
-			<control type="grouplist">
-				<width>1920</width>
-				<height>100</height>
-				<align>center</align>
-				<orientation>horizontal</orientation>
-				<visible>![Skin.HasSetting(VideoOSDOnTop) + Window.IsVisible(videoosd)] | [Window.IsVisible(SliderDialog) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(OSDSubtitleSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(SubtitleSearch) | Window.IsVisible(1115)]</visible>
-				<control type="group">
-					<visible>!String.IsEmpty(VideoPlayer.Studio)</visible>
-					<width>274</width>
-					<control type="image" id="142099">
-						<width>274</width>
-						<include>MediaFlagValues</include>
-						<bordersize>2</bordersize>
-						<texture>$VAR[PathFlagsStudios]$INFO[VideoPlayer.Studio,,.png]</texture>
-					</control>
-					<control type="label">
-						<width>274</width>
-						<height>90</height>
-						<align>center</align>
-						<label>$INFO[VideoPlayer.Studio]</label>
-						<font>font10</font>
-						<textcolor>grey2</textcolor>
-						<wrapmultiline>true</wrapmultiline>
-						<animation effect="fade" time="300">Visible</animation>
-						<visible>String.IsEmpty(Control.GetLabel(142099))</visible>
-					</control>
-				</control>
-				<control type="image">
-					<width>274</width>
-					<include>MediaFlagValues</include>
-					<texture>$VAR[MediaFlagsPathVar]/mpaa/$VAR[VideoRatingFlagVar]</texture>
-					<visible>!String.IsEmpty(VideoPlayer.MPAA)</visible>
-				</control>
-				<control type="image">
-					<width>274</width>
-					<include>MediaFlagValues</include>
-					<texture>$VAR[MediaFlagsPathVar]/resolution/$INFO[VideoPlayer.VideoResolution,,.png]</texture>
-				</control>
-				<control type="image">
-					<width>274</width>
-					<include>MediaFlagValues</include>
-					<texture>$VAR[MediaFlagsPathVar]/videocodec/$VAR[VideoSourceFlagVar]</texture>
-				</control>
-				<control type="image">
-					<width>274</width>
-					<include>MediaFlagValues</include>
-					<texture>$VAR[MediaFlagsPathVar]/aspectratio/$INFO[VideoPlayer.VideoAspect,,.png]</texture>
-				</control>
-				<control type="image">
-					<width>274</width>
-					<include>MediaFlagValues</include>
-					<texture>$VAR[MediaFlagsPathVar]/audiocodec/$VAR[PlayerAudioCodecFlagVar]</texture>
-				</control>
-				<control type="image">
-					<width>274</width>
-					<include>MediaFlagValues</include>
-					<texture>$VAR[MediaFlagsPathVar]/audiochannels/$INFO[VideoPlayer.AudioChannels,,.png]</texture>
-				</control>
+			<control type="image">
+				<width>274</width>
+				<include>MediaFlagValues</include>
+				<texture>$VAR[MediaFlagsPathVar]/mpaa/$VAR[VideoRatingFlagVar]</texture>
+				<visible>!String.IsEmpty(VideoPlayer.MPAA)</visible>
+			</control>
+			<control type="image">
+				<width>274</width>
+				<include>MediaFlagValues</include>
+				<texture>$VAR[MediaFlagsPathVar]/resolution/$INFO[VideoPlayer.VideoResolution,,.png]</texture>
+			</control>
+			<control type="image">
+				<width>274</width>
+				<include>MediaFlagValues</include>
+				<texture>$VAR[MediaFlagsPathVar]/videocodec/$VAR[VideoSourceFlagVar]</texture>
+			</control>
+			<control type="image">
+				<width>274</width>
+				<include>MediaFlagValues</include>
+				<texture>$VAR[MediaFlagsPathVar]/aspectratio/$INFO[VideoPlayer.VideoAspect,,.png]</texture>
+			</control>
+			<control type="image">
+				<width>274</width>
+				<include>MediaFlagValues</include>
+				<texture>$VAR[MediaFlagsPathVar]/audiocodec/$VAR[PlayerAudioCodecFlagVar]</texture>
+			</control>
+			<control type="image">
+				<width>274</width>
+				<include>MediaFlagValues</include>
+				<texture>$VAR[MediaFlagsPathVar]/audiochannels/$INFO[VideoPlayer.AudioChannels,,.png]</texture>
 			</control>
 		</control>
 		<control type="group">
-			<animation effect="slide" end="0,-90" time="240" tween="quadratic" condition="Window.IsActive(videoosd) + !Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
-			<animation effect="slide" end="0,90" time="240" tween="quadratic" condition="[Window.IsVisible(SliderDialog) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(OSDSubtitleSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(subtitlesearch) | Window.IsVisible(1115)] + !Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
+			<animation effect="slide" end="0,-90" time="239.76" tween="quadratic" condition="Window.IsActive(videoosd) + !Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
+			<animation effect="slide" end="0,90" time="239.76" tween="quadratic" condition="[Window.IsVisible(SliderDialog) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(OSDSubtitleSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(subtitlesearch) | Window.IsVisible(1115)] + !Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
+			<animation effect="fade" end="100" time="239.76">Visible</animation>
+			<animation effect="fade" end="100" time="239.76">WindowOpen</animation>
+			<animation effect="fade" end="0" time="239.76" delay="239.73">WindowClose</animation>
 			<control type="image">
 				<left>-5%</left>
 				<top>765</top>
@@ -2925,15 +2932,20 @@
 			</control>
 		</control>
 		<control type="group">
-			<animation effect="slide" end="0,-90" time="240" tween="quadratic" condition="Window.IsActive(videoosd) + !Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
-			<animation effect="slide" end="0,90" time="240" tween="quadratic" condition="[Window.IsVisible(SliderDialog) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(OSDSubtitleSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(subtitlesearch) | Window.IsVisible(1115)] + !Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
+			<animation effect="slide" end="0,-90" time="239.76" tween="quadratic" condition="Window.IsActive(videoosd) + !Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
+			<animation effect="slide" end="0,90" time="239.76" tween="quadratic" condition="[Window.IsVisible(SliderDialog) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(PVROSDTeletext) | Window.IsVisible(PVROSDChannels) | Window.IsVisible(OSDVideoSettings) | Window.IsVisible(OSDAudioSettings) | Window.IsVisible(OSDSubtitleSettings) | Window.IsVisible(VideoBookmarks) | Window.IsVisible(subtitlesearch) | Window.IsVisible(1115)] + !Skin.HasSetting(VideoOSDOnTop)">Conditional</animation>
 			<include condition="VideoPlayer.Content(movies) | VideoPlayer.Content(episodes) | VideoPlayer.Content(musicvideos)">LibraryFullscreenInfo</include>
 			<include condition="VideoPlayer.HasInfo + Skin.HasSetting(Enable.AddonInfo) + ![VideoPlayer.Content(LiveTV) | Pvr.IsPlayingRecording | VideoPlayer.Content(movies) | VideoPlayer.Content(episodes) | VideoPlayer.Content(musicvideos)] | [VideoPlayer.HasInfo + Skin.HasSetting(Enable.RecordingInfo) + Pvr.IsPlayingRecording]">OtherFullscreenInfo</include>
+			<animation effect="fade" end="100" time="239.76" delay="119.88">Visible</animation>
+			<animation effect="fade" end="100" time="239.76" delay="119.88">WindowOpen</animation>
+			<animation effect="fade" end="0" time="239.76" delay="239.73">WindowClose</animation>
 		</control>
 	</include>
 	<include name="LibraryFullscreenInfo">
 		<control type="group">
 			<top>600</top>
+			<animation effect="fade" end="100" time="239.76" delay="119.88">WindowOpen</animation>
+			<animation effect="fade" end="0" time="239.76" delay="119.88">WindowClose</animation>
 			<control type="group">
 				<top>-110</top>
 				<visible>!VideoPlayer.Content(musicvideos)</visible>
@@ -2945,8 +2957,6 @@
 					<height>350</height>
 					<aspectratio aligny="top">keep</aspectratio>
 					<texture background="true" diffuse="thumbs/boxes/cdart_mask.png">$INFO[Player.Art(discart)]</texture>
-					<animation effect="fade" end="100" time="200" delay="100">WindowOpen</animation>
-					<animation effect="fade" start="100" time="200">WindowClose</animation>
 					<visible>!Skin.HasSetting(Disable.FullscreenDiscart)</visible>
 				</control>
 				<control type="image">
@@ -3314,6 +3324,8 @@
 		<control type="group">
 			<top>700</top>
 			<left>15</left>
+			<animation effect="fade" end="100" time="239.76" delay="119.88">WindowOpen</animation>
+			<animation effect="fade" end="0" time="239.76" delay="119.88">WindowClose</animation>
 			<control type="image">
 				<top>65</top>
 				<width>400</width>
