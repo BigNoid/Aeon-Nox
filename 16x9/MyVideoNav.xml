@@ -367,44 +367,61 @@
 							<textoffsetx>30</textoffsetx>
 							<animation effect="slide" end="0,20" condition="Container.Content(sets)">Conditional</animation>
 						</control>
-						<control type="grouplist">
+						<control type="group">
 							<top>50</top>
-							<width>1800</width>
-							<height>40</height>
-							<orientation>horizontal</orientation>
 							<!-- Sub Label -->
 							<control type="label">
 								<width>1800</width>
 								<height>30</height>
 								<font>font13_bold</font>
-								<textcolor>$VAR[UnWatchedEpColor]</textcolor>
 								<label>$VAR[FloorSubLabelVar]</label>
 								<textoffsetx>30</textoffsetx>
 								<visible>!ListItem.IsCollection</visible>
 							</control>
+							<!-- Sets -->
+							<control type="group">
+								<visible>Container.Content(movies) + ListItem.IsCollection | Container.Content(sets)</visible>
+								<control type="label">
+									<width>950</width>
+									<height>30</height>
+									<scroll>true</scroll>
+									<label>$INFO[Window(Home).Property(Set.Movies.Count),, $LOCALIZE[342]]</label>
+									<font>font13_bold</font>
+									<textoffsetx>30</textoffsetx>
+								</control>
+								<control type="textbox">
+									<left>30</left>
+									<top>40</top>
+									<width>1770</width>
+									<height>88</height>
+									<font>font14_textbox2</font>
+									<label>[B]$INFO[Window(Home).Property(Set.Movies.Title)][/B]</label>
+									<autoscroll time="2500" delay="2500" repeat="3000">true</autoscroll>
+									<visible>!Control.IsVisible(57)</visible>
+								</control>
+							</control>
 							<!-- Next Aired + Genre -->
 							<control type="group">
-								<visible>[Container.Content(tvshows) | Container.Content(seasons)]</visible>
-								<width>1800</width>
-								<height>30</height>
+								<visible>!Control.IsVisible(57) + [Container.Content(tvshows) | Container.Content(seasons)]</visible>
 								<control type="label">
-									<width>1800</width>
+									<top>40</top>
+									<width>950</width>
 									<height>30</height>
-									<font>font13_bold</font>
-									<textcolor>grey</textcolor>
-									<label>$VAR[NextAiredSubLabelVar]</label>
-									<textoffsetx>30</textoffsetx>
-									<visible>System.HasAddon(script.tv.show.next.aired) + !Skin.HasSetting(Disable.NextAired) + [!String.IsEmpty(Window(Home).Property(NextAired.NextDate)) | !String.IsEmpty(InfoLabel)pty(Window(Home).Property(NextAired.Status))]</visible>
-								</control>
-								<control type="label">
-									<width>1800</width>
-									<height>30</height>
+									<scroll>true</scroll>
 									<label>$INFO[ListItem.Genre]</label>
 									<font>font13_bold</font>
-									<textcolor>grey</textcolor>
 									<textoffsetx>30</textoffsetx>
+									<visible>!String.IsEmpty(ListItem.Genre)</visible>
+								</control>
+								<control type="label">
+									<top>80</top>
+									<width>950</width>
+									<height>30</height>
 									<scroll>true</scroll>
-									<visible>!String.IsEmpty(ListItem.Genre) + [!System.HasAddon(script.tv.show.next.aired) | System.HasAddon(script.tv.show.next.aired) + Skin.HasSetting(Disable.NextAired)]</visible>
+									<font>font13_bold</font>
+									<label>$VAR[NextAiredSubLabelVar]</label>
+									<textoffsetx>30</textoffsetx>
+									<visible>System.HasAddon(script.tv.show.next.aired) + !Skin.HasSetting(Disable.NextAired) + [!String.IsEmpty(Window(Home).Property(NextAired.NextDate)) | !String.IsEmpty(Window(Home).Property(NextAired.Status))]</visible>
 								</control>
 							</control>
 						</control>
