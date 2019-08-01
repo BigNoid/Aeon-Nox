@@ -108,46 +108,48 @@
 		<control type="group">
 			<visible>Control.IsVisible(59) + !Window.IsActive(addoninformation)</visible>
 			<include>ViewAnimation</include>
+			<include condition="Skin.HasSetting(LogoWrapList)">LogoFixed</include>
+			<include condition="!Skin.HasSetting(LogoWrapList)">LogoWrap</include>
 			<control type="group">
-				<include condition="Skin.HasSetting(LogoWrapList)">LogoFixed</include>
-				<include condition="!Skin.HasSetting(LogoWrapList)">LogoWrap</include>
+				<visible>!ListItem.IsParentFolder</visible>
 				<control type="group">
-					<visible>[Container.Content(movies) + !Skin.HasSetting(noextendedinfomovies)]</visible>
-					<include>VisibleFadeAnimation</include>
-					<left>495</left>
-					<top>845</top>
-					<control type="label">
-						<width>930</width>
-						<align>center</align>
-						<label>$INFO[ListItem.Top250,$LOCALIZE[13409] # ,]</label>
-						<visible>!String.IsEmpty(ListItem.Top250)</visible>
-					</control>
-					<control type="grouplist">
-						<top>130</top>
-						<height>100</height>
-						<itemgap>5</itemgap>
+					<visible>!ListItem.IsCollection</visible>
+					<control type="group">
+						<visible>[Container.Content(movies) + !Skin.HasSetting(noextendedinfomovies)]</visible>
+						<include>VisibleFadeAnimation</include>
+						<left>495</left>
+						<top>845</top>
 						<control type="label">
 							<width>930</width>
-							<height>40</height>
 							<align>center</align>
-							<font>font14_bold</font>
-							<scroll>true</scroll>
-							<label>$INFO[ListItem.Tagline]</label>
-							<visible>!String.IsEmpty(ListItem.Tagline)</visible>
+							<label>$INFO[ListItem.Top250,$LOCALIZE[13409] # ,]</label>
 						</control>
-						<control type="label">
-							<width>930</width>
-							<height>40</height>
-							<align>center</align>
-							<font>font13_bold</font>
-							<label>$VAR[FloorSubLabelVar]</label>
-							<visible>!ListItem.IsCollection + [Container.Content(movies) + !ListItem.IsParentFolder]</visible>
+						<control type="grouplist">
+							<top>130</top>
+							<height>100</height>
+							<itemgap>5</itemgap>
+							<control type="label">
+								<width>930</width>
+								<height>40</height>
+								<align>center</align>
+								<font>font14_bold</font>
+								<scroll>true</scroll>
+								<label>$INFO[ListItem.Tagline]</label>
+								<visible>!String.IsEmpty(ListItem.Tagline)</visible>
+							</control>
+							<control type="label">
+								<width>930</width>
+								<height>40</height>
+								<align>center</align>
+								<font>font13_bold</font>
+								<label>$VAR[FloorSubLabelVar]</label>
+							</control>
 						</control>
 					</control>
 				</control>
 				<control type="group">
-					<visible>ListItem.IsCollection + Skin.HasSetting(Enable.Logo.MovieSetList)</visible>
-					<include>VisibleFadeAnimation</include>
+					<visible>ListItem.IsCollection</visible>
+					<animation effect="fade" time="140" delay="100">Visible</animation>
 					<top>830</top>
 					<control type="label">
 						<width>100%</width>
@@ -162,6 +164,7 @@
 						<font>font14_textbox2</font>
 						<label>[B]$INFO[Window(Home).Property(Set.Movies.Title)][/B]</label>
 						<autoscroll time="2500" delay="2500" repeat="3000">true</autoscroll>
+						<visible>Skin.HasSetting(Enable.Logo.MovieSetList)</visible>
 					</control>
 				</control>
 				<control type="group">
@@ -172,15 +175,7 @@
 						<left>350</left>
 						<width>1220</width>
 						<align>center</align>
-						<label>$LOCALIZE[31010]: $INFO[Window(Home).Property(NextAired.NextNumber)] - $INFO[Window(Home).Property(NextAired.NextTitle)] ($INFO[Window(Home).Property(NextAired.NextDay)])</label>
-						<visible>!String.IsEmpty(Window(Home).Property(NextAired.NextDate))</visible>
-					</control>
-					<control type="label">
-						<left>350</left>
-						<width>1220</width>
-						<align>center</align>
-						<label>$INFO[Window(Home).Property(NextAired.Status)]</label>
-						<visible>String.IsEmpty(Window(Home).Property(NextAired.NextDate)) + !String.IsEmpty(Window(Home).Property(NextAired.Status))</visible>
+						<label>$VAR[NextAiredSubLabelVar]</label>
 					</control>
 					<control type="label">
 						<left>400</left>
@@ -188,8 +183,7 @@
 						<width>1120</width>
 						<align>center</align>
 						<font>font14_bold</font>
-						<label>$LOCALIZE[20360]: $INFO[ListItem.Property(TotalEpisodes)][COLOR $VAR[UnWatchedEpColor]]$INFO[ListItem.Property(UnWatchedEpisodes),  ($LOCALIZE[16101]: ,)][/COLOR]</label>
-						<visible>Container.Content(tvshows) + !ListItem.IsParentFolder</visible>
+						<label>$INFO[ListItem.Property(TotalEpisodes),$LOCALIZE[20360]: ][COLOR $VAR[UnWatchedEpColor]]$INFO[ListItem.Property(UnWatchedEpisodes),  ($LOCALIZE[16101]: ,)][/COLOR]</label>
 					</control>
 					<control type="label">
 						<left>460</left>
@@ -198,7 +192,6 @@
 						<align>center</align>
 						<font>font13_bold</font>
 						<label>$INFO[ListItem.RatingAndVotes]</label>
-						<visible>Container.Content(tvshows) + !String.IsEmpty(ListItem.RatingAndVotes)</visible>
 					</control>
 				</control>
 			</control>
