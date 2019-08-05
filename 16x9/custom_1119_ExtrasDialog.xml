@@ -29,9 +29,10 @@
 				<onclick>RunScript(script.trakt,action=rate)</onclick>
 				<label>$LOCALIZE[31970]</label>
 				<visible>!Skin.HasSetting(KioskMode.Enabled)</visible>
+				<visible>!String.IsEqual(ListItem.DBTYPE,set)</visible>
 				<visible>System.HasAddon(script.trakt) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]</visible>
 			</control>
-			<control type="button" id="90901">
+			<control type="button" id="90203">
 				<description>ExtendedInfo</description>
 				<width>510</width>
 				<textwidth>435</textwidth>
@@ -42,9 +43,10 @@
 				<onclick condition="Container.Content(movies)">RunScript(script.extendedinfo,info=extendedinfo,dbid=$INFO[ListItem.DBID],name=$INFO[ListItem.Title])</onclick>
 				<onclick condition="Container.Content(tvshows)">RunScript(script.extendedinfo,info=extendedtvinfo,dbid=$INFO[ListItem.DBID])</onclick>
 				<label>$INFO[System.AddonTitle(script.extendedinfo)]</label>
+				<visible>!String.IsEqual(ListItem.DBTYPE,set)</visible>
 				<visible>System.HasAddon(script.extendedinfo) + [Container.Content(movies) | Container.Content(tvshows)]</visible>
 			</control>
-			<control type="button" id="90904">
+			<control type="button" id="90204">
 				<description>CinemaVision</description>
 				<width>510</width>
 				<textwidth>435</textwidth>
@@ -56,7 +58,7 @@
 				<onclick>RunScript(script.cinemavision,dbtype=$INFO[ListItem.DBTYPE],dbid=$INFO[ListItem.DBID])</onclick>
 				<visible>System.HasAddon(script.cinemavision) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season) | String.IsEqual(ListItem.DBTYPE,episode)] + String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31014]) + String.IsEmpty(Window(Home).Property(script.cinemavision.running))</visible>
 			</control>
-			<control type="button" id="90905">
+			<control type="button" id="90205">
 				<description>Artwork beef button</description>
 				<width>510</width>
 				<textwidth>435</textwidth>
@@ -74,7 +76,7 @@
 				<visible>!Skin.HasSetting(KioskMode.Enabled)</visible>
 				<visible>System.HasAddon(script.artwork.beef) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,artist) | String.IsEqual(ListItem.DBTYPE,album) | String.IsEqual(ListItem.DBTYPE,song)]</visible>
 			</control>
-			<control type="button" id="90906">
+			<control type="button" id="90206">
 				<description>Artwork beef button</description>
 				<width>510</width>
 				<textwidth>435</textwidth>
@@ -92,7 +94,7 @@
 				<visible>!Skin.HasSetting(KioskMode.Enabled)</visible>
 				<visible>System.HasAddon(script.artwork.beef) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,artist) | String.IsEqual(ListItem.DBTYPE,album) | String.IsEqual(ListItem.DBTYPE,song)]</visible>
 			</control>
-			<control type="button" id="90206">
+			<control type="button" id="90207">
 				<description>Edit button</description>
 				<width>510</width>
 				<textwidth>435</textwidth>
@@ -102,38 +104,11 @@
 				<onclick>Dialog.Close(1119)</onclick>
 				<onclick>RunScript(script.libraryeditor,DBID=$INFO[ListItem.DBID])</onclick>
 				<label>21435</label>
+				<visible>!String.IsEqual(ListItem.DBTYPE,set)</visible>
 				<visible>!Skin.HasSetting(KioskMode.Enabled) + !Window.IsActive(home)</visible>
 				<visible>System.HasAddon(script.libraryeditor)</visible>
 			</control>
-			<control type="button" id="90207">
-				<description>Rating Update button</description>
-				<width>510</width>
-				<textwidth>435</textwidth>
-				<textoffsetx>45</textoffsetx>
-				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
-				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
-				<onclick>Dialog.Close(1119)</onclick>
-				<onclick>RunScript(script.ratingupdate,Single=Movie)</onclick>
-				<label>31067</label>
-				<visible>!Skin.HasSetting(KioskMode.Enabled)</visible>
-				<visible>System.HasAddon(script.ratingupdate)</visible>
-				<visible>Container.Content(movies) | Container.Content(tvshows)</visible>
-			</control>
-			<control type="button" id="90209">
-				<description>Extras button</description>
-				<width>510</width>
-				<textwidth>435</textwidth>
-				<textoffsetx>45</textoffsetx>
-				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
-				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
-				<onclick>Dialog.Close(1119)</onclick>
-				<onclick condition="!Container.Content(tvshows)">RunScript(script.videoextras,display,"$INFO[ListItem.FilenameAndPath]")</onclick>
-				<onclick condition="Container.Content(tvshows)">RunScript(script.videoextras,display,"$INFO[ListItem.Path]")</onclick>
-				<label>$INFO[System.AddonTitle(script.videoextras)]</label>
-				<visible>System.HasAddon(script.videoextras)</visible>
-				<visible>[Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(musicvideos)]</visible>
-			</control>
-			<control type="button" id="90210">
+			<control type="button" id="90208">
 				<description>Search YouTube button</description>
 				<width>510</width>
 				<textwidth>435</textwidth>
@@ -141,24 +116,12 @@
 				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<onclick>Dialog.Close(all,true)</onclick>
-				<onclick>ActivateWindow(videos,$ESCINFO[ListItem.Label,plugin://plugin.video.youtube/?path=/root/search&amp;feed=search&amp;search=],return)</onclick>
-				<label>$INFO[System.AddonTitle(plugin.video.youtube)]</label>
-				<visible>System.HasAddon(plugin.video.youtube) + [Container.Content(albums) | Container.Content(songs)]</visible>
-			</control>
-			<control type="button" id="90211">
-				<description>Add album as startup playlist button</description>
-				<width>510</width>
-				<textwidth>435</textwidth>
-				<textoffsetx>45</textoffsetx>
-				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
-				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
-				<onclick>Dialog.Close(1119)</onclick>
-				<onclick>Skin.SetString(Startup_Playlist_Path,RunScript(script.playalbum,albumid=$INFO[ListItem.DBID]))</onclick>
-				<label>31089</label>
+				<onclick>ActivateWindow(videos,"plugin://plugin.video.youtube/kodion/search/list/",return)</onclick>
+				<label>$LOCALIZE[137] $INFO[System.AddonTitle(plugin.video.youtube)]</label>
 				<visible>!Skin.HasSetting(KioskMode.Enabled)</visible>
-				<visible>System.HasAddon(script.playalbum) + Container.Content(albums)</visible>
+				<visible>System.HasAddon(plugin.video.youtube)</visible>
 			</control>
-			<control type="button" id="90212">
+			<control type="button" id="90209">
 				<description>FS Fanart button</description>
 				<width>510</width>
 				<textwidth>435</textwidth>
@@ -170,19 +133,7 @@
 				<label>$LOCALIZE[31092]</label>
 				<visible>!Window.IsActive(home)</visible>
 			</control>
-			<control type="button" id="90213">
-				<description>Concerts in google maps addon</description>
-				<width>510</width>
-				<textwidth>435</textwidth>
-				<textoffsetx>45</textoffsetx>
-				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
-				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
-				<onclick>RunScript(script.maps.browser,artist=$INFO[ListItem.Artist])</onclick>
-				<onclick>Dialog.Close(1119)</onclick>
-				<label>$LOCALIZE[31096]</label>
-				<visible>Container.Content(artists) + System.HasAddon(script.maps.browser)</visible>
-			</control>
-			<control type="button" id="90913">
+			<control type="button" id="90210">
 				<width>510</width>
 				<textwidth>435</textwidth>
 				<textoffsetx>45</textoffsetx>
@@ -192,7 +143,7 @@
 				<label>$LOCALIZE[5]</label>
 				<visible>!Skin.HasSetting(KioskMode.Enabled)</visible>
 			</control>
-			<control type="button" id="90214">
+			<control type="button" id="90211">
 				<description>No extra features button</description>
 				<width>510</width>
 				<textwidth>435</textwidth>
@@ -201,9 +152,9 @@
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<onclick>Dialog.Close(1119)</onclick>
 				<label>$LOCALIZE[31075]</label>
-				<visible>![Control.IsVisible(90202) | Control.IsVisible(90901) | Control.IsVisible(90904) | Control.IsVisible(90204) | Control.IsVisible(90205) | Control.IsVisible(90206) | Control.IsVisible(90207) | Control.IsVisible(90208) | Control.IsVisible(90209) | Control.IsVisible(90210) | Control.IsVisible(90211) | Control.IsVisible(90212) | Control.IsVisible(90213) | Control.IsVisible(90913)]</visible>
+				<visible>![Control.IsVisible(90202) | Control.IsVisible(90203) | Control.IsVisible(90204) | Control.IsVisible(90205) | Control.IsVisible(90206) | Control.IsVisible(90207) | Control.IsVisible(90208) | Control.IsVisible(90209) | Control.IsVisible(90210) | Control.IsVisible(90211)]</visible>
 			</control>
-			<control type="image" id="90215">
+			<control type="image" id="90212">
 				<width>510</width>
 				<height>34</height>
 				<texture border="30,2,30,20">dialog_bottom2.png</texture>
