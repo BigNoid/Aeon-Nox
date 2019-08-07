@@ -186,79 +186,8 @@
 			</control>
 			<control type="group">
 				<animation effect="slide" end="0,20" condition="Container.Content(sets)">Conditional</animation>
-				<control type="list" id="506">
-					<left>1010</left>
-					<top>74</top>
-					<width>1200</width>
-					<height>910</height>
-					<onleft condition="!Control.IsVisible(50664)">SetProperty(MediaMenu,True,Home)</onleft>
-					<onleft condition="!Control.IsVisible(50664)">SetFocus(9050)</onleft>
-					<onleft condition="Control.IsVisible(50664)">50664</onleft>
-					<onright condition="Control.IsVisible(50660)">50660</onright>
-					<onright condition="!Control.IsVisible(50660)">4400</onright>
-					<onup>506</onup>
-					<ondown>506</ondown>
-					<pagecontrol>50660</pagecontrol>
-					<viewtype label="$LOCALIZE[31239]">list</viewtype>
-					<visible>Container.Content(movies) | Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)</visible>
-					<scrolltime tween="quadratic" easing="out">200</scrolltime>
-					<itemlayout height="82" width="806" condition="[!Skin.HasSetting(rightlistalternate) + Container.Content(movies)]">
-						<include content="RightListItemLayout">
-							<param name="width">700</param>
-						</include>
-					</itemlayout>
-					<itemlayout height="82" width="806" condition="[Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + !Skin.HasSetting(rightlistalternatetv)">
-						<control type="group">
-							<animation effect="slide" end="70" time="0" condition="Container.Content(episodes)">Conditional</animation>
-							<include content="RightListItemLayout">
-								<param name="width">700</param>
-							</include>
-						</control>
-					</itemlayout>
-					<itemlayout height="82" width="806" condition="[Skin.HasSetting(rightlistalternate) + Container.Content(movies)]">
-						<include content="RightListItemLayout">
-							<param name="width">770</param>
-						</include>
-					</itemlayout>
-					<itemlayout height="82" width="806" condition="[Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + Skin.HasSetting(rightlistalternatetv)">
-						<include content="RightListItemLayout">
-							<param name="width">770</param>
-						</include>
-					</itemlayout>
-					<focusedlayout height="82" width="806" condition="[!Skin.HasSetting(rightlistalternate) + Container.Content(movies)]">
-						<control type="image">
-							<include>RightListFocusedHighLightContent</include>
-							<include>VisibleFadeAnimation</include>
-						</control>
-						<include content="RightListFocusedLayout">
-							<param name="width">700</param>
-						</include>
-					</focusedlayout>
-					<focusedlayout height="82" width="806" condition="[Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + !Skin.HasSetting(rightlistalternatetv)">
-						<control type="image">
-							<include>RightListFocusedHighLightContent</include>
-							<include>VisibleFadeAnimation</include>
-						</control>
-						<control type="group">
-							<animation effect="slide" end="70" time="0" condition="Container.Content(episodes)">Conditional</animation>
-							<include content="RightListFocusedLayout">
-								<param name="width">700</param>
-							</include>
-						</control>
-					</focusedlayout>
-					<focusedlayout height="82" width="806" condition="[Skin.HasSetting(rightlistalternate) + Container.Content(movies)]">
-						<include content="RightListFocusedLayout">
-							<param name="width">770</param>
-							<param name="labelColor">$VAR[ThemeLabelColor]</param>
-						</include>
-					</focusedlayout>
-					<focusedlayout height="82" width="806" condition="[Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + Skin.HasSetting(rightlistalternatetv)">
-						<include content="RightListFocusedLayout">
-							<param name="width">770</param>
-							<param name="labelColor">$VAR[ThemeLabelColor]</param>
-						</include>
-					</focusedlayout>
-				</control>
+				<include condition="!Skin.HasSetting(RightListFixedList)">listrightlist</include>
+				<include condition="Skin.HasSetting(RightListFixedList)">fixedlistrightlist</include>
 				<control type="scrollbar" id="50660">
 					<left>1904</left>
 					<top>74</top>
@@ -485,6 +414,92 @@
 		<height>90</height>
 		<texture colordiffuse="$VAR[HighlightBarColor]" border="4">listselect_fo.png</texture>
 		<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(506)">Conditional</animation>
+	</include>
+	<include name="fixedlistrightlist">
+		<control type="fixedlist" id="506">
+			<movement>5</movement>
+			<focusposition>5</focusposition>
+			<include>contents506list</include>
+		</control>
+	</include>
+	<include name="listrightlist">
+		<control type="list" id="506">
+			<include>contents506list</include>
+		</control>
+	</include>
+	<include name="contents506list">
+		<left>1010</left>
+		<top>74</top>
+		<width>1200</width>
+		<height>910</height>
+		<onleft condition="!Control.IsVisible(50664)">SetProperty(MediaMenu,True,Home)</onleft>
+		<onleft condition="!Control.IsVisible(50664)">SetFocus(9050)</onleft>
+		<onleft condition="Control.IsVisible(50664)">50664</onleft>
+		<onright condition="Control.IsVisible(50660)">50660</onright>
+		<onright condition="!Control.IsVisible(50660)">4400</onright>
+		<onup>506</onup>
+		<ondown>506</ondown>
+		<pagecontrol>50660</pagecontrol>
+		<viewtype label="$LOCALIZE[31239]">list</viewtype>
+		<visible>Container.Content(movies) | Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)</visible>
+		<scrolltime tween="quadratic" easing="out">200</scrolltime>
+		<itemlayout height="82" width="806" condition="[!Skin.HasSetting(rightlistalternate) + Container.Content(movies)]">
+			<include content="RightListItemLayout">
+				<param name="width">700</param>
+			</include>
+		</itemlayout>
+		<itemlayout height="82" width="806" condition="[Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + !Skin.HasSetting(rightlistalternatetv)">
+			<control type="group">
+				<animation effect="slide" end="70" time="0" condition="Container.Content(episodes)">Conditional</animation>
+				<include content="RightListItemLayout">
+					<param name="width">700</param>
+				</include>
+			</control>
+		</itemlayout>
+		<itemlayout height="82" width="806" condition="[Skin.HasSetting(rightlistalternate) + Container.Content(movies)]">
+			<include content="RightListItemLayout">
+				<param name="width">770</param>
+			</include>
+		</itemlayout>
+		<itemlayout height="82" width="806" condition="[Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + Skin.HasSetting(rightlistalternatetv)">
+			<include content="RightListItemLayout">
+				<param name="width">770</param>
+			</include>
+		</itemlayout>
+		<focusedlayout height="82" width="806" condition="[!Skin.HasSetting(rightlistalternate) + Container.Content(movies)]">
+			<control type="image">
+				<include>RightListFocusedHighLightContent</include>
+				<include>VisibleFadeAnimation</include>
+			</control>
+			<include content="RightListFocusedLayout">
+				<param name="width">700</param>
+			</include>
+		</focusedlayout>
+		<focusedlayout height="82" width="806" condition="[Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + !Skin.HasSetting(rightlistalternatetv)">
+			<control type="image">
+				<include>RightListFocusedHighLightContent</include>
+				<include>VisibleFadeAnimation</include>
+			</control>
+			<control type="group">
+				<animation effect="slide" end="70" time="0" condition="Container.Content(episodes)">Conditional</animation>
+				<include content="RightListFocusedLayout">
+					<param name="width">700</param>
+				</include>
+			</control>
+		</focusedlayout>
+		<focusedlayout height="82" width="806" condition="[Skin.HasSetting(rightlistalternate) + Container.Content(movies)]">
+			<include content="RightListFocusedLayout">
+				<param name="width">770</param>
+				<param name="labelColor">$VAR[ThemeLabelColor]</param>
+			</include>
+		</focusedlayout>
+		<focusedlayout height="82" width="806" condition="[Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)] + Skin.HasSetting(rightlistalternatetv)">
+			<include content="RightListFocusedLayout">
+				<param name="width">770</param>
+				<param name="labelColor">$VAR[ThemeLabelColor]</param>
+			</include>
+		</focusedlayout>
+
 	</include>
 	<!-- PARAM Includes -->
 	<include name="RightListFocusedLayout">
