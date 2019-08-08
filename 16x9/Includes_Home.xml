@@ -3,9 +3,9 @@
 	<!-- Horizontal -->
 	<include name="HorizontalSubMenu">
 		<control type="fixedlist" id="9010">
-			<left>210</left>
+			<left>100</left>
 			<top>3</top>
-			<width>1500</width>
+			<width>100%</width>
 			<height>50</height>
 			<onup>9000</onup>
 			<ondown condition="Control.IsVisible(90020) + Skin.HasSetting(centermainmenu)">90020</ondown>
@@ -15,9 +15,10 @@
 			<focusposition>2</focusposition>
 			<movement>2</movement>
 			<orientation>horizontal</orientation>
-			<itemlayout height="87" width="300">
+			<itemlayout height="87" width="344">
 				<control type="label">
-					<width>300</width>
+					<top>2</top>
+					<width>344</width>
 					<height>41</height>
 					<font>font13_title</font>
 					<textcolor>$VAR[UnfocusedSubMenuColor]</textcolor>
@@ -26,17 +27,18 @@
 					<label>$INFO[ListItem.Label]</label>
 				</control>
 			</itemlayout>
-			<focusedlayout height="87" width="300">
+			<focusedlayout height="87" width="344">
 				<control type="group">
 					<visible>Control.HasFocus(9010)</visible>
 					<control type="image">
 						<top>4</top>
-						<width>300</width>
+						<width>344</width>
 						<height>37</height>
 						<texture colordiffuse="$VAR[HighlightBarColor]">listselect_fo.png</texture>
 					</control>
 					<control type="label">
-						<width>300</width>
+						<top>2</top>
+						<width>344</width>
 						<height>41</height>
 						<font>font13_title</font>
 						<textcolor>$VAR[FocusedSubMenuColor]</textcolor>
@@ -48,7 +50,8 @@
 				<control type="group">
 					<visible>!Control.HasFocus(9010)</visible>
 					<control type="label">
-						<width>300</width>
+						<top>2</top>
+						<width>344</width>
 						<height>41</height>
 						<font>font13_title</font>
 						<textcolor>$VAR[UnfocusedSubMenuColor]</textcolor>
@@ -325,13 +328,14 @@
 			</control>
 			<control type="button">
 				<top>528</top>
-				<width>25</width>
-				<height>25</height>
+				<width>28</width>
+				<height>28</height>
 				<texturefocus flipx="true" colordiffuse="white">arrowright2.png</texturefocus>
-				<texturenofocus flipx="true" colordiffuse="grey">arrowright2.png</texturenofocus>
+				<texturenofocus flipx="true" colordiffuse="white">arrowright2.png</texturenofocus>
 				<onclick>90001</onclick>
-				<visible>String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True)</visible>
-				<include>VisibleFadeAnimation</include>
+				<visible>!Skin.HasSetting(HomeMenuNavVar) + String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True)</visible>
+				<animation effect="fade" time="250" condition="!Skin.HasSetting(HomeMenuNavVar)">Visible</animation>
+				<animation effect="fade" time="250" condition="!Skin.HasSetting(HomeMenuNavVar)">Hidden</animation>
 			</control>
 			<include condition="Skin.HasSetting(HomeMenuNavVar)">MainMenuListFixed</include>
 			<include condition="!Skin.HasSetting(HomeMenuNavVar)">MainMenuListWrapped</include>
@@ -340,16 +344,16 @@
 	<include name="VerticalSubMenu">
 		<control type="group" id="90001">
 			<animation effect="slide" end="-500,0" time="240">WindowClose</animation>
-			<animation effect="slide" end="350,0" time="280" condition="Control.HasFocus(9010)">Conditional</animation>
-			<left>-350</left>
+			<animation effect="slide" end="380,0" time="300" tween="quadratic" easing="out" condition="Control.HasFocus(9010)">Conditional</animation>
+			<left>-380</left>
 			<control type="image">
 				<width>350</width>
 				<height>1080</height>
 				<texture>verticalsubmenu_back.png</texture>
 			</control>
 			<control type="list" id="9010">
-				<animation effect="slide" end="0,300" time="1" condition="Integer.IsLessOrEqual(Container(9010).NumItems,7)">Conditional</animation>
-				<animation effect="slide" end="0,200" time="1" condition="Integer.IsGreaterOrEqual(Container(9010).NumItems,8) + Integer.IsLess(Container(9010).NumItems,10)">Conditional</animation>
+				<animation effect="slide" end="0,300" condition="Integer.IsLessOrEqual(Container(9010).NumItems,7)">Conditional</animation>
+				<animation effect="slide" end="0,200" condition="Integer.IsGreaterOrEqual(Container(9010).NumItems,8) + Integer.IsLess(Container(9010).NumItems,10)">Conditional</animation>
 				<top>210</top>
 				<width>380</width>
 				<height>840</height>
@@ -566,7 +570,7 @@
 				<include>VisibleFadeAnimation</include>
 			</control>
 		</focusedlayout>
-		<itemlayout height="100" width="640" condition="String.IsEqual(Skin.String(MainMenu.Layout),3) + !String.IsEmpty(Skin.String(MainMenu.Layout))">
+		<itemlayout height="100" width="640" condition="String.IsEqual(Skin.String(MainMenu.Layout),3)">
 			<control type="label">
 				<width>640</width>
 				<height>90</height>
@@ -576,7 +580,7 @@
 				<label>$INFO[ListItem.Label]</label>
 			</control>
 		</itemlayout>
-		<focusedlayout height="100" width="640" condition="String.IsEqual(Skin.String(MainMenu.Layout),3) + !String.IsEmpty(Skin.String(MainMenu.Layout))">
+		<focusedlayout height="100" width="640" condition="String.IsEqual(Skin.String(MainMenu.Layout),3)">
 			<control type="label">
 				<width>640</width>
 				<height>90</height>
@@ -596,10 +600,10 @@
 				<include>VisibleFadeAnimation</include>
 			</control>
 		</focusedlayout>
-		<itemlayout height="100" width="250" condition="String.IsEqual(Skin.String(MainMenu.Layout),icons) + !String.IsEmpty(Skin.String(MainMenu.Layout))">
+		<itemlayout height="100" width="250" condition="String.IsEqual(Skin.String(MainMenu.Layout),icons)">
 			<control type="image">
 				<left>72</left>
-				<top>-23</top>
+				<top>-18</top>
 				<width>105</width>
 				<height>105</height>
 				<texture background="true">$INFO[ListItem.Icon]</texture>
@@ -612,28 +616,18 @@
 				<font>font13_title</font>
 				<textcolor>$VAR[UnfocusedMainMenuIconLabelColor]</textcolor>
 				<align>center</align>
-				<label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-				<visible>String.IsEqual(Skin.String(MainMenu.Layout),icons) + !Skin.HasSetting(Disable.IconsMenuLabel)</visible>
+				<label>$INFO[ListItem.Label]</label>
+				<visible>!Skin.HasSetting(Disable.IconsMenuLabel)</visible>
 			</control>
 		</itemlayout>
-		<focusedlayout height="100" width="250" condition="String.IsEqual(Skin.String(MainMenu.Layout),icons) + !String.IsEmpty(Skin.String(MainMenu.Layout))">
+		<focusedlayout height="100" width="250" condition="String.IsEqual(Skin.String(MainMenu.Layout),icons)">
 			<control type="image">
 				<left>72</left>
-				<top>-23</top>
+				<top>-18</top>
 				<width>105</width>
 				<height>105</height>
 				<texture background="true">$INFO[ListItem.Icon]</texture>
 				<colordiffuse>$VAR[UnfocusedMainMenuColor]</colordiffuse>
-			</control>
-			<control type="image">
-				<left>72</left>
-				<top>-23</top>
-				<width>105</width>
-				<height>105</height>
-				<texture background="true">$INFO[ListItem.Icon]</texture>
-				<visible>Control.HasFocus(9000)</visible>
-				<include>VisibleFadeAnimation</include>
-				<colordiffuse>$VAR[FocusedMainMenuColor]</colordiffuse>
 			</control>
 			<control type="label">
 				<top>60</top>
@@ -642,18 +636,30 @@
 				<font>font13_title</font>
 				<textcolor>$VAR[UnfocusedMainMenuIconLabelColor]</textcolor>
 				<align>center</align>
-				<label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-				<visible>String.IsEqual(Skin.String(MainMenu.Layout),icons) + !Skin.HasSetting(Disable.IconsMenuLabel)</visible>
+				<label>$INFO[ListItem.Label]</label>
+				<visible>!Skin.HasSetting(Disable.IconsMenuLabel)</visible>
 			</control>
-			<control type="label">
-				<top>60</top>
-				<width>250</width>
-				<height>41</height>
-				<font>font13_title</font>
-				<textcolor>$VAR[FocusedMainMenuIconLabelColor]</textcolor>
-				<align>center</align>
-				<label>[UPPERCASE]$INFO[ListItem.Label][/UPPERCASE]</label>
-				<visible>Control.HasFocus(9000) + String.IsEqual(Skin.String(MainMenu.Layout),icons) + !Skin.HasSetting(Disable.IconsMenuLabel)</visible>
+			<control type="group">
+				<visible>Control.HasFocus(9000)</visible>
+				<include>VisibleFadeAnimation</include>
+				<control type="image">
+					<left>72</left>
+					<top>-18</top>
+					<width>105</width>
+					<height>105</height>
+					<texture background="true">$INFO[ListItem.Icon]</texture>
+					<colordiffuse>$VAR[FocusedMainMenuColor]</colordiffuse>
+				</control>
+				<control type="label">
+					<top>60</top>
+					<width>250</width>
+					<height>41</height>
+					<font>font13_title</font>
+					<textcolor>$VAR[FocusedMainMenuIconLabelColor]</textcolor>
+					<align>center</align>
+					<label>$INFO[ListItem.Label]</label>
+					<visible>!Skin.HasSetting(Disable.IconsMenuLabel)</visible>
+				</control>
 			</control>
 		</focusedlayout>
 		<content>
@@ -710,9 +716,9 @@
 		</content>
 	</include>
 	<include name="VerticalMainMenuListContent">
-		<left>37</left>
+		<left>0</left>
 		<top>48</top>
-		<width>400</width>
+		<width>420</width>
 		<height>980</height>
 		<onup>9000</onup>
 		<ondown>9000</ondown>
@@ -723,11 +729,13 @@
 		<onback condition="Skin.HasSetting(Home.Hide) + !Player.Playing">SetFocus(64)</onback>
 		<pagecontrol />
 		<focusposition>3</focusposition>
+		<movement>4</movement>
 		<scrolltime tween="quadratic" easing="out">200</scrolltime>
 		<animation effect="fade" time="200" start="100" end="50" reversible="true" condition="Control.HasFocus(9010)">Conditional</animation>
-		<itemlayout height="140" width="430">
+		<itemlayout height="140" width="420">
 			<control type="label">
-				<width>380</width>
+				<left>30</left>
+				<width>390</width>
 				<height>140</height>
 				<font>font_VerticalMainMenu</font>
 				<textcolor>$VAR[UnfocusedMainMenuColor]</textcolor>
@@ -735,9 +743,21 @@
 				<label>$INFO[ListItem.Label]</label>
 			</control>
 		</itemlayout>
-		<focusedlayout height="140" width="430">
+		<focusedlayout height="140" width="420">
+			<control type="button">
+				<top>58</top>
+				<width>28</width>
+				<height>28</height>
+				<texturefocus flipx="true" colordiffuse="white">arrowright2.png</texturefocus>
+				<texturenofocus flipx="true" colordiffuse="white">arrowright2.png</texturenofocus>
+				<onclick>90001</onclick>
+				<visible>Skin.HasSetting(HomeMenuNavVar) + Control.HasFocus(9000) + String.IsEqual(Container(9000).ListItem.Property(hasSubmenu),True)</visible>
+				<animation effect="fade" time="250" condition="Skin.HasSetting(HomeMenuNavVar)">Visible</animation>
+				<animation effect="fade" time="250" condition="Skin.HasSetting(HomeMenuNavVar)">Hidden</animation>
+			</control>
 			<control type="label">
-				<width>380</width>
+				<left>30</left>
+				<width>390</width>
 				<height>140</height>
 				<font>font_VerticalMainMenu</font>
 				<textcolor>$VAR[UnfocusedMainMenuColor]</textcolor>
@@ -745,7 +765,8 @@
 				<label>$INFO[ListItem.Label]</label>
 			</control>
 			<control type="label">
-				<width>380</width>
+				<left>30</left>
+				<width>390</width>
 				<height>140</height>
 				<font>font_VerticalMainMenu</font>
 				<textcolor>$VAR[FocusedMainMenuColor]</textcolor>
