@@ -681,12 +681,12 @@
 					</control>
 				</rulerlayout>
 				<channellayout height="72" width="440">
-					<include condition="!Skin.HasSetting(PreferChannelLogo)">DefaultChannelLayout</include>
-					<include condition="Skin.HasSetting(PreferChannelLogo)">LogoChannelLayout</include>
+					<include condition="String.IsEmpty(Skin.String(PVRGuide.Logos))">DefaultChannelLayout</include>
+					<include condition="!String.IsEmpty(Skin.String(PVRGuide.Logos))">LogoChannelLayout</include>
 				</channellayout>
 				<focusedchannellayout height="72" width="440">
-					<include condition="!Skin.HasSetting(PreferChannelLogo)">DefaultFocusedChannelLayout</include>
-					<include condition="Skin.HasSetting(PreferChannelLogo)">LogoFocusedChannelLayout</include>
+					<include condition="String.IsEmpty(Skin.String(PVRGuide.Logos))">DefaultFocusedChannelLayout</include>
+					<include condition="!String.IsEmpty(Skin.String(PVRGuide.Logos))">LogoFocusedChannelLayout</include>
 				</focusedchannellayout>
 				<itemlayout height="72" width="120">
 					<control type="image" id="2">
@@ -703,39 +703,20 @@
 						<texture border="3">$INFO[ListItem.Property(GenreType),new_pvr/epg-genres/,.png]</texture>
 						<visible>Skin.HasSetting(Enable.PVRGenreColors)</visible>
 					</control>
-					<control type="image" id="2">
-						<width>120</width>
-						<height>72</height>
-						<aspectratio>stretch</aspectratio>
-						<texture border="3" colordiffuse="66FFFFFF">new_pvr/epg-genres/0.png</texture>
-						<visible>Skin.HasSetting(Enable.PVRGenreColors) + Skin.HasSetting(Enable.LighterPVRGenreColors)</visible>
-					</control>
-					<control type="label">
-						<width>120</width>
-						<height>72</height>
-						<font>IconSmall</font>
-						<textoffsetx>14</textoffsetx>
-						<textcolor>$VAR[ThemeLabelColor]</textcolor>
-						<label></label>
-						<visible>ListItem.HasTimer + !ListItem.IsRecording</visible>
-					</control>
 					<control type="image">
 						<left>8</left>
-						<top>10</top>
-						<width>48</width>
-						<height>48</height>
-						<texture>new_pvr/PVR-IsRecording.png</texture>
-						<animation effect="fade" start="100" end="40" time="2000" pulse="true" condition="true">Conditional</animation>
-						<visible>ListItem.IsRecording</visible>
+						<top>9</top>
+						<width>20</width>
+						<height>20</height>
+						<texture>$VAR[PVRTimerIcon]</texture>
 					</control>
 					<control type="label" id="1">
+						<top>14</top>
 						<width>120</width>
-						<height>68</height>
-						<font>font15</font>
+						<height>60</height>
+						<font>font14</font>
 						<textoffsetx>15</textoffsetx>
-						<textcolor>grey</textcolor>
 						<label>$INFO[ListItem.Label]</label>
-						<animation effect="slide" start="0,0" end="40,0" time="0" tween="sine" easing="in" condition="[ListItem.HasTimer | ListItem.IsRecording]">Conditional</animation>
 					</control>
 				</itemlayout>
 				<focusedlayout height="72" width="120">
@@ -744,37 +725,26 @@
 						<top>2</top>
 						<width>116</width>
 						<height>68</height>
-						<texture colordiffuse="$VAR[HighlightBarColor]" border="5">listselect_fo.png</texture>
-						<bordertexture border="8" colordiffuse="$VAR[HighlightBarColor]">thumbs/thumbnail_focused.png</bordertexture>
-						<bordersize>8</bordersize>
+						<texture colordiffuse="$VAR[HighlightBarColor]">listselect_fo.png</texture>
+						<bordertexture border="8" colordiffuse="$VAR[HighlightBarColor]">new_pvr/pvr_focused.png</bordertexture>
+						<bordersize>2</bordersize>
 						<visible>Control.HasFocus(10)</visible>
 						<include>VisibleFadeAnimation</include>
 					</control>
-					<control type="label">
-						<width>120</width>
-						<height>72</height>
-						<font>IconSmall</font>
-						<textoffsetx>15</textoffsetx>
-						<textcolor>$VAR[ThemeLabelColor]</textcolor>
-						<label></label>
-						<visible>ListItem.HasTimer + !ListItem.IsRecording</visible>
-					</control>
 					<control type="image">
 						<left>8</left>
-						<top>12</top>
-						<width>48</width>
-						<height>48</height>
-						<texture>new_pvr/PVR-IsRecording.png</texture>
-						<animation effect="fade" start="100" end="40" time="2000" pulse="true" condition="true">Conditional</animation>
-						<visible>ListItem.IsRecording</visible>
+						<top>9</top>
+						<width>20</width>
+						<height>20</height>
+						<texture>$VAR[PVRTimerIcon]</texture>
 					</control>
 					<control type="label" id="1">
+						<top>14</top>
 						<width>120</width>
-						<height>68</height>
-						<font>font15</font>
+						<height>60</height>
+						<font>font14</font>
 						<textoffsetx>15</textoffsetx>
 						<label>$INFO[ListItem.Label]</label>
-						<animation effect="slide" end="40" condition="[ListItem.HasTimer | ListItem.IsRecording]">Conditional</animation>
 					</control>
 				</focusedlayout>
 			</control>
@@ -787,7 +757,7 @@
 					<aspectratio>keep</aspectratio>
 					<fadetime>400</fadetime>
 					<texture background="true">$INFO[ListItem.Icon]</texture>
-					<animation effect="slide" end="-20" condition="!Skin.HasSetting(PreferChannelLogo)">Conditional</animation>
+					<animation effect="slide" end="-20" condition="!String.IsEqual(Skin.String(PVRGuide.Logos),2)">Conditional</animation>
 				</control>
 				<control type="group">
 					<left>329</left>
@@ -866,7 +836,7 @@
 			<height>68</height>
 			<aspectratio>keep</aspectratio>
 			<texture background="true">$INFO[ListItem.Icon]</texture>
-			<visible>!Skin.HasSetting(Hide.ChannelName)</visible>
+			<visible>!String.IsEqual(Skin.String(PVRGuide.Logos),1)</visible>
 		</control>
 		<control type="image">
 			<left>135</left>
@@ -874,7 +844,7 @@
 			<height>68</height>
 			<aspectratio>keep</aspectratio>
 			<texture background="true">$INFO[ListItem.Icon]</texture>
-			<visible>Skin.HasSetting(Hide.ChannelName)</visible>
+			<visible>String.IsEqual(Skin.String(PVRGuide.Logos),1)</visible>
 		</control>
 		<control type="label">
 			<left>183</left>
@@ -884,7 +854,7 @@
 			<textoffsetx>10</textoffsetx>
 			<textcolor>grey2</textcolor>
 			<label>$INFO[ListItem.ChannelName]</label>
-			<visible>!Skin.HasSetting(Hide.ChannelName)</visible>
+			<visible>!String.IsEqual(Skin.String(PVRGuide.Logos),1)</visible>
 		</control>
 	</include>
 	<include name="LogoFocusedChannelLayout">
@@ -901,7 +871,7 @@
 			<height>68</height>
 			<aspectratio>keep</aspectratio>
 			<texture background="true">$INFO[ListItem.Icon]</texture>
-			<visible>!Skin.HasSetting(Hide.ChannelName)</visible>
+			<visible>!String.IsEqual(Skin.String(PVRGuide.Logos),1)</visible>
 		</control>
 		<control type="image">
 			<left>135</left>
@@ -909,7 +879,7 @@
 			<height>68</height>
 			<aspectratio>keep</aspectratio>
 			<texture background="true">$INFO[ListItem.Icon]</texture>
-			<visible>Skin.HasSetting(Hide.ChannelName)</visible>
+			<visible>String.IsEqual(Skin.String(PVRGuide.Logos),1)</visible>
 		</control>
 		<control type="label">
 			<left>183</left>
@@ -918,7 +888,7 @@
 			<font>font15</font>
 			<textoffsetx>10</textoffsetx>
 			<label>$INFO[ListItem.ChannelName]</label>
-			<visible>!Skin.HasSetting(Hide.ChannelName)</visible>
+			<visible>!String.IsEqual(Skin.String(PVRGuide.Logos),1)</visible>
 		</control>
 	</include>
 	<include name="EpgTimelineMinified">
@@ -1020,7 +990,7 @@
 						<height>53</height>
 						<aspectratio>keep</aspectratio>
 						<texture background="true">$INFO[ListItem.Icon]</texture>
-						<visible>Skin.HasSetting(PreferChannelLogo)</visible>
+						<visible>String.IsEqual(Skin.String(PVRGuide.Logos),2)</visible>
 					</control>
 					<control type="label">
 						<left>150</left>
@@ -1030,7 +1000,7 @@
 						<textoffsetx>15</textoffsetx>
 						<textcolor>grey2</textcolor>
 						<label>$INFO[ListItem.ChannelName]</label>
-						<visible>Skin.HasSetting(PreferChannelLogo)</visible>
+						<visible>String.IsEqual(Skin.String(PVRGuide.Logos),2)</visible>
 					</control>
 					<control type="label">
 						<left>80</left>
@@ -1040,7 +1010,7 @@
 						<textoffsetx>15</textoffsetx>
 						<textcolor>grey2</textcolor>
 						<label>$INFO[ListItem.ChannelName]</label>
-						<visible>!Skin.HasSetting(PreferChannelLogo)</visible>
+						<visible>!String.IsEqual(Skin.String(PVRGuide.Logos),2)</visible>
 					</control>
 				</channellayout>
 				<focusedchannellayout height="55" width="400">
@@ -1065,7 +1035,7 @@
 						<height>53</height>
 						<aspectratio>keep</aspectratio>
 						<texture background="true">$INFO[ListItem.Icon]</texture>
-						<visible>Skin.HasSetting(PreferChannelLogo)</visible>
+						<visible>String.IsEqual(Skin.String(PVRGuide.Logos),2)</visible>
 					</control>
 					<control type="label">
 						<left>150</left>
@@ -1074,7 +1044,7 @@
 						<font>font14</font>
 						<textoffsetx>15</textoffsetx>
 						<label>$INFO[ListItem.ChannelName]</label>
-						<visible>Skin.HasSetting(PreferChannelLogo)</visible>
+						<visible>String.IsEqual(Skin.String(PVRGuide.Logos),2)</visible>
 					</control>
 					<control type="label">
 						<left>80</left>
@@ -1083,7 +1053,7 @@
 						<font>font14</font>
 						<textoffsetx>15</textoffsetx>
 						<label>$INFO[ListItem.ChannelName]</label>
-						<visible>!Skin.HasSetting(PreferChannelLogo)</visible>
+						<visible>!String.IsEqual(Skin.String(PVRGuide.Logos),2)</visible>
 					</control>
 				</focusedchannellayout>
 				<itemlayout height="55" width="120">
@@ -1219,6 +1189,16 @@
 	<variable name="GuideTimelineViewTypeOptionsClickVar">
 		<value condition="String.IsEmpty(Skin.String(LiveTV.EpgViewType))">Skin.SetString(LiveTV.EpgViewType,1)</value>
 		<value condition="String.IsEqual(Skin.String(LiveTV.EpgViewType),1)">Skin.Reset(LiveTV.EpgViewType)</value>
+	</variable>
+	<variable name="GuideLogoOptionsLabelVar">
+		<value condition="String.IsEqual(Skin.String(PVRGuide.Logos),1)">$LOCALIZE[31543]</value>
+		<value condition="String.IsEqual(Skin.String(PVRGuide.Logos),2)">$LOCALIZE[31359]</value>
+		<value>$LOCALIZE[13113]</value>
+	</variable>
+	<variable name="GuideLogoClickVar">
+		<value condition="String.IsEmpty(Skin.String(PVRGuide.Logos))">Skin.SetString(PVRGuide.Logos,1)</value>
+		<value condition="String.IsEqual(Skin.String(PVRGuide.Logos),1)">Skin.SetString(PVRGuide.Logos,2)</value>
+		<value condition="String.IsEqual(Skin.String(PVRGuide.Logos),2)">Skin.Reset(PVRGuide.Logos)</value>
 	</variable>
 	<variable name="LiveTvInfobarTypeOptionsClickVar">
 		<value condition="String.IsEmpty(Skin.String(LiveTV.InfobarType))">Skin.SetString(LiveTV.InfobarType,1)</value>
