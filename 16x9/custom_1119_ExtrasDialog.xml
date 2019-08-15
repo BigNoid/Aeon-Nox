@@ -33,18 +33,19 @@
 				<visible>System.HasAddon(script.trakt) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]</visible>
 			</control>
 			<control type="button" id="90203">
-				<description>ExtendedInfo</description>
+				<description>EmbuaryInfo</description>
 				<width>510</width>
 				<textwidth>435</textwidth>
 				<textoffsetx>45</textoffsetx>
 				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<onclick>Dialog.Close(1119)</onclick>
-				<onclick condition="Container.Content(movies)">RunScript(script.extendedinfo,info=extendedinfo,dbid=$INFO[ListItem.DBID],name=$INFO[ListItem.Title])</onclick>
-				<onclick condition="Container.Content(tvshows)">RunScript(script.extendedinfo,info=extendedtvinfo,dbid=$INFO[ListItem.DBID])</onclick>
-				<label>$INFO[System.AddonTitle(script.extendedinfo)]</label>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,movie) + !String.IsEmpty(ListItem.IMDBNumber)">RunScript(script.embuary.info,call=movie,external_id=$INFO[ListItem.IMDBNumber])</onclick>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,movie) + String.IsEmpty(ListItem.IMDBNumber)">RunScript(script.embuary.info,call=movie,query='"$INFO[ListItem.Title]"',year=$INFO[ListItem.Year]))</onclick>
+				<onclick condition="String.IsEqual(ListItem.DBTYPE,tvshow)">RunScript(script.embuary.info,call=tv,query='"$INFO[ListItem.Title]"',year=$INFO[ListItem.Year]))</onclick>
+				<label>$LOCALIZE[31149]</label>
 				<visible>!String.IsEqual(ListItem.DBTYPE,set)</visible>
-				<visible>System.HasAddon(script.extendedinfo) + [Container.Content(movies) | Container.Content(tvshows)]</visible>
+				<visible>System.HasAddon(script.embuary.info) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)]</visible>
 			</control>
 			<control type="button" id="90204">
 				<description>CinemaVision</description>
