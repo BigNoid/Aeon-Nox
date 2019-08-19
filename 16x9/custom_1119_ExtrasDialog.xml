@@ -2,6 +2,10 @@
 <window id="1119" type="dialog">
 	<defaultcontrol always="true">90200</defaultcontrol>
 	<include>DialogOpenCloseAnimation</include>
+	<onunload>ClearProperty(EmbuaryInfoSearchType,Home)</onunload>
+	<onunload>ClearProperty(EmbuaryInfoSearchStringIMDB,Home)</onunload>
+	<onunload>ClearProperty(EmbuaryInfoSearchStringTitle,Home)</onunload>
+	<onunload>ClearProperty(EmbuaryInfoSearchStringYear,Home)</onunload>
 	<controls>
 		<control type="grouplist" id="90200">
 			<left>705</left>
@@ -40,12 +44,15 @@
 				<texturefocus colordiffuse="$VAR[HighlightBarColor]" border="35,2,35,2">button_shutdown_focus.png</texturefocus>
 				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
 				<onclick>Dialog.Close(1119)</onclick>
-				<onclick condition="String.IsEqual(ListItem.DBTYPE,movie) + !String.IsEmpty(ListItem.IMDBNumber)">RunScript(script.embuary.info,call=movie,external_id=$INFO[ListItem.IMDBNumber])</onclick>
-				<onclick condition="String.IsEqual(ListItem.DBTYPE,movie) + String.IsEmpty(ListItem.IMDBNumber)">RunScript(script.embuary.info,call=movie,query='"$INFO[ListItem.Title]"',year=$INFO[ListItem.Year]))</onclick>
-				<onclick condition="String.IsEqual(ListItem.DBTYPE,tvshow)">RunScript(script.embuary.info,call=tv,query='"$INFO[ListItem.Title]"',year=$INFO[ListItem.Year]))</onclick>
+				<onclick condition="!Window.IsActive(Home) + String.IsEqual(ListItem.DBTYPE,movie) + !String.IsEmpty(ListItem.IMDBNumber)">RunScript(script.embuary.info,call=movie,external_id=$INFO[ListItem.IMDBNumber])</onclick>
+				<onclick condition="!Window.IsActive(Home) + String.IsEqual(ListItem.DBTYPE,movie) + String.IsEmpty(ListItem.IMDBNumber)">RunScript(script.embuary.info,call=movie,query='"$INFO[ListItem.Title]"',year=$INFO[ListItem.Year])</onclick>
+				<onclick condition="!Window.IsActive(Home) + String.IsEqual(ListItem.DBTYPE,tvshow)">RunScript(script.embuary.info,call=tv,query='"$INFO[ListItem.Title]"',year=$INFO[ListItem.Year])</onclick>
+				<onclick condition="Window.IsActive(Home) + String.IsEqual(Window(Home).Property(EmbuaryInfoSearchType),movie) + !String.IsEmpty(Window(Home).Property(EmbuaryInfoSearchStringIMDB))">RunScript(script.embuary.info,call=movie,external_id=$INFO[Window(Home).Property(EmbuaryInfoSearchStringIMDB)])</onclick>
+				<onclick condition="Window.IsActive(Home) + String.IsEqual(Window(Home).Property(EmbuaryInfoSearchType),movie) + String.IsEmpty(Window(Home).Property(EmbuaryInfoSearchStringIMDB))">RunScript(script.embuary.info,call=movie,query='"$INFO[Window(Home).Property(EmbuaryInfoSearchStringTitle)]"',year=$INFO[Window(Home).Property(EmbuaryInfoSearchStringYear)])</onclick>
+				<onclick condition="Window.IsActive(Home) + String.IsEqual(Window(Home).Property(EmbuaryInfoSearchType),tvshow)">RunScript(script.embuary.info,call=tv,query='"$INFO[Window(Home).Property(EmbuaryInfoSearchStringTitle)]"',year=$INFO[Window(Home).Property(EmbuaryInfoSearchStringYear)])</onclick>
 				<label>$LOCALIZE[31149]</label>
 				<visible>!String.IsEqual(ListItem.DBTYPE,set)</visible>
-				<visible>System.HasAddon(script.embuary.info) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)]</visible>
+				<visible>System.HasAddon(script.embuary.info) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] | !String.IsEmpty(Window(Home).Property(EmbuaryInfoSearchType))</visible>
 			</control>
 			<control type="button" id="90204">
 				<description>CinemaVision</description>
