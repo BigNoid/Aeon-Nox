@@ -986,8 +986,11 @@
 				</control>
 				<control type="group">
 					<left>340</left>
-					<height>300</height>
-					<control type="group">
+					<!-- PVR/Live TV -->
+					<control type="grouplist">
+						<height>300</height>
+						<itemgap>10</itemgap>
+						<align>center</align>
 						<visible>VideoPlayer.Content(livetv)</visible>
 						<control type="label">
 							<width>840</width>
@@ -997,23 +1000,21 @@
 							<shadowcolor>black</shadowcolor>
 							<label>$INFO[VideoPlayer.ChannelName]</label>
 						</control>
-						<!-- Player.Title with RecordingIcon -->
-						<control type="group">
-							<visible>String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
-							<top>50</top>
-							<height>80</height>
-							<!-- RecordingIcon -->
+						<control type="grouplist">
+							<width>840</width>
+							<height>50</height>
+							<itemgap>10</itemgap>
+							<orientation>horizontal</orientation>
 							<control type="image">
 								<width>40</width>
 								<height>40</height>
-								<texture>new_pvr/PVR-IsRecording.png</texture>
+								<texture>new_pvr/icons/PVR-IsRecording.png</texture>
 								<animation effect="fade" start="100" end="40" time="2000" pulse="true" condition="true">Conditional</animation>
-								<visible>PVR.IsRecording</visible>
+								<visible>String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
 							</control>
 							<control type="label">
-								<width>840</width>
-								<left>40</left>
-								<height>40</height>
+								<width>auto</width>
+								<height>50</height>
 								<font>font48</font>
 								<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
 								<shadowcolor>black</shadowcolor>
@@ -1021,41 +1022,36 @@
 							</control>
 						</control>
 						<control type="label">
-							<width>840</width>
+							<width>auto</width>
 							<height>40</height>
-							<top>50</top>
+							<font>font15</font>
+							<textcolor>white2</textcolor>
+							<shadowcolor>black</shadowcolor>
+							<label>$VAR[PlayerEpisodeCountVar,, - ]$INFO[VideoPlayer.EpisodeName]</label>
+						</control>
+						<control type="label">
+							<width>940</width>
+							<height>40</height>
+							<font>font15</font>
+							<textcolor>white2</textcolor>
+							<shadowcolor>black</shadowcolor>
+							<label>$INFO[VideoPlayer.Genre]</label>
+							<visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
+						</control>
+						<control type="label">
+							<height>50</height>
+							<width>940</width>
+							<label>[COLOR white2]$INFO[Player.Time][/COLOR]$INFO[Player.Duration, / [COLOR=white2],[/COLOR]]</label>
 							<font>font48</font>
 							<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
 							<shadowcolor>black</shadowcolor>
-							<label>$INFO[Player.Title]</label>
-							<visible>!String.IsEqual(VideoPlayer.ChannelName,PVR.NowRecordingChannel)</visible>
-						</control>
-						<control type="grouplist">
-							<top>100</top>
-							<itemgap>10</itemgap>
-							<control type="textbox">
-								<width>840</width>
-								<height max="120">auto</height>
-								<font>font15</font>
-								<shadowcolor>black</shadowcolor>
-								<label>$INFO[VideoPlayer.Plot]</label>
-								<autoscroll time="3000" delay="4000" repeat="5000">Skin.HasSetting(Enable.AutoScroll)</autoscroll>
-							</control>
-							<control type="label">
-								<height>50</height>
-								<width>840</width>
-								<top>-20</top>
-								<label>[COLOR white2]+$VAR[PlayerTimeRemainingAltVar][/COLOR]$INFO[VideoPlayer.NextStartTime, $LOCALIZE[31393]: [COLOR=white2],[/COLOR]]</label>
-								<font>font48</font>
-								<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
-								<shadowcolor>black</shadowcolor>
-							</control>
 						</control>
 					</control>
 					<control type="grouplist">
 						<height>300</height>
 						<itemgap>10</itemgap>
 						<align>center</align>
+						<visible>!VideoPlayer.Content(livetv)</visible>
 						<control type="label">
 							<width>840</width>
 							<height>40</height>
@@ -1063,7 +1059,6 @@
 							<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
 							<shadowcolor>black</shadowcolor>
 							<label>$INFO[Player.Title]</label>
-							<visible>!VideoPlayer.Content(livetv)</visible>
 						</control>
 						<control type="label">
 							<width>840</width>
@@ -1075,7 +1070,7 @@
 							<visible>!String.IsEmpty(VideoPlayer.Artist) + !String.IsEqual(VideoPlayer.Studio,VideoPlayer.Artist)</visible>
 						</control>
 						<control type="label">
-							<width>940</width>
+							<width>840</width>
 							<height>40</height>
 							<font>font15</font>
 							<textcolor>white2</textcolor>
@@ -1089,26 +1084,16 @@
 							<font>font15</font>
 							<textcolor>white2</textcolor>
 							<shadowcolor>black</shadowcolor>
-							<label>$INFO[VideoPlayer.Year]$INFO[VideoPlayer.Genre, | ]</label>
-							<visible>String.IsEmpty(VideoPlayer.Premiered)</visible>
-							<visible>VideoPlayer.Content(musicvideos) | [!String.IsEmpty(VideoPlayer.Year) | !String.IsEmpty(VideoPlayer.Genre)]</visible>
-						</control>
-						<control type="label">
-							<width>840</width>
-							<height>40</height>
-							<font>font15</font>
-							<textcolor>white2</textcolor>
-							<shadowcolor>black</shadowcolor>
 							<label>$INFO[VideoPlayer.Studio]</label>
-							<visible>VideoPlayer.Content(musicvideos) | !String.IsEmpty(VideoPlayer.Studio)</visible>
+							<visible>!String.IsEmpty(VideoPlayer.Studio)</visible>
 						</control>
 						<control type="label">
 							<height>50</height>
 							<width>940</width>
-							<label>[COLOR white2]$INFO[Player.Time][/COLOR]$INFO[Player.Duration, / [COLOR=white2],[/COLOR]]</label>
 							<font>font48</font>
-							<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
 							<shadowcolor>black</shadowcolor>
+							<textcolor>$VAR[ThemeHomeLabelColor]</textcolor>
+							<label>[COLOR white2]$INFO[Player.Time][/COLOR]$INFO[Player.Duration, / [COLOR=white2],[/COLOR]]</label>
 						</control>
 					</control>
 				</control>
