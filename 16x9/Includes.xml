@@ -6,9 +6,10 @@
 	<include file="Includes_CommonValues.xml" />
 	<include file="Includes_Home.xml" />
 	<include file="Includes_LiveBG.xml" />
-	<include file="Includes_LiveTV.xml" />
 	<include file="Includes_Lyrics.xml" />
 	<include file="Includes_Select.xml" />
+	<include file="Includes_PVR.xml" />
+	<include file="Includes_PVR_Views.xml" />
 	<include file="Includes_ViewSettings.xml" />
 	<include file="Includes_Widgets.xml" />
 	<include file="script-skinshortcuts-includes.xml" />
@@ -188,7 +189,7 @@
 				<include condition="Skin.HasSetting(KioskMode.Enabled)">KioskModeButton</include>
 				<animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1128)" reversible="true">Conditional</animation>
 				<control type="button" id="203">
-					<description>View options</description>
+					<description>Quicknav</description>
 					<textwidth>352</textwidth>
 					<font>font13_title</font>
 					<include>ButtonCommonValues</include>
@@ -247,6 +248,7 @@
 					<visible>![Skin.HasSetting(Disable.PVRSearch) | Window.IsActive(tvsearch)]</visible>
 				</control>
 				<control type="label" id="200">
+					<description>View options</description>
 					<width>400</width>
 					<height>52</height>
 					<textoffsetx>15</textoffsetx>
@@ -265,7 +267,7 @@
 					<description>View As button</description>
 					<textwidth>352</textwidth>
 					<include>ButtonCommonValues</include>
-					<visible>!Window.IsActive(tvguide) + !Window.IsActive(tvrecordings)</visible>
+					<visible>!Window.IsActive(tvguide)</visible>
 				</control>
 				<control type="button" id="3">
 					<description>Sort by button</description>
@@ -3105,64 +3107,69 @@
 										<textcolor>grey</textcolor>
 									</control>
 								</control>
-								<control type="grouplist">
-									<visible>!String.IsEmpty(Container(9142).ListItem.Rating(tomatometerallcritics))</visible>
-									<width>130</width>
-									<orientation>horizontal</orientation>
-									<control type="image">
-										<width>60</width>
-										<height>55</height>
-										<aspectratio>keep</aspectratio>
-										<colordiffuse>grey</colordiffuse>
-										<texture>$VAR[RottenFreshLogoVar]</texture>
+								<control type="group">
+									<width>390</width>
+									<height>60</height>
+									<visible>VideoPlayer.Content(movies)</visible>
+									<control type="grouplist">
+										<visible>!String.IsEmpty(Container(9142).ListItem.Rating(tomatometerallcritics))</visible>
+										<width>130</width>
+										<orientation>horizontal</orientation>
+										<control type="image">
+											<width>60</width>
+											<height>55</height>
+											<aspectratio>keep</aspectratio>
+											<colordiffuse>grey</colordiffuse>
+											<texture>$VAR[RottenFreshLogoVar]</texture>
+										</control>
+										<control type="label">
+											<height>60</height>
+											<width>auto</width>
+											<font>font15_bold</font>
+											<textcolor>grey</textcolor>
+											<label>$VAR[RottenFreshLabelVar]</label>
+										</control>
 									</control>
-									<control type="label">
-										<height>60</height>
-										<width>auto</width>
-										<font>font15_bold</font>
-										<textcolor>grey</textcolor>
-										<label>$VAR[RottenFreshLabelVar]</label>
+									<control type="grouplist">
+										<visible>!String.IsEmpty(Container(9142).ListItem.Rating(tomatometerallaudience))</visible>
+										<width>130</width>
+										<orientation>horizontal</orientation>
+										<control type="image">
+											<width>60</width>
+											<height>55</height>
+											<aspectratio>keep</aspectratio>
+											<colordiffuse>grey</colordiffuse>
+											<texture>$VAR[RottenFreshAudienceLogoVar]</texture>
+										</control>
+										<control type="label">
+											<width>auto</width>
+											<height>60</height>
+											<font>font15_bold</font>
+											<textcolor>grey</textcolor>
+											<label>$VAR[RottenFreshAudienceLabelVar]</label>
+										</control>
 									</control>
-								</control>
-								<control type="grouplist">
-									<visible>!String.IsEmpty(Container(9142).ListItem.Rating(tomatometerallaudience))</visible>
-									<width>130</width>
-									<orientation>horizontal</orientation>
-									<control type="image">
-										<width>60</width>
-										<height>55</height>
-										<aspectratio>keep</aspectratio>
-										<colordiffuse>grey</colordiffuse>
-										<texture>$VAR[RottenFreshAudienceLogoVar]</texture>
-									</control>
-									<control type="label">
-										<width>auto</width>
-										<height>60</height>
-										<font>font15_bold</font>
-										<textcolor>grey</textcolor>
-										<label>$VAR[RottenFreshAudienceLabelVar]</label>
-									</control>
-								</control>
-								<control type="grouplist">
-									<visible>!String.IsEmpty(Container(9142).ListItem.Rating(metacritic))</visible>
-									<width>130</width>
-									<itemgap>3</itemgap>
-									<usecontrolcoords>true</usecontrolcoords>
-									<orientation>horizontal</orientation>
-									<control type="image">
-										<top>6</top>
-										<width>60</width>
-										<height>48</height>
-										<aspectratio>keep</aspectratio>
-										<colordiffuse>grey</colordiffuse>
-										<texture>logos/metacritic.png</texture>
-									</control>
-									<control type="label">
-										<width>auto</width>
-										<height>60</height>
-										<font>font15_bold</font>
-										<textcolor>grey</textcolor>
-										<label>$VAR[MetacriticLabelVar]</label>
+									<control type="grouplist">
+										<visible>!String.IsEmpty(Container(9142).ListItem.Rating(metacritic))</visible>
+										<width>130</width>
+										<itemgap>3</itemgap>
+										<usecontrolcoords>true</usecontrolcoords>
+										<orientation>horizontal</orientation>
+										<control type="image">
+											<top>6</top>
+											<width>60</width>
+											<height>48</height>
+											<aspectratio>keep</aspectratio>
+											<colordiffuse>grey</colordiffuse>
+											<texture>logos/metacritic.png</texture>
+										</control>
+										<control type="label">
+											<width>auto</width>
+											<height>60</height>
+											<font>font15_bold</font>
+											<textcolor>grey</textcolor>
+											<label>$VAR[MetacriticLabelVar]</label>
+										</control>
 									</control>
 								</control>
 							</control>
