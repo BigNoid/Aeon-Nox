@@ -577,7 +577,7 @@
 		<width>304</width>
 		<height>434</height>
 		<align>center</align>
-		<aspectratio scalediffuse="false">scale</aspectratio>
+		<aspectratio>scale</aspectratio>
 		<bordertexture border="20">thumbs/thumb_shadow_aa.png</bordertexture>
 		<bordersize>20</bordersize>
 	</include>
@@ -591,10 +591,10 @@
 		<visible>!Container.Content(genres) + !ListItem.IsParentFolder</visible>
 	</include>
 	<include name="MovieShowcaseNoCase">
-		<left>-55</left>
-		<top>-20</top>
-		<width>375</width>
-		<height>470</height>
+		<left>-53</left>
+		<top>-17</top>
+		<width>372</width>
+		<height>462</height>
 		<bordersize>20</bordersize>
 		<visible>!Skin.HasSetting(useclearcases) + Skin.HasSetting(showcasemod) + [Container.Content(movies) | Container.Content(sets)] + !ListItem.IsParentFolder</visible>
 	</include>
@@ -736,7 +736,7 @@
 		<control type="group">
 			<visible>!listItem.IsCollection + Skin.HasSetting(boxsetmod) | !Skin.HasSetting(boxsetmod)</visible>
 			<control type="image">
-				<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseItem0Var]</texture>
+				<texture background="true" flipy="true" diffuse="thumbs/thumb_diffuse.png" fallback="DefaultVideo.png">$VAR[ShowcaseFocusedItem0Var]</texture>
 				<include>MovieShowcaseThumbReflection</include>
 				<include>OpenCaseAnimation</include>
 			</control>
@@ -773,7 +773,7 @@
 			</control>
 			<control type="group">
 				<left>30</left>
-				<top>93</top>
+				<top>91</top>
 				<width>230</width>
 				<height>230</height>
 				<visible>!ListItem.IsParentFolder + !Skin.HasSetting(Enable.ShowCase.Covers) + Skin.HasSetting(showcasemod) + [Container.Content(movies) | Container.Content(sets)]</visible>
@@ -787,8 +787,19 @@
 			<control type="group">
 				<include>OpenCaseAnimation</include>
 				<control type="multiimage">
-					<imagepath background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem0Var]</imagepath>
+					<left>16</left>
+					<top>10</top>
+					<width>264</width>
+					<height>394</height>
+					<aspectratio>scale</aspectratio>
+					<fadetime>200</fadetime>
+					<imagepath background="true" fallback="DefaultVideo.png">$VAR[ShowcaseFocusedItem0Var]</imagepath>
+				</control>
+				<control type="image">
 					<include>MovieShowcaseThumb</include>
+					<texture colordiffuse="00FFFFFF">black.png</texture>
+					<bordertexture border="20">thumbs/thumb_shadow_aa.png</bordertexture>
+					<bordersize>20</bordersize>
 				</control>
 				<control type="image">
 					<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
@@ -936,6 +947,12 @@
 		<value>$INFO[ListItem(-1).Icon]</value>
 	</variable>
 	<variable name="ShowcaseItem0Var">
+		<value condition="Container.Content(genres) + !Skin.HasSetting(coloredflags)">$INFO[ListItem.Label,special://skin/extras/moviegenres/default/,.jpg]</value>
+		<value condition="Container.Content(genres) + Skin.HasSetting(coloredflags)">$INFO[ListItem.Label,special://skin/extras/moviegenres/colored/,.jpg]</value>
+		<value condition="!String.IsEmpty(ListItem.Art(poster))">$INFO[ListItem.Art(poster)]</value>
+		<value>$INFO[ListItem.Icon]</value>
+	</variable>
+	<variable name="ShowcaseFocusedItem0Var">
 		<value condition="Container.Content(genres) + !Skin.HasSetting(coloredflags)">$INFO[ListItem.Label,special://skin/extras/moviegenres/default/,.jpg]</value>
 		<value condition="Container.Content(genres) + Skin.HasSetting(coloredflags)">$INFO[ListItem.Label,special://skin/extras/moviegenres/colored/,.jpg]</value>
 		<value condition="!String.IsEmpty(ListItem.Art(poster1))">$INFO[Control.GetLabel(4412)]</value>
@@ -1768,7 +1785,7 @@
 				</animation>
 				<control type="image">
 					<include>MovieShowcaseThumb</include>
-					<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseItem0Var]</texture>
+					<texture background="true" fallback="DefaultVideo.png">$VAR[ShowcaseFocusedItem0Var]</texture>
 				</control>
 				<control type="image">
 					<include>MovieShowcaseCase</include>
