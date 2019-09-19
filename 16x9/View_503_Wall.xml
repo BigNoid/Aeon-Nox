@@ -18,7 +18,7 @@
 				<preloaditems>2</preloaditems>
 				<scrolltime tween="quadratic">400</scrolltime>
 				<visible>Container.Content(movies) | Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(albums) | Container.Content(addons) | [Window.IsActive(music) + Container.Content(files)]</visible>
-				<itemlayout width="320" height="440" condition="![Container.Content(albums) | Container.Content(addons)] + ![Window.IsActive(music) + Container.Content(files)]">
+				<itemlayout width="320" height="440" condition="![Container.Content(albums) | Container.Content(addons)] + ![Window.IsActive(music) + Container.Content(files)] + ![[Container.Content(movies) | Container.Content(sets)] + Skin.HasSetting(Enable.Wall.MovieBanners)] + ![Container.Content(tvshows) + Skin.HasSetting(Enable.Wall.TVBanners)]">
 					<control type="group">
 						<left>11</left>
 						<top>60</top>
@@ -60,7 +60,7 @@
 						</control>
 					</control>
 				</itemlayout>
-				<focusedlayout width="320" height="440" condition="![Container.Content(albums) | Container.Content(addons)] + ![Window.IsActive(music) + Container.Content(files)]">
+				<focusedlayout width="320" height="440" condition="![Container.Content(albums) | Container.Content(addons)] + ![Window.IsActive(music) + Container.Content(files)] + ![[Container.Content(movies) | Container.Content(sets)] + Skin.HasSetting(Enable.Wall.MovieBanners)] + ![Container.Content(tvshows) + Skin.HasSetting(Enable.Wall.TVBanners)]">
 					<control type="group">
 						<left>11</left>
 						<top>60</top>
@@ -102,6 +102,101 @@
 							<height>455</height>
 							<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
 							<visible>[Skin.HasSetting(Enable.Wall.Cases) + !Container.Content(sets)] | [Skin.HasSetting(Enable.Wall.SetCases) + Container.Content(sets)]</visible>
+						</control>
+					</control>
+				</focusedlayout>
+				<itemlayout width="892" height="185" condition="[Container.Content(movies) | Container.Content(sets)] + Skin.HasSetting(Enable.Wall.MovieBanners) | Container.Content(tvshows) + Skin.HasSetting(Enable.Wall.TVBanners)">
+					<control type="group">
+						<left>70.5</left>
+						<top>50</top>
+						<control type="image">
+							<width>888</width>
+							<height>175</height>
+							<texture background="true">$VAR[BannerThumb]</texture>
+							<bordertexture colordiffuse="shadow" border="8">thumbs/thumbnail_focused.png</bordertexture>
+							<bordersize>6</bordersize>
+							<visible>!String.IsEmpty(ListItem.Art(banner)) | String.IsEmpty(ListItem.Art(fanart))</visible>
+						</control>
+						<control type="group">
+							<visible>String.IsEmpty(ListItem.Art(banner))</visible>
+							<control type="image">
+								<width>888</width>
+								<height>175</height>
+								<aspectratio>scale</aspectratio>
+								<bordertexture colordiffuse="shadow" border="8">thumbs/thumbnail_focused.png</bordertexture>
+								<bordersize>6</bordersize>
+								<texture background="true">$INFO[ListItem.Art(fanart)]</texture>
+								<fadetime>300</fadetime>
+							</control>
+							<control type="image">
+								<top>10</top>
+								<left>9</left>
+								<width>470</width>
+								<height>161</height>
+								<aspectratio>keep</aspectratio>
+								<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+								<fadetime>300</fadetime>
+							</control>
+						</control>
+						<control type="image">
+							<left>6</left>
+							<top>6</top>
+							<width>876</width>
+							<height>163</height>
+							<texture>thumbs/diffuse.png</texture>
+						</control>
+						<control type="image">
+							<left>948</left>
+							<width>60</width>
+							<height>60</height>
+							<texture>$VAR[OverlayVar]</texture>
+							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<visible>[!String.IsEmpty(Skin.String(503.Movies.DisableOverlay)) + Container.Content(movies)] | [!String.IsEmpty(Skin.String(503.TV.DisableOverlay)) + Container.Content(tvshows)] | [!String.IsEmpty(Skin.String(503.Seasons.DisableOverlay)) + Container.Content(seasons)]</visible>
+						</control>
+					</control>
+				</itemlayout>
+				<focusedlayout width="892" height="185" condition="[Container.Content(movies) | Container.Content(sets)] + Skin.HasSetting(Enable.Wall.MovieBanners) | Container.Content(tvshows) + Skin.HasSetting(Enable.Wall.TVBanners)">
+					<control type="group">
+						<left>70.5</left>
+						<top>50</top>
+						<control type="group">
+							<visible>!String.IsEmpty(ListItem.Art(banner)) | String.IsEmpty(ListItem.Art(fanart))</visible>
+							<control type="image">
+								<width>888</width>
+								<height>175</height>
+								<texture background="true">$VAR[BannerThumb]</texture>
+								<bordertexture colordiffuse="$VAR[ThemeLabelColor]" border="8">thumbs/thumbnail_focused.png</bordertexture>
+								<bordersize>6</bordersize>
+							</control>
+						</control>
+						<control type="group">
+							<visible>String.IsEmpty(ListItem.Art(banner))</visible>
+							<control type="image">
+								<width>888</width>
+								<height>175</height>
+								<aspectratio>scale</aspectratio>
+								<bordertexture colordiffuse="$VAR[ThemeLabelColor]" border="8">thumbs/thumbnail_focused.png</bordertexture>
+								<bordersize>6</bordersize>
+								<texture background="true">$INFO[ListItem.Art(fanart)]</texture>
+								<fadetime>300</fadetime>
+							</control>
+							<control type="image">
+								<top>10</top>
+								<left>9</left>
+								<width>470</width>
+								<height>161</height>
+								<aspectratio>keep</aspectratio>
+								<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+							</control>
+						</control>
+						<control type="image">
+							<left>942</left>
+							<top>6</top>
+							<width>60</width>
+							<height>60</height>
+							<texture>$VAR[OverlayVar]</texture>
+							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<visible>[!String.IsEmpty(Skin.String(503.Movies.DisableOverlay)) + Container.Content(movies)] | [!String.IsEmpty(Skin.String(503.TV.DisableOverlay)) + Container.Content(tvshows)] | [!String.IsEmpty(Skin.String(503.Seasons.DisableOverlay)) + Container.Content(seasons)]</visible>
 						</control>
 					</control>
 				</focusedlayout>
@@ -293,9 +388,9 @@
 				<visible>Container.Content(albums) | Container.Content(addons) | [Window.IsActive(music) + Container.Content(files)]</visible>
 			</control>
 			<control type="image">
-				<top>150</top>
+				<top>300</top>
 				<width>100%</width>
-				<height>1080</height>
+				<height>960</height>
 				<texture border="1">logo_back.png</texture>
 				<visible>Container.Content(movies) | Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons)</visible>
 			</control>
