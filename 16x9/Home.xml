@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
 	<defaultcontrol always="true">9000</defaultcontrol>
+	<onload>ClearProperty(RunSkinShortcutsAfterInstall,Home)</onload>
 	<onload condition="!System.HasAddon(script.skinshortcuts)">SetProperty(MissingDependency,True,Home)</onload>
 	<onload condition="!System.HasAddon(script.skinshortcuts)">ActivateWindow(1126)</onload>
-	<onload condition="System.HasAddon(script.skinshortcuts)">RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=9000&amp;levels=2&amp;options=noGroups)</onload>
+	<onload condition="System.HasAddon(script.skinshortcuts) + String.IsEmpty(Window(Home).Property(RunSkinShortcutsAfterInstall))">RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=9000&amp;levels=2&amp;options=noGroups)</onload>
 	<onload condition="System.HasAddon(script.skinshortcuts) + !Skin.HasSetting(AskedDefaultBackground)">SetProperty(AskDefaultBackground,True,Home)</onload>
 	<onload condition="System.HasAddon(script.skinshortcuts) + !Skin.HasSetting(AskedDefaultBackground) + !Control.IsVisible(9999)">AlarmClock(Ask for Default Background,ActivateWindow(1126),00:02,silent)</onload>
 	<menucontrol>9051</menucontrol>
@@ -135,7 +136,7 @@
 		</control>
 		<include>CommonBackground</include>
 		<control type="group">
-			<visible>!Control.HasFocus(64)</visible>
+			<visible>!Integer.IsEqual(Container(9000).NumItems,0) + !Control.HasFocus(64)</visible>
 			<include>VisibleFadeAnimation</include>
 			<include condition="!Skin.HasSetting(Disable.Videoinfo)">NowPlayingVideoWidget</include>
 			<include condition="!Skin.HasSetting(Disable.Musicinfo)">NowPlayingMusicWidget</include>
@@ -159,7 +160,7 @@
 			<include condition="String.IsEqual(Skin.String(MainMenu.Layout),vertical)">VerticalMenuSystemBars</include>
 		</control>
 		<control type="group" id="9999">
-			<visible>Integer.IsEqual(Container(9000).NumItems,0) | Container(9000).IsUpdating</visible>
+			<visible>System.HasAddon(script.skinshortcuts) + [Integer.IsEqual(Container(9000).NumItems,0) | Container(9000).IsUpdating]</visible>
 			<control type="image">
 				<include>FullscreenDimensions</include>
 				<texture border="1">black.png</texture>
