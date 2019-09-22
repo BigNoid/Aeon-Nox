@@ -17,8 +17,8 @@
 				<pagecontrol>50360</pagecontrol>
 				<preloaditems>2</preloaditems>
 				<scrolltime tween="quadratic">400</scrolltime>
-				<visible>Container.Content(movies) | Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(albums) | Container.Content(addons) | [Window.IsActive(music) + Container.Content(files)]</visible>
-				<itemlayout width="320" height="440" condition="![Container.Content(albums) | Container.Content(addons)] + ![Window.IsActive(music) + Container.Content(files)] + ![[Container.Content(movies) | Container.Content(sets)] + Skin.HasSetting(Enable.Wall.MovieBanners)] + ![Container.Content(tvshows) + Skin.HasSetting(Enable.Wall.TVBanners)]">
+				<visible>Container.Content(movies) | Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(artists) | Container.Content(albums) | Container.Content(addons) | Window.IsActive(music) + [Container.Content(genres) | Container.Content(files)]</visible>
+				<itemlayout width="320" height="440" condition="![Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + !Window.IsActive(music) + [Container.Content(genres) | Container.Content(files)] + ![[Container.Content(movies) | Container.Content(sets)] + Skin.HasSetting(Enable.Wall.MovieBanners)] + ![Container.Content(tvshows) + Skin.HasSetting(Enable.Wall.TVBanners)]">
 					<control type="group">
 						<left>11</left>
 						<top>60</top>
@@ -60,7 +60,7 @@
 						</control>
 					</control>
 				</itemlayout>
-				<focusedlayout width="320" height="440" condition="![Container.Content(albums) | Container.Content(addons)] + ![Window.IsActive(music) + Container.Content(files)] + ![[Container.Content(movies) | Container.Content(sets)] + Skin.HasSetting(Enable.Wall.MovieBanners)] + ![Container.Content(tvshows) + Skin.HasSetting(Enable.Wall.TVBanners)]">
+				<focusedlayout width="320" height="440" condition="![Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] + !Window.IsActive(music) + [Container.Content(genres) | Container.Content(files)] + ![[Container.Content(movies) | Container.Content(sets)] + Skin.HasSetting(Enable.Wall.MovieBanners)] + ![Container.Content(tvshows) + Skin.HasSetting(Enable.Wall.TVBanners)]">
 					<control type="group">
 						<left>11</left>
 						<top>60</top>
@@ -200,7 +200,7 @@
 						</control>
 					</control>
 				</focusedlayout>
-				<itemlayout width="320" height="320" condition="[Container.Content(albums) | Container.Content(addons)] | [Window.IsActive(music) + Container.Content(files)]">
+				<itemlayout width="320" height="320" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] | [Window.IsActive(music) + Container.Content(files)]">
 					<control type="group">
 						<top>60</top>
 						<control type="image">
@@ -227,9 +227,28 @@
 							<texture border="1" colordiffuse="66FFFFFF">black.png</texture>
 							<bordersize>20</bordersize>
 						</control>
+						<control type="group">
+							<left>18</left>
+							<top>262</top>
+							<visible>Container.Content(artists)</visible>
+							<control type="image">
+								<width>284</width>
+								<height>40</height>
+								<texture colordiffuse="88FFFFFF">black.png</texture>
+								<bordersize>2</bordersize>
+							</control>
+							<control type="label">
+								<width>285</width>
+								<height>35</height>
+								<align>center</align>
+								<textoffsetx>10</textoffsetx>
+								<textcolor>grey2</textcolor>
+								<label>$INFO[ListItem.Label]</label>
+							</control>
+						</control>
 					</control>
 				</itemlayout>
-				<focusedlayout width="320" height="320" condition="[Container.Content(albums) | Container.Content(addons)] | [Window.IsActive(music) + Container.Content(files)]">
+				<focusedlayout width="320" height="320" condition="[Container.Content(artists) | Container.Content(albums) | Container.Content(addons)] | [Window.IsActive(music) + Container.Content(files)]">
 					<control type="group">
 						<top>60</top>
 						<control type="image">
@@ -259,6 +278,105 @@
 							<aspectratio align="center" aligny="top">keep</aspectratio>
 							<visible>String.IsEqual(ListItem.Label2,$LOCALIZE[449])</visible>
 							<bordersize>1</bordersize>
+						</control>
+						<control type="group">
+							<left>18</left>
+							<top>262</top>
+							<visible>Container.Content(artists)</visible>
+							<control type="image">
+								<width>284</width>
+								<height>40</height>
+								<texture colordiffuse="88FFFFFF">black.png</texture>
+								<bordersize>2</bordersize>
+							</control>
+							<control type="label">
+								<width>285</width>
+								<height>35</height>
+								<align>center</align>
+								<textoffsetx>10</textoffsetx>
+								<textcolor>grey2</textcolor>
+								<label>$INFO[ListItem.Label]</label>
+							</control>
+						</control>
+					</control>
+				</focusedlayout>
+				<itemlayout width="320" height="320" condition="Window.IsActive(music) + Container.Content(genres)">
+					<control type="group">
+						<top>60</top>
+						<control type="image">
+							<width>320</width>
+							<height>320</height>
+							<aspectratio scalediffuse="false">scale</aspectratio>
+							<texture background="true" fallback="special://skin/extras/musicgenres/Default.jpg">$VAR[MusicGenreIconsPathVar]$INFO[ListItem.Label,,.jpg]</texture>
+							<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+							<bordersize>20</bordersize>
+						</control>
+						<control type="image">
+							<width>320</width>
+							<height>320</height>
+							<texture border="1" colordiffuse="66FFFFFF">black.png</texture>
+							<bordersize>20</bordersize>
+						</control>
+						<control type="group">
+							<left>18</left>
+							<top>262</top>
+							<visible>Skin.HasSetting(Enable.Wall.GenreLabels)</visible>
+							<control type="image">
+								<width>284</width>
+								<height>40</height>
+								<texture colordiffuse="88FFFFFF">black.png</texture>
+								<bordersize>2</bordersize>
+							</control>
+							<control type="label">
+								<width>285</width>
+								<height>35</height>
+								<align>center</align>
+								<textoffsetx>10</textoffsetx>
+								<textcolor>grey2</textcolor>
+								<label>$INFO[ListItem.Label]</label>
+							</control>
+						</control>
+					</control>
+				</itemlayout>
+				<focusedlayout width="320" height="320" condition="Window.IsActive(music) + Container.Content(genres)">
+					<control type="group">
+						<top>60</top>
+						<control type="image">
+							<width>320</width>
+							<height>320</height>
+							<aspectratio scalediffuse="false">scale</aspectratio>
+							<texture background="true" fallback="special://skin/extras/musicgenres/Default.jpg">$VAR[MusicGenreIconsPathVar]$INFO[ListItem.Label,,.jpg]</texture>
+							<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+							<bordersize>20</bordersize>
+						</control>
+						<control type="image">
+							<top>4</top>
+							<left>4</left>
+							<width>312</width>
+							<height>312</height>
+							<texture colordiffuse="$VAR[ThemeLabelColor]" border="10">thumbs/thumbnail_focused.png</texture>
+							<bordersize>8</bordersize>
+							<animation effect="fade" start="100" end="0" time="150" reversible="false">UnFocus</animation>
+							<animation effect="fade" start="0" end="100" time="150" reversible="false">Focus</animation>
+						</control>
+						<control type="group">
+							<left>18</left>
+							<top>262</top>
+							<visible>Skin.HasSetting(Enable.Wall.GenreLabels)</visible>
+							<control type="image">
+								<width>284</width>
+								<height>40</height>
+								<texture colordiffuse="88FFFFFF">black.png</texture>
+								<bordersize>2</bordersize>
+							</control>
+							<control type="label">
+								<width>285</width>
+								<height>35</height>
+								<align>center</align>
+								<textoffsetx>10</textoffsetx>
+								<textcolor>grey2</textcolor>
+								<label>$INFO[ListItem.Label]</label>
+							</control>
 						</control>
 					</control>
 				</focusedlayout>
