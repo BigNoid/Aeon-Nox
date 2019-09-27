@@ -212,6 +212,14 @@
 		<control type="group">
 			<include>ViewAnimation</include>
 			<visible>Control.IsVisible(57) + !Window.IsActive(addoninformation)</visible>
+			<control type="label" id="4443">
+				<label>$LOCALIZE[31966]</label>
+				<include>HiddenObject</include>
+				<visible>Skin.HasSetting(Enable.Shift.ArtistCDArt) + Container.Content(artists) + [!String.IsEmpty(Window(Home).Property(SkinInfo.Artist.Album.1.Art(discart))) | !String.IsEmpty(Window(Home).Property(SkinInfo.Artist.Album.2.Art(discart))) | !String.IsEmpty(Window(Home).Property(SkinInfo.Artist.Album.3.Art(discart))) | !String.IsEmpty(Window(Home).Property(SkinInfo.Artist.Album.4.Art(discart))) | !String.IsEmpty(Window(Home).Property(SkinInfo.Artist.Album.5.Art(discart))) | !String.IsEmpty(Window(Home).Property(SkinInfo.Artist.Album.6.Art(discart))) | !String.IsEmpty(Window(Home).Property(SkinInfo.Artist.Album.7.Art(discart))) | !String.IsEmpty(Window(Home).Property(SkinInfo.Artist.Album.8.Art(discart)))]</visible>
+				<include condition="!String.IsEmpty(Skin.String(Showcase.Delay))">ShowCaseDelayAnimation</include>
+				<animation effect="fade" end="100" time="120" delay="1600">WindowOpen</animation>
+				<animation effect="fade" end="100" time="120" delay="1600">Visible</animation>
+			</control>
 			<control type="fixedlist" id="57">
 				<left>-120</left>
 				<top>300</top>
@@ -246,9 +254,54 @@
 							<animation effect="slide" start="0,-150" end="0" time="350" tween="quadratic" easing="in">Unfocus</animation>
 							<visible>!String.IsEmpty(ListItem.Art(discart))</visible>
 						</control>
-						<include>ShiftSquareThumbs</include>
+						<control type="group">
+							<visible>![Skin.HasSetting(Enable.Shift.ArtistCDArt) + Container.Content(artists) + !Control.IsVisible(7000)] | [Container.OnNext | Container.OnPrevious]</visible>
+							<include>ShiftSquareThumbs</include>
+						</control>
 					</control>
 				</focusedlayout>
+			</control>
+			<control type="group" id="7000">
+				<visible>Skin.HasSetting(Enable.Shift.ArtistCDArt) + Container.Content(artists) + [Container.OnNext | Container.OnPrevious]</visible>
+				<animation effect="fade" time="400" end="0" reversible="false">Hidden</animation>
+				<control type="label">
+					<include>HiddenObject</include>
+				</control>
+			</control>
+			<control type="group">
+				<visible>Skin.HasSetting(Enable.Shift.ArtistCDArt) + Container.Content(artists) + !Control.IsVisible(7000)</visible>
+				<animation effect="fade" time="1">Visible</animation>
+				<control type="image">
+					<left>118</left>
+					<top>545</top>
+					<width>423</width>
+					<height>423</height>
+					<texture background="true">homewidgets/cases/default/square/cd_back.png</texture>
+				</control>
+				<control type="group">
+					<left>182</left>
+					<top>572</top>
+					<width>356</width>
+					<height>356</height>
+					<include>ShowCaseRollingAlbumDiscs</include>
+				</control>
+				<control type="group">
+					<animation type="Conditional" reversible="false" condition="[Control.IsVisible(4443)] + !ListItem.IsParentFolder">
+						<effect type="rotatey" center="170" start="0" end="40" time="1000" tween="quadratic" easing="out" />
+						<effect type="rotatey" delay="4500" center="170" start="0" end="-40" time="1000" tween="quadratic" easing="out" />
+					</animation>
+					<control type="image">
+						<left>140</left>
+						<top>535</top>
+						<width>430</width>
+						<height>430</height>
+						<aspectratio scalediffuse="false">scale</aspectratio>
+						<texture background="true">$INFO[ListItem.Icon]</texture>
+						<bordertexture border="20">thumbs/thumb_shadow.png</bordertexture>
+						<bordersize>20</bordersize>
+						<visible>Container.Content(artists)</visible>
+					</control>
+				</control>
 			</control>
 		</control>
 	</include>
