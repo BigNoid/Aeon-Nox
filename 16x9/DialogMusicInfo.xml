@@ -713,7 +713,7 @@
 					</control>
 					<control type="button">
 						<top>516</top>
-						<width>634</width>
+						<width>974</width>
 						<texturenofocus />
 						<disabledcolor>grey</disabledcolor>
 						<font>font15_bold</font>
@@ -722,7 +722,7 @@
 						<include>ButtonInfoDialogsCommonValues</include>
 						<label>$VAR[DialogInfoDetailsLabelVar]</label>
 						<enable>no</enable>
-						<visible>ControlGroup(9001).HasFocus + !Control(9003).HasFocus | Control.HasFocus(9060)</visible>
+						<visible>ControlGroup(9001).HasFocus + !Control(9003).HasFocus</visible>
 					</control>
 					<control type="grouplist" id="9000">
 						<left>620</left>
@@ -840,32 +840,32 @@
 						<animation effect="fade" start="100" end="78" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(9003)">Conditional</animation>
 					</control>
 				</control>
-				<control type="list" id="9050">
+				<control type="panel" id="9050">
 					<width>1195</width>
 					<height>490</height>
 					<preloaditems>2</preloaditems>
 					<onup>9003</onup>
-					<ondown>9060</ondown>
 					<viewtype label="">list</viewtype>
 					<scrolltime tween="quadratic" easing="out">300</scrolltime>
 					<orientation>horizontal</orientation>
-					<onclick>SetProperty(ArtistAlbumDBID,$INFO[Container.ListItem.DBID])</onclick>
-					<onclick>SetFocus(9060)</onclick>
+					<onclick>Dialog.Close(musicinformation)</onclick>
+					<onclick condition="!System.HasAddon(script.embuary.helper)">ActivateWindow(Music,"musicdb://albums/$INFO[ListItem.DBID]/")</onclick>
+					<onclick condition="System.HasAddon(script.embuary.helper)">RunScript(script.embuary.helper,action=goto,path='"musicdb://albums/$INFO[ListItem.DBID]/"',target=music)</onclick>
 					<visible>String.IsEqual(ListItem.DBTYPE,artist)</visible>
 					<itemlayout height="245" width="239">
 						<control type="image">
-							<left>2</left>
-							<top>4</top>
-							<width>220</width>
-							<height>220</height>
-							<bordersize>3</bordersize>
-							<bordertexture colordiffuse="shadow" border="3">thumbs/thumbnail_focused.png</bordertexture>
+							<left>5.25</left>
+							<top>2</top>
+							<width>218</width>
+							<height>218</height>
+							<bordersize>4</bordersize>
+							<bordertexture colordiffuse="shadow" border="4">thumbs/thumbnail_focused.png</bordertexture>
 							<aspectratio aligny="top">scale</aspectratio>
 							<texture background="true" fallback="DefaultMusicAlbums.png">$INFO[ListItem.Icon]</texture>
 						</control>
 						<control type="label">
 							<left>2</left>
-							<top>214</top>
+							<top>211</top>
 							<width>239</width>
 							<height>43</height>
 							<align>center</align>
@@ -878,18 +878,18 @@
 						<control type="group">
 							<animation effect="zoom" start="95" end="100" time="200" tween="sine" easing="inout" center="auto">Focus</animation>
 							<control type="image">
-								<left>2</left>
-								<top>4</top>
-								<width>220</width>
-								<height>220</height>
-								<bordersize>3</bordersize>
-								<bordertexture colordiffuse="$VAR[ThemeLabelColor]" border="3">thumbs/thumbnail_focused.png</bordertexture>
+								<left>5.25</left>
+								<top>2</top>
+								<width>218</width>
+								<height>218</height>
+								<bordersize>4</bordersize>
+								<bordertexture colordiffuse="$VAR[ThemeLabelColor]" border="4">thumbs/thumbnail_focused.png</bordertexture>
 								<aspectratio aligny="top">scale</aspectratio>
 								<texture background="true" fallback="DefaultMusicAlbums.png">$INFO[ListItem.Icon]</texture>
 							</control>
 							<control type="label">
 								<left>2</left>
-								<top>214</top>
+								<top>211</top>
 								<width>239</width>
 								<height>43</height>
 								<align>center</align>
@@ -900,7 +900,7 @@
 							</control>
 						</control>
 					</focusedlayout>
-					<content sortby="year" sortorder="ascending">$VAR[ArtistInfoPathVar]</content>
+					<content target="music" sortby="year" sortorder="ascending">$VAR[ArtistInfoPathVar]</content>
 				</control>
 				<control type="panel" id="50">
 					<width>1186</width>
@@ -911,8 +911,8 @@
 					<pagecontrol>61</pagecontrol>
 					<scrolltime tween="quadratic" easing="out">200</scrolltime>
 					<orientation>horizontal</orientation>
-					<visible>String.IsEqual(ListItem.DBTYPE,album)</visible>
-					<itemlayout height="82" width="593" condition="String.IsEqual(ListItem.DBTYPE,album)">
+					<visible>!String.IsEqual(ListItem.DBTYPE,artist)</visible>
+					<itemlayout height="82" width="593">
 						<control type="label">
 							<width>593</width>
 							<height>82</height>
@@ -931,7 +931,7 @@
 							<label>$INFO[ListItem.Duration]</label>
 						</control>
 					</itemlayout>
-					<focusedlayout height="82" width="593" condition="String.IsEqual(ListItem.DBTYPE,album)">
+					<focusedlayout height="82" width="593">
 						<control type="image">
 							<width>593</width>
 							<height>82</height>
@@ -957,54 +957,9 @@
 							<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
 						</control>
 					</focusedlayout>
-					<!-- <itemlayout height="82" width="593" condition="String.IsEqual(ListItem.DBTYPE,song)">
-						<control type="label">
-							<width>593</width>
-							<height>82</height>
-							<font>font15</font>
-							<textoffsetx>36</textoffsetx>
-							<textcolor>grey</textcolor>
-							<label>[CAPITALIZE]$INFO[ListItem.Label][/CAPITALIZE]</label>
-						</control>
-						<control type="label">
-							<width>593</width>
-							<height>82</height>
-							<font>font15</font>
-							<textoffsetx>15</textoffsetx>
-							<textcolor>grey</textcolor>
-							<align>right</align>
-							<label>[CAPITALIZE]$INFO[ListItem.Label2][/CAPITALIZE]</label>
-						</control>
-					</itemlayout> -->
-					<!-- <focusedlayout height="82" width="593" condition="String.IsEqual(ListItem.DBTYPE,song)">
-						<control type="image">
-							<width>593</width>
-							<height>82</height>
-							<texture colordiffuse="$VAR[HighlightBarColor]" border="5">listselect_fo.png</texture>
-							<visible>Control.HasFocus(50)</visible>
-							<include>VisibleFadeAnimation</include>
-						</control>
-						<control type="label">
-							<width>593</width>
-							<height>82</height>
-							<font>font15</font>
-							<textoffsetx>36</textoffsetx>
-							<label>[CAPITALIZE]$INFO[ListItem.Label][/CAPITALIZE]</label>
-							<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
-						</control>
-						<control type="label">
-							<width>593</width>
-							<height>82</height>
-							<font>font15</font>
-							<textoffsetx>15</textoffsetx>
-							<align>right</align>
-							<label>[CAPITALIZE]$INFO[ListItem.Label2][/CAPITALIZE]</label>
-							<animation effect="fade" start="100" end="40" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(50)">Conditional</animation>
-						</control>
-					</focusedlayout> -->
 				</control>
 			</control>
-			<control type="panel" id="9060">
+			<!-- <control type="panel" id="9060">
 				<left>5</left>
 				<top>840</top>
 				<width>1186</width>
@@ -1062,7 +1017,7 @@
 					</control>
 				</focusedlayout>
 				<content sortby="tracknumber" sortorder="ascending">$VAR[ArtistAlbumInfoPathVar]</content>
-			</control>
+			</control> -->
 		</control>
 		<control type="button" id="6">
 			<description>Refresh</description>

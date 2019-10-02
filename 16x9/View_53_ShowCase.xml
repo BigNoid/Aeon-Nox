@@ -117,32 +117,35 @@
 		</focusedlayout>
 	</include>
 	<include name="View_53_ShowCase">
-		<control type="label" id="4444">
-			<description>ShowCase Open Case Movies</description>
-			<label>$LOCALIZE[31966]</label>
-			<include>HiddenObject</include>
-			<include condition="!String.IsEmpty(Skin.String(Showcase.Delay))">ShowCaseDelayAnimation</include>
-			<animation effect="fade" end="100" time="120" delay="1600">WindowOpen</animation>
-			<animation effect="fade" end="100" time="120" delay="1600">Visible</animation>
-			<visible>Control.IsVisible(53) + Skin.HasSetting(showcasemod) + !Container.Content(genres) + [Container.Content(movies) | Container.Content(sets)] + !ListItem.IsCollection</visible>
-		</control>
-		<control type="label" id="4445">
-			<description>ShowCase Boxset Mod</description>
-			<label>$LOCALIZE[31965]</label>
-			<include>HiddenObject</include>
-			<include condition="!String.IsEmpty(Skin.String(Showcase.Delay))">ShowCaseDelayAnimation</include>
-			<animation effect="fade" end="100" time="120" delay="1600">WindowOpen</animation>
-			<animation effect="fade" end="100" time="120" delay="1600">Visible</animation>
-			<visible>[Control.IsVisible(53) + Skin.HasSetting(boxsetmod) + ListItem.IsCollection] + !Container.Content(genres)</visible>
-		</control>
-		<control type="label" id="4446">
-			<description>ShowCase Open Case Sets</description>
-			<label>$LOCALIZE[31966]</label>
-			<include>HiddenObject</include>
-			<include condition="!String.IsEmpty(Skin.String(Showcase.Delay))">ShowCaseDelayAnimation</include>
-			<animation effect="fade" end="100" time="120" delay="1600">WindowOpen</animation>
-			<animation effect="fade" end="100" time="120" delay="1600">Visible</animation>
-			<visible>Control.IsVisible(53) + Skin.HasSetting(showcasemod) + !Skin.HasSetting(boxsetmod) + !Container.Content(genres) + [Container.Content(movies) | Container.Content(sets)] + ListItem.IsCollection</visible>
+		<control type="group">
+			<visible>Control.IsVisible(53) + !Container.Content(genres)</visible>
+			<control type="label" id="4444">
+				<description>ShowCase Open Case Movies</description>
+				<label>$LOCALIZE[31966]</label>
+				<include>HiddenObject</include>
+				<include condition="!String.IsEmpty(Skin.String(Showcase.Delay))">ShowCaseDelayAnimation</include>
+				<animation effect="fade" end="100" time="120" delay="1600">WindowOpen</animation>
+				<animation effect="fade" end="100" time="120" delay="1600">Visible</animation>
+				<visible>Skin.HasSetting(showcasemod) + !ListItem.IsCollection + Container.Content(movies)</visible>
+			</control>
+			<control type="label" id="4445">
+				<description>ShowCase Boxset Mod</description>
+				<label>$LOCALIZE[31965]</label>
+				<include>HiddenObject</include>
+				<include condition="!String.IsEmpty(Skin.String(Showcase.Delay))">ShowCaseDelayAnimation</include>
+				<animation effect="fade" end="100" time="120" delay="1600">WindowOpen</animation>
+				<animation effect="fade" end="100" time="120" delay="1600">Visible</animation>
+				<visible>System.HasAddon(script.skin.info.service) + Skin.HasSetting(boxsetmod) + ListItem.IsCollection</visible>
+			</control>
+			<control type="label" id="4446">
+				<description>ShowCase Open Case Sets</description>
+				<label>$LOCALIZE[31966]</label>
+				<include>HiddenObject</include>
+				<include condition="!String.IsEmpty(Skin.String(Showcase.Delay))">ShowCaseDelayAnimation</include>
+				<animation effect="fade" end="100" time="120" delay="1600">WindowOpen</animation>
+				<animation effect="fade" end="100" time="120" delay="1600">Visible</animation>
+				<visible>System.HasAddon(script.skin.info.service) + Skin.HasSetting(showcasemod) + ListItem.IsCollection + !Skin.HasSetting(boxsetmod) + [Container.Content(movies) | Container.Content(sets)]</visible>
+			</control>
 		</control>
 		<control type="group">
 			<visible>Control.IsVisible(53)</visible>
@@ -796,12 +799,6 @@
 					<aspectratio>scale</aspectratio>
 					<fadetime>200</fadetime>
 					<imagepath background="true" fallback="DefaultVideo.png">$VAR[ShowcaseFocusedItem0Var]</imagepath>
-				</control>
-				<control type="image">
-					<include>MovieShowcaseThumb</include>
-					<texture colordiffuse="00FFFFFF">black.png</texture>
-					<bordertexture border="20">thumbs/thumb_shadow_aa.png</bordertexture>
-					<bordersize>20</bordersize>
 				</control>
 				<control type="image">
 					<texture background="true">$VAR[CaseTypePathVar]$VAR[GlobalCaseVar]</texture>
@@ -1738,7 +1735,7 @@
 							<height>280</height>
 							<align>center</align>
 							<aligny>top</aligny>
-							<label>[B]$INFO[Window(Home).Property(SkinInfo.Set.Movies.Count),, $LOCALIZE[342]][/B]</label>
+							<label>[B]$INFO[Container(4500).NumItems,, $LOCALIZE[342]][/B]</label>
 							<font>font10</font>
 							<textcolor>black</textcolor>
 						</control>
