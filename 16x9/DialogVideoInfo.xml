@@ -4,6 +4,7 @@
 	<onload condition="![Window.IsActive(home) + String.IsEqual(ListItem.DBTYPE,tvshow)] + ![String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) | System.HasAddon(script.cinemavision)]">SetFocus(8)</onload>
 	<onload condition="![Window.IsActive(home) + String.IsEqual(ListItem.DBTYPE,tvshow)] + String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) + System.HasAddon(script.cinemavision)">SetFocus(909)</onload>
 	<onload condition="Window.IsActive(home) + String.IsEqual(ListItem.DBTYPE,tvshow)">SetFocus(808)</onload>
+	<onunload condition="!String.IsEmpty(Window(movieinformation).Property(FSFanart))">ClearProperty(FSFanart,movieinformation)</onunload>
 	<controls>
 		<!-- <control type="list" id="9888">
 			<include>HiddenList</include>
@@ -844,13 +845,11 @@
 						<texturenofocus />
 						<include>ButtonInfoDialogsCommonValues</include>
 						<label></label>
-						<onclick>SetProperty(TVDBID,$INFO[ListItem.DBID],Home)</onclick>
 						<onclick>Dialog.Close(movieinformation)</onclick>
-						<onclick condition="String.IsEqual(ListItem.DBTYPE,movie) + String.IsEmpty(ListItem.SetID)">ActivateWindow(Videos,videodb://movies/titles/$INFO[Window(Home).Property(TVDBID)],return)</onclick>
-						<onclick condition="String.IsEqual(ListItem.DBTYPE,movie) + !String.IsEmpty(ListItem.SetID)">ActivateWindow(Videos,videodb://movies/sets/$INFO[ListItem.SetId]/?setid=$INFO[ListItem.SetId])</onclick>
-						<!-- <onclick condition="System.HasAddon(script.embuary.helper) + String.IsEqual(ListItem.DBTYPE,movie) + !String.IsEmpty(ListItem.SetID)">RunScript(script.embuary.helper,action=goto,path='"videodb://movies/sets/$INFO[ListItem.SetId]/?setid=$INFO[ListItem.SetId]"',target=videos)</onclick> -->
-						<onclick condition="String.IsEqual(ListItem.DBTYPE,tvshow)">ActivateWindow(Videos,videodb://tvshows/titles/$INFO[Window(Home).Property(TVDBID)],return)</onclick>
-						<visible>Window.IsActive(home) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,set) | String.IsEqual(ListItem.DBTYPE,tvshow)]</visible>
+						<onclick condition="String.IsEqual(ListItem.DBTYPE,movie) + String.IsEmpty(ListItem.SetID)">ActivateWindow(Videos,videodb://movies/titles/$INFO[ListItem.DBID],return)</onclick>
+						<onclick condition="String.IsEqual(ListItem.DBTYPE,movie) + !String.IsEmpty(ListItem.SetID)">ActivateWindow(Videos,videodb://movies/sets/$INFO[ListItem.SetId]/?setid=$INFO[ListItem.SetId],return)</onclick>
+						<onclick condition="String.IsEqual(ListItem.DBTYPE,tvshow)">ActivateWindow(Videos,videodb://tvshows/titles/$INFO[ListItem.DBID],return)</onclick>
+						<visible>Window.IsActive(home) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)]</visible>
 					</control>
 					<control type="button" id="909">
 						<description>CinemaVision</description>
@@ -943,6 +942,8 @@
 						<texturenofocus />
 						<include>ButtonInfoDialogsCommonValues</include>
 						<label></label>
+						<!-- <onclick>SetProperty(KodiDBID,$INFO[ListItem.DBID],movieinformation)</onclick> -->
+						<onclick>SetProperty(FSFanart,$INFO[ListItem.Art(fanart)],movieinformation)</onclick>
 						<onclick condition="Window.IsActive(home) + System.HasAddon(script.embuary.info) + String.IsEqual(ListItem.DBTYPE,movie)">SetProperty(EmbuaryInfoSearchType,movie,Home)</onclick>
 						<onclick condition="Window.IsActive(home) + System.HasAddon(script.embuary.info) + String.IsEqual(ListItem.DBTYPE,tvshow)">SetProperty(EmbuaryInfoSearchType,tvshow,Home)</onclick>
 						<onclick condition="Window.IsActive(home) + System.HasAddon(script.embuary.info) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] + !String.IsEmpty(ListItem.IMDBNumber)">SetProperty(EmbuaryInfoSearchStringIMDB,$INFO[ListItem.IMDBNumber],Home)</onclick>
