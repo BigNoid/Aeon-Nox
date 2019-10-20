@@ -21,11 +21,15 @@
 		</control>
 		<control type="button" id="4401">
 			<include>HiddenObject</include>
-			<onfocus>SetProperty(MediaMenu,True,Home)</onfocus>
-			<onfocus>SetFocus(9050)</onfocus>
+			<onfocus condition="[!Skin.HasSetting(Enable.ManualInfoPanel) | String.IsEmpty(Control.GetLabel(4420))] + !Control.IsVisible(95462)">SetProperty(MediaMenu,True,Home)</onfocus>
+			<onfocus condition="[!Skin.HasSetting(Enable.ManualInfoPanel) | String.IsEmpty(Control.GetLabel(4420))] + !Control.IsVisible(95462)">SetFocus(9050)</onfocus>
+			<onup condition="Control.IsVisible(95462)">SetFocus(95462)</onup>
+			<onup condition="!Control.IsVisible(95462)">SetProperty(MediaMenu,True,Home)</onup>
+			<onup condition="!Control.IsVisible(95462)">SetFocus(9050)</onup>
 			<ondown>50</ondown>
 			<onleft>50</onleft>
 			<onright>50</onright>
+			<visible>Skin.HasSetting(Enable.ManualInfoPanel)</visible>
 		</control>
 		<control type="fadelabel" id="4410">
 			<top>-100</top>
@@ -354,6 +358,15 @@
 					<onclick condition="Control.IsVisible(54)">$VAR[54MusicInfoPanelVar]</onclick>
 					<visible>Control.IsVisible(52) | Control.IsVisible(54)</visible>
 					<visible>Container.Content(albums) | Container.Content(artists)</visible>
+				</control>
+				<control type="radiobutton" id="6052">
+					<textwidth>352</textwidth>
+					<include>ButtonCommonValues</include>
+					<label>   - $LOCALIZE[413]</label>
+					<onclick>Skin.ToggleSetting(Enable.ManualInfoPanel)</onclick>
+					<onclick condition="!Skin.HasSetting(Enable.ManualInfoPanel)">Skin.Reset(InfoPanel.Delay)</onclick>
+					<selected>Skin.HasSetting(Enable.ManualInfoPanel)</selected>
+					<visible>!Container.Content(genres) + Window.IsActive(music) + Control.IsVisible(6051) + !String.IsEmpty(Control.GetLabel(4420))</visible>
 				</control>
 				<control type="button" id="201">
 					<description>View options</description>
