@@ -1007,7 +1007,7 @@
 				<left>1280</left>
 				<top>-40</top>
 				<visible>![Container.Content(movies) | Container.Content(genres) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(musicvideos) | Container.Content() | Container.Content(files) | Container.Content(addons)]</visible>
-				<include>VisibleFadeAnimation</include>
+				<animation effect="fade" time="250">Visible</animation>
 				<control type="image">
 					<top>148</top>
 					<width>570</width>
@@ -1262,7 +1262,10 @@
 					<height>840</height>
 					<onleft>SetProperty(MediaMenu,True,Home)</onleft>
 					<onleft>SetFocus(9050)</onleft>
-					<onright>95060</onright>
+					<onright condition="Control.IsVisible(95060)">95060</onright>
+					<onright condition="!Control.IsVisible(95060) + Control.IsVisible(95061)">95061</onright>
+					<onright condition="!Control.IsVisible(95060) + Control.IsVisible(95063)">95063</onright>
+					<onright condition="!Control.IsVisible(95060) + !Control.IsVisible(95061)">4400</onright>
 					<onup>50</onup>
 					<ondown>50</ondown>
 					<viewtype label="535">list</viewtype>
@@ -1629,7 +1632,7 @@
 			<control type="group">
 				<left>1296</left>
 				<top>155</top>
-				<visible>!Container.Content(genres)</visible>
+				<visible>Container.Content(artists) | Container.Content(albums) | Container.Content(songs) | Container.Content() | Container.Content(files) | Container.Content(addons)</visible>
 				<control type="image">
 					<width>570</width>
 					<height>835</height>
@@ -1670,6 +1673,107 @@
 					<fadetime>IconCrossfadeTime</fadetime>
 					<texture diffuse="thumbs/thumb_reflect.png" flipy="true" background="true" fallback="special://skin/extras/musicgenres/Default.jpg">$INFO[ListItem.Label,special://skin/extras/musicgenres/,.jpg]</texture>
 					<bordersize>20</bordersize>
+				</control>
+			</control>
+			<control type="group" id="8001">
+				<left>1280</left>
+				<top>-40</top>
+				<visible>Container.Content(playlists)</visible>
+				<animation effect="fade" time="250">Visible</animation>
+				<control type="image">
+					<top>148</top>
+					<width>570</width>
+					<height>904</height>
+					<texture colordiffuse="E6FFFFFF" border="40">listpanel_back.png</texture>
+				</control>
+				<control type="scrollbar" id="95063">
+					<left>540</left>
+					<top>180</top>
+					<width>12</width>
+					<height>840</height>
+					<onleft>8000</onleft>
+					<onright>4400</onright>
+					<texturesliderbackground colordiffuse="1AFFFFFF">colors/white50.png</texturesliderbackground>
+					<texturesliderbar colordiffuse="1AFFFFFF">colors/white.png</texturesliderbar>
+					<texturesliderbarfocus colordiffuse="$VAR[ThemeLabelColor]">colors/white.png</texturesliderbarfocus>
+					<showonepage>false</showonepage>
+				</control>
+				<control type="panel" id="8000">
+					<left>26</left>
+					<top>180</top>
+					<width>516</width>
+					<height>840</height>
+					<onleft>50</onleft>
+					<onright condition="Control.IsVisible(95063)">95063</onright>
+					<onright condition="!Control.IsVisible(95063)">4400</onright>
+					<viewtype label="535">list</viewtype>
+					<pagecontrol>95063</pagecontrol>
+					<scrolltime tween="quadratic" easing="out">200</scrolltime>
+					<animation effect="fade" start="100" end="0" time="150" condition="Container(8000).IsUpdating">Conditional</animation>
+					<itemlayout height="60" width="516">
+						<control type="label">
+							<width>516</width>
+							<height>60</height>
+							<font>font14</font>
+							<textcolor>grey2</textcolor>
+							<textoffsetx>15</textoffsetx>
+							<label>$INFO[ListItem.Label]</label>
+						</control>
+						<control type="label">
+							<width>516</width>
+							<height>60</height>
+							<font>font14</font>
+							<align>right</align>
+							<textcolor>grey2</textcolor>
+							<textoffsetx>15</textoffsetx>
+							<label>$INFO[ListItem.Artist]</label>
+						</control>
+					</itemlayout>
+					<focusedlayout height="60" width="516">
+						<control type="image">
+							<left>5</left>
+							<width>506</width>
+							<height>60</height>
+							<texture colordiffuse="$VAR[HighlightBarColor]" border="5">listselect_fo.png</texture>
+						</control>
+						<control type="label">
+							<width>516</width>
+							<height>60</height>
+							<font>font14</font>
+							<textoffsetx>15</textoffsetx>
+							<label>$INFO[ListItem.Label]</label>
+						</control>
+						<control type="label">
+							<width>516</width>
+							<height>60</height>
+							<font>font14</font>
+							<align>right</align>
+							<textoffsetx>15</textoffsetx>
+							<label>$INFO[ListItem.Artist]</label>
+						</control>
+					</focusedlayout>
+					<content target="music" sortby="$VAR[ListSortByVar]" sortorder="ascending">$VAR[ListContentVar]</content>
+				</control>
+				<control type="group">
+					<description>Busy animation</description>
+					<visible>Container(8000).IsUpdating</visible>
+					<include>SettingsFadeAnimation</include>
+					<left>236</left>
+					<top>552</top>
+					<control type="image">
+						<width>96</width>
+						<height>96</height>
+						<texture colordiffuse="$VAR[ThemeLabelColor]">android/spinner_48_inner_holo.png</texture>
+						<aspectratio>keep</aspectratio>
+						<animation effect="rotate" start="0" end="360" center="auto" time="2000" loop="true" condition="true">Conditional</animation>
+					</control>
+					<control type="image">
+						<width>96</width>
+						<height>96</height>
+						<texture colordiffuse="$VAR[ThemeLabelColor]">android/spinner_48_outer_holo.png</texture>
+						<aspectratio>keep</aspectratio>
+						<animation effect="rotate" start="360" end="0" center="auto" time="2000" loop="true" condition="true">Conditional</animation>
+					</control>
 				</control>
 			</control>
 		</control>
