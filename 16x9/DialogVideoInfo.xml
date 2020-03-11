@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
+	<onunload>SetProperty(TMDbHelperContentPath,-,home)</onunload>
+	<onload condition="System.HasAddon(plugin.video.themoviedb.helper)">SetProperty(TMDbHelperContentPath,plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;imdb_id=$INFO[ListItem.IMDBNumber],home)</onload>
 	<onload>SetFocus(90003)</onload>
 	<onload condition="![Window.IsActive(home) + String.IsEqual(ListItem.DBTYPE,tvshow)] + ![String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) + System.HasAddon(script.cinemavision)]">SetFocus(8)</onload>
 	<onload condition="![Window.IsActive(home) + String.IsEqual(ListItem.DBTYPE,tvshow)] + String.IsEqual(Skin.String(CinemaVision.Button),$LOCALIZE[31232]) + System.HasAddon(script.cinemavision)">SetFocus(909)</onload>
 	<onload condition="Window.IsActive(home) + String.IsEqual(ListItem.DBTYPE,tvshow)">SetFocus(808)</onload>
 	<onunload condition="!String.IsEmpty(Window(movieinformation).Property(FSFanart))">ClearProperty(FSFanart,movieinformation)</onunload>
 	<controls>
-		<!-- <control type="list" id="9888">
-			<include>HiddenList</include>
-			<content>plugin://plugin.video.themoviedb.helper/?info=find&amp;type=movie&amp;imdb_id=$INFO[ListItem.IMDBNumber]</content>
-		</control> -->
 		<control type="textbox" id="4">
 			<include>HiddenObject</include>
 		</control>
@@ -45,15 +43,18 @@
 			<label>$INFO[ListItem.Art(poster20)]</label>
 			<include>FadeLabelTime</include>
 		</control>
+		<control type="list" id="9888">
+			<include>HiddenList</include>
+			<content>$INFO[Window(Home).Property(TMDbHelperContentPath)]</content>
+		</control>
 		<control type="multiimage" id="7975">
 			<include>HiddenObject</include>
 			<imagepath background="true">$VAR[PosterVar]</imagepath>
 		</control>
 		<!-- Poster Side -->
 		<control type="group">
-			<animation effect="slide" start="-730,0" end="0,0" time="320" tween="quadratic" condition="!Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
-			<animation effect="slide" start="-730,0" end="0,0" delay="250" time="320" tween="quadratic" condition="Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
-			<animation effect="slide" end="-730,0" time="500" tween="quadratic">WindowClose</animation>
+			<animation effect="slide" start="-730,0" end="0,0" delay="200" time="320" tween="quadratic">WindowOpen</animation>
+			<animation effect="slide" end="-730,0" delay="100" time="500" tween="quadratic">WindowClose</animation>
 			<animation effect="slide" end="-730,0" time="500" tween="quadratic" condition="Window.IsVisible(script-embuary-person.xml) | Window.IsVisible(script-embuary-video.xml)">Conditional</animation>
 			<width>720</width>
 			<height>100%</height>
@@ -75,9 +76,8 @@
 		</control>
 		<!-- Details Side -->
 		<control type="group">
-			<animation effect="slide" start="1210,0" end="0,0" time="320" tween="quadratic" condition="!Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
-			<animation effect="slide" start="1210,0" end="0,0" delay="250" time="320" tween="quadratic" condition="Skin.HasSetting(Enable.BlurredVideoInfo)">WindowOpen</animation>
-			<animation effect="slide" end="1210,0" time="500" tween="quadratic">WindowClose</animation>
+			<animation effect="slide" start="1210,0" end="0,0" delay="200" time="320" tween="quadratic">WindowOpen</animation>
+			<animation effect="slide" end="1210,0" delay="100" time="500" tween="quadratic">WindowClose</animation>
 			<animation effect="slide" end="1210,0" time="500" tween="quadratic" condition="Window.IsVisible(script-embuary-person.xml) | Window.IsVisible(script-embuary-video.xml)">Conditional</animation>
 			<left>720</left>
 			<control type="group">
@@ -142,7 +142,7 @@
 								<scrollout>false</scrollout>
 								<pauseatend>5500</pauseatend>
 								<label>$INFO[ListItem.Tagline]</label>
-								<label>$INFO[Window(Home).Property(SkinHelper.ListItem.Awards)]</label>
+								<label>$INFO[Container(9888).ListItem.Property(Awards)]</label>
 								<label>$INFO[ListItem.EndTime,$LOCALIZE[31393]: ,]</label>
 								<visible>!String.IsEmpty(ListItem.Tagline) + [String.IsEmpty(ListItem.OriginalTitle) | String.IsEqual(ListItem.OriginalTitle,ListItem.Title)]</visible>
 							</control>
@@ -157,10 +157,10 @@
 								<scrollout>false</scrollout>
 								<pauseatend>4500</pauseatend>
 								<label>$INFO[ListItem.Tagline]</label>
-								<label>$INFO[Window(Home).Property(SkinHelper.ListItem.Awards)]</label>
+								<label>$INFO[Container(9888).ListItem.Property(Awards)]</label>
 								<label>$INFO[ListItem.EndTime,$LOCALIZE[31393]: ,]</label>
 								<label>$INFO[ListItem.OriginalTitle]</label>
-								<visible>!String.IsEmpty(ListItem.Tagline) + !String.IsEmpty(ListItem.OriginalTitle) + !String.IsEqual(ListItem.OriginalTitle,ListItem.Title)</visible>
+								<visible>String.IsEmpty(ListItem.Tagline) + !String.IsEqual(ListItem.OriginalTitle,ListItem.Title)</visible>
 							</control>
 							<control type="label">
 								<height>30</height>
@@ -168,7 +168,7 @@
 								<textcolor>$VAR[ThemeLabelColor]</textcolor>
 								<scroll>true</scroll>
 								<label>$INFO[ListItem.EndTime,$LOCALIZE[31393]: ,]</label>
-								<visible>String.IsEmpty(ListItem.Tagline) + String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Awards)) + [String.IsEmpty(ListItem.OriginalTitle) | String.IsEqual(ListItem.OriginalTitle,ListItem.Title)]</visible>
+								<visible>String.IsEmpty(ListItem.Tagline) + String.IsEmpty(Container(9888).ListItem.Property(Awards)) + [String.IsEmpty(ListItem.OriginalTitle) | String.IsEqual(ListItem.OriginalTitle,ListItem.Title)]</visible>
 							</control>
 						</control>
 						<!-- Set labels -->
@@ -198,8 +198,8 @@
 								<scrollout>false</scrollout>
 								<pauseatend>4500</pauseatend>
 								<label>$VAR[VideoInfoTVSubtitleVar]</label>
-								<label>$INFO[Window(Home).Property(SkinHelper.ListItem.Awards)]</label>
-								<visible>[!String.IsEmpty(ListItem.Status) | !String.IsEmpty(Window(Home).Property(NextAired.Status))] + !String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Awards))</visible>
+								<label>$INFO[Container(9888).ListItem.Property(Awards)]</label>
+								<visible>[!String.IsEmpty(ListItem.Status) | !String.IsEmpty(Window(Home).Property(NextAired.Status))] + !String.IsEmpty(Container(9888).ListItem.Property(Awards))</visible>
 							</control>
 							<control type="label">
 								<width>1180</width>
@@ -209,7 +209,7 @@
 								<font>font15</font>
 								<textcolor>$VAR[ThemeLabelColor]</textcolor>
 								<label>$VAR[VideoInfoTVSubtitleVar]</label>
-								<visible>[!String.IsEmpty(ListItem.Status) | !String.IsEmpty(Window(Home).Property(NextAired.Status))] + String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Awards))</visible>
+								<visible>[!String.IsEmpty(ListItem.Status) | !String.IsEmpty(Window(Home).Property(NextAired.Status))] + String.IsEmpty(Container(9888).ListItem.Property(Awards))</visible>
 							</control>
 						</control>
 						<!-- Episode Fadelabels -->
@@ -635,20 +635,20 @@
 								<visible>!String.IsEmpty(ListItem.Premiered) + !String.IsEqual(ListItem.DBTYPE,movie)</visible>
 							</item>
 							<item>
-								<label>$INFO[Window(Home).Property(SkinHelper.ListItem.Budget.formatted),$]</label>
+								<label>$INFO[Container(9888).ListItem.Property(Budget)]</label>
 								<label2>$LOCALIZE[31850]:</label2>
 								<onclick>SetProperty(MoreInfoTitle,$LOCALIZE[31850])</onclick>
-								<onclick>SetProperty(MoreInfoContent,$ESCINFO[Window(Home).Property(SkinHelper.ListItem.Budget.formatted),$])</onclick>
+								<onclick>SetProperty(MoreInfoContent,$ESCINFO[Container(9888).ListItem.Property(Budget)])</onclick>
 								<onclick>SetFocus(64)</onclick>
-								<visible>!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Budget.formatted)) + String.IsEqual(ListItem.DBTYPE,movie) + !String.IsEqual(Window(Home).Property(SkinHelper.ListItem.Budget.formatted),0)</visible>
+								<visible>!String.IsEmpty(Container(9888).ListItem.Property(Budget)) + Integer.IsGreater(Container(9888).NumItems,0) + String.IsEqual(ListItem.DBTYPE,movie) + !String.IsEqual(Container(9888).ListItem.Property(Budget),0)</visible>
 							</item>
 							<item>
-								<label>$INFO[Window(Home).Property(SkinHelper.ListItem.Revenue.formatted),$]</label>
+								<label>$INFO[Container(9888).ListItem.Property(Revenue)]</label>
 								<label2>$LOCALIZE[31851]:</label2>
 								<onclick>SetProperty(MoreInfoTitle,$LOCALIZE[31851])</onclick>
-								<onclick>SetProperty(MoreInfoContent,$ESCINFO[Window(Home).Property(SkinHelper.ListItem.Revenue.formatted),$])</onclick>
+								<onclick>SetProperty(MoreInfoContent,$ESCINFO[Container(9888).ListItem.Property(Revenue)])</onclick>
 								<onclick>SetFocus(64)</onclick>
-								<visible>!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Revenue.formatted)) + String.IsEqual(ListItem.DBTYPE,movie) + !String.IsEqual(Window(Home).Property(SkinHelper.ListItem.Revenue.formatted),0)</visible>
+								<visible>!String.IsEmpty(Container(9888).ListItem.Property(Revenue)) + String.IsEqual(ListItem.DBTYPE,movie) + !String.IsEqual(Container(9888).ListItem.Property(Revenue),0)</visible>
 							</item>
 							<item>
 								<label>$INFO[ListItem.Premiered]</label>
