@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
+	<variable name="TMDbHelperNextAiredLabelVar">
+		<value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired))">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[19031]:[/COLOR] $INFO[Window(Home).Property(TMDbHelper.ListItem.Next_Aired),, • ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Next_Aired.Season),S]$INFO[Window(Home).Property(TMDbHelper.ListItem.Next_Aired.Episode),E, - ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Next_Aired.Name)]</value>
+		<value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[31374]:[/COLOR] $INFO[Window(Home).Property(TMDbHelper.ListItem.Last_Aired),, • ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Last_Aired.Season),S]$INFO[Window(Home).Property(TMDbHelper.ListItem.Last_Aired.Episode),E, - ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Last_Aired.Name)]</value>
+	</variable>
 	<variable name="MovieSetsPathVar">
 		<value condition="String.IsEqual(ListItem.DBTYPE,set)">videodb://movies/sets/$INFO[ListItem.DBID]/?setid=$INFO[ListItem.DBID]</value>
 	</variable>
@@ -281,7 +285,7 @@
 	</variable>
 	<variable name="BreadcrumbsIconVar">
 		<value condition="Window.IsActive(script-globalsearch.xml)"></value>
-		<value condition="Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | Window.IsActive(tvchannels) | Window.IsActive(TVGuide) | Window.IsActive(TVRecordings) | Window.IsActive(TVTimers) | Window.IsActive(TVSearch) | Window.IsActive(script-NextAired-TVGuide.xml) | Window.IsActive(script-NextAired-TVGuide2.xml) | [Container.Content(genres) + String.StartsWith(Container.FolderPath,videodb://tvshows/genres/)]"></value>
+		<value condition="Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | Window.IsActive(tvchannels) | Window.IsActive(TVGuide) | Window.IsActive(TVRecordings) | Window.IsActive(TVTimers) | Window.IsActive(TVSearch) | [Container.Content(genres) + String.StartsWith(Container.FolderPath,videodb://tvshows/genres/)]"></value>
 		<value condition="Container.Content(movies) | Container.Content(sets) | [Container.Content(genres) + String.StartsWith(Container.FolderPath,videodb://movies/genres/)]"></value>
 		<value condition="Window.IsActive(videos)"></value>
 		<value condition="Container.Content(artists) | Container.Content(albums) | Container.Content(songs)"></value>
@@ -301,7 +305,6 @@
 		<value condition="Window.IsActive(1140)">$LOCALIZE[20077]: $LOCALIZE[31340]</value>
 		<value condition="Window.IsActive(1117)">$LOCALIZE[20077]: $LOCALIZE[31279]</value>
 		<value condition="Window.IsActive(1112) + !String.IsEmpty(Window(Home).Property(AddonNews))">$LOCALIZE[24054]: </value>
-		<value condition="Window.IsActive(script-NextAired-TVGuide.xml) | Window.IsActive(script-NextAired-TVGuide2.xml)">$INFO[System.AddonTitle(script.tv.show.next.aired)]</value>
 		<value condition="Window.IsActive(skinsettings)">$LOCALIZE[20077]</value>
 		<value condition="Window.IsActive(RadioChannels) | Window.IsActive(RadioGuide) | Window.IsActive(RadioRecordings) | Window.IsActive(RadioSearch)">$LOCALIZE[19183]: </value>
 		<value condition="!String.IsEmpty(Container.FolderName) + !String.IsEqual(System.CurrentWindow,Container.FolderName)">$INFO[System.CurrentWindow]: </value>
@@ -677,19 +680,19 @@
 	<variable name="InfoPanelLabel1Var">
 		<value condition="[Container.Content(movies) | Container.Content(episodes) | Container.Content(sets)] + !String.IsEmpty(Window(Home).Property(SkinInfo.Set.Movies.Director))">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[31000]:[/COLOR][CR]$INFO[Window(Home).Property(SkinInfo.Set.Movies.Director)]</value>
 		<value condition="[Container.Content(movies) | Container.Content(episodes) | Container.Content(sets)]">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[31000]:[/COLOR][CR]$INFO[ListItem.Director]</value>
-		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEmpty(Window(Home).Property(NextAired.Status))">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[126]:[/COLOR][CR]$INFO[Window(Home).Property(NextAired.Status)]</value>
+		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[126]:[/COLOR][CR]$INFO[Window(Home).Property(TMDbHelper.ListItem.Status)]</value>
 		<value condition="[Container.Content(tvshows) | Container.Content(seasons)]">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[515]:[/COLOR][CR]$INFO[ListItem.Genre]</value>
 	</variable>
 	<variable name="InfoPanelLabel2Var">
 		<value condition="[Container.Content(movies) | Container.Content(episodes) | Container.Content(sets)] + !String.IsEmpty(Window(Home).Property(SkinInfo.Set.Movies.Writer))">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[31001]:[/COLOR][CR]$INFO[Window(Home).Property(SkinInfo.Set.Movies.Writer)]</value>
 		<value condition="[Container.Content(movies) | Container.Content(episodes) | Container.Content(sets)]">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[31001]:[/COLOR][CR]$INFO[ListItem.Writer]</value>
-		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEmpty(Window(Home).Property(NextAired.NextDate))">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[31010]:[/COLOR][CR]$INFO[Window(Home).Property(NextAired.NextDate),,: ]$INFO[Window(Home).Property(NextAired.NextTitle)]</value>
-		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEmpty(Window(Home).Property(NextAired.LatestDate))">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[31011]:[/COLOR][CR]$INFO[Window(Home).Property(NextAired.LatestNumber),, - ]$INFO[Window(Home).Property(NextAired.LatestTitle)]</value>
+		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired))">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[31010]:[/COLOR][CR]$INFO[Window(Home).Property(TMDbHelper.ListItem.Next_Aired),,: ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Next_Aired.Name)]</value>
+		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[31011]:[/COLOR][CR]$INFO[Window(Home).Property(TMDbHelper.ListItem.Last_Aired.Season),S]$INFO[Window(Home).Property(TMDbHelper.ListItem.Last_Aired.Episode),E,  -]$INFO[Window(Home).Property(TMDbHelper.ListItem.Last_Aired.Name)]</value>
 		<value condition="[Container.Content(tvshows) | Container.Content(seasons)]">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[31019]:[/COLOR][CR]$INFO[ListItem.Studio]</value>
 	</variable>
 	<variable name="InfoPanelLabel3Var">
 		<value condition="[Container.Content(movies) | Container.Content(episodes) | Container.Content(sets)]">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[563]:[/COLOR][CR]$INFO[ListItem.RatingAndVotes]$INFO[ListItem.Top250, / $LOCALIZE[13409] #]</value>
-		<value condition="Container.Content(tvshows) + !String.IsEmpty(Window(Home).Property(NextAired.Status))">[COLOR $VAR[ThemeLabelColor]]$INFO[ListItem.Property(TotalSeasons)]$VAR[OneOrMoreSeasonsVar, , / ]$INFO[ListItem.Property(TotalEpisodes),, ]$VAR[OneOrMoreEpisodesVar]:[/COLOR][CR]$INFO[ListItem.Property(UnWatchedEpisodes),, $LOCALIZE[16101]]</value>
+		<value condition="Container.Content(tvshows) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))">[COLOR $VAR[ThemeLabelColor]]$INFO[ListItem.Property(TotalSeasons)]$VAR[OneOrMoreSeasonsVar, , / ]$INFO[ListItem.Property(TotalEpisodes),, ]$VAR[OneOrMoreEpisodesVar]:[/COLOR][CR]$INFO[ListItem.Property(UnWatchedEpisodes),, $LOCALIZE[16101]]</value>
 		<value condition="Container.Content(tvshows)">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[20360]:[/COLOR][CR]$INFO[ListItem.Property(TotalEpisodes)]$INFO[ListItem.Property(UnWatchedEpisodes), (,[LOWERCASE] $LOCALIZE[16101][/LOWERCASE])]</value>
 		<value condition="Container.Content(seasons)">[COLOR $VAR[ThemeLabelColor]]$LOCALIZE[20360]:[/COLOR][CR]$INFO[ListItem.Property(TotalEpisodes)]</value>
 	</variable>
@@ -750,8 +753,8 @@
 		<value condition="!String.IsEmpty(ListItem.Year)">$INFO[ListItem.Year]</value>
 	</variable>
 	<variable name="NextAiredSubLabelVar">
-		<value condition="!String.IsEmpty(Window(Home).Property(NextAired.NextDate))">$INFO[Window(Home).Property(NextAired.NextNumber),$LOCALIZE[31010]: ]$INFO[Window(Home).Property(NextAired.NextTitle), - ]$INFO[Window(Home).Property(NextAired.NextDay), (,)]</value>
-		<value condition="String.IsEmpty(Window(Home).Property(NextAired.NextDate)) + !String.IsEmpty(Window(Home).Property(NextAired.Status))">$INFO[Window(Home).Property(NextAired.Status)]</value>
+		<value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Next_Aired),$LOCALIZE[31010]: , • ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Next_Aired.Season),S]$INFO[Window(Home).Property(TMDbHelper.ListItem.Next_Aired.Episode),E, - ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Next_Aired.Name)]</value>
+		<value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Status)]</value>
 	</variable>
 	<variable name="FloorLabel2Var">
 		<value condition="Container.Content(artists)">$INFO[ListItem.Property(Artist_Genre)]</value>
@@ -1410,7 +1413,7 @@
 	</variable>
 	<variable name="VideoInfoTVSubtitleVar">
 		<value condition="!String.IsEmpty(ListItem.Status)">$INFO[ListItem.Status]</value>
-		<value condition="!String.IsEmpty(Window(Home).Property(NextAired.Status))">$INFO[Window(Home).Property(NextAired.Status)]</value>
+		<value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Status)]</value>
 	</variable>
 	<variable name="RottenFreshLogoVar">
 		<value condition="Integer.IsGreaterOrEqual(ListItem.Rating(tomatometerallcritics),8.0) | Integer.IsGreaterOrEqual(Container(9142).ListItem.Rating(tomatometerallcritics),8.0)">logos/rottentomatoes/certified.png</value>
