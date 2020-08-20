@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
 	<zorder>2</zorder>
+	<onload>Skin.String(BlurRadius,10)</onload>
+	<onload condition="!Skin.HasSetting(BlurEnabled) + String.IsEqual(Skin.String(Viz.Background),4)">Skin.ToggleSetting(BlurEnabled)</onload>
+	<onload condition="!Skin.HasSetting(BlurEnabled) + String.IsEqual(Skin.String(Viz.Background),4)">RunScript(script.embuary.helper,action=restartservice)</onload>
 	<onload condition="!Skin.HasSetting(WarnedOnMusicVizInfo)">SetProperty(Notify,True,Home)</onload>
 	<onload condition="!Skin.HasSetting(WarnedOnMusicVizInfo)">SetProperty(NotWarnedOnMuzicVizInfo,True,Home)</onload>
 	<onload condition="!Skin.HasSetting(WarnedOnMusicVizInfo)">ActivateWindow(1126)</onload>
@@ -69,9 +72,12 @@
 			<label>$INFO[Player.Art(albumartist.fanart20)]</label>
 			<include>FadeLabelTime</include>
 		</control>
-		<control type="multiimage" id="7975">
-			<include>HiddenObject</include>
-			<imagepath background="true">$INFO[Player.Art(thumb)]</imagepath>
+		<control type="image" id="100000">
+			<left>-3000</left>
+			<top>-3000</top>
+			<width>10</width>
+			<height>10</height>
+			<texture background="true">$INFO[Player.Art(thumb)]</texture>
 		</control>
 		<include condition="!System.HasAddon(script.grab.fanart)">MusicVizFanartLists</include>
 		<control type="visualisation" id="2">
@@ -91,7 +97,15 @@
 				<include>MultiImageTime</include>
 				<imagepath background="true">$VAR[VizBackgroundVar]</imagepath>
 				<animation effect="fade" start="100" end="20" time="0" condition="![String.IsEqual(Visualisation.Name,waveform) | String.Contains(Visualisation.Name,spectrum) | String.IsEmpty(Visualisation.Name)] + !Skin.HasSetting(HideVisualizationFanart)">Conditional</animation>
-				<visible>!Control.IsVisible(90400)</visible>
+				<visible>!Control.IsVisible(90400) + !String.IsEqual(Skin.String(Viz.Background),4)</visible>
+			</control>
+			<control type="image">
+				<fadetime>2000</fadetime>
+				<aspectratio>scale</aspectratio>
+				<include>MultiImageTime</include>
+				<texture background="true">$INFO[Window(home).Property(listitem_blurred)]</texture>
+				<animation effect="fade" start="100" end="20" time="0" condition="![String.IsEqual(Visualisation.Name,waveform) | String.Contains(Visualisation.Name,spectrum) | String.IsEmpty(Visualisation.Name)] + !Skin.HasSetting(HideVisualizationFanart)">Conditional</animation>
+				<visible>String.IsEqual(Skin.String(Viz.Background),4)</visible>
 			</control>
 			<control type="image" id="90400">
 				<fadetime>2000</fadetime>
