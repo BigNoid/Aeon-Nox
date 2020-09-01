@@ -8,14 +8,21 @@
 	<onunload>ClearProperty(Window.HasSettings,Home)</onunload>
 	<onunload condition="!String.IsEmpty(Skin.String(FanartTimePerImage))">RunScript(script.grab.fanart,mode=random,refresh=$INFO[Skin.String(FanartTimePerImage)])</onunload>
 	<onunload condition="String.IsEmpty(Skin.String(FanartTimePerImage))">RunScript(script.grab.fanart,mode=random,refresh=7)</onunload>
-	<onunload condition="!String.IsEmpty(Window(Home).Property(OverlayUnwatched)) + !String.IsEmpty(Window(Home).Property(OverlayWatched)) + !Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/1/,Home)</onunload>
-	<onunload condition="!String.IsEmpty(Window(Home).Property(OverlayUnwatched)) + !String.IsEmpty(Window(Home).Property(OverlayWatched)) + Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/4/,Home)</onunload>
-	<onunload condition="String.IsEmpty(Window(Home).Property(OverlayUnwatched)) + !String.IsEmpty(Window(Home).Property(OverlayWatched)) + !Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/2/,Home)</onunload>
-	<onunload condition="String.IsEmpty(Window(Home).Property(OverlayUnwatched)) + !String.IsEmpty(Window(Home).Property(OverlayWatched)) + Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/5/,Home)</onunload>
-	<onunload condition="!String.IsEmpty(Window(Home).Property(OverlayUnwatched)) + String.IsEmpty(Window(Home).Property(OverlayWatched)) + !Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/3/,Home)</onunload>
-	<onunload condition="!String.IsEmpty(Window(Home).Property(OverlayUnwatched)) + String.IsEmpty(Window(Home).Property(OverlayWatched)) + Skin.HasSetting(coloredflags)">SetProperty(Overlay.Path,overlays/showcase/6/,Home)</onunload>
 	<controls>
-		<include>GlobalFanart</include>
+		<control type="group">
+			<animation effect="fade" time="500" delay="400" condition="Window.Previous(home)">WindowOpen</animation>
+			<animation effect="fade" time="500" condition="!Window.Previous(home)">WindowOpen</animation>
+			<animation effect="fade" time="500">WindowClose</animation>
+			<include>GlobalFanart</include>
+			<include>SnowBackground</include>
+			<control type="visualisation">
+				<include>FullscreenDimensions</include>
+				<visible>Player.HasAudio</visible>
+				<visible>!Skin.HasSetting(Disable.ShowBackgroundVis)</visible>
+				<visible>!Window.IsVisible(TVChannels) + !Window.IsVisible(RadioChannels) + !SlideShow.IsActive</visible>
+				<visible>String.IsEmpty(Window(Videos).Property(PlayingBackgroundMedia))</visible>
+			</control>
+		</control>
 		<control type="group">
 			<visible>[Player.HasVideo + !Skin.HasSetting(Disable.ShowBackgroundVideo) + !SlideShow.IsActive]</visible>
 			<control type="image">
@@ -26,15 +33,6 @@
 				<include>FullscreenDimensions</include>
 			</control>
 		</control>
-		<control type="visualisation">
-			<include>FullscreenDimensions</include>
-			<visible>Player.HasAudio</visible>
-			<visible>!Skin.HasSetting(Disable.ShowBackgroundVis)</visible>
-			<visible>!Window.IsVisible(TVChannels) + !Window.IsVisible(RadioChannels) + !SlideShow.IsActive</visible>
-			<visible>String.IsEmpty(Window(Videos).Property(PlayingBackgroundMedia))</visible>
-		</control>
-		<include>SnowBackground</include>
-		<include>Topbar</include>
 		<control type="group">
 			<include>WindowOpenCloseAnimation</include>
 			<top>64</top>
@@ -445,6 +443,12 @@
 							<onclick>ActivateWindow(1126)</onclick>
 							<selected>Skin.HasSetting(KioskMode.Enabled)</selected>
 						</control>
+						<control type="radiobutton" id="4003">
+							<include>SettingsButtonCommonValues</include>
+							<label>Direct Kodi search in library</label>
+							<onclick>Skin.ToggleSetting(Disable.MultiSearch)</onclick>
+							<selected>Skin.HasSetting(Disable.MultiSearch)</selected>
+						</control>
 						<control type="button" id="4004">
 							<include>SettingsButtonCommonValues</include>
 							<label>31943</label>
@@ -759,6 +763,7 @@
 				</control>
 			</control>
 		</control>
+		<include>Topbar</include>
 		<control type="group">
 			<left>-440</left>
 			<include>SideBladeLeft</include>
